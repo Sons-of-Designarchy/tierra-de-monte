@@ -1,0 +1,111 @@
+<section id="ticker-{{ section.id }}" class="color-{{ section.settings.color_scheme }}">
+  <style>
+    #ticker-{{ section.id }}{--gap:2.5rem;--speed:32s;position:relative;overflow:hidden}
+    #ticker-{{ section.id }} .ticker-bg{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
+    #ticker-{{ section.id }} .ticker-overlay{position:absolute;inset:0;background:{{ section.settings.bg_color | color_to_rgb | default: 'transparent' }}}
+    #ticker-{{ section.id }} .ticker{position:relative;padding:.75rem 0}
+    #ticker-{{ section.id }} .typo-primary{font-size:clamp(18px,2.2vw,28px);line-height:1.2;font-weight:500}
+    #ticker-{{ section.id }} .typo-secondary{font-size:clamp(14px,1.6vw,18px);line-height:1.2;font-weight:400;letter-spacing:.08em;text-transform:uppercase}
+    #ticker-{{ section.id }} .track{display:flex;gap:var(--gap);width:max-content;animation:marquee var(--speed) linear infinite;white-space:nowrap;align-items:center}
+    #ticker-{{ section.id }} .track:nth-child(2){animation-delay:calc(var(--speed)/-2)}
+    #ticker-{{ section.id }} .item{display:inline-flex;align-items:center;gap:.75rem}
+    #ticker-{{ section.id }} .icon{width:22px;height:22px;object-fit:contain;flex:0 0 22px}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(calc(-100% - var(--gap)))}}
+  </style>
+
+  {% assign has_bg = section.settings.bg_image != blank %}
+  <div
+    class="ticker-bg"
+    {% if has_bg %}
+      style="background-image:url({{ section.settings.bg_image | image_url }});"
+    {% endif %}
+  ></div>
+  <div class="ticker-overlay"></div>
+
+  <div class="ticker">
+    <div class="{% if section.settings.typography_variant == 'primary' %}typo-primary{% else %}typo-secondary{% endif %}">
+      <div class="track">
+        {% assign copy = section.settings.text | strip | default: 'Texto del ticker' %}
+        {% for i in (1..12) %}
+          <span class="item">
+            {% if section.settings.icon != blank %}
+              <img
+                alt=""
+                class="icon"
+                src="{{ section.settings.icon | image_url }}"
+                width="22"
+                height="22"
+                loading="lazy"
+              >
+            {% endif %}
+            <span>{{ copy }}</span>
+          </span>
+        {% endfor %}
+      </div>
+      <div class="track">
+        {% for i in (1..12) %}
+          <span class="item">
+            {% if section.settings.icon != blank %}
+              <img
+                alt=""
+                class="icon"
+                src="{{ section.settings.icon | image_url }}"
+                width="22"
+                height="22"
+                loading="lazy"
+              >
+            {% endif %}
+            <span>{{ copy }}</span>
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Infinite Ticker",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "VIDA QUE GENERA VIDA"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#00000000"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "select",
+      "id": "typography_variant",
+      "label": "Typography variant",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }
+      ],
+      "default": "primary"
+    }
+  ],
+  "presets": [{ "name": "Infinite Ticker" }]
+}
+{% endschema %}
