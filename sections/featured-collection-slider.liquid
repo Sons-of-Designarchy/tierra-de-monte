@@ -1,6 +1,5 @@
 {% liquid
   assign section_id = section.id
-  assign first_block = section.blocks.first
 %}
 <section id="tabbed-collections-{{ section_id }}" class="page-width">
   {% if section.settings.kicker != blank %}
@@ -68,23 +67,28 @@
       {% endif %}
     {% endfor %}
   </div>
-
-  <style>
-    #tabbed-collections-{{ section_id }} .tabs__list{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0 1.25rem}
-    #tabbed-collections-{{ section_id }} .tabs__tab{border:1px solid var(--color-foreground-10);border-radius:999px;padding:.4rem .9rem;background:transparent;font:inherit;cursor:pointer}
-    #tabbed-collections-{{ section_id }} .tabs__tab.is-active{background:var(--color-background);border-color:var(--color-foreground)}
-    #tabbed-collections-{{ section_id }} .tabs__dot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:currentColor;margin-right:.5rem}
-    #tabbed-collections-{{ section_id }} .tabs__panel.is-hidden{display:none}
-  </style>
 </section>
+
+{% style %}
+  #tabbed-collections-{{ section_id }} .tabs__list{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0 1.25rem}
+  #tabbed-collections-{{ section_id }} .tabs__tab{border:1px solid var(--color-foreground-10);border-radius:999px;padding:.4rem .9rem;background:transparent;font:inherit;cursor:pointer}
+  #tabbed-collections-{{ section_id }} .tabs__tab.is-active{background:var(--color-background);border-color:var(--color-foreground)}
+  #tabbed-collections-{{ section_id }} .tabs__dot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:currentColor;margin-right:.5rem}
+  #tabbed-collections-{{ section_id }} .tabs__panel.is-hidden{display:none}
+{% endstyle %}
 
 {% schema %}
 {
   "name": "Tabbed collections",
   "settings": [
-    { "type": "text", "id": "kicker", "label": "Kicker" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "SOLUCIONES." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Bio-estimulantes" },
-    { "type": "text", "id": "subheading", "label": "Subheading" },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra."
+    },
     {
       "type": "select",
       "id": "aspect_ratio",
@@ -129,7 +133,6 @@
 }
 {% endschema %}
 
-{% stylesheet %}{% endstylesheet %}
 {% javascript %}
   document.addEventListener('click', (e) => {
     const b = e.target.closest('.tabs__tab');
