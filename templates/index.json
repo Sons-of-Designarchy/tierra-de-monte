@@ -38,11 +38,7 @@
           }
         }
       },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+      "block_order": ["heading","text","button"],
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
@@ -73,10 +69,7 @@
           }
         }
       },
-      "block_order": [
-        "heading",
-        "text"
-      ],
+      "block_order": ["heading","text"],
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
@@ -86,6 +79,12 @@
         "padding_bottom": 0
       }
     },
+
+    "tabs-collections": {
+      "type": "tabbed-collections",
+      "settings": {}
+    },
+
     "featured_collection_6Y6yPx": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -146,31 +145,11 @@
     "collage": {
       "type": "collage",
       "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "product": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "second_image": false
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
+        "collection-0": { "type": "collection", "settings": { "collection": "" } },
+        "product": { "type": "product", "settings": { "product": "", "second_image": false } },
+        "collection-1": { "type": "collection", "settings": { "collection": "" } }
       },
-      "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
-      ],
+      "block_order": ["collection-0","product","collection-1"],
       "settings": {
         "heading": "Multimedia collage",
         "heading_size": "h2",
@@ -199,39 +178,11 @@
     "multicolumn": {
       "type": "multicolumn",
       "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
+        "column1": { "type": "column", "settings": { "title": "Column", "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>", "link_label": "", "link": "" } },
+        "column2": { "type": "column", "settings": { "title": "Column", "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>", "link_label": "", "link": "" } },
+        "column3": { "type": "column", "settings": { "title": "Column", "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>", "link_label": "", "link": "" } }
       },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
+      "block_order": ["column1","column2","column3"],
       "settings": {
         "title": "",
         "heading_size": "h1",
@@ -253,6 +204,7 @@
   "order": [
     "image_banner",
     "rich_text",
+    "tabs-collections",
     "featured_collection_6Y6yPx",
     "featured_collection",
     "collage",
