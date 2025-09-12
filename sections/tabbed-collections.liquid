@@ -1,45 +1,58 @@
 <section id="tabbed-collections-{{ section.id }}" class="page-width">
-  WHATUP NIGGERS
-  <div class="tabs">
-    {% assign handles = '' %}
-    {% for i in (1..6) %}
-      {% assign h = section.settings["collection_" | append: i] %}
-      {% if h != blank %}
-        {% assign handles = handles | append: h | append: ',' %}
-      {% endif %}
-    {% endfor %}
-    {% assign picks = handles | split: ',' | reject: '' %}
+  {% if section.settings.kicker != blank %}
+    <p class="caption-with-letter-spacing">{{ section.settings.kicker }}</p>
+  {% endif %}
+  {% if section.settings.heading != blank %}
+    <h2 class="h1">{{ section.settings.heading }}</h2>
+  {% endif %}
+  {% if section.settings.subheading != blank %}
+    <p class="subtitle">{{ section.settings.subheading }}</p>
+  {% endif %}
 
-    {% if picks.size > 0 %}
-      <div class="tabs__list" role="tablist" style="display:flex;gap:.5rem;margin-bottom:1rem;">
-        {% for handle in picks %}
-          {% assign c = collections[handle] %}
-          {% assign label = section.settings["label_" | append: forloop.index] | default: c.title %}
-          <button
-            class="tabs__tab{% if forloop.first %} is-active{% endif %}"
-            data-target="tc-{{ section.id }}-{{ forloop.index }}"
-            aria-selected="{{ forloop.first }}"
-            role="tab"
-            type="button"
-            style="border:1px solid #ddd;border-radius:999px;padding:.4rem .9rem;background:transparent;cursor:pointer;"
-          >
-            {% if section.settings["dot_" | append: forloop.index] -%}
-              <span
-                style="display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:#2fb673;margin-right:.5rem;"
-              ></span>
-            {%- endif %}
-            {{ label }}
-          </button>
-        {% endfor %}
+  {%- assign has_any = false -%}
+  {%- for i in (1..6) -%}
+    {%- capture key %}collection_{{ i }}{% endcapture -%}
+    {%- assign c = section.settings[key] -%}
+    {%- if c != blank -%}{%- assign has_any = true -%}{%- endif -%}
+  {%- endfor -%}
+
+  {% if has_any %}
+    <div class="tabs">
+      <div class="tabs__list" role="tablist">
+        {%- assign first_rendered = true -%}
+        {%- for i in (1..6) -%}
+          {%- capture ckey %}collection_{{ i }}{% endcapture -%}
+          {%- capture lkey %}label_{{ i }}{% endcapture -%}
+          {%- capture dkey %}dot_{{ i }}{% endcapture -%}
+          {%- assign c = section.settings[ckey] -%}
+          {%- if c != blank -%}
+            {%- assign label = section.settings[lkey] | default: c.title -%}
+            <button
+              class="tabs__tab{% if first_rendered %} is-active{% endif %}"
+              type="button"
+              role="tab"
+              aria-selected="{% if first_rendered %}true{% else %}false{% endif %}"
+              data-target="tc-panel-{{ section.id }}-{{ i }}"
+            >
+              {% if section.settings[dkey] %}<span class="tabs__dot"></span>{% endif %}
+              {{ label }}
+            </button>
+            {%- assign first_rendered = false -%}
+          {%- endif -%}
+        {%- endfor -%}
       </div>
+    </div>
 
-      <div class="tabs__panels">
-        {% for handle in picks %}
-          {% assign c = collections[handle] %}
+    <div class="tabs__panels">
+      {%- assign first_panel = true -%}
+      {%- for i in (1..6) -%}
+        {%- capture ckey %}collection_{{ i }}{% endcapture -%}
+        {%- assign c = section.settings[ckey] -%}
+        {%- if c != blank -%}
           {% paginate c.products by section.settings.products_per_page %}
             <div
-              id="tc-{{ section.id }}-{{ forloop.index }}"
-              class="tabs__panel{% unless forloop.first %} is-hidden{% endunless %}"
+              id="tc-panel-{{ section.id }}-{{ i }}"
+              class="tabs__panel{% unless first_panel %} is-hidden{% endunless %}"
               role="tabpanel"
             >
               <div class="grid grid--2-col-tablet grid--4-col-desktop">
@@ -59,36 +72,28 @@
               {% if section.settings.show_view_all and c.url %}
                 <div class="center" style="margin-top:1rem;">
                   <a href="{{ c.url }}" class="button">
-                    {{- section.settings.view_all_label | default: 'Ver más productos' -}}
+                    {{ section.settings.view_all_label | default: 'Ver más productos' }}
                   </a>
                 </div>
               {% endif %}
             </div>
           {% endpaginate %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <p style="opacity:.7">Set “Collection 1…6” in the section settings.</p>
-    {% endif %}
-  </div>
+          {%- assign first_panel = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {% else %}
+    <p style="opacity:.7">Set “Collection 1…6” in the section settings.</p>
+  {% endif %}
 </section>
 
-<script>
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('.tabs__tab');
-    if (!b) return;
-    var root = b.closest('section');
-    root.querySelectorAll('.tabs__tab').forEach(function (t) {
-      t.classList.toggle('is-active', t === b);
-      t.setAttribute('aria-selected', t === b ? 'true' : 'false');
-    });
-    root.querySelectorAll('.tabs__panel').forEach(function (p) {
-      p.classList.add('is-hidden');
-    });
-    var panel = root.querySelector('#' + b.dataset.target);
-    if (panel) panel.classList.remove('is-hidden');
-  });
-</script>
+<style>
+  #tabbed-collections-{{ section.id }} .tabs__list{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0 1.25rem}
+  #tabbed-collections-{{ section.id }} .tabs__tab{border:1px solid var(--color-foreground-10,#ddd);border-radius:999px;padding:.4rem .9rem;background:transparent;font:inherit;cursor:pointer}
+  #tabbed-collections-{{ section.id }} .tabs__tab.is-active{background:#eef4ef;border-color:#2fb673}
+  #tabbed-collections-{{ section.id }} .tabs__dot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:#2fb673;margin-right:.5rem}
+  #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{display:none}
+</style>
 
 {% schema %}
 {
@@ -148,3 +153,20 @@
   "presets": [{ "name": "Tabbed collections" }]
 }
 {% endschema %}
+
+<script>
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('#tabbed-collections-{{ section.id }} .tabs__tab');
+    if (!btn) return;
+    var root = document.getElementById('tabbed-collections-{{ section.id }}');
+    root.querySelectorAll('.tabs__tab').forEach(function (t) {
+      t.classList.toggle('is-active', t === btn);
+      t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
+    });
+    root.querySelectorAll('.tabs__panel').forEach(function (p) {
+      p.classList.add('is-hidden');
+    });
+    var panel = root.querySelector('#' + btn.dataset.target);
+    if (panel) panel.classList.remove('is-hidden');
+  });
+</script>

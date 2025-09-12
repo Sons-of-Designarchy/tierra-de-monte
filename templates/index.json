@@ -89,9 +89,6 @@
     "tabs-collections": {
       "type": "tabbed-collections",
       "settings": {
-          "collection_1": "shopify://collections/bio-estimulantes",
-    "collection_2": "shopify://collections/micronutricion",
-    "collection_3": "shopify://collections/tratamiento-de-semilla",
         "kicker": "SOLUCIONES.",
         "heading": "Bio-estimulantes",
         "subheading": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra.",
