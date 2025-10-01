@@ -13,7 +13,9 @@
     @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(calc(-100% - var(--gap)))}}
   </style>
 
-  {% assign has_bg = section.settings.bg_image != blank %}
+  {% if section.settings.bg_image != blank %}
+    {# your markup using the image #}
+  {% endif %}
   <div
     class="ticker-bg"
     {% if has_bg %}
