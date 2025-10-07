@@ -45,6 +45,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Header.jpg",
+        "image_2": "shopify://shop_images/Button.png",
         "image_overlay_opacity": 0,
         "image_height": "large",
         "image_behavior": "none",
@@ -85,6 +86,49 @@
         "products_per_page": 8,
         "show_view_all": true,
         "view_all_label": "Ver más productos"
+      }
+    },
+    "rich_text_cqtebC": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nxPTbr": {
+          "type": "heading",
+          "settings": {
+            "heading": "¿Quienes somos?",
+            "heading_size": "h1"
+          }
+        },
+        "text_w7C4pp": {
+          "type": "text",
+          "settings": {
+            "text": "<p>En Tierra de Monte creamos soluciones biológicas que potencian la vida en cada cultivo.</p>"
+          }
+        },
+        "button_7yhMmj": {
+          "type": "button",
+          "settings": {
+            "button_label": "Acerca de nosotros",
+            "button_link": "",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_nxPTbr",
+        "text_w7C4pp",
+        "button_7yhMmj"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "multicolumn": {
@@ -129,14 +173,48 @@
       "settings": {
         "title": "Efecto Tierra de monte Innovación que siembra futuro",
         "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
+        "image_width": "half",
+        "image_ratio": "square",
         "button_label": "Encuentra tu Solución",
         "button_link": "",
         "columns_desktop": 3,
         "column_alignment": "center",
         "background_style": "none",
         "color_scheme": "scheme-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_hhRYPM": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_6e6FaT": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/logo-bioagtech.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_6e6FaT"
+      ],
+      "settings": {
+        "title": "Alianzas que nutren la tierra",
+        "heading_size": "h2",
+        "image_width": "third",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 1,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "columns_mobile": "1",
         "swipe_on_mobile": false,
         "padding_top": 36,
@@ -147,6 +225,8 @@
   "order": [
     "image_banner",
     "tabs-collections",
-    "multicolumn"
+    "rich_text_cqtebC",
+    "multicolumn",
+    "multicolumn_hhRYPM"
   ]
 }
