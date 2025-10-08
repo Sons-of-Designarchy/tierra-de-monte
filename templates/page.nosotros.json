@@ -9,16 +9,225 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "disabled": true,
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Vida que genera vida",
+            "heading_size": "h0"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Soluciones",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "image": "shopify://shop_images/Header.jpg",
+        "image_2": "shopify://shop_images/Button.png",
+        "image_overlay_opacity": 0,
+        "image_height": "large",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-left",
+        "desktop_content_alignment": "left",
+        "show_text_box": true,
+        "color_scheme": "scheme-1",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "tabs-collections": {
+      "type": "tabbed-collections",
+      "settings": {
+        "kicker": "KICKER",
+        "heading": "Soluciones para potencializar todo tipo de cultivo",
+        "subheading": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra.",
+        "collection_1": "degradadores",
+        "label_1": "",
+        "dot_1": true,
+        "collection_2": "bio-estimulantes",
+        "label_2": "",
+        "dot_2": true,
+        "collection_3": "enfermedades",
+        "label_3": "",
+        "dot_3": true,
+        "collection_4": "huerto-urbano",
+        "label_4": "",
+        "dot_4": true,
+        "collection_5": "micronutricion",
+        "label_5": "",
+        "dot_5": true,
+        "collection_6": "plagas",
+        "label_6": "",
+        "dot_6": true,
+        "aspect_ratio": "square",
+        "products_per_page": 8,
+        "show_view_all": true,
+        "view_all_label": "Ver más productos"
+      }
+    },
+    "rich_text_cqtebC": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nxPTbr": {
+          "type": "heading",
+          "settings": {
+            "heading": "¿Quienes somos?",
+            "heading_size": "h1"
+          }
+        },
+        "text_w7C4pp": {
+          "type": "text",
+          "settings": {
+            "text": "<p>En Tierra de Monte creamos soluciones biológicas que potencian la vida en cada cultivo.</p>"
+          }
+        },
+        "button_7yhMmj": {
+          "type": "button",
+          "settings": {
+            "button_label": "Acerca de nosotros",
+            "button_link": "",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_nxPTbr",
+        "text_w7C4pp",
+        "button_7yhMmj"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column1": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/home-tdm3.jpg",
+            "title": "+230",
+            "text": "<p>hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column2": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/home-tdm4.jpg",
+            "title": "86%",
+            "text": "<p>De biodiversidad del suelo recuperada</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column3": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/home-tdm5.jpg",
+            "title": "+30",
+            "text": "<p>Comunidades acompañadas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column1",
+        "column2",
+        "column3"
+      ],
+      "settings": {
+        "title": "Efecto Tierra de monte Innovación que siembra futuro",
+        "heading_size": "h1",
+        "image_width": "half",
+        "image_ratio": "square",
+        "button_label": "Encuentra tu Solución",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_hhRYPM": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_6e6FaT": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/logo-bioagtech.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_6e6FaT"
+      ],
+      "settings": {
+        "title": "Alianzas que nutren la tierra",
+        "heading_size": "h2",
+        "image_width": "third",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 1,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
   "order": [
-    "main"
+    "image_banner",
+    "tabs-collections",
+    "rich_text_cqtebC",
+    "multicolumn",
+    "multicolumn_hhRYPM"
   ]
 }
+
