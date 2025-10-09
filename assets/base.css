@@ -237,7 +237,43 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 ::selection {
   background-color: rgba(var(--color-foreground), 0.2);
 }
+/*casa-soda-test*/
+@font-face {
+  font-family: 'Aujournuit';
+  src: url('{{ "Aujournuit-Densed.woff2" | asset_url }}') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
+
+:root {
+  --font-heading-family: 'Aujournuit-Densed', serif;       /* self-hosted */
+  --font-body-family: 'Inter', sans-serif;               /* Google font */
+  --font-caption-family: 'IBM Plex Mono', monospace;     /* Google font */
+}
+
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading-family);
+}
+
+/* Body text */
+body, p, li {
+  font-family: var(--font-body-family);
+}
+
+/* Captions */
+.caption,
+.product__caption,
+small,
+figcaption {
+  font-family: var(--font-caption-family);
+}
+
+
+/*casa-soda-test-ends*/
 .text-body {
   font-size: 1.5rem;
   letter-spacing: 0.06rem;
@@ -261,10 +297,14 @@ h5,
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
-  letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+  letter-spacing: calc(var(--font-heading-scale) * -0.2%);
   color: rgb(var(--color-foreground));
   line-height: calc(1 + 0.3 / max(1, var(--font-heading-scale)));
   word-break: break-word;
+  font-style: normal;
+  
+  line-height: 116%; /* 3.48rem */
+  letter-spacing: -0.2%;
 }
 
 .hxxl {
