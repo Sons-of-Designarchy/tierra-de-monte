@@ -238,26 +238,31 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   background-color: rgba(var(--color-foreground), 0.2);
 }
 /*casa-soda-test*/
+
 @font-face {
-  font-family: 'Aujournuit';
-  src: url('{{ "Aujournuit-Densed.woff2" | asset_url }}') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Aujournuit-Densed';
+	src: url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format("opentype"),
+	url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format("opentype");
+
 }
 
 
 :root {
-  --font-heading-family: 'Aujournuit-Densed', serif;       /* self-hosted */
-  --font-body-family: 'Inter', sans-serif;               /* Google font */
+  --font-heading-family: 'Aujournuit-Densed', serif !important;       /* self-hosted */
+  --font-body-family: 'Inter', serif;               /* Google font */
   --font-caption-family: 'IBM Plex Mono', monospace;     /* Google font */
 }
 
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading-family);
+  font-family: 'Aujournuit-Densed', serif;
+  font-weight: 400; /* match @font-face */
 }
+h1, h2, h3 {
+  font-family: 'Aujournuit-Densed', serif !important;
+}
+
 
 /* Body text */
 body, p, li {
