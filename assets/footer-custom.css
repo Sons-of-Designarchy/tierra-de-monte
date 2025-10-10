@@ -1,0 +1,155 @@
+/* =========================
+   CUSTOM FOOTER (FINAL LAYOUT)
+   ========================= */
+
+/* 1️⃣ Main grid: logo + 4 columns side by side */
+.footer__content-top .footer-grid-custom {
+  display: grid !important;
+  grid-template-columns: 160px 1fr 1fr 1fr 1fr !important;
+  gap: 24px 32px;
+  align-items: start;
+}
+
+/* Remove Dawn default flex/grid classes */
+.footer-grid-custom.grid {
+  display: grid !important;
+}
+
+/* 2️⃣ Each block acts as a column */
+.footer-grid-custom .footer-block {
+  padding: 0;
+}
+
+/* 3️⃣ Assign columns explicitly (matches your HTML order) */
+.footer-grid-custom .footer-block:nth-child(1) { grid-column: 1; } /* Logo */
+.footer-grid-custom .footer-block:nth-child(2) { grid-column: 2; } /* Sitemap */
+.footer-grid-custom .footer-block:nth-child(3) { grid-column: 3; } /* Soluciones */
+.footer-grid-custom .footer-block:nth-child(4) { grid-column: 4; } /* Redes sociales */
+.footer-grid-custom .footer-block:nth-child(5) { grid-column: 5; } /* Contacto */
+.footer-grid-custom .footer-block:nth-child(6) { border-left: 0; } /* medallitas */
+
+/* 4️⃣ The badges (Hecho en México / Empresa B) go under the logo column */
+.footer-grid-custom .footer-block-image {
+  grid-column: 1;
+  margin-top: 20px;
+  align-self: end;
+}
+.footer-grid-custom .footer-block-image .footer-block__image-wrapper {
+  max-width: 130px;
+  margin-top: 12px;
+}
+
+/* 5️⃣ Vertical dividers between columns (except the first) */
+.footer-grid-custom .footer-block {
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  padding-left: 24px;
+  width: 100%;
+}
+.footer-grid-custom .footer-block:nth-child(1),
+.footer-grid-custom .footer-block-image {
+  border-left: none;
+  padding-left: 0;
+}
+
+/* 6️⃣ Typography and links */
+.footer-grid-custom .footer-block__heading {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.footer-grid-custom .footer-block__details-content a {
+  display: inline-block;
+  padding: 5px 0;
+  text-decoration: none;
+}
+
+/* 7️⃣ Newsletter placement: BELOW the 5-col grid, aligned right (cols 4–5) */
+
+/* Base (mobile): stack everything */
+.footer__content-top {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile stacks */
+  row-gap: 20px;
+}
+
+/* The 5-column grid stays as a child inside .footer__content-top */
+.footer__content-top .footer-grid-custom {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Newsletter stacks under the grid on mobile */
+.footer__content-top .footer-block--newsletter {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: stretch;
+  max-width: none;
+  margin: 0;
+}
+
+/* Desktop: define 5 columns in the parent so we can place the newsletter on cols 4–5 */
+@media (min-width: 990px) {
+  .footer__content-top {
+    grid-template-columns: 160px 1fr 1fr 1fr 1fr; /* same widths as the inner grid */
+    column-gap: 32px;
+    row-gap: 24px;
+    align-items: start;
+  }
+
+  /* Put the inner 5-col grid across the full width in row 1 */
+  .footer__content-top .footer-grid-custom {
+    grid-column: 1 / 6; /* spans columns 1..5 */
+    grid-row: 1;
+  }
+
+  /* Put the newsletter on row 2, spanning cols 4–5 (right side) */
+  .footer__content-top .footer-block--newsletter {
+    grid-column: 4 / 6;
+    grid-row: 2;
+    justify-self: stretch; /* make the input line up to the column width */
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Make the input fill that two-column area */
+  .footer__content-top .newsletter-form__field-wrapper .field__input {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Heading and minor cosmetics */
+.footer__content-top .footer-block--newsletter .footer-block__heading {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+
+
+/* 8️⃣ Divider before bottom section */
+.footer__content-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  margin-top: 28px;
+  padding-top: 20px;
+}
+
+/* 9️⃣ Responsive (mobile) */
+@media (max-width: 990px) {
+  .footer__content-top {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid-custom {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .footer-grid-custom .footer-block,
+  .footer-grid-custom .footer-block-image {
+    border-left: none;
+    padding-left: 0;
+  }
+
+ 
+}
