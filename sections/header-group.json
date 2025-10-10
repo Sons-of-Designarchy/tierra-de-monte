@@ -41,7 +41,7 @@
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "color_scheme": "scheme-1",
@@ -61,7 +61,7 @@
         "text": "VIDA QUE GENERA VIDA",
         "icon": "shopify://shop_images/Client-Logo.png",
         "bg_image": "shopify://shop_images/img-ticker-ex.jpg",
-        "bg_color": "#00000000",
+        "bg_color": "rgba(0,0,0,0)",
         "color_scheme": "scheme-1",
         "typography_variant": "primary"
       }
