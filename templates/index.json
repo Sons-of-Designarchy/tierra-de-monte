@@ -45,7 +45,6 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Header.jpg",
-        "image_2": "shopify://shop_images/Button.png",
         "image_overlay_opacity": 0,
         "image_height": "large",
         "image_behavior": "none",
