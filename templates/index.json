@@ -228,4 +228,35 @@
     "multicolumn",
     "multicolumn_hhRYPM"
   ]
+
+{
+  "sections": {
+    "main": { "type": "main-collection-banner", "settings": { "show_collection_description": false } },
+    "solu-1": {
+      "type": "soluciones-tabs",
+      "settings": {
+        "heading": "Soluciones para potencializar todo tipo de cultivo",
+        "subheading": "Impulsa tus cosechas con biología viva…",
+        "products_per_tab": 8,
+        "cta_label": "Ver más productos",
+        "cta_url": "/collections/all"
+      },
+      "blocks": {
+        "tab-a": {
+          "type": "collection_tab",
+          "settings": { "label": "Bio-estimulantes", "collection": "bio-estimulantes", "icon_emoji": "🌱", "icon_svg": "" }
+        },
+        "tab-b": {
+          "type": "collection_tab",
+          "settings": { "label": "Micronutrición", "collection": "micronutricion", "icon_emoji": "🧪", "icon_svg": "" }
+        }
+      },
+      "block_order": ["tab-a", "tab-b"]
+    }
+  },
+  "order": ["main", "solu-1"]
+}
+
+
+
 }
