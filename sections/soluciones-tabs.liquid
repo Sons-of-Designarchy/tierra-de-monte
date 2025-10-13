@@ -1,0 +1,283 @@
+{% comment %}
+  Soluciones con pestañas (Dawn 15.4.0)
+  - Add 1..8 “Colección (pestaña)” blocks. Each becomes a pill with icon + label.
+  - Uses Dawn’s built-in 'card-product' snippet for product tiles.
+  - Product description excerpt pulls from metafield "custom.short_description" if present.
+  - Fully no-app, SEO friendly (all collections pre-rendered; JS only toggles).
+
+  Made for Spanish storefront copy — change labels if you need.
+{% endcomment %}
+
+{% liquid
+  assign first_block = section.blocks | first
+%}
+<section id="section-{{ section.id }}" class="soluciones-tabs page-width">
+  {% if section.settings.heading != blank %}
+    <h2 class="solu__title h1">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  {% if section.blocks.size > 0 %}
+    <div class="solu__pills" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+      {% for block in section.blocks %}
+        {% assign active = forloop.first %}
+        <button
+          class="solu__pill{% if active %} is-active{% endif %}"
+          role="tab"
+          aria-selected="{{ active }}"
+          aria-controls="pane-{{ section.id }}-{{ block.id }}"
+          id="tab-{{ section.id }}-{{ block.id }}"
+          {{ block.shopify_attributes }}
+          data-pane="pane-{{ section.id }}-{{ block.id }}"
+        >
+          {% if block.settings.icon_svg != blank %}
+            <span class="solu__pill-icon" aria-hidden="true">{{ block.settings.icon_svg }}</span>
+          {% elsif block.settings.icon_emoji != blank %}
+            <span class="solu__pill-icon" aria-hidden="true">{{ block.settings.icon_emoji }}</span>
+          {% endif %}
+          <span class="solu__pill-label">{{ block.settings.label | default: block.settings.collection.title }}</span>
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.subheading != blank %}
+    <p class="solu__subtitle">{{ section.settings.subheading }}</p>
+  {% endif %}
+
+  <div class="solu__panes">
+    {% for block in section.blocks %}
+      {% liquid
+        assign active = forloop.first
+        assign col = block.settings.collection
+      %}
+      <div
+        id="pane-{{ section.id }}-{{ block.id }}"
+        class="solu__pane{% if active %} is-active{% endif %}"
+        role="tabpanel"
+        aria-labelledby="tab-{{ section.id }}-{{ block.id }}"
+        tabindex="0"
+      >
+        {% if col != blank %}
+          {% paginate col.products by section.settings.products_per_tab %}
+            <ul class="grid grid--4-col-desktop grid--2-col-tablet grid--1-col">
+              {% for product in col.products %}
+                <li class="grid__item">
+                  <div class="solu__card">
+                    {%- render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: 'adapt',
+                      show_secondary_image: false,
+                      show_vendor: false,
+                      show_rating: false,
+                      section_id: section.id
+                    -%}
+
+                    {% comment %} extra copy under tile – small excerpt + “Ver producto” {% endcomment %}
+                    <div class="solu__card-copy">
+                      {%- assign excerpt = product.metafields.custom.short_description
+                        | default: product.description
+                      -%}
+                      {%- assign excerpt = excerpt | strip_html | truncatewords: 30 -%}
+                      {% if excerpt != blank %}
+                        <p class="solu__excerpt">{{ excerpt }}</p>
+                      {% endif %}
+                      <a class="solu__link" href="{{ product.url }}">{{ 'Ver Producto' }}</a>
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endpaginate %}
+        {% else %}
+          <div class="solu__empty">{{ 'Selecciona una colección en la configuración del bloque.' }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+    <div class="solu__cta-wrap">
+      <a class="button button--secondary solu__cta" href="{{ section.settings.cta_url }}">
+        {{- section.settings.cta_label -}}
+      </a>
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  #section-{{ section.id }} {
+    padding-block: clamp(28px, 4vw, 56px);
+  }
+
+  /* Title & subtitle */
+  #section-{{ section.id }} .solu__title {
+    text-align: center;
+    margin: 0 0 16px;
+    letter-spacing: -.01em;
+  }
+  #section-{{ section.id }} .solu__subtitle {
+    text-align: center;
+    color: rgb(var(--color-foreground)/.8);
+    max-width: 1000px;
+    margin: 0 auto 24px;
+    font-size: 1.05rem;
+  }
+
+  /* Pills row */
+  #section-{{ section.id }} .solu__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  #section-{{ section.id }} .solu__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgb(var(--color-foreground)/.12);
+    background: rgb(var(--color-background));
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: .95rem;
+    line-height: 1;
+    transition: border-color .2s, background .2s, color .2s, box-shadow .2s;
+  }
+  #section-{{ section.id }} .solu__pill:hover {
+    border-color: rgb(var(--color-foreground)/.25);
+    box-shadow: 0 1px 0 rgba(0,0,0,.04);
+  }
+  #section-{{ section.id }} .solu__pill.is-active {
+    background: rgb(var(--color-foreground)/.06);
+    border-color: rgb(var(--color-foreground)/.18);
+  }
+  #section-{{ section.id }} .solu__pill-icon {
+    width: 20px; height: 20px;
+    display: inline-grid; place-items: center;
+  }
+
+  /* Panes */
+  #section-{{ section.id }} .solu__pane { display: none; }
+  #section-{{ section.id }} .solu__pane.is-active { display: block; }
+
+  /* Grid helpers matching Dawn */
+  #section-{{ section.id }} .grid {
+    row-gap: 28px;
+  }
+  @media (min-width: 990px) {
+    #section-{{ section.id }} .grid--4-col-desktop {
+      grid-template-columns: repeat(4, minmax(0,1fr));
+    }
+  }
+
+  /* Card extras (excerpt + link) */
+  #section-{{ section.id }} .solu__card .card-wrapper { margin-bottom: 10px; }
+  #section-{{ section.id }} .solu__card-copy { padding-right: 8px; }
+  #section-{{ section.id }} .solu__excerpt {
+    margin: 6px 0 8px;
+    font-size: .95rem;
+    color: rgb(var(--color-foreground)/.85);
+  }
+  #section-{{ section.id }} .solu__link {
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+
+  /* CTA */
+  #section-{{ section.id }} .solu__cta-wrap {
+    display: grid; place-items: center;
+    margin-top: 24px;
+  }
+  #section-{{ section.id }} .solu__cta {
+    border-radius: 999px;
+    padding-inline: 22px;
+  }
+</style>
+
+<script>
+  (function () {
+    const root = document.getElementById('section-{{ section.id }}');
+    if (!root) return;
+    const pills = root.querySelectorAll('.solu__pill');
+    const panes = root.querySelectorAll('.solu__pane');
+
+    pills.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.pane;
+
+        pills.forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+
+        panes.forEach((p) => p.classList.toggle('is-active', p.id === target));
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Soluciones con pestañas",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Soluciones para potencializar todo tipo de cultivo"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Descripción",
+      "default": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra."
+    },
+    {
+      "type": "range",
+      "id": "products_per_tab",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "unit": "",
+      "label": "Productos por pestaña",
+      "default": 8
+    },
+    { "type": "text", "id": "cta_label", "label": "Texto del botón final", "default": "Ver más productos" },
+    { "type": "url", "id": "cta_url", "label": "Enlace del botón final" }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Colección (pestaña)",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Etiqueta de la pestaña", "default": "Bio-estimulantes" },
+        { "type": "collection", "id": "collection", "label": "Colección" },
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Icono SVG (opcional)",
+          "info": "Pega cualquier <svg>…</svg>"
+        },
+        { "type": "text", "id": "icon_emoji", "label": "Icono emoji (si no usas SVG)", "default": "🌱" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Soluciones con pestañas",
+      "blocks": [
+        { "type": "collection_tab", "settings": { "label": "Bio-estimulantes" } },
+        { "type": "collection_tab", "settings": { "label": "Micronutrición", "icon_emoji": "🧪" } },
+        { "type": "collection_tab", "settings": { "label": "Tratamiento de semilla", "icon_emoji": "🌾" } },
+        { "type": "collection_tab", "settings": { "label": "Soluciones Acuícolas", "icon_emoji": "🐟" } },
+        { "type": "collection_tab", "settings": { "label": "Degradadores", "icon_emoji": "🧬" } },
+        { "type": "collection_tab", "settings": { "label": "Huertos Urbanos", "icon_emoji": "🏡" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
