@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "image_banner": {
@@ -38,11 +29,7 @@
           }
         }
       },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+      "block_order": ["heading", "text", "button"],
       "settings": {
         "image": "shopify://shop_images/Header.jpg",
         "image_overlay_opacity": 0,
@@ -87,6 +74,55 @@
         "view_all_label": "Ver más productos"
       }
     },
+    "solu-1": {
+      "type": "soluciones-tabs",
+      "settings": {
+        "heading": "Soluciones para potencializar todo tipo de cultivo",
+        "subheading": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra.",
+        "products_per_tab": 8,
+        "cta_label": "Ver más productos",
+        "cta_url": "/collections/all"
+      },
+      "blocks": {
+        "tab-a": {
+          "type": "collection_tab",
+          "settings": {
+            "label": "Bio-estimulantes",
+            "collection": "bio-estimulantes",
+            "icon_emoji": "🌱",
+            "icon_svg": ""
+          }
+        },
+        "tab-b": {
+          "type": "collection_tab",
+          "settings": {
+            "label": "Micronutrición",
+            "collection": "micronutricion",
+            "icon_emoji": "🧪",
+            "icon_svg": ""
+          }
+        },
+        "tab-c": {
+          "type": "collection_tab",
+          "settings": {
+            "label": "Tratamiento de semilla",
+            "collection": "tratamiento-de-semilla",
+            "icon_emoji": "🌾",
+            "icon_svg": ""
+          }
+        },
+        "tab-d": {
+          "type": "collection_tab",
+          "settings": {
+            "label": "Huertos Urbanos",
+            "collection": "huertos-urbanos",
+            "icon_emoji": "🏡",
+            "icon_svg": ""
+          }
+        }
+      },
+      "block_order": ["tab-a", "tab-b", "tab-c", "tab-d"]
+    },
     "rich_text_cqtebC": {
       "type": "rich-text",
       "blocks": {
@@ -115,11 +151,7 @@
           }
         }
       },
-      "block_order": [
-        "heading_nxPTbr",
-        "text_w7C4pp",
-        "button_7yhMmj"
-      ],
+      "block_order": ["heading_nxPTbr", "text_w7C4pp", "button_7yhMmj"],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "left",
@@ -164,11 +196,7 @@
           }
         }
       },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
+      "block_order": ["column1", "column2", "column3"],
       "settings": {
         "title": "Efecto Tierra de monte Innovación que siembra futuro",
         "heading_size": "h1",
@@ -200,9 +228,7 @@
           }
         }
       },
-      "block_order": [
-        "column_6e6FaT"
-      ],
+      "block_order": ["column_6e6FaT"],
       "settings": {
         "title": "Alianzas que nutren la tierra",
         "heading_size": "h2",
@@ -224,39 +250,9 @@
   "order": [
     "image_banner",
     "tabs-collections",
+    "solu-1",
     "rich_text_cqtebC",
     "multicolumn",
     "multicolumn_hhRYPM"
   ]
-
-{
-  "sections": {
-    "main": { "type": "main-collection-banner", "settings": { "show_collection_description": false } },
-    "solu-1": {
-      "type": "soluciones-tabs",
-      "settings": {
-        "heading": "Soluciones para potencializar todo tipo de cultivo",
-        "subheading": "Impulsa tus cosechas con biología viva…",
-        "products_per_tab": 8,
-        "cta_label": "Ver más productos",
-        "cta_url": "/collections/all"
-      },
-      "blocks": {
-        "tab-a": {
-          "type": "collection_tab",
-          "settings": { "label": "Bio-estimulantes", "collection": "bio-estimulantes", "icon_emoji": "🌱", "icon_svg": "" }
-        },
-        "tab-b": {
-          "type": "collection_tab",
-          "settings": { "label": "Micronutrición", "collection": "micronutricion", "icon_emoji": "🧪", "icon_svg": "" }
-        }
-      },
-      "block_order": ["tab-a", "tab-b"]
-    }
-  },
-  "order": ["main", "solu-1"]
-}
-
-
-
 }
