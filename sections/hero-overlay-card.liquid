@@ -1,0 +1,310 @@
+{% comment %}
+  Hero Overlay Card — Tierra de Monte
+  - Full-bleed image with optional rounded corners
+  - Floating glass card with title, text, and CTA
+  - Position options (bottom-left by default to match mockup)
+
+  Dawn 15.4.0 compatible
+{% endcomment %}
+
+{% liquid
+  assign sec = section.settings
+  assign img = sec.image
+  assign card_pos = sec.card_position
+%}
+
+<section
+  class="tdm-hero"
+  id="section-{{ section.id }}"
+  style="--tdm-radius: {{ sec.corner_radius }}px; --tdm-card-max: {{ sec.card_max_width }}px; --tdm-card-pad: {{ sec.card_padding }}px; --tdm-card-opacity: {{ sec.card_bg_opacity | divided_by: 100.0 }}; --tdm-min-h-desktop: {{ sec.min_height_desktop }}vh; --tdm-min-h-mobile: {{ sec.min_height_mobile }}vh;"
+>
+  <div class="tdm-hero__media{% if sec.rounded_corners %} tdm-hero__media--rounded{% endif %}">
+    {% if img != blank %}
+      {{
+        img
+        | image_url: width: 2880
+        | image_tag:
+          widths: '640, 960, 1280, 1600, 1920, 2560, 2880',
+          sizes: '(min-width: 990px) 100vw, 100vw',
+          loading: 'lazy',
+          alt: alt_text,
+          class: 'tdm-hero__img'
+      }}
+    {% else %}
+      <div class="tdm-hero__placeholder">
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="tdm-hero__card tdm-hero__card--{{ card_pos }}{% if sec.card_shadow %} tdm-hero__card--shadow{% endif %}">
+    <div class="tdm-hero__card-inner{% if sec.card_glass %} tdm-hero__card-inner--glass{% endif %}{% if sec.text_on_dark %} tdm-hero__card-inner--invert{% endif %}">
+      {% if sec.subtitle != blank %}
+        <p class="tdm-hero__eyebrow">{{ sec.subtitle }}</p>
+      {% endif %}
+
+      {% if sec.heading != blank %}
+        <h2 class="tdm-hero__heading tdm-hero__heading--{{ sec.heading_size }}">
+          {{ sec.heading | escape }}
+        </h2>
+      {% endif %}
+
+      {% if sec.body != blank %}
+        <div class="tdm-hero__body rte">{{ sec.body }}</div>
+      {% endif %}
+
+      {% if sec.button_label != blank and sec.button_link != blank %}
+        <a
+          href="{{ sec.button_link }}"
+          class="button button--primary tdm-hero__btn{% if sec.button_pill %} tdm-hero__btn--pill{% endif %}"
+        >
+          {{ sec.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if sec.whatsapp_enable and sec.whatsapp_link != blank %}
+    <a class="tdm-hero__wa" href="{{ sec.whatsapp_link }}" aria-label="WhatsApp" target="_blank" rel="noopener">
+      <span class="tdm-hero__wa-dot" aria-hidden="true"></span>
+      <svg viewBox="0 0 24 24" class="tdm-hero__wa-icon" width="24" height="24" role="img" focusable="false">
+        <path d="M20.52 3.48A11.83 11.83 0 0 0 12.01 0C5.39 0 .02 5.37.02 12c0 2.11.55 4.17 1.6 6L0 24l6.18-1.61a11.96 11.96 0 0 0 5.83 1.49h.01c6.62 0 12-5.37 12-12 0-3.2-1.25-6.2-3.5-8.4ZM12.02 22a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.67.95.98-3.58-.24-.37A9.95 9.95 0 0 1 2.1 12C2.1 6.48 6.5 2.1 12 2.1 14.64 2.1 17.1 3.12 19 5c1.9 1.9 2.93 4.36 2.93 7s-.74 4.43-2.64 6.34A9.93 9.93 0 0 1 12.02 22Zm5.76-7.35c-.31-.16-1.84-.91-2.13-1.02-.29-.1-.5-.16-.71.16-.21.31-.81 1.02-.99 1.23-.18.2-.36.23-.67.08-.31-.16-1.29-.47-2.45-1.49-.9-.78-1.51-1.74-1.69-2.05-.18-.31-.02-.48.14-.63.14-.14.31-.37.47-.55.16-.19.21-.31.31-.52.1-.2.05-.39-.03-.55-.08-.16-.71-1.7-.97-2.33-.26-.62-.51-.53-.71-.54h-.6c-.2 0-.55.08-.84.39-.29.31-1.11 1.09-1.11 2.66 0 1.57 1.14 3.09 1.3 3.3.16.2 2.24 3.41 5.43 4.79.76.33 1.35.53 1.81.67.76.24 1.46.21 2.01.13.61-.09 1.84-.75 2.1-1.47.26-.72.26-1.33.18-1.47-.08-.14-.29-.23-.6-.39Z"/>
+      </svg>
+    </a>
+  {% endif %}
+
+  <style>
+    #section-{{ section.id }} .tdm-hero__media{position:relative;min-height:var(--tdm-min-h-desktop)}
+    #section-{{ section.id }} .tdm-hero__img{width:100%;height:100%;object-fit:cover;display:block}
+    #section-{{ section.id }} .tdm-hero__media--rounded{border-radius:var(--tdm-radius);overflow:hidden}
+    #section-{{ section.id }} .tdm-hero__placeholder{height:50vh;background:rgba(var(--color-foreground),0.04)}
+
+    @media (max-width: 749px){
+      #section-{{ section.id }} .tdm-hero__media{min-height:var(--tdm-min-h-mobile)}
+    }
+
+    /* Card */
+    #section-{{ section.id }} .tdm-hero__card{position:absolute;inset:auto auto 2rem 2rem;max-width:var(--tdm-card-max)}
+    #section-{{ section.id }} .tdm-hero__card--top-left{inset:2rem auto auto 2rem}
+    #section-{{ section.id }} .tdm-hero__card--top-right{inset:2rem 2rem auto auto}
+    #section-{{ section.id }} .tdm-hero__card--bottom-right{inset:auto 2rem 2rem auto}
+    #section-{{ section.id }} .tdm-hero__card--center-left{top:50%;left:2rem;transform:translateY(-50%)}
+    #section-{{ section.id }} .tdm-hero__card--center-right{top:50%;right:2rem;left:auto;transform:translateY(-50%)}
+
+    #section-{{ section.id }} .tdm-hero__card-inner{
+      background: rgba(250, 250, 250, var(--tdm-card-opacity));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: var(--tdm-radius);
+      padding: var(--tdm-card-pad);
+      box-shadow: none;
+    }
+    #section-{{ section.id }} .tdm-hero__card--shadow .tdm-hero__card-inner{
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    }
+    #section-{{ section.id }} .tdm-hero__card-inner--glass{
+      background: rgba(255,255,255,var(--tdm-card-opacity));
+    }
+    #section-{{ section.id }} .tdm-hero__card-inner--invert{
+      color: rgb(var(--color-foreground));
+    }
+
+    #section-{{ section.id }} .tdm-hero__eyebrow{margin:0 0 .25rem;letter-spacing:.04em;text-transform:none;opacity:.8}
+    #section-{{ section.id }} .tdm-hero__heading{margin:0 0 .5rem;line-height:1.1}
+    #section-{{ section.id }} .tdm-hero__heading--xl{font-size: clamp(28px, 4vw, 52px); font-weight: 500}
+    #section-{{ section.id }} .tdm-hero__heading--lg{font-size: clamp(26px, 3.2vw, 44px)}
+    #section-{{ section.id }} .tdm-hero__body{margin:0 0 1rem}
+    #section-{{ section.id }} .tdm-hero__btn{margin-top:.25rem}
+    #section-{{ section.id }} .tdm-hero__btn--pill{border-radius:999px}
+
+    /* WhatsApp badge (optional) */
+    #section-{{ section.id }} .tdm-hero__wa{
+      position:absolute;right:1.25rem;bottom:1.25rem;
+      display:inline-flex;align-items:center;justify-content:center;
+      width:46px;height:46px;border-radius:999px;background:#e8f5e9
+    }
+    #section-{{ section.id }} .tdm-hero__wa:hover{filter:brightness(.98)}
+    #section-{{ section.id }} .tdm-hero__wa-icon{display:block}
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Hero overlay card",
+  "tag": "section",
+  "class": "section tdm-hero-wrap",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "label": "Minimum height (desktop, vh)",
+      "min": 40,
+      "max": 90,
+      "step": 1,
+      "unit": "vh",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "label": "Minimum height (mobile, vh)",
+      "min": 40,
+      "max": 90,
+      "step": 1,
+      "unit": "vh",
+      "default": 55
+    },
+    {
+      "type": "checkbox",
+      "id": "rounded_corners",
+      "label": "Rounded image corners",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+
+    { "type": "header", "content": "Card" },
+    {
+      "type": "select",
+      "id": "card_position",
+      "label": "Card position",
+      "default": "bottom-left",
+      "options": [
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-right", "label": "Bottom right" },
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "center-left", "label": "Center left" },
+        { "value": "center-right", "label": "Center right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "card_max_width",
+      "label": "Card max width (px)",
+      "min": 260,
+      "max": 720,
+      "step": 10,
+      "default": 560
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card padding (px)",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_bg_opacity",
+      "label": "Card background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 85
+    },
+    {
+      "type": "checkbox",
+      "id": "card_glass",
+      "label": "Enable glass blur",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "card_shadow",
+      "label": "Drop shadow",
+      "default": true
+    },
+
+    { "type": "header", "content": "Content" },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Eyebrow / small label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Vida que genera vida"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "xl",
+      "options": [
+        { "label": "XL", "value": "xl" },
+        { "label": "Large", "value": "lg" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Text",
+      "default": "<p>Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Soluciones"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_pill",
+      "label": "Rounded (pill) button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "text_on_dark",
+      "label": "Use inverted text colors",
+      "default": false
+    },
+
+    { "type": "header", "content": "WhatsApp badge (optional)" },
+    {
+      "type": "checkbox",
+      "id": "whatsapp_enable",
+      "label": "Show WhatsApp button",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_link",
+      "label": "WhatsApp link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero overlay card",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

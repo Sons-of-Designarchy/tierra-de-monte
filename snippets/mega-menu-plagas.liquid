@@ -1,0 +1,126 @@
+{%- comment -%}
+  Custom Mega Menu: "Plagas"
+  - Left label "Tipo de Plaga"
+  - 3-column grid of child links (bordered items)
+  - Right CTA card (configurable via theme settings, with fallbacks)
+{%- endcomment -%}
+
+{%- assign cta_title = settings.plagas_cta_title | default: '¿No estas seguro que plaga es?' -%}
+{%- assign cta_body = settings.plagas_cta_body | default: 'Si tu huerta tiene problemas, podemos ayudarte.' -%}
+{%- assign cta_label = settings.plagas_cta_label | default: 'Agenda un asesoramiento' -%}
+{%- assign cta_link = settings.plagas_cta_link | default: '/pages/contact' -%}
+
+<div class="mega-menu mega-menu--plagas">
+  <div class="mega-menu__inner">
+    <!-- Left label -->
+    <div class="plagas-label">Tipo de Plaga</div>
+
+    <!-- Grid of child links -->
+    <div class="plagas-grid">
+      {%- for child in link.links -%}
+        <a class="plaga-item" href="{{ child.url }}">
+          <span class="plaga-item__text">{{ child.title }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    <!-- CTA card -->
+    <div class="plagas-cta">
+      <div class="plagas-cta__card">
+        <h3 class="plagas-cta__title">{{ cta_title }}</h3>
+        <p class="plagas-cta__body">{{ cta_body }}</p>
+        <a class="button button--primary plagas-cta__btn" href="{{ cta_link }}">
+          {{ cta_label }}
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mega-menu--plagas {
+    padding: 18px 0 22px;
+  }
+  .mega-menu--plagas .mega-menu__inner {
+    display: grid;
+    grid-template-columns: 180px 1fr 360px;
+    gap: 16px 24px;
+    align-items: start;
+    border-top: 1px solid rgba(var(--color-foreground), 0.25);
+    margin-top: 8px;
+    padding-top: 14px;
+  }
+
+  /* Left label */
+  .mega-menu--plagas .plagas-label {
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+  }
+
+  /* Grid */
+  .mega-menu--plagas .plagas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    max-width: 680px;
+    border: 1px solid rgb(var(--color-foreground));
+    border-width: 1px 0 0 1px;
+  }
+  .mega-menu--plagas .plaga-item {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid rgb(var(--color-foreground));
+    border-width: 0 1px 1px 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .mega-menu--plagas .plaga-item:hover {
+    background: rgba(var(--color-foreground), 0.05);
+  }
+
+  /* CTA card */
+  .mega-menu--plagas .plagas-cta {
+    justify-self: end;
+  }
+  .mega-menu--plagas .plagas-cta__card {
+    border: 1px solid rgb(var(--color-foreground));
+    border-radius: 10px;
+    padding: 16px;
+    max-width: 360px;
+    background: transparent;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  .mega-menu--plagas .plagas-cta__title {
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 6px;
+  }
+  .mega-menu--plagas .plagas-cta__body {
+    margin: 0 0 12px;
+    opacity: 0.85;
+  }
+  .mega-menu--plagas .plagas-cta__btn {
+    border-radius: 999px;
+  }
+
+  /* Mobile (stacked) */
+  @media (max-width: 989px) {
+    .mega-menu--plagas .mega-menu__inner {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding-top: 10px;
+    }
+    .mega-menu--plagas .plagas-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .mega-menu--plagas .plagas-cta {
+      justify-self: stretch;
+    }
+    .mega-menu--plagas .plagas-cta__card {
+      max-width: none;
+    }
+  }
+</style>
