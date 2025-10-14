@@ -1,0 +1,207 @@
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Section inherits page bg; card uses scheme */
+  #shopify-section-{{ section.id }} { background:none; }
+
+  #shopify-section-{{ section.id }} .reviews__card {
+    background-color: rgb(var(--color-background));
+    border-radius: {{ section.settings.radius }}px;
+    padding: clamp(20px, 4vw, 36px);
+  }
+
+  /* Title (optional) */
+  #shopify-section-{{ section.id }} .reviews__title {
+    text-align:center;
+    margin: 0 0 20px;
+  }
+
+  /* Grid / slider wrapper */
+  #shopify-section-{{ section.id }} .reviews__list {
+    list-style:none; margin:0; padding:0;
+    display:grid;
+    gap: {{ section.settings.gap }}px;
+    align-items:stretch;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .reviews__list {
+      grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
+    }
+  }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .reviews__list {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    }
+  }
+
+  /* Individual review */
+  #shopify-section-{{ section.id }} .review {
+    height: 100%;
+  }
+  #shopify-section-{{ section.id }} .review__inner {
+    height:100%;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    gap: 16px;
+  }
+  #shopify-section-{{ section.id }} .review__avatar {
+    width: {{ section.settings.avatar_size }}px;
+    height: {{ section.settings.avatar_size }}px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .review__quote {
+    font-family: var(--font-heading-family);
+    line-height: 1.25;
+    font-size: clamp(18px, 2.2vw, 28px);
+  }
+  #shopify-section-{{ section.id }} .review__author {
+    font-family: var(--font-body-family);
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-size: 14px;
+    opacity: .9;
+  }
+  #shopify-section-{{ section.id }} .review__company {
+    font-family: var(--font-body-family);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: .75;
+  }
+
+  /* Optional subtle divider between desktop items */
+  @media (min-width: 990px) {
+    {% if section.settings.show_dividers %}
+    #shopify-section-{{ section.id }} .reviews__list > li + li {
+      border-left: 2px solid {{ section.settings.divider_color }};
+    }
+    #shopify-section-{{ section.id }} .review__inner { padding-left: 24px; }
+    {% endif %}
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign cols_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and section.blocks.size > cols_mobile_int
+    assign show_mobile_slider = true
+  endif
+-%}
+
+<section class="reviews">
+  <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
+
+    <div class="reviews__card content-container color-{{ section.settings.color_scheme }} gradient">
+      {% if section.settings.title != blank %}
+        <h2 class="reviews__title title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      <slider-component class="slider-mobile-gutter">
+        <ul class="reviews__list{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}" id="Slider-{{ section.id }}" role="list">
+          {%- for block in section.blocks -%}
+            <li class="review grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+              <div class="review__inner">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 300 | image_tag: widths: '120, 160, 200, 240, 300', class: 'review__avatar', alt: block.settings.name | escape }}
+                {% endif %}
+                {% if block.settings.quote != blank %}
+                  <div class="review__quote">“{{ block.settings.quote | escape }}”</div>
+                {% endif %}
+                {% if block.settings.name != blank %}
+                  <div class="review__author">{{ block.settings.name | escape }}</div>
+                {% endif %}
+                {% if block.settings.company != blank %}
+                  <div class="review__company">{{ block.settings.company | escape }}</div>
+                {% endif %}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if show_mobile_slider -%}
+          <div class="slider-buttons large-up-hide">
+            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">
+              <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </button>
+            <div class="slider-counter caption">
+              <span class="slider-counter--current">1</span>
+              <span aria-hidden="true"> / </span>
+              <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+              <span class="slider-counter--total">{{ section.blocks.size }}</span>
+            </div>
+            <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">
+              <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </button>
+          </div>
+        {%- endif -%}
+      </slider-component>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "" },
+    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h2", "options": [
+      { "value": "h2", "label": "H2" },
+      { "value": "h1", "label": "H1" },
+      { "value": "h0", "label": "H0" }
+    ]},
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "range", "id": "radius", "label": "Card corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16 },
+    { "type": "range", "id": "gap", "label": "Gap between reviews (px)", "min": 8, "max": 48, "step": 2, "default": 24 },
+
+    { "type": "range", "id": "avatar_size", "label": "Avatar size (px)", "min": 48, "max": 140, "step": 4, "default": 96 },
+
+    { "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "1", "options": [
+      { "value": "1", "label": "1" },
+      { "value": "2", "label": "2" }
+    ]},
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 1, "max": 3, "step": 1, "default": 3 },
+
+    { "type": "checkbox", "id": "swipe_on_mobile", "label": "Swipe on mobile", "default": true },
+
+    { "type": "checkbox", "id": "show_dividers", "label": "Show vertical dividers on desktop", "default": false },
+    { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#000000" },
+
+    { "type": "header", "content": "Section padding" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 36 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Avatar" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Nombre Apellido" },
+        { "type": "text", "id": "company", "label": "Company", "default": "Empresa" },
+        { "type": "textarea", "id": "quote", "label": "Quote / Description", "default": "Texto de la reseña…" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Reviews", "blocks": [ { "type": "review" }, { "type": "review" }, { "type": "review" } ] }
+  ]
+}
+{% endschema %}
