@@ -248,45 +248,35 @@
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/ReviB.avif",
-            "alt": "",
-            "link": "",
-            "max_height": 56
+            "alt": ""
           }
         },
         "logo_VLbihw": {
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/Rectangle_18.jpg",
-            "alt": "",
-            "link": "",
-            "max_height": 56
+            "alt": ""
           }
         },
         "logo_AbpUBY": {
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/tratamiento-de-semillas.avif",
-            "alt": "",
-            "link": "",
-            "max_height": 56
+            "alt": ""
           }
         },
         "logo_GAeFMC": {
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/catalogo-ciompleto.avif",
-            "alt": "",
-            "link": "",
-            "max_height": 56
+            "alt": ""
           }
         },
         "logo_fGzpXJ": {
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/Acuicolas.avif",
-            "alt": "",
-            "link": "",
-            "max_height": 56
+            "alt": ""
           }
         }
       },
@@ -301,14 +291,13 @@
       "settings": {
         "title": "ALIANZAS QUE NUTREN LA TIERRA",
         "heading_size": "h2",
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "radius": 16,
         "gap": 24,
         "grayscale": true,
         "max_height": 56,
         "columns_mobile": "2",
         "columns_desktop": 5,
-        "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
       }
