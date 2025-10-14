@@ -259,6 +259,62 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "multicolumn_feature_mjeJtX": {
+      "type": "multicolumn-feature",
+      "blocks": {
+        "column_Xhqkrg": {
+          "type": "column",
+          "settings": {
+            "title": "+230",
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_QHz6eD": {
+          "type": "column",
+          "settings": {
+            "title": "+230",
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_kkT3TQ": {
+          "type": "column",
+          "settings": {
+            "title": "+230",
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_Xhqkrg",
+        "column_QHz6eD",
+        "column_kkT3TQ"
+      ],
+      "name": "Multicolumn — Feature",
+      "settings": {
+        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "Efecto Tierra de monte\nInnovación que siembra futuro",
+        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza...</p>",
+        "button_label": "Encuentra tu solución",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "background_style": "primary",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -267,6 +323,7 @@
     "ticker_H9daYM",
     "rich_text_cqtebC",
     "multicolumn",
-    "logobar_BrfwU4"
+    "logobar_BrfwU4",
+    "multicolumn_feature_mjeJtX"
   ]
 }
