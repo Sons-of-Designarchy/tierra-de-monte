@@ -465,19 +465,18 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 /* ----- Product card: excerpt styling ----- */
 .product-card-wrapper .card__excerpt {
-  margin: 0.15rem 0 0.1rem;
+  margin: 0.3rem 0 0.2rem;
   font-family: var(--font-body-family, "Inter", sans-serif);
   font-weight: 400;
   font-size: clamp(13px, 1vw, 14px);
   line-height: 1.35;
   color: rgba(var(--color-foreground), 0.75);
-  /* 2-line clamp */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* show 2 lines max */
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: calc(1.35em * 2);
 }
+
 
 
 

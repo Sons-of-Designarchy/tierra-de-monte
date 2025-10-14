@@ -114,17 +114,6 @@
                 id="title-{{ section_id }}-{{ card_product.id }}"
               {% endif %}
             >
-              {%- if show_excerpt -%}
-                {%- liquid
-                  assign card_excerpt = card_product.metafields.custom.card_excerpt | default: card_product.description
-                -%}
-                {%- if card_excerpt != blank -%}
-                  <p class="card__excerpt">
-                    {{ card_excerpt | strip_html | truncatewords: 22 }}
-                  </p>
-                {%- endif -%}
-              {%- endif -%}
-
               <a
                 href="{{ card_product.url }}"
                 id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"
@@ -171,6 +160,19 @@
               {{ card_product.title | escape }}
             </a>
           </h3>
+
+          {%- liquid
+            assign p = card_product | default: product
+            assign show_card_excerpt = show_excerpt | default: true
+          -%}
+          {%- if show_card_excerpt and p -%}
+            {%- assign excerpt_source = p.metafields.custom.card_excerpt | default: p.description -%}
+            {%- assign excerpt_text = excerpt_source | strip_html | strip | truncatewords: 22 -%}
+            {%- if excerpt_text != blank -%}
+              <p class="card__excerpt">{{ excerpt_text }}</p>
+            {%- endif -%}
+          {%- endif -%}
+
           <div class="card-information">
             {%- if show_vendor -%}
               <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
