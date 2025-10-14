@@ -56,23 +56,16 @@
               role="tabpanel"
             >
               <div class="grid grid--2-col-tablet grid--4-col-desktop">
-                {% for product in c.products %}
+                {% for product in collection.products limit: section.settings.products_limit %}
                   <div class="grid__item">
-                    {% render 'card-product',
-                      card_product: product,
-                      media_aspect_ratio: section.settings.aspect_ratio,
-                      show_secondary_image: true,
-                      show_vendor: false,
-                      show_rating: false,
-                      section_id: section.id
-                    %}
+                    {% render 'card-product', card_product: product %}
                   </div>
                 {% endfor %}
               </div>
               {% if section.settings.show_view_all and c.url %}
                 <div class="center" style="margin-top:1rem;">
-                  <a href="{{ c.url }}" class="button">
-                    {{ section.settings.view_all_label | default: 'Ver más productos' }}
+                  <a href="{{ section.settings.cta_url }}" class="button tc__cta">
+                    {{ section.settings.cta_label }}
                   </a>
                 </div>
               {% endif %}
@@ -88,11 +81,146 @@
 </section>
 
 <style>
-  #tabbed-collections-{{ section.id }} .tabs__list{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0 1.25rem}
-  #tabbed-collections-{{ section.id }} .tabs__tab{border:1px solid var(--color-foreground-10,#ddd);border-radius:999px;padding:.4rem .9rem;background:transparent;font:inherit;cursor:pointer}
-  #tabbed-collections-{{ section.id }} .tabs__tab.is-active{background:#eef4ef;border-color:#2fb673}
-  #tabbed-collections-{{ section.id }} .tabs__dot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:#2fb673;margin-right:.5rem}
-  #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{display:none}
+     #tabbed-collections-{{ section.id }} .tabs__list{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0 1.25rem}
+     #tabbed-collections-{{ section.id }} .tabs__tab{border:1px solid var(--color-foreground-10,#ddd);border-radius:999px;padding:.4rem .9rem;background:transparent;font:inherit;cursor:pointer}
+     #tabbed-collections-{{ section.id }} .tabs__tab.is-active{background:#eef4ef;border-color:#2fb673}
+     #tabbed-collections-{{ section.id }} .tabs__dot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:#2fb673;margin-right:.5rem}
+     #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{display:none}
+     #tabbed-collections-{{ section.id }} {
+       --tc-border: rgba(var(--color-foreground), .25);
+       --tc-active-bg: #eef4ef;          /* light green background like mock */
+       --tc-active-dot: #2fb673;         /* green dot */
+       --tc-radius-pill: 999px;
+       --tc-gap: .5rem;
+     }
+
+     /* Headings/subtitle spacing (matches mock) */
+     #tabbed-collections-{{ section.id }} .h1 { margin: .25rem 0 .5rem; }
+     #tabbed-collections-{{ section.id }} .subtitle { margin: .25rem 0 1.25rem; opacity: .9; }
+
+     /* Tabs row */
+     #tabbed-collections-{{ section.id }} .tabs__list{
+       display:flex; flex-wrap:wrap; gap: var(--tc-gap);
+       margin: .5rem 0 1.25rem;
+     }
+
+     /* Each tab button → pill with border */
+     #tabbed-collections-{{ section.id }} .tabs__tab{
+       display:inline-flex; align-items:center; gap:.5rem;
+       border:1px solid var(--tc-border);
+       border-radius: 4px;
+       padding: .45rem .95rem;
+       background: transparent;
+       font: inherit;
+       cursor: pointer;
+       line-height: 1;
+       transition: background .15s ease, border-color .15s ease, color .15s ease;
+     }
+     #tabbed-collections-{{ section.id }} .tabs__tab:hover{
+       background: rgba(var(--color-foreground), .04);
+     }
+
+     /* Active tab */
+     #tabbed-collections-{{ section.id }} .tabs__tab.is-active{
+       background: var(--tc-active-bg);
+       border-color: var(--tc-active-dot);
+       color: inherit;
+     }
+
+     /* Small green dot at left */
+     #tabbed-collections-{{ section.id }} .tabs__dot{
+       width: .55rem; height: .55rem; border-radius: 50%;
+       background: var(--tc-active-dot);
+       flex: 0 0 auto;
+     }
+
+     /* Panels visibility */
+     #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{ display: none; }
+
+     /* Product grid spacing aligns with Dawn’s grid; nothing heavy to change */
+     #tabbed-collections-{{ section.id }} .grid__item { margin-bottom: 1.25rem; }
+
+     /* Center CTA button at bottom (pill) */
+     #tabbed-collections-{{ section.id }} .tc__cta{
+       border-radius: var(--tc-radius-pill);
+       padding: .6rem 1.1rem;
+     }
+
+     /* Optional: make product card badges subtle like in the mock */
+     #tabbed-collections-{{ section.id }} .badge { border-radius: 999px; }
+
+
+    /* Use either id="tabbed-collections-{{ section.id }}" or the built Shopify id.
+        These selectors cover both: */
+     #tabbed-collections-{{ section.id }},
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] { --tc-center: 1; }
+
+     /* 1) Center the heading stack */
+     #tabbed-collections-{{ section.id }} .caption-with-letter-spacing,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .caption-with-letter-spacing,
+     #tabbed-collections-{{ section.id }} .h1,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .h1,
+     #tabbed-collections-{{ section.id }} .subtitle,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .subtitle {
+       text-align: center;
+       margin-left: auto;
+       margin-right: auto;
+     }
+
+     /* 2) Center the tabs row */
+     #tabbed-collections-{{ section.id }} .tabs__list,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .tabs__list {
+       display: flex;
+       flex-wrap: wrap;
+       gap: .5rem;
+       margin: .5rem auto 1.25rem;
+       justify-content: center; /* key */
+     }
+
+     /* Keep your pill/tab styling (you can keep your previous rules too) */
+     #tabbed-collections-{{ section.id }} .tabs__tab,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .tabs__tab {
+       display: inline-flex;
+       align-items: center;
+       gap: .5rem;
+       border: 1px solid rgba(var(--color-foreground), .25);
+       border-radius: 999px;
+       padding: .45rem .95rem;
+       background: transparent;
+       cursor: pointer;
+       line-height: 1;
+     }
+     #tabbed-collections-{{ section.id }} .tabs__tab.is-active,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .tabs__tab.is-active {
+       background: #eef4ef;
+       border-color: #2fb673;
+     }
+     #tabbed-collections-{{ section.id }} .tabs__dot,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .tabs__dot {
+       width: .55rem; height: .55rem; border-radius: 50%; background: #2fb673;
+     }
+
+     /* 3) Center the product grid tracks (cards themselves stay left-aligned) */
+     #tabbed-collections-{{ section.id }} .grid.grid--2-col-tablet.grid--4-col-desktop,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .grid.grid--2-col-tablet.grid--4-col-desktop {
+       justify-content: center;       /* centers the grid tracks if they don't span full width */
+     }
+
+     /* 4) Ensure the bottom CTA is centered */
+     #tabbed-collections-{{ section.id }} .center,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .center { text-align: center; }
+     #tabbed-collections-{{ section.id }} .center .button,
+     [id^="tabbed-collections-template"][id$="__tabs-collections"] .center .button {
+       border-radius: 999px;
+       padding: .6rem 1.1rem;
+     }
+     /* Do NOT globally center product card text; leave card contents default/left. */
+
+  #tabbed-collections-{{ section.id }},
+  [id^="tabbed-collections-template"][id$="__tabs-collections"] {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
 </style>
 
 {% schema %}
@@ -128,15 +256,13 @@
     { "type": "checkbox", "id": "dot_6", "label": "Show dot 6", "default": true },
 
     {
-      "type": "select",
-      "id": "aspect_ratio",
-      "label": "Image ratio",
-      "default": "adapt",
-      "options": [
-        { "value": "adapt", "label": "Adapt to image" },
-        { "value": "square", "label": "Square" },
-        { "value": "portrait", "label": "Portrait" }
-      ]
+      "type": "range",
+      "id": "products_limit",
+      "label": "Products per tab",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
     },
     {
       "type": "range",
@@ -156,16 +282,22 @@
 
 <script>
   document.addEventListener('click', function (e) {
+    var root = document.getElementById('tabbed-collections-{{ section.id }}');
+    if (!root) return;
+
     var btn = e.target.closest('#tabbed-collections-{{ section.id }} .tabs__tab');
     if (!btn) return;
-    var root = document.getElementById('tabbed-collections-{{ section.id }}');
+
     root.querySelectorAll('.tabs__tab').forEach(function (t) {
-      t.classList.toggle('is-active', t === btn);
-      t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
+      var active = t === btn;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
     });
+
     root.querySelectorAll('.tabs__panel').forEach(function (p) {
       p.classList.add('is-hidden');
     });
+
     var panel = root.querySelector('#' + btn.dataset.target);
     if (panel) panel.classList.remove('is-hidden');
   });
