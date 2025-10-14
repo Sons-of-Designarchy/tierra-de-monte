@@ -93,7 +93,7 @@
         "view_all_label": "Ver más productos"
       }
     },
-    "ticker_rj7nwx": {
+    "ticker_H9daYM": {
       "type": "ticker",
       "name": "Infinite Ticker",
       "settings": {
@@ -101,7 +101,7 @@
         "bg_image": "shopify://shop_images/ticker-1.jpg",
         "bg_color": "#00000000",
         "color_scheme": "scheme-3",
-        "typography_variant": "secondary"
+        "typography_variant": "primary"
       }
     },
     "rich_text_cqtebC": {
@@ -241,7 +241,7 @@
   "order": [
     "image_banner",
     "tabs-collections",
-    "ticker_rj7nwx",
+    "ticker_H9daYM",
     "rich_text_cqtebC",
     "multicolumn",
     "multicolumn_hhRYPM"
