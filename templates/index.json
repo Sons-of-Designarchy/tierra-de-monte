@@ -292,6 +292,56 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "reviews_4eGYH6": {
+      "type": "reviews",
+      "blocks": {
+        "review_EQCDMf": {
+          "type": "review",
+          "settings": {
+            "name": "Nombre Apellido",
+            "company": "Empresa / Huerta",
+            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada."
+          }
+        },
+        "review_VB7Ljz": {
+          "type": "review",
+          "settings": {
+            "name": "Nombre Apellido",
+            "company": "Empresa / Huerta",
+            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada."
+          }
+        },
+        "review_zxQAXt": {
+          "type": "review",
+          "settings": {
+            "name": "Nombre Apellido",
+            "company": "Empresa / Huerta",
+            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada."
+          }
+        }
+      },
+      "block_order": [
+        "review_EQCDMf",
+        "review_VB7Ljz",
+        "review_zxQAXt"
+      ],
+      "name": "Reviews",
+      "settings": {
+        "title": "Reviews",
+        "heading_size": "h2",
+        "color_scheme": "",
+        "radius": 16,
+        "gap": 24,
+        "avatar_size": 96,
+        "columns_mobile": "1",
+        "columns_desktop": 3,
+        "swipe_on_mobile": true,
+        "show_dividers": false,
+        "divider_color": "#000000",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -301,6 +351,7 @@
     "rich_text_cqtebC",
     "multicolumn",
     "logobar_BrfwU4",
-    "multicolumn_feature_mjeJtX"
+    "multicolumn_feature_mjeJtX",
+    "reviews_4eGYH6"
   ]
 }
