@@ -9,37 +9,39 @@
       min-height: var(--h);
       overflow: hidden;
 
-      /* ⛔️ kill color-scheme background just for THIS section */
+      /* Kill Dawn scheme paint just for this section */
       background: transparent !important;
-      z-index: 0; /* create a stacking context */
+      --gradient-background: transparent !important;
+      --color-background: transparent !important;
+
+      /* Ensure our children stack above any scheme layers */
+      isolation: isolate;
     }
-    /* Some versions of Dawn draw the color-scheme using ::before/::after */
     #ticker-{{ section.id }}::before,
-    #ticker-{{ section.id }}::after{
-      content: none !important;
-      display: none !important;
+    #ticker-{{ section.id }}::after{ content:none !important; display:none !important; }
+
+    /* Background image as IMG (bulletproof) */
+    #ticker-{{ section.id }} .ticker-img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover; object-position:center;
+      z-index: 1;
+      display:block;
     }
 
-    /* ===== Background + overlay layering (bring to front) ===== */
-    #ticker-{{ section.id }} .ticker-bg{
-      position: absolute; inset: 0;
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      z-index: 1; /* above any scheme layer */
-    }
+    /* Overlay tint (use editor color + opacity) */
     #ticker-{{ section.id }} .ticker-overlay{
-      position: absolute; inset: 0;
-      pointer-events: none;
-      z-index: 2; /* above bg */
+      position:absolute; inset:0;
+      pointer-events:none;
+      z-index: 2;
     }
 
-    /* ===== Ticker band (centered) ===== */
+    /* Ticker layer (centered) */
     #ticker-{{ section.id }} .ticker{
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      padding: 0; border: 0; background: transparent;
-      z-index: 3; /* topmost */
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding:0; border:0; background:transparent;
+      z-index: 3;
     }
 
     /* Typography */
@@ -47,31 +49,31 @@
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
       font-size: clamp(16px, 2vw, 22px);
-      line-height: 1; letter-spacing: .08em; text-transform: uppercase;
-      white-space: nowrap;
+      line-height:1; letter-spacing:.08em; text-transform:uppercase;
+      white-space:nowrap;
     }
     #ticker-{{ section.id }} .typo-secondary{
       font-family: var(--font-body-family);
-      font-weight: 400;
+      font-weight:400;
       font-size: clamp(14px, 1.7vw, 18px);
-      line-height: 1; letter-spacing: .08em; text-transform: uppercase;
-      white-space: nowrap;
+      line-height:1; letter-spacing:.08em; text-transform:uppercase;
+      white-space:nowrap;
     }
 
-    /* Force ticker text color (overrides scheme's green) */
+    /* Force text color to ignore scheme */
     #ticker-{{ section.id }} .track{
       color: {{ section.settings.text_color | default: '#F3EFCF' }};
     }
 
     /* Seamless marquee */
-    #ticker-{{ section.id }} .marquee{ width: 100%; overflow: hidden; }
+    #ticker-{{ section.id }} .marquee{ width:100%; overflow:hidden; }
     #ticker-{{ section.id }} .track{
-      display: inline-flex; align-items: center; gap: var(--gap);
-      will-change: transform;
+      display:inline-flex; align-items:center; gap:var(--gap);
+      will-change:transform;
       animation: ticker-{{ section.id }} var(--speed) linear infinite;
     }
     #ticker-{{ section.id }} .chunk{
-      display: inline-flex; align-items: center; gap: var(--gap);
+      display:inline-flex; align-items:center; gap:var(--gap);
     }
     #ticker-{{ section.id }} .item{ display:inline-flex; align-items:center; gap:.6rem }
     #ticker-{{ section.id }} .icon{ width:18px; height:18px; object-fit:contain; flex:0 0 18px }
@@ -82,20 +84,18 @@
     }
   </style>
 
-  {%- comment -%}
-    We set styles inline so Liquid comparisons aren't inside CSS rules,
-    ensuring the background & overlay always apply.
-  {%- endcomment -%}
-
+  {%- comment -%} Background (IMG so it can’t be “painted over” by scheme) {%- endcomment -%}
   {%- if section.settings.bg_image != blank -%}
-    <div
-      class="ticker-bg"
-      style="background-image:url({{ section.settings.bg_image | image_url: width: 2880 }});"
-    ></div>
-  {%- else -%}
-    <div class="ticker-bg"></div>
+    <img
+      class="ticker-img"
+      src="{{ section.settings.bg_image | image_url: width: 2880 }}"
+      alt=""
+      loading="lazy"
+      aria-hidden="true"
+    >
   {%- endif -%}
 
+  {%- comment -%} Overlay color + opacity from settings {%- endcomment -%}
   <div
     class="ticker-overlay"
     style="background: {{ section.settings.bg_color | default: 'transparent' }};{% if section.settings.overlay_opacity %} opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};{% endif %}"
@@ -105,7 +105,6 @@
     {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
     <div class="marquee">
       <div class="track {% if section.settings.typography_variant == 'primary' %}typo-primary{% else %}typo-secondary{% endif %}">
-        <!-- chunk A -->
         <span class="chunk">
           {% for i in (1..10) %}
             <span class="item">
@@ -123,7 +122,6 @@
             </span>
           {% endfor %}
         </span>
-        <!-- chunk B (duplicate) -->
         <span class="chunk" aria-hidden="true">
           {% for i in (1..10) %}
             <span class="item">
@@ -155,16 +153,6 @@
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
     {
       "type": "range",
-      "id": "overlay_opacity",
-      "label": "Overlay opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 30
-    },
-
-    {
-      "type": "range",
       "id": "height",
       "label": "Section height (px)",
       "min": 60,
@@ -172,8 +160,17 @@
       "step": 5,
       "default": 100
     },
+    { "type": "color", "id": "bg_color", "label": "Overlay color", "default": "#000000" },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30
+    },
     { "type": "color", "id": "text_color", "label": "Ticker text color", "default": "#F3EFCF" },
-
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
     {
       "type": "select",
