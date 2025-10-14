@@ -45,6 +45,7 @@
 
 .mega-menu__link--level-2 {
   font-weight: bold !important;
+  padding-bottom: 1rem !important;
 }
 
 .mega-menu__list>li>ul>li {
