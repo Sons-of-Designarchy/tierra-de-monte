@@ -63,7 +63,7 @@
         "collapsible-row-0": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Materials",
+            "heading": "Reduce enfermedades fúngicas.",
             "icon": "leather",
             "content": "",
             "page": ""
@@ -72,7 +72,7 @@
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Shipping & Returns",
+            "heading": "Mayor aprovechamiento de nutrientes.",
             "icon": "truck",
             "content": "",
             "page": ""
@@ -81,7 +81,7 @@
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Dimensions",
+            "heading": "Incrementa perdurabilidad y eficacia de fertilizantes.",
             "icon": "ruler",
             "content": "",
             "page": ""
@@ -90,18 +90,27 @@
         "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Care Instructions",
+            "heading": "Microorganismo incluidos",
             "icon": "heart",
-            "content": "",
+            "content": "<ul><li>Trichoderma virens</li><li>Trichoderma harzianum</li><li>Bacillus subtilis</li><li>Paenibacillus polymyxa</li><li>Pseudomonas fluorescens</li><li>Streptomyces griseus </li><li>+ microorganismos fijadores de Nitrógeno </li></ul>",
             "page": ""
           }
         },
         "collapsible_tab_QgmY3h": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Fila desplegable",
+            "heading": "Aplicacion del producto",
             "icon": "clipboard",
             "content": "",
+            "page": ""
+          }
+        },
+        "collapsible_tab_dgJxpK": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "FAQ",
+            "icon": "clipboard",
+            "content": "<p>¿Lorem ipsum domo amet it?</p>",
             "page": ""
           }
         },
@@ -127,6 +136,7 @@
         "collapsible-row-2",
         "collapsible-row-3",
         "collapsible_tab_QgmY3h",
+        "collapsible_tab_dgJxpK",
         "share"
       ],
       "settings": {
@@ -291,7 +301,7 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
-        "bg_color": "#00000000",
+        "bg_color": "rgba(0,0,0,0)",
         "color_scheme": "",
         "typography_variant": "primary"
       }
@@ -357,7 +367,7 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
-        "bg_color": "#00000000",
+        "bg_color": "rgba(0,0,0,0)",
         "color_scheme": "",
         "typography_variant": "primary"
       }
