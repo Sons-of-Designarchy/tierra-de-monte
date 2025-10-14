@@ -53,23 +53,10 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
-    },
-    "ticker_RR4ir4": {
-      "type": "ticker",
-      "name": "Infinite Ticker",
-      "settings": {
-        "text": "VIDA QUE GENERA VIDA",
-        "icon": "shopify://shop_images/Client-Logo.png",
-        "bg_image": "shopify://shop_images/img-ticker-ex.jpg",
-        "bg_color": "rgba(0,0,0,0)",
-        "color_scheme": "scheme-1",
-        "typography_variant": "primary"
-      }
     }
   },
   "order": [
     "announcement-bar",
-    "header",
-    "ticker_RR4ir4"
+    "header"
   ]
 }

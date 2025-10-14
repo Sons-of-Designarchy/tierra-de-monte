@@ -73,7 +73,7 @@
         "collection_3": "enfermedades",
         "label_3": "",
         "dot_3": true,
-        "collection_4": "huerto-urbano",
+        "collection_4": "urbano",
         "label_4": "",
         "dot_4": true,
         "collection_5": "micronutricion",
@@ -230,4 +230,3 @@
     "multicolumn_hhRYPM"
   ]
 }
-
