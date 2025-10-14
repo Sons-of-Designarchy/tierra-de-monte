@@ -1,127 +1,127 @@
 <section id="ticker-{{ section.id }}" class="color-{{ section.settings.color_scheme }}">
   <style>
-    /* Container */
+    /* ===== Container + Background ===== */
     #ticker-{{ section.id }}{
-      --gap: 2.5rem;
-      --speed: 32s;
+      --gap: 2.2rem;                  /* space between repeats */
+      --speed: 28s;                   /* lower = faster */
+      --h: {{ section.settings.height | default: 100 }}px;  /* total section height */
       position: relative;
+      min-height: var(--h);
       overflow: hidden;
     }
-
-    /* Background (set via CSS only) */
     #ticker-{{ section.id }} .ticker-bg{
       position: absolute; inset: 0;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      /* Only add background-image when an image is selected */
+      z-index: 0;                     /* at the back */
       {% if section.settings.bg_image != blank %}
         background-image: url({{ section.settings.bg_image | image_url: width: 2880 }});
       {% endif %}
     }
-
-    /* Overlay (can be transparent) */
     #ticker-{{ section.id }} .ticker-overlay{
       position: absolute; inset: 0;
       background: {{ section.settings.bg_color | default: 'transparent' }};
       pointer-events: none;
+      z-index: 1;
     }
 
-    /* Ticker band */
+    /* ===== Ticker band (sits over the image) ===== */
     #ticker-{{ section.id }} .ticker{
-      position: relative;
-      padding: .75rem 0;
-      border-top: 1px solid rgba(0,0,0,.35);
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: .5rem 0;               /* compact band to fit ~100px total */
+      border-top: 1px solid rgba(0,0,0,.28);
+      z-index: 2;
     }
 
     /* Typography options */
     #ticker-{{ section.id }} .typo-primary{
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
-      font-size: clamp(18px, 2.2vw, 28px);
-      line-height: 1.2;
+      font-size: clamp(16px, 2vw, 22px);
+      line-height: 1;
       letter-spacing: .08em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     #ticker-{{ section.id }} .typo-secondary{
       font-family: var(--font-body-family);
       font-weight: 400;
-      font-size: clamp(14px, 1.6vw, 18px);
-      line-height: 1.2;
+      font-size: clamp(14px, 1.7vw, 18px);
+      line-height: 1;
       letter-spacing: .08em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    /* Keep both tracks on one line, seamless loop */
-    #ticker-{{ section.id }} .ticker > .typo-primary,
-    #ticker-{{ section.id }} .ticker > .typo-secondary{
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      gap: 0;
-    }
+    /* ===== Seamless marquee (single track, content duplicated) ===== */
+    #ticker-{{ section.id }} .marquee{ overflow: hidden; width: 100%; }
     #ticker-{{ section.id }} .track{
+      display: inline-flex;           /* one long line */
+      align-items: center;
+      gap: var(--gap);
+      will-change: transform;
+      animation: ticker-{{ section.id }} var(--speed) linear infinite;
+    }
+    #ticker-{{ section.id }} .chunk{
       display: inline-flex;
       align-items: center;
       gap: var(--gap);
-      width: max-content;
-      white-space: nowrap;
-      animation: ticker-{{ section.id }} var(--speed) linear infinite;
     }
-    #ticker-{{ section.id }} .track:nth-child(2){
-      animation-delay: calc(var(--speed) / -2);
-    }
-
-    #ticker-{{ section.id }} .item{ display:inline-flex; align-items:center; gap:.75rem }
-    #ticker-{{ section.id }} .icon{ width:22px; height:22px; object-fit:contain; flex:0 0 22px }
+    #ticker-{{ section.id }} .item{ display:inline-flex; align-items:center; gap:.6rem }
+    #ticker-{{ section.id }} .icon{ width:18px; height:18px; object-fit:contain; flex:0 0 18px }
 
     @keyframes ticker-{{ section.id }}{
-      from { transform: translateX(0) }
-      to   { transform: translateX(calc(-100% - var(--gap))) }
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); } /* exactly one chunk width */
     }
   </style>
 
-  <!-- Single background + overlay -->
+  <!-- Background + overlay -->
   <div class="ticker-bg"></div>
   <div class="ticker-overlay"></div>
 
   <!-- Ticker -->
   <div class="ticker">
     {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
-    <div class="{% if section.settings.typography_variant == 'primary' %}typo-primary{% else %}typo-secondary{% endif %}">
-      <div class="track">
-        {% for i in (1..12) %}
-          <span class="item">
-            {% if section.settings.icon != blank %}
-              <img
-                alt=""
-                class="icon"
-                src="{{ section.settings.icon | image_url }}"
-                width="22"
-                height="22"
-                loading="lazy"
-              >
-            {% endif %}
-            <span>{{ copy }}</span>
-          </span>
-        {% endfor %}
-      </div>
-      <div class="track" aria-hidden="true">
-        {% for i in (1..12) %}
-          <span class="item">
-            {% if section.settings.icon != blank %}
-              <img
-                alt=""
-                class="icon"
-                src="{{ section.settings.icon | image_url }}"
-                width="22"
-                height="22"
-                loading="lazy"
-              >
-            {% endif %}
-            <span>{{ copy }}</span>
-          </span>
-        {% endfor %}
+    <div class="marquee">
+      <div class="track {% if section.settings.typography_variant == 'primary' %}typo-primary{% else %}typo-secondary{% endif %}">
+        <!-- chunk A -->
+        <span class="chunk">
+          {% for i in (1..10) %}
+            <span class="item">
+              {% if section.settings.icon != blank %}
+                <img
+                  alt=""
+                  class="icon"
+                  src="{{ section.settings.icon | image_url }}"
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                >
+              {% endif %}
+              <span>{{ copy }}</span>
+            </span>
+          {% endfor %}
+        </span>
+        <!-- chunk B (duplicate) -->
+        <span class="chunk" aria-hidden="true">
+          {% for i in (1..10) %}
+            <span class="item">
+              {% if section.settings.icon != blank %}
+                <img
+                  alt=""
+                  class="icon"
+                  src="{{ section.settings.icon | image_url }}"
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                >
+              {% endif %}
+              <span>{{ copy }}</span>
+            </span>
+          {% endfor %}
+        </span>
       </div>
     </div>
   </div>
@@ -134,6 +134,15 @@
     { "type": "text", "id": "text", "label": "Text", "default": "VIDA QUE GENERA VIDA" },
     { "type": "image_picker", "id": "icon", "label": "Icon" },
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Section height (px)",
+      "min": 60,
+      "max": 200,
+      "step": 5,
+      "default": 100
+    },
     { "type": "color", "id": "bg_color", "label": "Overlay color", "default": "#00000000" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
     {
