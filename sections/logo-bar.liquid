@@ -13,103 +13,108 @@
   }
 
   /* Section background inherits theme */
-  #shopify-section-{{ section.id }} {
-    background: none;
-  }
+  #shopify-section-{{ section.id }} { background: none; }
 
   /* Card (uses scheme colors, section stays on page bg) */
-  #shopify-section-{{ section.id }} .logo-bar__card {
+  #shopify-section-{{ section.id }} .logo-bar__card{
     border-radius: {{ section.settings.radius }}px;
     padding: 32px;
     background-color: rgb(var(--color-background));
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
     overflow: hidden;
+    display:flex; flex-direction:column; align-items:center; /* center inner content */
   }
 
   /* Header */
-  #shopify-section-{{ section.id }} .logo-bar__header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
+  #shopify-section-{{ section.id }} .logo-bar__header{
+    display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:24px;
   }
-  #shopify-section-{{ section.id }} .logo-bar__title {
-    text-align: center;
-    margin: 0;
-  }
-  #shopify-section-{{ section.id }} .logo-bar__rule {
-    width: 64px;
-    height: 3px;
-    border-radius: 3px;
-    background: currentColor;
-    opacity: 0.25;
+  #shopify-section-{{ section.id }} .logo-bar__title{ text-align:center; margin:0; }
+  #shopify-section-{{ section.id }} .logo-bar__rule{
+    width:64px; height:3px; border-radius:3px; background:currentColor; opacity:.25;
   }
 
-  /* Grid */
-  #shopify-section-{{ section.id }} .logo-bar__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    align-items: center;
-    justify-items: center;
+  /* Grid — center tracks AND items */
+  #shopify-section-{{ section.id }} .logo-bar__list{
+    list-style:none; margin:0; padding:0;
+    display:grid;
     gap: {{ section.settings.gap }}px;
+    align-items:center;           /* center within row */
+    justify-items:center;         /* center within each cell */
+    justify-content:center;       /* center the whole grid inside the card */
   }
-  @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .logo-bar__list {
-      grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
+  @media (max-width: 749px){
+    #shopify-section-{{ section.id }} .logo-bar__list{
+      grid-template-columns: repeat(var(--cols-mobile), 1fr);
     }
   }
-  @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .logo-bar__list {
-      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+  @media (min-width: 750px){
+    #shopify-section-{{ section.id }} .logo-bar__list{
+      grid-template-columns: repeat(var(--cols-desktop), 1fr);
     }
   }
 
-  /* Items */
-  #shopify-section-{{ section.id }} .logo-bar__item {
-    text-align: center;
+  /* Each item */
+  #shopify-section-{{ section.id }} .logo-bar__item{ text-align:center; width:100%; }
+
+  /* Fixed-height box so mixed aspect ratios align cleanly */
+  #shopify-section-{{ section.id }} .logo-bar__box{
+    --logo-h: {{ section.settings.max_height }}px;
+    height: var(--logo-h);
+    width: 100%;
+    display:flex; align-items:center; justify-content:center;
   }
-  #shopify-section-{{ section.id }} .logo-bar__img {
-    display: inline-block;
-    height: auto;
-    max-width: 100%;
-    max-height: {{ section.settings.max_height }}px;
-    opacity: 0.9;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+
+  /* Images: never stretch/crop; scale down only */
+  #shopify-section-{{ section.id }} .logo-bar__img{
+    display:block;
+    height:auto; width:auto;
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    opacity:.9; transition:opacity .2s ease, transform .2s ease;
   }
-  #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img {
-    opacity: 1;
-    transform: scale(1.02);
-  }
+  #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{ opacity:1; transform:scale(1.02); }
+
   {% if section.settings.grayscale %}
-    #shopify-section-{{ section.id }} .logo-bar__img {
-      filter: grayscale(100%);
-    }
-    #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img {
-      filter: none;
-    }
+    #shopify-section-{{ section.id }} .logo-bar__img{ filter:grayscale(100%); }
+    #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{ filter:none; }
   {% endif %}
 {%- endstyle -%}
 
+{%- liquid
+  assign total = section.blocks.size
+  assign mobile_cols = section.settings.columns_mobile | plus: 0
+  if total < mobile_cols
+    assign mobile_cols = total
+  endif
+-%}
+
 <section class="logo-bar">
-  <!-- Section inherits default page bg; no color scheme here -->
   <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
     <div class="logo-bar__card content-container color-{{ section.settings.color_scheme }} gradient">
-      {%- if section.settings.title != blank -%}
+      {% if section.settings.title != blank %}
         <div class="logo-bar__header">
           <h2 class="logo-bar__title title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
           <div class="logo-bar__rule" aria-hidden="true"></div>
         </div>
-      {%- endif -%}
+      {% endif %}
 
-      <ul role="list" class="logo-bar__list">
+      <ul role="list" class="logo-bar__list" style="--cols-mobile: {{ mobile_cols }}; --cols-desktop: {{ total }};">
         {%- for block in section.blocks -%}
           {%- if block.settings.image != blank -%}
             <li class="logo-bar__item" {{ block.shopify_attributes }}>
-              {%- assign img = block.settings.image -%}
-              {{ img | image_url: width: 800 | image_tag: widths: '160, 200, 240, 320, 480, 640, 800', sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw', class: 'logo-bar__img', alt: block.settings.alt | default: img.alt }}
+              <div class="logo-bar__box">
+                {%- assign img = block.settings.image -%}
+                {{ img
+                  | image_url: width: 800
+                  | image_tag:
+                    widths: '160, 200, 240, 320, 480, 640, 800',
+                    sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw',
+                    class: 'logo-bar__img',
+                    alt: block.settings.alt | default: img.alt
+                }}
+              </div>
             </li>
           {%- endif -%}
         {%- endfor -%}
@@ -124,27 +129,29 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    {"type": "inline_richtext", "id": "title", "label": "Title", "default": "ALIANZAS QUE NUTREN LA TIERRA"},
-    {"type": "select", "id": "heading_size", "label": "Heading size", "default": "h2", "options": [{"value": "h2", "label": "H2"}, {"value": "h1", "label": "H1"}, {"value": "h0", "label": "H0"}]},
-    {"type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2"},
-    {"type": "range", "id": "radius", "label": "Corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16},
-    {"type": "range", "id": "gap", "label": "Logo gap (px)", "min": 8, "max": 48, "step": 2, "default": 24},
-    {"type": "checkbox", "id": "grayscale", "label": "Grayscale logos", "default": true},
-    {"type": "range", "id": "max_height", "label": "Max logo height (px)", "min": 24, "max": 120, "step": 2, "default": 56},
-    {"type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "2", "options": [{"value": "1", "label": "1"}, {"value": "2", "label": "2"}]},
-    {"type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 3, "max": 6, "step": 1, "default": 5},
-    {"type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36},
-    {"type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 36}
+    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "ALIANZAS QUE NUTREN LA TIERRA" },
+    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h2", "options": [
+      {"value":"h2","label":"H2"}, {"value":"h1","label":"H1"}, {"value":"h0","label":"H0"}
+    ]},
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    { "type": "range", "id": "radius", "label": "Corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16 },
+    { "type": "range", "id": "gap", "label": "Logo gap (px)", "min": 8, "max": 48, "step": 2, "default": 24 },
+    { "type": "checkbox", "id": "grayscale", "label": "Grayscale logos", "default": true },
+    { "type": "range", "id": "max_height", "label": "Max logo height (px)", "min": 24, "max": 160, "step": 2, "default": 56 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "2", "options": [{"value":"1","label":"1"},{"value":"2","label":"2"}]},
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 3, "max": 6, "step": 1, "default": 5 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 36 }
   ],
   "blocks": [
-    {"type": "logo", "name": "Logo", "settings": [
-      {"type": "image_picker", "id": "image", "label": "Logo image"},
-      {"type": "text", "id": "alt", "label": "Alt text"}
+    { "type": "logo", "name": "Logo", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Logo image" },
+      { "type": "text", "id": "alt", "label": "Alt text" }
     ]}
   ],
   "max_blocks": 6,
   "presets": [
-    {"name": "Logo bar", "blocks": [{"type": "logo"}, {"type": "logo"}, {"type": "logo"}, {"type": "logo"}, {"type": "logo"}]}
+    { "name": "Logo bar", "blocks": [ { "type": "logo" }, { "type": "logo" }, { "type": "logo" }, { "type": "logo" }, { "type": "logo" } ] }
   ]
 }
 {% endschema %}
