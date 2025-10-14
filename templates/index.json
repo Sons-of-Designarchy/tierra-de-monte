@@ -93,13 +93,13 @@
         "view_all_label": "Ver más productos"
       }
     },
-    "ticker_QP7Rzn": {
+    "ticker_rj7nwx": {
       "type": "ticker",
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
         "bg_image": "shopify://shop_images/ticker-1.jpg",
-        "bg_color": "rgba(0,0,0,0)",
+        "bg_color": "#00000000",
         "color_scheme": "scheme-3",
         "typography_variant": "secondary"
       }
@@ -241,7 +241,7 @@
   "order": [
     "image_banner",
     "tabs-collections",
-    "ticker_QP7Rzn",
+    "ticker_rj7nwx",
     "rich_text_cqtebC",
     "multicolumn",
     "multicolumn_hhRYPM"
