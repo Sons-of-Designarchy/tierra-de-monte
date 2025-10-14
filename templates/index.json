@@ -247,6 +247,7 @@
         "logo_xWVpBj": {
           "type": "logo",
           "settings": {
+            "image": "shopify://shop_images/ReviB.avif",
             "alt": "",
             "link": "",
             "max_height": 56
@@ -255,6 +256,7 @@
         "logo_VLbihw": {
           "type": "logo",
           "settings": {
+            "image": "shopify://shop_images/Rectangle_18.jpg",
             "alt": "",
             "link": "",
             "max_height": 56
@@ -263,6 +265,7 @@
         "logo_AbpUBY": {
           "type": "logo",
           "settings": {
+            "image": "shopify://shop_images/tratamiento-de-semillas.avif",
             "alt": "",
             "link": "",
             "max_height": 56
@@ -271,6 +274,7 @@
         "logo_GAeFMC": {
           "type": "logo",
           "settings": {
+            "image": "shopify://shop_images/catalogo-ciompleto.avif",
             "alt": "",
             "link": "",
             "max_height": 56
@@ -279,6 +283,7 @@
         "logo_fGzpXJ": {
           "type": "logo",
           "settings": {
+            "image": "shopify://shop_images/Acuicolas.avif",
             "alt": "",
             "link": "",
             "max_height": 56
