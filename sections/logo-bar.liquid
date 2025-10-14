@@ -3,14 +3,29 @@
 {%- style -%}
   .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top | times: 0.75 | round: 0 }}px;padding-bottom:{{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px}
   @media(min-width:750px){.section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}}
-  #shopify-section-{{ section.id }} .logo-bar__title{text-align:center}
-  #shopify-section-{{ section.id }} .logo-bar__list{display:grid;gap:{{ section.settings.gap }}px;align-items:center}
-  #shopify-section-{{ section.id }} .logo-bar__item{text-align:center}
-  #shopify-section-{{ section.id }} .logo-bar__img{display:inline-block;max-width:100%;opacity:.9;transition:transform .2s ease,opacity .2s ease;max-height:{{ section.settings.max_height }}px}
-  #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{opacity:1;transform:scale(1.02)}
-  {% if section.settings.grayscale %}#shopify-section-{{ section.id }} .logo-bar__img{filter:grayscale(100%)}#shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{filter:none}{% endif %}
+
+  /* Card */
+  #shopify-section-{{ section.id }} .logo-bar__card{border-radius:{{ section.settings.radius }}px;padding:28px 32px}
+  @media(min-width:990px){#shopify-section-{{ section.id }} .logo-bar__card{padding:36px 40px}}
+
+  /* Header */
+  #shopify-section-{{ section.id }} .logo-bar__header{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:24px}
+  #shopify-section-{{ section.id }} .logo-bar__title{text-align:center;margin:0}
+  #shopify-section-{{ section.id }} .logo-bar__rule{width:64px;height:3px;border-radius:3px;background:currentColor;opacity:.25}
+
+  /* Grid */
+  #shopify-section-{{ section.id }} .logo-bar__list{display:grid;align-items:center;justify-items:center;gap:{{ section.settings.gap }}px}
   @media(max-width:749px){#shopify-section-{{ section.id }} .logo-bar__list{grid-template-columns:repeat({{ section.settings.columns_mobile }},1fr)}}
   @media(min-width:750px){#shopify-section-{{ section.id }} .logo-bar__list{grid-template-columns:repeat({{ section.settings.columns_desktop }},1fr)}}
+
+  /* Items */
+  #shopify-section-{{ section.id }} .logo-bar__item{text-align:center}
+  #shopify-section-{{ section.id }} .logo-bar__img{display:inline-block;height:auto;max-width:100%;max-height:{{ section.settings.max_height }}px;opacity:.9;transition:opacity .2s ease,transform .2s ease}
+  #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{opacity:1;transform:scale(1.02)}
+  {% if section.settings.grayscale %}#shopify-section-{{ section.id }} .logo-bar__img{filter:grayscale(100%)}#shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{filter:none}{% endif %}
+
+  /* Remove slider nav dots/arrows unless explicitly enabled */
+  #shopify-section-{{ section.id }} .slider-buttons{display:none}
 {%- endstyle -%}
 
 {%- liquid
@@ -23,9 +38,12 @@
 
 <section class="logo-bar color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
-    <div class="logo-bar__card content-container" style="border-radius:{{ section.settings.radius }}px;">
+    <div class="logo-bar__card content-container background-{{ section.settings.background_style }}">
       {%- if section.settings.title != blank -%}
-        <h2 class="logo-bar__title {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+        <div class="logo-bar__header">
+          <h2 class="logo-bar__title title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+          <div class="logo-bar__rule" aria-hidden="true"></div>
+        </div>
       {%- endif -%}
 
       <slider-component class="slider-mobile-gutter">
@@ -35,27 +53,11 @@
               <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="logo-bar__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
                 {%- assign img = block.settings.image -%}
                 {%- assign mh = block.settings.max_height | default: section.settings.max_height -%}
-                {%- capture sizes -%}
-                  (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - 100px) / {{ section.settings.columns_desktop }}),
-                  (min-width: 990px) calc((100vw - 100px) / {{ section.settings.columns_desktop }}),
-                  (min-width: 750px) calc((100vw - 80px) / {{ section.settings.columns_mobile }}),
-                  45vw
-                {%- endcapture -%}
-                <a{% if block.settings.link != blank %} href="{{ block.settings.link }}"{% endif %} class="logo-bar__link" aria-label="{{ block.settings.alt | escape | default: img.alt | escape }}">
-                  {{ img | image_url: width: 600 | image_tag: widths: '120, 160, 200, 240, 320, 480, 600', sizes: sizes, class: 'logo-bar__img', alt: block.settings.alt | default: img.alt }}
-                </a>
+                {{ img | image_url: width: 800 | image_tag: widths: '160, 200, 240, 320, 480, 640, 800', sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw', class: 'logo-bar__img', alt: block.settings.alt | default: img.alt }}
               </li>
             {%- endif -%}
           {%- endfor -%}
         </ul>
-
-        {%- if show_mobile_slider -%}
-          <div class="slider-buttons large-up-hide">
-            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}"><span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span></button>
-            <div class="slider-counter caption"><span class="slider-counter--current">1</span><span aria-hidden="true"> / </span><span class="visually-hidden">{{ 'general.slider.of' | t }}</span><span class="slider-counter--total">{{ section.blocks.size }}</span></div>
-            <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}"><span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span></button>
-          </div>
-        {%- endif -%}
       </slider-component>
     </div>
   </div>
@@ -70,25 +72,26 @@
     {"type":"inline_richtext","id":"title","label":"Title","default":"ALIANZAS QUE NUTREN LA TIERRA"},
     {"type":"select","id":"heading_size","label":"Heading size","default":"h2","options":[{"value":"h2","label":"H2"},{"value":"h1","label":"H1"},{"value":"h0","label":"H0"}]},
     {"type":"color_scheme","id":"color_scheme","label":"Color scheme","default":"scheme-2"},
+    {"type":"select","id":"background_style","label":"Card background","default":"primary","options":[{"value":"none","label":"None"},{"value":"primary","label":"Primary"}]},
     {"type":"range","id":"radius","label":"Corner radius (px)","min":0,"max":32,"step":2,"default":16},
     {"type":"range","id":"gap","label":"Logo gap (px)","min":8,"max":48,"step":2,"default":24},
     {"type":"checkbox","id":"grayscale","label":"Grayscale logos","default":true},
     {"type":"range","id":"max_height","label":"Max logo height (px)","min":24,"max":120,"step":2,"default":56},
     {"type":"select","id":"columns_mobile","label":"Columns on mobile","default":"2","options":[{"value":"1","label":"1"},{"value":"2","label":"2"}]},
     {"type":"range","id":"columns_desktop","label":"Columns on desktop","min":3,"max":6,"step":1,"default":5},
-    {"type":"checkbox","id":"swipe_on_mobile","label":"Swipe on mobile","default":false},
+    {"type":"checkbox","id":"swipe_on_mobile","label":"Swipe on mobile (if more logos than columns)","default":false},
     {"type":"range","id":"padding_top","min":0,"max":100,"step":4,"unit":"px","label":"Padding top","default":36},
     {"type":"range","id":"padding_bottom","min":0,"max":100,"step":4,"unit":"px","label":"Padding bottom","default":36}
   ],
   "blocks": [
     {"type":"logo","name":"Logo","settings":[
       {"type":"image_picker","id":"image","label":"Logo image"},
-      {"type":"text","id":"alt","label":"Alt text"},
-      {"type":"url","id":"link","label":"Link"},
-      {"type":"range","id":"max_height","label":"Max height override (px)","min":24,"max":120,"step":2,"default":56}
+      {"type":"text","id":"alt","label":"Alt text"}
     ]}
   ],
   "max_blocks": 6,
-  "presets": [{"name":"Logo bar","blocks":[{"type":"logo"},{"type":"logo"},{"type":"logo"},{"type":"logo"},{"type":"logo"}]}]
+  "presets": [
+    {"name":"Logo bar","blocks":[{"type":"logo"},{"type":"logo"},{"type":"logo"},{"type":"logo"},{"type":"logo"}]}
+  ]
 }
 {% endschema %}
