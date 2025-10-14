@@ -4,9 +4,11 @@
   .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top | times: 0.75 | round: 0 }}px;padding-bottom:{{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px}
   @media(min-width:750px){.section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}}
 
+  /* Section background inherits theme */
+  #shopify-section-{{ section.id }}{background:none;}
+
   /* Card */
-  #shopify-section-{{ section.id }} .logo-bar__card{border-radius:{{ section.settings.radius }}px;padding:28px 32px}
-  @media(min-width:990px){#shopify-section-{{ section.id }} .logo-bar__card{padding:36px 40px}}
+  #shopify-section-{{ section.id }} .logo-bar__card{border-radius:{{ section.settings.radius }}px;padding:32px;background:var(--color-background, rgb(var(--color-card-background)));}
 
   /* Header */
   #shopify-section-{{ section.id }} .logo-bar__header{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:24px}
@@ -14,7 +16,7 @@
   #shopify-section-{{ section.id }} .logo-bar__rule{width:64px;height:3px;border-radius:3px;background:currentColor;opacity:.25}
 
   /* Grid */
-  #shopify-section-{{ section.id }} .logo-bar__list{display:grid;align-items:center;justify-items:center;gap:{{ section.settings.gap }}px}
+  #shopify-section-{{ section.id }} .logo-bar__list{list-style:none;display:grid;align-items:center;justify-items:center;gap:{{ section.settings.gap }}px;margin:0;padding:0}
   @media(max-width:749px){#shopify-section-{{ section.id }} .logo-bar__list{grid-template-columns:repeat({{ section.settings.columns_mobile }},1fr)}}
   @media(min-width:750px){#shopify-section-{{ section.id }} .logo-bar__list{grid-template-columns:repeat({{ section.settings.columns_desktop }},1fr)}}
 
@@ -23,22 +25,11 @@
   #shopify-section-{{ section.id }} .logo-bar__img{display:inline-block;height:auto;max-width:100%;max-height:{{ section.settings.max_height }}px;opacity:.9;transition:opacity .2s ease,transform .2s ease}
   #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{opacity:1;transform:scale(1.02)}
   {% if section.settings.grayscale %}#shopify-section-{{ section.id }} .logo-bar__img{filter:grayscale(100%)}#shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img{filter:none}{% endif %}
-
-  /* Remove slider nav dots/arrows unless explicitly enabled */
-  #shopify-section-{{ section.id }} .slider-buttons{display:none}
 {%- endstyle -%}
-
-{%- liquid
-  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
-  assign show_mobile_slider = false
-  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
-    assign show_mobile_slider = true
-  endif
--%}
 
 <section class="logo-bar color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
-    <div class="logo-bar__card content-container background-{{ section.settings.background_style }}">
+    <div class="logo-bar__card content-container">
       {%- if section.settings.title != blank -%}
         <div class="logo-bar__header">
           <h2 class="logo-bar__title title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
@@ -46,19 +37,16 @@
         </div>
       {%- endif -%}
 
-      <slider-component class="slider-mobile-gutter">
-        <ul id="Slider-{{ section.id }}" role="list" class="logo-bar__list{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}">
-          {%- for block in section.blocks -%}
-            {%- if block.settings.image != blank -%}
-              <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="logo-bar__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
-                {%- assign img = block.settings.image -%}
-                {%- assign mh = block.settings.max_height | default: section.settings.max_height -%}
-                {{ img | image_url: width: 800 | image_tag: widths: '160, 200, 240, 320, 480, 640, 800', sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw', class: 'logo-bar__img', alt: block.settings.alt | default: img.alt }}
-              </li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      </slider-component>
+      <ul role="list" class="logo-bar__list">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank -%}
+            <li class="logo-bar__item" {{ block.shopify_attributes }}>
+              {%- assign img = block.settings.image -%}
+              {{ img | image_url: width: 800 | image_tag: widths: '160, 200, 240, 320, 480, 640, 800', sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw', class: 'logo-bar__img', alt: block.settings.alt | default: img.alt }}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
     </div>
   </div>
 </section>
@@ -72,14 +60,12 @@
     {"type":"inline_richtext","id":"title","label":"Title","default":"ALIANZAS QUE NUTREN LA TIERRA"},
     {"type":"select","id":"heading_size","label":"Heading size","default":"h2","options":[{"value":"h2","label":"H2"},{"value":"h1","label":"H1"},{"value":"h0","label":"H0"}]},
     {"type":"color_scheme","id":"color_scheme","label":"Color scheme","default":"scheme-2"},
-    {"type":"select","id":"background_style","label":"Card background","default":"primary","options":[{"value":"none","label":"None"},{"value":"primary","label":"Primary"}]},
     {"type":"range","id":"radius","label":"Corner radius (px)","min":0,"max":32,"step":2,"default":16},
     {"type":"range","id":"gap","label":"Logo gap (px)","min":8,"max":48,"step":2,"default":24},
     {"type":"checkbox","id":"grayscale","label":"Grayscale logos","default":true},
     {"type":"range","id":"max_height","label":"Max logo height (px)","min":24,"max":120,"step":2,"default":56},
     {"type":"select","id":"columns_mobile","label":"Columns on mobile","default":"2","options":[{"value":"1","label":"1"},{"value":"2","label":"2"}]},
     {"type":"range","id":"columns_desktop","label":"Columns on desktop","min":3,"max":6,"step":1,"default":5},
-    {"type":"checkbox","id":"swipe_on_mobile","label":"Swipe on mobile (if more logos than columns)","default":false},
     {"type":"range","id":"padding_top","min":0,"max":100,"step":4,"unit":"px","label":"Padding top","default":36},
     {"type":"range","id":"padding_bottom","min":0,"max":100,"step":4,"unit":"px","label":"Padding bottom","default":36}
   ],
