@@ -249,7 +249,7 @@
       "settings": {
         "title": "ALIANZAS QUE NUTREN LA TIERRA",
         "heading_size": "h2",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "radius": 16,
         "gap": 24,
         "grayscale": true,
@@ -301,7 +301,7 @@
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
         "rule_color": "#294E3F",
         "show_rule": true,
-        "title": "Efecto Tierra de monte\nInnovación que siembra futuro",
+        "title": "Efecto Tierra de monteInnovación que siembra futuro",
         "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza...</p>",
         "button_label": "Encuentra tu solución",
         "button_link": "",
