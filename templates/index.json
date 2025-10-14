@@ -59,11 +59,13 @@
     },
     "tabs-collections": {
       "type": "tabbed-collections",
-      "custom_css": [],
+      "custom_css": [
+        "h1, h2 {font-size: 48px; }"
+      ],
       "settings": {
         "kicker": "KICKER",
         "heading": "Soluciones para potencializar todo tipo de cultivo",
-        "subheading": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra.",
+        "subheading": "",
         "collection_1": "bio-estimulantes",
         "label_1": "",
         "dot_1": true,
