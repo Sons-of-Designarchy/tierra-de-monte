@@ -210,48 +210,40 @@
     "logobar_BrfwU4": {
       "type": "logo-bar",
       "blocks": {
-        "logo_xWVpBj": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/ReviB.avif",
-            "alt": ""
-          }
-        },
-        "logo_VLbihw": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_18.jpg",
-            "alt": ""
-          }
-        },
         "logo_AbpUBY": {
           "type": "logo",
           "settings": {
-            "image": "shopify://shop_images/tratamiento-de-semillas.avif",
-            "alt": ""
-          }
-        },
-        "logo_GAeFMC": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/catalogo-ciompleto.avif",
+            "image": "shopify://shop_images/hechomexico-logo.png",
             "alt": ""
           }
         },
         "logo_fGzpXJ": {
           "type": "logo",
           "settings": {
-            "image": "shopify://shop_images/Acuicolas.avif",
+            "image": "shopify://shop_images/bioagtech-logo.png",
+            "alt": ""
+          }
+        },
+        "logo_GAeFMC": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/omri-logo.png",
+            "alt": ""
+          }
+        },
+        "logo_VLbihw": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/empresab-certificada.png",
             "alt": ""
           }
         }
       },
       "block_order": [
-        "logo_xWVpBj",
-        "logo_VLbihw",
         "logo_AbpUBY",
+        "logo_fGzpXJ",
         "logo_GAeFMC",
-        "logo_fGzpXJ"
+        "logo_VLbihw"
       ],
       "name": "Logo bar",
       "settings": {
