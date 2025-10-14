@@ -24,7 +24,7 @@
         "card_bg_opacity": 60,
         "card_glass": true,
         "card_shadow": true,
-        "subtitle": "lorem ipsum",
+        "subtitle": "",
         "heading": "Vida que genera vida",
         "heading_size": "xl",
         "body": "<p>Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.</p>",
