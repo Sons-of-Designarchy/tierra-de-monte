@@ -2,81 +2,83 @@
   <style>
     /* ===== Container ===== */
     #ticker-{{ section.id }}{
-      --gap: 2.2rem;               /* space between repeats */
-      --speed: 28s;                /* lower = faster */
-      --h: {{ section.settings.height | default: 100 }}px; /* section height */
+      --gap: 2.2rem;
+      --speed: 28s;
+      --h: {{ section.settings.height | default: 100 }}px;
       position: relative;
       min-height: var(--h);
       overflow: hidden;
+
+      /* ⛔️ kill color-scheme background just for THIS section */
+      background: transparent !important;
+      z-index: 0; /* create a stacking context */
+    }
+    /* Some versions of Dawn draw the color-scheme using ::before/::after */
+    #ticker-{{ section.id }}::before,
+    #ticker-{{ section.id }}::after{
+      content: none !important;
+      display: none !important;
     }
 
-    /* Background + overlay layering */
+    /* ===== Background + overlay layering (bring to front) ===== */
     #ticker-{{ section.id }} .ticker-bg{
       position: absolute; inset: 0;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      z-index: 0;
+      z-index: 1; /* above any scheme layer */
     }
     #ticker-{{ section.id }} .ticker-overlay{
       position: absolute; inset: 0;
       pointer-events: none;
-      z-index: 1;
+      z-index: 2; /* above bg */
     }
 
-    /* ===== Ticker band (centered vertically over the image) ===== */
+    /* ===== Ticker band (centered) ===== */
     #ticker-{{ section.id }} .ticker{
-      position: absolute; inset: 0;     /* fill section */
-      display: flex;
-      align-items: center;               /* <-- vertical center */
-      justify-content: center;           /* <-- horizontal center of the track container */
-      padding: 0;                        /* no extra height */
-      z-index: 2;
-      /* remove any borders/tints from previous versions */
-      border: 0;
-      background: transparent;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0; border: 0; background: transparent;
+      z-index: 3; /* topmost */
     }
 
-    /* Typography options */
+    /* Typography */
     #ticker-{{ section.id }} .typo-primary{
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
       font-size: clamp(16px, 2vw, 22px);
-      line-height: 1;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      line-height: 1; letter-spacing: .08em; text-transform: uppercase;
       white-space: nowrap;
     }
     #ticker-{{ section.id }} .typo-secondary{
       font-family: var(--font-body-family);
       font-weight: 400;
       font-size: clamp(14px, 1.7vw, 18px);
-      line-height: 1;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      line-height: 1; letter-spacing: .08em; text-transform: uppercase;
       white-space: nowrap;
     }
 
-    /* ===== Seamless marquee (single track, duplicated chunk) ===== */
+    /* Force ticker text color (overrides scheme's green) */
+    #ticker-{{ section.id }} .track{
+      color: {{ section.settings.text_color | default: '#F3EFCF' }};
+    }
+
+    /* Seamless marquee */
     #ticker-{{ section.id }} .marquee{ width: 100%; overflow: hidden; }
     #ticker-{{ section.id }} .track{
-      display: inline-flex;
-      align-items: center;
-      gap: var(--gap);
+      display: inline-flex; align-items: center; gap: var(--gap);
       will-change: transform;
       animation: ticker-{{ section.id }} var(--speed) linear infinite;
     }
     #ticker-{{ section.id }} .chunk{
-      display: inline-flex;
-      align-items: center;
-      gap: var(--gap);
+      display: inline-flex; align-items: center; gap: var(--gap);
     }
     #ticker-{{ section.id }} .item{ display:inline-flex; align-items:center; gap:.6rem }
     #ticker-{{ section.id }} .icon{ width:18px; height:18px; object-fit:contain; flex:0 0 18px }
 
     @keyframes ticker-{{ section.id }}{
       from { transform: translateX(0); }
-      to   { transform: translateX(-50%); } /* exactly one chunk width */
+      to   { transform: translateX(-50%); }
     }
   </style>
 
@@ -94,7 +96,10 @@
     <div class="ticker-bg"></div>
   {%- endif -%}
 
-  <div class="ticker-overlay" style="background: {{ section.settings.bg_color | default: 'transparent' }};"></div>
+  <div
+    class="ticker-overlay"
+    style="background: {{ section.settings.bg_color | default: 'transparent' }};{% if section.settings.overlay_opacity %} opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};{% endif %}"
+  ></div>
 
   <div class="ticker">
     {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
@@ -150,6 +155,16 @@
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
     {
       "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30
+    },
+
+    {
+      "type": "range",
       "id": "height",
       "label": "Section height (px)",
       "min": 60,
@@ -157,7 +172,8 @@
       "step": 5,
       "default": 100
     },
-    { "type": "color", "id": "bg_color", "label": "Overlay color", "default": "#00000000" },
+    { "type": "color", "id": "text_color", "label": "Ticker text color", "default": "#F3EFCF" },
+
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
     {
       "type": "select",
