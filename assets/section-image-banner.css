@@ -410,6 +410,7 @@
 
 .banner__box > *:first-child {
   margin-top: 0;
+  color: rgb(var(--color-secondary-button))!important;
 }
 
 @media screen and (max-width: 749px) {

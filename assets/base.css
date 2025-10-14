@@ -255,6 +255,87 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 
+/* === Containerize every Dawn Image banner site-wide === */
+[id^="Banner-"][id$="__image_banner"]{
+  background: transparent !important;
+  --gradient-background: transparent !important;
+  --color-background: transparent !important;
+}
+
+[id^="Banner-"][id$="__image_banner"] .banner__media{
+  max-width: var(--page-width, 120rem);
+  margin-inline: auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+[id^="Banner-"][id$="__image_banner"] .banner__media img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit: cover; /* optional */
+}
+
+/* Neutralize color-scheme/gradient paints inside the section */
+[id^="Banner-"][id$="__image_banner"] .gradient,
+[id^="Banner-"][id$="__image_banner"] [class^="color"],
+[id^="Banner-"][id$="__image_banner"] [class*=" color-"]{
+  background: transparent !important;
+  color: rgb(var(--color-secondary-button))!important;
+}
+[id^="Banner-"][id$="__image_banner"] .gradient::before{
+  content: none !important;
+  display: none !important;
+}
+
+/* === Center + box every Dawn Image banner (works with Option B) === */
+[id^="Banner-"][id$="__image_banner"]{
+  position: relative; /* ensure a containing block for absolute children */
+}
+
+/* The media is absolute in Dawn; center it + clamp to page-width */
+[id^="Banner-"][id$="__image_banner"] .banner__media{
+  position: absolute;
+  top: 0;
+  bottom: 0;                         /* fill the banner’s height */
+  left: 50%;
+  transform: translateX(-50%);       /* <-- centers the clamped box */
+  width: min(100%, var(--page-width, 120rem));
+  max-width: var(--page-width, 120rem);
+  margin: 0;                         /* no accidental offsets */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Make the image fill the centered media box cleanly */
+[id^="Banner-"][id$="__image_banner"] .banner__media img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                  /* crop to the banner height */
+}
+
+/* Keep the content layer above the media (Dawn already does this, belt + suspenders) */
+[id^="Banner-"][id$="__image_banner"] .banner__content{
+  position: relative;
+  z-index: 2;
+}
+[id^="Banner-"][id$="__image_banner"] {
+  position: relative;
+  margin: 24px 64px 0; /* top, sides, bottom */
+  box-sizing: border-box; /* keep padding inside width */
+}
+[id^="Banner-"][id$="__image_banner"] .banner__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+
+
+
 
 
 
@@ -2403,7 +2484,7 @@ input[type='checkbox'] {
 }
 
 .header-wrapper--border-bottom {
-  border-bottom: 0.1rem solid rgba(var(--color-foreground));
+  border-bottom: 0;
 }
 
 .header {
