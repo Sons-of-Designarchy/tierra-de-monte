@@ -207,38 +207,6 @@
     },
     "image_banner_8hJfW9": {
       "type": "image-banner",
-      "blocks": {
-        "heading_PMxFF3": {
-          "type": "heading",
-          "settings": {
-            "heading": "Banner de imagen",
-            "heading_size": "h1"
-          }
-        },
-        "text_c74T3Y": {
-          "type": "text",
-          "settings": {
-            "text": "Ofrece a los clientes información sobre las imágenes del banner o el contenido de la plantilla.",
-            "text_style": "body"
-          }
-        },
-        "buttons_iqjy94": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Etiqueta de botón",
-            "button_link_1": "",
-            "button_style_secondary_1": false,
-            "button_label_2": "Etiqueta de botón",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_PMxFF3",
-        "text_c74T3Y",
-        "buttons_iqjy94"
-      ],
       "name": "t:sections.image-banner.presets.name",
       "settings": {
         "image": "shopify://shop_images/Tabla_CreCR.jpg",
@@ -314,9 +282,10 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
-        "bg_color": "rgba(0,0,0,0)",
-        "color_scheme": "",
-        "typography_variant": "primary"
+        "height": 100,
+        "text_color": "#f3efcf",
+        "typography_variant": "primary",
+        "font_variant": "normal"
       }
     },
     "multicolumn": {
@@ -380,9 +349,10 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
-        "bg_color": "rgba(0,0,0,0)",
-        "color_scheme": "",
-        "typography_variant": "primary"
+        "height": 100,
+        "text_color": "#f3efcf",
+        "typography_variant": "primary",
+        "font_variant": "normal"
       }
     },
     "video_UAKytP": {
