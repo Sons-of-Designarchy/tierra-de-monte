@@ -1,4 +1,4 @@
-<section id="ticker-{{ section.id }}" class="color-{{ section.settings.color_scheme }}">
+<section id="ticker-{{ section.id }}" class="tdm-ticker">
   <style>
     /* ===== Container ===== */
     #ticker-{{ section.id }}{
@@ -8,62 +8,57 @@
       position: relative;
       min-height: var(--h);
       overflow: hidden;
-
-      /* Kill Dawn scheme paint just for this section */
-      background: transparent !important;
-      --gradient-background: transparent !important;
-      --color-background: transparent !important;
-
-      /* Ensure our children stack above any scheme layers */
       isolation: isolate;
+      background: transparent;
     }
-    #ticker-{{ section.id }}::before,
-    #ticker-{{ section.id }}::after{ content:none !important; display:none !important; }
 
-    /* Background image as IMG (bulletproof) */
+    /* Background image */
     #ticker-{{ section.id }} .ticker-img{
       position:absolute; inset:0;
       width:100%; height:100%;
       object-fit:cover; object-position:center;
-      z-index: 1;
+      z-index:1;
       display:block;
     }
 
-    /* Overlay tint (use editor color + opacity) */
-    #ticker-{{ section.id }} .ticker-overlay{
-      position:absolute; inset:0;
-      pointer-events:none;
-      z-index: 2;
-    }
-
-    /* Ticker layer (centered) */
+    /* Ticker layer */
     #ticker-{{ section.id }} .ticker{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
       padding:0; border:0; background:transparent;
-      z-index: 3;
+      z-index:2;
     }
 
     /* Typography */
+    #ticker-{{ section.id }} .typo-primary,
+    #ticker-{{ section.id }} .typo-secondary{
+      line-height:1;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      color: {{ section.settings.text_color | default: '#F3EFCF' }};
+    }
+
     #ticker-{{ section.id }} .typo-primary{
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
       font-size: clamp(16px, 2vw, 22px);
-      line-height:1; letter-spacing:.08em; text-transform:uppercase;
-      white-space:nowrap;
     }
     #ticker-{{ section.id }} .typo-secondary{
       font-family: var(--font-body-family);
       font-weight:400;
       font-size: clamp(14px, 1.7vw, 18px);
-      line-height:1; letter-spacing:.08em; text-transform:uppercase;
-      white-space:nowrap;
     }
 
-    /* Force text color to ignore scheme */
-    #ticker-{{ section.id }} .track{
-      color: {{ section.settings.text_color | default: '#F3EFCF' }};
-    }
+    /* Monospace toggle */
+    {% if section.settings.font_variant == 'mono' %}
+      #ticker-{{ section.id }} .typo-primary,
+      #ticker-{{ section.id }} .typo-secondary{
+        font-family: 'IBMPlexMono-Light', monospace !important;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+      }
+    {% endif %}
 
     /* Seamless marquee */
     #ticker-{{ section.id }} .marquee{ width:100%; overflow:hidden; }
@@ -84,8 +79,7 @@
     }
   </style>
 
-  {%- comment -%} Background (IMG so it can’t be “painted over” by scheme) {%- endcomment -%}
-  {%- if section.settings.bg_image != blank -%}
+  {% if section.settings.bg_image != blank %}
     <img
       class="ticker-img"
       src="{{ section.settings.bg_image | image_url: width: 2880 }}"
@@ -93,13 +87,7 @@
       loading="lazy"
       aria-hidden="true"
     >
-  {%- endif -%}
-
-  {%- comment -%} Overlay color + opacity from settings {%- endcomment -%}
-  <div
-    class="ticker-overlay"
-    style="background: {{ section.settings.bg_color | default: 'transparent' }};{% if section.settings.overlay_opacity %} opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};{% endif %}"
-  ></div>
+  {% endif %}
 
   <div class="ticker">
     {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
@@ -160,18 +148,7 @@
       "step": 5,
       "default": 100
     },
-    { "type": "color", "id": "bg_color", "label": "Overlay color", "default": "#000000" },
-    {
-      "type": "range",
-      "id": "overlay_opacity",
-      "label": "Overlay opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 30
-    },
     { "type": "color", "id": "text_color", "label": "Ticker text color", "default": "#F3EFCF" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
     {
       "type": "select",
       "id": "typography_variant",
@@ -181,6 +158,16 @@
         { "value": "secondary", "label": "Body font (uppercase)" }
       ],
       "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font style",
+      "options": [
+        { "value": "normal", "label": "Normal (theme font)" },
+        { "value": "mono", "label": "Monospace (IBMPlexMono-Light)" }
+      ],
+      "default": "normal"
     }
   ],
   "presets": [{ "name": "Infinite Ticker" }]

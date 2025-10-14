@@ -245,6 +245,17 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 	url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format("opentype");
 
 }
+@font-face {
+  font-family: 'IBMPlexMono-Regular';
+  src: url('{{ "IBMPlexMono-Regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "IBMPlexMono-Regular.woff" | asset_url }}') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
 
 
 :root {
