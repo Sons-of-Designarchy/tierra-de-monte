@@ -114,6 +114,18 @@
             "page": ""
           }
         },
+        "icon_with_text_Ux9qV3": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "truck",
+            "heading_1": "<strong>Free Shipping </strong>Recibe tus soluciones regenerativas directamente en tu campo o huerto, sin costo adicional en el envío.",
+            "icon_2": "box",
+            "heading_2": "<strong>Hassle-Free Exchanges </strong>Si necesitas hacer un cambio o devolución, el proceso es rápido y sin complicaciones para que sigas enfocado en tus cultivos.",
+            "icon_3": "truck",
+            "heading_3": "Encabezado"
+          }
+        },
         "share": {
           "type": "share",
           "settings": {
@@ -137,6 +149,7 @@
         "collapsible-row-3",
         "collapsible_tab_QgmY3h",
         "collapsible_tab_dgJxpK",
+        "icon_with_text_Ux9qV3",
         "share"
       ],
       "settings": {
