@@ -12,60 +12,64 @@
     }
   }
 
-  /* Section inherits page bg; card uses scheme */
-  #shopify-section-{{ section.id }} { background:none; }
+  /* Section inherits page bg; card uses color scheme */
+  #shopify-section-{{ section.id }} { background: none; }
 
-  #shopify-section-{{ section.id }} .reviews__card {
+  .reviews__card {
     background-color: rgb(var(--color-background));
     border-radius: {{ section.settings.radius }}px;
     padding: clamp(20px, 4vw, 36px);
   }
 
-  /* Title (optional) */
-  #shopify-section-{{ section.id }} .reviews__title {
-    text-align:center;
-    margin: 0 0 20px;
+  /* Header */
+  .reviews__title {
+    text-align: center;
+    margin: 0 0 24px 0;
   }
 
-  /* Grid / slider wrapper */
-  #shopify-section-{{ section.id }} .reviews__list {
-    list-style:none; margin:0; padding:0;
-    display:grid;
+  /* Grid / slider */
+  .reviews__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
     gap: {{ section.settings.gap }}px;
-    align-items:stretch;
+    align-items: stretch;
   }
   @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .reviews__list {
+    .reviews__list {
       grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
     }
   }
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .reviews__list {
+    .reviews__list {
       grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
     }
   }
 
-  /* Individual review */
-  #shopify-section-{{ section.id }} .review {
+  /* Item */
+  .review { height: 100%; }
+  .review__inner {
     height: 100%;
-  }
-  #shopify-section-{{ section.id }} .review__inner {
-    height:100%;
-    display:flex; flex-direction:column; align-items:center; text-align:center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 16px;
+    padding-inline: 8px;
   }
-  #shopify-section-{{ section.id }} .review__avatar {
+  .review__avatar {
     width: {{ section.settings.avatar_size }}px;
     height: {{ section.settings.avatar_size }}px;
     border-radius: 50%;
     object-fit: cover;
   }
-  #shopify-section-{{ section.id }} .review__quote {
+  .review__quote {
     font-family: var(--font-heading-family);
     line-height: 1.25;
     font-size: clamp(18px, 2.2vw, 28px);
   }
-  #shopify-section-{{ section.id }} .review__author {
+  .review__author {
     font-family: var(--font-body-family);
     font-weight: 600;
     letter-spacing: .05em;
@@ -73,7 +77,7 @@
     font-size: 14px;
     opacity: .9;
   }
-  #shopify-section-{{ section.id }} .review__company {
+  .review__company {
     font-family: var(--font-body-family);
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -81,13 +85,11 @@
     opacity: .75;
   }
 
-  /* Optional subtle divider between desktop items */
+  /* Optional vertical dividers on desktop */
   @media (min-width: 990px) {
     {% if section.settings.show_dividers %}
-    #shopify-section-{{ section.id }} .reviews__list > li + li {
-      border-left: 2px solid {{ section.settings.divider_color }};
-    }
-    #shopify-section-{{ section.id }} .review__inner { padding-left: 24px; }
+    .reviews__list > li + li { border-left: 2px solid {{ section.settings.divider_color }}; }
+    .review__inner { padding-left: 24px; }
     {% endif %}
   }
 {%- endstyle -%}
@@ -111,17 +113,27 @@
       <slider-component class="slider-mobile-gutter">
         <ul class="reviews__list{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}" id="Slider-{{ section.id }}" role="list">
           {%- for block in section.blocks -%}
-            <li class="review grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+            <li class="review grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
               <div class="review__inner">
                 {% if block.settings.image != blank %}
-                  {{ block.settings.image | image_url: width: 300 | image_tag: widths: '120, 160, 200, 240, 300', class: 'review__avatar', alt: block.settings.name | escape }}
+                  {{ block.settings.image
+                      | image_url: width: 320
+                      | image_tag: widths: '160, 200, 240, 320',
+                        class: 'review__avatar',
+                        alt: block.settings.name | escape
+                  }}
                 {% endif %}
+
                 {% if block.settings.quote != blank %}
                   <div class="review__quote">“{{ block.settings.quote | escape }}”</div>
                 {% endif %}
+
                 {% if block.settings.name != blank %}
                   <div class="review__author">{{ block.settings.name | escape }}</div>
                 {% endif %}
+
                 {% if block.settings.company != blank %}
                   <div class="review__company">{{ block.settings.company | escape }}</div>
                 {% endif %}
@@ -158,12 +170,18 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "" },
-    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h2", "options": [
-      { "value": "h2", "label": "H2" },
-      { "value": "h1", "label": "H1" },
-      { "value": "h0", "label": "H0" }
-    ]},
+    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Reviews" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h2",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" }
+      ]
+    },
 
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
 
@@ -172,10 +190,16 @@
 
     { "type": "range", "id": "avatar_size", "label": "Avatar size (px)", "min": 48, "max": 140, "step": 4, "default": 96 },
 
-    { "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "1", "options": [
-      { "value": "1", "label": "1" },
-      { "value": "2", "label": "2" }
-    ]},
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "default": "1",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
     { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 1, "max": 3, "step": 1, "default": 3 },
 
     { "type": "checkbox", "id": "swipe_on_mobile", "label": "Swipe on mobile", "default": true },
@@ -195,8 +219,8 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Avatar" },
         { "type": "text", "id": "name", "label": "Name", "default": "Nombre Apellido" },
-        { "type": "text", "id": "company", "label": "Company", "default": "Empresa" },
-        { "type": "textarea", "id": "quote", "label": "Quote / Description", "default": "Texto de la reseña…" }
+        { "type": "text", "id": "company", "label": "Company", "default": "Empresa / Huerta" },
+        { "type": "textarea", "id": "quote", "label": "Quote / Description", "default": "Tierra de Monte ayud\u00f3 a salvar nuestra producci\u00f3n de la peor plaga que pod\u00edamos imaginar esta temporada." }
       ]
     }
   ],
