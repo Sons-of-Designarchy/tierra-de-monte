@@ -114,6 +114,17 @@
                 id="title-{{ section_id }}-{{ card_product.id }}"
               {% endif %}
             >
+              {%- if show_excerpt -%}
+                {%- liquid
+                  assign card_excerpt = card_product.metafields.custom.card_excerpt | default: card_product.description
+                -%}
+                {%- if card_excerpt != blank -%}
+                  <p class="card__excerpt">
+                    {{ card_excerpt | strip_html | truncatewords: 22 }}
+                  </p>
+                {%- endif -%}
+              {%- endif -%}
+
               <a
                 href="{{ card_product.url }}"
                 id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"

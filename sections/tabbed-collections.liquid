@@ -66,7 +66,13 @@
             <div class="grid grid--2-col-tablet grid--4-col-desktop">
               {% for product in c.products limit: prod_limit %}
                 <div class="grid__item">
-                  {% render 'card-product', card_product: product %}
+                  {% render 'card-product',
+                    card_product: product,
+                    section_id: section.id,
+                    media_aspect_ratio: 'square',
+                    show_secondary_image: true,
+                    show_excerpt: true
+                  %}
                 </div>
               {% endfor %}
             </div>
@@ -222,6 +228,7 @@
     { "type": "text", "id": "kicker", "label": "Kicker" },
     { "type": "text", "id": "heading", "label": "Heading" },
     { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "checkbox", "id": "show_card_excerpt", "label": "Show product description", "default": true },
 
     { "type": "collection", "id": "collection_1", "label": "Collection 1" },
     { "type": "text", "id": "label_1", "label": "Label 1" },
