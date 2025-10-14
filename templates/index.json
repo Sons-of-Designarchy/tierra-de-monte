@@ -9,52 +9,29 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Vida que genera vida",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Soluciones",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+    "hero_overlay_card_AxX4Gc": {
+      "type": "hero-overlay-card",
+      "name": "Hero overlay card",
       "settings": {
         "image": "shopify://shop_images/Header.jpg",
-        "image_overlay_opacity": 0,
-        "image_height": "large",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-left",
-        "desktop_content_alignment": "left",
-        "show_text_box": true,
-        "color_scheme": "scheme-1",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
+        "image_alt": "",
+        "min_height_desktop": 70,
+        "min_height_mobile": 55,
+        "corner_radius": 8,
+        "card_position": "bottom-left",
+        "card_max_width": 560,
+        "card_padding": 24,
+        "card_bg_opacity": 60,
+        "card_glass": true,
+        "card_shadow": true,
+        "subtitle": "lorem ipsum",
+        "heading": "Vida que genera vida",
+        "heading_size": "xl",
+        "body": "<p>Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.</p>",
+        "button_label": "Soluciones",
+        "button_link": "",
+        "button_pill": true,
+        "text_on_dark": false
       }
     },
     "tabs-collections": {
@@ -299,7 +276,7 @@
       "name": "Multicolumn — Feature",
       "settings": {
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
-        "rule_color": "#294E3F",
+        "rule_color": "#294e3f",
         "show_rule": true,
         "title": "Efecto Tierra de monteInnovación que siembra futuro",
         "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza...</p>",
@@ -318,7 +295,7 @@
     }
   },
   "order": [
-    "image_banner",
+    "hero_overlay_card_AxX4Gc",
     "tabs-collections",
     "ticker_H9daYM",
     "rich_text_cqtebC",
