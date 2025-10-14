@@ -1,37 +1,40 @@
 <section id="ticker-{{ section.id }}" class="color-{{ section.settings.color_scheme }}">
   <style>
-    /* ===== Container + Background ===== */
+    /* ===== Container ===== */
     #ticker-{{ section.id }}{
-      --gap: 2.2rem;                  /* space between repeats */
-      --speed: 28s;                   /* lower = faster */
-      --h: {{ section.settings.height | default: 100 }}px;  /* total section height */
+      --gap: 2.2rem;               /* space between repeats */
+      --speed: 28s;                /* lower = faster */
+      --h: {{ section.settings.height | default: 100 }}px; /* section height */
       position: relative;
       min-height: var(--h);
       overflow: hidden;
     }
+
+    /* Background + overlay layering */
     #ticker-{{ section.id }} .ticker-bg{
       position: absolute; inset: 0;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      z-index: 0;                     /* at the back */
-      {% if section.settings.bg_image != blank %}
-        background-image: url({{ section.settings.bg_image | image_url: width: 2880 }});
-      {% endif %}
+      z-index: 0;
     }
     #ticker-{{ section.id }} .ticker-overlay{
       position: absolute; inset: 0;
-      background: {{ section.settings.bg_color | default: 'transparent' }};
       pointer-events: none;
       z-index: 1;
     }
 
-    /* ===== Ticker band (sits over the image) ===== */
+    /* ===== Ticker band (centered vertically over the image) ===== */
     #ticker-{{ section.id }} .ticker{
-      position: absolute; left: 0; right: 0; bottom: 0;
-      padding: .5rem 0;               /* compact band to fit ~100px total */
-      border-top: 1px solid rgba(0,0,0,.28);
+      position: absolute; inset: 0;     /* fill section */
+      display: flex;
+      align-items: center;               /* <-- vertical center */
+      justify-content: center;           /* <-- horizontal center of the track container */
+      padding: 0;                        /* no extra height */
       z-index: 2;
+      /* remove any borders/tints from previous versions */
+      border: 0;
+      background: transparent;
     }
 
     /* Typography options */
@@ -54,10 +57,10 @@
       white-space: nowrap;
     }
 
-    /* ===== Seamless marquee (single track, content duplicated) ===== */
-    #ticker-{{ section.id }} .marquee{ overflow: hidden; width: 100%; }
+    /* ===== Seamless marquee (single track, duplicated chunk) ===== */
+    #ticker-{{ section.id }} .marquee{ width: 100%; overflow: hidden; }
     #ticker-{{ section.id }} .track{
-      display: inline-flex;           /* one long line */
+      display: inline-flex;
       align-items: center;
       gap: var(--gap);
       will-change: transform;
@@ -77,11 +80,22 @@
     }
   </style>
 
-  <!-- Background + overlay -->
-  <div class="ticker-bg"></div>
-  <div class="ticker-overlay"></div>
+  {%- comment -%}
+    We set styles inline so Liquid comparisons aren't inside CSS rules,
+    ensuring the background & overlay always apply.
+  {%- endcomment -%}
 
-  <!-- Ticker -->
+  {%- if section.settings.bg_image != blank -%}
+    <div
+      class="ticker-bg"
+      style="background-image:url({{ section.settings.bg_image | image_url: width: 2880 }});"
+    ></div>
+  {%- else -%}
+    <div class="ticker-bg"></div>
+  {%- endif -%}
+
+  <div class="ticker-overlay" style="background: {{ section.settings.bg_color | default: 'transparent' }};"></div>
+
   <div class="ticker">
     {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
     <div class="marquee">
