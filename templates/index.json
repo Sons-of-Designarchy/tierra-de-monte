@@ -207,40 +207,6 @@
         "padding_bottom": 36
       }
     },
-    "multicolumn_hhRYPM": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_6e6FaT": {
-          "type": "column",
-          "settings": {
-            "image": "shopify://shop_images/logo-bioagtech.png",
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_6e6FaT"
-      ],
-      "settings": {
-        "title": "Alianzas que nutren la tierra",
-        "heading_size": "h2",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "button_label": "",
-        "button_link": "",
-        "columns_desktop": 1,
-        "column_alignment": "center",
-        "background_style": "none",
-        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "logobar_BrfwU4": {
       "type": "logo-bar",
       "blocks": {
@@ -309,7 +275,6 @@
     "ticker_H9daYM",
     "rich_text_cqtebC",
     "multicolumn",
-    "multicolumn_hhRYPM",
     "logobar_BrfwU4"
   ]
 }
