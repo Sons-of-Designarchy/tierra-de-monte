@@ -15,7 +15,7 @@
       "settings": {
         "image": "shopify://shop_images/Header.jpg",
         "image_alt": "",
-        "min_height_desktop": 70,
+        "min_height_desktop": 80,
         "min_height_mobile": 55,
         "corner_radius": 8,
         "card_position": "bottom-left",
@@ -29,9 +29,9 @@
         "heading_size": "xl",
         "body": "<p>Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.</p>",
         "button_label": "Soluciones",
-        "button_link": "",
-        "button_pill": true,
-        "text_on_dark": false
+        "button_link": "shopify://collections",
+        "button_pill": false,
+        "text_on_dark": true
       }
     },
     "tabs-collections": {
@@ -299,25 +299,25 @@
         "review_EQCDMf": {
           "type": "review",
           "settings": {
+            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada.",
             "name": "Nombre Apellido",
-            "company": "Empresa / Huerta",
-            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada."
+            "company": "Empresa / Huerta"
           }
         },
         "review_VB7Ljz": {
           "type": "review",
           "settings": {
+            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada.",
             "name": "Nombre Apellido",
-            "company": "Empresa / Huerta",
-            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada."
+            "company": "Empresa / Huerta"
           }
         },
         "review_zxQAXt": {
           "type": "review",
           "settings": {
+            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada.",
             "name": "Nombre Apellido",
-            "company": "Empresa / Huerta",
-            "quote": "Tierra de Monte ayudó a salvar nuestra producción de la peor plaga que podíamos imaginar esta temporada."
+            "company": "Empresa / Huerta"
           }
         }
       },
@@ -334,9 +334,6 @@
         "radius": 16,
         "gap": 24,
         "avatar_size": 96,
-        "columns_mobile": "1",
-        "columns_desktop": 3,
-        "swipe_on_mobile": true,
         "show_dividers": false,
         "divider_color": "#000000",
         "padding_top": 36,
