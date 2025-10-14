@@ -15,14 +15,16 @@
   /* Section inherits page bg; card uses scheme */
   #shopify-section-{{ section.id }} { background: none; }
 
+  /* Full-width card (no page-width constraint) */
   #shopify-section-{{ section.id }} .reviews__card {
+    width: 100%;
     background: rgb(var(--color-background));
     border-radius: {{ section.settings.radius }}px;
     padding: clamp(20px, 4vw, 36px);
     overflow: hidden;
   }
 
-  #shopify-section-{{ section.id }} .reviews__title {
+  .reviews__title {
     text-align: center;
     margin: 0 0 20px;
   }
@@ -30,8 +32,7 @@
   /* ===== Centered carousel with side peeks ===== */
   #shopify-section-{{ section.id }} .reviews__viewport {
     --gap: {{ section.settings.gap }}px;
-    /* Amount of side peek visible on each side */
-    --peek: clamp(24px, 12vw, 220px);
+    --peek: clamp(24px, 12vw, 220px); /* visible on each side */
     position: relative;
   }
 
@@ -55,13 +56,16 @@
     transition: transform .25s ease, opacity .25s ease;
     opacity: .35;
     transform: scale(.98);
-    cursor: pointer;
+    cursor: pointer;                 /* indicate it’s clickable/editable */
+  }
+  #shopify-section-{{ section.id }} .review:hover {
+    opacity: .5;
   }
   /* Active (centered) slide highlight */
   #shopify-section-{{ section.id }} .review.is-active {
     opacity: 1;
     transform: scale(1);
-    cursor: default;
+    cursor: default;                 /* current one feels “selected” */
   }
 
   /* Inner layout */
@@ -99,10 +103,8 @@
     {% endif %}
   }
 
-  /* Nav buttons (desktop only; mobile can swipe) */
-  #shopify-section-{{ section.id }} .reviews__nav {
-    display: none;
-  }
+  /* Nav buttons (desktop; mobile can swipe) */
+  #shopify-section-{{ section.id }} .reviews__nav { display: none; }
   @media (min-width: 990px) {
     #shopify-section-{{ section.id }} .reviews__nav {
       position: absolute; inset: 0; pointer-events: none;
@@ -112,6 +114,7 @@
       pointer-events: auto;
       display: flex; align-items: center; justify-content: center;
       background: transparent; border: 0; padding: 0; margin: 0;
+      cursor: pointer;
     }
     #shopify-section-{{ section.id }} .reviews__btn svg { width: 28px; height: 28px; opacity: .6; }
     #shopify-section-{{ section.id }} .reviews__btn:hover svg { opacity: 1; }
@@ -121,9 +124,8 @@
 {%- endstyle -%}
 
 <section class="reviews">
-  <div class="page-width section-{{ section.id }}-padding isolate">
-
-    <div class="reviews__card content-container color-{{ section.settings.color_scheme }} gradient">
+  <div class="section-{{ section.id }}-padding isolate">
+    <div class="reviews__card color-{{ section.settings.color_scheme }} gradient">
       {% if section.settings.title != blank %}
         <h2 class="reviews__title title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
       {% endif %}
@@ -155,7 +157,7 @@
           {%- endfor -%}
         </ul>
 
-        <!-- Desktop nav buttons (optional UX, click on slides also works) -->
+        <!-- Desktop nav buttons -->
         <div class="reviews__nav">
           <button class="reviews__btn reviews__btn--prev" type="button" aria-label="Anterior">
             <svg viewBox="0 0 20 20" fill="currentColor"><path d="M12.7 15.3a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 1 1 1.4 1.4L8.42 9H17a1 1 0 1 1 0 2H8.41l4.3 4.3a1 1 0 0 1 0 1.4z"/></svg>
@@ -166,7 +168,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -179,14 +180,12 @@
   const slides = Array.from(track.querySelectorAll('.review'));
   if (!slides.length) return;
 
-  // Center the nth slide
   const center = (i) => {
     const el = slides[i];
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   };
 
-  // Mark the slide closest to the viewport center as active
   const setActive = () => {
     const vw = track.getBoundingClientRect();
     const centerX = vw.left + vw.width / 2;
@@ -201,24 +200,19 @@
     return bestIdx;
   };
 
-  // Init
   let active = setActive();
 
-  // Recompute on scroll/resize
   const onScroll = () => { active = setActive(); };
   track.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
 
-  // Click a slide to center it
   slides.forEach((s, i) => s.addEventListener('click', () => center(i)));
 
-  // Buttons
   const prevBtn = root.querySelector('.reviews__btn--prev');
   const nextBtn = root.querySelector('.reviews__btn--next');
   if (prevBtn) prevBtn.addEventListener('click', () => center(Math.max(0, active - 1)));
   if (nextBtn) nextBtn.addEventListener('click', () => center(Math.min(slides.length - 1, active + 1)));
 
-  // Keyboard support when card focused
   root.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') { e.preventDefault(); center(Math.max(0, active - 1)); }
     if (e.key === 'ArrowRight'){ e.preventDefault(); center(Math.min(slides.length - 1, active + 1)); }
@@ -233,28 +227,19 @@
   "class": "section",
   "settings": [
     { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Reviews" },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "label": "Heading size",
-      "default": "h2",
+    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h2",
       "options": [
         { "value": "h2", "label": "H2" },
         { "value": "h1", "label": "H1" },
         { "value": "h0", "label": "H0" }
       ]
     },
-
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
     { "type": "range", "id": "radius", "label": "Card corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16 },
     { "type": "range", "id": "gap", "label": "Gap between reviews (px)", "min": 8, "max": 48, "step": 2, "default": 24 },
-
     { "type": "range", "id": "avatar_size", "label": "Avatar size (px)", "min": 48, "max": 140, "step": 4, "default": 96 },
-
     { "type": "checkbox", "id": "show_dividers", "label": "Subtle vertical lines on wide screens", "default": false },
     { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#000000" },
-
     { "type": "header", "content": "Section padding" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 36 }
