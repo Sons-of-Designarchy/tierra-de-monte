@@ -99,9 +99,10 @@
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
         "bg_image": "shopify://shop_images/control-ambiental-clasificacion-desperdicio-alimentos-paquetes-ambientales.avif",
+        "overlay_opacity": 30,
         "height": 100,
-        "bg_color": "#000000",
-        "color_scheme": "scheme-3",
+        "text_color": "#c41d1d",
+        "color_scheme": "scheme-2",
         "typography_variant": "secondary"
       }
     },
