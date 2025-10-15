@@ -101,6 +101,9 @@
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm1.jpg",
             "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
             "text": "<h2>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</h2>",
             "link_label": "",
             "link": ""
@@ -112,6 +115,9 @@
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm2.jpg",
             "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
             "text": "<h2>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</h2>",
             "link_label": "",
             "link": ""
@@ -123,6 +129,9 @@
           "settings": {
             "desc_font": "body",
             "title": "+230",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
             "text": "<p>Hectáreas regeneradas</p>",
             "link_label": "",
             "link": ""
@@ -181,7 +190,10 @@
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm3.jpg",
             "title": "+230",
-            "text": "<p>HECTÁREAS REGENERADAS</p>",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<h1>HECTÁREAS REGENERADAS</h1>",
             "link_label": "",
             "link": ""
           }
@@ -192,7 +204,10 @@
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm4.jpg",
             "title": "86%",
-            "text": "<p>DE BIODIVERSIDAD DEL SUELO RECUPERADA</p>",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<h1>DE BIODIVERSIDAD DEL SUELO RECUPERADA</h1>",
             "link_label": "",
             "link": ""
           }
@@ -202,8 +217,11 @@
           "settings": {
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm5.jpg",
-            "title": "+30",
-            "text": "<p>COMUNIDADES ACOMPAÑADAS</p>",
+            "title": "dctfvgybhn+30",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<h1>COMUNIDADES ACOMPAÑADAS</h1>",
             "link_label": "",
             "link": ""
           }
