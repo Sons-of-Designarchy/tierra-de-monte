@@ -79,6 +79,9 @@
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
         "bg_image": "shopify://shop_images/ticker-1.jpg",
+        "bg_color": "rgba(0,0,0,0)",
+        "font_size": 22,
+        "text_transform": "uppercase",
         "height": 100,
         "text_color": "#faf4ec",
         "typography_variant": "secondary",
@@ -126,6 +129,21 @@
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
+      }
+    },
+    "ticker_fLHMnW": {
+      "type": "ticker",
+      "name": "Infinite Ticker",
+      "settings": {
+        "text": "Ciencia con propósito",
+        "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
+        "bg_color": "#00000000",
+        "font_size": 100,
+        "text_transform": "none",
+        "height": 135,
+        "text_color": "#373736",
+        "typography_variant": "primary",
+        "font_variant": "normal"
       }
     },
     "multicolumn": {
@@ -346,6 +364,7 @@
     "tabs-collections",
     "ticker_H9daYM",
     "rich_text_cqtebC",
+    "ticker_fLHMnW",
     "multicolumn",
     "logobar_BrfwU4",
     "multicolumn_feature_mjeJtX",
