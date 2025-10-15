@@ -92,49 +92,6 @@
         "height": 100
       }
     },
-    "rich_text_cqtebC": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_nxPTbr": {
-          "type": "heading",
-          "settings": {
-            "heading": "¿Quienes somos?",
-            "heading_size": "h1"
-          }
-        },
-        "text_w7C4pp": {
-          "type": "text",
-          "settings": {
-            "text": "<p>En Tierra de Monte creamos soluciones biológicas que potencian la vida en cada cultivo.</p>"
-          }
-        },
-        "button_7yhMmj": {
-          "type": "button",
-          "settings": {
-            "button_label": "Acerca de nosotros",
-            "button_link": "",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_nxPTbr",
-        "text_w7C4pp",
-        "button_7yhMmj"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "left",
-        "content_alignment": "left",
-        "color_scheme": "scheme-3",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
-    },
     "multicolumn_feature_iTWNGU": {
       "type": "multicolumn-feature",
       "blocks": {
@@ -328,6 +285,7 @@
         "column2",
         "column3"
       ],
+      "disabled": true,
       "settings": {
         "title": "Efecto Tierra de monte Innovación que siembra futuro",
         "heading_size": "h1",
@@ -469,7 +427,6 @@
     "hero_overlay_card_AxX4Gc",
     "tabs-collections",
     "ticker_H9daYM",
-    "rich_text_cqtebC",
     "multicolumn_feature_iTWNGU",
     "ticker_fLHMnW",
     "multicolumn_feature_mjeJtX",
