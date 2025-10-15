@@ -362,6 +362,17 @@
       "type": "column",
       "name": "Column",
       "settings": [
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Description font",
+          "options": [
+            { "value": "body", "label": "Regular body" },
+            { "value": "mono", "label": "Monospace (IBM Plex Mono Light)" }
+          ],
+          "default": "body"
+        },
+
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "inline_richtext", "id": "title", "label": "Heading / Stat", "default": "+230" },
         { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Hectáreas regeneradas</p>" },
