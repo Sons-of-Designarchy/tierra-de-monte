@@ -1,9 +1,16 @@
 <section id="ticker-{{ section.id }}" class="tdm-ticker">
+  {% liquid
+    assign base_speed = section.settings.speed | default: 36
+    assign speed = base_speed
+    if section.settings.font_variant == 'mono'
+      assign speed = base_speed | plus: 8
+    endif
+  %}
   <style>
     /* ===== Container ===== */
     #ticker-{{ section.id }}{
       --gap: 2.2rem;
-      --speed: 28s;
+      --speed: {{ speed }}s;                 /* slower, esp. in mono */
       --h: {{ section.settings.height | default: 100 }}px;
       --fs: {{ section.settings.font_size | default: 22 }}px;
       --icon-h: {{ section.settings.icon_height | default: 32 }}px;
@@ -13,8 +20,8 @@
       overflow: hidden;
       isolation: isolate;
       background: {{ section.settings.bg_color | default: 'transparent' }};
-      border-top: 1px solid var(--text-color);     /* 👈 top border */
-      border-bottom: 1px solid var(--text-color);  /* 👈 bottom border */
+      border-top: {% if section.settings.show_top_border %}1px solid var(--text-color){% else %}none{% endif %};
+      border-bottom: {% if section.settings.show_bottom_border %}1px solid var(--text-color){% else %}none{% endif %};
     }
 
     /* Background image */
@@ -51,7 +58,7 @@
     #ticker-{{ section.id }} .typo-primary{
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
-      letter-spacing: -0.1rem; /* tighter spacing for headings */
+      letter-spacing: -0.1rem; /* tighter for heading style */
     }
 
     #ticker-{{ section.id }} .typo-secondary{
@@ -162,13 +169,9 @@
       "default": 32
     },
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#00000000" },
 
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background color",
-      "default": "#00000000"
-    },
+    { "type": "color", "id": "text_color", "label": "Ticker text color", "default": "#F3EFCF" },
     {
       "type": "range",
       "id": "font_size",
@@ -189,16 +192,7 @@
       ],
       "default": "uppercase"
     },
-    {
-      "type": "range",
-      "id": "height",
-      "label": "Section height (px)",
-      "min": 60,
-      "max": 200,
-      "step": 5,
-      "default": 100
-    },
-    { "type": "color", "id": "text_color", "label": "Ticker text color", "default": "#F3EFCF" },
+
     {
       "type": "select",
       "id": "typography_variant",
@@ -218,6 +212,29 @@
         { "value": "mono", "label": "Monospace (IBMPlexMono-Light)" }
       ],
       "default": "normal"
+    },
+
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll duration (slower = bigger, seconds)",
+      "min": 12,
+      "max": 80,
+      "step": 1,
+      "default": 36
+    },
+
+    { "type": "checkbox", "id": "show_top_border", "label": "Show top border", "default": true },
+    { "type": "checkbox", "id": "show_bottom_border", "label": "Show bottom border", "default": true },
+
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Section height (px)",
+      "min": 60,
+      "max": 200,
+      "step": 5,
+      "default": 100
     }
   ],
   "presets": [{ "name": "Infinite Ticker" }]
