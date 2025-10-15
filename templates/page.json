@@ -1,14 +1,272 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
+    "rich_text_WewX9H": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_6chCK7": {
+          "type": "heading",
+          "settings": {
+            "heading": "Sembramos futuro         en cada semilla. Creemos que un suelo              vivo es la primera medicina, que la          biodiversidad no es un lujo sino la base de la vida. Nuestro         propósito es cultivar alimentos que nutran cuerpo, alma y planeta.",
+            "heading_size": "h1"
+          }
+        },
+        "text_i7CrDF": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Somos una plataforma BioAgTech que actúa como puente entre ciencia,tecnología y tradición. Impulsamos una Agricultura Regenerativa Ética, donde cada innovación fortalece el ecosistema completo: suelo fértil, productores dignificados, comunidades resilientes y biodiversidad en expansión.</p>"
+          }
+        },
+        "button_Pqadyr": {
+          "type": "button",
+          "settings": {
+            "button_label": "Etiqueta de botón",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_6chCK7",
+        "text_i7CrDF",
+        "button_Pqadyr"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "multicolumn_feature_W96JVm": {
+      "type": "multicolumn-feature",
+      "blocks": {
+        "column_fFEB7X": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "image": "shopify://shop_images/icon-magni.svg",
+            "title": "Investigamosen campo",
+            "text": "<p>para escuchar lo que la tierra realmente necesita.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_RhV7R3": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "image": "shopify://shop_images/icon-create.svg",
+            "title": "Creamossoluciones de raíz",
+            "text": "<p>Que despiertan la microbiología dormida.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_KWPJ8z": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "image": "shopify://shop_images/icon-dise.svg",
+            "title": "Diseñamospara el mañana",
+            "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_fFEB7X",
+        "column_RhV7R3",
+        "column_KWPJ8z"
+      ],
+      "name": "Multicolumn — Feature",
+      "settings": {
+        "pretitle": "Lo que nos HAce Diferentes",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "En un mundo que busca resultados inmediatos. Nosotros pensamos en los ecosistemas a largo plazo.",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_YqAQVK": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_Ac8tnp": {
+          "type": "heading",
+          "settings": {
+            "heading": "La ciencia es nuestro lenguaje común con la tierra.",
+            "heading_size": "h1"
+          }
+        },
+        "text_tGCcQQ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Cada bioinsumo nace de investigación rigurosa, pruebas en campo y diálogo con el conocimiento ancestral. Creemos que la verdadera innovación ocurre cuando los datos se vuelven vida.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_AnLYhL": {
+          "type": "button",
+          "settings": {
+            "button_label": "Descubre cómo lo hacemos",
+            "button_link": "",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_Ac8tnp",
+        "text_tGCcQQ",
+        "button_AnLYhL"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/img2.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-ee39b146-607c-4a8c-b768-a7e2b08f05d7",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_H9q6EB": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_hpx6Xc": {
+          "type": "heading",
+          "settings": {
+            "heading": "Coméntanos sobre tu marca",
+            "heading_size": "h1"
+          }
+        },
+        "text_JadEnx": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nuestra certificación como Empresa B no es un sello, es un compromiso:  alineamos cada acción con los Objetivos de Desarrollo Sostenible,  porque entendemos que el campo, la sociedad y el planeta son un solo ecosistema.</p>"
+          }
+        },
+        "button_WRM3B3": {
+          "type": "button",
+          "settings": {
+            "button_label": "Etiqueta de botónConoce más",
+            "button_link": "",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_hpx6Xc",
+        "text_JadEnx",
+        "button_WRM3B3"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "image_with_text_eYWBnA": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_n3TePe": {
+          "type": "heading",
+          "settings": {
+            "heading": "Tierra de Monte no es una empresa aislada, es un nodo dentro de una red en expansión.",
+            "heading_size": "h1"
+          }
+        },
+        "text_PxJYhD": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Un ecosistema de productores, científicos, comunidades y consumidores conscientes que trabajan juntos para demostrar que la agricultura puede ser regenerativa, justa y generar bienestar.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_CEeTmP": {
+          "type": "button",
+          "settings": {
+            "button_label": "Descubre cómo lo hacemos",
+            "button_link": "",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_n3TePe",
+        "text_PxJYhD",
+        "button_CEeTmP"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/img.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-5",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
-    "main"
+    "rich_text_WewX9H",
+    "main",
+    "multicolumn_feature_W96JVm",
+    "image_with_text_YqAQVK",
+    "rich_text_H9q6EB",
+    "image_with_text_eYWBnA"
   ]
 }
