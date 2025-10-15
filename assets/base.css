@@ -527,9 +527,60 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 
+/* === Product card badge position: top-right === */
+.card__badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+}
+
+/* Make sure the card itself allows absolutely positioned children */
+.card {
+  position: relative;
+}
+
+/* Optional: make the badge look balanced */
+.card__badge .badge {
+  margin: 0;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
 
 
 
+/* Text-link style for product cards */
+.card__view-link{
+  display: inline-block;
+  margin-top: .5rem;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  color: rgb(var(--color-foreground));
+  transition: color .2s ease, filter .2s ease, opacity .2s ease;
+}
+
+/* Prefer slightly darker on hover. Modern browsers: color-mix; fallback: filter/opacity */
+@supports (color: color-mix(in oklab, black, white)) {
+  .card__view-link:hover{
+    color: color-mix(in oklab, rgb(var(--color-foreground)) 85%, black);
+  }
+}
+@supports not (color: color-mix(in oklab, black, white)) {
+  .card__view-link:hover{
+    filter: brightness(.9);
+  }
+}
+
+/* Optional: focus style for accessibility */
+.card__view-link:focus{
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  text-decoration-thickness: 2px;
+}
 
 
 
