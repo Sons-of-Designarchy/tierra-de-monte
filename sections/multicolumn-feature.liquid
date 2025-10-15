@@ -30,26 +30,61 @@
   #shopify-section-{{ section.id }} .multicolumn-card h3 { margin-bottom: 4px; }
 {%- endstyle -%}
 <style>
-  /* Target this section only */
-  #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image-wrapper .media {
-    position: relative;
-    border-radius; 8px;
-    padding-bottom: 0 !important; /* cancel Dawn’s ratio padding if modifier is broken */
-    aspect-ratio: 1 / 1; /* pick a sane default (square) */
-    display: block;
-  }
+      /* Target this section only */
+      #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image-wrapper .media {
+        position: relative;
+        border-radius; 8px;
+        padding-bottom: 0 !important; /* cancel Dawn’s ratio padding if modifier is broken */
+        aspect-ratio: 1 / 1; /* pick a sane default (square) */
+        display: block;
+      }
 
-  #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image {
-    position: static !important; /* cancel absolute positioning from media component */
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-    display: block;
-  }
+      #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image {
+        position: static !important; /* cancel absolute positioning from media component */
+          width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      }
 
-  /* Neutralize the broken width class if it appears */
-  #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image-wrapper---width {
-    all: unset;
+      /* Neutralize the broken width class if it appears */
+      #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image-wrapper---width {
+        all: unset;
+      }
+
+      /* Make each card a vertical stack and push the image to the bottom */
+    #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 100%;
+    }
+
+    /* Info first */
+    #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__info {
+      order: 1;
+    }
+
+    /* Image last and stuck to the bottom */
+    #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image-wrapper {
+      order: 3;
+      margin-top: auto;       /* pushes image block to the bottom */
+      width: 100%;
+    }
+
+
+
+    /* Stat/heading size: minimum 61px */
+    #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card h3 {
+      font-size: clamp(61px, 6vw, 96px);
+      line-height: 1;
+      margin: 0 0 4px;
+    }
+
+
+    #shopify-section-template--25297298260270__multicolumn_feature_mjeJtX .multicolumn-card__image-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
   }
 </style>
 
