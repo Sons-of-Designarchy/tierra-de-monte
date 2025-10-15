@@ -224,47 +224,6 @@
     },
     "slideshow_3je3CQ": {
       "type": "slideshow",
-      "blocks": {
-        "slide_UkB6fL": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Tabla_CreCR.jpg",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h2",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": true,
-            "show_text_box": false,
-            "box_align": "top-left",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
-          }
-        },
-        "slide_VRyaxK": {
-          "type": "slide",
-          "settings": {
-            "image_overlay_opacity": 0,
-            "heading": "Diapositiva de imagen",
-            "heading_size": "h1",
-            "subheading": "Cuenta la historia de tu marca a través de imágenes",
-            "button_label": "Etiqueta de botón",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": true,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_UkB6fL",
-        "slide_VRyaxK"
-      ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
         "layout": "full_bleed",
@@ -282,10 +241,17 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
-        "height": 100,
+        "icon_height": 32,
+        "bg_color": "rgba(0,0,0,0)",
         "text_color": "#f3efcf",
+        "font_size": 22,
+        "text_transform": "uppercase",
         "typography_variant": "primary",
-        "font_variant": "normal"
+        "font_variant": "normal",
+        "speed": 36,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 100
       }
     },
     "multicolumn": {
@@ -349,10 +315,17 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "VIDA QUE GENERA VIDA",
-        "height": 100,
+        "icon_height": 32,
+        "bg_color": "rgba(0,0,0,0)",
         "text_color": "#f3efcf",
+        "font_size": 22,
+        "text_transform": "uppercase",
         "typography_variant": "primary",
-        "font_variant": "normal"
+        "font_variant": "normal",
+        "speed": 36,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 100
       }
     },
     "video_UAKytP": {

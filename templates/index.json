@@ -181,7 +181,7 @@
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm3.jpg",
             "title": "+230",
-            "text": "<p>Hectáreas regeneradas</p>",
+            "text": "<p>HECTÁREAS REGENERADAS</p>",
             "link_label": "",
             "link": ""
           }
@@ -191,8 +191,8 @@
           "settings": {
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm4.jpg",
-            "title": "+230",
-            "text": "<p>Hectáreas regeneradas</p>",
+            "title": "86%",
+            "text": "<p>DE BIODIVERSIDAD DEL SUELO RECUPERADA</p>",
             "link_label": "",
             "link": ""
           }
@@ -203,7 +203,7 @@
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm5.jpg",
             "title": "+30",
-            "text": "<p>Comunidades acompañadas</p>",
+            "text": "<p>COMUNIDADES ACOMPAÑADAS</p>",
             "link_label": "",
             "link": ""
           }
@@ -397,7 +397,7 @@
       ],
       "name": "Reviews",
       "settings": {
-        "title": "Reviews",
+        "title": "Reseñas",
         "heading_size": "h2",
         "color_scheme": "",
         "radius": 16,
