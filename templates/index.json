@@ -178,8 +178,9 @@
         "column_kkT3TQ": {
           "type": "column",
           "settings": {
-            "title": "+230",
-            "text": "<p>Hectáreas regeneradas</p>",
+            "image": "shopify://shop_images/home-tdm5.jpg",
+            "title": "+30",
+            "text": "<p>Comunidades acompañadas</p>",
             "link_label": "",
             "link": ""
           }
@@ -206,8 +207,8 @@
         "divider_color": "#1a1a1a",
         "background_style": "primary",
         "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 100,
+        "padding_bottom": 100
       }
     },
     "ticker_GYwFQh": {
