@@ -5,12 +5,12 @@
       --gap: 2.2rem;
       --speed: 28s;
       --h: {{ section.settings.height | default: 100 }}px;
-      --fs: {{ section.settings.font_size | default: 22 }}px; /* 👈 font-size variable */
+      --fs: {{ section.settings.font_size | default: 22 }}px;
       position: relative;
       min-height: var(--h);
       overflow: hidden;
       isolation: isolate;
-      background: {{ section.settings.bg_color | default: 'transparent' }}; /* 👈 background color */
+      background: {{ section.settings.bg_color | default: 'transparent' }};
     }
 
     /* Background image */
@@ -35,10 +35,14 @@
     #ticker-{{ section.id }} .typo-secondary{
       line-height:1;
       letter-spacing:.08em;
-      text-transform:uppercase;
       white-space:nowrap;
       color: {{ section.settings.text_color | default: '#F3EFCF' }};
-      font-size: var(--fs); /* 👈 controlled by setting */
+      font-size: var(--fs);
+      text-transform:
+        {% if section.settings.text_transform == 'none' %}none
+        {% elsif section.settings.text_transform == 'title' %}capitalize
+        {% else %}uppercase
+        {% endif %};
     }
 
     #ticker-{{ section.id }} .typo-primary{
@@ -151,9 +155,20 @@
       "id": "font_size",
       "label": "Text size (px)",
       "min": 12,
-      "max": 48,
+      "max": 100,
       "step": 1,
       "default": 22
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "title", "label": "Title Case" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "uppercase"
     },
     {
       "type": "range",
