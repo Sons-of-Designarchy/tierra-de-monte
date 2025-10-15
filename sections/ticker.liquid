@@ -5,11 +5,12 @@
       --gap: 2.2rem;
       --speed: 28s;
       --h: {{ section.settings.height | default: 100 }}px;
+      --fs: {{ section.settings.font_size | default: 22 }}px; /* 👈 font-size variable */
       position: relative;
       min-height: var(--h);
       overflow: hidden;
       isolation: isolate;
-      background: transparent;
+      background: {{ section.settings.bg_color | default: 'transparent' }}; /* 👈 background color */
     }
 
     /* Background image */
@@ -37,17 +38,16 @@
       text-transform:uppercase;
       white-space:nowrap;
       color: {{ section.settings.text_color | default: '#F3EFCF' }};
+      font-size: var(--fs); /* 👈 controlled by setting */
     }
 
     #ticker-{{ section.id }} .typo-primary{
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
-      font-size: clamp(16px, 2vw, 22px);
     }
     #ticker-{{ section.id }} .typo-secondary{
       font-family: var(--font-body-family);
       font-weight:400;
-      font-size: clamp(14px, 1.7vw, 18px);
     }
 
     /* Monospace toggle */
@@ -139,6 +139,22 @@
     { "type": "text", "id": "text", "label": "Text", "default": "VIDA QUE GENERA VIDA" },
     { "type": "image_picker", "id": "icon", "label": "Icon" },
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#00000000"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Text size (px)",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "default": 22
+    },
     {
       "type": "range",
       "id": "height",
