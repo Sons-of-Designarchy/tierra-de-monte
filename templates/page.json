@@ -111,6 +111,9 @@
         "column_RhV7R3",
         "column_KWPJ8z"
       ],
+      "custom_css": [
+        ".media media--transparent media--adapt {color: red;}"
+      ],
       "name": "Multicolumn — Feature",
       "settings": {
         "pretitle": "Lo que nos HAce Diferentes",
@@ -126,8 +129,8 @@
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "image_with_text_YqAQVK": {
