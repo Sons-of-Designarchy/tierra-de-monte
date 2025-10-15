@@ -98,9 +98,10 @@
         "column_mnx3UR": {
           "type": "column",
           "settings": {
+            "desc_font": "body",
             "image": "shopify://shop_images/home-tdm1.jpg",
             "title": "",
-            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
+            "text": "<h2>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</h2>",
             "link_label": "",
             "link": ""
           }
@@ -108,9 +109,10 @@
         "column_V8h7JY": {
           "type": "column",
           "settings": {
+            "desc_font": "body",
             "image": "shopify://shop_images/home-tdm2.jpg",
             "title": "",
-            "text": "<p>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</p>",
+            "text": "<h2>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</h2>",
             "link_label": "",
             "link": ""
           }
@@ -119,6 +121,7 @@
           "type": "column",
           "disabled": true,
           "settings": {
+            "desc_font": "body",
             "title": "+230",
             "text": "<p>Hectáreas regeneradas</p>",
             "link_label": "",
@@ -175,6 +178,7 @@
         "column_Xhqkrg": {
           "type": "column",
           "settings": {
+            "desc_font": "body",
             "image": "shopify://shop_images/home-tdm3.jpg",
             "title": "+230",
             "text": "<p>Hectáreas regeneradas</p>",
@@ -185,6 +189,7 @@
         "column_QHz6eD": {
           "type": "column",
           "settings": {
+            "desc_font": "body",
             "image": "shopify://shop_images/home-tdm4.jpg",
             "title": "+230",
             "text": "<p>Hectáreas regeneradas</p>",
@@ -195,6 +200,7 @@
         "column_kkT3TQ": {
           "type": "column",
           "settings": {
+            "desc_font": "body",
             "image": "shopify://shop_images/home-tdm5.jpg",
             "title": "+30",
             "text": "<p>Comunidades acompañadas</p>",
