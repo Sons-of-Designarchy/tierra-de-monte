@@ -24,7 +24,7 @@
 
   .ai-team-grid-{{ ai_gen_id }} {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: {{ block.settings.card_gap }}px;
   }
 
@@ -112,7 +112,7 @@
           assign image_key = 'member_' | append: i | append: '_image'
           assign name_key = 'member_' | append: i | append: '_name'
           assign role_key = 'member_' | append: i | append: '_role'
-          
+
           assign member_image = block.settings[image_key]
           assign member_name = block.settings[name_key]
           assign member_role = block.settings[role_key]
