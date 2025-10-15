@@ -111,9 +111,7 @@
         "column_RhV7R3",
         "column_KWPJ8z"
       ],
-      "custom_css": [
-        ".media media--transparent media--adapt {color: red;}"
-      ],
+      "custom_css": [],
       "name": "Multicolumn — Feature",
       "settings": {
         "pretitle": "Lo que nos HAce Diferentes",
