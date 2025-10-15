@@ -160,6 +160,7 @@
         "column_Xhqkrg": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/home-tdm3.jpg",
             "title": "+230",
             "text": "<p>Hectáreas regeneradas</p>",
             "link_label": "",
@@ -169,6 +170,7 @@
         "column_QHz6eD": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/home-tdm4.jpg",
             "title": "+230",
             "text": "<p>Hectáreas regeneradas</p>",
             "link_label": "",
