@@ -192,8 +192,8 @@
             "title": "+230",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<h1>HECTÁREAS REGENERADAS</h1>",
+            "stat_size_desktop": 80,
+            "text": "<h4>HECTÁREAS REGENERADAS</h4>",
             "link_label": "",
             "link": ""
           }
@@ -205,9 +205,9 @@
             "image": "shopify://shop_images/home-tdm4.jpg",
             "title": "86%",
             "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<h1>DE BIODIVERSIDAD DEL SUELO RECUPERADA</h1>",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 80,
+            "text": "<h4>DE BIODIVERSIDAD DEL SUELO RECUPERADA</h4>",
             "link_label": "",
             "link": ""
           }
@@ -217,11 +217,11 @@
           "settings": {
             "desc_font": "body",
             "image": "shopify://shop_images/home-tdm5.jpg",
-            "title": "dctfvgybhn+30",
+            "title": "+30",
             "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<h1>COMUNIDADES ACOMPAÑADAS</h1>",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 80,
+            "text": "<h4>COMUNIDADES ACOMPAÑADAS</h4>",
             "link_label": "",
             "link": ""
           }
@@ -240,7 +240,7 @@
         "title": "Efecto Tierra de monteInnovación que siembra futuro",
         "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad. Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y sus comunidades.</p>",
         "button_label": "Encuentra tu solución",
-        "button_link": "",
+        "button_link": "shopify://collections/all",
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
