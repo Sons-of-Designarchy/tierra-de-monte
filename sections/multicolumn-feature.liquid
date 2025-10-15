@@ -68,31 +68,60 @@
 {%- endstyle -%}
 
 {%- style -%}
-  /* Make each card a vertical stack and push the image block to the bottom */
-  #shopify-section-{{ section.id }} .multicolumn-card{
-    display:flex; flex-direction:column; gap:12px; min-height:100%;
+    /* Make each card a vertical stack and push the image block to the bottom */
+    #shopify-section-{{ section.id }} .multicolumn-card{
+      display:flex; flex-direction:column; gap:12px; min-height:100%;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order:1; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      order:3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
+    }
+
+    /* Tidy image element */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position:relative; padding-bottom:0 !important; aspect-ratio: 16 / 9; display:block;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position:static !important; width:100%; height:auto; display:block; object-fit:cover;
+    }
+
+    /* Description font options */
+    #shopify-section-{{ section.id }} .mc-desc--mono{
+      font-family: 'IBMPlexMono-Light', monospace;
+      font-weight:300; letter-spacing:.02em;
+    }
+    #shopify-section-{{ section.id }} .mc-desc--body{
+      font-family: var(--font-body-family);
+      font-weight: 400;
+    }
+
+    /* ===== Per-block stat (heading) controls ===== */
+  #shopify-section-{{ section.id }} .mc-stat{
+    line-height: 1;
+    margin: 0 0 4px;
+    /* defaults; overridden per-block via inline CSS vars */
+    font-size: var(--stat-size-m, 48px);
   }
-  #shopify-section-{{ section.id }} .multicolumn-card__info{ order:1; }
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
-    order:3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
+  @media (min-width: 750px){
+    #shopify-section-{{ section.id }} .mc-stat{
+      font-size: var(--stat-size-d, 72px);
+    }
   }
 
-  /* Tidy image element */
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
-    position:relative; padding-bottom:0 !important; aspect-ratio: 16 / 9; display:block;
+  /* Font style choices */
+  #shopify-section-{{ section.id }} .mc-stat--heading{
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: var(--heading-letter-spacing, 0);
   }
-  #shopify-section-{{ section.id }} .multicolumn-card__image{
-    position:static !important; width:100%; height:auto; display:block; object-fit:cover;
-  }
-
-  /* Description font options */
-  #shopify-section-{{ section.id }} .mc-desc--mono{
-    font-family: 'IBMPlexMono-Light', monospace;
-    font-weight:300; letter-spacing:.02em;
-  }
-  #shopify-section-{{ section.id }} .mc-desc--body{
+  #shopify-section-{{ section.id }} .mc-stat--body{
     font-family: var(--font-body-family);
-    font-weight: 400;
+    font-weight: 600;
+  }
+  #shopify-section-{{ section.id }} .mc-stat--mono{
+    font-family: 'IBMPlexMono-Light', monospace;
+    font-weight: 300;
+    letter-spacing: .02em;
   }
 {%- endstyle -%}
 
@@ -188,7 +217,10 @@
                   {%- comment -%} INFO FIRST (order:1) {%- endcomment -%}
                   <div class="multicolumn-card__info">
                     {%- if block.settings.title != blank -%}
-                      <h3 class="inline-richtext">{{ block.settings.title }}</h3>
+                      <h3
+                        class="inline-richtext mc-stat mc-stat--{{ block.settings.stat_font | default: 'heading' }}"
+                        style="--stat-size-m: {{ block.settings.stat_size_mobile | default: 48 }}px; --stat-size-d: {{ block.settings.stat_size_desktop | default: 72 }}px;"
+                      >
                     {%- endif -%}
                     {%- if block.settings.text != blank -%}
                       <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
@@ -375,6 +407,38 @@
 
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "inline_richtext", "id": "title", "label": "Heading / Stat", "default": "+230" },
+        {
+          "type": "select",
+          "id": "stat_font",
+          "label": "Heading/Stat font style",
+          "options": [
+            { "value": "heading", "label": "Theme heading" },
+            { "value": "body", "label": "Theme body (bold)" },
+            { "value": "mono", "label": "Monospace (IBM Plex Mono Light)" }
+          ],
+          "default": "heading"
+        },
+        {
+          "type": "range",
+          "id": "stat_size_mobile",
+          "label": "Heading/Stat size (mobile, px)",
+          "min": 24,
+          "max": 72,
+          "step": 1,
+          "unit": "px",
+          "default": 48
+        },
+        {
+          "type": "range",
+          "id": "stat_size_desktop",
+          "label": "Heading/Stat size (desktop, px)",
+          "min": 40,
+          "max": 140,
+          "step": 1,
+          "unit": "px",
+          "default": 72
+        },
+
         { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Hectáreas regeneradas</p>" },
         { "type": "text", "id": "link_label", "label": "Link label" },
         { "type": "url", "id": "link", "label": "Link" }
