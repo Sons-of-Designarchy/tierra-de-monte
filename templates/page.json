@@ -67,11 +67,12 @@
           "type": "column",
           "settings": {
             "desc_font": "body",
+            "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
             "title": "Investigamosen campo",
             "stat_font": "heading",
             "stat_size_mobile": 41,
-            "stat_size_desktop": 99,
-            "text": "<h1>para escuchar lo que la tierra realmente necesita.</h1>",
+            "stat_size_desktop": 40,
+            "text": "<p>para escuchar lo que la tierra realmente necesita.</p>",
             "link_label": "",
             "link": ""
           }
@@ -81,11 +82,11 @@
           "settings": {
             "desc_font": "body",
             "image": "shopify://shop_images/icon-create.svg",
-            "title": "Creamossoluciones de raíz",
+            "title": "Creamos soluciones de raíz",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<h1>Que despiertan la microbiología dormida.</h1>",
+            "stat_size_desktop": 40,
+            "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
             "link_label": "",
             "link": ""
           }
@@ -94,11 +95,12 @@
           "type": "column",
           "settings": {
             "desc_font": "body",
-            "title": "Etiam porta sem malesuada magna mollis euismod.",
+            "image": "shopify://shop_images/icon-dise.svg",
+            "title": "Diseñamospara el mañana",
             "stat_font": "mono",
-            "stat_size_mobile": 36,
+            "stat_size_mobile": 24,
             "stat_size_desktop": 40,
-            "text": "<h1>Diseñamos<br/>para el mañana</h1>",
+            "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
             "link_label": "",
             "link": ""
           }
