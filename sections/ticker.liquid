@@ -6,11 +6,15 @@
       --speed: 28s;
       --h: {{ section.settings.height | default: 100 }}px;
       --fs: {{ section.settings.font_size | default: 22 }}px;
+      --icon-h: {{ section.settings.icon_height | default: 32 }}px;
+      --text-color: {{ section.settings.text_color | default: '#F3EFCF' }};
       position: relative;
       min-height: var(--h);
       overflow: hidden;
       isolation: isolate;
       background: {{ section.settings.bg_color | default: 'transparent' }};
+      border-top: 1px solid var(--text-color);     /* 👈 top border */
+      border-bottom: 1px solid var(--text-color);  /* 👈 bottom border */
     }
 
     /* Background image */
@@ -34,9 +38,8 @@
     #ticker-{{ section.id }} .typo-primary,
     #ticker-{{ section.id }} .typo-secondary{
       line-height:1;
-      letter-spacing:.08em;
       white-space:nowrap;
-      color: {{ section.settings.text_color | default: '#F3EFCF' }};
+      color: var(--text-color);
       font-size: var(--fs);
       text-transform:
         {% if section.settings.text_transform == 'none' %}none
@@ -48,10 +51,13 @@
     #ticker-{{ section.id }} .typo-primary{
       font-family: var(--font-heading-family);
       font-weight: var(--font-heading-weight);
+      letter-spacing: -0.1rem; /* tighter spacing for headings */
     }
+
     #ticker-{{ section.id }} .typo-secondary{
       font-family: var(--font-body-family);
-      font-weight:400;
+      font-weight: 400;
+      letter-spacing: .08em;
     }
 
     /* Monospace toggle */
@@ -75,7 +81,13 @@
       display:inline-flex; align-items:center; gap:var(--gap);
     }
     #ticker-{{ section.id }} .item{ display:inline-flex; align-items:center; gap:.6rem }
-    #ticker-{{ section.id }} .icon{ width:18px; height:18px; object-fit:contain; flex:0 0 18px }
+    #ticker-{{ section.id }} .icon{
+      height:var(--icon-h);
+      width:auto;
+      max-height:55px;
+      object-fit:contain;
+      flex:0 0 auto;
+    }
 
     @keyframes ticker-{{ section.id }}{
       from { transform: translateX(0); }
@@ -105,8 +117,7 @@
                   alt=""
                   class="icon"
                   src="{{ section.settings.icon | image_url }}"
-                  width="18"
-                  height="18"
+                  height="{{ section.settings.icon_height | default: 32 }}"
                   loading="lazy"
                 >
               {% endif %}
@@ -122,8 +133,7 @@
                   alt=""
                   class="icon"
                   src="{{ section.settings.icon | image_url }}"
-                  width="18"
-                  height="18"
+                  height="{{ section.settings.icon_height | default: 32 }}"
                   loading="lazy"
                 >
               {% endif %}
@@ -142,6 +152,15 @@
   "settings": [
     { "type": "text", "id": "text", "label": "Text", "default": "VIDA QUE GENERA VIDA" },
     { "type": "image_picker", "id": "icon", "label": "Icon" },
+    {
+      "type": "range",
+      "id": "icon_height",
+      "label": "Icon height (px)",
+      "min": 12,
+      "max": 55,
+      "step": 1,
+      "default": 32
+    },
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
 
     {
@@ -185,8 +204,8 @@
       "id": "typography_variant",
       "label": "Typography",
       "options": [
-        { "value": "primary", "label": "Heading font (uppercase)" },
-        { "value": "secondary", "label": "Body font (uppercase)" }
+        { "value": "primary", "label": "Heading font" },
+        { "value": "secondary", "label": "Body font" }
       ],
       "default": "primary"
     },
