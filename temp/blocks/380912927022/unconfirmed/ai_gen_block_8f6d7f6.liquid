@@ -1,6 +1,1246 @@
+{% doc %}
+  @prompt
+    a section where i can add cards for a team section, each card should have a image,with 16px rounded corner, an underneath section for title for the name of the person, a text for its role and all the container should have a left 1px stroke of the size of the container, add the ability to add infinite team members but limit always the row to 4 elements.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-team-section-{{ ai_gen_id }} {
+    padding: 40px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-team-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-team-heading-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+  }
+
+  .ai-team-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: {{ block.settings.card_gap }}px;
+  }
+
+  .ai-team-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-left: 1px solid {{ block.settings.border_color }};
+    padding: {{ block.settings.card_padding }}px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-team-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+  }
+
+  .ai-team-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .ai-team-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+  }
+
+  .ai-team-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f4f4;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-team-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-team-info-{{ ai_gen_id }} {
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-team-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.name_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.name_color }};
+    margin: 0 0 8px 0;
+  }
+
+  .ai-team-role-{{ ai_gen_id }} {
+    font-size: {{ block.settings.role_size }}px;
+    color: {{ block.settings.role_color }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-team-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-team-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-team-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-team-container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-team-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="ai-team-grid-{{ ai_gen_id }}">
+      {% assign member_count = 0 %}
+      {% for i in (1..50) %}
+        {% liquid
+          assign image_key = 'member_' | append: i | append: '_image'
+          assign name_key = 'member_' | append: i | append: '_name'
+          assign role_key = 'member_' | append: i | append: '_role'
+          
+          assign member_image = block.settings[image_key]
+          assign member_name = block.settings[name_key]
+          assign member_role = block.settings[role_key]
+        %}
+
+        {% if member_name != blank or member_role != blank or member_image != blank %}
+          <div class="ai-team-card-{{ ai_gen_id }}">
+            <div class="ai-team-image-wrapper-{{ ai_gen_id }}">
+              {% if member_image %}
+                <img
+                  src="{{ member_image | image_url: width: 500 }}"
+                  alt="{{ member_name | escape }}"
+                  class="ai-team-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="{{ member_image.width }}"
+                  height="{{ member_image.height }}"
+                >
+              {% else %}
+                <div class="ai-team-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="ai-team-info-{{ ai_gen_id }}">
+              {% if member_name != blank %}
+                <h3 class="ai-team-name-{{ ai_gen_id }}">{{ member_name }}</h3>
+              {% endif %}
+              {% if member_role != blank %}
+                <p class="ai-team-role-{{ ai_gen_id }}">{{ member_role }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Team section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Meet our team"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#faf4ec"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1f4d37"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#1f4d37"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name color",
+      "default": "#1f4d37"
+    },
+    {
+      "type": "range",
+      "id": "name_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Name size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "role_color",
+      "label": "Role color",
+      "default": "#1f4d37"
+    },
+    {
+      "type": "range",
+      "id": "role_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Role size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Team member 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_1_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_1_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_2_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_2_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_3_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_3_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_4_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_4_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_5_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_5_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_6_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_6_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_7_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_7_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_8_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_8_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_9_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_9_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_10_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_10_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 11"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_11_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_11_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_11_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 12"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_12_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_12_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_12_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 13"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_13_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_13_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_13_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 14"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_14_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_14_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_14_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 15"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_15_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_15_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_15_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 16"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_16_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_16_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_16_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 17"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_17_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_17_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_17_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 18"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_18_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_18_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_18_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 19"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_19_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_19_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_19_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 20"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_20_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_20_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_20_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 21"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_21_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_21_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_21_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 22"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_22_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_22_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_22_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 23"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_23_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_23_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_23_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 24"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_24_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_24_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_24_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 25"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_25_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_25_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_25_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 26"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_26_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_26_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_26_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 27"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_27_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_27_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_27_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 28"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_28_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_28_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_28_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 29"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_29_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_29_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_29_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 30"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_30_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_30_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_30_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 31"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_31_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_31_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_31_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 32"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_32_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_32_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_32_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 33"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_33_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_33_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_33_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 34"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_34_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_34_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_34_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 35"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_35_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_35_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_35_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 36"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_36_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_36_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_36_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 37"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_37_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_37_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_37_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 38"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_38_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_38_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_38_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 39"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_39_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_39_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_39_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 40"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_40_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_40_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_40_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 41"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_41_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_41_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_41_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 42"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_42_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_42_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_42_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 43"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_43_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_43_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_43_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 44"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_44_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_44_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_44_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 45"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_45_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_45_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_45_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 46"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_46_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_46_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_46_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 47"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_47_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_47_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_47_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 48"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_48_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_48_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_48_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 49"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_49_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_49_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_49_role",
+      "label": "Role"
+    },
+    {
+      "type": "header",
+      "content": "Team member 50"
+    },
+    {
+      "type": "image_picker",
+      "id": "member_50_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "member_50_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "member_50_role",
+      "label": "Role"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Team section"
+    }
+  ]
+}
 {% endschema %}
