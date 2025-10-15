@@ -135,6 +135,64 @@
         "padding_bottom": 52
       }
     },
+    "multicolumn_feature_iTWNGU": {
+      "type": "multicolumn-feature",
+      "blocks": {
+        "column_mnx3UR": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/home-tdm1.jpg",
+            "title": "",
+            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_V8h7JY": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/home-tdm2.jpg",
+            "title": "",
+            "text": "<p>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_mnCD7n": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "title": "+230",
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_mnx3UR",
+        "column_V8h7JY",
+        "column_mnCD7n"
+      ],
+      "name": "Multicolumn — Feature",
+      "settings": {
+        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "¿Quienes somos?",
+        "description": "<p>En Tierra de Monte creamos soluciones biológicas que potencian la vida en cada cultivo.</p>",
+        "button_label": "Encuentra tu solución",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#faf4ec",
+        "color_scheme": "scheme-5",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "ticker_fLHMnW": {
       "type": "ticker",
       "name": "Infinite Ticker",
@@ -207,7 +265,6 @@
         "columns_mobile": "1",
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
-        "background_style": "primary",
         "color_scheme": "",
         "padding_top": 100,
         "padding_bottom": 100
@@ -413,6 +470,7 @@
     "tabs-collections",
     "ticker_H9daYM",
     "rich_text_cqtebC",
+    "multicolumn_feature_iTWNGU",
     "ticker_fLHMnW",
     "multicolumn_feature_mjeJtX",
     "ticker_GYwFQh",
