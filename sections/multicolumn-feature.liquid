@@ -59,8 +59,8 @@
     object-fit: cover;
   }
 
-  /* Big stat/heading min size */
-  #shopify-section-{{ section.id }} .multicolumn-card h3 {
+  /* Big stat/heading — only non-stat h3s get the clamp size */
+  #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat) {
     font-size: clamp(61px, 6vw, 96px);
     line-height: 1;
     margin: 0 0 4px;
@@ -68,34 +68,34 @@
 {%- endstyle -%}
 
 {%- style -%}
-    /* Make each card a vertical stack and push the image block to the bottom */
-    #shopify-section-{{ section.id }} .multicolumn-card{
-      display:flex; flex-direction:column; gap:12px; min-height:100%;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__info{ order:1; }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
-      order:3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
-    }
+  /* Make each card a vertical stack and push the image block to the bottom */
+  #shopify-section-{{ section.id }} .multicolumn-card{
+    display:flex; flex-direction:column; gap:12px; min-height:100%;
+  }
+  #shopify-section-{{ section.id }} .multicolumn-card__info{ order:1; }
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+    order:3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
+  }
 
-    /* Tidy image element */
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
-      position:relative; padding-bottom:0 !important; aspect-ratio: 16 / 9; display:block;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__image{
-      position:static !important; width:100%; height:auto; display:block; object-fit:cover;
-    }
+  /* Tidy image element */
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+    position:relative; padding-bottom:0 !important; aspect-ratio: 16 / 9; display:block;
+  }
+  #shopify-section-{{ section.id }} .multicolumn-card__image{
+    position:static !important; width:100%; height:auto; display:block; object-fit:cover;
+  }
 
-    /* Description font options */
-    #shopify-section-{{ section.id }} .mc-desc--mono{
-      font-family: 'IBMPlexMono-Light', monospace;
-      font-weight:300; letter-spacing:.02em;
-    }
-    #shopify-section-{{ section.id }} .mc-desc--body{
-      font-family: var(--font-body-family);
-      font-weight: 400;
-    }
+  /* Description font options */
+  #shopify-section-{{ section.id }} .mc-desc--mono{
+    font-family: 'IBMPlexMono-Light', monospace;
+    font-weight:300; letter-spacing:.02em;
+  }
+  #shopify-section-{{ section.id }} .mc-desc--body{
+    font-family: var(--font-body-family);
+    font-weight: 400;
+  }
 
-    /* ===== Per-block stat (heading) controls ===== */
+  /* ===== Per-block stat (heading) controls ===== */
   #shopify-section-{{ section.id }} .mc-stat{
     line-height: 1;
     margin: 0 0 4px;
@@ -122,6 +122,14 @@
     font-family: 'IBMPlexMono-Light', monospace;
     font-weight: 300;
     letter-spacing: .02em;
+  }
+
+  /* Paste-proof: normalize any nested tags inside the stat */
+  #shopify-section-{{ section.id }} .mc-stat :is(h1,h2,h3,h4,h5,h6,p,div,span){
+    all: unset;
+    font: inherit;
+    line-height: inherit;
+    display: inline;
   }
 {%- endstyle -%}
 
@@ -186,18 +194,9 @@
             id="Slider-{{ section.id }}"
             role="list"
           >
-            {%- liquid
-              assign highest_ratio = 0
-              for block in section.blocks
-                if block.settings.image.aspect_ratio > highest_ratio
-                  assign highest_ratio = block.settings.image.aspect_ratio
-                endif
-              endfor
-            -%}
-
             {%- for block in section.blocks -%}
               {%- assign empty_column = '' -%}
-              {%- if block.settings.image == blank4
+              {%- if block.settings.image == blank
                 and block.settings.title == blank
                 and block.settings.text == blank
                 and block.settings.link_label == blank
@@ -207,7 +206,7 @@
 
               <li
                 id="Slide-{{ section.id }}-{{ forloop.index }}"
-                class="multicolumn-list__item grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if section.settings.column_alignment == 'center' %} center{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                class="multicolumn-list__item grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if section.settings.column_alignment == 'center' %} center{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}{{ empty_column }}"
                 {{ block.shopify_attributes }}
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade style="--animation-order: {{ forloop.index }};"
@@ -221,12 +220,16 @@
                         class="inline-richtext mc-stat mc-stat--{{ block.settings.stat_font | default: 'heading' }}"
                         style="--stat-size-m: {{ block.settings.stat_size_mobile | default: 48 }}px; --stat-size-d: {{ block.settings.stat_size_desktop | default: 72 }}px;"
                       >
+                        {{ block.settings.title }}
+                      </h3>
                     {%- endif -%}
+
                     {%- if block.settings.text != blank -%}
                       <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
                         {{ block.settings.text }}
                       </div>
                     {%- endif -%}
+
                     {%- if block.settings.link_label != blank -%}
                       <a
                         class="link animate-arrow"
