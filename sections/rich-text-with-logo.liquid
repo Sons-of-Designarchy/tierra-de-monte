@@ -27,23 +27,46 @@
   #shopify-section-{{ section.id }} .rt.rt--default      { --rt-maxw: 780px; }
   #shopify-section-{{ section.id }} .rt.rt--wide         { --rt-maxw: 980px; }
 
+  /* Logo (no Dawn .media wrapper) */
   #shopify-section-{{ section.id }} .rt__logo { line-height: 0; }
-  #shopify-section-{{ section.id }} .rt__logo .media { display:block; width: {{ section.settings.logo_width | default: 120 }}px; height:auto; }
+  #shopify-section-{{ section.id }} .rt__logo-img {
+    display: block;
+    width: {{ section.settings.logo_width | default: 120 }}px;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    opacity: 1;
+    mix-blend-mode: normal;
+  }
 
   #shopify-section-{{ section.id }} .rt__heading { margin: 0; }
   #shopify-section-{{ section.id }} .rt__text { color: rgb(var(--color-foreground), .85); }
 
-  /* Monospace toggles (uses theme monospace var if present) */
-  #shopify-section-{{ section.id }} .rt--mono-heading .rt__heading {
-    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace);
-    font-weight: 400; letter-spacing: .01em;
+  /* Monospace toggles (strong specificity so RTE children inherit) */
+  #shopify-section-{{ section.id }} .rt--mono-heading .rt__heading,
+  #shopify-section-{{ section.id }} .rt--mono-heading .rt__heading * {
+    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace) !important;
+    font-weight: 400;
+    letter-spacing: .01em;
   }
-  #shopify-section-{{ section.id }} .rt--mono-body .rt__text {
-    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace);
-    font-weight: 300; letter-spacing: .01em;
+  #shopify-section-{{ section.id }} .rt--mono-body .rt__text,
+  #shopify-section-{{ section.id }} .rt--mono-body .rt__text * {
+    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace) !important;
+    font-weight: 300;
+    letter-spacing: .01em;
   }
 
   #shopify-section-{{ section.id }} .rt__cta { margin-top: 4px; }
+{%- endstyle -%}
+
+{%- style -%}
+  /* widen the "wide" layout to 990px */
+  #shopify-section-{{ section.id }} .rt.rt--wide { --rt-maxw: 990px; }
+
+  /* heading line-height */
+  #shopify-section-{{ section.id }} .rt__heading {
+    line-height: 69px;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -52,10 +75,8 @@
   assign mono_heading = section.settings.mono_heading | default: false
   assign mono_body = section.settings.mono_body | default: false
 
-  assign logo_alt_text = section.settings.logo_alt | default: section.settings.heading
-  assign logo_alt_text = logo_alt_text | escape
-  assign logo_widths = '120, 160, 200, 240, 320, 480, 640, 800'
-  assign logo_sizes = 'auto'
+  assign rt_logo_alt = section.settings.logo_alt | default: section.settings.heading | default: 'Section logo'
+  assign rt_logo_alt = rt_logo_alt | escape
 -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -63,13 +84,11 @@
     <div class="rt {{ align_class }} {{ width_class }}{% if mono_heading %} rt--mono-heading{% endif %}{% if mono_body %} rt--mono-body{% endif %}">
       {%- if section.settings.logo != blank -%}
         <div class="rt__logo">
-          <div class="media">
-            {{-
-              section.settings.logo
-              | image_url: width: 800
-              | image_tag: widths: logo_widths, sizes: logo_sizes, alt: logo_alt_text, loading: 'lazy'
-            -}}
-          </div>
+          {{-
+            section.settings.logo
+            | image_url: width: 800
+            | image_tag: alt: rt_logo_alt, loading: 'lazy', class: 'rt__logo-img'
+          -}}
         </div>
       {%- endif -%}
 
