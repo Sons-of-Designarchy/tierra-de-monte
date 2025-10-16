@@ -108,77 +108,6 @@
         "padding_bottom": 36
       }
     },
-    "multicolumn_feature_W96JVm": {
-      "type": "multicolumn-feature",
-      "blocks": {
-        "column_fFEB7X": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
-            "title": "Investigamosen campo",
-            "stat_font": "heading",
-            "stat_size_mobile": 41,
-            "stat_size_desktop": 40,
-            "text": "<p>para escuchar lo que la tierra realmente necesita.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_RhV7R3": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "image": "shopify://shop_images/icon-create.svg",
-            "title": "Creamos soluciones de raíz",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 40,
-            "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_KWPJ8z": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "image": "shopify://shop_images/icon-dise.svg",
-            "title": "Diseñamospara el mañana",
-            "stat_font": "mono",
-            "stat_size_mobile": 24,
-            "stat_size_desktop": 40,
-            "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_fFEB7X",
-        "column_RhV7R3",
-        "column_KWPJ8z"
-      ],
-      "custom_css": [],
-      "name": "Multicolumn — Feature",
-      "settings": {
-        "pretitle": "Lo que nos HAce Diferentes",
-        "rule_color": "#294e3f",
-        "show_rule": true,
-        "title": "En un mundo que busca resultados inmediatos. Nosotros pensamos en los ecosistemas a largo plazo.",
-        "description": "",
-        "button_label": "",
-        "button_link": "",
-        "heading_size": "h1",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "divider_color": "#1a1a1a",
-        "color_scheme": "",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
     "image_with_text_YqAQVK": {
       "type": "image-with-text",
       "blocks": {
@@ -459,7 +388,6 @@
     "rich_text_with_logo_3QUehq",
     "main",
     "multicol_custom_feature_Vd6Rq7",
-    "multicolumn_feature_W96JVm",
     "image_with_text_YqAQVK",
     "rich_text_H9q6EB",
     "image_with_text_eYWBnA",
