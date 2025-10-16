@@ -124,7 +124,7 @@
       "name": "Multicolumn — custom box",
       "settings": {
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
-        "rule_color": "#294E3F",
+        "rule_color": "#294e3f",
         "show_rule": true,
         "title": "Indicadores de impacto",
         "description": "",
@@ -136,6 +136,9 @@
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "",
+        "use_custom_col_height": false,
+        "col_height_vh_desktop": 20,
+        "col_height_vh_mobile": 35,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -215,8 +218,8 @@
         "text": "ODS no son casillas por marcar, sino raíces que guían nuestra práctica diaria.",
         "icon_height": 32,
         "bg_image": "shopify://shop_images/ticker-1.jpg",
-        "bg_color": "#00000000",
-        "text_color": "#F3EFCF",
+        "bg_color": "rgba(0,0,0,0)",
+        "text_color": "#f3efcf",
         "font_size": 22,
         "text_transform": "uppercase",
         "typography_variant": "secondary",
@@ -381,7 +384,7 @@
       "name": "Multicolumn — Feature",
       "settings": {
         "pretitle": "Metodología",
-        "rule_color": "#294E3F",
+        "rule_color": "#294e3f",
         "show_rule": true,
         "title": "Ciencia que toca la tierra",
         "description": "<p>Nuestra investigación no se encierra en laboratorios: camina los surcos, toca la tierra, escucha a los productores.</p>",
