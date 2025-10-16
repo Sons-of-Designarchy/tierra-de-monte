@@ -21,7 +21,7 @@
       "type": "featured-blog",
       "name": "t:sections.featured-blog.presets.name",
       "settings": {
-        "blog": "",
+        "blog": "post",
         "post_limit": 3,
         "heading": "Artículos del blog",
         "heading_size": "h1",
