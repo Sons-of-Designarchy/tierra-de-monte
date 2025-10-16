@@ -60,6 +60,18 @@
           "type": "description",
           "settings": {}
         },
+        "icon_with_text_qEW7Fq": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "heart",
+            "heading_1": "Beneficio 1",
+            "icon_2": "return",
+            "heading_2": "Beneficio 2",
+            "icon_3": "truck",
+            "heading_3": "Beneficio 3"
+          }
+        },
         "collapsible_tab_QgmY3h": {
           "type": "collapsible_tab",
           "settings": {
@@ -107,6 +119,7 @@
         "variant_picker_NNLKj9",
         "buy_buttons",
         "description",
+        "icon_with_text_qEW7Fq",
         "collapsible_tab_QgmY3h",
         "collapsible_tab_dgJxpK",
         "icon_with_text_Ux9qV3",
