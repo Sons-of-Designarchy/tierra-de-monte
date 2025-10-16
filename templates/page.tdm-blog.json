@@ -22,10 +22,10 @@
       "name": "t:sections.featured-blog.presets.name",
       "settings": {
         "blog": "post",
-        "post_limit": 3,
-        "heading": "Artículos del blog",
+        "post_limit": 4,
+        "heading": "",
         "heading_size": "h1",
-        "columns_desktop": 3,
+        "columns_desktop": 2,
         "show_view_all": true,
         "show_image": true,
         "show_date": true,
