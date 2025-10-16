@@ -548,6 +548,31 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   font-size: 0.75rem;
   line-height: 1.2;
 }
+
+/* Force the logo to be visible and left-aligned for THIS section */
+#shopify-section-template--25297297506606__rich_text_with_logo_3QUehq .rt__logo {
+  line-height: 0;
+}
+
+#shopify-section-template--25297297506606__rich_text_with_logo_3QUehq .rt__logo .media {
+  display: block;
+  width: 160px;     /* match your section setting; change as needed */
+  height: auto;
+  /* DEBUG: uncomment to see the box if logo blends with bg */
+  /* outline: 1px dashed #999; background: #f3f3f3; */
+}
+
+#shopify-section-template--25297297506606__rich_text_with_logo_3QUehq .rt__logo img {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+  object-fit: contain;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+
 /* === Page-specific override: /nosotros === */
 .template-page--nosotros 
 #shopify-section-template--25297297506606__multicolumn_feature_W96JVm {
