@@ -11,6 +11,7 @@
   "sections": {
     "rich_text_with_logo_3QUehq": {
       "type": "rich-text-with-logo",
+      "disabled": true,
       "name": "Rich text + Logo (custom)",
       "settings": {
         "logo": "shopify://shop_images/Client-Logo.svg",
