@@ -151,7 +151,7 @@
           "settings": {
             "image": "shopify://shop_images/1.png",
             "title": "",
-            "desc_font": "body",
+            "desc_font": "mono",
             "text": "<p>Hambre Cero </p>",
             "link_label": "",
             "link": ""
@@ -162,7 +162,7 @@
           "settings": {
             "image": "shopify://shop_images/2.png",
             "title": "",
-            "desc_font": "body",
+            "desc_font": "mono",
             "text": "<p>Producción y Consumo <br/>Responsables </p>",
             "link_label": "",
             "link": ""
@@ -173,7 +173,7 @@
           "settings": {
             "image": "shopify://shop_images/3.png",
             "title": "",
-            "desc_font": "body",
+            "desc_font": "mono",
             "text": "<p>Acción por el Clima </p>",
             "link_label": "",
             "link": ""
@@ -184,7 +184,7 @@
           "settings": {
             "image": "shopify://shop_images/4.png",
             "title": "",
-            "desc_font": "body",
+            "desc_font": "mono",
             "text": "<p>Vida de Ecosistemas Terrestres </p>",
             "link_label": "",
             "link": ""
