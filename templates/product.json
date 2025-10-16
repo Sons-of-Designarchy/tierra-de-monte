@@ -158,7 +158,7 @@
         "media_size": "medium",
         "constrain_to_viewport": true,
         "media_fit": "cover",
-        "gallery_layout": "stacked",
+        "gallery_layout": "thumbnail_slider",
         "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "lightbox",
@@ -189,7 +189,7 @@
       "type": "slideshow",
       "name": "t:sections.slideshow.presets.name",
       "settings": {
-        "layout": "full_bleed",
+        "layout": "grid",
         "slide_height": "medium",
         "slider_visual": "counter",
         "auto_rotate": false,
