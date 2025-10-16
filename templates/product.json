@@ -333,7 +333,7 @@
         "title": "Mejora la produccion y calidad de tus suelos en cada cosecha",
         "description": "",
         "button_label": "Acerca de nosotros",
-        "button_link": "",
+        "button_link": "shopify://pages/nosotros",
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
