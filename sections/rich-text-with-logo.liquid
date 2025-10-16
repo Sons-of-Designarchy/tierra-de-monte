@@ -1,24 +1,7 @@
-{% comment %}
-  Rich text w/ Logo — custom section for Dawn 15.4.0
-  - Logo image on top (optional)
-  - Monospaced font option for heading and/or body
-  - Mirrors core Rich text settings (alignment, color scheme, padding, button)
-{% endcomment %}
-
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   /* Scoped to this section only */
-  #shopify-section-{{ section.id }} .rt {
-    display: grid;
-    gap: 16px;
-    justify-items: var(--rt-align, start);
-    text-align: var(--rt-text-align, left);
-    max-width: var(--rt-maxw, 780px);
-    margin-inline: auto;
-  }
-
-  /* Section padding */
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -30,50 +13,37 @@
     }
   }
 
-  /* Alignment & width */
+  #shopify-section-{{ section.id }} .rt {
+    display: grid;
+    gap: 16px;
+    justify-items: var(--rt-align, start);
+    text-align: var(--rt-text-align, left);
+    max-width: var(--rt-maxw, 780px);
+    margin-inline: auto;
+  }
   #shopify-section-{{ section.id }} .rt.rt--align-center { --rt-align:center; --rt-text-align:center; }
   #shopify-section-{{ section.id }} .rt.rt--align-left   { --rt-align:start;  --rt-text-align:left;  }
   #shopify-section-{{ section.id }} .rt.rt--narrow       { --rt-maxw: 680px; }
   #shopify-section-{{ section.id }} .rt.rt--default      { --rt-maxw: 780px; }
   #shopify-section-{{ section.id }} .rt.rt--wide         { --rt-maxw: 980px; }
 
-  /* Logo block */
-  #shopify-section-{{ section.id }} .rt__logo {
-    display:inline-block;
-    line-height:0;
-  }
-  #shopify-section-{{ section.id }} .rt__logo .media {
-    display:block;
-    width: {{ section.settings.logo_width | default: 120 }}px;
-    height:auto;
-  }
+  #shopify-section-{{ section.id }} .rt__logo { line-height: 0; }
+  #shopify-section-{{ section.id }} .rt__logo .media { width: {{ section.settings.logo_width | default: 120 }}px; height: auto; display: block; }
 
-  /* Heading */
-  #shopify-section-{{ section.id }} .rt__heading {
-    margin: 0;
-  }
+  #shopify-section-{{ section.id }} .rt__heading { margin: 0; }
+  #shopify-section-{{ section.id }} .rt__text { color: rgb(var(--color-foreground), .85); }
 
-  /* Body */
-  #shopify-section-{{ section.id }} .rt__text {
-    color: rgb(var(--color-foreground), .85);
-  }
-
-  /* Monospace toggles (use theme var if present; fallback to IBM Plex Mono / system mono) */
+  /* Monospace toggles */
   #shopify-section-{{ section.id }} .rt--mono-heading .rt__heading {
-    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-    font-weight: 400;
-    letter-spacing: .01em;
+    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace);
+    font-weight: 400; letter-spacing: .01em;
   }
   #shopify-section-{{ section.id }} .rt--mono-body .rt__text {
-    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-    font-weight: 300;
-    letter-spacing: .01em;
+    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace);
+    font-weight: 300; letter-spacing: .01em;
   }
 
-  /* Button wrapper spacing */
-  #shopify-section-{{ section.id }} .rt__cta {
-    margin-top: 4px;
-  }
+  #shopify-section-{{ section.id }} .rt__cta { margin-top: 4px; }
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -165,7 +135,6 @@
     },
 
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add some compelling copy here.</p>" },
-
     { "type": "text", "id": "button_label", "label": "Button label" },
     { "type": "url", "id": "button_link", "label": "Button link" },
 
@@ -218,6 +187,6 @@
       "default": 36
     }
   ],
-  "presets": [{ "name": "Rich text + Logo", "category": "Text" }]
+  "presets": [{ "name": "Rich text + Logo (custom)" }]
 }
 {% endschema %}
