@@ -1,10 +1,218 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "Impacto y Ciencia",
   "sections": {
     "main": {
       "type": "main-page",
-      "settings": {}
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_NmXtiX": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_UdTBgK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Impacto y Ciencia",
+            "heading_size": "hxxl"
+          }
+        },
+        "text_JyMjCw": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nuestro impacto no se mide en cifras aisladas, sino en la vida que vuelve a florecer en cada ecosistema.</p>",
+            "text_style": "subtitle"
+          }
+        },
+        "button_i479y4": {
+          "type": "button",
+          "settings": {
+            "button_label": "Etiqueta de botón",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_UdTBgK",
+        "text_JyMjCw",
+        "button_i479y4"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/heroImg.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicol_custom_feature_tBt498": {
+      "type": "multicol-custom-feature",
+      "blocks": {
+        "column_ykPz9y": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
+            "icon_size": 40,
+            "title": "Hectáreas regeneradas",
+            "stat_font": "heading",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 24,
+            "text": "<p>suelos que respiran de nuevo.<br/></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_q4U9m4": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/icon-create.svg",
+            "icon_size": 40,
+            "title": "Productores  aliados",
+            "stat_font": "heading",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 24,
+            "text": "<p>familias que recuperan dignidad en el campo.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_biVHUd": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Biodiversidad recuperada",
+            "stat_font": "heading",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 24,
+            "text": "<p>aves, insectos y plantas regresan donde antes había silencio.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_ykPz9y",
+        "column_q4U9m4",
+        "column_biVHUd"
+      ],
+      "name": "Multicolumn — custom box",
+      "settings": {
+        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "Indicadores de impacto",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_7dgeDY": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_XLCfmh": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/1.png",
+            "title": "",
+            "text": "<p>Hambre Cero </p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_7GM7V6": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/2.png",
+            "title": "",
+            "text": "<p>Producción y Consumo <br/>Responsables </p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_9LbPcf": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/3.png",
+            "title": "",
+            "text": "<p>Acción por el Clima </p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_yckxqk": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/4.png",
+            "title": "",
+            "text": "<p>Vida de Ecosistemas Terrestres </p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_XLCfmh",
+        "column_7GM7V6",
+        "column_9LbPcf",
+        "column_yckxqk"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "ODS como brújula",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "image_with_text_NmXtiX",
+    "multicol_custom_feature_tBt498",
+    "multicolumn_7dgeDY"
+  ]
 }
