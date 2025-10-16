@@ -25,6 +25,25 @@
     border: 0 !important;
   }
   {% endif %}
+
+  /* ==== Description font styles (per-column) ==== */
+  #shopify-section-{{ section.id }} .mc-desc--body {
+    font-family: var(--font-body-family);
+    font-weight: 400;
+  }
+  #shopify-section-{{ section.id }} .mc-desc--mono {
+    /* Will use your uploaded IBM Plex Mono if present; otherwise falls back safely */
+    font-family: "IBM Plex Mono", "Courier New", Courier, monospace !important;
+    font-weight: 300;
+    letter-spacing: .02em;
+  }
+  /* Ensure children inside RTE inherit the chosen style */
+  #shopify-section-{{ section.id }} .mc-desc--mono *,
+  #shopify-section-{{ section.id }} .mc-desc--body * {
+    font-family: inherit !important;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
 {%- endstyle -%}
 
 {%- style -%}
@@ -157,7 +176,9 @@
                   <h3 class="inline-richtext">{{ block.settings.title }}</h3>
                 {%- endif -%}
                 {%- if block.settings.text != blank -%}
-                  <div class="rte">{{ block.settings.text }}</div>
+                  <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
+                    {{ block.settings.text }}
+                  </div>
                 {%- endif -%}
                 {%- if block.settings.link_label != blank -%}
                   <a
@@ -229,9 +250,7 @@
   "name": "t:sections.multicolumn.name",
   "class": "section",
   "tag": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     {
       "type": "inline_richtext",
@@ -239,10 +258,7 @@
       "default": "t:sections.multicolumn.settings.title.default",
       "label": "t:sections.multicolumn.settings.title.label"
     },
-    {
-      "type": "header",
-      "content": "Image & Card tweaks"
-    },
+    { "type": "header", "content": "Image & Card tweaks" },
     {
       "type": "range",
       "id": "image_width_percent",
@@ -252,12 +268,8 @@
       "step": 1,
       "default": 33
     },
-    {
-      "type": "checkbox",
-      "id": "remove_card_bg",
-      "label": "Remove light gray card background",
-      "default": true
-    },
+    { "type": "checkbox", "id": "remove_card_bg", "label": "Remove light gray card background", "default": true },
+
     {
       "type": "select",
       "id": "heading_size",
@@ -271,10 +283,8 @@
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
     },
-    {
-      "type": "header",
-      "content": "t:sections.multicolumn.settings.header_image.content"
-    },
+
+    { "type": "header", "content": "t:sections.multicolumn.settings.header_image.content" },
     {
       "type": "select",
       "id": "image_width",
@@ -298,10 +308,8 @@
       "default": "adapt",
       "label": "t:sections.multicolumn.settings.image_ratio.label"
     },
-    {
-      "type": "header",
-      "content": "t:sections.multicolumn.settings.header_button.content"
-    },
+
+    { "type": "header", "content": "t:sections.multicolumn.settings.header_button.content" },
     {
       "type": "text",
       "id": "button_label",
@@ -309,15 +317,9 @@
       "label": "t:sections.multicolumn.settings.button_label.label",
       "info": "t:sections.multicolumn.settings.button_label.info"
     },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "t:sections.multicolumn.settings.button_link.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.multicolumn.settings.header_layout.content"
-    },
+    { "type": "url", "id": "button_link", "label": "t:sections.multicolumn.settings.button_link.label" },
+
+    { "type": "header", "content": "t:sections.multicolumn.settings.header_layout.content" },
     {
       "type": "range",
       "id": "columns_desktop",
@@ -347,16 +349,9 @@
       "default": "primary",
       "label": "t:sections.multicolumn.settings.background_style.label"
     },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.multicolumn.settings.header_mobile.content"
-    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+
+    { "type": "header", "content": "t:sections.multicolumn.settings.header_mobile.content" },
     {
       "type": "select",
       "id": "columns_mobile",
@@ -373,10 +368,8 @@
       "default": false,
       "label": "t:sections.multicolumn.settings.swipe_on_mobile.label"
     },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
+
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
     {
       "type": "range",
       "id": "padding_top",
@@ -403,17 +396,25 @@
       "type": "column",
       "name": "t:sections.multicolumn.blocks.column.name",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "t:sections.multicolumn.blocks.column.settings.image.label"
-        },
+        { "type": "image_picker", "id": "image", "label": "t:sections.multicolumn.blocks.column.settings.image.label" },
         {
           "type": "inline_richtext",
           "id": "title",
           "default": "t:sections.multicolumn.blocks.column.settings.title.default",
           "label": "t:sections.multicolumn.blocks.column.settings.title.label"
         },
+
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Description font",
+          "options": [
+            { "value": "body", "label": "Regular body" },
+            { "value": "mono", "label": "Monospace (IBM Plex Mono)" }
+          ],
+          "default": "body"
+        },
+
         {
           "type": "richtext",
           "id": "text",
@@ -426,11 +427,7 @@
           "label": "t:sections.multicolumn.blocks.column.settings.link_label.label",
           "info": "t:sections.multicolumn.blocks.column.settings.link_label.info"
         },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "t:sections.multicolumn.blocks.column.settings.link.label"
-        }
+        { "type": "url", "id": "link", "label": "t:sections.multicolumn.blocks.column.settings.link.label" }
       ]
     }
   ],
