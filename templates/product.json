@@ -65,11 +65,11 @@
           "settings": {
             "layout": "vertical",
             "icon_1": "heart",
-            "heading_1": "Beneficio 1",
+            "heading_1": "{{ product.metafields.custom.beneficio_1 }}",
             "icon_2": "return",
-            "heading_2": "Beneficio 2",
+            "heading_2": "{{ product.metafields.custom.beneficio_2 }}",
             "icon_3": "truck",
-            "heading_3": "Beneficio 3"
+            "heading_3": "{{ product.metafields.custom.beneficio_3 }}"
           }
         },
         "collapsible_tab_QgmY3h": {
