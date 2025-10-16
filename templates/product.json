@@ -199,6 +199,62 @@
         "accessibility_info": "Presentación de diapositivas sobre tu marca"
       }
     },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column-0": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/prod-tdm-1.jpg",
+            "title": "Hola a suelos mas fértiles",
+            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column-1": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/prod-tdm-2.jpg",
+            "title": "No sabes cual es producto correcto?",
+            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_KRNaWc": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/prod-tdm-3.jpg",
+            "title": "Lorem ipsum",
+            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column-0",
+        "column-1",
+        "column_KRNaWc"
+      ],
+      "settings": {
+        "title": "Mejora la produccion y calidad de tus suelos en cada cosecha",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "Acerca de Nosotros",
+        "button_link": "shopify://pages/nosotros",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "none",
+        "color_scheme": "scheme-3",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "ticker_6tg7Qb": {
       "type": "ticker",
       "name": "Infinite Ticker",
@@ -363,6 +419,7 @@
     "main",
     "image_banner_8hJfW9",
     "slideshow_3je3CQ",
+    "multicolumn",
     "ticker_6tg7Qb",
     "multicolumn_feature_naNDXH",
     "ticker_Yh88L3",
