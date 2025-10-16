@@ -107,7 +107,7 @@
       {%- if section.settings.button_label != blank -%}
         <div class="rt__cta">
           <a
-            class="button button--primary"
+            class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
             {% if section.settings.button_link == blank %}
               role="link" aria-disabled="true"
             {% else %}
@@ -161,6 +161,12 @@
 
     { "type": "text", "id": "button_label", "label": "Button label" },
     { "type": "url", "id": "button_link", "label": "Button link" },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "label": "Use outline button (theme secondary)",
+      "default": false
+    },
 
     {
       "type": "select",
