@@ -11,9 +11,130 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
+      }
+    },
+    "image_with_text_ViKw3D": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_nVzgcU": {
+          "type": "heading",
+          "settings": {
+            "heading": "Impacto y Ciencia",
+            "heading_size": "h1"
+          }
+        },
+        "text_myCC8N": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nuestro impacto no se mide en cifras aisladas, sino en la vida que vuelve a florecer en cada ecosistema.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_NRLw4y": {
+          "type": "button",
+          "settings": {
+            "button_label": "Etiqueta de botón",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_nVzgcU",
+        "text_myCC8N",
+        "button_NRLw4y"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicol_custom_feature_Ep8zpe": {
+      "type": "multicol-custom-feature",
+      "blocks": {
+        "column_fy3VtW": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
+            "icon_size": 40,
+            "title": "Hectáreas regeneradas",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_4FmTWW": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "icon_size": 40,
+            "title": "+230",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_wUkzLz": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "icon_size": 40,
+            "title": "+230",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_fy3VtW",
+        "column_4FmTWW",
+        "column_wUkzLz"
+      ],
+      "name": "Multicolumn — custom box",
+      "settings": {
+        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "Indicadores de impacto",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "rich_text_H9q6EB": {
@@ -108,148 +229,13 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "1760564647858fff0c": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_8f6d7f6_bQzJka": {
-          "type": "ai_gen_block_8f6d7f6",
-          "settings": {
-            "heading": "Meet our team",
-            "max_width": 1200,
-            "background_color": "#faf4ec",
-            "heading_color": "#1f4d37",
-            "heading_size": 36,
-            "card_background": "#faf4ec",
-            "border_color": "#1f4d37",
-            "card_padding": 20,
-            "card_gap": 30,
-            "text_alignment": "left",
-            "name_color": "#1f4d37",
-            "name_size": 20,
-            "role_color": "#1f4d37",
-            "role_size": 14,
-            "member_1_image": "shopify://shop_images/Rectangle_20.jpg",
-            "member_1_name": "lorem ipsum",
-            "member_1_role": "Domo amet",
-            "member_2_image": "shopify://shop_images/Rectangle_19.jpg",
-            "member_2_name": "lorem ipsum",
-            "member_2_role": "Domo Amet",
-            "member_3_image": "shopify://shop_images/Rectangle_18.jpg",
-            "member_3_name": "Lorem Upsi",
-            "member_3_role": "Domo amer",
-            "member_4_image": "shopify://shop_images/Rectangle_20.jpg",
-            "member_4_name": "Lorem ipsum",
-            "member_4_role": "Lorem ipsum",
-            "member_5_image": "shopify://shop_images/Rectangle_20.jpg",
-            "member_5_name": "lorem ipsum",
-            "member_5_role": "lorem ipsum",
-            "member_6_image": "shopify://shop_images/Rectangle_18.jpg",
-            "member_6_name": "lorem ipsum",
-            "member_6_role": "lorem ipsum",
-            "member_7_image": "shopify://shop_images/Rectangle_19.jpg",
-            "member_7_name": "lorem jak",
-            "member_7_role": "ipsumin isp",
-            "member_8_name": "",
-            "member_8_role": "",
-            "member_9_name": "",
-            "member_9_role": "",
-            "member_10_name": "",
-            "member_10_role": "",
-            "member_11_name": "",
-            "member_11_role": "",
-            "member_12_name": "",
-            "member_12_role": "",
-            "member_13_name": "",
-            "member_13_role": "",
-            "member_14_name": "",
-            "member_14_role": "",
-            "member_15_name": "",
-            "member_15_role": "",
-            "member_16_name": "",
-            "member_16_role": "",
-            "member_17_name": "",
-            "member_17_role": "",
-            "member_18_name": "",
-            "member_18_role": "",
-            "member_19_name": "",
-            "member_19_role": "",
-            "member_20_name": "",
-            "member_20_role": "",
-            "member_21_name": "",
-            "member_21_role": "",
-            "member_22_name": "",
-            "member_22_role": "",
-            "member_23_name": "",
-            "member_23_role": "",
-            "member_24_name": "",
-            "member_24_role": "",
-            "member_25_name": "",
-            "member_25_role": "",
-            "member_26_name": "",
-            "member_26_role": "",
-            "member_27_name": "",
-            "member_27_role": "",
-            "member_28_name": "",
-            "member_28_role": "",
-            "member_29_name": "",
-            "member_29_role": "",
-            "member_30_name": "",
-            "member_30_role": "",
-            "member_31_name": "",
-            "member_31_role": "",
-            "member_32_name": "",
-            "member_32_role": "",
-            "member_33_name": "",
-            "member_33_role": "",
-            "member_34_name": "",
-            "member_34_role": "",
-            "member_35_name": "",
-            "member_35_role": "",
-            "member_36_name": "",
-            "member_36_role": "",
-            "member_37_name": "",
-            "member_37_role": "",
-            "member_38_name": "",
-            "member_38_role": "",
-            "member_39_name": "",
-            "member_39_role": "",
-            "member_40_name": "",
-            "member_40_role": "",
-            "member_41_name": "",
-            "member_41_role": "",
-            "member_42_name": "",
-            "member_42_role": "",
-            "member_43_name": "",
-            "member_43_role": "",
-            "member_44_name": "",
-            "member_44_role": "",
-            "member_45_name": "",
-            "member_45_role": "",
-            "member_46_name": "",
-            "member_46_role": "",
-            "member_47_name": "",
-            "member_47_role": "",
-            "member_48_name": "",
-            "member_48_role": "",
-            "member_49_name": "",
-            "member_49_role": "",
-            "member_50_name": "",
-            "member_50_role": ""
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_8f6d7f6_bQzJka"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "main",
+    "image_with_text_ViKw3D",
+    "multicol_custom_feature_Ep8zpe",
     "rich_text_H9q6EB",
-    "image_with_text_eYWBnA",
-    "1760564647858fff0c"
+    "image_with_text_eYWBnA"
   ]
 }
