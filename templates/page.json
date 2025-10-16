@@ -162,47 +162,25 @@
         "padding_bottom": 36
       }
     },
-    "rich_text_H9q6EB": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_hpx6Xc": {
-          "type": "heading",
-          "settings": {
-            "heading": "Coméntanos sobre tu marca",
-            "heading_size": "h1"
-          }
-        },
-        "text_JadEnx": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Nuestra certificación como Empresa B no es un sello, es un compromiso:  alineamos cada acción con los Objetivos de Desarrollo Sostenible,  porque entendemos que el campo, la sociedad y el planeta son un solo ecosistema.</p>"
-          }
-        },
-        "button_WRM3B3": {
-          "type": "button",
-          "settings": {
-            "button_label": "Etiqueta de botónConoce más",
-            "button_link": "",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_hpx6Xc",
-        "text_JadEnx",
-        "button_WRM3B3"
-      ],
-      "name": "t:sections.rich-text.presets.name",
+    "rich_text_with_logo_yziVXy": {
+      "type": "rich-text-with-logo",
+      "name": "Rich text + Logo (custom)",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
+        "logo": "shopify://shop_images/empresab-certificada.png",
+        "logo_alt": "Section logo",
+        "logo_width": 76,
+        "heading": "",
+        "heading_size": "h2",
+        "text": "<p>Nuestra certificación como Empresa B no es un sello, es un compromiso:  alineamos cada acción con los Objetivos de Desarrollo Sostenible,  porque entendemos que el campo, la sociedad y el planeta son un solo ecosistema.</p>",
+        "button_label": "Conoce más",
+        "button_link": "",
+        "text_alignment": "center",
+        "content_width": "default",
+        "mono_heading": false,
+        "mono_body": false,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "image_with_text_eYWBnA": {
@@ -398,7 +376,7 @@
     "main",
     "multicol_custom_feature_Vd6Rq7",
     "image_with_text_YqAQVK",
-    "rich_text_H9q6EB",
+    "rich_text_with_logo_yziVXy",
     "image_with_text_eYWBnA",
     "1760564647858fff0c"
   ]
