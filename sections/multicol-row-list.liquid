@@ -45,6 +45,28 @@
   #shopify-section-{{ section.id }} .mc-heading.hxl { font-size: clamp(56px, 6vw, 80px); line-height: 1; }
   #shopify-section-{{ section.id }} .mc-heading.hxxl{ font-size: clamp(64px, 7vw, 96px); line-height: 1; }
 
+  /* ========== Text color override ========== */
+  #shopify-section-{{ section.id }} .mc-row__link,
+  #shopify-section-{{ section.id }} .mc-row__title,
+  #shopify-section-{{ section.id }} .mc-row__desc {
+    color: #294E3F !important; /* Dark green */
+  }
+
+  /* Hover keeps tone readable */
+  #shopify-section-{{ section.id }} .mc-row__link:hover {
+    color: #294E3F;
+    background: rgba(41, 78, 63, 0.05);
+  }
+
+  /* Optional: arrow inherits the same tone */
+  #shopify-section-{{ section.id }} .mc-row__arrow svg path {
+    stroke: #294E3F;
+  }
+
+
+
+
+
   /* ========== ROW LIST (right side) ========== */
   #shopify-section-{{ section.id }} .mc-rows {
     list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap: 12px;
@@ -53,6 +75,12 @@
     position:relative; border-radius: 8px; overflow:hidden;
     background:#EBEAE2;
   }
+
+    /* ========== Dynamic Row Title Size ========== */
+  #shopify-section-{{ section.id }} .mc-row__title {
+    font-size: {{ section.settings.row_title_size | default: 20 }}px !important;
+  }
+
 
   /* Make the entire row clickable */
   #shopify-section-{{ section.id }} .mc-row__link {
@@ -226,6 +254,16 @@
     },
 
     { "type": "header", "content": "Visual" },
+    {
+      "type": "range",
+      "id": "row_title_size",
+      "label": "Row title font size (px)",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "default": 20
+    },
+
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
 
     { "type": "header", "content": "Padding" },
