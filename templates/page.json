@@ -50,7 +50,7 @@
             "title": "Investigamos en campo",
             "stat_font": "heading",
             "stat_size_mobile": 16,
-            "stat_size_desktop": 34,
+            "stat_size_desktop": 24,
             "text": "<p>para escuchar lo que la tierra realmente necesita.</p>",
             "link_label": "",
             "link": ""
@@ -59,13 +59,13 @@
         "column_9dQ3Mz": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
+            "desc_font": "body",
             "image": "shopify://shop_images/icon-create.svg",
             "icon_size": 60,
             "title": "Creamos soluciones de raíz",
             "stat_font": "heading",
             "stat_size_mobile": 16,
-            "stat_size_desktop": 34,
+            "stat_size_desktop": 24,
             "text": "<p>Que despiertan la microbiología dormida.</p>",
             "link_label": "",
             "link": ""
@@ -74,13 +74,13 @@
         "column_HYNfpp": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
+            "desc_font": "body",
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 60,
             "title": "Diseñamos para el mañana",
             "stat_font": "heading",
             "stat_size_mobile": 16,
-            "stat_size_desktop": 34,
+            "stat_size_desktop": 24,
             "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
             "link_label": "",
             "link": ""
