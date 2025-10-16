@@ -1,0 +1,295 @@
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* ========== Spacing ========== */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* ========== Two-column feature layout (lead left, rows right) ========== */
+  #shopify-section-{{ section.id }} .mc-feature__grid { display: grid; gap: 32px; }
+  @media (min-width: 990px){
+    #shopify-section-{{ section.id }} .mc-feature__grid { grid-template-columns: 5fr 7fr; align-items: start; gap: 48px; }
+  }
+
+  #shopify-section-{{ section.id }} .mc-feature__lead {
+    display:flex; flex-direction:column; gap: 16px;
+  }
+  #shopify-section-{{ section.id }} .mc-eyebrow {
+    font-family: var(--font-body-family);
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity:.8;
+  }
+  #shopify-section-{{ section.id }} .mc-eyebrow__rule {
+    width: 100%; max-width: 520px; height: 2px;
+    background: {{ section.settings.rule_color }};
+    margin-top: 8px;
+  }
+  #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
+  #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
+  #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
+
+  /* Optional heading size utility via setting */
+  #shopify-section-{{ section.id }} .mc-heading.h2  { font-size: clamp(28px, 3.2vw, 36px); line-height: 1.1; }
+  #shopify-section-{{ section.id }} .mc-heading.h1  { font-size: clamp(36px, 4vw, 48px); line-height: 1.05; }
+  #shopify-section-{{ section.id }} .mc-heading.h0  { font-size: clamp(44px, 5vw, 64px); line-height: 1.02; }
+  #shopify-section-{{ section.id }} .mc-heading.hxl { font-size: clamp(56px, 6vw, 80px); line-height: 1; }
+  #shopify-section-{{ section.id }} .mc-heading.hxxl{ font-size: clamp(64px, 7vw, 96px); line-height: 1; }
+
+  /* ========== ROW LIST (right side) ========== */
+  #shopify-section-{{ section.id }} .mc-rows {
+    list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap: 12px;
+  }
+  #shopify-section-{{ section.id }} .mc-row {
+    position:relative; border-radius: 8px; overflow:hidden;
+    background:#EBEAE2;
+  }
+
+  /* Make the entire row clickable */
+  #shopify-section-{{ section.id }} .mc-row__link {
+    display:flex; gap: 14px; align-items:center; text-decoration:none;
+    padding: 14px 16px;
+    color: rgb(var(--color-foreground));
+  }
+  #shopify-section-{{ section.id }} .mc-row__link:hover { background: rgba(0,0,0,.04); }
+
+  /* Icon/avatar area */
+  #shopify-section-{{ section.id }} .mc-row__icon {
+    width: var(--icon-size, 40px); height: var(--icon-size, 40px);
+    flex: 0 0 var(--icon-size, 40px); border-radius: 8px; overflow:hidden; display:inline-block; line-height:0;
+  }
+  #shopify-section-{{ section.id }} .mc-row__icon .media { width:100%; height:100%; display:block; }
+  #shopify-section-{{ section.id }} .mc-row__icon img {
+    width:100%; height:100%; object-fit:contain; display:block;
+    max-width: 60px; max-height: 60px; min-width:16px; min-height:16px;
+  }
+
+  /* Texts */
+  #shopify-section-{{ section.id }} .mc-row__texts { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  #shopify-section-{{ section.id }} .mc-row__title {
+    margin:0; font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+    line-height:1.1;
+  }
+  #shopify-section-{{ section.id }} .mc-row__desc {
+    margin:0; color: rgb(var(--color-foreground), .8);
+  }
+
+  /* Description font options (per-block) */
+  #shopify-section-{{ section.id }} .mc-desc--body { font-family: var(--font-body-family); font-weight: 400; }
+  #shopify-section-{{ section.id }} .mc-desc--mono { font-family: "IBM Plex Mono","Courier New",Courier,monospace; font-weight:300; letter-spacing:.02em; }
+  #shopify-section-{{ section.id }} .mc-desc--body *,
+  #shopify-section-{{ section.id }} .mc-desc--mono * { font: inherit !important; letter-spacing: inherit; }
+
+  /* Right arrow */
+  #shopify-section-{{ section.id }} .mc-row__arrow {
+    margin-left:auto; display:inline-flex; align-items:center; opacity:.7;
+  }
+{%- endstyle -%}
+
+<div class="multicolumn color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    <div class="mc-feature__grid">
+      <!-- Left: Eyebrow + Title + Description + CTA -->
+      <div class="mc-feature__lead">
+        {% if section.settings.pretitle != blank %}
+          <div class="mc-eyebrow">
+            {{ section.settings.pretitle }}
+            {% if section.settings.show_rule %}
+              <div class="mc-eyebrow__rule" aria-hidden="true"></div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.title != blank %}
+          <h2 class="mc-heading {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="mc-desc rte">{{ section.settings.description }}</div>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          <div class="mc-cta-wrap">
+            <a
+              class="button button--primary"
+              {% if section.settings.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link }}"
+              {% endif %}
+            >
+              {{ section.settings.button_label | escape }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right: CLICKABLE ROWS -->
+      <div>
+        <ul class="mc-rows" role="list">
+          {%- for block in section.blocks -%}
+            <li class="mc-row" {{ block.shopify_attributes }}>
+              {%- assign icon_px = block.settings.icon_size | default: 40 -%}
+              <a
+                class="mc-row__link"
+                {% if block.settings.link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.link }}"
+                {% endif %}
+                style="--icon-size: {{ icon_px }}px;"
+              >
+                {% if block.settings.image != blank %}
+                  <span class="mc-row__icon">
+                    <span class="media media--transparent">
+                      {{
+                        block.settings.image
+                        | image_url: width: 320
+                        | image_tag: class: 'mc-row__img', loading: 'lazy'
+                      }}
+                    </span>
+                  </span>
+                {% endif %}
+
+                <span class="mc-row__texts">
+                  {% if block.settings.title != blank %}
+                    <strong class="mc-row__title">{{ block.settings.title }}</strong>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <span class="mc-row__desc {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
+                      {{ block.settings.text }}
+                    </span>
+                  {% endif %}
+                </span>
+
+                <span class="mc-row__arrow" aria-hidden="true">
+                  {{ 'icon-arrow.svg' | inline_asset_content }}
+                </span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Multicolumn — Row list",
+  "class": "section section--multicol-row-list",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "inline_richtext", "id": "pretitle", "label": "Pre-title (eyebrow)", "default": "Explora" },
+    { "type": "color", "id": "rule_color", "label": "Eyebrow rule color", "default": "#294E3F" },
+    { "type": "checkbox", "id": "show_rule", "label": "Show eyebrow rule", "default": true },
+
+    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Más sobre el tema" },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Selecciona un recurso para continuar.</p>"
+    },
+
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" },
+        { "value": "hxl", "label": "HXL" },
+        { "value": "hxxl", "label": "HXXL" }
+      ],
+      "default": "h1"
+    },
+
+    { "type": "header", "content": "Visual" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Icon / Image (SVG/PNG/JPG)" },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size (px)",
+          "min": 16,
+          "max": 60,
+          "step": 1,
+          "default": 40
+        },
+
+        { "type": "inline_richtext", "id": "title", "label": "Row title", "default": "Ver más" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Row description",
+          "default": "<p>Descripción breve del destino.</p>"
+        },
+
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Description font",
+          "options": [
+            { "value": "body", "label": "Regular body" },
+            { "value": "mono", "label": "Monospace (IBM Plex Mono)" }
+          ],
+          "default": "body"
+        },
+
+        { "type": "text", "id": "link_label", "label": "Link label (optional)" },
+        { "type": "url", "id": "link", "label": "Destination URL" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Multicolumn — Row list", "blocks": [{ "type": "row" }, { "type": "row" }, { "type": "row" }] }]
+}
+{% endschema %}
