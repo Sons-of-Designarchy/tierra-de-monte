@@ -226,6 +226,176 @@
         "show_bottom_border": true,
         "height": 100
       }
+    },
+    "image_with_text_itxT9k": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_mrhQPn": {
+          "type": "heading",
+          "settings": {
+            "heading": "Ecosistemas que responden",
+            "heading_size": "hxl"
+          }
+        },
+        "text_fftMby": {
+          "type": "text",
+          "settings": {
+            "text": "<p>En cada parcela regenerada, la vida regresa con fuerza.</p><ul><li>Suelos cansados que hoy florecen con diversidad microbiana.</li><li>Comunidades que abandonan químicos y encuentran resiliencia en bioinsumos.</li><li>Jóvenes que vuelven al campo porque la tierra otra vez es fértil y prometedora.</li></ul>",
+            "text_style": "subtitle"
+          }
+        },
+        "button_r8mUMC": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_mrhQPn",
+        "text_fftMby",
+        "button_r8mUMC"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/img-dudes.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_hbBm99": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_UnQgEm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Cada historia comienza con una práctica diferente.",
+            "heading_size": "hxl"
+          }
+        },
+        "text_EpbRcj": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        },
+        "button_hRhLqj": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_UnQgEm",
+        "text_EpbRcj",
+        "button_hRhLqj"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/mariposa_e448a708-ff94-43dc-b9df-3936556bb0e7.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-3",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_feature_pmP3rR": {
+      "type": "multicolumn-feature",
+      "blocks": {
+        "column_YgPceV": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/sandia.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 45,
+            "text": "<p>Protocolos rigurosos que dialogan con saberes ancestrales</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_fUK44H": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/chiles.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Ciencia que integra en lugar de fragmentar</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_gwBiHk": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "image": "shopify://shop_images/rosa.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Datos que nacen de la vida en movimiento</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_YgPceV",
+        "column_fUK44H",
+        "column_gwBiHk"
+      ],
+      "name": "Multicolumn — Feature",
+      "settings": {
+        "pretitle": "Metodología",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "Ciencia que toca la tierra",
+        "description": "<p>Nuestra investigación no se encierra en laboratorios: camina los surcos, toca la tierra, escucha a los productores.</p>",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -233,6 +403,9 @@
     "image_with_text_NmXtiX",
     "multicol_custom_feature_tBt498",
     "multicolumn_7dgeDY",
-    "ticker_xhNnah"
+    "ticker_xhNnah",
+    "image_with_text_itxT9k",
+    "image_with_text_hbBm99",
+    "multicolumn_feature_pmP3rR"
   ]
 }
