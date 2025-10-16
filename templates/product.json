@@ -32,10 +32,12 @@
         },
         "price": {
           "type": "price",
+          "disabled": true,
           "settings": {}
         },
         "quantity_selector": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "rating_HPRXrU": {
@@ -51,6 +53,7 @@
         },
         "buy_buttons": {
           "type": "buy_buttons",
+          "disabled": true,
           "settings": {
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true
@@ -59,27 +62,6 @@
         "description": {
           "type": "description",
           "settings": {}
-        },
-        "icon_with_text_qEW7Fq": {
-          "type": "icon-with-text",
-          "settings": {
-            "layout": "vertical",
-            "icon_1": "heart",
-            "heading_1": "Beneficio 1",
-            "icon_2": "return",
-            "heading_2": "Beneficio 2",
-            "icon_3": "truck",
-            "heading_3": "Beneficio 3"
-          }
-        },
-        "collapsible_tab_QgmY3h": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Ingredientes",
-            "icon": "clipboard",
-            "content": "",
-            "page": ""
-          }
         },
         "collapsible_tab_dgJxpK": {
           "type": "collapsible_tab",
@@ -121,8 +103,6 @@
         "variant_picker_NNLKj9",
         "buy_buttons",
         "description",
-        "icon_with_text_qEW7Fq",
-        "collapsible_tab_QgmY3h",
         "collapsible_tab_dgJxpK",
         "icon_with_text_Ux9qV3",
         "share"
