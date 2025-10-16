@@ -13,9 +13,9 @@
       "type": "rich-text-with-logo",
       "name": "Rich text + Logo (custom)",
       "settings": {
-        "logo": "shopify://shop_images/Client-Logo_6695420a-600f-438b-8d36-f5616c524b33.png",
+        "logo": "shopify://shop_images/Client-Logo.svg",
         "logo_alt": "Section logo",
-        "logo_width": 140,
+        "logo_width": 100,
         "heading": "Sembramos futuro en cada semilla. Creemos que un suelo vivo es la primera medicina, que la biodiversidad no es un lujo sino la base de la vida. Nuestro propósito es cultivar alimentos que nutran cuerpo, alma y planeta.",
         "heading_size": "hxl",
         "text": "<p>SOMOS UNA PLATAFORMA BioAgTech QUE ACTÚA COMO PUENTE ENTRE CIENCIA, TÉCNOLOGÍA Y TRADICIÓN. IMPLUSAMOS UNA AGRICULTURA REGENERATIVA ÉTICA, DONDE CADA INNOVACIÓN FORTALECE EL ECOSISTEMA COMPLETO: SUELO FÉRTIL, PRODUCTORES DIGNIFICADOS, COMUNIDADES RESILIENTES Y BIODIVERSIDAD EN EXPANSIÓN.</p>",
