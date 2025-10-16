@@ -46,6 +46,7 @@
           "settings": {
             "desc_font": "body",
             "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
+            "icon_size": 60,
             "title": "Investigamosen campo",
             "stat_font": "heading",
             "stat_size_mobile": 24,
@@ -58,9 +59,10 @@
         "column_9dQ3Mz": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
             "image": "shopify://shop_images/icon-create.svg",
-            "title": "Creamossoluciones de raíz",
+            "icon_size": 60,
+            "title": "Creamos soluciones de raíz",
             "stat_font": "heading",
             "stat_size_mobile": 24,
             "stat_size_desktop": 40,
@@ -74,6 +76,7 @@
           "settings": {
             "desc_font": "mono",
             "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 60,
             "title": "Diseñamos para el mañana",
             "stat_font": "heading",
             "stat_size_mobile": 24,
@@ -92,7 +95,7 @@
       "name": "Multicolumn — custom box",
       "settings": {
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
-        "rule_color": "#294E3F",
+        "rule_color": "#294e3f",
         "show_rule": true,
         "title": "En un mundo que busca resultados inmediatos. Nosotros pensamos en los ecosistemas a largo plazo.",
         "description": "",
