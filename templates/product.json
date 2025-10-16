@@ -34,13 +34,6 @@
           "type": "price",
           "settings": {}
         },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -48,6 +41,13 @@
         "rating_HPRXrU": {
           "type": "rating",
           "settings": {}
+        },
+        "variant_picker_NNLKj9": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -138,9 +138,9 @@
         "title",
         "caption",
         "price",
-        "variant_picker",
         "quantity_selector",
         "rating_HPRXrU",
+        "variant_picker_NNLKj9",
         "buy_buttons",
         "description",
         "collapsible-row-0",
@@ -283,6 +283,9 @@
             "desc_font": "body",
             "image": "shopify://shop_images/prod-tdm-1.jpg",
             "title": "Hola a suelos mas fértiles",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
             "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
             "link_label": "",
             "link": ""
@@ -294,6 +297,9 @@
             "desc_font": "body",
             "image": "shopify://shop_images/prod-tdm-2.jpg",
             "title": "No sabes cual es producto correcto?",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
             "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
             "link_label": "",
             "link": ""
@@ -305,6 +311,9 @@
             "desc_font": "body",
             "image": "shopify://shop_images/prod-tdm-3.jpg",
             "title": "Lorem ipsum",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
             "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
             "link_label": "",
             "link": ""
@@ -319,7 +328,7 @@
       "name": "Multicolumn — Feature",
       "settings": {
         "pretitle": "",
-        "rule_color": "#294E3F",
+        "rule_color": "#294e3f",
         "show_rule": true,
         "title": "Mejora la produccion y calidad de tus suelos en cada cosecha",
         "description": "",
@@ -382,7 +391,7 @@
         "show_image": true,
         "show_date": true,
         "show_author": false,
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
       }
