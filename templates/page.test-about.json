@@ -24,20 +24,20 @@
           "type": "heading",
           "settings": {
             "heading": "Impacto y Ciencia",
-            "heading_size": "h1"
+            "heading_size": "hxxl"
           }
         },
         "text_myCC8N": {
           "type": "text",
           "settings": {
             "text": "<p>Nuestro impacto no se mide en cifras aisladas, sino en la vida que vuelve a florecer en cada ecosistema.</p>",
-            "text_style": "body"
+            "text_style": "subtitle"
           }
         },
         "button_NRLw4y": {
           "type": "button",
           "settings": {
-            "button_label": "Etiqueta de botón",
+            "button_label": "",
             "button_link": "",
             "button_style_secondary": false
           }
@@ -50,12 +50,13 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
+        "image": "shopify://shop_images/heroImg.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "image_behavior": "none",
         "content_layout": "no-overlap",
-        "desktop_content_position": "top",
+        "desktop_content_position": "middle",
         "desktop_content_alignment": "left",
         "mobile_content_alignment": "left",
         "section_color_scheme": "",
@@ -220,51 +221,27 @@
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "scheme-2",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
-    "rich_text_H9q6EB": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_hpx6Xc": {
-          "type": "heading",
-          "settings": {
-            "heading": "Coméntanos sobre tu marca",
-            "heading_size": "h1"
-          }
-        },
-        "text_JadEnx": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Nuestra certificación como Empresa B no es un sello, es un compromiso:  alineamos cada acción con los Objetivos de Desarrollo Sostenible,  porque entendemos que el campo, la sociedad y el planeta son un solo ecosistema.</p>"
-          }
-        },
-        "button_WRM3B3": {
-          "type": "button",
-          "settings": {
-            "button_label": "Etiqueta de botónConoce más",
-            "button_link": "",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_hpx6Xc",
-        "text_JadEnx",
-        "button_WRM3B3"
-      ],
-      "name": "t:sections.rich-text.presets.name",
+    "ticker_TrU9VH": {
+      "type": "ticker",
+      "name": "Infinite Ticker",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "text": "ODS no son casillas por marcar, sino raíces que guían nuestra práctica diaria.",
+        "icon_height": 32,
+        "bg_image": "shopify://shop_images/ticker-1.jpg",
+        "bg_color": "#00000000",
+        "text_color": "#F3EFCF",
+        "font_size": 22,
+        "text_transform": "uppercase",
+        "typography_variant": "primary",
+        "font_variant": "mono",
+        "speed": 77,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 125
       }
     },
     "image_with_text_eYWBnA": {
@@ -273,21 +250,21 @@
         "heading_n3TePe": {
           "type": "heading",
           "settings": {
-            "heading": "Tierra de Monte no es una empresa aislada, es un nodo dentro de una red en expansión.",
-            "heading_size": "h1"
+            "heading": "Ecosistemas que responden",
+            "heading_size": "hxl"
           }
         },
         "text_PxJYhD": {
           "type": "text",
           "settings": {
-            "text": "<p>Un ecosistema de productores, científicos, comunidades y consumidores conscientes que trabajan juntos para demostrar que la agricultura puede ser regenerativa, justa y generar bienestar.</p>",
-            "text_style": "body"
+            "text": "<p>En cada parcela regenerada, la vida regresa con fuerza.</p><ul><li>Suelos cansados que hoy florecen con diversidad microbiana.</li><li>Comunidades que abandonan químicos y encuentran resiliencia en bioinsumos.</li><li>Jóvenes que vuelven al campo porque la tierra otra vez es fértil y prometedora.</li></ul>",
+            "text_style": "subtitle"
           }
         },
         "button_CEeTmP": {
           "type": "button",
           "settings": {
-            "button_label": "Descubre cómo lo hacemos",
+            "button_label": "",
             "button_link": "",
             "button_style_secondary": true
           }
@@ -300,19 +277,161 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/img.png",
+        "image": "shopify://shop_images/img-dudes.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_tHF8BK": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_ETFCbm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Cada historia comienza con una práctica diferente.",
+            "heading_size": "hxl"
+          }
+        },
+        "text_fKWyjM": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "subtitle"
+          }
+        },
+        "button_R37JwM": {
+          "type": "button",
+          "settings": {
+            "button_label": "Descubre cómo lo hacemos",
+            "button_link": "https://www.youtube.com",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_ETFCbm",
+        "text_fKWyjM",
+        "button_R37JwM"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/mariposa_e448a708-ff94-43dc-b9df-3936556bb0e7.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "image_behavior": "none",
         "content_layout": "no-overlap",
-        "desktop_content_position": "top",
+        "desktop_content_position": "middle",
         "desktop_content_alignment": "left",
         "mobile_content_alignment": "left",
-        "section_color_scheme": "",
-        "color_scheme": "scheme-5",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
         "logo_alt": "",
         "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_feature_AVBr6L": {
+      "type": "multicolumn-feature",
+      "blocks": {
+        "column_kgaP8r": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/sandia.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Protocolos rigurosos que dialogan con saberes ancestrales</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_TcnkyR": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/chiles.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Ciencia que integra en lugar de fragmentar</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_q9NFny": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/rosa.png",
+            "title": "",
+            "stat_font": "mono",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 40,
+            "text": "<p>Datos que nacen de la vida en movimiento</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_kgaP8r",
+        "column_TcnkyR",
+        "column_q9NFny"
+      ],
+      "name": "Multicolumn — Feature",
+      "settings": {
+        "pretitle": "Metodología",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "Ciencia que toca la tierra",
+        "description": "<p>Nuestra investigación no se encierra en laboratorios: camina los surcos, toca la tierra, escucha a los productores.</p>",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "color_scheme": "",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "rich_text_with_logo_pxVFif": {
+      "type": "rich-text-with-logo",
+      "name": "Rich text + Logo (custom)",
+      "settings": {
+        "logo": "shopify://shop_images/omri-logo.png",
+        "logo_alt": "Section logo",
+        "logo_width": 120,
+        "heading": "",
+        "heading_size": "h2",
+        "text": "<p>Contamos con sellos como OMRI y estándares internacionales.  Pero nuestra mayor certificación es la vida que regresa.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button_style_secondary": false,
+        "text_alignment": "center",
+        "content_width": "default",
+        "mono_heading": false,
+        "mono_body": false,
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -323,7 +442,10 @@
     "image_with_text_ViKw3D",
     "multicol_custom_feature_Ep8zpe",
     "multicolumn_feature_mCEQmN",
-    "rich_text_H9q6EB",
-    "image_with_text_eYWBnA"
+    "ticker_TrU9VH",
+    "image_with_text_eYWBnA",
+    "image_with_text_tHF8BK",
+    "multicolumn_feature_AVBr6L",
+    "rich_text_with_logo_pxVFif"
   ]
 }
