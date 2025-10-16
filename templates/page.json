@@ -42,6 +42,9 @@
         "text_i7CrDF",
         "button_Pqadyr"
       ],
+      "custom_css": [
+        "@media screen and (min-width: 990px) {.rich-text__blocks {max-width: 108rem; }}"
+      ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
