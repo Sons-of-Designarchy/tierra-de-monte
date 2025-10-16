@@ -83,6 +83,7 @@
         },
         "collapsible_tab_dgJxpK": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "FAQ",
             "icon": "clipboard",
@@ -92,6 +93,7 @@
         },
         "icon_with_text_Ux9qV3": {
           "type": "icon-with-text",
+          "disabled": true,
           "settings": {
             "layout": "vertical",
             "icon_1": "truck",
@@ -105,7 +107,7 @@
         "share": {
           "type": "share",
           "settings": {
-            "share_label": "Share"
+            "share_label": "Compartir"
           }
         }
       },
