@@ -9,52 +9,6 @@
  */
 {
   "sections": {
-    "rich_text_WewX9H": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_6chCK7": {
-          "type": "heading",
-          "settings": {
-            "heading": "Sembramos futuro         en cada semilla. Creemos que un suelo              vivo es la primera medicina, que la          biodiversidad no es un lujo sino la base de la vida. Nuestro         propósito es cultivar alimentos que nutran cuerpo, alma y planeta.",
-            "heading_size": "hxxl"
-          }
-        },
-        "text_i7CrDF": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Somos una plataforma BioAgTech que actúa como puente entre ciencia,tecnología y tradición. Impulsamos una Agricultura Regenerativa Ética, donde cada innovación fortalece el ecosistema completo: suelo fértil, productores dignificados, comunidades resilientes y biodiversidad en expansión.</p>"
-          }
-        },
-        "button_Pqadyr": {
-          "type": "button",
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_6chCK7",
-        "text_i7CrDF",
-        "button_Pqadyr"
-      ],
-      "custom_css": [
-        "@media screen and (min-width: 990px) {.rich-text__blocks {max-width: 108rem; }}"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
     "rich_text_with_logo_3QUehq": {
       "type": "rich-text-with-logo",
       "name": "Rich text + Logo (custom)",
@@ -64,7 +18,7 @@
         "logo_width": 140,
         "heading": "Sembramos futuro en cada semilla. Creemos que un suelo vivo es la primera medicina, que la biodiversidad no es un lujo sino la base de la vida. Nuestro propósito es cultivar alimentos que nutran cuerpo, alma y planeta.",
         "heading_size": "hxl",
-        "text": "<p>Somos una plataforma BioAgTech que actúa como puente entre <br/>ciencia,tecnología y tradición. Impulsamos una Agricultura Regenerativa <br/>Ética, donde cada innovación fortalece el ecosistema completo: suelo <br/>fértil, productores dignificados, comunidades resilientes y <br/>biodiversidad en expansión.pelling copy here.</p>",
+        "text": "<p>SOMOS UNA PLATAFORMA BioAgTech QUE ACTÚA COMO PUENTE ENTRE CIENCIA, TÉCNOLOGÍA Y TRADICIÓN. IMPLUSAMOS UNA AGRICULTURA REGENERATIVA ÉTICA, DONDE CADA INNOVACIÓN FORTALECE EL ECOSISTEMA COMPLETO: SUELO FÉRTIL, PRODUCTORES DIGNIFICADOS, COMUNIDADES RESILIENTES Y BIODIVERSIDAD EN EXPANSIÓN.</p>",
         "button_label": "",
         "button_link": "",
         "text_alignment": "center",
@@ -432,7 +386,6 @@
     }
   },
   "order": [
-    "rich_text_WewX9H",
     "rich_text_with_logo_3QUehq",
     "main",
     "multicolumn_feature_W96JVm",
