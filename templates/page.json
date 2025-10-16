@@ -108,6 +108,9 @@
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "",
+        "use_custom_col_height": false,
+        "col_height_vh_desktop": 35,
+        "col_height_vh_mobile": 35,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -371,6 +374,64 @@
         "ai_gen_block_8f6d7f6_bQzJka"
       ],
       "settings": {}
+    },
+    "multicol_row_list_tUFHeJ": {
+      "type": "multicol-row-list",
+      "blocks": {
+        "row_YRUD7w": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Project manager",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_dfQhUh": {
+          "type": "row",
+          "settings": {
+            "icon_size": 40,
+            "title": "Ver más",
+            "text": "<p>Descripción breve del destino.</p>",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_QzUgQH": {
+          "type": "row",
+          "settings": {
+            "icon_size": 40,
+            "title": "Ver más",
+            "text": "<p>Descripción breve del destino.</p>",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_YRUD7w",
+        "row_dfQhUh",
+        "row_QzUgQH"
+      ],
+      "name": "Multicolumn — Row list",
+      "settings": {
+        "pretitle": "Vacantes",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "Estamos buscando buscando a exploradores con ganas de contribuir a la tierra",
+        "description": "<p>Estamos buscando seguir expandiendo el futuro regenerativo de la tierra de mexico con personas como tu.</p>",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
@@ -380,6 +441,7 @@
     "image_with_text_YqAQVK",
     "rich_text_with_logo_yziVXy",
     "image_with_text_eYWBnA",
-    "1760564647858fff0c"
+    "1760564647858fff0c",
+    "multicol_row_list_tUFHeJ"
   ]
 }
