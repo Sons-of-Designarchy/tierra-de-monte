@@ -2,6 +2,32 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
+  /* ==== Instance-only controls (scoped by section.id) ==== */
+
+  /* A) Smaller image width (overrides Dawn's third/half/full classes) */
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper {
+    /* Force our width regardless of --third/--half/--full classes */
+    max-width: {{ section.settings.image_width_percent | default: 33 }}% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Optional nicety: center image when a smaller width is chosen */
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
+    display: block;
+  }
+
+  /* B) Remove light gray card background (content-container) */
+  {% if section.settings.remove_card_bg %}
+  #shopify-section-{{ section.id }} .multicolumn-card.content-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  {% endif %}
+{%- endstyle -%}
+
+{%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -51,10 +77,15 @@
         {%- liquid
           assign highest_ratio = 0
           for block in section.blocks
-            if block.settings.image.aspect_ratio > highest_ratio
-              assign highest_ratio = block.settings.image.aspect_ratio
+            if block.settings.image != blank and block.settings.image.aspect_ratio
+              if block.settings.image.aspect_ratio > highest_ratio
+                assign highest_ratio = block.settings.image.aspect_ratio
+              endif
             endif
           endfor
+          if highest_ratio == 0
+            assign highest_ratio = 1
+          endif
         -%}
         {%- for block in section.blocks -%}
           {%- assign empty_column = '' -%}
@@ -77,9 +108,12 @@
           >
             <div class="multicolumn-card content-container">
               {%- if block.settings.image != blank -%}
-                {% if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle' %}
-                  {% assign spaced_image = true %}
-                {% endif %}
+                {% liquid
+                  assign spaced_image = false
+                  if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle'
+                    assign spaced_image = true
+                  endif
+                %}
                 <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
                   <div
                     class="media media--transparent media--{{ section.settings.image_ratio }}"
@@ -206,29 +240,33 @@
       "label": "t:sections.multicolumn.settings.title.label"
     },
     {
+      "type": "header",
+      "content": "Image & Card tweaks"
+    },
+    {
+      "type": "range",
+      "id": "image_width_percent",
+      "label": "Image max width (%)",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "default": 33
+    },
+    {
+      "type": "checkbox",
+      "id": "remove_card_bg",
+      "label": "Remove light gray card background",
+      "default": true
+    },
+    {
       "type": "select",
       "id": "heading_size",
       "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" },
+        { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
+        { "value": "hxxl", "label": "t:sections.all.heading_size.options__5.label" }
       ],
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
@@ -236,23 +274,14 @@
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_image.content"
-    },    
+    },
     {
       "type": "select",
       "id": "image_width",
       "options": [
-        {
-          "value": "third",
-          "label": "t:sections.multicolumn.settings.image_width.options__1.label"
-        },
-        {
-          "value": "half",
-          "label": "t:sections.multicolumn.settings.image_width.options__2.label"
-        },
-        {
-          "value": "full",
-          "label": "t:sections.multicolumn.settings.image_width.options__3.label"
-        }
+        { "value": "third", "label": "t:sections.multicolumn.settings.image_width.options__1.label" },
+        { "value": "half", "label": "t:sections.multicolumn.settings.image_width.options__2.label" },
+        { "value": "full", "label": "t:sections.multicolumn.settings.image_width.options__3.label" }
       ],
       "default": "full",
       "label": "t:sections.multicolumn.settings.image_width.label"
@@ -261,22 +290,10 @@
       "type": "select",
       "id": "image_ratio",
       "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.multicolumn.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.multicolumn.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.multicolumn.settings.image_ratio.options__3.label"
-        },
-        {
-          "value": "circle",
-          "label": "t:sections.multicolumn.settings.image_ratio.options__4.label"
-        }
+        { "value": "adapt", "label": "t:sections.multicolumn.settings.image_ratio.options__1.label" },
+        { "value": "portrait", "label": "t:sections.multicolumn.settings.image_ratio.options__2.label" },
+        { "value": "square", "label": "t:sections.multicolumn.settings.image_ratio.options__3.label" },
+        { "value": "circle", "label": "t:sections.multicolumn.settings.image_ratio.options__4.label" }
       ],
       "default": "adapt",
       "label": "t:sections.multicolumn.settings.image_ratio.label"
@@ -284,23 +301,23 @@
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_button.content"
-    },    
+    },
     {
       "type": "text",
       "id": "button_label",
       "default": "t:sections.multicolumn.settings.button_label.default",
-      "label": "t:sections.multicolumn.settings.button_label.label", 
+      "label": "t:sections.multicolumn.settings.button_label.label",
       "info": "t:sections.multicolumn.settings.button_label.info"
     },
     {
       "type": "url",
       "id": "button_link",
       "label": "t:sections.multicolumn.settings.button_link.label"
-    },    
+    },
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_layout.content"
-    },     
+    },
     {
       "type": "range",
       "id": "columns_desktop",
@@ -314,14 +331,8 @@
       "type": "select",
       "id": "column_alignment",
       "options": [
-        {
-          "value": "left",
-          "label": "t:sections.multicolumn.settings.column_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.multicolumn.settings.column_alignment.options__2.label"
-        }
+        { "value": "left", "label": "t:sections.multicolumn.settings.column_alignment.options__1.label" },
+        { "value": "center", "label": "t:sections.multicolumn.settings.column_alignment.options__2.label" }
       ],
       "default": "left",
       "label": "t:sections.multicolumn.settings.column_alignment.label"
@@ -330,14 +341,8 @@
       "type": "select",
       "id": "background_style",
       "options": [
-        {
-          "value": "none",
-          "label": "t:sections.multicolumn.settings.background_style.options__1.label"
-        },
-        {
-          "value": "primary",
-          "label": "t:sections.multicolumn.settings.background_style.options__2.label"
-        }
+        { "value": "none", "label": "t:sections.multicolumn.settings.background_style.options__1.label" },
+        { "value": "primary", "label": "t:sections.multicolumn.settings.background_style.options__2.label" }
       ],
       "default": "primary",
       "label": "t:sections.multicolumn.settings.background_style.label"
@@ -347,7 +352,7 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
-    },    
+    },
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_mobile.content"
@@ -356,14 +361,8 @@
       "type": "select",
       "id": "columns_mobile",
       "options": [
-        {
-          "value": "1",
-          "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label"
-        }
+        { "value": "1", "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label" },
+        { "value": "2", "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label" }
       ],
       "default": "1",
       "label": "t:sections.multicolumn.settings.columns_mobile.label"
@@ -438,17 +437,7 @@
   "presets": [
     {
       "name": "t:sections.multicolumn.presets.name",
-      "blocks": [
-        {
-          "type": "column"
-        },
-        {
-          "type": "column"
-        },
-        {
-          "type": "column"
-        }
-      ]
+      "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }]
     }
   ]
 }
