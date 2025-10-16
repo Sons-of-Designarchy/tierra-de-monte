@@ -1,0 +1,223 @@
+{% comment %}
+  Rich text w/ Logo — custom section for Dawn 15.4.0
+  - Logo image on top (optional)
+  - Monospaced font option for heading and/or body
+  - Mirrors core Rich text settings (alignment, color scheme, padding, button)
+{% endcomment %}
+
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* Scoped to this section only */
+  #shopify-section-{{ section.id }} .rt {
+    display: grid;
+    gap: 16px;
+    justify-items: var(--rt-align, start);
+    text-align: var(--rt-text-align, left);
+    max-width: var(--rt-maxw, 780px);
+    margin-inline: auto;
+  }
+
+  /* Section padding */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Alignment & width */
+  #shopify-section-{{ section.id }} .rt.rt--align-center { --rt-align:center; --rt-text-align:center; }
+  #shopify-section-{{ section.id }} .rt.rt--align-left   { --rt-align:start;  --rt-text-align:left;  }
+  #shopify-section-{{ section.id }} .rt.rt--narrow       { --rt-maxw: 680px; }
+  #shopify-section-{{ section.id }} .rt.rt--default      { --rt-maxw: 780px; }
+  #shopify-section-{{ section.id }} .rt.rt--wide         { --rt-maxw: 980px; }
+
+  /* Logo block */
+  #shopify-section-{{ section.id }} .rt__logo {
+    display:inline-block;
+    line-height:0;
+  }
+  #shopify-section-{{ section.id }} .rt__logo .media {
+    display:block;
+    width: {{ section.settings.logo_width | default: 120 }}px;
+    height:auto;
+  }
+
+  /* Heading */
+  #shopify-section-{{ section.id }} .rt__heading {
+    margin: 0;
+  }
+
+  /* Body */
+  #shopify-section-{{ section.id }} .rt__text {
+    color: rgb(var(--color-foreground), .85);
+  }
+
+  /* Monospace toggles (use theme var if present; fallback to IBM Plex Mono / system mono) */
+  #shopify-section-{{ section.id }} .rt--mono-heading .rt__heading {
+    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-weight: 400;
+    letter-spacing: .01em;
+  }
+  #shopify-section-{{ section.id }} .rt--mono-body .rt__text {
+    font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-weight: 300;
+    letter-spacing: .01em;
+  }
+
+  /* Button wrapper spacing */
+  #shopify-section-{{ section.id }} .rt__cta {
+    margin-top: 4px;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {%- assign align_class = section.settings.text_alignment | prepend: 'rt--align-' -%}
+    {%- assign width_class = 'rt--' | append: section.settings.content_width -%}
+    {%- assign mono_heading = section.settings.mono_heading | default: false -%}
+    {%- assign mono_body = section.settings.mono_body | default: false -%}
+
+    <div class="rt {{ align_class }} {{ width_class }}{% if mono_heading %} rt--mono-heading{% endif %}{% if mono_body %} rt--mono-body{% endif %}">
+      {%- if section.settings.logo != blank -%}
+        <div class="rt__logo">
+          <div class="media">
+            {{
+              section.settings.logo
+              | image_url: width: 800
+              | image_tag:
+              widths: '120,160,200,240,320,480,640,800',
+              alt: section.settings.logo_alt | escape,
+              loading: 'lazy'
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="rt__heading title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="rt__text rte">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="rt__cta">
+          <a
+            class="button button--primary"
+            {% if section.settings.button_link == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link }}"
+            {% endif %}
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich text + Logo (custom)",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (top)" },
+    { "type": "text", "id": "logo_alt", "label": "Logo alt text", "default": "Section logo" },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 24,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Your headline" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "H3" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" },
+        { "value": "hxl", "label": "HXL" }
+      ],
+      "default": "h2"
+    },
+
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add some compelling copy here.</p>" },
+
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "default", "label": "Default" },
+        { "value": "wide", "label": "Wide" }
+      ],
+      "default": "default"
+    },
+
+    { "type": "checkbox", "id": "mono_heading", "label": "Use monospaced font for heading", "default": false },
+    { "type": "checkbox", "id": "mono_body", "label": "Use monospaced font for text", "default": true },
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [{ "name": "Rich text + Logo", "category": "Text" }]
+}
+{% endschema %}
