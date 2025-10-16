@@ -212,7 +212,7 @@
         "show_rule": true,
         "title": "ODS como brújula",
         "description": "<p>Los Objetivos de Desarrollo Sostenible guían nuestra práctica diaria que sostienen nuestro trabajo.</p>",
-        "button_label": "Encuentra tu solución",
+        "button_label": "",
         "button_link": "",
         "heading_size": "h1",
         "columns_desktop": 4,
