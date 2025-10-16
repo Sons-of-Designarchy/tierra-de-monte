@@ -28,12 +28,12 @@
   #shopify-section-{{ section.id }} .rt.rt--wide         { --rt-maxw: 980px; }
 
   #shopify-section-{{ section.id }} .rt__logo { line-height: 0; }
-  #shopify-section-{{ section.id }} .rt__logo .media { width: {{ section.settings.logo_width | default: 120 }}px; height: auto; display: block; }
+  #shopify-section-{{ section.id }} .rt__logo .media { display:block; width: {{ section.settings.logo_width | default: 120 }}px; height:auto; }
 
   #shopify-section-{{ section.id }} .rt__heading { margin: 0; }
   #shopify-section-{{ section.id }} .rt__text { color: rgb(var(--color-foreground), .85); }
 
-  /* Monospace toggles */
+  /* Monospace toggles (uses theme monospace var if present) */
   #shopify-section-{{ section.id }} .rt--mono-heading .rt__heading {
     font-family: var(--font-monospace-family, 'IBMPlexMono-Light', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace);
     font-weight: 400; letter-spacing: .01em;
@@ -46,25 +46,29 @@
   #shopify-section-{{ section.id }} .rt__cta { margin-top: 4px; }
 {%- endstyle -%}
 
+{%- liquid
+  assign align_class = section.settings.text_alignment | prepend: 'rt--align-'
+  assign width_class = 'rt--' | append: section.settings.content_width
+  assign mono_heading = section.settings.mono_heading | default: false
+  assign mono_body = section.settings.mono_body | default: false
+
+  assign logo_alt_text = section.settings.logo_alt | default: section.settings.heading
+  assign logo_alt_text = logo_alt_text | escape
+  assign logo_widths = '120, 160, 200, 240, 320, 480, 640, 800'
+  assign logo_sizes = 'auto'
+-%}
+
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    {%- assign align_class = section.settings.text_alignment | prepend: 'rt--align-' -%}
-    {%- assign width_class = 'rt--' | append: section.settings.content_width -%}
-    {%- assign mono_heading = section.settings.mono_heading | default: false -%}
-    {%- assign mono_body = section.settings.mono_body | default: false -%}
-
     <div class="rt {{ align_class }} {{ width_class }}{% if mono_heading %} rt--mono-heading{% endif %}{% if mono_body %} rt--mono-body{% endif %}">
       {%- if section.settings.logo != blank -%}
         <div class="rt__logo">
           <div class="media">
-            {{
+            {{-
               section.settings.logo
               | image_url: width: 800
-              | image_tag:
-              widths: '120,160,200,240,320,480,640,800',
-              alt: section.settings.logo_alt | escape,
-              loading: 'lazy'
-            }}
+              | image_tag: widths: logo_widths, sizes: logo_sizes, alt: logo_alt_text, loading: 'lazy'
+            -}}
           </div>
         </div>
       {%- endif -%}
@@ -135,6 +139,7 @@
     },
 
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add some compelling copy here.</p>" },
+
     { "type": "text", "id": "button_label", "label": "Button label" },
     { "type": "url", "id": "button_link", "label": "Button link" },
 
