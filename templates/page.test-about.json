@@ -72,14 +72,14 @@
         "column_fy3VtW": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
             "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
             "icon_size": 40,
             "title": "Hectáreas regeneradas",
             "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<p>Hectáreas regeneradas</p>",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 24,
+            "text": "<p>suelos que respiran de nuevo.</p>",
             "link_label": "",
             "link": ""
           }
@@ -87,13 +87,14 @@
         "column_4FmTWW": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
+            "image": "shopify://shop_images/icon-create.svg",
             "icon_size": 40,
-            "title": "+230",
+            "title": "Productores  aliados",
             "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<p>Hectáreas regeneradas</p>",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 24,
+            "text": "<p>familias que recuperan dignidad en el campo.</p>",
             "link_label": "",
             "link": ""
           }
@@ -101,12 +102,13 @@
         "column_wUkzLz": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
+            "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
-            "title": "+230",
+            "title": "Biodiversidad recuperada",
             "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 24,
             "text": "<p>Hectáreas regeneradas</p>",
             "link_label": "",
             "link": ""
@@ -133,6 +135,91 @@
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_feature_mCEQmN": {
+      "type": "multicolumn-feature",
+      "blocks": {
+        "column_9Jk7Km": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/1.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Hambre Cero </p><p></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_FEJQqB": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/2.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Hectáreas regeneradas</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_M3e6KL": {
+          "type": "column",
+          "settings": {
+            "desc_font": "body",
+            "image": "shopify://shop_images/3.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Acción por el Clima </p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_UY3z8m": {
+          "type": "column",
+          "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/4.png",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 48,
+            "stat_size_desktop": 72,
+            "text": "<p>Vida de Ecosistemas Terrestres </p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_9Jk7Km",
+        "column_FEJQqB",
+        "column_M3e6KL",
+        "column_UY3z8m"
+      ],
+      "name": "Multicolumn — Feature",
+      "settings": {
+        "pretitle": "Compromiso con ODS",
+        "rule_color": "#294E3F",
+        "show_rule": true,
+        "title": "ODS como brújula",
+        "description": "<p>Los Objetivos de Desarrollo Sostenible guían nuestra práctica diaria que sostienen nuestro trabajo.</p>",
+        "button_label": "Encuentra tu solución",
+        "button_link": "",
+        "heading_size": "h1",
+        "columns_desktop": 4,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
+        "color_scheme": "scheme-2",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -235,6 +322,7 @@
     "main",
     "image_with_text_ViKw3D",
     "multicol_custom_feature_Ep8zpe",
+    "multicolumn_feature_mCEQmN",
     "rich_text_H9q6EB",
     "image_with_text_eYWBnA"
   ]
