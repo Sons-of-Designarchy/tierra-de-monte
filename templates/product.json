@@ -60,6 +60,15 @@
           "type": "description",
           "settings": {}
         },
+        "collapsible_tab_QgmY3h": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Ingredientes",
+            "icon": "clipboard",
+            "content": "",
+            "page": ""
+          }
+        },
         "collapsible_tab_dgJxpK": {
           "type": "collapsible_tab",
           "settings": {
@@ -98,6 +107,7 @@
         "variant_picker_NNLKj9",
         "buy_buttons",
         "description",
+        "collapsible_tab_QgmY3h",
         "collapsible_tab_dgJxpK",
         "icon_with_text_Ux9qV3",
         "share"
