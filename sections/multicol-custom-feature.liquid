@@ -2,125 +2,154 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
+    @media (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    /* ===== Feature layout (title/desc/CTA left, columns right) ===== */
+    #shopify-section-{{ section.id }} .mc-feature__grid { display: grid; gap: 32px; }
+    @media (min-width: 990px){
+      #shopify-section-{{ section.id }} .mc-feature__grid { grid-template-columns: 5fr 7fr; align-items: start; gap: 48px; }
+    }
+    #shopify-section-{{ section.id }} .mc-feature__lead { display:flex; flex-direction:column; gap: 16px; }
+    #shopify-section-{{ section.id }} .mc-eyebrow { font-family: var(--font-body-family); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity:.8; }
+    #shopify-section-{{ section.id }} .mc-eyebrow__rule { width: 100%; max-width: 520px; height: 2px; background: {{ section.settings.rule_color }}; margin-top: 8px; }
+    #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
+    #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
+    #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
+
+    /* ===== Heading size utilities (wired to setting "heading_size") ===== */
+    #shopify-section-{{ section.id }} .mc-heading.h2 { font-size: clamp(28px, 3.2vw, 36px); line-height: 1.1; }
+    #shopify-section-{{ section.id }} .mc-heading.h1 { font-size: clamp(36px, 4vw, 48px); line-height: 1.05; }
+    #shopify-section-{{ section.id }} .mc-heading.h0 { font-size: clamp(44px, 5vw, 64px); line-height: 1.02; }
+    #shopify-section-{{ section.id }} .mc-heading.hxl { font-size: clamp(56px, 6vw, 80px); line-height: 1; }
+    #shopify-section-{{ section.id }} .mc-heading.hxxl { font-size: clamp(64px, 7vw, 96px); line-height: 1; }
+
+    /* ===== Columns area ===== */
+    #shopify-section-{{ section.id }} .multicolumn { border-radius: 8px; }
+    #shopify-section-{{ section.id }} .multicolumn__title { display:none; }
+    #shopify-section-{{ section.id }} .multicolumn-list { align-items: start; }
+
+    /* Vertical dividers between items (desktop only) — removed */
+    @media(min-width: 990px){
+      #shopify-section-{{ section.id }} .multicolumn-list__item { position: relative; padding-left: 8px; height: 55vh; }
+      #shopify-section-{{ section.id }} .multicolumn-list__item + .multicolumn-list__item { border-left: none !important; }
+    }
+
+    /* Card layout */
+    #shopify-section-{{ section.id }} .multicolumn-card{
+      display:flex; flex-direction:column; gap:12px; min-height:100%;
+      background: #EBEAE2; border-radius: 8px; padding: 16px;
+    }
+    /* --- Make info container stick to bottom --- */
+  #shopify-section-{{ section.id }} .multicolumn-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* ensures top and bottom alignment */
+    height: 100%;
   }
 
-  /* ===== Feature layout (title/desc/CTA left, columns right) ===== */
-  #shopify-section-{{ section.id }} .mc-feature__grid { display: grid; gap: 32px; }
-  @media (min-width: 990px){
-    #shopify-section-{{ section.id }} .mc-feature__grid { grid-template-columns: 5fr 7fr; align-items: start; gap: 48px; }
-  }
-  #shopify-section-{{ section.id }} .mc-feature__lead { display:flex; flex-direction:column; gap: 16px; }
-  #shopify-section-{{ section.id }} .mc-eyebrow { font-family: var(--font-body-family); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity:.8; }
-  #shopify-section-{{ section.id }} .mc-eyebrow__rule { width: 100%; max-width: 520px; height: 2px; background: {{ section.settings.rule_color }}; margin-top: 8px; }
-  #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
-  #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
-  #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
-
-  /* ===== Heading size utilities (wired to setting "heading_size") ===== */
-  #shopify-section-{{ section.id }} .mc-heading.h2 { font-size: clamp(28px, 3.2vw, 36px); line-height: 1.1; }
-  #shopify-section-{{ section.id }} .mc-heading.h1 { font-size: clamp(36px, 4vw, 48px); line-height: 1.05; }
-  #shopify-section-{{ section.id }} .mc-heading.h0 { font-size: clamp(44px, 5vw, 64px); line-height: 1.02; }
-  #shopify-section-{{ section.id }} .mc-heading.hxl { font-size: clamp(56px, 6vw, 80px); line-height: 1; }
-  #shopify-section-{{ section.id }} .mc-heading.hxxl { font-size: clamp(64px, 7vw, 96px); line-height: 1; }
-
-  /* ===== Columns area ===== */
-  #shopify-section-{{ section.id }} .multicolumn { border-radius: 8px; }
-  #shopify-section-{{ section.id }} .multicolumn__title { display:none; }
-  #shopify-section-{{ section.id }} .multicolumn-list { align-items: start; }
-
-  /* Vertical dividers between items (desktop only) */
-  @media(min-width: 990px){
-    #shopify-section-{{ section.id }} .multicolumn-list__item { position: relative; padding-left: 8px; height: 60vh; }
-    #shopify-section-{{ section.id }} .multicolumn-list__item + .multicolumn-list__item { border-left: 1px solid {{ section.settings.divider_color }}; }
+  #shopify-section-{{ section.id }} .multicolumn-card__info {
+    margin-top: auto; /* pushes it to the bottom */
   }
 
-  /* Card layout: stack and push image block to bottom */
-  #shopify-section-{{ section.id }} .multicolumn-card{
-    display:flex; flex-direction:column; gap:12px; min-height:100%;
-  }
-  #shopify-section-{{ section.id }} .multicolumn-card__info { order: 1; }
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper {
-    order: 3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
-  }
 
-  /* Media fixes + rounded image (16:9) */
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
-    position: relative;
-    padding-bottom: 0 !important; /* cancel Dawn ratio if needed */
-    aspect-ratio: 16 / 9;
-    display: block;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  #shopify-section-{{ section.id }} .multicolumn-card__image {
-    position: static !important;
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-  }
+    /* Image first */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper {
+      order: 1;
+      margin-top: 0;
+      width: 100%;
+      border-radius: 8px;
+      overflow: visible; /* allow icon to size naturally, no clipping */
+      margin-bottom: 12px; /* space after icon */
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info { order: 2; }
 
-  /* Big stat/heading — only non-stat h3s get the clamp size */
-  #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat) {
-    font-size: clamp(61px, 6vw, 96px);
-    line-height: 1;
-    margin: 0 0 4px;
-  }
+    /* Icon media wrapper (no enforced ratio, no crop) */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position: relative;
+      padding-bottom: 0 !important; /* cancel Dawn ratio */
+      aspect-ratio: auto;           /* ensure no enforced ratio */
+      display: inline-block;        /* shrink-wrap around the icon */
+      width: var(--icon-size, 40px);
+      height: var(--icon-size, 40px);
+      background: transparent;
+      border-radius: 8px;           /* optional */
+      overflow: visible;
+    }
 
-  /* Description font options */
-  #shopify-section-{{ section.id }} .mc-desc--mono{
-    font-family: 'IBMPlexMono-Light', monospace;
-    font-weight:300; letter-spacing:.02em;
-  }
-  #shopify-section-{{ section.id }} .mc-desc--body{
-    font-family: var(--font-body-family);
-    font-weight: 400;
-  }
+    /* Icon sizing and fit */
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position: static !important;
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 60px;  /* caps */
+      max-height: 60px;
+      min-width: 16px;  /* floors */
+      min-height: 16px;
+      object-fit: contain;  /* no cropping */
+    }
 
-  /* ===== Per-block stat (heading) controls ===== */
-  #shopify-section-{{ section.id }} .mc-stat{
-    line-height: 1;
-    margin: 0 0 4px;
-    font-size: var(--stat-size-m, 48px); /* defaults; overridden per-block via inline CSS vars */
-  }
-  @media (min-width: 750px){
+    /* Big stat/heading — only non-stat h3s get the clamp size */
+    #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat) {
+      font-size: clamp(61px, 6vw, 96px);
+      line-height: 1;
+      margin: 0 0 4px;
+    }
+
+    /* Description font options */
+    #shopify-section-{{ section.id }} .mc-desc--mono{
+      font-family: 'IBMPlexMono-Light', monospace;
+      font-weight:300; letter-spacing:.02em;
+    }
+    #shopify-section-{{ section.id }} .mc-desc--body{
+      font-family: var(--font-body-family);
+      font-weight: 400;
+    }
+
+    /* Per-block stat sizing */
     #shopify-section-{{ section.id }} .mc-stat{
-      font-size: var(--stat-size-d, 72px);
+      line-height: 1;
+      margin: 0 0 4px;
+      font-size: var(--stat-size-m, 48px);
     }
-  }
+    @media (min-width: 750px){
+      #shopify-section-{{ section.id }} .mc-stat{
+        font-size: var(--stat-size-d, 72px);
+      }
+    }
 
-  /* Font style choices */
-  #shopify-section-{{ section.id }} .mc-stat--heading{
-    font-family: var(--font-heading-family);
-    font-weight: var(--font-heading-weight);
-    letter-spacing: var(--heading-letter-spacing, 0);
-  }
-  #shopify-section-{{ section.id }} .mc-stat--body{
-    font-family: var(--font-body-family);
-    font-weight: 600;
-  }
-  #shopify-section-{{ section.id }} .mc-stat--mono{
-    font-family: 'IBMPlexMono-Light', monospace;
-    font-weight: 300;
-    letter-spacing: .02em;
-  }
+    /* Font style choices */
+    #shopify-section-{{ section.id }} .mc-stat--heading{
+      font-family: var(--font-heading-family);
+      font-weight: var(--font-heading-weight);
+      letter-spacing: var(--heading-letter-spacing, 0);
+    }
+    #shopify-section-{{ section.id }} .mc-stat--body{
+      font-family: var(--font-body-family);
+      font-weight: 600;
+    }
+    #shopify-section-{{ section.id }} .mc-stat--mono{
+      font-family: 'IBMPlexMono-Light', monospace;
+      font-weight: 300;
+      letter-spacing: .02em;
+    }
 
-  /* Normalize any nested tags inside the stat */
-  #shopify-section-{{ section.id }} .mc-stat :is(h1,h2,h3,h4,h5,h6,p,div,span){
-    all: unset;
-    font: inherit;
-    line-height: inherit;
-    display: inline;
-  }
+    /* Normalize nested tags inside the stat */
+    #shopify-section-{{ section.id }} .mc-stat :is(h1,h2,h3,h4,h5,h6,p,div,span){
+      all: unset;
+      font: inherit;
+      line-height: inherit;
+      display: inline;
+    }
 {%- endstyle -%}
 
 {%- liquid
@@ -203,7 +232,7 @@
                 {% endif %}
               >
                 <div class="multicolumn-card content-container">
-                  <!-- INFO FIRST (order:1) -->
+                  <!-- INFO (order:2 in CSS) -->
                   <div class="multicolumn-card__info">
                     {%- if block.settings.title != blank -%}
                       <h3
@@ -237,17 +266,19 @@
                     {%- endif -%}
                   </div>
 
-                  <!-- IMAGE LAST (order:3; pushed by margin-top:auto) -->
+                  <!-- IMAGE (order:1 in CSS) -->
                   {%- if block.settings.image != blank -%}
-                    <div class="multicolumn-card__image-wrapper multicolumn-card-spacing">
+                    <div
+                      class="multicolumn-card__image-wrapper multicolumn-card-spacing"
+                      style="--icon-size: {{ block.settings.icon_size | default: 40 }}px;"
+                    >
                       <div class="media media--transparent media--adapt">
+                        {%- assign icon_px = block.settings.icon_size | default: 40 -%}
+                        {%- capture sizes_attr -%}(min-width: 750px) {{ icon_px }}px, {{ icon_px }}px{%- endcapture -%}
                         {{
                           block.settings.image
-                          | image_url: width: 3200
-                          | image_tag:
-                            class: 'multicolumn-card__image',
-                            loading: 'lazy',
-                            sizes: '(min-width: 1400px) calc((1400px - 116px) * 1 / 2), (min-width: 990px) calc((100vw - 116px) * 1 / 2), (min-width: 750px) calc((100vw - 100px) * 1 / 1), calc((100vw - 30px) * 1 / 1)'
+                          | image_url: width: 320
+                          | image_tag: class: 'multicolumn-card__image', loading: 'lazy', sizes: sizes_attr
                         }}
                       </div>
                     </div>
@@ -399,6 +430,16 @@
         },
 
         { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size (px)",
+          "min": 16,
+          "max": 60,
+          "step": 1,
+          "default": 40
+        },
+
         { "type": "inline_richtext", "id": "title", "label": "Heading / Stat", "default": "+230" },
         {
           "type": "select",
