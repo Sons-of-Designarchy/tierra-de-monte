@@ -285,7 +285,7 @@
             "title": "Hola a suelos mas fértiles",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
+            "stat_size_desktop": 40,
             "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
             "link_label": "",
             "link": ""
@@ -299,7 +299,7 @@
             "title": "No sabes cual es producto correcto?",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
+            "stat_size_desktop": 40,
             "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
             "link_label": "",
             "link": ""
@@ -313,7 +313,7 @@
             "title": "Lorem ipsum",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
+            "stat_size_desktop": 40,
             "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
             "link_label": "",
             "link": ""
