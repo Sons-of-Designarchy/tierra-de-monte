@@ -60,51 +60,6 @@
           "type": "description",
           "settings": {}
         },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Reduce enfermedades fúngicas.",
-            "icon": "leather",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Mayor aprovechamiento de nutrientes.",
-            "icon": "truck",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-2": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Incrementa perdurabilidad y eficacia de fertilizantes.",
-            "icon": "ruler",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-3": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Microorganismo incluidos",
-            "icon": "heart",
-            "content": "<ul><li>Trichoderma virens</li><li>Trichoderma harzianum</li><li>Bacillus subtilis</li><li>Paenibacillus polymyxa</li><li>Pseudomonas fluorescens</li><li>Streptomyces griseus </li><li>+ microorganismos fijadores de Nitrógeno </li></ul>",
-            "page": ""
-          }
-        },
-        "collapsible_tab_QgmY3h": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Aplicacion del producto",
-            "icon": "clipboard",
-            "content": "",
-            "page": ""
-          }
-        },
         "collapsible_tab_dgJxpK": {
           "type": "collapsible_tab",
           "settings": {
@@ -143,11 +98,6 @@
         "variant_picker_NNLKj9",
         "buy_buttons",
         "description",
-        "collapsible-row-0",
-        "collapsible-row-1",
-        "collapsible-row-2",
-        "collapsible-row-3",
-        "collapsible_tab_QgmY3h",
         "collapsible_tab_dgJxpK",
         "icon_with_text_Ux9qV3",
         "share"
