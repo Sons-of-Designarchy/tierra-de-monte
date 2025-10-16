@@ -108,8 +108,8 @@
         "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "",
-        "use_custom_col_height": false,
-        "col_height_vh_desktop": 35,
+        "use_custom_col_height": true,
+        "col_height_vh_desktop": 30,
         "col_height_vh_mobile": 35,
         "padding_top": 36,
         "padding_bottom": 36
@@ -237,6 +237,106 @@
         "logo_size": 80,
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "multicol_row_list_tUFHeJ": {
+      "type": "multicol-row-list",
+      "blocks": {
+        "row_BcFUXr": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Diseñador Gráfico",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_YRUD7w": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Project manager",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_dfQhUh": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Ingeniero Quimico",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_QzUgQH": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Agente de ventas",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_E3iriE": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Agente de ventas - CDMX",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "row_f9dm33": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/icon-dise.svg",
+            "icon_size": 40,
+            "title": "Agente de ventas - CDMX SUR",
+            "text": "",
+            "desc_font": "body",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_BcFUXr",
+        "row_YRUD7w",
+        "row_dfQhUh",
+        "row_QzUgQH",
+        "row_E3iriE",
+        "row_f9dm33"
+      ],
+      "name": "Multicolumn — Row list",
+      "settings": {
+        "pretitle": "Vacantes",
+        "rule_color": "#294e3f",
+        "show_rule": true,
+        "title": "Estamos buscando buscando a exploradores con ganas de contribuir a la tierra",
+        "description": "<p>Estamos buscando seguir expandiendo el futuro regenerativo de la tierra de mexico con personas como tu.</p>",
+        "button_label": "",
+        "button_link": "",
+        "heading_size": "h1",
+        "row_title_size": 24,
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "1760564647858fff0c": {
@@ -374,106 +474,6 @@
         "ai_gen_block_8f6d7f6_bQzJka"
       ],
       "settings": {}
-    },
-    "multicol_row_list_tUFHeJ": {
-      "type": "multicol-row-list",
-      "blocks": {
-        "row_BcFUXr": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Diseñador Gráfico",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_YRUD7w": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Project manager",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_dfQhUh": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Ingeniero Quimico",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_QzUgQH": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Agente de ventas",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_E3iriE": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Agente de ventas - CDMX",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_f9dm33": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Agente de ventas - CDMX SUR",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "row_BcFUXr",
-        "row_YRUD7w",
-        "row_dfQhUh",
-        "row_QzUgQH",
-        "row_E3iriE",
-        "row_f9dm33"
-      ],
-      "name": "Multicolumn — Row list",
-      "settings": {
-        "pretitle": "Vacantes",
-        "rule_color": "#294e3f",
-        "show_rule": true,
-        "title": "Estamos buscando buscando a exploradores con ganas de contribuir a la tierra",
-        "description": "<p>Estamos buscando seguir expandiendo el futuro regenerativo de la tierra de mexico con personas como tu.</p>",
-        "button_label": "",
-        "button_link": "",
-        "heading_size": "h1",
-        "row_title_size": 24,
-        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
     }
   },
   "order": [
@@ -483,7 +483,7 @@
     "image_with_text_YqAQVK",
     "rich_text_with_logo_yziVXy",
     "image_with_text_eYWBnA",
-    "1760564647858fff0c",
-    "multicol_row_list_tUFHeJ"
+    "multicol_row_list_tUFHeJ",
+    "1760564647858fff0c"
   ]
 }
