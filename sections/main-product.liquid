@@ -197,7 +197,53 @@
                     {{ product.description }}
                   </div>
                 {%- endif -%}
-                hi bitches
+
+            
+    {%- comment -%} --------- BENEFITS (1–3) --------- {%- endcomment -%}
+    <div class="product__extras-benefits" style="display:grid; gap:10px; margin: 12px 0 20px;">
+      {%- for i in (1..3) -%}
+        {%- assign key = 'beneficio_' | append: i -%}
+        {%- assign val = product.metafields.custom[key] -%}
+        {%- if val != blank -%}
+          {%- assign icon_setting = 'benefit_icon_' | append: i -%}
+          <div class="icon-with-text__item" style="display:flex; align-items:flex-start; gap:10px;">
+            <div class="icon-with-text__icon" style="line-height:0;">
+              {%- if block.settings[icon_setting] and block.settings[icon_setting] != 'none' -%}
+                {% render 'icon-accordion', icon: block.settings[icon_setting] %}
+              {%- endif -%}
+            </div>
+            <div class="icon-with-text__text">
+              {{ val }}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} --------- INGREDIENTES COLLAPSIBLE --------- {%- endcomment -%}
+    {%- if product.metafields.custom.ingredientes != blank -%}
+      <div class="product__accordion accordion quick-add-hidden" style="margin-top: 12px;">
+        <details id="Details-ingredientes-{{ section.id }}">
+          <summary>
+            <div class="summary__title">
+              {% render 'icon-accordion', icon: block.settings.icon_ingredientes %}
+              <h2 class="h4 accordion__title inline-richtext">
+                {{ block.settings.heading_ingredientes | default: 'Ingredientes' }}
+              </h2>
+            </div>
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </summary>
+          <div class="accordion__content rte" id="ProductAccordion-ingredientes-{{ section.id }}">
+            {{ product.metafields.custom.ingredientes | metafield_tag }}
+          </div>
+        </details>
+      </div>
+    {%- endif -%}
+
+
+
+
+
               {%- when 'sku' -%}
                 <p
                   class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
@@ -228,6 +274,8 @@
                     </div>
                   </details>
                 </div>
+
+                
               {%- when 'quantity_selector' -%}
                 <div
                   id="Quantity-Form-{{ section.id }}"
