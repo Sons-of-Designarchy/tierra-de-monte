@@ -364,7 +364,7 @@
         "column_gwBiHk": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
             "image": "shopify://shop_images/rosa.png",
             "title": "",
             "stat_font": "heading",
