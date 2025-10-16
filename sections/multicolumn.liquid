@@ -2,6 +2,32 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
+  /* ==== Instance-only controls (scoped by section.id) ==== */
+
+  /* A) Smaller image width (overrides Dawn's third/half/full classes) */
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper {
+    /* Force our width regardless of --third/--half/--full classes */
+    max-width: {{ section.settings.image_width_percent | default: 33 }}% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Optional nicety: center image when a smaller width is chosen */
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
+    display: block;
+  }
+
+  /* B) Remove light gray card background (content-container) */
+  {% if section.settings.remove_card_bg %}
+  #shopify-section-{{ section.id }} .multicolumn-card.content-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  {% endif %}
+{%- endstyle -%}
+
+{%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -206,6 +232,26 @@
       "label": "t:sections.multicolumn.settings.title.label"
     },
     {
+      "type": "header",
+      "content": "Image & Card tweaks"
+    },
+    {
+      "type": "range",
+      "id": "image_width_percent",
+      "label": "Image max width (%)",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "default": 33
+    },
+    {
+      "type": "checkbox",
+      "id": "remove_card_bg",
+      "label": "Remove light gray card background",
+      "default": true
+    },
+
+    {
       "type": "select",
       "id": "heading_size",
       "options": [
@@ -236,7 +282,7 @@
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_image.content"
-    },    
+    },
     {
       "type": "select",
       "id": "image_width",
@@ -284,23 +330,23 @@
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_button.content"
-    },    
+    },
     {
       "type": "text",
       "id": "button_label",
       "default": "t:sections.multicolumn.settings.button_label.default",
-      "label": "t:sections.multicolumn.settings.button_label.label", 
+      "label": "t:sections.multicolumn.settings.button_label.label",
       "info": "t:sections.multicolumn.settings.button_label.info"
     },
     {
       "type": "url",
       "id": "button_link",
       "label": "t:sections.multicolumn.settings.button_link.label"
-    },    
+    },
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_layout.content"
-    },     
+    },
     {
       "type": "range",
       "id": "columns_desktop",
@@ -347,7 +393,7 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
-    },    
+    },
     {
       "type": "header",
       "content": "t:sections.multicolumn.settings.header_mobile.content"
