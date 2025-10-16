@@ -151,6 +151,7 @@
           "settings": {
             "image": "shopify://shop_images/1.png",
             "title": "",
+            "desc_font": "body",
             "text": "<p>Hambre Cero </p>",
             "link_label": "",
             "link": ""
@@ -161,6 +162,7 @@
           "settings": {
             "image": "shopify://shop_images/2.png",
             "title": "",
+            "desc_font": "body",
             "text": "<p>Producción y Consumo <br/>Responsables </p>",
             "link_label": "",
             "link": ""
@@ -171,6 +173,7 @@
           "settings": {
             "image": "shopify://shop_images/3.png",
             "title": "",
+            "desc_font": "body",
             "text": "<p>Acción por el Clima </p>",
             "link_label": "",
             "link": ""
@@ -181,6 +184,7 @@
           "settings": {
             "image": "shopify://shop_images/4.png",
             "title": "",
+            "desc_font": "body",
             "text": "<p>Vida de Ecosistemas Terrestres </p>",
             "link_label": "",
             "link": ""
@@ -196,6 +200,8 @@
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "title": "ODS como brújula",
+        "image_width_percent": 100,
+        "remove_card_bg": true,
         "heading_size": "h1",
         "image_width": "full",
         "image_ratio": "adapt",
@@ -430,6 +436,7 @@
           "settings": {
             "image": "shopify://shop_images/loop-white.svg",
             "title": "",
+            "desc_font": "mono",
             "text": "<p>Suelos con aroma fresco</p>",
             "link_label": "",
             "link": ""
@@ -440,6 +447,7 @@
           "settings": {
             "image": "shopify://shop_images/loop-white.svg",
             "title": "",
+            "desc_font": "mono",
             "text": "<p>Agua que corre clara</p>",
             "link_label": "",
             "link": ""
@@ -450,6 +458,7 @@
           "settings": {
             "image": "shopify://shop_images/loop-white.svg",
             "title": "",
+            "desc_font": "mono",
             "text": "<p>Comunidades que prosperan</p>",
             "link_label": "",
             "link": ""
@@ -464,6 +473,8 @@
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "title": "",
+        "image_width_percent": 16,
+        "remove_card_bg": true,
         "heading_size": "h1",
         "image_width": "third",
         "image_ratio": "adapt",
