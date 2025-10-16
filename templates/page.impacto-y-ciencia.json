@@ -396,6 +396,136 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "rich_text_with_logo_MbzGeT": {
+      "type": "rich-text-with-logo",
+      "name": "Rich text + Logo (custom)",
+      "settings": {
+        "logo": "shopify://shop_images/omri-logo.png",
+        "logo_alt": "Section logo",
+        "logo_width": 120,
+        "heading": "",
+        "heading_size": "h2",
+        "text": "<p>Contamos con sellos como OMRI y estándares internacionales.  Pero nuestra mayor certificación es la vida que regresa.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button_style_secondary": false,
+        "text_alignment": "center",
+        "content_width": "default",
+        "mono_heading": false,
+        "mono_body": false,
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "padding_top": 80,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_PMYUHx": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_QyDtke": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/loop-white.svg",
+            "title": "",
+            "text": "<p>Suelos con aroma fresco</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_NCcfyL": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/loop-white.svg",
+            "title": "",
+            "text": "<p>Agua que corre clara</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_LkrcQA": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/loop-white.svg",
+            "title": "",
+            "text": "<p>Comunidades que prosperan</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_QyDtke",
+        "column_NCcfyL",
+        "column_LkrcQA"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "third",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 24,
+        "padding_bottom": 80
+      }
+    },
+    "image_with_text_yTVqmU": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_Mhf4CK": {
+          "type": "heading",
+          "settings": {
+            "heading": "La ciencia es nuestro lenguaje común con la tierra.",
+            "heading_size": "h1"
+          }
+        },
+        "text_AiDiT3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Cada bioinsumo nace de investigación rigurosa, pruebas en campo y diálogo con el conocimiento ancestral. Creemos que la verdadera innovación ocurre cuando los datos se vuelven vida.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_68Vjky": {
+          "type": "button",
+          "settings": {
+            "button_label": "Descubre como lo hacemos",
+            "button_link": "shopify://blogs/news/mitigando-y-revirtiendo-problematicas-medioambientales-y-sociales-la-agricultura-como-eje-de-cambio",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_Mhf4CK",
+        "text_AiDiT3",
+        "button_68Vjky"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/img2.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "logo_asset": "shopify://shop_images/Logo-white.svg",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -406,6 +536,9 @@
     "ticker_xhNnah",
     "image_with_text_itxT9k",
     "image_with_text_hbBm99",
-    "multicolumn_feature_pmP3rR"
+    "multicolumn_feature_pmP3rR",
+    "rich_text_with_logo_MbzGeT",
+    "multicolumn_PMYUHx",
+    "image_with_text_yTVqmU"
   ]
 }
