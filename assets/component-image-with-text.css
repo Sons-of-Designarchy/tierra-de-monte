@@ -365,6 +365,7 @@
 
 .image-with-text__heading {
   margin-bottom: 0;
+  line-height: 1.1em;
 }
 
 .image-with-text__text p {
