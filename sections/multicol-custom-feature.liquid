@@ -134,7 +134,9 @@
 <div class="multicolumn color-{{ section.settings.color_scheme }} gradient">
   <div
     class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    {% if settings.animations_reveal_on_scroll %} data-cascade {% endif %}
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
   >
     <div class="mc-feature__grid">
       <!-- Left: Eyebrow + Title + Description + CTA -->
@@ -228,7 +230,9 @@
                         {% endif %}
                       >
                         {{- block.settings.link_label | escape -}}
-                        <span class="svg-wrapper"><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span>
+                        <span class="svg-wrapper"
+                          ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                        >
                       </a>
                     {%- endif -%}
                   </div>
@@ -255,3 +259,187 @@
 
           {%- if show_mobile_slider -%}
             <div class="slider-buttons large-up-hide">
+              <button
+                type="button"
+                class="slider-button slider-button--prev"
+                name="previous"
+                aria-label="{{ 'general.slider.previous_slide' | t }}"
+              >
+                <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+              </button>
+              <div class="slider-counter caption">
+                <span class="slider-counter--current">1</span><span aria-hidden="true"> / </span
+                ><span class="visually-hidden">{{ 'general.slider.of' | t }}</span
+                ><span class="slider-counter--total">{{ section.blocks.size }}</span>
+              </div>
+              <button
+                type="button"
+                class="slider-button slider-button--next"
+                name="next"
+                aria-label="{{ 'general.slider.next_slide' | t }}"
+              >
+                <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+              </button>
+            </div>
+          {%- endif -%}
+        </slider-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Multicolumn — Custom box",
+  "class": "section section--multicolumn-custom",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "pretitle",
+      "label": "Pre-title (eyebrow)",
+      "default": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES"
+    },
+    { "type": "color", "id": "rule_color", "label": "Eyebrow rule color", "default": "#294E3F" },
+    { "type": "checkbox", "id": "show_rule", "label": "Show eyebrow rule", "default": true },
+
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Efecto Tierra de monte\nInnovación que siembra futuro"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza...</p>"
+    },
+
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Encuentra tu solución" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" },
+        { "value": "hxl", "label": "HXL" },
+        { "value": "hxxl", "label": "HXXL" }
+      ],
+      "default": "h1"
+    },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1",
+      "label": "Columns on mobile"
+    },
+    { "type": "checkbox", "id": "swipe_on_mobile", "default": false, "label": "Swipe on mobile" },
+    { "type": "color", "id": "divider_color", "label": "Divider color (desktop)", "default": "#1a1a1a" },
+
+    { "type": "header", "content": "Visual" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Description font",
+          "options": [
+            { "value": "body", "label": "Regular body" },
+            { "value": "mono", "label": "Monospace (IBM Plex Mono Light)" }
+          ],
+          "default": "body"
+        },
+
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "inline_richtext", "id": "title", "label": "Heading / Stat", "default": "+230" },
+        {
+          "type": "select",
+          "id": "stat_font",
+          "label": "Heading/Stat font style",
+          "options": [
+            { "value": "heading", "label": "Theme heading" },
+            { "value": "body", "label": "Theme body (bold)" },
+            { "value": "mono", "label": "Monospace (IBM Plex Mono Light)" }
+          ],
+          "default": "heading"
+        },
+        {
+          "type": "range",
+          "id": "stat_size_mobile",
+          "label": "Heading/Stat size (mobile, px)",
+          "min": 24,
+          "max": 72,
+          "step": 1,
+          "unit": "px",
+          "default": 48
+        },
+        {
+          "type": "range",
+          "id": "stat_size_desktop",
+          "label": "Heading/Stat size (desktop, px)",
+          "min": 40,
+          "max": 140,
+          "step": 1,
+          "unit": "px",
+          "default": 72
+        },
+
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Hectáreas regeneradas</p>" },
+        { "type": "text", "id": "link_label", "label": "Link label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Multicolumn — custom box", "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }] }
+  ]
+}
+{% endschema %}
