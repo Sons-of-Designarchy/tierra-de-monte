@@ -267,7 +267,7 @@
         "font_size": 22,
         "text_transform": "uppercase",
         "typography_variant": "primary",
-        "font_variant": "normal",
+        "font_variant": "mono",
         "speed": 36,
         "show_top_border": true,
         "show_bottom_border": true,
