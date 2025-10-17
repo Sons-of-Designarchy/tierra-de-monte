@@ -1,142 +1,184 @@
-@media screen and (max-width: 749px) {
-  .articles-wrapper .article {
-    width: 100%;
-  }
-}
+/* ============ BLOG CARD FIX PACK ============ */
 
+/* 0) Put blog items back to block so the grid controls width/edges */
 .article {
+  display: block !important;
+  align-items: initial !important;
+}
+
+/* 1) Remove wrapper padding so the card can be truly edge-to-edge */
+.articles-wrapper.contains-card .card-wrapper {
+  padding: 0 !important;
+}
+
+/* 2) Card radius + clip */
+.card.article-card {
+  border-radius: 8px;
+  overflow: hidden; /* clip image & content to the radius */
+}
+
+/* 3) Kill Dawn's aspect-ratio shim ONLY on media cards (prevents ghost spacing) */
+.card.article-card.card--media .card__inner.ratio::before {
+  padding-bottom: 0 !important;
+}
+
+/* 4) Nuke side paddings/margins that push the image in */
+.card.article-card .card__inner {
+  padding: 0 !important;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.card.article-card .card__media,
+.card.article-card .article-card__image-wrapper,
+.card.article-card .article-card__image.media {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0;
+}
+
+/* 5) Make the image really span edge-to-edge */
+.article-card__image.media,
+.article-card__image.media img {
+  display: block;
+  width: 100% !important;
+  height: auto;
+}
+
+/* 6) 8px gap between image and the date (put space on the date, not the image) */
+.article-card__date {
+  display: block;
+  margin-top: 8px !important;
+}
+
+/* 7) Remove default inner paddings so text aligns with the image edges */
+.card.article-card .card__content,
+.blog-articles .article-card .card__information,
+.blog__posts  .article-card .card__information {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* 8) Stack rhythm (date → divider → title block → excerpt → divider) */
+.article-card__stack {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+.article-card__stack h3,
+.article-card__stack p {
+  margin: 0 !important; /* tighter spacing */
 }
 
-.article.grid__item {
-  padding: 0;
+/* 9) Bigger heading (1–2 levels up) */
+.article-card__stack h3.card__heading {
+  font-size: clamp(3rem, 2.2vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 600;
 }
 
-.grid--peek .article-card {
-  box-sizing: border-box;
+/* 10) Dark-green title block borders & comfortable breathing room */
+.article-card__heading-container {
+  border-top: 1px solid #294E3F;
+  border-bottom: 1px solid #294E3F;
+  padding: 16px 0;   /* 16px from borders to text */
+  margin-top: 16px;  /* 16px below date */
 }
 
-.article-card__image-wrapper > a {
+/* 11) Optional extra dividers elsewhere (same color) */
+.article-card__divider {
+  border-top: 1px solid #294E3F;
+  opacity: 1;
+  width: 100%;
+}
+
+/* 12) Keep the excerpt full-width and tight to the rhythm */
+.article-card__excerpt {
+  width: 100%;
+  margin-top: 0 !important;
+}
+/* --- Fix short images on article cards --- */
+
+/* 1) Stop Dawn's ratio box from forcing the card height */
+.card.article-card.card--media .card__inner.ratio::before {
+  padding-bottom: 0 !important;
+}
+.card.article-card.card--media .card__inner.ratio {
+  height: auto !important;           /* let content define height */
+}
+
+/* 2) Give the image wrapper a real aspect ratio (tweak as you like) */
+.card.article-card .article-card__image.media {
+  aspect-ratio: var(--article-card-ratio, 16 / 9); /* try 3/2 or 4/3 if you want taller */
+  width: 100%;
   display: block;
 }
 
-.article-card__title {
-  text-decoration: none;
-  word-break: break-word;
-}
-
-.article-card__title a:after {
-  bottom: 0;
-  content: '';
+/* Make the image fill that box cleanly */
+.card.article-card .article-card__image.media img {
+  width: 100%;
   height: 100%;
-  left: 0;
+  object-fit: cover;   /* crops nicely; use contain if you don't want cropping */
+  display: block;
+}
+
+/* Keep the 8px spacing below the image */
+.article-card__date {
+  display: block;
+  margin-top: 8px !important;
+}
+
+/* === ARTICLE CARD: FIX TINY IMAGE HEIGHT === */
+
+/* 1) Stop the ratio shim from setting height */
+.card.article-card .card__inner.ratio::before { 
+  padding-bottom: 0 !important; 
+}
+.card.article-card .card__inner.ratio { 
+  height: auto !important; 
+  min-height: 0 !important; 
+}
+
+/* 2) Ensure the media wrapper participates in normal flow */
+.article-card__image-wrapper.card__media { 
+  position: static !important; 
+  margin: 0 !important; 
+  padding: 0 !important; 
+  width: 100% !important;
+}
+
+/* 3) Give the visible media box a real height (adjust ratio to taste) */
+:root { --article-card-ratio: 4 / 3; }  /* try 3/2 for taller, 16/9 for shorter */
+.article-card__image.media {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: var(--article-card-ratio) !important;
+  padding: 0 !important;          /* kill any padding-bottom hacks */
+  overflow: hidden;               /* clean crop */
+}
+
+/* 4) Make the IMG fill that box, and stop absolute positioning from Dawn */
+.article-card__image.media img {
+  position: static !important;    /* <-- key: cancel absolute from theme */
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;   /* nice crop */
+}
+
+/* Keep your 8px space below the image (put it on the date) */
+.article-card__date { display:block; margin-top: 8px !important; }
+/* Article card image sizing (works with the inline aspect-ratio) */
+.article-card .article-card__image.media {
+  width: 100%;
+  display: block;
+  position: relative; /* keep Dawn's img absolute positioning happy */
+}
+
+.article-card .article-card__image.media img {
   position: absolute;
-  right: 0;
-  top: 0;
+  inset: 0;
   width: 100%;
-  z-index: 1;
-}
-
-.article-card__link.link {
-  padding: 0;
-}
-
-.article-card__link {
-  text-underline-offset: 0.3rem;
-}
-
-.article-card .card__heading {
-  margin-bottom: 0.6rem;
-}
-
-.blog-articles .article-card .card__information,
-.blog__posts .article-card .card__information {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.article-card__info {
-  padding-top: 0.4rem;
-}
-
-.article-card__footer {
-  letter-spacing: 0.1rem;
-  font-size: 1.4rem;
-}
-
-.article-card__footer:not(:last-child) {
-  margin-bottom: 1rem;
-}
-
-.article-card__footer:last-child {
-  margin-top: auto;
-}
-
-.article-card__excerpt {
-  width: 100%;
-  margin-top: 1.2rem;
-}
-
-.article-card__link:not(:only-child) {
-  margin-right: 3rem;
-}
-
-@media screen and (min-width: 990px) {
-  .article-card__link:not(:only-child) {
-    margin-right: 4rem;
-  }
-}
-
-.article-card__image--small .ratio::before {
-  padding-bottom: 11rem;
-}
-
-.article-card__image--medium .ratio::before {
-  padding-bottom: 22rem;
-}
-
-.article-card__image--large .ratio::before {
-  padding-bottom: 33rem;
-}
-
-@media screen and (min-width: 750px) {
-  .article-card__image--small .ratio::before {
-    padding-bottom: 14.3rem;
-  }
-
-  .article-card__image--medium .ratio::before {
-    padding-bottom: 21.9rem;
-  }
-
-  .article-card__image--large .ratio::before {
-    padding-bottom: 27.5rem;
-  }
-}
-
-@media screen and (min-width: 990px) {
-  .article-card__image--small .ratio::before {
-    padding-bottom: 17.7rem;
-  }
-
-  .article-card__image--medium .ratio::before {
-    padding-bottom: 30.7rem;
-  }
-
-  .article-card__image--large .ratio::before {
-    padding-bottom: 40.7rem;
-  }
-}
-
-/* check for flexbox gap in older Safari versions */
-@supports not (inset: 10px) {
-  .articles-wrapper.grid {
-    margin: 0 0 5rem 0;
-  }
-
-  @media screen and (min-width: 750px) {
-    .articles-wrapper.grid {
-      margin-bottom: 7rem;
-    }
-  }
+  height: 100%;
+  object-fit: cover;
 }
