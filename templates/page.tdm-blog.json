@@ -41,7 +41,7 @@
       "settings": {
         "blog": "post",
         "post_limit": 4,
-        "heading": "",
+        "heading": "Noticias destacadas",
         "heading_size": "h1",
         "columns_desktop": 2,
         "show_view_all": true,
