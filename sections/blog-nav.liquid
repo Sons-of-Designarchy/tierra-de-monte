@@ -1,0 +1,215 @@
+{% comment %}
+  Blog Nav (Dawn 15.4.0 compatible)
+  - Left label in monospaced style
+  - Right: row of buttons, each links to a chosen blog
+  - Active state when you're on that blog page
+  - Uses color schemes + theme tokens (no hard-coded colors)
+{% endcomment %}
+
+<section id="shopify-section-{{ section.id }}" class="blog-nav color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <nav
+      class="blog-nav__bar"
+      role="navigation"
+      aria-label="{{ section.settings.label | default: 'Explora nuestro blog' }}"
+    >
+      {%- if section.settings.label != blank -%}
+        <span class="blog-nav__label">{{ section.settings.label }}</span>
+      {%- endif -%}
+
+      <ul class="blog-nav__list" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign chosen_blog = blogs[block.settings.blog] -%}
+          {%- if chosen_blog -%}
+            {%- liquid
+              assign is_active = false
+              if request.page_type == 'blog' and blog and blog.id == chosen_blog.id
+                assign is_active = true
+              endif
+            -%}
+            <li class="blog-nav__item" {{ block.shopify_attributes }}>
+              <a
+                class="blog-nav__btn{% if is_active %} is-active{% endif %}"
+                href="{{ chosen_blog.url }}"
+              >
+                {{ block.settings.title | default: chosen_blog.title }}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+  </div>
+
+  {%- style -%}
+    /* ===== Instance scope ===== */
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+    @media (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    /* Bar layout */
+    #shopify-section-{{ section.id }} .blog-nav__bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Label (monospaced) */
+    #shopify-section-{{ section.id }} .blog-nav__label {
+      font-family: var(--font-mono-family, 'ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','Liberation Mono','Courier New', monospace);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: rgb(var(--color-foreground));
+      white-space: nowrap;
+    }
+
+    /* List of buttons */
+    #shopify-section-{{ section.id }} .blog-nav__list {
+      display: flex;
+      align-items: stretch;
+      gap: 0; /* separators are drawn by borders */
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      width: 100%;
+      border: 1px solid rgba(var(--color-foreground), .8);
+      border-radius: 9999px;
+      overflow: hidden; /* keep rounded ends clean */
+      background: rgb(var(--color-background));
+    }
+
+    /* Items become equal-width on large screens; natural width on small screens */
+    #shopify-section-{{ section.id }} .blog-nav__item {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    /* Buttons */
+    #shopify-section-{{ section.id }} .blog-nav__btn {
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: rgb(var(--color-foreground));
+      line-height: 1;
+      background: transparent;
+      transition: background-color .2s ease, color .2s ease;
+      position: relative;
+    }
+
+    /* Vertical separators between buttons */
+    #shopify-section-{{ section.id }} .blog-nav__item + .blog-nav__item .blog-nav__btn {
+      border-left: 1px solid rgba(var(--color-foreground), .6);
+    }
+
+    /* Hover/Focus */
+    #shopify-section-{{ section.id }} .blog-nav__btn:hover,
+    #shopify-section-{{ section.id }} .blog-nav__btn:focus-visible {
+      background: rgba(var(--color-foreground), .06);
+      outline: none;
+    }
+
+    /* Active button (current blog) */
+    #shopify-section-{{ section.id }} .blog-nav__btn.is-active {
+      background: rgb(var(--color-accent-1, var(--color-button-background)));
+      color: rgb(var(--color-button-text));
+    }
+
+    /* Responsive: stack on narrow screens */
+    @media (max-width: 749px) {
+      #shopify-section-{{ section.id }} .blog-nav__bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      #shopify-section-{{ section.id }} .blog-nav__label {
+        align-self: flex-start;
+      }
+      #shopify-section-{{ section.id }} .blog-nav__list {
+        border-radius: 12px;
+      }
+      #shopify-section-{{ section.id }} .blog-nav__btn {
+        padding: 12px 14px;
+      }
+    }
+  {%- endstyle -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog navigation",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label",
+      "label": "Label",
+      "default": "Explora nuestro blog"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "blog_link",
+      "name": "Blog button",
+      "settings": [
+        {
+          "type": "blog",
+          "id": "blog",
+          "label": "Blog"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label override",
+          "info": "Optional; defaults to the blog title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog navigation",
+      "blocks": [{ "type": "blog_link" }, { "type": "blog_link" }, { "type": "blog_link" }, { "type": "blog_link" }]
+    }
+  ]
+}
+{% endschema %}
