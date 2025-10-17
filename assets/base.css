@@ -725,8 +725,8 @@ figcaption {
 /*casa-soda-test-ends*/
 .text-body {
   font-size: 1.5rem;
-  letter-spacing: 0.06rem;
-  line-height: 143% !important;
+  letter-spacing: -0.02rem!important;
+  line-height: 143%;
   font-family: var(--font-body-family);
   font-style: var(--font-body-style);
   font-weight: var(--font-body-weight);
@@ -1354,7 +1354,7 @@ summary::-webkit-details-marker {
 .subtitle {
   font-size: 1.8rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale));
-  letter-spacing: 0.06rem;
+  letter-spacing: -0.02rem;
   color: rgba(var(--color-foreground), 0.7);
 }
 
