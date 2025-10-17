@@ -9,6 +9,52 @@
  */
 {
   "sections": {
+    "blog_nav_URfRYd": {
+      "type": "blog-nav",
+      "blocks": {
+        "blog_link_yyn696": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "news",
+            "title": ""
+          }
+        },
+        "blog_link_RpFExx": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "compartiendo-conocimiento",
+            "title": "Nombre Custom"
+          }
+        },
+        "blog_link_T4UXA7": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "post",
+            "title": ""
+          }
+        },
+        "blog_link_m7jNcb": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "lo-que-le-das-a-tu-tierra",
+            "title": "Tierra"
+          }
+        }
+      },
+      "block_order": [
+        "blog_link_yyn696",
+        "blog_link_RpFExx",
+        "blog_link_T4UXA7",
+        "blog_link_m7jNcb"
+      ],
+      "name": "Blog navigation",
+      "settings": {
+        "label": "Explora nuestro blog",
+        "color_scheme": "",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -106,6 +152,7 @@
     }
   },
   "order": [
+    "blog_nav_URfRYd",
     "main",
     "featured_blog_MbyQH6",
     "featured_blog_p387gt",
