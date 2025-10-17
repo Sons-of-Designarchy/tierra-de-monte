@@ -52,11 +52,63 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "image_with_text_wEX9P8": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_qWxzpN": {
+          "type": "heading",
+          "settings": {
+            "heading": "La ciencia es nuestro lenguaje común con la tierra.",
+            "heading_size": "h1"
+          }
+        },
+        "text_iV7mCJ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Cada bioinsumo nace de investigación rigurosa, pruebas en campo y diálogo con el conocimiento ancestral. Creemos que la verdadera innovación ocurre cuando los datos se vuelven vida.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_ppUFgC": {
+          "type": "button",
+          "settings": {
+            "button_label": "Descubre como lo hacemos",
+            "button_link": "shopify://blogs/news/una-tierra-sana-y-biodiversa-el-puente-hacia-una-tradicion-dia-de-muertos",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_qWxzpN",
+        "text_iV7mCJ",
+        "button_ppUFgC"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/img2.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "logo_asset": "shopify://shop_images/Logo-white.svg",
+        "logo_alt": "",
+        "logo_size": 80,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "main",
     "featured_blog_MbyQH6",
-    "featured_blog_p387gt"
+    "featured_blog_p387gt",
+    "image_with_text_wEX9P8"
   ]
 }
