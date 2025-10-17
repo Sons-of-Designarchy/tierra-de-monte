@@ -230,7 +230,7 @@
             <div class="icon-with-text__icon" style="line-height:0;">
               <img src="https://cdn.shopify.com/s/files/1/0951/7111/7358/files/icon-prod-{{ i }}.svg" alt="benefit {{ i }}" />
             </div>
-            <div class="h4 accordion__title inline-richtext">
+            <div class="h4 accordion__title inline-richtext" style="font-size: 2rem!important">
               {{ val }}
             </div>
           </div>
@@ -240,12 +240,14 @@
 
     {%- comment -%} --------- INGREDIENTES COLLAPSIBLE --------- {%- endcomment -%}
     {%- if product.metafields.custom.ingredientes != blank -%}
-      <div class="product__accordion accordion quick-add-hidden" style="margin-top: 12px;">
+      <div class="product__accordion accordion quick-add-hidden" >
         <details id="Details-ingredientes-{{ section.id }}">
           <summary>
             <div class="summary__title">
-              {% render 'icon-accordion', icon: block.settings.icon_ingredientes %}
-              <h2 class="h4 accordion__title inline-richtext">
+              <span class="svg-wrapper">
+                <img src="https://cdn.shopify.com/s/files/1/0951/7111/7358/files/icon-prod-4.svg" />
+              </span>
+              <h2 class="h4 accordion__title inline-richtext" style="font-size: 2rem!important">
                 {{ block.settings.heading_ingredientes | default: 'Ingredientes' }}
               </h2>
             </div>
