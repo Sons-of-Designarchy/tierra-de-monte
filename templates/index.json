@@ -168,7 +168,7 @@
       "settings": {
         "text": "Ciencia con propósito",
         "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
-        "icon_height": 32,
+        "icon_height": 45,
         "bg_color": "#c8e7c3",
         "text_color": "#373736",
         "font_size": 100,
@@ -237,7 +237,7 @@
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
         "rule_color": "#294e3f",
         "show_rule": true,
-        "title": "Efecto Tierra de monteInnovación que siembra futuro",
+        "title": "Efecto Tierra de Monte Innovación que siembra futuro",
         "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad. Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y sus comunidades.</p>",
         "button_label": "Encuentra tu solución",
         "button_link": "shopify://collections/all",
@@ -278,6 +278,7 @@
           "settings": {
             "image": "shopify://shop_images/home-tdm3.jpg",
             "title": "+230",
+            "desc_font": "body",
             "text": "<p>hectáreas regeneradas</p>",
             "link_label": "",
             "link": ""
@@ -288,6 +289,7 @@
           "settings": {
             "image": "shopify://shop_images/home-tdm4.jpg",
             "title": "86%",
+            "desc_font": "body",
             "text": "<p>De biodiversidad del suelo recuperada</p>",
             "link_label": "",
             "link": ""
@@ -298,6 +300,7 @@
           "settings": {
             "image": "shopify://shop_images/home-tdm5.jpg",
             "title": "+30",
+            "desc_font": "body",
             "text": "<p>Comunidades acompañadas</p>",
             "link_label": "",
             "link": ""
@@ -312,6 +315,8 @@
       "disabled": true,
       "settings": {
         "title": "Efecto Tierra de monte Innovación que siembra futuro",
+        "image_width_percent": 33,
+        "remove_card_bg": true,
         "heading_size": "h1",
         "image_width": "half",
         "image_ratio": "square",
