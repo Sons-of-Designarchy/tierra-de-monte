@@ -96,13 +96,13 @@
         "column_mnx3UR": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
             "image": "shopify://shop_images/home-tdm1.jpg",
             "title": "",
-            "stat_font": "heading",
+            "stat_font": "mono",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<h2>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</h2>",
+            "stat_size_desktop": 40,
+            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
             "link_label": "",
             "link": ""
           }
@@ -110,13 +110,13 @@
         "column_V8h7JY": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
+            "desc_font": "mono",
             "image": "shopify://shop_images/home-tdm2.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<h2>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</h2>",
+            "stat_size_desktop": 40,
+            "text": "<p>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</p>",
             "link_label": "",
             "link": ""
           }
