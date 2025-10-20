@@ -36,9 +36,7 @@
     },
     "tabs-collections": {
       "type": "tabbed-collections",
-      "custom_css": [
-        "h1,h2 {font-size: 48px;}"
-      ],
+      "custom_css": [],
       "settings": {
         "kicker": "",
         "heading": "Soluciones para potencializar todo tipo de cultivo",
