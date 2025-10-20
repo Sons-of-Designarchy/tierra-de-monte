@@ -19,6 +19,9 @@
     letter-spacing: -0.04em !important;
     line-height: 1.8rem;
     text-transform: uppercase;
+    font-synthesis-weight: none;          /* FIX: prevent faux bold */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Ensure any nested tags inside the RTE inherit the monospace styling */
@@ -41,69 +44,98 @@
 {%- endstyle -%}
 
 {%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-  }
+    @media (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
 
-  /* ===== Feature layout (title/desc/CTA left, columns right) ===== */
-  #shopify-section-{{ section.id }} .mc-feature__grid { display: grid; gap: 32px; }
-  @media (min-width: 990px){
-    #shopify-section-{{ section.id }} .mc-feature__grid { grid-template-columns: 5fr 7fr; align-items: start; gap: 48px; }
-  }
-  #shopify-section-{{ section.id }} .mc-feature__lead { display:flex; flex-direction:column; gap: 16px; }
-  #shopify-section-{{ section.id }} .mc-eyebrow { font-family: var(--font-body-family); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity:.8; }
-  #shopify-section-{{ section.id }} .mc-eyebrow__rule { width: 100%; max-width: 520px; height: 2px; background: {{ section.settings.rule_color }}; margin-top: 8px; }
-  #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
-  #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
-  #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
+    /* ===== Feature layout (title/desc/CTA left, columns right) ===== */
+    #shopify-section-{{ section.id }} .mc-feature__grid { display: grid; gap: 32px; }
+    @media (min-width: 990px){
+      #shopify-section-{{ section.id }} .mc-feature__grid { grid-template-columns: 5fr 7fr; align-items: start; gap: 48px; }
+    }
+    #shopify-section-{{ section.id }} .mc-feature__lead { display:flex; flex-direction:column; gap: 16px; }
+    #shopify-section-{{ section.id }} .mc-eyebrow { font-family: var(--font-body-family); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity:.8; }
+    #shopify-section-{{ section.id }} .mc-eyebrow__rule { width: 100%; max-width: 520px; height: 2px; background: {{ section.settings.rule_color }}; margin-top: 8px; }
+    #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
+    #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
+    #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
 
-  /* ===== Columns area ===== */
-  #shopify-section-{{ section.id }} .multicolumn { border-radius: 8px; }
-  #shopify-section-{{ section.id }} .multicolumn__title { display:none; }
-  #shopify-section-{{ section.id }} .multicolumn-list { align-items: start; }
+    /* ===== Columns area ===== */
+    #shopify-section-{{ section.id }} .multicolumn { border-radius: 8px; }
+    #shopify-section-{{ section.id }} .multicolumn__title { display:none; }
+    #shopify-section-{{ section.id }} .multicolumn-list { align-items: start; }
+
+    /* Vertical dividers between items (desktop only) */
+    @media(min-width: 990px){
+     /* Set a per-section height variable from settings */
+      #shopify-section-{{ section.id }}{
+        --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
+      }
 
   /* Vertical dividers between items (desktop only) */
   @media(min-width: 990px){
-    #shopify-section-{{ section.id }} .multicolumn-list__item { position: relative; padding-left: 8px; height: 60vh; }
-    #shopify-section-{{ section.id }} .multicolumn-list__item + .multicolumn-list__item { border-left: 1px solid {{ section.settings.divider_color }}; }
-  }
+    #shopify-section-{{ section.id }} .multicolumn-list__item{
+      position: relative;
+      padding-left: 8px;
+      height: var(--mcf-height);   /* ← uses the Theme Editor value */
+    }
 
-  /* Card layout: stack and push image block to bottom */
-  #shopify-section-{{ section.id }} .multicolumn-card { display:flex; flex-direction:column; gap:12px; height:100%; }
 
-  #shopify-section-{{ section.id }} .multicolumn-card__info { order: 1; }
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper { order: 3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden; }
+      /* Border on the first */
+      #shopify-section-{{ section.id }} .multicolumn-list__item:first-child{
+        border-left: 1px solid {{ section.settings.divider_color }};
+      }
 
-  /* Media fixes + rounded image */
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
-    position: relative;
-    padding-bottom: 0 !important; /* cancel Dawn ratio if needed */
-    aspect-ratio: 1 / 1;
-    display: block;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  #shopify-section-{{ section.id }} .multicolumn-card__image {
-    position: static !important;
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-  }
+      /* …and on all subsequent items (keeps one rule between columns) */
+      #shopify-section-{{ section.id }} .multicolumn-list__item + .multicolumn-list__item{
+        border-left: 1px solid {{ section.settings.divider_color }};
+      }
+    }
 
-  /* Big stat/heading — only non-stat h3s get the clamp size */
-  #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat) {
-    font-size: clamp(61px, 6vw, 96px);
-    line-height: 1;
-    margin: 0 0 4px;
-  }
+    /* Mobile/tablet: remove the vertical rule (single column) */
+    @media (max-width: 989.98px){
+      #shopify-section-{{ section.id }} .multicolumn-list__item{
+        border-left: none;
+        padding-left: 0;
+      }
+    }
+
+    /* Card layout: stack and push image block to bottom */
+    #shopify-section-{{ section.id }} .multicolumn-card { display:flex; flex-direction:column; gap:12px; height:100%; }
+
+    #shopify-section-{{ section.id }} .multicolumn-card__info { order: 1; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper { order: 3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden; }
+
+    /* Media fixes + rounded image (kept 1:1; removed conflicting 16:9 rule) */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
+      position: relative;
+      padding-bottom: 0 !important; /* cancel Dawn ratio if needed */
+      aspect-ratio: 1 / 1;
+      display: block;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image {
+      position: static !important;
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Big stat/heading — only non-stat h3s get the clamp size */
+    #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat) {
+      font-size: clamp(61px, 6vw, 96px);
+      line-height: 1;
+      margin: 0 0 4px;
+    }
 {%- endstyle -%}
 
 {%- style -%}
@@ -116,18 +148,17 @@
     order:3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
   }
 
-  /* Tidy image element */
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
-    position:relative; padding-bottom:0 !important; aspect-ratio: 16 / 9; display:block;
-  }
-  #shopify-section-{{ section.id }} .multicolumn-card__image{
-    position:static !important; width:100%; height:auto; display:block; object-fit:cover;
-  }
+  /* Tidy image element — (REMOVED previous 16:9 override to avoid conflicts) */
+  /* #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{ ... } */
 
-  /* Description font options */
+  /* Description font options — FIXED family + smoothing */
   #shopify-section-{{ section.id }} .mc-desc--mono{
-    font-family: 'IBMPlexMono-Light', monospace;
-    font-weight:300; letter-spacing:.02em;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 300;
+    letter-spacing: .02em;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   #shopify-section-{{ section.id }} .mc-desc--body{
     font-family: var(--font-body-family);
@@ -157,10 +188,12 @@
     font-family: var(--font-body-family);
     font-weight: 600;
   }
+  /* FIX: use correct IBM Plex Mono family for the mono stat */
   #shopify-section-{{ section.id }} .mc-stat--mono{
-    font-family: 'IBMPlexMono-Light', monospace;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-weight: 300;
     letter-spacing: .02em;
+    font-synthesis-weight: none;
   }
 
   /* Paste-proof: normalize any nested tags inside the stat */
@@ -393,6 +426,30 @@
       "default": 3,
       "label": "Columns on desktop"
     },
+    {
+      "type": "header",
+      "content": "Height (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop_value",
+      "label": "Column height value (desktop)",
+      "min": 30,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "height_desktop_unit",
+      "label": "Column height unit (desktop)",
+      "options": [
+        { "value": "vh", "label": "vh (viewport height)" },
+        { "value": "px", "label": "px" }
+      ],
+      "default": "vh"
+    },
+
     {
       "type": "select",
       "id": "columns_mobile",
