@@ -152,7 +152,7 @@
         "button_link": "shopify://pages/nosotros",
         "heading_size": "h1",
         "columns_desktop": 2,
-        "height_desktop_value": 45,
+        "height_desktop_value": 38,
         "height_desktop_unit": "vh",
         "columns_mobile": "1",
         "swipe_on_mobile": false,
