@@ -98,7 +98,7 @@
           "settings": {
             "desc_font": "mono",
             "image": "shopify://shop_images/quienes-somos-1.png",
-            "title": "",
+            "title": "--",
             "stat_font": "mono",
             "stat_size_mobile": 48,
             "stat_size_desktop": 40,
