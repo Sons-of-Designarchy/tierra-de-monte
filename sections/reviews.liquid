@@ -48,6 +48,7 @@
   }
   #shopify-section-{{ section.id }} .reviews__track::-webkit-scrollbar { display: none; }
 
+
   /* Each slide takes full width minus the left+right peeks */
   #shopify-section-{{ section.id }} .review {
     flex: 0 0 calc(100% - (var(--peek) * 2));
@@ -57,6 +58,7 @@
     opacity: .35;
     transform: scale(.98);
     cursor: pointer;                 /* indicate it’s clickable/editable */
+    background-image: none !important; /* defensive: in case a bg-dot was used */
   }
   #shopify-section-{{ section.id }} .review:hover {
     opacity: .5;
@@ -127,7 +129,9 @@
   <div class="section-{{ section.id }}-padding isolate">
     <div class="reviews__card color-{{ section.settings.color_scheme }} gradient">
       {% if section.settings.title != blank %}
-        <h2 class="reviews__title title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+        <h2 class="reviews__title title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
       {% endif %}
 
       <div class="reviews__viewport" id="rvp-{{ section.id }}">
@@ -136,11 +140,11 @@
             <li class="review" {{ block.shopify_attributes }} data-index="{{ forloop.index0 }}">
               <div class="review__inner">
                 {% if block.settings.image != blank %}
-                  {{ block.settings.image
+                  {{
+                    block.settings.image
                     | image_url: width: 320
-                    | image_tag: widths: '160, 200, 240, 320',
-                      class: 'review__avatar',
-                      alt: block.settings.name | escape
+                    | image_tag: widths: '160, 200, 240, 320', class: 'review__avatar', alt: block.settings.name
+                    | escape
                   }}
                 {% endif %}
                 {% if block.settings.quote != blank %}
@@ -160,10 +164,14 @@
         <!-- Desktop nav buttons -->
         <div class="reviews__nav">
           <button class="reviews__btn reviews__btn--prev" type="button" aria-label="Anterior">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M12.7 15.3a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 1 1 1.4 1.4L8.42 9H17a1 1 0 1 1 0 2H8.41l4.3 4.3a1 1 0 0 1 0 1.4z"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path d="M12.7 15.3a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 1 1 1.4 1.4L8.42 9H17a1 1 0 1 1 0 2H8.41l4.3 4.3a1 1 0 0 1 0 1.4z"/>
+            </svg>
           </button>
           <button class="reviews__btn reviews__btn--next" type="button" aria-label="Siguiente">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M7.3 4.7a1 1 0 0 1 1.4 0l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 1 1-1.4-1.4L11.58 11H3a1 1 0 1 1 0-2h8.59L7.3 6.1a1 1 0 0 1 0-1.4z"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path d="M7.3 4.7a1 1 0 0 1 1.4 0l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 1 1-1.4-1.4L11.58 11H3a1 1 0 1 1 0-2h8.59L7.3 6.1a1 1 0 0 1 0-1.4z"/>
+            </svg>
           </button>
         </div>
       </div>
@@ -172,52 +180,68 @@
 </section>
 
 <script>
-(() => {
-  const root   = document.getElementById('rvp-{{ section.id }}');
-  const track  = document.getElementById('track-{{ section.id }}');
-  if (!root || !track) return;
+  (() => {
+    const root = document.getElementById('rvp-{{ section.id }}');
+    const track = document.getElementById('track-{{ section.id }}');
+    if (!root || !track) return;
 
-  const slides = Array.from(track.querySelectorAll('.review'));
-  if (!slides.length) return;
+    const slides = Array.from(track.querySelectorAll('.review'));
+    if (!slides.length) return;
 
-  const center = (i) => {
-    const el = slides[i];
-    if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  };
+    const center = (i) => {
+      const el = slides[i];
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    };
 
-  const setActive = () => {
-    const vw = track.getBoundingClientRect();
-    const centerX = vw.left + vw.width / 2;
-    let bestIdx = 0, bestDist = Infinity;
-    slides.forEach((s, i) => {
-      const r = s.getBoundingClientRect();
-      const mid = r.left + r.width / 2;
-      const d = Math.abs(mid - centerX);
-      if (d < bestDist) { bestDist = d; bestIdx = i; }
-    });
-    slides.forEach((s, i) => s.classList.toggle('is-active', i === bestIdx));
-    return bestIdx;
-  };
+    const setActive = () => {
+      const vw = track.getBoundingClientRect();
+      const centerX = vw.left + vw.width / 2;
+      let bestIdx = 0,
+        bestDist = Infinity;
+      slides.forEach((s, i) => {
+        const r = s.getBoundingClientRect();
+        const mid = r.left + r.width / 2;
+        const d = Math.abs(mid - centerX);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      });
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === bestIdx));
+      return bestIdx;
+    };
 
-  let active = setActive();
+    let active = setActive();
 
-  const onScroll = () => { active = setActive(); };
-  track.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+    const onScroll = () => {
+      active = setActive();
+    };
+    track.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
 
-  slides.forEach((s, i) => s.addEventListener('click', () => center(i)));
+    slides.forEach((s, i) => s.addEventListener('click', () => center(i)));
 
-  const prevBtn = root.querySelector('.reviews__btn--prev');
-  const nextBtn = root.querySelector('.reviews__btn--next');
-  if (prevBtn) prevBtn.addEventListener('click', () => center(Math.max(0, active - 1)));
-  if (nextBtn) nextBtn.addEventListener('click', () => center(Math.min(slides.length - 1, active + 1)));
+    const prevBtn = root.querySelector('.reviews__btn--prev');
+    const nextBtn = root.querySelector('.reviews__btn--next');
+    if (prevBtn) prevBtn.addEventListener('click', () => center(Math.max(0, active - 1)));
+    if (nextBtn) nextBtn.addEventListener('click', () => center(Math.min(slides.length - 1, active + 1)));
 
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); center(Math.max(0, active - 1)); }
-    if (e.key === 'ArrowRight'){ e.preventDefault(); center(Math.min(slides.length - 1, active + 1)); }
-  }, true);
-})();
+    root.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          center(Math.max(0, active - 1));
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          center(Math.min(slides.length - 1, active + 1));
+        }
+      },
+      true
+    );
+  })();
 </script>
 
 {% schema %}
@@ -227,7 +251,11 @@
   "class": "section",
   "settings": [
     { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Reviews" },
-    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h2",
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h2",
       "options": [
         { "value": "h2", "label": "H2" },
         { "value": "h1", "label": "H1" },
@@ -235,14 +263,56 @@
       ]
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "range", "id": "radius", "label": "Card corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16 },
-    { "type": "range", "id": "gap", "label": "Gap between reviews (px)", "min": 8, "max": 48, "step": 2, "default": 24 },
-    { "type": "range", "id": "avatar_size", "label": "Avatar size (px)", "min": 48, "max": 140, "step": 4, "default": 96 },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Card corner radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between reviews (px)",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "avatar_size",
+      "label": "Avatar size (px)",
+      "min": 48,
+      "max": 140,
+      "step": 4,
+      "default": 96
+    },
     { "type": "checkbox", "id": "show_dividers", "label": "Subtle vertical lines on wide screens", "default": false },
     { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#000000" },
     { "type": "header", "content": "Section padding" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 36 }
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
   ],
   "blocks": [
     {
@@ -251,14 +321,17 @@
       "limit": 6,
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Avatar" },
-        { "type": "textarea", "id": "quote", "label": "Quote / Description", "default": "Tierra de monte logr\u00f3 que nuestra producci\u00f3n se salvara de la peor plaga que pod\u00edamos imaginar en esta temporada." },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote / Description",
+          "default": "Tierra de monte logr\u00f3 que nuestra producci\u00f3n se salvara de la peor plaga que pod\u00edamos imaginar en esta temporada."
+        },
         { "type": "text", "id": "name", "label": "Name", "default": "Silverio Pliego D." },
         { "type": "text", "id": "company", "label": "Company", "default": "Huerta Cuauht\u00e9moc" }
       ]
     }
   ],
-  "presets": [
-    { "name": "Reviews", "blocks": [ { "type": "review" }, { "type": "review" }, { "type": "review" } ] }
-  ]
+  "presets": [{ "name": "Reviews", "blocks": [{ "type": "review" }, { "type": "review" }, { "type": "review" }] }]
 }
 {% endschema %}
