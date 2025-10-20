@@ -143,9 +143,9 @@
       ],
       "name": "Multicolumn — Feature",
       "settings": {
-        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
+        "pretitle": "",
         "rule_color": "#294e3f",
-        "show_rule": true,
+        "show_rule": false,
         "title": "¿Quienes somos?",
         "description": "<p>En Tierra de Monte creamos soluciones biológicas que potencian la vida en cada cultivo.</p>",
         "button_label": "Acerca de nosotros",
