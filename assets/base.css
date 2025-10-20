@@ -346,208 +346,163 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   object-fit: cover;
 }
 
-/* ==== Product card look & feel ==== */
+
+/* =========================
+   PRODUCT CARD – CONSOLIDATED
+   ========================= */
+
+/* Respect Dawn card tokens (leave this as-is if you already have it elsewhere) */
+.product-card-wrapper .card,
+.contains-card--product {
+  --border-radius: var(--product-card-corner-radius);
+  --border-width: var(--product-card-border-width);
+  --border-opacity: var(--product-card-border-opacity);
+  --shadow-horizontal-offset: var(--product-card-shadow-horizontal-offset);
+  --shadow-vertical-offset: var(--product-card-shadow-vertical-offset);
+  --shadow-blur-radius: var(--product-card-shadow-blur-radius);
+  --shadow-opacity: var(--product-card-shadow-opacity);
+  --shadow-visible: var(--product-card-shadow-visible);
+  --image-padding: var(--product-card-image-padding);
+  --text-alignment: var(--product-card-text-alignment);
+}
+
+/* Base container */
 .product-card-wrapper .card {
+  position: relative;      /* needed for badges */
+  background: transparent; /* avoid Dawn gradient */
   border: 0;
-  background: transparent;
 }
 
-.product-card-wrapper .card__inner {
-  border-radius: 16px;
-  overflow: visible;
-}
-
-.product-card-wrapper .card__media {
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-/* Optional subtle card hover (remove if not wanted) */
-.product-card-wrapper .card:hover .card__media img {
-  transform: scale(1.01);
-}
-
-.product-card-wrapper .card__media img {
-  transition: transform .25s ease;
-}
-
-/* Typography spacing similar to mock */
-.product-card-wrapper .card__content {
-  padding-top: 1.75rem;
-}
-
-.product-card-wrapper .card__heading {
-  margin: 0 0 .25rem;
-}
-
-.product-card-wrapper .card-information {
-  margin-top: .25rem;
-}
-
-/* Badge position fix (keeps it inside the rounded image) */
-.product-card-wrapper .card__badge.bottom.left {
-  left: .5rem;
-  bottom: .5rem;
-}
-
-
-
-/* Home tabs: show full pack shot */
-#tabbed-collections-template--* .product-card-wrapper .card__media img {
-  object-fit: contain;
-  background: #fff;
-}
-
-
-//* ----- Tierra de Monte Product Card Style (refined) ----- */
-
-/* Neutralize Dawn gradient but keep ratio box */
+/* Kill Dawn gradient skin on inner */
 .product-card-wrapper .card__inner.gradient {
   background: transparent !important;
 }
 
-.product-card-wrapper .card__inner.gradient.ratio::before,
-.product-card-wrapper .card__inner.ratio::before {
+/* Keep Dawn ratio box; ensure transparent */
+.product-card-wrapper .card__inner.ratio::before,
+.product-card-wrapper .card__inner.gradient.ratio::before {
   content: "";
   display: block;
   padding-bottom: var(--ratio-percent, 100%);
   background: transparent !important;
 }
 
-/* Image container */
+/* Media container */
 .product-card-wrapper .card__media {
   position: absolute;
   inset: 0;
-  border-radius: 16px;
+  border-radius: 2px;
   overflow: hidden;
-  background: #ffffff;
+  background: #fff;
 
-  /* ✅ Soft brand shadow & border for depth */
+  /* soft shadow + subtle border */
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.05),
-    0 6px 16px rgba(111, 113, 112, 0.12);
-  /* subtle green hue */
-  border: 1px solid rgba(77, 77, 77, 0.08);
+    0 2px 6px rgba(0,0,0,.05),
+    0 6px 16px rgba(111,113,112,.12);
+  border: 1px solid rgba(77,77,77,.08);
 
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
-/* Hover lift with warmer green accent */
+/* Hover lift */
 .product-card-wrapper .card:hover .card__media {
   transform: translateY(-4px);
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.06),
-    0 10px 24px rgba(160, 165, 162, 0.085);
-  border-color: rgba(160, 165, 162, 0.113);
+    0 4px 10px rgba(0,0,0,.06),
+    0 10px 24px rgba(160,165,162,.085);
+  border-color: rgba(160,165,162,.113);
 }
 
-/* Media + image sizing */
-.product-card-wrapper .card__media .media {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
+/* Media fit */
+.product-card-wrapper .card__media .media { position: relative; width: 100%; height: 100%; }
 
 .product-card-wrapper .card__media img,
 .product-card-wrapper .card__media picture,
 .product-card-wrapper .card__media svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
   display: block;
   object-fit: cover;
+  transition: transform .25s ease;
 }
 
-/* Card base cleanup */
-.product-card-wrapper .card {
-  background: transparent;
-  border: 0;
+/* Optional tiny zoom on hover (subtle) */
+.product-card-wrapper .card:hover .card__media img { transform: scale(1.01); }
+
+/* Variant hook: use 'product-card--contain' on card wrapper when you want packshots to sit on white and not crop */
+.product-card--contain .card__media img { object-fit: contain; background: #fff; }
+
+/* Content spacing */
+.product-card-wrapper .card__content { padding-top: 1.75rem; }
+.product-card-wrapper .card__information {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
 }
 
-/* ----- Product card typography (Inter Regular) ----- */
-
-/* Base product name (h5) */
+/* Title */
 .product-card-wrapper .card__heading,
 .product-card-wrapper .card__heading a {
   font-family: var(--font-body-family, "Inter", sans-serif);
   font-weight: 400;
-  /* Inter Regular */
-  font-size: clamp(20px, 1.1vw, 16px);
-  line-height: 2.85rem;
+  /* FIXED clamp order: min <= preferred <= max */
+  font-size: clamp(20px, 1.1vw, 20px);
+  line-height: 1.35;
   color: rgb(var(--color-foreground));
-  /* theme foreground */
   text-decoration: none;
-  letter-spacing: 0.015em;
-  transition: color 0.2s ease;
+  letter-spacing: .015em;
+  transition: color .2s ease;
+  margin: 0 0 .25rem;
 }
 
-
-
-/* Product price */
+/* Price */
 .product-card-wrapper .price {
   font-family: var(--font-body-family, "Inter", sans-serif);
   font-weight: 500;
-  font-size: clamp(16px, 1.05vw, 15px);
+  font-size: clamp(15px, 1.05vw, 16px);
   line-height: 1.2;
   color: rgb(var(--color-foreground));
-  margin-top: 0.25rem;
+  margin-top: .25rem;
 }
+.product-card-wrapper .price__sale .price-item--sale { color: #2fb673; }
 
-/* If you want sale prices or discounts to pop slightly */
-.product-card-wrapper .price__sale .price-item--sale {
-  color: #2fb673;
-}
-
-/* Tidy spacing between heading and price */
-.product-card-wrapper .card__information {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.5rem;
-}
-
-
-
-
-/* ----- Product card: excerpt styling ----- */
+/* Excerpt (3 lines) */
 .product-card-wrapper .card__excerpt {
-  margin: .5rem 0 .5rem;
+  margin: .5rem 0;
   font-family: var(--font-body-family, "Inter", sans-serif);
   font-weight: 400;
-  font-size: clamp(16px, 1vw, 16px);
+  font-size: clamp(14px, 1vw, 16px);
   line-height: 1.35;
-  color: rgba(var(--color-foreground), 0.75);
+  color: rgba(var(--color-foreground), .75);
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  /* show 2 lines max */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
+/* Badge (top-right) */
+.card__badge { position: absolute; top: 8px; right: 8px; z-index: 3; }
+.card__badge .badge { margin: 0; border-radius: 4px; padding: 4px 8px; font-size: .75rem; line-height: 1.2; }
 
-/* === Product card badge position: top-right === */
-.card__badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 3;
+/* "View more" link */
+.card__view-link{
+  display: inline-block; margin-top: .5rem;
+  font: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1.5px;
+  color: rgb(var(--color-foreground));
+  transition: color .2s ease, filter .2s ease, opacity .2s ease;
 }
+@supports (color: color-mix(in oklab, black, white)) {
+  .card__view-link:hover { color: color-mix(in oklab, rgb(var(--color-foreground)) 85%, black); }
+}
+@supports not (color: color-mix(in oklab, black, white)) {
+  .card__view-link:hover { filter: brightness(.9); }
+}
+.card__view-link:focus { outline: 2px solid currentColor; outline-offset: 2px; text-decoration-thickness: 2px; }
 
-/* Make sure the card itself allows absolutely positioned children */
-.card {
-  position: relative;
-}
 
-/* Optional: make the badge look balanced */
-.card__badge .badge {
-  margin: 0;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 0.75rem;
-  line-height: 1.2;
-}
+
+
+
+
+
 /* === Page-specific override: /nosotros-hero === */
 
 #shopify-section-template--25297297506606__rich_text_with_logo_3QUehq .rt__logo .media {
@@ -4073,3 +4028,69 @@ details-disclosure>details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* ================================
+   SANITY FIXES – paste at file end
+   ================================ */
+
+/* 0) Fonts: add font-display and better fallbacks */
+@font-face {
+  font-family: 'Aujournuit-Densed';
+  src: url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format('opentype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBMPlexMono-Regular';
+  src: url('{{ "IBMPlexMono-Regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "IBMPlexMono-Regular.woff"  | asset_url }}') format('woff');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+/* 1) Variables: sensible font fallbacks */
+:root {
+  --font-heading-family: 'Aujournuit-Densed', serif !important;
+  --font-body-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-caption-family: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* 2) Fix invalid rgba() usage (needs an alpha) */
+.quantity {
+  color: rgb(var(--color-foreground)); /* was rgba(var(--color-foreground)) */
+}
+
+/* Some focus styles earlier used rgba(var(--color-foreground)) without alpha.
+   This forces a valid alpha while keeping your intent. */
+.field__input:focus-visible,
+.select__select:focus-visible,
+.customer .field input:focus-visible,
+.customer select:focus-visible,
+.localization-form__select:focus-visible.localization-form__select:after {
+  box-shadow: 0 0 0 calc(0.1rem + var(--inputs-border-width)) rgba(var(--color-foreground), 1);
+  outline: 0;
+  border-radius: var(--inputs-radius);
+}
+
+/* 3) Replace percentage letter-spacing with lengths */
+h1, h2, h3, h4, .h0, .h1, .h2, .h3, .h4 {
+  /* previously -0.2% (invalid inside calc on some browsers) */
+  letter-spacing: -0.02em;
+}
+
+/* 4) Normalize banner image sizing (you had both height:auto and height:100%) */
+[id^="Banner-"][id$="__image_banner"] .banner__media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* 5) Collapse duplicate .card__view-link declarations into one canonical style */
+.card__view-link {
+  display: inline-block;
+  margin-top
+
