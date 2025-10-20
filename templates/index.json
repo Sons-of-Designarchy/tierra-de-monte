@@ -422,7 +422,7 @@
       ],
       "name": "Reviews",
       "settings": {
-        "title": "Reseñas",
+        "title": "",
         "heading_size": "h2",
         "color_scheme": "",
         "radius": 16,
