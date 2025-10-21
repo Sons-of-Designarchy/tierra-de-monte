@@ -240,7 +240,7 @@
         "button_link": "shopify://collections/all",
         "heading_size": "h1",
         "columns_desktop": 3,
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "color_scheme": "",
         "padding_top": 100,
