@@ -795,4 +795,41 @@
   .footer .page-width {
     padding: 2rem 1rem;
   }
+
+  /* ─────────────────────────────────────────────────────────
+   Footer — Tablet optimization (Dawn 15.4.0)
+   - Shrink logo block to ~50% width
+   - Keep menus wider
+   Breakpoints: 750px–989.98px
+   ───────────────────────────────────────────────────────── */
+  @media (min-width: 750px) and (max-width: 989.98px) {
+    /* 1️⃣ Make the footer grid breathe more evenly */
+    .footer__blocks-wrapper.footer-grid-custom {
+      grid-template-columns: 100px 1fr 1fr 1fr 1fr !important;
+      column-gap: clamp(16px, 3vw, 32px);
+      align-items: start;
+    }
+
+    /* 2️⃣ Shrink the brand logo block */
+    .footer-block__brand-info,
+    .footer-block__image-wrapper {
+      max-width: 75% !important; /* half the current width */
+    }
+
+    /* 3️⃣ Ensure the image itself scales correctly */
+    .footer-block__brand-info img {
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    /* 4️⃣ Optional: reduce padding so menus align tighter */
+    .footer__blocks-wrapper .footer-block--menu {
+      padding-inline: 8px;
+    }
+
+    /* 5️⃣ Bonus: add spacing above menus if needed */
+    .footer__blocks-wrapper .footer-block--menu .footer-block__heading {
+      margin-bottom: 0.75rem;
+    }
+  }
 {%- endstyle -%}
