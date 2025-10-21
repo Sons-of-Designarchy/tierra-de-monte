@@ -751,6 +751,15 @@
 */
 {%- endstyle -%}
 {%- style -%}
+  /* Hide the non-centered bottom wrapper when BOTH columns are empty */
+  .footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center)
+    :is(.footer__column.footer__localization:empty)
+    ~ .footer__column.footer__column--info:empty,
+  .footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center)
+    :has(> .footer__column.footer__localization:empty):has(> .footer__column.footer__column--info:empty) {
+    display: none;
+  }
+
   /* =============================
    FOOTER NEWSLETTER (edge layout)
    ============================= */
