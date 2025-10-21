@@ -369,7 +369,7 @@
       "name": "Logo bar",
       "settings": {
         "title": "Alianzas que nutren la tierra",
-        "heading_size": "h2",
+        "heading_size": "h4",
         "title_font": "mono",
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "radius": 16,
