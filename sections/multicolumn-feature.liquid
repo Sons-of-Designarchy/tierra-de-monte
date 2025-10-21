@@ -2,206 +2,374 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  /* 1) Load IBM Plex Mono (Light 300) once in this section */
-  @font-face {
-    font-family: "IBM Plex Mono";
-    src: url({{ 'IBMPlexMono-Light.woff2' | asset_url }}) format("woff2");
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
+  /* IBM Plex Mono */
+  @font-face{
+    font-family:"IBM Plex Mono";
+    src:url({{ 'IBMPlexMono-Light.woff2' | asset_url }}) format("woff2");
+    font-weight:300; font-style:normal; font-display:swap;
   }
 
-  /* 2) Robust description font styles scoped to this section */
+  /* Section padding */
+  .section-{{ section.id }}-padding{
+    padding-top:{{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom:{{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media (min-width:750px){
+    .section-{{ section.id }}-padding{
+      padding-top:{{ section.settings.padding_top }}px;
+      padding-bottom:{{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Eyebrow row (full width above both columns) */
+  #shopify-section-{{ section.id }} .mc-eyebrow-row{
+    grid-column:1 / -1;            /* span both columns */
+    margin-bottom:2rem;
+    padding-bottom:1rem;
+    border-bottom:1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .mc-eyebrow{
+    font-family:var(--font-body-family);
+    font-size:12px; letter-spacing:.12em; text-transform:uppercase; opacity:.8;
+  }
+  #shopify-section-{{ section.id }} .mc-eyebrow__rule{
+    width:100%; max-width:none; height:2px; background:{{ section.settings.rule_color }}; margin-top:8px;
+  }
+
+  /* Two-column layout */
+  #shopify-section-{{ section.id }} .mc-feature__grid{ display:grid; gap:24px; }
+  @media (min-width:990px){
+    #shopify-section-{{ section.id }} .mc-feature__grid{
+      grid-template-columns:5fr 7fr; gap:48px; align-items:start;
+    }
+  }
+
+  /* Left column basics */
+  #shopify-section-{{ section.id }} .mc-feature__lead{ display:flex; flex-direction:column; gap:16px; }
+  #shopify-section-{{ section.id }} .mc-heading{ margin:0; }
+  #shopify-section-{{ section.id }} .mc-desc{ color:rgb(var(--color-foreground), .8); }
+  #shopify-section-{{ section.id }} .mc-cta-wrap{ margin-top:8px; }
+
+  /* Description typography */
   #shopify-section-{{ section.id }} .rte.mc-desc--mono,
-  #shopify-section-{{ section.id }} .mc-desc--mono {
-    font-family: "IBM Plex Mono", "Courier New", Courier, monospace !important;
-    font-weight: 400;
-    letter-spacing: -0.04em !important;
-    line-height: 1.8rem;
-    text-transform: uppercase;
-    font-synthesis-weight: none;          /* FIX: prevent faux bold */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Ensure any nested tags inside the RTE inherit the monospace styling */
-  #shopify-section-{{ section.id }} .mc-desc--mono * {
-    font-family: inherit !important;
-    font-weight: inherit !important;
-    line-height: inherit !important;
-    letter-spacing: inherit !important;
-    text-transform: inherit !important;
-  }
-
-  /* Body option sits on the default body stack */
-  #shopify-section-{{ section.id }} .rte.mc-desc--body,
-  #shopify-section-{{ section.id }} .mc-desc--body {
-    font-family: var(--font-body-family);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    line-height: 1.8rem;
-  }
-{%- endstyle -%}
-
-{%- style -%}
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    }
-    @media (min-width: 750px) {
-      .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
-      }
-    }
-
-    /* ===== Feature layout (title/desc/CTA left, columns right) ===== */
-    #shopify-section-{{ section.id }} .mc-feature__grid { display: grid; gap: 32px; }
-    @media (min-width: 990px){
-      #shopify-section-{{ section.id }} .mc-feature__grid { grid-template-columns: 5fr 7fr; align-items: start; gap: 48px; }
-    }
-    #shopify-section-{{ section.id }} .mc-feature__lead { display:flex; flex-direction:column; gap: 16px; }
-    #shopify-section-{{ section.id }} .mc-eyebrow { font-family: var(--font-body-family); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity:.8; }
-    #shopify-section-{{ section.id }} .mc-eyebrow__rule { width: 100%; max-width: 520px; height: 2px; background: {{ section.settings.rule_color }}; margin-top: 8px; }
-    #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
-    #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
-    #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
-
-    /* ===== Columns area ===== */
-    #shopify-section-{{ section.id }} .multicolumn__title { display:none; }
-    #shopify-section-{{ section.id }} .multicolumn-list { align-items: start; }
-
-    /* Vertical dividers between items (desktop only) */
-    @media(min-width: 990px){
-     /* Set a per-section height variable from settings */
-      #shopify-section-{{ section.id }}{
-        --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
-      }
-    }
-
-  /* Vertical dividers between items (desktop only) */
-  @media(min-width: 990px){
-    #shopify-section-{{ section.id }} .multicolumn-list__item{
-      position: relative;
-      padding-left: 8px;
-      height: var(--mcf-height);   /* ← uses the Theme Editor value */
-    }
-
-
-      /* Border on the first */
-      #shopify-section-{{ section.id }} .multicolumn-list__item:first-child{
-        border-left: 1px solid {{ section.settings.divider_color }};
-      }
-
-      /* …and on all subsequent items (keeps one rule between columns) */
-      #shopify-section-{{ section.id }} .multicolumn-list__item + .multicolumn-list__item{
-        border-left: 1px solid {{ section.settings.divider_color }};
-      }
-    }
-
-    /* Mobile/tablet: remove the vertical rule (single column) */
-    @media (max-width: 989.98px){
-      #shopify-section-{{ section.id }} .multicolumn-list__item{
-        border-left: none;
-        padding-left: 0;
-      }
-    }
-
-    /* Card layout: stack and push image block to bottom */
-    #shopify-section-{{ section.id }} .multicolumn-card { display:flex; flex-direction:column; gap:12px; height:100%; }
-
-    #shopify-section-{{ section.id }} .multicolumn-card__info { order: 1; }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper { order: 3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden; }
-
-    /* Media fixes + rounded image (kept 1:1; removed conflicting 16:9 rule) */
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
-      position: relative;
-      padding-bottom: 0 !important; /* cancel Dawn ratio if needed */
-
-      display: block;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__image {
-      position: static !important;
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-    }
-
-    /* Big stat/heading — only non-stat h3s get the clamp size */
-    #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat) {
-      font-size: clamp(61px, 6vw, 96px);
-      line-height: 1;
-      margin: 0 0 4px;
-    }
-{%- endstyle -%}
-
-{%- style -%}
-  /* Make each card a vertical stack and push the image block to the bottom */
-  #shopify-section-{{ section.id }} .multicolumn-card{
-    display:flex; flex-direction:column; gap:12px; min-height:100%;
-  }
-  #shopify-section-{{ section.id }} .multicolumn-card__info{ order:1; }
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
-    order:3; margin-top:auto; width:100%; border-radius:8px; overflow:hidden;
-  }
-
-  /* Tidy image element — (REMOVED previous 16:9 override to avoid conflicts) */
-  /* #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{ ... } */
-
-  /* Description font options — FIXED family + smoothing */
   #shopify-section-{{ section.id }} .mc-desc--mono{
-    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-weight: 400;
-    letter-spacing: .02em;
-    font-synthesis-weight: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family:"IBM Plex Mono","Courier New",Courier,monospace!important;
+    font-weight:400; letter-spacing:-0.04em!important; line-height:1.8rem; text-transform:uppercase;
+    font-synthesis-weight:none; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
+  #shopify-section-{{ section.id }} .mc-desc--mono *{
+    font-family:inherit!important; font-weight:inherit!important; line-height:inherit!important;
+    letter-spacing:inherit!important; text-transform:inherit!important;
+  }
+  #shopify-section-{{ section.id }} .rte.mc-desc--body,
   #shopify-section-{{ section.id }} .mc-desc--body{
-    font-family: var(--font-body-family);
-    font-weight: 400;
+    font-family:var(--font-body-family); font-weight:400; letter-spacing:.02em; line-height:1.8rem;
   }
 
-  /* ===== Per-block stat (heading) controls ===== */
-  #shopify-section-{{ section.id }} .mc-stat{
-    line-height: 1;
-    margin: 0 0 4px;
-    /* defaults; overridden per-block via inline CSS vars */
-    font-size: var(--stat-size-m, 48px);
-  }
-  @media (min-width: 750px){
-    #shopify-section-{{ section.id }} .mc-stat{
-      font-size: var(--stat-size-d, 72px);
+  /* Right column (multicolumn) */
+  #shopify-section-{{ section.id }} .multicolumn__title{ display:none; }
+
+  /* Make images sit at the bottom of each card */
+  @media (min-width:990px){
+    /* let grid children stretch */
+    #Slider-{{ section.id }}.grid{ align-items:stretch!important; }
+    #Slider-{{ section.id }} .grid__item{ min-height:0!important; }
+
+    /* li wraps a full-height flex card */
+    #shopify-section-{{ section.id }} .multicolumn-list__item{
+      display:flex!important; align-items:stretch!important;
+      border-left:none!important; padding-left:0;                 /* no divider lines */
+    }
+
+    /* card stacks; image pushed to bottom */
+    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+      display:flex!important; flex-direction:column!important; flex:1 1 auto!important;
+      min-height:100%!important; padding-bottom:0!important;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order:1; margin-bottom:0!important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      order:3; margin-top:auto!important; width:100%; border-radius:8px; overflow:hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper.multicolumn-card-spacing{ margin-bottom:0!important; }
+
+    /* neutralize Dawn media padding */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position:relative; padding-bottom:0!important; height:auto!important; display:block;
+      border-radius:8px; overflow:hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position:static!important; width:100%!important; height:auto!important; object-fit:cover!important; display:block!important;
     }
   }
 
-  /* Font style choices */
-  #shopify-section-{{ section.id }} .mc-stat--heading{
-    font-family: var(--font-heading-family);
-    font-weight: var(--font-heading-weight);
-    letter-spacing: var(--heading-letter-spacing, 0);
+  /* Stat sizes (kept) */
+  #shopify-section-{{ section.id }} .multicolumn-card h3:not(.mc-stat){
+    font-size:clamp(61px,6vw,96px); line-height:1; margin:0 0 4px;
   }
-  #shopify-section-{{ section.id }} .mc-stat--body{
-    font-family: var(--font-body-family);
-    font-weight: 600;
-  }
-  /* FIX: use correct IBM Plex Mono family for the mono stat */
+  #shopify-section-{{ section.id }} .mc-stat{ line-height:1; margin:0 0 4px; font-size:var(--stat-size-m,48px); }
+  @media (min-width:750px){ #shopify-section-{{ section.id }} .mc-stat{ font-size:var(--stat-size-d,72px); } }
+  #shopify-section-{{ section.id }} .mc-stat--heading{ font-family:var(--font-heading-family); font-weight:var(--font-heading-weight); letter-spacing:var(--heading-letter-spacing,0); }
+  #shopify-section-{{ section.id }} .mc-stat--body{ font-family:var(--font-body-family); font-weight:600; }
   #shopify-section-{{ section.id }} .mc-stat--mono{
-    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-weight: 300;
-    letter-spacing: .02em;
-    font-synthesis-weight: none;
+    font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    font-weight:300; letter-spacing:.02em; font-synthesis-weight:none;
+  }
+  /* paste-proof */
+  #shopify-section-{{ section.id }} .mc-stat :is(h1,h2,h3,h4,h5,h6,p,div,span){ all:unset; font:inherit; line-height:inherit; display:inline; }
+{%- endstyle -%}
+
+{%- style -%}
+  /* Columns: restore left border + enforce vh height (desktop) */
+  @media (min-width: 990px){
+    /* 0) expose per-section height from settings */
+    #shopify-section-{{ section.id }}{
+      --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
+    }
+
+    /* 1) Make the UL let children stretch */
+    #Slider-{{ section.id }}.grid{ align-items: stretch !important; }
+    #Slider-{{ section.id }} .grid__item{ min-height: 0 !important; }
+
+    /* 2) Each column (LI) gets a fixed height in vh and flex so the card can fill it */
+    #shopify-section-{{ section.id }} .multicolumn-list__item{
+      display: flex !important;
+      align-items: stretch !important;
+      height: var(--mcf-height) !important;   /* ← uses your vh/px setting */
+    }
+
+    /* 3) Only the OUTER left border (no inner dividers) */
+    #shopify-section-{{ section.id }} .multicolumn-list__item:first-child{
+      border-left: 1px solid {{ section.settings.divider_color }};
+      padding-left: 8px;                      /* small breathing room from rule */
+    }
+    #shopify-section-{{ section.id }} .multicolumn-list__item + .multicolumn-list__item{
+      border-left: none !important;           /* kill mid-column lines */
+      padding-left: 0 !important;
+    }
+
+    /* 4) Card stacks; image pinned to bottom (keeps your current behavior) */
+    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 1 auto !important;
+      min-height: 100% !important;
+      padding-bottom: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      order: 3;
+      margin-top: auto !important;            /* pins to bottom */
+      width: 100%; border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper.multicolumn-card-spacing{ margin-bottom: 0 !important; }
+
+    /* 5) Neutralize Dawn ratio padding so images don’t “float” */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position: relative !important;
+      padding-bottom: 0 !important;
+      height: auto !important;
+      display: block !important;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position: static !important;
+      width: 100% !important;
+      height: auto !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
   }
 
-  /* Paste-proof: normalize any nested tags inside the stat */
-  #shopify-section-{{ section.id }} .mc-stat :is(h1,h2,h3,h4,h5,h6,p,div,span){
-    all: unset;
-    font: inherit;
-    line-height: inherit;
-    display: inline;
+  /* Mobile/tablet: no vertical rule */
+  @media (max-width: 989.98px){
+    #shopify-section-{{ section.id }} .multicolumn-list__item{
+      border-left: none !important;
+      padding-left: 0 !important;
+      height: auto !important;
+    }
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  /* Restore left border (first column only) + use Theme Editor height (vh/px) */
+  @media (min-width: 990px){
+    /* Expose per-section height */
+    #shopify-section-{{ section.id }}{
+      --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
+    }
+
+    /* Let Dawn's grid stretch */
+    #Slider-{{ section.id }}.grid{ align-items: stretch !important; }
+    #Slider-{{ section.id }} .grid__item{ min-height: 0 !important; }
+
+    /* Columns (LI) get fixed height + flex so card can fill it */
+    #Slider-{{ section.id }} .multicolumn-list__item{
+      display: flex !important;
+      align-items: stretch !important;
+      height: var(--mcf-height) !important;
+      /* neutralize any earlier “remove borders” rule */
+      border-left: none !important;
+      padding-left: 0 !important;
+    }
+
+    /* Bring back the single LEFT border on the very first column */
+    #Slider-{{ section.id }} .multicolumn-list__item:first-child{
+      border-left: 1px solid {{ section.settings.divider_color }} !important;
+      padding-left: 8px !important;
+    }
+
+    /* Card stacks; image stays pinned to bottom (keeps your current behavior) */
+    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 1 auto !important;
+      min-height: 100% !important;
+      padding-bottom: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      order: 3;
+      margin-top: auto !important;
+      width: 100%;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position: relative !important;
+      padding-bottom: 0 !important;
+      height: auto !important;
+      display: block !important;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position: static !important;
+      width: 100% !important;
+      height: auto !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+  }
+
+  /* Mobile/tablet: no left border and natural height */
+  @media (max-width: 989.98px){
+    #Slider-{{ section.id }} .multicolumn-list__item{
+      border-left: none !important;
+      padding-left: 0 !important;
+      height: auto !important;
+    }
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  /* Multicolumn: left border on ALL columns + per-section vh height */
+  @media (min-width: 990px){
+    /* 0) Per-section column height (uses settings if present, else 60vh) */
+    #shopify-section-{{ section.id }}{
+      --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
+    }
+
+    /* 1) Let grid items stretch */
+    #Slider-{{ section.id }}.grid{ align-items: stretch !important; }
+    #Slider-{{ section.id }} .grid__item{ min-height: 0 !important; }
+
+    /* 2) Columns (LI): fixed height, flex, and LEFT BORDER ON ALL */
+    #Slider-{{ section.id }} .multicolumn-list__item{
+      display: flex !important;
+      align-items: stretch !important;
+      height: var(--mcf-height) !important;
+
+      /* ensure all borders show even if earlier CSS removed them */
+      border-left: 1px solid {{ section.settings.divider_color }} !important;
+      padding-left: 8px !important;
+    }
+
+    /* 3) Card fills column; image pinned to bottom */
+    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 1 auto !important;
+      min-height: 100% !important;
+      padding-bottom: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      order: 3; margin-top: auto !important; width: 100%;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position: relative !important; padding-bottom: 0 !important; height: auto !important; display: block !important;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position: static !important; width: 100% !important; height: auto !important; object-fit: cover !important; display: block !important;
+    }
+  }
+
+  /* Mobile/tablet: remove borders & fixed height */
+  @media (max-width: 989.98px){
+    #Slider-{{ section.id }} .multicolumn-list__item{
+      border-left: none !important;
+      padding-left: 0 !important;
+      height: auto !important;
+    }
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  /* Force left border on ALL columns + enforce per-section height */
+  @media (min-width: 990px){
+    /* Expose height from Theme Editor (vh/px) */
+    #shopify-section-{{ section.id }}{
+      --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
+    }
+
+    /* Let grid items stretch */
+    #Slider-{{ section.id }}.grid{ align-items: stretch !important; }
+    #Slider-{{ section.id }} .grid__item{ min-height: 0 !important; }
+
+    /* Apply to every LI directly under this UL */
+    #shopify-section-{{ section.id }} #Slider-{{ section.id }} > li.multicolumn-list__item{
+      display: flex !important;
+      align-items: stretch !important;
+      height: var(--mcf-height) !important;
+      border-left: 1px solid {{ section.settings.divider_color }} !important;
+      padding-left: 8px !important;
+    }
+
+    /* Re-assert even when a sibling selector tries to remove it */
+    #shopify-section-{{ section.id }} #Slider-{{ section.id }} > li.multicolumn-list__item + li.multicolumn-list__item{
+      border-left: 1px solid {{ section.settings.divider_color }} !important;
+      padding-left: 8px !important;
+    }
+
+    /* Card fills the column; image pinned to bottom (unchanged) */
+    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 1 auto !important;
+      min-height: 100% !important;
+      padding-bottom: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      order: 3; margin-top: auto !important; width: 100%;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      position: relative !important; padding-bottom: 0 !important; height: auto !important; display: block !important;
+      border-radius: 8px; overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position: static !important; width: 100% !important; height: auto !important; object-fit: cover !important; display: block !important;
+    }
+  }
+
+  /* Mobile: no borders and natural height */
+  @media (max-width: 989.98px){
+    #shopify-section-{{ section.id }} #Slider-{{ section.id }} > li.multicolumn-list__item{
+      border-left: none !important;
+      padding-left: 0 !important;
+      height: auto !important;
+    }
   }
 {%- endstyle -%}
 
@@ -221,17 +389,20 @@
     {% endif %}
   >
     <div class="mc-feature__grid">
-      <!-- Left: Eyebrow + Title + Description + CTA -->
-      <div class="mc-feature__lead">
-        {% if section.settings.pretitle != blank %}
+      {%- comment -%} FULL-WIDTH EYEBROW ROW (moved outside the left column) {%- endcomment -%}
+      {% if section.settings.pretitle != blank %}
+        <div class="mc-eyebrow-row">
           <div class="mc-eyebrow">
             {{ section.settings.pretitle }}
             {% if section.settings.show_rule %}
               <div class="mc-eyebrow__rule" aria-hidden="true"></div>
             {% endif %}
           </div>
-        {% endif %}
+        </div>
+      {% endif %}
 
+      <!-- Left: Title + Description + CTA -->
+      <div class="mc-feature__lead">
         {% if section.settings.title != blank %}
           <h2 class="mc-heading title inline-richtext {{ section.settings.heading_size }}">
             {{ section.settings.title }}
@@ -262,8 +433,8 @@
       <div>
         <slider-component class="slider-mobile-gutter">
           <ul
-            class="multicolumn-list contains-content-container grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
             id="Slider-{{ section.id }}"
+            class="multicolumn-list contains-content-container grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
             role="list"
           >
             {%- for block in section.blocks -%}
@@ -285,24 +456,23 @@
                 {% endif %}
               >
                 <div class="multicolumn-card content-container">
-                  {%- comment -%} INFO FIRST (order:1) {%- endcomment -%}
                   <div class="multicolumn-card__info">
-                    {%- if block.settings.title != blank -%}
+                    {% if block.settings.title != blank %}
                       <h3
                         class="inline-richtext mc-stat mc-stat--{{ block.settings.stat_font | default: 'heading' }}"
                         style="--stat-size-m: {{ block.settings.stat_size_mobile | default: 48 }}px; --stat-size-d: {{ block.settings.stat_size_desktop | default: 72 }}px;"
                       >
                         {{ block.settings.title }}
                       </h3>
-                    {%- endif -%}
+                    {% endif %}
 
-                    {%- if block.settings.text != blank -%}
+                    {% if block.settings.text != blank %}
                       <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
                         {{ block.settings.text }}
                       </div>
-                    {%- endif -%}
+                    {% endif %}
 
-                    {%- if block.settings.link_label != blank -%}
+                    {% if block.settings.link_label != blank %}
                       <a
                         class="link animate-arrow"
                         {% if block.settings.link == blank %}
@@ -316,11 +486,10 @@
                           ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
                         >
                       </a>
-                    {%- endif -%}
+                    {% endif %}
                   </div>
 
-                  {%- comment -%} IMAGE LAST (order:3; pushed by margin-top:auto) {%- endcomment -%}
-                  {%- if block.settings.image != blank -%}
+                  {% if block.settings.image != blank %}
                     <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width | default: 'full' }}-width multicolumn-card-spacing">
                       <div class="media media--transparent media--adapt">
                         {{
@@ -333,13 +502,13 @@
                         }}
                       </div>
                     </div>
-                  {%- endif -%}
+                  {% endif %}
                 </div>
               </li>
             {%- endfor -%}
           </ul>
 
-          {%- if show_mobile_slider -%}
+          {% if show_mobile_slider %}
             <div class="slider-buttons large-up-hide">
               <button
                 type="button"
@@ -350,9 +519,9 @@
                 <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
               </button>
               <div class="slider-counter caption">
-                <span class="slider-counter--current">1</span><span aria-hidden="true"> / </span
-                ><span class="visually-hidden">{{ 'general.slider.of' | t }}</span
-                ><span class="slider-counter--total">{{ section.blocks.size }}</span>
+                <span class="slider-counter--current">1</span><span aria-hidden="true"> / </span>
+                <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+                <span class="slider-counter--total">{{ section.blocks.size }}</span>
               </div>
               <button
                 type="button"
@@ -363,7 +532,7 @@
                 <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
               </button>
             </div>
-          {%- endif -%}
+          {% endif %}
         </slider-component>
       </div>
     </div>
@@ -426,30 +595,8 @@
       "default": 3,
       "label": "Columns on desktop"
     },
-    {
-      "type": "header",
-      "content": "Height (desktop)"
-    },
-    {
-      "type": "range",
-      "id": "height_desktop_value",
-      "label": "Column height value (desktop)",
-      "min": 30,
-      "max": 100,
-      "step": 1,
-      "default": 60
-    },
-    {
-      "type": "select",
-      "id": "height_desktop_unit",
-      "label": "Column height unit (desktop)",
-      "options": [
-        { "value": "vh", "label": "vh (viewport height)" },
-        { "value": "px", "label": "px" }
-      ],
-      "default": "vh"
-    },
 
+    { "type": "header", "content": "Mobile" },
     {
       "type": "select",
       "id": "columns_mobile",
@@ -461,7 +608,6 @@
       "label": "Columns on mobile"
     },
     { "type": "checkbox", "id": "swipe_on_mobile", "default": false, "label": "Swipe on mobile" },
-    { "type": "color", "id": "divider_color", "label": "Divider color (desktop)", "default": "#1a1a1a" },
 
     { "type": "header", "content": "Visual" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
@@ -503,7 +649,6 @@
           ],
           "default": "body"
         },
-
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "inline_richtext", "id": "title", "label": "Heading / Stat", "default": "+230" },
         {
@@ -537,7 +682,6 @@
           "unit": "px",
           "default": 72
         },
-
         { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Hectáreas regeneradas</p>" },
         { "type": "text", "id": "link_label", "label": "Link label" },
         { "type": "url", "id": "link", "label": "Link" }
