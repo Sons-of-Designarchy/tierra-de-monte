@@ -4,7 +4,7 @@
 
 /* 1️⃣ Main grid: logo + 4 columns side by side */
 .footer__content-top .footer-grid-custom {
-  display: grid !important;
+  display: grid;
   grid-template-columns: 160px 1fr 1fr 1fr 1fr !important;
   gap: 24px 32px;
   align-items: start;
@@ -12,7 +12,7 @@
 
 /* Remove Dawn default flex/grid classes */
 .footer-grid-custom.grid {
-  display: grid !important;
+  display: grid;
 }
 
 /* 2️⃣ Each block acts as a column */

@@ -498,6 +498,9 @@
     .footer .grid {
       margin-left: 0;
     }
+    .footer-block__image-wrapper {
+  margin-bottom: .5rem;
+}
   }
 
   @media screen and (min-width: 750px) {

@@ -887,3 +887,42 @@
     }
   }
 {%- endstyle -%}
+{%- style -%}
+  /* ────────────────────────────────────────────────
+   Footer — Mobile (≤749.98px)
+   Shorter blocks + 8px gap from divider
+   ──────────────────────────────────────────────── */
+  @media (max-width: 749.98px) {
+    /* Reduce the overall height of footer blocks */
+    footer.footer .footer-grid-custom .footer-block,
+    footer.footer .footer-grid-custom .footer-block-image {
+      min-height: auto !important;
+      padding-bottom: 8px !important;
+      padding-left: 16px !important; /* space between border-left and content */
+    }
+
+    /* Keep the first column (logo) flush */
+    footer.footer .footer-grid-custom .footer-block:nth-child(1),
+    footer.footer .footer-grid-custom .footer-block-image {
+      padding-left: 0 !important;
+    }
+
+    /* Menu list fine-tuning */
+    footer.footer .footer-grid-custom .footer-block--menu .footer-block__details-content {
+      margin: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    footer.footer .footer-grid-custom .footer-block--menu .footer-block__details-content > li > a {
+      display: block;
+      padding: 8px 0 !important;
+      line-height: 1.3 !important;
+    }
+    .footer-block__image-wrapper {
+      margin-bottom: 0.5rem;
+    }
+    .footer-newsletter__media {
+      justify-self: start;
+    }
+  }
+{%- endstyle -%}
