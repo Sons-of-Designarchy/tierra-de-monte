@@ -30,14 +30,14 @@
         "footer-1": {
           "type": "link_list",
           "settings": {
-            "heading": "Info",
+            "heading": "Soluciones",
             "menu": "footer-menu-soluciones"
           }
         },
         "link_list_fBryQX": {
           "type": "link_list",
           "settings": {
-            "heading": "Info",
+            "heading": "Redes Sociales",
             "menu": "footer-menu-redes-sociales"
           }
         },
