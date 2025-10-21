@@ -1,6 +1,7 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
+  /* ===== Section spacing ===== */
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -15,7 +16,7 @@
   /* Section inherits page bg; card uses scheme */
   #shopify-section-{{ section.id }} { background: none; }
 
-  /* Full-width card (no page-width constraint) */
+  /* ===== Card container ===== */
   #shopify-section-{{ section.id }} .reviews__card {
     width: 100%;
     background: rgb(var(--color-background));
@@ -24,7 +25,8 @@
     overflow: hidden;
   }
 
-  .reviews__title {
+  /* ===== Title ===== */
+  #shopify-section-{{ section.id }} .reviews__title {
     text-align: center;
     margin: 0 0 20px;
   }
@@ -45,36 +47,46 @@
     padding-inline: calc(var(--peek) + var(--gap));
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    list-style: none;       /* ensure no list bullets */
+    padding-left: 0;        /* kill UA default left padding */
   }
   #shopify-section-{{ section.id }} .reviews__track::-webkit-scrollbar { display: none; }
 
-
-  /* Each slide takes full width minus the left+right peeks */
+  /* Each slide takes full width minus the peeks */
   #shopify-section-{{ section.id }} .review {
+    box-sizing: border-box;
     flex: 0 0 calc(100% - (var(--peek) * 2));
+    max-width: calc(100% - (var(--peek) * 2));
     scroll-snap-align: center;
     scroll-snap-stop: always;
     transition: transform .25s ease, opacity .25s ease;
     opacity: .35;
     transform: scale(.98);
-    cursor: pointer;                 /* indicate it’s clickable/editable */
-    background-image: none !important; /* defensive: in case a bg-dot was used */
+    cursor: pointer;
+    position: relative;    /* for any inner positioning, no pseudo dots */
   }
-  #shopify-section-{{ section.id }} .review:hover {
-    opacity: .5;
+
+  /* Remove the green dot pseudo-element (and any quote pseudo) safely */
+  #shopify-section-{{ section.id }} .review::before,
+  #shopify-section-{{ section.id }} .review__quote::before {
+    content: none !important;
+    display: none !important;
   }
-  /* Active (centered) slide highlight */
+
+  #shopify-section-{{ section.id }} .review:hover { opacity: .55; }
   #shopify-section-{{ section.id }} .review.is-active {
     opacity: 1;
     transform: scale(1);
-    cursor: default;                 /* current one feels “selected” */
+    cursor: default;
   }
 
   /* Inner layout */
   #shopify-section-{{ section.id }} .review__inner {
     height: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 16px;
     padding-inline: 8px;
   }
@@ -90,38 +102,63 @@
     font-size: clamp(18px, 2.1vw, 30px);
   }
   #shopify-section-{{ section.id }} .review__author {
-    font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
-    font-size: 14px; opacity: .9;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-size: 14px;
+    opacity: .9;
   }
   #shopify-section-{{ section.id }} .review__company {
-    letter-spacing: .08em; text-transform: uppercase;
-    font-size: 12px; opacity: .75;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: .75;
   }
 
-  /* Optional vertical divider illusion for peeks on very wide screens (off by default) */
+  /* Optional subtle dividers on very wide screens */
   @media (min-width: 1200px) {
     {% if section.settings.show_dividers %}
-    #shopify-section-{{ section.id }} .review:not(.is-active) { border-left: 2px solid {{ section.settings.divider_color }}; }
+    #shopify-section-{{ section.id }} .review:not(.is-active) {
+      border-left: 2px solid {{ section.settings.divider_color }};
+    }
     {% endif %}
   }
 
-  /* Nav buttons (desktop; mobile can swipe) */
+  /* ===== Nav buttons (desktop) ===== */
   #shopify-section-{{ section.id }} .reviews__nav { display: none; }
   @media (min-width: 990px) {
     #shopify-section-{{ section.id }} .reviews__nav {
-      position: absolute; inset: 0; pointer-events: none;
-      display: grid; grid-template-columns: 1fr 1fr;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
     #shopify-section-{{ section.id }} .reviews__btn {
       pointer-events: auto;
-      display: flex; align-items: center; justify-content: center;
-      background: transparent; border: 0; padding: 0; margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      margin: 0;
       cursor: pointer;
     }
     #shopify-section-{{ section.id }} .reviews__btn svg { width: 28px; height: 28px; opacity: .6; }
     #shopify-section-{{ section.id }} .reviews__btn:hover svg { opacity: 1; }
     #shopify-section-{{ section.id }} .reviews__btn--prev { justify-content: flex-start; padding-left: 10px; }
     #shopify-section-{{ section.id }} .reviews__btn--next { justify-content: flex-end;   padding-right: 10px; }
+  }
+
+  /* Keyboard focus visibility for a11y */
+  #shopify-section-{{ section.id }} .reviews__btn:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  #shopify-section-{{ section.id }} .review:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
   }
 {%- endstyle -%}
 
@@ -137,7 +174,13 @@
       <div class="reviews__viewport" id="rvp-{{ section.id }}">
         <ul class="reviews__track" id="track-{{ section.id }}" role="list" aria-live="polite">
           {%- for block in section.blocks -%}
-            <li class="review" {{ block.shopify_attributes }} data-index="{{ forloop.index0 }}">
+            <li
+              class="review"
+              {{ block.shopify_attributes }}
+              data-index="{{ forloop.index0 }}"
+              tabindex="0"
+              aria-label="Testimonio {{ forloop.index }}"
+            >
               <div class="review__inner">
                 {% if block.settings.image != blank %}
                   {{
@@ -162,14 +205,14 @@
         </ul>
 
         <!-- Desktop nav buttons -->
-        <div class="reviews__nav">
+        <div class="reviews__nav" aria-hidden="true">
           <button class="reviews__btn reviews__btn--prev" type="button" aria-label="Anterior">
-            <svg viewBox="0 0 20 20" fill="currentColor">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M12.7 15.3a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 1 1 1.4 1.4L8.42 9H17a1 1 0 1 1 0 2H8.41l4.3 4.3a1 1 0 0 1 0 1.4z"/>
             </svg>
           </button>
           <button class="reviews__btn reviews__btn--next" type="button" aria-label="Siguiente">
-            <svg viewBox="0 0 20 20" fill="currentColor">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M7.3 4.7a1 1 0 0 1 1.4 0l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 1 1-1.4-1.4L11.58 11H3a1 1 0 1 1 0-2h8.59L7.3 6.1a1 1 0 0 1 0-1.4z"/>
             </svg>
           </button>
@@ -188,10 +231,15 @@
     const slides = Array.from(track.querySelectorAll('.review'));
     if (!slides.length) return;
 
+    // Respect reduced motion
+    const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
     const center = (i) => {
-      const el = slides[i];
+      const el = slides[clamp(i, 0, slides.length - 1)];
       if (!el) return;
-      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      el.scrollIntoView({ behavior: smooth, inline: 'center', block: 'nearest' });
     };
 
     const setActive = () => {
@@ -212,7 +260,11 @@
       return bestIdx;
     };
 
-    let active = setActive();
+    // Initial selection after layout paint
+    let active;
+    requestAnimationFrame(() => {
+      active = setActive();
+    });
 
     const onScroll = () => {
       active = setActive();
@@ -220,23 +272,39 @@
     track.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
 
+    // Click & keyboard navigation
     slides.forEach((s, i) => s.addEventListener('click', () => center(i)));
+    slides.forEach((s, i) =>
+      s.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          center(i);
+        }
+      })
+    );
 
     const prevBtn = root.querySelector('.reviews__btn--prev');
     const nextBtn = root.querySelector('.reviews__btn--next');
-    if (prevBtn) prevBtn.addEventListener('click', () => center(Math.max(0, active - 1)));
-    if (nextBtn) nextBtn.addEventListener('click', () => center(Math.min(slides.length - 1, active + 1)));
 
+    // Hide nav when only one slide
+    if (slides.length <= 1 && root.querySelector('.reviews__nav')) {
+      root.querySelector('.reviews__nav').style.display = 'none';
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => center(clamp((active ?? 0) - 1, 0, slides.length - 1)));
+    if (nextBtn) nextBtn.addEventListener('click', () => center(clamp((active ?? 0) + 1, 0, slides.length - 1)));
+
+    // Keyboard arrows for the viewport
     root.addEventListener(
       'keydown',
       (e) => {
         if (e.key === 'ArrowLeft') {
           e.preventDefault();
-          center(Math.max(0, active - 1));
+          center(clamp((active ?? 0) - 1, 0, slides.length - 1));
         }
         if (e.key === 'ArrowRight') {
           e.preventDefault();
-          center(Math.min(slides.length - 1, active + 1));
+          center(clamp((active ?? 0) + 1, 0, slides.length - 1));
         }
       },
       true
@@ -325,10 +393,10 @@
           "type": "textarea",
           "id": "quote",
           "label": "Quote / Description",
-          "default": "Tierra de monte logr\u00f3 que nuestra producci\u00f3n se salvara de la peor plaga que pod\u00edamos imaginar en esta temporada."
+          "default": "Tierra de monte logró que nuestra producción se salvara de la peor plaga que podíamos imaginar en esta temporada."
         },
         { "type": "text", "id": "name", "label": "Name", "default": "Silverio Pliego D." },
-        { "type": "text", "id": "company", "label": "Company", "default": "Huerta Cuauht\u00e9moc" }
+        { "type": "text", "id": "company", "label": "Company", "default": "Huerta Cuauhtémoc" }
       ]
     }
   ],
