@@ -122,7 +122,7 @@
   font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: 12px;
-  text-align: center;
+  text-align: left;
 }
 
 
@@ -155,6 +155,71 @@
     border-left: 1px solid rgba(var(--color-foreground), 1);
     padding-left: 8px;
   }
+}
+/* Tablet: put IMAGE first, then FORM in the newsletter */
+@media (min-width: 750px) and (max-width: 989.98px) {
+  /* 1) Force layout to flex row (wins over grid/others) */
+  footer .footer-block__newsletter .footer-newsletter {
+    display: flex !important;
+    flex-direction: row !important;   /* row, then use order on children */
+    align-items: center;
+    gap: clamp(16px, 3vw, 28px);
+  }
+
+  /* 2) Reorder children explicitly */
+  footer .footer-block__newsletter .footer-newsletter__media {
+    order: 1 !important;              /* IMAGE FIRST */
+    flex: 0 0 var(--nl-media-w, 120px);
+    max-width: var(--nl-media-w, 120px);
+  }
+  footer .footer-block__newsletter .footer-newsletter__form {
+    order: 2 !important;              /* FORM SECOND */
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* 3) Image sizing */
+  footer .footer-block__newsletter .footer-newsletter__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+}
+/* ─────────────────────────────────────────────────────────
+   Footer newsletter (tablet): align form to right edge
+   ───────────────────────────────────────────────────────── */
+@media (min-width: 750px) and (max-width: 989.98px) {
+  /* Align the whole form container to the right */
+  footer .footer-block__newsletter .footer-newsletter__form {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-end; /* pushes everything to the right edge */
+    text-align: right;     /* aligns heading + label text */
+  }
+
+  /* Label and input alignment */
+  footer .footer-block__newsletter .newsletter-form__field-wrapper,
+  footer .footer-block__newsletter .field {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* Input field takes up less width (optional) */
+  footer .footer-block__newsletter .field__input {
+    width: 70% !important; /* adjust as needed (70–80%) */
+    min-width: 220px;
+  }
+
+  
+
+  /* Make sure the heading stays flush right */
+  footer .footer-block__newsletter {
+    align-self: flex-start;
+    margin-right: 0;
+  }
+  
 }
 
 

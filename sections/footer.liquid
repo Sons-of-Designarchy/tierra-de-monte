@@ -831,5 +831,59 @@
     .footer__blocks-wrapper .footer-block--menu .footer-block__heading {
       margin-bottom: 0.75rem;
     }
+    /* ─────────────────────────────────────────────
+   Tablet layout for footer newsletter section
+   Logos (left) | Subscribe form (right)
+   ───────────────────────────────────────────── */
+    @media (min-width: 750px) and (max-width: 989.98px) {
+      /* Main wrapper: turn into a 2-column flex row */
+      .footer-block__newsletter .footer-newsletter {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between; /* spread left vs right */
+        align-items: center;
+        gap: clamp(16px, 3vw, 40px);
+        width: 100%;
+      }
+
+      /* Left side (logos) */
+      .footer-block__newsletter .footer-newsletter__media {
+        flex: 0 0 auto; /* fixed width, don’t grow */
+        max-width: 150px; /* adjust as you want */
+      }
+
+      /* Right side (form container) */
+      .footer-block__newsletter .footer-newsletter__form {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* push heading + form right */
+        text-align: right;
+      }
+
+      /* Keep heading aligned right */
+      .footer-block__newsletter .footer-block__heading {
+        margin-bottom: 8px;
+        align-self: flex-end;
+      }
+
+      /* Adjust form width and positioning */
+      .footer-block__newsletter .newsletter-form__field-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+      }
+
+      /* Input width for tablet */
+      .footer-block__newsletter .field__input {
+        width: 75% !important;
+        min-width: 260px;
+      }
+
+      /* Optional: tweak the arrow button alignment */
+      .footer-block__newsletter .newsletter-form__button {
+        margin-left: 8px;
+      }
+    }
   }
 {%- endstyle -%}
