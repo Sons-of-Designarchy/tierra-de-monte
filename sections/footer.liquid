@@ -76,7 +76,9 @@
                 {% endif %}
               >
                 {%- if block.settings.heading != blank -%}
-                  <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                  <p class="footer-block__heading footer-block__heading--mono inline-richtext">
+                    {{ block.settings.heading }}
+                  </p>
                 {%- endif -%}
 
                 {%- case block.type -%}
@@ -159,92 +161,70 @@
           </div>
         {%- endif -%}
 
-        <div
-          class="footer-block--newsletter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-          {% endif %}
-        >
-          {%- if section.settings.newsletter_enable -%}
-            <div class="footer-block__newsletter">
-              {%- if section.settings.newsletter_heading != blank -%}
-                <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}</h2>
-              {%- endif -%}
-              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="newsletter-form__field-wrapper">
-                  <div class="field">
-                    <input
-                      id="NewsletterForm--{{ section.id }}"
-                      type="email"
-                      name="contact[email]"
-                      class="field__input"
-                      value="{{ form.email }}"
-                      aria-required="true"
-                      autocorrect="off"
-                      autocapitalize="off"
-                      autocomplete="email"
-                      {% if form.errors %}
-                        autofocus
-                        aria-invalid="true"
-                        aria-describedby="ContactFooter-error"
-                      {% elsif form.posted_successfully? %}
-                        aria-describedby="ContactFooter-success"
-                      {% endif %}
-                      placeholder="{{ 'newsletter.label' | t }}"
-                      required
-                    >
-                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                      {{ 'newsletter.label' | t }}
-                    </label>
-                    <button
-                      type="submit"
-                      class="newsletter-form__button field__button"
-                      name="commit"
-                      id="Subscribe"
-                      aria-label="{{ 'newsletter.button_label' | t }}"
-                    >
-                      <span class="svg-wrapper">
-                        {{- 'icon-arrow.svg' | inline_asset_content -}}
-                      </span>
-                    </button>
-                  </div>
-                  {%- if form.errors -%}
-                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
-                      <span class="svg-wrapper">
-                        {{- 'icon-error.svg' | inline_asset_content -}}
-                      </span>
-                      {{- form.errors.translated_fields.email | capitalize }}
-                      {{ form.errors.messages.email -}}
-                    </small>
-                  {%- endif -%}
+        <div class="footer-block--newsletter">
+          <div class="footer-block__newsletter">
+            {%- if section.settings.newsletter_title != blank -%}
+              <p class="footer-block__heading inline-richtext">{{ section.settings.newsletter_title }}</p>
+            {%- endif -%}
+
+            <div
+              class="footer-newsletter"
+              style="--nl-media-w: {{ section.settings.newsletter_image_max_width | default: 140 }}px;"
+            >
+              {%- if section.settings.newsletter_image != blank -%}
+                <div class="footer-newsletter__media">
+                  {{
+                    section.settings.newsletter_image
+                    | image_url: width: 800
+                    | image_tag:
+                      widths: '320,480,640,800',
+                      sizes: '(min-width: 990px) var(--nl-media-w), 40vw',
+                      class: 'footer-newsletter__img',
+                      alt: section.settings.newsletter_image_alt
+                  }}
                 </div>
-                {%- if form.posted_successfully? -%}
-                  <h3
-                    class="newsletter-form__message newsletter-form__message--success form__message"
-                    id="ContactFooter-success"
-                    tabindex="-1"
-                    autofocus
-                  >
-                    <span class="svg-wrapper">
-                      {{- 'icon-success.svg' | inline_asset_content -}}
-                    </span>
-                    {{- 'newsletter.success' | t }}
-                  </h3>
-                {%- endif -%}
-              {%- endform -%}
-            </div>
-          {%- endif -%}
+              {%- endif -%}
 
-          {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-            <div class="footer__follow-on-shop">
-              {{ shop | login_button: action: 'follow' }}
-            </div>
-          {%- endif -%}
+              <div class="footer-newsletter__form">
+                <form
+                  method="post"
+                  action="/contact#ContactFooter"
+                  id="ContactFooter"
+                  accept-charset="UTF-8"
+                  class="footer__newsletter newsletter-form"
+                >
+                  <input type="hidden" name="form_type" value="customer">
+                  <input type="hidden" name="utf8" value="✓">
+                  <input type="hidden" name="contact[tags]" value="newsletter">
 
-          {%- if section.settings.show_social and has_social_icons -%}
-            {%- render 'social-icons', class: 'footer__list-social' -%}
-          {%- endif -%}
+                  <div class="newsletter-form__field-wrapper">
+                    <div class="field">
+                      <input
+                        id="NewsletterForm--{{ section.id }}"
+                        type="email"
+                        name="contact[email]"
+                        class="field__input"
+                        autocomplete="email"
+                        placeholder="{{ 'newsletter.label' | t | default: 'Correo electrónico' }}"
+                        required
+                      >
+                      <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                        {{ 'newsletter.label' | t | default: 'Correo electrónico' }}
+                      </label>
+                      <button
+                        type="submit"
+                        class="newsletter-form__button field__button"
+                        id="Subscribe"
+                        aria-label="{{ 'newsletter.submit' | t | default: 'Suscribirse' }}"
+                      >
+                        <span class="svg-wrapper">{{ 'icon-arrow.svg' | inline_asset_content }}</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     {%- endunless -%}
@@ -543,3 +523,147 @@
   }
 }
 {% endschema %}
+{%- style -%}
+  /* Load the IBM Plex Mono Regular font if not already available */
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    src: url({{'IBMPlexMono-Regular.woff2'|asset_url}}) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* 1️⃣ Footer heading now uses <p> */
+  .footer-block__heading.footer-block__heading--mono {
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  /* Defensive: prevent old <h2> styles from leaking */
+  .footer-block__heading.footer-block__heading--mono h2 {
+    all: unset;
+  }
+
+  /* 2️⃣ Footer menu columns vertical spacing */
+  .footer__blocks-wrapper .footer-block {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  /* Horizontal separators for the footer content area */
+  .footer__content-top {
+    position: relative; /* anchor the pseudo elements */
+    padding-bottom: 24px;
+  }
+
+  /* Top line */
+  .footer__content-top::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: rgb(var(--color-foreground));
+  }
+
+  /* Bottom line — remove this block if you only want the top line */
+  .footer__content-top::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: rgb(var(--color-foreground));
+  }
+
+  /* Keep your column height requirement */
+  .footer__blocks-wrapper .footer-block {
+    min-height: 300px;
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  /* ======================================
+   FOOTER HORIZONTAL LINES WITH SPACING
+   ====================================== */
+
+  /* Wrap element (the top part of the footer) */
+  .footer__content-top {
+    position: relative;
+    padding-top: 24px; /* space between top line and content */
+    padding-bottom: 24px; /* space between bottom line and content */
+  }
+
+  /* Top horizontal line */
+  .footer__content-top::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: rgb(var(--color-foreground)); /* dynamic color scheme */
+  }
+
+  /* Bottom horizontal line */
+  .footer__content-top::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: rgb(var(--color-foreground));
+  }
+
+  /* Optional: keep block min-height if needed */
+  .footer__blocks-wrapper .footer-block {
+    min-height: 300px;
+  }
+{%- endstyle -%}
+{%- style -%}
+  /* Image + form row */
+  .footer-newsletter{
+    display: grid;
+    gap: 20px;
+    align-items: center;
+  }
+  @media (min-width: 990px){
+    .footer-newsletter{
+      grid-template-columns: minmax(300px, var(--nl-media-w, 300px)) 1fr;
+    }
+  }
+  /* Media */
+  .footer-newsletter__media{ width: 100%; }
+  .footer-newsletter__img{
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: var(--nl-media-w, 140px);
+    border-radius: {{ section.settings.newsletter_image_circle | default: false | ternary: '999px', '8px' }};
+    object-fit: cover;
+  }
+  /* Keep inputs readable on any color scheme */
+  .footer-newsletter .field__input{
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+  }
+  /* Optional: add a top border to separate from blocks above (matches scheme) */
+  .footer-block--newsletter{
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgb(var(--color-foreground));
+  }
+{%- endstyle -%}

@@ -41,8 +41,8 @@
 
 /* 5️⃣ Vertical dividers between columns (except the first) */
 .footer-grid-custom .footer-block {
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  padding-left: 24px;
+  border-left: 2px solid rgba(var(--color-foreground), 0.3);
+  padding-left: 16px;
   width: 100%;
 }
 .footer-grid-custom .footer-block:nth-child(1),
@@ -153,3 +153,5 @@
 
  
 }
+
+
