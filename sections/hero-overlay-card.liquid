@@ -60,80 +60,129 @@
   </div>
 
   <style>
-      /* Page container guard */
-      #hero-{{ section.id }} .page-width{
-        max-width: var(--page-width, 120rem);
-        margin-inline: auto;
-      }
-
-      /* Frame: rounded + background image locked to container */
-      #hero-{{ section.id }} .tdm-hero__frame{
+        /* ===== Hero overlay — mobile-only universal gutters & height ===== */
+    @media (max-width: 749.98px){
+      /* Stable mobile height (with iOS toolbar-safe units when available) */
+      .tdm-hero .tdm-hero__frame{
         position: relative;
-        width: 100%;
-        min-height: var(--tdm-min-h-desktop);
-        border-radius: var(--tdm-radius);
-        overflow: hidden;
-
-        background-color: var(--color-base-background-1, #f6f4ef);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+        min-height: var(--tdm-min-h-mobile, 55vh);
       }
-      @media (max-width: 749px){
-        #hero-{{ section.id }} .tdm-hero__frame{ min-height: var(--tdm-min-h-mobile); }
+      @supports (height: 100svh){
+        .tdm-hero .tdm-hero__frame{ min-height: 55svh; }
+      }
+      @supports (height: 100dvh){
+        .tdm-hero .tdm-hero__frame{ min-height: 55dvh; }
       }
 
-      /* Placeholder if no image */
-      #hero-{{ section.id }} .tdm-hero__placeholder{
-        position:absolute; inset:0;
-        display:flex; align-items:center; justify-content:center;
-        background: rgba(var(--color-foreground), 0.04);
+      /* Neutralize any preset card position classes on mobile */
+      .tdm-hero .tdm-hero__card{
+        position: absolute !important;
+        inset: auto !important;
+        left: 50% !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: max(8px, env(safe-area-inset-bottom)) !important; /* iPhone home bar safe */
+        transform: translateX(-50%) !important;
+        width: calc(100% - 16px) !important;   /* 8px gutters on both sides */
+        max-width: var(--tdm-card-max, 560px) !important;
+        margin: 0 !important;
+        z-index: 2;
       }
 
-      /* Overlay card positions */
-      #hero-{{ section.id }} .tdm-hero__card{ position:absolute; inset:auto auto 2rem 2rem; max-width:var(--tdm-card-max); }
-      #hero-{{ section.id }} .tdm-hero__card--top-left{ inset:2rem auto auto 2rem; }
-      #hero-{{ section.id }} .tdm-hero__card--top-right{ inset:2rem 2rem auto auto; }
-      #hero-{{ section.id }} .tdm-hero__card--bottom-right{ inset:auto 2rem 2rem auto; }
-      #hero-{{ section.id }} .tdm-hero__card--center-left{ top:50%; left:2rem; transform:translateY(-50%); }
-      #hero-{{ section.id }} .tdm-hero__card--center-right{ top:50%; right:2rem; left:auto; transform:translateY(-50%); }
-
-      /* Card look */
-    #hero-{{ section.id }} .tdm-hero__card-inner{
-      background: rgba(250, 250, 250, var(--tdm-card-opacity));
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-radius: 12px;
-      padding: var(--tdm-card-pad);
-
-      /* ✅ Centralize color control: white by default, or theme foreground if "text_on_dark" is enabled */
-      color: {% if section.settings.text_on_dark %}rgb(var(--color-foreground)){% else %}#ffffff{% endif %} !important;
-    }
-    #hero-{{ section.id }} .tdm-hero__card--shadow .tdm-hero__card-inner{ box-shadow: 0 8px 24px rgba(0,0,0,.15); }
-    #hero-{{ section.id }} .tdm-hero__card-inner--glass{ background: rgba(255,255,255, var(--tdm-card-opacity)); }
-    #hero-{{ section.id }} .tdm-hero__card-inner--invert{ color: rgb(var(--color-foreground)) !important; }
-
-    /* Type (force inherit so Dawn doesn't paint headings/links green) */
-    #hero-{{ section.id }} .tdm-hero__heading,
-    #hero-{{ section.id }} .tdm-hero__body,
-    #hero-{{ section.id }} .tdm-hero__eyebrow{
-      color: inherit !important;
-    }
-    #hero-{{ section.id }} .tdm-hero__card-inner a:not(.button){
-      color: inherit !important;
-      text-decoration: underline;
+      /* Slightly tighter inner padding on small screens */
+      .tdm-hero .tdm-hero__card-inner{
+        padding: clamp(14px, 4vw, var(--tdm-card-pad, 24px)) !important;
+        background: rgba(255,255,255, var(--tdm-card-opacity, .7));
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        background-clip: padding-box;
+        isolation: isolate;
+      }
     }
 
-    /* Type sizes */
-    #hero-{{ section.id }} .tdm-hero__eyebrow{ margin:0 0 .25rem; letter-spacing:.04em; opacity:.85; }
-    #hero-{{ section.id }} .tdm-hero__heading{ margin:0 0 .5rem; line-height:1.1; }
-    #hero-{{ section.id }} .tdm-hero__heading--xl{ font-size: clamp(28px, 4vw, 52px); font-weight: 500; }
-    #hero-{{ section.id }} .tdm-hero__heading--lg{ font-size: clamp(26px, 3.2vw, 44px); }
-    #hero-{{ section.id }} .tdm-hero__body{ margin:0 0 1rem; }
+    /* Extra guard for iOS WebKit quirkiness */
+    @supports (-webkit-touch-callout: none){
+      @media (max-width: 749.98px){
+        .tdm-hero .tdm-hero__card{
+          bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        }
+      }
+    }
 
-    /* Button spacing */
-    #hero-{{ section.id }} .tdm-hero__btn{ margin-top:.25rem; }
-    #hero-{{ section.id }} .tdm-hero__btn--pill{ border-radius: 999px; }
+          /* Page container guard */
+          #hero-{{ section.id }} .page-width{
+            max-width: var(--page-width, 120rem);
+            margin-inline: auto;
+          }
+
+          /* Frame: rounded + background image locked to container */
+          #hero-{{ section.id }} .tdm-hero__frame{
+            position: relative;
+            width: 100%;
+            min-height: var(--tdm-min-h-desktop);
+            border-radius: var(--tdm-radius);
+            overflow: hidden;
+
+            background-color: var(--color-base-background-1, #f6f4ef);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+          }
+          @media (max-width: 749px){
+            #hero-{{ section.id }} .tdm-hero__frame{ min-height: var(--tdm-min-h-mobile); }
+          }
+
+          /* Placeholder if no image */
+          #hero-{{ section.id }} .tdm-hero__placeholder{
+            position:absolute; inset:0;
+            display:flex; align-items:center; justify-content:center;
+            background: rgba(var(--color-foreground), 0.04);
+          }
+
+          /* Overlay card positions */
+          #hero-{{ section.id }} .tdm-hero__card{ position:absolute; inset:auto auto 2rem 2rem; max-width:var(--tdm-card-max); }
+          #hero-{{ section.id }} .tdm-hero__card--top-left{ inset:2rem auto auto 2rem; }
+          #hero-{{ section.id }} .tdm-hero__card--top-right{ inset:2rem 2rem auto auto; }
+          #hero-{{ section.id }} .tdm-hero__card--bottom-right{ inset:auto 2rem 2rem auto; }
+          #hero-{{ section.id }} .tdm-hero__card--center-left{ top:50%; left:2rem; transform:translateY(-50%); }
+          #hero-{{ section.id }} .tdm-hero__card--center-right{ top:50%; right:2rem; left:auto; transform:translateY(-50%); }
+
+          /* Card look */
+        #hero-{{ section.id }} .tdm-hero__card-inner{
+          background: rgba(250, 250, 250, var(--tdm-card-opacity));
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          border-radius: 12px;
+          padding: var(--tdm-card-pad);
+
+          /* ✅ Centralize color control: white by default, or theme foreground if "text_on_dark" is enabled */
+          color: {% if section.settings.text_on_dark %}rgb(var(--color-foreground)){% else %}#ffffff{% endif %} !important;
+        }
+        #hero-{{ section.id }} .tdm-hero__card--shadow .tdm-hero__card-inner{ box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+        #hero-{{ section.id }} .tdm-hero__card-inner--glass{ background: rgba(255,255,255, var(--tdm-card-opacity)); }
+        #hero-{{ section.id }} .tdm-hero__card-inner--invert{ color: rgb(var(--color-foreground)) !important; }
+
+        /* Type (force inherit so Dawn doesn't paint headings/links green) */
+        #hero-{{ section.id }} .tdm-hero__heading,
+        #hero-{{ section.id }} .tdm-hero__body,
+        #hero-{{ section.id }} .tdm-hero__eyebrow{
+          color: inherit !important;
+        }
+        #hero-{{ section.id }} .tdm-hero__card-inner a:not(.button){
+          color: inherit !important;
+          text-decoration: underline;
+        }
+
+        /* Type sizes */
+        #hero-{{ section.id }} .tdm-hero__eyebrow{ margin:0 0 .25rem; letter-spacing:.04em; opacity:.85; }
+        #hero-{{ section.id }} .tdm-hero__heading{ margin:0 0 .5rem; line-height:1.1; }
+        #hero-{{ section.id }} .tdm-hero__heading--xl{ font-size: clamp(28px, 4vw, 52px); font-weight: 500; }
+        #hero-{{ section.id }} .tdm-hero__heading--lg{ font-size: clamp(26px, 3.2vw, 44px); }
+        #hero-{{ section.id }} .tdm-hero__body{ margin:0 0 1rem; }
+
+        /* Button spacing */
+        #hero-{{ section.id }} .tdm-hero__btn{ margin-top:.25rem; }
+        #hero-{{ section.id }} .tdm-hero__btn--pill{ border-radius: 999px; }
   </style>
 
   <style>
