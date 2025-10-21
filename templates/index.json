@@ -370,6 +370,7 @@
       "settings": {
         "title": "Alianzas que nutren la tierra",
         "heading_size": "h2",
+        "title_font": "mono",
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "radius": 16,
         "gap": 24,
