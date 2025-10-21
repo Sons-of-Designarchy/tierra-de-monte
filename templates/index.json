@@ -152,11 +152,8 @@
         "button_link": "shopify://pages/nosotros",
         "heading_size": "h1",
         "columns_desktop": 2,
-        "height_desktop_value": 40,
-        "height_desktop_unit": "vh",
         "columns_mobile": "1",
         "swipe_on_mobile": false,
-        "divider_color": "#faf4ec",
         "color_scheme": "scheme-5",
         "padding_top": 80,
         "padding_bottom": 80
@@ -243,11 +240,8 @@
         "button_link": "shopify://collections/all",
         "heading_size": "h1",
         "columns_desktop": 3,
-        "height_desktop_value": 60,
-        "height_desktop_unit": "vh",
         "columns_mobile": "1",
         "swipe_on_mobile": false,
-        "divider_color": "#1a1a1a",
         "color_scheme": "",
         "padding_top": 100,
         "padding_bottom": 100
@@ -374,7 +368,7 @@
       ],
       "name": "Logo bar",
       "settings": {
-        "title": "ALIANZAS QUE NUTREN LA TIERRA",
+        "title": "Alianzas que nutren la tierra",
         "heading_size": "h2",
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "radius": 16,
