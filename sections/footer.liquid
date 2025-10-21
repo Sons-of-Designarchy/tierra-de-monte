@@ -163,29 +163,18 @@
 
         <div class="footer-block--newsletter">
           <div class="footer-block__newsletter">
-            {%- if section.settings.newsletter_title != blank -%}
-              <p class="footer-block__heading inline-richtext">{{ section.settings.newsletter_title }}</p>
-            {%- endif -%}
-
             <div
               class="footer-newsletter"
               style="--nl-media-w: {{ section.settings.newsletter_image_max_width | default: 140 }}px;"
             >
-              {%- if section.settings.newsletter_image != blank -%}
-                <div class="footer-newsletter__media">
-                  {{
-                    section.settings.newsletter_image
-                    | image_url: width: 800
-                    | image_tag:
-                      widths: '320,480,640,800',
-                      sizes: '(min-width: 990px) var(--nl-media-w), 40vw',
-                      class: 'footer-newsletter__img',
-                      alt: section.settings.newsletter_image_alt
-                  }}
-                </div>
-              {%- endif -%}
-
+              <!-- LEFT: heading + form -->
               <div class="footer-newsletter__form">
+                {% if section.settings.newsletter_title != blank %}
+                  <p class="footer-block__heading inline-richtext">
+                    {{ section.settings.newsletter_title }}
+                  </p>
+                {% endif %}
+
                 <form
                   method="post"
                   action="/contact#ContactFooter"
@@ -223,6 +212,21 @@
                   </div>
                 </form>
               </div>
+
+              <!-- RIGHT: image -->
+              {% if section.settings.newsletter_image != blank %}
+                <div class="footer-newsletter__media">
+                  {{
+                    section.settings.newsletter_image
+                    | image_url: width: 800
+                    | image_tag:
+                      widths: '320,480,640,800',
+                      sizes: '(min-width: 990px) var(--nl-media-w), 40vw',
+                      class: 'footer-newsletter__img',
+                      alt: section.settings.newsletter_image_alt
+                  }}
+                </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -671,7 +675,7 @@
   }
 {%- endstyle -%}
 {%- style -%}
-  /* Image + form row */
+  /* Newsletter row */
   .footer-newsletter{
     display: grid;
     gap: 20px;
@@ -679,11 +683,19 @@
   }
   @media (min-width: 990px){
     .footer-newsletter{
-      grid-template-columns: minmax(300px, var(--nl-media-w, 300px)) 1fr;
+      /* left column grows, right column fits image width */
+      grid-template-columns: 1fr minmax(100px, var(--nl-media-w, 140px));
     }
   }
-  /* Media */
-  .footer-newsletter__media{ width: 100%; }
+
+  /* Left column (heading + form) */
+  .footer-newsletter__form{
+    justify-self: start;           /* stays left */
+    text-align: left;
+  }
+
+  /* Right column (image) */
+  .footer-newsletter__media{ justify-self: end; }
   .footer-newsletter__img{
     display: block;
     width: 100%;
@@ -692,15 +704,86 @@
     border-radius: {{ section.settings.newsletter_image_circle | default: false | ternary: '999px', '8px' }};
     object-fit: cover;
   }
-  /* Keep inputs readable on any color scheme */
+
+  /* Inputs readable on any color scheme */
   .footer-newsletter .field__input{
     background: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
   }
-  /* Optional: add a top border to separate from blocks above (matches scheme) */
+
+  /* Optional separation from blocks above */
   .footer-block--newsletter{
-    margin-top: 24px;
+    margin-top: 32px;
     padding-top: 24px;
     border-top: 1px solid rgb(var(--color-foreground));
+  }
+{%- endstyle -%}
+{%- style -%}
+  /* Flip order: image LEFT, form RIGHT on desktop */
+  @media (min-width: 990px) {
+    .footer-newsletter {
+      /* left = fixed image column, right = flexible form column */
+      grid-template-columns: minmax(100px, var(--nl-media-w, 140px)) 1fr;
+    }
+    .footer-newsletter__media {
+      order: 1;
+      justify-self: start;
+    }
+    .footer-newsletter__form {
+      order: 2;
+      justify-self: start; /* keep content aligned to the left */
+      text-align: left;
+    }
+  }
+
+  /* Optional: on small screens keep image first or second — choose one: */
+
+  /* A) Image first on mobile (current DOM order if you move media before form) */
+  /* .footer-newsletter__media { order: 1; } */
+  /* .footer-newsletter__form  { order: 2; } */
+
+  /* B) Form first on mobile (uncomment to force form above image on small screens) */
+  /*
+@media (max-width: 989px){
+  .footer-newsletter__form{ order: 1; }
+  .footer-newsletter__media{ order: 2; }
+}
+*/
+{%- endstyle -%}
+{%- style -%}
+  /* =============================
+   FOOTER NEWSLETTER (edge layout)
+   ============================= */
+  @media (min-width: 990px) {
+    .footer-newsletter {
+      display: grid;
+      grid-template-columns: minmax(100px, var(--nl-media-w, 140px)) 1fr;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0; /* remove internal gap */
+    }
+
+    /* Left image sits flush to left edge */
+    .footer-newsletter__media {
+      justify-self: start;
+    }
+
+    /* Right form hugs the right edge */
+    .footer-newsletter__form {
+      justify-self: end;
+      text-align: left;
+      width: 100%;
+      max-width: 300px; /* optional: constrain width for better line length */
+    }
+  }
+
+  /* On mobile, keep stacked with gap */
+  @media (max-width: 989px) {
+    .footer-newsletter {
+      gap: 20px;
+    }
+  }
+  .footer .page-width {
+    padding: 2rem 1rem;
   }
 {%- endstyle -%}
