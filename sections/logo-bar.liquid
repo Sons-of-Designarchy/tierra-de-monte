@@ -107,6 +107,18 @@
   {% endif %}
 {%- endstyle -%}
 
+{%- style -%}
+  /* Force monospace on the Logo bar title even against Dawn's .title rules */
+  #shopify-section-{{ section.id }} .logo-bar__title.logo-bar__title--mono,
+  #shopify-section-{{ section.id }} .logo-bar__title.logo-bar__title--mono.inline-richtext,
+  #shopify-section-{{ section.id }} .logo-bar__title.logo-bar__title--mono * {
+    font-family: "IBM Plex Mono Light", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    font-weight: 100 !important;
+    letter-spacing: -0.02em !important;
+    text-transform: none !important;
+  }
+{%- endstyle -%}
+
 {%- liquid
   assign total = section.blocks.size
   assign mobile_cols = section.settings.columns_mobile | plus: 0
@@ -182,7 +194,8 @@
       "options": [
         { "value": "h2", "label": "H2" },
         { "value": "h1", "label": "H1" },
-        { "value": "h0", "label": "H0" }
+        { "value": "h0", "label": "H0" },
+        { "value": "h4", "label": "H4" }
       ]
     },
 
