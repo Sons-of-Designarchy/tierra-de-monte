@@ -155,13 +155,13 @@
       min-height: 100% !important;
       padding-bottom: 0 !important;
     }
-    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 16px !important; }
     #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
       order: 3;
       margin-top: auto !important;            /* pins to bottom */
       width: 100%; border-radius: 8px; overflow: hidden;
     }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper.multicolumn-card-spacing{ margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper.multicolumn-card-spacing{ margin-bottom: 16px !important; }
 
     /* 5) Neutralize Dawn ratio padding so images don’t “float” */
     #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
@@ -191,126 +191,40 @@
 {%- endstyle -%}
 
 {%- style -%}
-  /* Restore left border (first column only) + use Theme Editor height (vh/px) */
-  @media (min-width: 990px){
-    /* Expose per-section height */
-    #shopify-section-{{ section.id }}{
-      --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
-    }
-
-    /* Let Dawn's grid stretch */
-    #Slider-{{ section.id }}.grid{ align-items: stretch !important; }
-    #Slider-{{ section.id }} .grid__item{ min-height: 0 !important; }
-
-    /* Columns (LI) get fixed height + flex so card can fill it */
-    #Slider-{{ section.id }} .multicolumn-list__item{
-      display: flex !important;
-      align-items: stretch !important;
-      height: var(--mcf-height) !important;
-      /* neutralize any earlier “remove borders” rule */
-      border-left: none !important;
-      padding-left: 0 !important;
-    }
-
-    /* Bring back the single LEFT border on the very first column */
-    #Slider-{{ section.id }} .multicolumn-list__item:first-child{
-      border-left: 1px solid {{ section.settings.divider_color }} !important;
-      padding-left: 8px !important;
-    }
-
-    /* Card stacks; image stays pinned to bottom (keeps your current behavior) */
-    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
-      display: flex !important;
-      flex-direction: column !important;
-      flex: 1 1 auto !important;
-      min-height: 100% !important;
-      padding-bottom: 0 !important;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
-      order: 3;
-      margin-top: auto !important;
-      width: 100%;
-      border-radius: 8px; overflow: hidden;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
-      position: relative !important;
-      padding-bottom: 0 !important;
-      height: auto !important;
-      display: block !important;
-      border-radius: 8px; overflow: hidden;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__image{
-      position: static !important;
-      width: 100% !important;
-      height: auto !important;
-      object-fit: cover !important;
-      display: block !important;
-    }
+  /* Bring back the single LEFT border on the very first column */
+  #Slider-{{ section.id }} .multicolumn-list__item:first-child{
+    border-left: 1px solid {{ section.settings.divider_color }} !important;
+    padding-left: 8px !important;
   }
 
-  /* Mobile/tablet: no left border and natural height */
-  @media (max-width: 989.98px){
-    #Slider-{{ section.id }} .multicolumn-list__item{
-      border-left: none !important;
-      padding-left: 0 !important;
-      height: auto !important;
-    }
+  /* Card stacks; image stays pinned to bottom (keeps your current behavior) */
+  #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-height: 100% !important;
+    padding-bottom: 0 !important;
   }
-{%- endstyle -%}
-
-{%- style -%}
-  /* Multicolumn: left border on ALL columns + per-section vh height */
-  @media (min-width: 990px){
-    /* 0) Per-section column height (uses settings if present, else 60vh) */
-    #shopify-section-{{ section.id }}{
-      --mcf-height: {{ section.settings.height_desktop_value | default: 60 }}{{ section.settings.height_desktop_unit | default: 'vh' }};
-    }
-
-    /* 1) Let grid items stretch */
-    #Slider-{{ section.id }}.grid{ align-items: stretch !important; }
-    #Slider-{{ section.id }} .grid__item{ min-height: 0 !important; }
-
-    /* 2) Columns (LI): fixed height, flex, and LEFT BORDER ON ALL */
-    #Slider-{{ section.id }} .multicolumn-list__item{
-      display: flex !important;
-      align-items: stretch !important;
-      height: var(--mcf-height) !important;
-
-      /* ensure all borders show even if earlier CSS removed them */
-      border-left: 1px solid {{ section.settings.divider_color }} !important;
-      padding-left: 8px !important;
-    }
-
-    /* 3) Card fills column; image pinned to bottom */
-    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
-      display: flex !important;
-      flex-direction: column !important;
-      flex: 1 1 auto !important;
-      min-height: 100% !important;
-      padding-bottom: 0 !important;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
-      order: 3; margin-top: auto !important; width: 100%;
-      border-radius: 8px; overflow: hidden;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
-      position: relative !important; padding-bottom: 0 !important; height: auto !important; display: block !important;
-      border-radius: 8px; overflow: hidden;
-    }
-    #shopify-section-{{ section.id }} .multicolumn-card__image{
-      position: static !important; width: 100% !important; height: auto !important; object-fit: cover !important; display: block !important;
-    }
+  #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 16px !important; }
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+    order: 3;
+    margin-top: auto !important;
+    width: 100%;
+    border-radius: 8px; overflow: hidden;
   }
-
-  /* Mobile/tablet: remove borders & fixed height */
-  @media (max-width: 989.98px){
-    #Slider-{{ section.id }} .multicolumn-list__item{
-      border-left: none !important;
-      padding-left: 0 !important;
-      height: auto !important;
-    }
+  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+    position: relative !important;
+    padding-bottom: 0 !important;
+    height: auto !important;
+    display: block !important;
+    border-radius: 8px; overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .multicolumn-card__image{
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    display: block !important;
   }
 {%- endstyle -%}
 
@@ -349,7 +263,7 @@
       min-height: 100% !important;
       padding-bottom: 0 !important;
     }
-    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 0 !important; }
+    #shopify-section-{{ section.id }} .multicolumn-card__info{ order: 1; margin-bottom: 16px !important; }
     #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
       order: 3; margin-top: auto !important; width: 100%;
       border-radius: 8px; overflow: hidden;
@@ -362,13 +276,195 @@
       position: static !important; width: 100% !important; height: auto !important; object-fit: cover !important; display: block !important;
     }
   }
+{%- endstyle -%}
 
-  /* Mobile: no borders and natural height */
-  @media (max-width: 989.98px){
-    #shopify-section-{{ section.id }} #Slider-{{ section.id }} > li.multicolumn-list__item{
-      border-left: none !important;
-      padding-left: 0 !important;
-      height: auto !important;
+{%- style -%}
+              /* ─────────────────────────────────────────────────────────
+                 Multicolumn — Feature (Dawn 15.4.0) — Refactor Tablet
+                 ───────────────────────────────────────────────────────── */
+
+              /* Tablet fix */
+              @media (min-width: 750px) and (max-width: 989.98px) {
+                /* Contenedor + 2 columnas */
+                #shopify-section-{{ section.id }} .multicolumn-list,
+                .multicolumn .multicolumn-list {
+                  display: grid !important;
+
+                  gap: 24px !important;
+                  scroll-snap-type: none !important;
+                  padding:0;
+                }
+            }
+
+            /* ─────────────────────────────────────────────────────────
+             Tablet-only: 2 filas (lead arriba, columnas abajo)
+             Mantiene desktop (dos columnas) y mobile como ya lo tengas.
+             ───────────────────────────────────────────────────────── */
+          @media (min-width: 750px) and (max-width: 989.98px) {
+            /* 1) Definimos áreas en la grid del contenedor */
+            .multicolumn .mc-feature__grid {
+              grid-template-areas:
+                "lead"
+                "cols";
+
+              margin-inline: auto;
+              padding-inline: clamp(16px, 4vw, 40px);
+            }
+
+            /* Rejilla de items: 2-up si cabe, 1-up si no cabe el mínimo */
+            .multicolumn .mc-feature__cols .multicolumn-list {
+              display: grid !important;
+              grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+              gap: 24px !important;
+              scroll-snap-type: none !important;
+            }
+            .multicolumn .mc-feature__cols .multicolumn-list__item {
+              width: auto !important;
+              flex: initial !important;
+              min-width: 0 !important;
+              scroll-snap-align: none !important;
+            }
+
+
+            .multicolumn .mc-feature__cols .multicolumn-list__item:first-child {
+              border-left: 1px solid var(--mcf-rule, {{ section.settings.rule_color | default: '#fff' }});
+              padding-left: 8px;
+            }
+            /* ─────────────────────────────────────────────────────────
+           Tablet: make list items WIDER and fill the container
+           - Break Dawn's grid presets
+           - Remove inner max-width caps
+           - Give each card a generous min width
+           ───────────────────────────────────────────────────────── */
+        @media (min-width: 750px) and (max-width: 989.98px) {
+          /* The second row wrapper (where your <ul> lives) should span full container */
+          .multicolumn .mc-feature__cols {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+
+          }
+
+          /* Remove width caps that Dawn sets on this utility class */
+          .multicolumn .mc-feature__cols .multicolumn-list.contains-content-container {
+            max-width: none !important;
+            width: 100% !important;
+            padding: 0 !important;
+          }
+
+          /* Override Dawn's grid utility classes and make items FILL the row */
+          .multicolumn .mc-feature__cols .multicolumn-list {
+            display: grid !important;
+
+            /* Two fat columns that expand to fill the container.
+               If there isn't enough room, it gracefully drops to 1 column. */
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)) !important;
+
+            /* If you want them even wider, bump 420px to 460/480px */
+            column-gap: clamp(16px, 4vw, 32px) !important;
+            row-gap: clamp(16px, 3vw, 28px) !important;
+
+            /* Kill any snap behavior from the slider */
+            scroll-snap-type: none !important;
+          }
+
+          /* Let the grid control widths; avoid slider/flex constraints */
+          .multicolumn .mc-feature__cols .multicolumn-list__item {
+            width: auto !important;
+            max-width: none !important;
+            min-width: 0 !important;
+            flex: initial !important;
+            scroll-snap-align: none !important;
+          }
+
+          /* Make sure the card itself doesn't clamp width */
+          .multicolumn .mc-feature__cols .multicolumn-card.content-container {
+            max-width: none !important;
+            width: 100% !important;
+            padding: 0;
+          }
+
+          /* Image keeps healthy height, not squished */
+          .multicolumn .mc-feature__cols .multicolumn-card__image-wrapper .media {
+            position: relative !important;
+            display: block !important;
+            width: 100%;
+
+            height: auto !important;
+            padding: 0 !important;     /* neutralize media--adapt padding trick */
+          }
+          .multicolumn .mc-feature__cols .multicolumn-card__image-wrapper .media > img {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+          }
+        }
+       }
+       @media (min-width: 750px) and (max-width: 989.98px) {
+        .multicolumn .mc-feature__cols .multicolumn-list {
+          display: grid !important;
+          gap: clamp(16px, 3.5vw, 28px) !important;
+          scroll-snap-type: none !important;
+          max-width: none !important;
+          width: 100% !important;
+          padding: 0 !important;
+          grid-template-columns: 1fr; /* default */
+        }
+        .multicolumn .mc-feature__cols .multicolumn-list__item {
+          width: auto !important;
+          min-width: 0 !important;
+          flex: initial !important;
+          scroll-snap-align: none !important;
+        }
+
+        .multicolumn .mc-feature__cols .multicolumn-list[data-count="2"] {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+        .multicolumn .mc-feature__cols .multicolumn-list[data-count="3"] {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+        /* Optional: for 4+ items, keep 3 cols on tablet */
+        .multicolumn .mc-feature__cols .multicolumn-list[data-count]:not([data-count="1"]):not([data-count="2"]):not([data-count="3"]) {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+      }
+
+
+    /* Tablet: force LEFT BORDER on ALL items (wins over older rules) */
+    @media (min-width: 750px) and (max-width: 989.98px) {
+      /* paint all li */
+      #shopify-section-{{ section.id }} .mc-feature__cols .multicolumn-list__item {
+        border-left: 1px solid rgb(var(--color-foreground)) !important;
+        padding-left: 8px !important;
+      }
+
+      /* just in case something earlier was nuking borders on siblings */
+      #shopify-section-{{ section.id }} .mc-feature__cols .multicolumn-list__item + .multicolumn-list__item {
+        border-left: 1px solid rgb(var(--color-foreground)) !important;
+      }
+    }
+    /* Tablet: force a left border on EVERY column item */
+  @media (min-width: 750px) and (max-width: 989.98px) {
+    /* Generic (works across sections) */
+    .multicolumn .mc-feature__cols .multicolumn-list > li.multicolumn-list__item {
+      border-left: 1px solid var(--mcf-rule, #294e3f) !important;
+      padding-left: 8px !important;
+    }
+
+    /* Ultra-specific override (wins even if older rules target #Slider... or :first-child) */
+    .multicolumn .mc-feature__cols
+    ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item {
+      border-left: 1px solid rgb(var(--color-foreground)) !important;
+      padding-left: 8px !important;
+    }
+
+    /* In case a "first-child only" rule is still lurking, re-assert for all */
+    .multicolumn .mc-feature__cols
+    ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item:first-child {
+      border-left: 1px solid rgb(var(--color-foreground)) !important;
     }
   }
 {%- endstyle -%}
@@ -430,10 +526,11 @@
       </div>
 
       <!-- Right: Columns / Stats -->
-      <div>
+      <div class="mc-feature__cols">
         <slider-component class="slider-mobile-gutter">
           <ul
             id="Slider-{{ section.id }}"
+            data-count="{{ section.blocks.size }}"
             class="multicolumn-list contains-content-container grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
             role="list"
           >
