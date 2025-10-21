@@ -304,6 +304,34 @@
     {{ 'footer-custom.css' | asset_url | stylesheet_tag }}
   </head>
 
+  <script>
+    (function () {
+      function paintMobileBorders() {
+        var isMobile = window.matchMedia('(max-width: 749.98px)').matches;
+        var items = document.querySelectorAll(
+          '.multicolumn .mc-feature__cols ul.multicolumn-list > li.multicolumn-list__item,' +
+            '.multicolumn slider-component ul.multicolumn-list > li.multicolumn-list__item'
+        );
+
+        items.forEach(function (li) {
+          if (isMobile) {
+            li.style.setProperty('border-left', '1px solid rgb(var(--color-foreground))', 'important');
+            li.style.setProperty('padding-left', '8px', 'important');
+          } else {
+            // Optional: clean up on larger breakpoints
+            li.style.removeProperty('border-left');
+            li.style.removeProperty('padding-left');
+          }
+        });
+      }
+
+      // Initial run + keep it fresh on editor reloads and resizes
+      document.addEventListener('DOMContentLoaded', paintMobileBorders);
+      document.addEventListener('shopify:section:load', paintMobileBorders);
+      window.addEventListener('resize', paintMobileBorders);
+    })();
+  </script>
+
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}

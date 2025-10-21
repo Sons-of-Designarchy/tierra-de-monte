@@ -179,15 +179,6 @@
       display: block !important;
     }
   }
-
-  /* Mobile/tablet: no vertical rule */
-  @media (max-width: 989.98px){
-    #shopify-section-{{ section.id }} .multicolumn-list__item{
-      border-left: none !important;
-      padding-left: 0 !important;
-      height: auto !important;
-    }
-  }
 {%- endstyle -%}
 
 {%- style -%}
@@ -468,6 +459,73 @@
     }
   }
 {%- endstyle -%}
+
+{% style %}
+  /* === GLOBAL Multicolumn Feature responsive tweaks === */
+
+  /* Container: keep things nicely boxed */
+  .multicolumn {
+    padding-inline: 16px;
+  }
+
+  .multicolumn .page-width {
+    max-width: var(--page-width, 1200px);
+    margin-inline: auto;
+  }
+
+  /* Mobile: 1 item per row */
+  @media (max-width: 749.98px) {
+    .multicolumn .button {
+      margin-top: 0rem !important;
+    }
+    .mc-feature__lead {
+      margin-bottom: 3rem;
+    }
+
+    .multicolumn-list:not(.slider) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .multicolumn-list {
+      display: grid !important;
+      grid-template-columns: 1fr !important; /* ✅ 1 item per row */
+      row-gap: 24px;
+    }
+
+    .multicolumn-list__item {
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+    }
+
+    /* Prevent horizontal clipping from sliders */
+    slider-component {
+      overflow: visible !important;
+    }
+  }
+{% endstyle %}
+{% style %}
+  /* Multicolumn Feature — force LEFT border on ALL items (mobile only) */
+  @media (max-width: 749.98px) {
+    /* Target ALL multicolumn-feature lists created by Dawn (their UL ids start with "Slider-") */
+    .multicolumn .mc-feature__cols ul[id^='Slider-'] > li.multicolumn-list__item {
+      border-left: 1px solid var(--mcf-rule, rgb(var(--color-foreground))) !important;
+      padding-left: 8px !important;
+    }
+
+    /* Re-assert for every sibling (beats rules that only style :first-child or remove on siblings) */
+    .multicolumn .mc-feature__cols ul[id^='Slider-'] > li.multicolumn-list__item + li.multicolumn-list__item {
+      border-left: 1px solid var(--mcf-rule, rgb(var(--color-foreground))) !important;
+      padding-left: 8px !important;
+    }
+
+    /* Extra specificity when inside the slider-component wrapper (common in Dawn) */
+    .multicolumn slider-component ul[id^='Slider-'] > li.multicolumn-list__item {
+      border-left: 1px solid var(--mcf-rule, rgb(var(--color-foreground))) !important;
+      padding-left: 8px !important;
+    }
+  }
+{% endstyle %}
 
 {%- liquid
   assign columns_mobile_int = section.settings.columns_mobile | plus: 0
