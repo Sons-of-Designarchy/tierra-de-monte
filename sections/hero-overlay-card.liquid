@@ -137,81 +137,133 @@
   </style>
 
   <style>
-        /* === Neutralize Dawn's full-bleed color-scheme/gradient JUST for this section === */
-        /* The outer wrapper Shopify gives every section */
-        #shopify-section-{{ section.id }} {
-          background: transparent !important;
-          --gradient-background: transparent !important;
-          --color-background: transparent !important;
+            /* === Neutralize Dawn's full-bleed color-scheme/gradient JUST for this section === */
+            /* The outer wrapper Shopify gives every section */
+            #shopify-section-{{ section.id }} {
+              background: transparent !important;
+              --gradient-background: transparent !important;
+              --color-background: transparent !important;
+            }
+
+            /* Any direct child wrapper that Dawn uses to paint background/gradient */
+            #shopify-section-{{ section.id }} > [class^="color-"],
+            #shopify-section-{{ section.id }} > [class*=" color-"],
+            #shopify-section-{{ section.id }} > [class*="gradient"],
+            #shopify-section-{{ section.id }} > .section {
+              background: transparent !important;
+            }
+
+            /* Inner descendants too (some blocks nest an extra wrapper) */
+            #shopify-section-{{ section.id }} [class^="color-"],
+            #shopify-section-{{ section.id }} [class*=" color-"],
+            #shopify-section-{{ section.id }} [class*="gradient"] {
+              background: transparent !important;
+            }
+
+            /* Kill any pseudo-element paints used for the scheme layer */
+            #shopify-section-{{ section.id }} .gradient::before,
+            #shopify-section-{{ section.id }} .section::before,
+            #shopify-section-{{ section.id }}::before,
+            #shopify-section-{{ section.id }}::after {
+              content: none !important;
+              display: none !important;
+              background: transparent !important;
+            }
+
+            /* Keep this hero boxed in the site container */
+            #hero-{{ section.id }} .page-width {
+              max-width: var(--page-width, 120rem);
+              margin-inline: auto;
+            }
+            #hero-{{ section.id }} .tdm-hero__frame {
+              width: 100%;
+              max-width: 100%;
+              margin: 0;            /* avoid fake full-bleed via negative margins */
+              border-radius: var(--tdm-radius);
+              overflow: hidden;
+              position: relative;
+              z-index: 1;           /* sit above any stray scheme layer */
+            }
+
+
+        /* Mobile-only: center the overlay card at the bottom with 8px gutters */
+        @media (max-width: 749.98px) {
+          /* Frame can keep your existing mobile height */
+          #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame {
+            min-height: var(--tdm-min-h-mobile, 55vh);
+            position: relative;
+          }
+
+          /* Override any “bottom-left/right/center-*” presets on mobile */
+          #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card {
+            position: absolute;
+            /* 8px from edges; width fills remaining space */
+            left: 8px !important;
+            right: 8px !important;
+            bottom: 8px !important;
+
+            top: auto !important;            /* kill any center-top variants */
+            transform: none !important;      /* remove translate from center-* */
+            max-width: none !important;      /* allow full width minus gutters */
+            margin: 0 !important;
+          }
+
+          /* Optional: tighten inner spacing a hair on small screens */
+          #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card-inner {
+            border-radius: 12px;
+            padding: clamp(14px, 4vw, var(--tdm-card-pad, 24px));
+          }
         }
 
-        /* Any direct child wrapper that Dawn uses to paint background/gradient */
-        #shopify-section-{{ section.id }} > [class^="color-"],
-        #shopify-section-{{ section.id }} > [class*=" color-"],
-        #shopify-section-{{ section.id }} > [class*="gradient"],
-        #shopify-section-{{ section.id }} > .section {
-          background: transparent !important;
-        }
-
-        /* Inner descendants too (some blocks nest an extra wrapper) */
-        #shopify-section-{{ section.id }} [class^="color-"],
-        #shopify-section-{{ section.id }} [class*=" color-"],
-        #shopify-section-{{ section.id }} [class*="gradient"] {
-          background: transparent !important;
-        }
-
-        /* Kill any pseudo-element paints used for the scheme layer */
-        #shopify-section-{{ section.id }} .gradient::before,
-        #shopify-section-{{ section.id }} .section::before,
-        #shopify-section-{{ section.id }}::before,
-        #shopify-section-{{ section.id }}::after {
-          content: none !important;
-          display: none !important;
-          background: transparent !important;
-        }
-
-        /* Keep this hero boxed in the site container */
-        #hero-{{ section.id }} .page-width {
-          max-width: var(--page-width, 120rem);
-          margin-inline: auto;
-        }
-        #hero-{{ section.id }} .tdm-hero__frame {
-          width: 100%;
-          max-width: 100%;
-          margin: 0;            /* avoid fake full-bleed via negative margins */
-          border-radius: var(--tdm-radius);
-          overflow: hidden;
-          position: relative;
-          z-index: 1;           /* sit above any stray scheme layer */
-        }
-
-
-    /* Mobile-only: center the overlay card at the bottom with 8px gutters */
-    @media (max-width: 749.98px) {
-      /* Frame can keep your existing mobile height */
-      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame {
+        /* ===== Hero overlay: iOS/Chrome(iOS) fix — mobile only ===== */
+    @media (max-width: 749px){
+      /* Use modern viewport units on iOS so the hero height is stable */
+      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame{
+        /* fallback for older browsers */
         min-height: var(--tdm-min-h-mobile, 55vh);
-        position: relative;
+      }
+      /* Prefer small/dynamic viewport on engines that support it (iOS 15+ etc.) */
+      @supports (height: 100svh){
+        #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame{
+          min-height: 55svh;
+        }
+      }
+      @supports (height: 100dvh){
+        #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame{
+          min-height: 55dvh;
+        }
       }
 
-      /* Override any “bottom-left/right/center-*” presets on mobile */
-      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card {
+      /* Center the card at the bottom with 8px white space (safe-area aware) */
+      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card{
         position: absolute;
-        /* 8px from edges; width fills remaining space */
-        left: 8px !important;
-        right: 8px !important;
-        bottom: 8px !important;
-
-        top: auto !important;            /* kill any center-top variants */
-        transform: none !important;      /* remove translate from center-* */
-        max-width: none !important;      /* allow full width minus gutters */
-        margin: 0 !important;
+        left: 50%;
+        right: auto;
+        top: auto;
+        bottom: max(8px, env(safe-area-inset-bottom)); /* handles iPhone notch/home bar */
+        transform: translateX(-50%);
+        width: calc(100% - 16px);          /* 8px on each side */
+        max-width: var(--tdm-card-max, 560px);
+        z-index: 2;
+        inset: auto;                        /* neutralize older bottom-left inset */
       }
 
-      /* Optional: tighten inner spacing a hair on small screens */
-      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card-inner {
-        border-radius: 12px;
-        padding: clamp(14px, 4vw, var(--tdm-card-pad, 24px));
+      /* iOS glass fix: ensure blur renders reliably */
+      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card-inner{
+        background: rgba(255,255,255, var(--tdm-card-opacity, .7));
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        background-clip: padding-box;
+        isolation: isolate;                 /* prevents odd bleed-through on iOS */
+      }
+    }
+
+    /* Extra safety: target iOS WebKit specifically if needed */
+    @supports (-webkit-touch-callout: none){
+      @media (max-width: 749px){
+        #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card{
+          bottom: max(8px, env(safe-area-inset-bottom));
+        }
       }
     }
   </style>
