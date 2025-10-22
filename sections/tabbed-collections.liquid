@@ -434,47 +434,53 @@
   });
 </script>
 <style>
-  /* ===== Tabbed Collections — MOBILE: make product images truly fill the card ===== */
+  /* Tabbed Collections — force product images to fill cards on MOBILE only (Safari & Chrome proof) */
   @media (max-width: 749.98px) {
-    /* 1) Stop the padding-bottom hack so we don't fight two ratio systems */
-    .tabs__panel .card__inner.ratio::before {
-      content: none !important;
-    }
-
-    /* 2) Use a real aspect ratio on the card (square by default). 
-        Change 1/1 to whatever you want, e.g. 4/3 or 3/4 */
+    /* Ensure the ratio wrapper creates height and clips overflow */
     .tabs__panel .card__inner.ratio {
-      aspect-ratio: 1 / 1;
-      height: auto;
       position: relative;
-      overflow: hidden; /* clip overflow cleanly */
+      overflow: hidden;
+    }
+    .tabs__panel .card__inner.ratio::before {
+      content: '';
+      display: block;
+      padding-bottom: var(--ratio-percent, 100%); /* square default; honors inline ratio */
     }
 
-    /* 3) Pin media layers to the box */
+    /* Pin media wrappers to the box edges */
     .tabs__panel .card__inner.ratio > .card__media,
     .tabs__panel .card__inner.ratio > .card__media > .media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      contain: paint; /* iOS/WebKit paint stability */
+      -webkit-backface-visibility: hidden;
+      -webkit-transform: translateZ(0); /* nudge WebKit to size correctly */
+    }
+
+    /* Make the IMG fill and crop correctly */
+    .tabs__panel .card__inner.ratio > .card__media > .media > img {
       position: absolute !important;
       inset: 0 !important;
       display: block !important;
-      width: 100% !important;
-      height: 100% !important;
-      overflow: hidden;
-      contain: paint; /* iOS repaint stability */
-      -webkit-backface-visibility: hidden;
-      -webkit-transform: translateZ(0); /* WebKit nudge to keep sizing correct */
-    }
 
-    /* 4) Make the IMG cover the entire box */
-    .tabs__panel .card__inner.ratio .media > img {
-      position: absolute !important;
-      inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
       max-width: none !important;
+      max-height: none !important;
+
       object-fit: cover !important;
       object-position: center center !important;
-      transform: none !important; /* kill theme hover zoom that can shift layout */
-      -webkit-mask-image: -webkit-radial-gradient(white, black); /* iOS paint fix */
+
+      transform: none !important; /* kill theme hover zoom on mobile */
+      -webkit-mask-image: -webkit-radial-gradient(white, black); /* WebKit repaint fix */
+    }
+
+    /* Safety: if theme adds a hover-effect class, neutralize it on mobile */
+    .tabs__panel .media.media--hover-effect > img {
+      transform: none !important;
     }
   }
 </style>
