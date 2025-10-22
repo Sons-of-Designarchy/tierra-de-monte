@@ -1,7 +1,7 @@
 {% comment %}
   Hero Overlay Card — Container-locked (Dawn 15.4.0)
   - Image is applied as background on the frame to prevent full-bleed
-  - Fixes Dawn color-scheme/gradient layer using correct selectors
+  - Class-only CSS (no IDs) so it’s safe inside the section file
 {% endcomment %}
 
 {% liquid
@@ -10,7 +10,7 @@
   assign card_pos = sec.card_position | default: 'bottom-left'
 %}
 
-<section id="hero-{{ section.id }}" class="tdm-hero">
+<section class="tdm-hero">
   <div class="page-width">
     <div
       class="tdm-hero__frame"
@@ -60,210 +60,120 @@
   </div>
 
   <style>
-      /* Page container guard */
-      #hero-{{ section.id }} .page-width{
-        max-width: var(--page-width, 120rem);
-        margin-inline: auto;
-      }
-
-      /* Frame: rounded + background image locked to container */
-      #hero-{{ section.id }} .tdm-hero__frame{
-        position: relative;
-        width: 100%;
-        min-height: var(--tdm-min-h-desktop);
-        border-radius: var(--tdm-radius);
-        overflow: hidden;
-
-        background-color: var(--color-base-background-1, #f6f4ef);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-      @media (max-width: 749px){
-        #hero-{{ section.id }} .tdm-hero__frame{ min-height: var(--tdm-min-h-mobile); }
-      }
-
-      /* Placeholder if no image */
-      #hero-{{ section.id }} .tdm-hero__placeholder{
-        position:absolute; inset:0;
-        display:flex; align-items:center; justify-content:center;
-        background: rgba(var(--color-foreground), 0.04);
-      }
-
-      /* Overlay card positions */
-      #hero-{{ section.id }} .tdm-hero__card{ position:absolute; inset:auto auto 2rem 2rem; max-width:var(--tdm-card-max); }
-      #hero-{{ section.id }} .tdm-hero__card--top-left{ inset:2rem auto auto 2rem; }
-      #hero-{{ section.id }} .tdm-hero__card--top-right{ inset:2rem 2rem auto auto; }
-      #hero-{{ section.id }} .tdm-hero__card--bottom-right{ inset:auto 2rem 2rem auto; }
-      #hero-{{ section.id }} .tdm-hero__card--center-left{ top:50%; left:2rem; transform:translateY(-50%); }
-      #hero-{{ section.id }} .tdm-hero__card--center-right{ top:50%; right:2rem; left:auto; transform:translateY(-50%); }
-
-      /* Card look */
-    #hero-{{ section.id }} .tdm-hero__card-inner{
-      background: rgba(250, 250, 250, var(--tdm-card-opacity));
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-radius: 12px;
-      padding: var(--tdm-card-pad);
-
-      /* ✅ Centralize color control: white by default, or theme foreground if "text_on_dark" is enabled */
-      color: {% if section.settings.text_on_dark %}rgb(var(--color-foreground)){% else %}#ffffff{% endif %} !important;
-    }
-    #hero-{{ section.id }} .tdm-hero__card--shadow .tdm-hero__card-inner{ box-shadow: 0 8px 24px rgba(0,0,0,.15); }
-    #hero-{{ section.id }} .tdm-hero__card-inner--glass{ background: rgba(255,255,255, var(--tdm-card-opacity)); }
-    #hero-{{ section.id }} .tdm-hero__card-inner--invert{ color: rgb(var(--color-foreground)) !important; }
-
-    /* Type (force inherit so Dawn doesn't paint headings/links green) */
-    #hero-{{ section.id }} .tdm-hero__heading,
-    #hero-{{ section.id }} .tdm-hero__body,
-    #hero-{{ section.id }} .tdm-hero__eyebrow{
-      color: inherit !important;
-    }
-    #hero-{{ section.id }} .tdm-hero__card-inner a:not(.button){
-      color: inherit !important;
-      text-decoration: underline;
-    }
-
-    /* Type sizes */
-    #hero-{{ section.id }} .tdm-hero__eyebrow{ margin:0 0 .25rem; letter-spacing:.04em; opacity:.85; }
-    #hero-{{ section.id }} .tdm-hero__heading{ margin:0 0 .5rem; line-height:1.1; }
-    #hero-{{ section.id }} .tdm-hero__heading--xl{ font-size: clamp(28px, 4vw, 52px); font-weight: 500; }
-    #hero-{{ section.id }} .tdm-hero__heading--lg{ font-size: clamp(26px, 3.2vw, 44px); }
-    #hero-{{ section.id }} .tdm-hero__body{ margin:0 0 1rem; }
-
-    /* Button spacing */
-    #hero-{{ section.id }} .tdm-hero__btn{ margin-top:.25rem; }
-    #hero-{{ section.id }} .tdm-hero__btn--pill{ border-radius: 999px; }
-  </style>
-
-  <style>
-            /* === Neutralize Dawn's full-bleed color-scheme/gradient JUST for this section === */
-            /* The outer wrapper Shopify gives every section */
-            #shopify-section-{{ section.id }} {
-              background: transparent !important;
-              --gradient-background: transparent !important;
-              --color-background: transparent !important;
-            }
-
-            /* Any direct child wrapper that Dawn uses to paint background/gradient */
-            #shopify-section-{{ section.id }} > [class^="color-"],
-            #shopify-section-{{ section.id }} > [class*=" color-"],
-            #shopify-section-{{ section.id }} > [class*="gradient"],
-            #shopify-section-{{ section.id }} > .section {
-              background: transparent !important;
-            }
-
-            /* Inner descendants too (some blocks nest an extra wrapper) */
-            #shopify-section-{{ section.id }} [class^="color-"],
-            #shopify-section-{{ section.id }} [class*=" color-"],
-            #shopify-section-{{ section.id }} [class*="gradient"] {
-              background: transparent !important;
-            }
-
-            /* Kill any pseudo-element paints used for the scheme layer */
-            #shopify-section-{{ section.id }} .gradient::before,
-            #shopify-section-{{ section.id }} .section::before,
-            #shopify-section-{{ section.id }}::before,
-            #shopify-section-{{ section.id }}::after {
-              content: none !important;
-              display: none !important;
-              background: transparent !important;
-            }
-
-            /* Keep this hero boxed in the site container */
-            #hero-{{ section.id }} .page-width {
+            /* ===== Base: container + frame (class-scoped only) ===== */
+            .tdm-hero .page-width{
               max-width: var(--page-width, 120rem);
               margin-inline: auto;
             }
-            #hero-{{ section.id }} .tdm-hero__frame {
+            .tdm-hero .tdm-hero__frame{
+              position: relative;
               width: 100%;
-              max-width: 100%;
-              margin: 0;            /* avoid fake full-bleed via negative margins */
+              min-height: var(--tdm-min-h-desktop);
               border-radius: var(--tdm-radius);
               overflow: hidden;
-              position: relative;
-              z-index: 1;           /* sit above any stray scheme layer */
+              background-color: var(--color-base-background-1, #f6f4ef);
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+              z-index: 1; /* sit above any stray scheme layer */
+            }
+            @media (max-width: 749px){
+              .tdm-hero .tdm-hero__frame{ min-height: var(--tdm-min-h-mobile); }
             }
 
+            /* Placeholder */
+            .tdm-hero .tdm-hero__placeholder{
+              position:absolute; inset:0;
+              display:flex; align-items:center; justify-content:center;
+              background: rgba(var(--color-foreground), 0.04);
+            }
 
-        /* Mobile-only: center the overlay card at the bottom with 8px gutters */
-        @media (max-width: 749.98px) {
-          /* Frame can keep your existing mobile height */
-          #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame {
-            min-height: var(--tdm-min-h-mobile, 55vh);
-            position: relative;
-          }
+            /* ===== Overlay card positions (desktop/tablet presets) ===== */
+            @media (min-width: 750px){
+              .tdm-hero .tdm-hero__card{ position:absolute; inset:auto auto 2rem 2rem; max-width:var(--tdm-card-max); }
+              .tdm-hero .tdm-hero__card--top-left{ inset:2rem auto auto 2rem; }
+              .tdm-hero .tdm-hero__card--top-right{ inset:2rem 2rem auto auto; }
+              .tdm-hero .tdm-hero__card--bottom-right{ inset:auto 2rem 2rem auto; }
+              .tdm-hero .tdm-hero__card--center-left{ top:50%; left:2rem; transform:translateY(-50%); }
+              .tdm-hero .tdm-hero__card--center-right{ top:50%; right:2rem; left:auto; transform:translateY(-50%); }
+            }
 
-          /* Override any “bottom-left/right/center-*” presets on mobile */
-          #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card {
-            position: absolute;
-            /* 8px from edges; width fills remaining space */
-            left: 8px !important;
-            right: 8px !important;
-            bottom: 8px !important;
+            /* ===== Card look ===== */
+            .tdm-hero .tdm-hero__card-inner{
+              background: rgba(250, 250, 250, var(--tdm-card-opacity));
+              -webkit-backdrop-filter: blur(6px);
+              backdrop-filter: blur(6px);
+              border-radius: 12px;
+              padding: var(--tdm-card-pad);
+              color: {% if section.settings.text_on_dark %}rgb(var(--color-foreground)){% else %}#ffffff{% endif %} !important;
+            }
+            .tdm-hero .tdm-hero__card--shadow .tdm-hero__card-inner{ box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+            .tdm-hero .tdm-hero__card-inner--glass{ background: rgba(255,255,255, var(--tdm-card-opacity)); }
+            .tdm-hero .tdm-hero__card-inner--invert{ color: rgb(var(--color-foreground)) !important; }
 
-            top: auto !important;            /* kill any center-top variants */
-            transform: none !important;      /* remove translate from center-* */
-            max-width: none !important;      /* allow full width minus gutters */
-            margin: 0 !important;
-          }
+            /* Type (force inherit so Dawn doesn’t recolor) */
+            .tdm-hero .tdm-hero__heading,
+            .tdm-hero .tdm-hero__body,
+            .tdm-hero .tdm-hero__eyebrow{ color: inherit !important; }
+            .tdm-hero .tdm-hero__card-inner a:not(.button){
+              color: inherit !important; text-decoration: underline;
+            }
 
-          /* Optional: tighten inner spacing a hair on small screens */
-          #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card-inner {
-            border-radius: 12px;
-            padding: clamp(14px, 4vw, var(--tdm-card-pad, 24px));
-          }
-        }
+            /* Type sizes + spacing */
+            .tdm-hero .tdm-hero__eyebrow{ margin:0 0 .25rem; letter-spacing:.04em; opacity:.85; }
+            .tdm-hero .tdm-hero__heading{ margin:0 0 .5rem; line-height:1.1; }
+            .tdm-hero .tdm-hero__heading--xl{ font-size: clamp(28px, 4vw, 52px); font-weight: 500; }
+            .tdm-hero .tdm-hero__heading--lg{ font-size: clamp(26px, 3.2vw, 44px); }
+            .tdm-hero .tdm-hero__body{ margin:0 0 1rem; }
+            .tdm-hero .tdm-hero__btn{ margin-top:.25rem; }
+            .tdm-hero .tdm-hero__btn--pill{ border-radius: 999px; }
 
-        /* ===== Hero overlay: iOS/Chrome(iOS) fix — mobile only ===== */
-    @media (max-width: 749px){
-      /* Use modern viewport units on iOS so the hero height is stable */
-      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame{
-        /* fallback for older browsers */
+            /* ===== Neutralize Dawn’s color-scheme/gradient just inside this hero ===== */
+            .tdm-hero,
+            .tdm-hero [class^="color-"],
+            .tdm-hero [class*=" color-"],
+            .tdm-hero [class*="gradient"]{ background: transparent !important; }
+            .tdm-hero .gradient::before,
+            .tdm-hero .section::before{ content:none !important; display:none !important; }
+
+          /* ===== MOBILE (≤ 749.98px): improved bottom layout with 8px gap ===== */
+    @media (max-width: 749.98px){
+      /* Maintain consistent hero height */
+      .tdm-hero .tdm-hero__frame{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* push card to bottom */
+        align-items: center;
         min-height: var(--tdm-min-h-mobile, 55vh);
+        padding: 0 8px max(8px, env(safe-area-inset-bottom)); /* side + bottom space */
+        box-sizing: border-box;
       }
-      /* Prefer small/dynamic viewport on engines that support it (iOS 15+ etc.) */
       @supports (height: 100svh){
-        #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame{
-          min-height: 55svh;
-        }
+        .tdm-hero .tdm-hero__frame{ min-height: 55svh; }
       }
       @supports (height: 100dvh){
-        #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__frame{
-          min-height: 55dvh;
-        }
+        .tdm-hero .tdm-hero__frame{ min-height: 55dvh; }
       }
 
-      /* Center the card at the bottom with 8px white space (safe-area aware) */
-      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card{
-        position: absolute;
-        left: 50%;
-        right: auto;
-        top: auto;
-        bottom: max(8px, env(safe-area-inset-bottom)); /* handles iPhone notch/home bar */
-        transform: translateX(-50%);
-        width: calc(100% - 16px);          /* 8px on each side */
+      /* Card: natural flow, full width with nice gutters */
+      .tdm-hero .tdm-hero__card{
+        position: relative !important;
+        inset: auto !important;
+        transform: none !important;
+        width: 100%;
         max-width: var(--tdm-card-max, 560px);
+        margin: 0 auto; /* center horizontally */
         z-index: 2;
-        inset: auto;                        /* neutralize older bottom-left inset */
       }
 
-      /* iOS glass fix: ensure blur renders reliably */
-      #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card-inner{
+      /* Inner card adjustments: tighter padding + reliable blur */
+      .tdm-hero .tdm-hero__card-inner{
+        padding: clamp(14px, 4vw, var(--tdm-card-pad, 24px));
         background: rgba(255,255,255, var(--tdm-card-opacity, .7));
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
         background-clip: padding-box;
-        isolation: isolate;                 /* prevents odd bleed-through on iOS */
-      }
-    }
-
-    /* Extra safety: target iOS WebKit specifically if needed */
-    @supports (-webkit-touch-callout: none){
-      @media (max-width: 749px){
-        #hero-template--25297298260270__hero_overlay_card_AxX4Gc .tdm-hero__card{
-          bottom: max(8px, env(safe-area-inset-bottom));
-        }
+        isolation: isolate;
       }
     }
   </style>
