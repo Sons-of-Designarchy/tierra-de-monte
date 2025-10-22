@@ -28,12 +28,11 @@
     letter-spacing: .12em;
     text-transform: uppercase;
     opacity:.8;
+      margin-bottom: 4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(var(--color-foreground, 0, 0, 0));
   }
-  #shopify-section-{{ section.id }} .mc-eyebrow__rule {
-    width: 100%; max-width: 520px; height: 2px;
-    background: {{ section.settings.rule_color }};
-    margin-top: 8px;
-  }
+
   #shopify-section-{{ section.id }} .mc-heading { margin: 0; }
   #shopify-section-{{ section.id }} .mc-desc { color: rgb(var(--color-foreground), .8); }
   #shopify-section-{{ section.id }} .mc-cta-wrap { margin-top: 8px; }
@@ -131,18 +130,17 @@
       data-cascade
     {% endif %}
   >
+    {% if section.settings.pretitle != blank %}
+      <div class="mc-eyebrow">
+        {{ section.settings.pretitle }}
+        {% if section.settings.show_rule %}
+          <div class="mc-eyebrow__rule" aria-hidden="true"></div>
+        {% endif %}
+      </div>
+    {% endif %}
     <div class="mc-feature__grid">
       <!-- Left: Eyebrow + Title + Description + CTA -->
       <div class="mc-feature__lead">
-        {% if section.settings.pretitle != blank %}
-          <div class="mc-eyebrow">
-            {{ section.settings.pretitle }}
-            {% if section.settings.show_rule %}
-              <div class="mc-eyebrow__rule" aria-hidden="true"></div>
-            {% endif %}
-          </div>
-        {% endif %}
-
         {% if section.settings.title != blank %}
           <h2 class="mc-heading {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
         {% endif %}
