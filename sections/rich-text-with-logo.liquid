@@ -87,6 +87,53 @@
   }
 {%- endstyle -%}
 
+{%- style -%}
+  /* CASA SODA TABLET */
+  @media only screen and (min-width: 750px) and (max-width: 989px) {
+    .hxl {
+      font-size: calc(var(--font-heading-scale) * 4.2rem);
+    }
+    /* Fallback first: flex for very old browsers */
+    .section--multicolumn-custom .multicolumn-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px; /* tweak if you want tighter spacing */
+    }
+    .section--multicolumn-custom .multicolumn-list__item {
+      /* 3 in a row with gap accounted for */
+      flex: 1 1 calc((100% - 2 * 24px) / 3);
+      max-width: calc((100% - 2 * 24px) / 3);
+      width: auto;
+    }
+
+    /* Modern path: prefer CSS Grid when available */
+    @supports (display: grid) {
+      .section--multicolumn-custom .multicolumn-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+      .section--multicolumn-custom .multicolumn-list__item {
+        flex: none; /* neutralize flex fallback */
+        max-width: none;
+      }
+    }
+
+    /* Neutralize mobile-slider behavior on tablet */
+    .section--multicolumn-custom slider-component {
+      overflow: visible; /* avoid clipping */
+    }
+    .section--multicolumn-custom slider-component ul {
+      scroll-snap-type: none; /* stop snap scrolling on tablet */
+    }
+
+    /* If Dawn utilities still force 1-col, override them here */
+    .section--multicolumn-custom .grid--1-col-tablet-down {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+  }
+{%- endstyle -%}
+
 {%- liquid
   assign align_class = section.settings.text_alignment | prepend: 'rt--align-'
   assign width_class = 'rt--' | append: section.settings.content_width
