@@ -594,3 +594,45 @@
     clip-path: polygon(var(--shape--blob-5));
   }
 }
+/* ==== Tabbed Collections: mobile-only image fill (Chrome/Safari proof) ==== */
+@media (max-width: 749.98px){
+
+  /* Scope to any tabbed-collections section */
+  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio{
+    position: relative;              /* anchor absolute children */
+  }
+  /* Create the aspect box (uses Dawn’s --ratio-percent) */
+  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio::before{
+    content:"";
+    display:block;
+    padding-bottom: var(--ratio-percent, 100%);
+  }
+
+  /* Pin media to the box edges (two-level wrapper in Dawn) */
+  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media,
+  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media > .media{
+    position:absolute;
+    inset:0;
+  }
+
+  /* Make the <img> actually cover the area */
+  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio .media > img{
+    display:block;                   /* kill baseline gap (Safari) */
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center;
+    -webkit-transform: translateZ(0); /* iOS paint stability */
+  }
+
+  /* Neutralize Dawn’s hover zoom so layout doesn’t shift on iOS */
+  [id$="__tabs-collections"] .tabs__panel .media.media--hover-effect > img{
+    transform:none !important;
+  }
+
+  /* Extra WebKit stability */
+  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media{
+    contain: paint;
+    -webkit-backface-visibility:hidden;
+  }
+}
