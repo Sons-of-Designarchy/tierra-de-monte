@@ -65,7 +65,25 @@
 
   /* heading line-height */
   #shopify-section-{{ section.id }} .rt__heading {
-    line-height: 69px;
+    line-height: 108%;
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  /* === Rich text with logo — consistent logo sizing across browsers === */
+  #shopify-section-{{ section.id }}{
+    /* Pull the editor value into a CSS custom prop (fallback 160px) */
+    --rt-logo-w: {{ section.settings.logo_width | default: 160 }}px;
+  }
+
+  /* Force the IMG to that width everywhere */
+  #shopify-section-{{ section.id }} .rt__logo-img{
+    display: block;              /* no inline gaps */
+    width: clamp(40px, var(--rt-logo-w), 100%);  /* exact editor width, but never overflow container */
+    height: auto;                /* keep aspect ratio */
+    max-width: 100%;             /* safety on very narrow screens */
+    object-fit: contain;         /* SVG/raster both safe */
+    line-height: 0;              /* avoid stray descender space on some browsers */
   }
 {%- endstyle -%}
 
@@ -86,7 +104,7 @@
         <div class="rt__logo">
           {{-
             section.settings.logo
-            | image_url: width: 800
+            | image_url: width: 1100
             | image_tag: alt: rt_logo_alt, loading: 'lazy', class: 'rt__logo-img'
           -}}
         </div>
