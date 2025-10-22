@@ -483,4 +483,46 @@
       transform: none !important;
     }
   }
+
+  /* ==== Tabbed-collections: mobile image fill (order-proof, WebKit-proof) ==== */
+  @media (max-width: 749.98px) {
+    /* 1) Make the ratio box real height even when tab toggles */
+    [id$='__tabs-collections'] .card__inner.ratio {
+      position: relative !important;
+      aspect-ratio: 1 / 1 !important; /* fallback instead of ::before */
+      min-height: 0 !important;
+    }
+    /* optional: if you prefer the theme’s dynamic ratio, keep both */
+    [id$='__tabs-collections'] .card__inner.ratio::before {
+      content: '';
+      display: block;
+      padding-bottom: var(--ratio-percent, 100%);
+    }
+
+    /* 2) Pin media to the box */
+    [id$='__tabs-collections'] .card__inner.ratio > .card__media,
+    [id$='__tabs-collections'] .card__inner.ratio > .card__media > .media {
+      position: absolute !important;
+      inset: 0 !important;
+    }
+
+    /* 3) Make the img truly cover */
+    [id$='__tabs-collections'] .card__inner.ratio .media > img {
+      display: block !important; /* kills baseline gap on Safari */
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      transform: none !important; /* neutralize hover zoom */
+      -webkit-transform: translateZ(0); /* WebKit paint stability */
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* 4) Extra guard: avoid layout glitches on iOS */
+    [id$='__tabs-collections'] .card__inner.ratio > .card__media {
+      contain: paint;
+      will-change: transform;
+    }
+  }
 </style>
