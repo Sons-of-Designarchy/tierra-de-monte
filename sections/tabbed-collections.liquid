@@ -90,265 +90,317 @@
 </section>
 
 <style>
-          /* Section spacing */
-          #tabbed-collections-{{ section.id }} {
-            --tc-border: rgba(var(--color-foreground), .25);
-            --tc-active-bg: #dfeadf;
-            --tc-dot: #2fb673;
-            --tc-gap: 12px;
-            padding-top: 80px;
-            padding-bottom: 80px;
-          }
+            /* Section spacing */
+            #tabbed-collections-{{ section.id }} {
+              --tc-border: rgba(var(--color-foreground), .25);
+              --tc-active-bg: #dfeadf;
+              --tc-dot: #2fb673;
+              --tc-gap: 12px;
+              padding-top: 80px;
+              padding-bottom: 80px;
+            }
 
-          /* Headings + subtitle centered */
-          #tabbed-collections-{{ section.id }} .caption-with-letter-spacing,
-          #tabbed-collections-{{ section.id }} .h1,
-          #tabbed-collections-{{ section.id }} .subtitle {
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-          }
-          #tabbed-collections-{{ section.id }} .h1 { margin: .5rem 0 0; }
-          #tabbed-collections-{{ section.id }} .subtitle { margin: .5rem 0 2.25rem; opacity: .9; }
+            /* Headings + subtitle centered */
+            #tabbed-collections-{{ section.id }} .caption-with-letter-spacing,
+            #tabbed-collections-{{ section.id }} .h1,
+            #tabbed-collections-{{ section.id }} .subtitle {
+              text-align: center;
+              margin-left: auto;
+              margin-right: auto;
+            }
+            #tabbed-collections-{{ section.id }} .h1 { margin: .5rem 0 0; }
+            #tabbed-collections-{{ section.id }} .subtitle { margin: .5rem 0 2.25rem; opacity: .9; }
 
-          /* ===== Tabs row: full-width responsive grid ===== */
+            /* ===== Tabs row: full-width responsive grid ===== */
+            #tabbed-collections-{{ section.id }} .tabs__list{
+              display: grid !important;                /* kill old flex rules */
+              width: 100%;
+              gap: var(--tc-gap);
+              margin: 2rem 0 2rem;
+              grid-template-columns: repeat(2, minmax(0, 1fr));     /* mobile */
+            }
+            @media (min-width: 750px){
+              #tabbed-collections-{{ section.id }} .tabs__list{
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+              }
+            }
+            @media (min-width: 990px){
+              #tabbed-collections-{{ section.id }} .tabs__list{
+                grid-template-columns: repeat(6, minmax(0, 1fr));   /* 6 tabs across */
+              }
+            }
+
+            /* Pill buttons */
+            #tabbed-collections-{{ section.id }} .tabs__tab{
+              width: 100%;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              gap: .55rem;
+              border: 1px solid var(--tc-border);
+              border-radius: 4px;
+              background: #f7f3ee;
+              padding: .65rem .95rem;
+              line-height: 1;
+              cursor: pointer;
+              transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+            }
+            #tabbed-collections-{{ section.id }} .tabs__tab:hover{
+              background: rgba(var(--color-foreground), .05);
+            }
+            #tabbed-collections-{{ section.id }} .tabs__tab.is-active{
+              background: #E4E7C3;
+              border-color: #E4E7C3;
+              color: #1F4D37;
+
+              box-shadow: inset 0 -1px 0 rgba(0,0,0,.06);
+            }
+
+            /* Icon / dot */
+            #tabbed-collections-{{ section.id }} .tabs__icon-img{ width:18px; height:18px; object-fit:contain; flex:0 0 auto; }
+            #tabbed-collections-{{ section.id }} .tabs__label{ white-space:nowrap; }
+            #tabbed-collections-{{ section.id }} .tabs__dot{ width:.9rem; height:.9rem; border-radius:50%; background: var(--tc-dot); flex:0 0 auto; }
+
+            /* Panels */
+            #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{ display:none !important; margin: 2.25rem 0 2.25rem; }
+
+            /* Product grid + CTA */
+            #tabbed-collections-{{ section.id }} .grid__item { margin-bottom: 1.25rem; }
+            #tabbed-collections-{{ section.id }} .center { text-align: center; }
+            #tabbed-collections-{{ section.id }} .tc__cta{ border-radius: 999px; padding: .6rem 1.1rem; }
+            #tabbed-collections-{{ section.id }} .badge { border-radius: 999px; }
+
+
+            /* === Fix long labels + fill full width === */
+
+          /* Make the row auto-fit without empty space on the right */
           #tabbed-collections-{{ section.id }} .tabs__list{
-            display: grid !important;                /* kill old flex rules */
+            display: grid !important;
             width: 100%;
-            gap: var(--tc-gap);
-            margin: 2rem 0 2rem;
-            grid-template-columns: repeat(2, minmax(0, 1fr));     /* mobile */
+            gap: 12px;
+            /* auto-fit packs as many columns as fit; remaining space is redistributed so no right gap */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           }
-          @media (min-width: 750px){
+
+          /* Optional: on very wide screens, allow slightly wider cells */
+          @media (min-width: 1200px){
             #tabbed-collections-{{ section.id }} .tabs__list{
-              grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-          }
-          @media (min-width: 990px){
-            #tabbed-collections-{{ section.id }} .tabs__list{
-              grid-template-columns: repeat(6, minmax(0, 1fr));   /* 6 tabs across */
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
           }
 
-          /* Pill buttons */
+          /* Buttons: allow content to wrap inside the cell */
           #tabbed-collections-{{ section.id }} .tabs__tab{
             width: 100%;
+            min-height: 35px;
+            min-width: 0;              /* allow children to shrink */
+            padding: .7rem 1rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: .55rem;
-            border: 1px solid var(--tc-border);
-            border-radius: 4px;
-            background: #f7f3ee;
-            padding: .65rem .95rem;
-            line-height: 1;
-            cursor: pointer;
-            transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
-          }
-          #tabbed-collections-{{ section.id }} .tabs__tab:hover{
-            background: rgba(var(--color-foreground), .05);
-          }
-          #tabbed-collections-{{ section.id }} .tabs__tab.is-active{
-            background: #E4E7C3;
-            border-color: #E4E7C3;
-            color: #1F4D37;
-
-            box-shadow: inset 0 -1px 0 rgba(0,0,0,.06);
+            text-align: center;
           }
 
-          /* Icon / dot */
-          #tabbed-collections-{{ section.id }} .tabs__icon-img{ width:18px; height:18px; object-fit:contain; flex:0 0 auto; }
-          #tabbed-collections-{{ section.id }} .tabs__label{ white-space:nowrap; }
-          #tabbed-collections-{{ section.id }} .tabs__dot{ width:.9rem; height:.9rem; border-radius:50%; background: var(--tc-dot); flex:0 0 auto; }
+          /* Label: wrap + break long words if needed */
+          #tabbed-collections-{{ section.id }} .tabs__label{
+            white-space: normal;        /* was nowrap */
+            overflow-wrap: anywhere;    /* break very long words */
+            word-break: break-word;
+            line-height: 1.2;
+            min-width: 0;               /* avoid overflow in flex */
+          }
 
-          /* Panels */
-          #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{ display:none !important; margin: 2.25rem 0 2.25rem; }
-
-          /* Product grid + CTA */
-          #tabbed-collections-{{ section.id }} .grid__item { margin-bottom: 1.25rem; }
-          #tabbed-collections-{{ section.id }} .center { text-align: center; }
-          #tabbed-collections-{{ section.id }} .tc__cta{ border-radius: 999px; padding: .6rem 1.1rem; }
-          #tabbed-collections-{{ section.id }} .badge { border-radius: 999px; }
+          /* Keep icons tidy */
+          #tabbed-collections-{{ section.id }} .tabs__icon-img{ width: 18px; height: 18px; flex: 0 0 auto; }
 
 
-          /* === Fix long labels + fill full width === */
+        /* Mobiletesting */
 
-        /* Make the row auto-fit without empty space on the right */
-        #tabbed-collections-{{ section.id }} .tabs__list{
-          display: grid !important;
-          width: 100%;
-          gap: 12px;
-          /* auto-fit packs as many columns as fit; remaining space is redistributed so no right gap */
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        }
+        /* Mobile-only: make tabs a horizontal scroller */
+        @media (max-width: 749.98px) {
+          /* Row becomes a flex, no wrapping, scrollable */
+          #tabbed-collections-template--25297298260270__tabs-collections .tabs__list {
+            display: flex !important;        /* override grid */
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            gap: 10px;                        /* spacing between pills */
+            padding: 0 12px;                  /* gutters so first/last aren't glued to edges */
+            margin: 1rem 0 1.25rem;
+            scroll-snap-type: x proximity;    /* nice snap on swipe */
+          }
 
-        /* Optional: on very wide screens, allow slightly wider cells */
-        @media (min-width: 1200px){
-          #tabbed-collections-{{ section.id }} .tabs__list{
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          /* Each tab is an inline pill that doesn’t shrink */
+          #tabbed-collections-template--25297298260270__tabs-collections .tabs__tab {
+            flex: 0 0 auto;                   /* keeps natural width; no shrinking */
+            white-space: nowrap;              /* single-line label inside */
+            min-height: 40px;
+            scroll-snap-align: start;
+          }
+
+          /* Optional: lighten scrollbars (WebKit) */
+          #tabbed-collections-template--25297298260270__tabs-collections .tabs__list::-webkit-scrollbar {
+            height: 6px;
+          }
+          #tabbed-collections-template--25297298260270__tabs-collections .tabs__list::-webkit-scrollbar-thumb {
+            background: rgba(var(--color-foreground), .25);
+            border-radius: 999px;
           }
         }
 
-        /* Buttons: allow content to wrap inside the cell */
-        #tabbed-collections-{{ section.id }} .tabs__tab{
-          width: 100%;
-          min-height: 35px;
-          min-width: 0;              /* allow children to shrink */
-          padding: .7rem 1rem;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: .55rem;
-          text-align: center;
-        }
-
-        /* Label: wrap + break long words if needed */
-        #tabbed-collections-{{ section.id }} .tabs__label{
-          white-space: normal;        /* was nowrap */
-          overflow-wrap: anywhere;    /* break very long words */
-          word-break: break-word;
-          line-height: 1.2;
-          min-width: 0;               /* avoid overflow in flex */
-        }
-
-        /* Keep icons tidy */
-        #tabbed-collections-{{ section.id }} .tabs__icon-img{ width: 18px; height: 18px; flex: 0 0 auto; }
-
-
-      /* Mobiletesting */
-
-      /* Mobile-only: make tabs a horizontal scroller */
+        /* Mobile: 2 items per row inside tab panels */
       @media (max-width: 749.98px) {
-        /* Row becomes a flex, no wrapping, scrollable */
-        #tabbed-collections-template--25297298260270__tabs-collections .tabs__list {
-          display: flex !important;        /* override grid */
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          overflow-y: hidden;
-          -webkit-overflow-scrolling: touch;
-          gap: 10px;                        /* spacing between pills */
-          padding: 0 12px;                  /* gutters so first/last aren't glued to edges */
-          margin: 1rem 0 1.25rem;
-          scroll-snap-type: x proximity;    /* nice snap on swipe */
+        #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .grid {
+          display: grid !important;                 /* override Dawn's flex/grid utils */
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          column-gap: 24px;
+          row-gap: 24px;
         }
-
-        /* Each tab is an inline pill that doesn’t shrink */
-        #tabbed-collections-template--25297298260270__tabs-collections .tabs__tab {
-          flex: 0 0 auto;                   /* keeps natural width; no shrinking */
-          white-space: nowrap;              /* single-line label inside */
-          min-height: 40px;
-          scroll-snap-align: start;
+        /* Let items fill their grid cell */
+        #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .grid__item {
+          width: auto !important;
+          max-width: none !important;
+          margin: 0 !important;                     /* remove any theme margins */
         }
-
-        /* Optional: lighten scrollbars (WebKit) */
-        #tabbed-collections-template--25297298260270__tabs-collections .tabs__list::-webkit-scrollbar {
-          height: 6px;
-        }
-        #tabbed-collections-template--25297298260270__tabs-collections .tabs__list::-webkit-scrollbar-thumb {
-          background: rgba(var(--color-foreground), .25);
-          border-radius: 999px;
+        /* Make each card stretch nicely */
+        #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .card,
+        #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .card__inner,
+        #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .card__content {
+          height: 100%;
         }
       }
 
-      /* Mobile: 2 items per row inside tab panels */
-    @media (max-width: 749.98px) {
-      #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .grid {
-        display: grid !important;                 /* override Dawn's flex/grid utils */
+
+
+
+
+
+
+      /* ===== Tabbed Collections — MOBILE ONLY (Safari/Chrome iOS hardening) ===== */
+    /* Target the exact section AND also any future tabbed-collections section */
+    @media (max-width: 749.98px){
+      /* Safer selector that matches your current ID and any future clones */
+      #tabbed-collections-template--25134170800430__tabs-collections .tabs__list,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__list{
+        display: flex !important;          /* override grid */
+        flex-wrap: nowrap;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 10px;
+        padding: 0 12px;                    /* 8–12px gutters look good with hero */
+        margin: 1rem 0 1.25rem;
+        scroll-snap-type: x proximity;      /* optional snap */
+      }
+
+      /* Pills don’t shrink */
+      #tabbed-collections-template--25134170800430__tabs-collections .tabs__tab,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__tab{
+        flex: 0 0 auto;
+        white-space: nowrap;
+        min-height: 40px;
+        scroll-snap-align: start;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Panels: only show active; add small side gutters */
+      #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel{
+        padding-inline: 8px;
+      }
+      #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel.is-hidden,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel.is-hidden{
+        display: none !important;
+      }
+
+      /* Product grid inside panels: 2-up on phones */
+      #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel .grid,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel .grid{
+        display: grid !important;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         column-gap: 24px;
         row-gap: 24px;
       }
-      /* Let items fill their grid cell */
-      #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .grid__item {
+      #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel .grid__item,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel .grid__item{
         width: auto !important;
         max-width: none !important;
-        margin: 0 !important;                     /* remove any theme margins */
+        margin: 0 !important;
       }
-      /* Make each card stretch nicely */
-      #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .card,
-      #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .card__inner,
-      #tabbed-collections-template--25297298260270__tabs-collections .tabs__panel .card__content {
-        height: 100%;
+
+      /* iOS image/ratio quirks */
+      #tabbed-collections-template--25134170800430__tabs-collections .card__media,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .card__media{
+        transform: none !important;
+        will-change: auto !important;
+        contain: paint;
+      }
+      #tabbed-collections-template--25134170800430__tabs-collections .media > img,
+      [id^="tabbed-collections-template--"][id$="__tabs-collections"] .media > img{
+        width: 100% !important;
+        height: auto !important;
+        object-fit: cover !important;
       }
     }
 
+    /* Optional: hide the horizontal scrollbar track on WebKit without disabling scroll */
+    #tabbed-collections-template--25134170800430__tabs-collections .tabs__list::-webkit-scrollbar,
+    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__list::-webkit-scrollbar{
+      height: 0;
+    }
+    /* === Tabbed Collections: fix product card images === */
+  /* Scope to tab panels only (no IDs) */
+  .tabs__panel .card__inner.ratio,
+  .tabs__panel .card--media .card__inner.ratio {
+    position: relative; /* ensure ratio container is the positioning context */
+  }
 
+  /* The media wrapper should fill the ratio box */
+  .tabs__panel .card__media .media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
 
+  /* CRITICAL: let the image actually cover the container */
+  .tabs__panel .card__media .media > img {
+    position: absolute;          /* anchor inside ratio box */
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;     /* override any "height: auto" from earlier */
+    object-fit: cover !important;
+    object-position: center center; /* tweak per product if needed */
+    transform: none !important;  /* neutralize hover-effect scaling on mobile */
+  }
 
+  /* Optional: if Dawn’s hover effect is fighting you on desktop */
+  @media (hover: hover) {
+    .tabs__panel .media--hover-effect > img {
+      transition: transform .25s ease;  /* keep a gentle hover */
+    }
+  }
 
+  /* If you see letterboxing from transparent media wrapper, make it solid */
+  .tabs__panel .media.media--transparent {
+    background-color: transparent; /* or set a color if you want a backdrop */
+  }
 
-
-    /* ===== Tabbed Collections — MOBILE ONLY (Safari/Chrome iOS hardening) ===== */
-  /* Target the exact section AND also any future tabbed-collections section */
+  /* Keep ratio integrity on very small screens (2-up grid) */
   @media (max-width: 749.98px){
-    /* Safer selector that matches your current ID and any future clones */
-    #tabbed-collections-template--25134170800430__tabs-collections .tabs__list,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__list{
-      display: flex !important;          /* override grid */
-      flex-wrap: nowrap;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      -webkit-overflow-scrolling: touch;
-      gap: 10px;
-      padding: 0 12px;                    /* 8–12px gutters look good with hero */
-      margin: 1rem 0 1.25rem;
-      scroll-snap-type: x proximity;      /* optional snap */
-    }
-
-    /* Pills don’t shrink */
-    #tabbed-collections-template--25134170800430__tabs-collections .tabs__tab,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__tab{
-      flex: 0 0 auto;
-      white-space: nowrap;
-      min-height: 40px;
-      scroll-snap-align: start;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Panels: only show active; add small side gutters */
-    #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel{
-      padding-inline: 8px;
-    }
-    #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel.is-hidden,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel.is-hidden{
-      display: none !important;
-    }
-
-    /* Product grid inside panels: 2-up on phones */
-    #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel .grid,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel .grid{
+    .tabs__panel .grid {
       display: grid !important;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       column-gap: 24px;
       row-gap: 24px;
     }
-    #tabbed-collections-template--25134170800430__tabs-collections .tabs__panel .grid__item,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__panel .grid__item{
+    .tabs__panel .grid__item {
       width: auto !important;
       max-width: none !important;
       margin: 0 !important;
     }
-
-    /* iOS image/ratio quirks */
-    #tabbed-collections-template--25134170800430__tabs-collections .card__media,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .card__media{
-      transform: none !important;
-      will-change: auto !important;
-      contain: paint;
-    }
-    #tabbed-collections-template--25134170800430__tabs-collections .media > img,
-    [id^="tabbed-collections-template--"][id$="__tabs-collections"] .media > img{
-      width: 100% !important;
-      height: auto !important;
-      object-fit: cover !important;
-    }
-  }
-
-  /* Optional: hide the horizontal scrollbar track on WebKit without disabling scroll */
-  #tabbed-collections-template--25134170800430__tabs-collections .tabs__list::-webkit-scrollbar,
-  [id^="tabbed-collections-template--"][id$="__tabs-collections"] .tabs__list::-webkit-scrollbar{
-    height: 0;
   }
 </style>
 
