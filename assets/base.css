@@ -1422,6 +1422,9 @@ summary::-webkit-details-marker {
 }
 
 @media screen and (max-width: 749px) {
+  .grid {
+    margin-bottom: 4rem;
+  }
   .grid--peek.slider--mobile {
     margin: 0;
     width: 100%;
