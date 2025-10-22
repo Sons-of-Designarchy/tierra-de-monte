@@ -477,128 +477,160 @@
 </script>
 
 <style>
-        /* ====== Tabbed Collections base styles ====== */
-        #tabbed-collections-{{ section.id }}{
-          --tc-border: rgba(var(--color-foreground), .25);
-          --tc-dot: #2fb673;
-          --tc-gap: 12px;
-          padding-top: 80px;
-          padding-bottom: 80px;
-        }
-        #tabbed-collections-{{ section.id }} .caption-with-letter-spacing,
-        #tabbed-collections-{{ section.id }} .h1,
-        #tabbed-collections-{{ section.id }} .subtitle{
-          text-align:center; margin-left:auto; margin-right:auto;
-        }
-        #tabbed-collections-{{ section.id }} .h1{ margin:.5rem 0 0; }
-        #tabbed-collections-{{ section.id }} .subtitle{ margin:.5rem 0 2.25rem; opacity:.9; }
+          /* ====== Tabbed Collections base styles ====== */
+          #tabbed-collections-{{ section.id }}{
+            --tc-border: rgba(var(--color-foreground), .25);
+            --tc-dot: #2fb673;
+            --tc-gap: 12px;
+            padding-top: 80px;
+            padding-bottom: 80px;
+          }
+          #tabbed-collections-{{ section.id }} .caption-with-letter-spacing,
+          #tabbed-collections-{{ section.id }} .h1,
+          #tabbed-collections-{{ section.id }} .subtitle{
+            text-align:center; margin-left:auto; margin-right:auto;
+          }
+          #tabbed-collections-{{ section.id }} .h1{ margin:.5rem 0 0; }
+          #tabbed-collections-{{ section.id }} .subtitle{ margin:.5rem 0 2.25rem; opacity:.9; }
 
-        /* Tabs row (desktop/tablet grid) */
-        #tabbed-collections-{{ section.id }} .tabs__list{
-          display:grid !important; width:100%; gap:var(--tc-gap); margin:2rem 0 2rem;
-          grid-template-columns:repeat(2,minmax(0,1fr));
-        }
-        @media (min-width:750px){
-          #tabbed-collections-{{ section.id }} .tabs__list{ grid-template-columns:repeat(3,minmax(0,1fr)); }
-        }
-        @media (min-width:990px){
-          #tabbed-collections-{{ section.id }} .tabs__list{ grid-template-columns:repeat(6,minmax(0,1fr)); }
-        }
-
-        /* Tab pills */
-        #tabbed-collections-{{ section.id }} .tabs__tab{
-          width:100%; display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
-          border:1px solid var(--tc-border); border-radius:4px; background:#f7f3ee;
-          padding:.65rem .95rem; line-height:1; cursor:pointer;
-          transition:background .15s ease, border-color .15s ease, box-shadow .15s ease;
-        }
-        #tabbed-collections-{{ section.id }} .tabs__tab:hover{ background:rgba(var(--color-foreground),.05); }
-        #tabbed-collections-{{ section.id }} .tabs__tab.is-active{
-          background:#E4E7C3; border-color:#E4E7C3; color:#1F4D37; box-shadow:inset 0 -1px 0 rgba(0,0,0,.06);
-        }
-        #tabbed-collections-{{ section.id }} .tabs__icon-img{ width:18px; height:18px; object-fit:contain; flex:0 0 auto; }
-        #tabbed-collections-{{ section.id }} .tabs__label{ white-space:nowrap; }
-        #tabbed-collections-{{ section.id }} .tabs__dot{ width:.9rem; height:.9rem; border-radius:999px; background:var(--tc-dot); }
-
-        /* Panels */
-        #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{ display:none !important; }
-        #tabbed-collections-{{ section.id }} .grid__item{ margin-bottom:1.25rem; }
-        #tabbed-collections-{{ section.id }} .center{ text-align:center; }
-        #tabbed-collections-{{ section.id }} .tc__cta{ border-radius:999px; padding:.6rem 1.1rem; }
-
-        /* ====== MOBILE tweaks (≤ 749.98px) ====== */
-        @media (max-width: 749.98px){
-
-          /* Make tab row horizontally scrollable on phones */
+          /* Tabs row (desktop/tablet grid) */
           #tabbed-collections-{{ section.id }} .tabs__list{
-            display:flex !important; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
-            -webkit-overflow-scrolling:touch; gap:10px; padding:0 12px; margin:1rem 0 1.25rem;
-            scroll-snap-type:x proximity;
+            display:grid !important; width:100%; gap:var(--tc-gap); margin:2rem 0 2rem;
+            grid-template-columns:repeat(2,minmax(0,1fr));
           }
+          @media (min-width:750px){
+            #tabbed-collections-{{ section.id }} .tabs__list{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+          }
+          @media (min-width:990px){
+            #tabbed-collections-{{ section.id }} .tabs__list{ grid-template-columns:repeat(6,minmax(0,1fr)); }
+          }
+
+          /* Tab pills */
           #tabbed-collections-{{ section.id }} .tabs__tab{
-            flex:0 0 auto; white-space:nowrap; min-height:40px; scroll-snap-align:start;
+            width:100%; display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+            border:1px solid var(--tc-border); border-radius:4px; background:#f7f3ee;
+            padding:.65rem .95rem; line-height:1; cursor:pointer;
+            transition:background .15s ease, border-color .15s ease, box-shadow .15s ease;
           }
-          #tabbed-collections-{{ section.id }} .tabs__list::-webkit-scrollbar{ height:0; } /* hide bar track */
+          #tabbed-collections-{{ section.id }} .tabs__tab:hover{ background:rgba(var(--color-foreground),.05); }
+          #tabbed-collections-{{ section.id }} .tabs__tab.is-active{
+            background:#E4E7C3; border-color:#E4E7C3; color:#1F4D37; box-shadow:inset 0 -1px 0 rgba(0,0,0,.06);
+          }
+          #tabbed-collections-{{ section.id }} .tabs__icon-img{ width:18px; height:18px; object-fit:contain; flex:0 0 auto; }
+          #tabbed-collections-{{ section.id }} .tabs__label{ white-space:nowrap; }
+          #tabbed-collections-{{ section.id }} .tabs__dot{ width:.9rem; height:.9rem; border-radius:999px; background:var(--tc-dot); }
 
-          /* 2-up product grid inside panels */
-          #tabbed-collections-{{ section.id }} .tabs__panel .grid{
-            display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:24px; row-gap:24px;
-          }
-          #tabbed-collections-{{ section.id }} .tabs__panel .grid__item{
-            width:auto !important; max-width:none !important; margin:0 !important;
+          /* Panels */
+          #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{ display:none !important; }
+          #tabbed-collections-{{ section.id }} .grid__item{ margin-bottom:1.25rem; }
+          #tabbed-collections-{{ section.id }} .center{ text-align:center; }
+          #tabbed-collections-{{ section.id }} .tc__cta{ border-radius:999px; padding:.6rem 1.1rem; }
+
+          /* ====== MOBILE tweaks (≤ 749.98px) ====== */
+          @media (max-width: 749.98px){
+
+            /* Make tab row horizontally scrollable on phones */
+            #tabbed-collections-{{ section.id }} .tabs__list{
+              display:flex !important; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
+              -webkit-overflow-scrolling:touch; gap:10px; padding:0 12px; margin:1rem 0 1.25rem;
+              scroll-snap-type:x proximity;
+            }
+            #tabbed-collections-{{ section.id }} .tabs__tab{
+              flex:0 0 auto; white-space:nowrap; min-height:40px; scroll-snap-align:start;
+            }
+            #tabbed-collections-{{ section.id }} .tabs__list::-webkit-scrollbar{ height:0; } /* hide bar track */
+
+            /* 2-up product grid inside panels */
+            #tabbed-collections-{{ section.id }} .tabs__panel .grid{
+              display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:24px; row-gap:24px;
+            }
+            #tabbed-collections-{{ section.id }} .tabs__panel .grid__item{
+              width:auto !important; max-width:none !important; margin:0 !important;
+            }
+
+            /* ===== Mobile image fill (Chrome/Safari proof) ===== */
+            /* Use ONE sizing method: aspect-ratio. Disable ::before to avoid double heights. */
+            #tabbed-collections-{{ section.id }} .card__inner.ratio{
+              position:relative !important; aspect-ratio:1 / 1 !important; overflow:hidden !important;
+            }
+            #tabbed-collections-{{ section.id }} .card__inner.ratio::before{ display:none !important; }
+
+            /* Pin media wrappers */
+            #tabbed-collections-{{ section.id }} .card__inner.ratio > .card__media,
+            #tabbed-collections-{{ section.id }} .card__inner.ratio > .card__media > .media{
+              position:absolute !important; inset:0 !important; width:100% !important; height:100% !important;
+              contain:paint; -webkit-backface-visibility:hidden;
+            }
+
+            /* Fill the image */
+            #tabbed-collections-{{ section.id }} .card__inner.ratio .media > img{
+              position:absolute !important; inset:0 !important; display:block !important;
+              width:100% !important; height:100% !important; max-width:none !important; max-height:none !important;
+              object-fit:cover !important; object-position:center !important;
+              transform:none !important; -webkit-transform:translateZ(0);
+              backface-visibility:hidden; -webkit-backface-visibility:hidden;
+            }
+
+            /* Neutralize theme hover zoom on mobile */
+            #tabbed-collections-{{ section.id }} .media.media--hover-effect > img{ transform:none !important; }
           }
 
-          /* ===== Mobile image fill (Chrome/Safari proof) ===== */
-          /* Use ONE sizing method: aspect-ratio. Disable ::before to avoid double heights. */
-          #tabbed-collections-{{ section.id }} .card__inner.ratio{
-            position:relative !important; aspect-ratio:1 / 1 !important; overflow:hidden !important;
-          }
-          #tabbed-collections-{{ section.id }} .card__inner.ratio::before{ display:none !important; }
+          #tabbed-collections-{{ section.id }} .tabs__panels{
+          margin-top: 24px;
 
-          /* Pin media wrappers */
-          #tabbed-collections-{{ section.id }} .card__inner.ratio > .card__media,
-          #tabbed-collections-{{ section.id }} .card__inner.ratio > .card__media > .media{
-            position:absolute !important; inset:0 !important; width:100% !important; height:100% !important;
-            contain:paint; -webkit-backface-visibility:hidden;
-          }
-
-          /* Fill the image */
-          #tabbed-collections-{{ section.id }} .card__inner.ratio .media > img{
-            position:absolute !important; inset:0 !important; display:block !important;
-            width:100% !important; height:100% !important; max-width:none !important; max-height:none !important;
-            object-fit:cover !important; object-position:center !important;
-            transform:none !important; -webkit-transform:translateZ(0);
-            backface-visibility:hidden; -webkit-backface-visibility:hidden;
-          }
-
-          /* Neutralize theme hover zoom on mobile */
-          #tabbed-collections-{{ section.id }} .media.media--hover-effect > img{ transform:none !important; }
         }
-
-        #tabbed-collections-{{ section.id }} .tabs__panels{
-        margin-top: 24px;
-
+        @media (max-width: 749.98px){
+        #tabbed-collections-{{ section.id }}{
+          padding-top: 60px;
+          padding-bottom: 60px;
+        }
       }
-      @media (max-width: 749.98px){
-      #tabbed-collections-{{ section.id }}{
-        padding-top: 60px;
-        padding-bottom: 60px;
-      }
+      /* Tabs: keep label the same color as the foreground in all states */
+    #tabbed-collections-{{ section.id }} .tabs__tab {
+      color: rgba(var(--color-foreground), 1) !important;
+      -webkit-tap-highlight-color: transparent; /* iOS blue flash */
     }
-    /* Tabs: keep label the same color as the foreground in all states */
-  #tabbed-collections-{{ section.id }} .tabs__tab {
-    color: rgba(var(--color-foreground), 1) !important;
-    -webkit-tap-highlight-color: transparent; /* iOS blue flash */
-  }
 
-  #tabbed-collections-{{ section.id }} .tabs__tab:is(:hover, :focus, :focus-visible, :active),
-  #tabbed-collections-{{ section.id }} .tabs__tab[aria-selected="true"] {
-    color: rgba(var(--color-foreground), 1) !important;
-  }
+    #tabbed-collections-{{ section.id }} .tabs__tab:is(:hover, :focus, :focus-visible, :active),
+    #tabbed-collections-{{ section.id }} .tabs__tab[aria-selected="true"] {
+      color: rgba(var(--color-foreground), 1) !important;
+    }
 
-  /* Ensure the span never picks up link/visited styles from the theme */
-  #tabbed-collections-{{ section.id }} .tabs__tab .tabs__label {
-    color: inherit !important;
-    text-decoration: none !important;
+    /* Ensure the span never picks up link/visited styles from the theme */
+    #tabbed-collections-{{ section.id }} .tabs__tab .tabs__label {
+      color: inherit !important;
+      text-decoration: none !important;
+    }
+    /* Desktop: keep long labels inside the pill */
+  @media (min-width: 990px){
+    /* 1) Columns that can shrink within the row */
+    #tabbed-collections-{{ section.id }} .tabs__list{
+      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    }
+
+    /* 2) Pills can shrink and clip internally */
+    #tabbed-collections-{{ section.id }} .tabs__tab{
+      min-width: 0;            /* allow children to shrink within grid cell */
+      box-sizing: border-box;
+      overflow: hidden;        /* prevents text from hanging out of the pill */
+      white-space: normal;     /* allow wrapping */
+      text-align: center;
+    }
+
+    /* 3) Label wraps nicely and never exceeds the pill */
+    #tabbed-collections-{{ section.id }} .tabs__label{
+      display: block;
+      min-width: 0;
+      max-width: 100%;
+      white-space: normal !important;
+      overflow-wrap: anywhere; /* break very long words */
+      word-break: break-word;
+      line-height: 1.15;
+    }
+
+    /* 4) Icon stays fixed; text can flex */
+    #tabbed-collections-{{ section.id }} .tabs__icon-img{
+      flex: 0 0 auto;
+    }
   }
 </style>
