@@ -355,7 +355,7 @@
             "card_background": "#faf4ec",
             "border_color": "#1f4d37",
             "card_padding": 10,
-            "card_gap": 15,
+            "card_gap": 10,
             "text_alignment": "left",
             "name_color": "#1f4d37",
             "name_size": 20,
