@@ -79,91 +79,99 @@
 {%- endstyle -%}
 
 {%- style -%}
-    /* CASA SODA TABLET */
-    @media only screen and (min-width: 750px) and (max-width: 989px) {
-      .hxl {
-        font-size: calc(var(--font-heading-scale) * 4.2rem);
-      }
-      /* Fallback first: flex for very old browsers */
-      .section--multicolumn-custom .multicolumn-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px; /* tweak if you want tighter spacing */
-      }
-      .section--multicolumn-custom .multicolumn-list__item {
-        /* 3 in a row with gap accounted for */
-        flex: 1 1 calc((100% - 2 * 24px) / 3);
-        max-width: calc((100% - 2 * 24px) / 3);
-        width: auto;
-      }
+     /* CASA SODA TABLET */
+     @media only screen and (min-width: 750px) and (max-width: 989px) {
+       .hxl {
+         font-size: calc(var(--font-heading-scale) * 4.2rem);
+       }
+       /* Fallback first: flex for very old browsers */
+       .section--multicolumn-custom .multicolumn-list {
+         display: flex;
+         flex-wrap: wrap;
+         gap: 24px; /* tweak if you want tighter spacing */
+       }
+       .section--multicolumn-custom .multicolumn-list__item {
+         /* 3 in a row with gap accounted for */
+         flex: 1 1 calc((100% - 2 * 24px) / 3);
+         max-width: calc((100% - 2 * 24px) / 3);
+         width: auto;
+       }
 
-      /* Modern path: prefer CSS Grid when available */
-      @supports (display: grid) {
-        .section--multicolumn-custom .multicolumn-list {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 24px;
-        }
-        .section--multicolumn-custom .multicolumn-list__item {
-          flex: none; /* neutralize flex fallback */
-          max-width: none;
-        }
-      }
+       /* Modern path: prefer CSS Grid when available */
+       @supports (display: grid) {
+         .section--multicolumn-custom .multicolumn-list {
+           display: grid;
+           grid-template-columns: repeat(3, minmax(0, 1fr));
+           gap: 24px;
+         }
+         .section--multicolumn-custom .multicolumn-list__item {
+           flex: none; /* neutralize flex fallback */
+           max-width: none;
+         }
+       }
 
-      /* Neutralize mobile-slider behavior on tablet */
-      .section--multicolumn-custom slider-component {
-        overflow: visible; /* avoid clipping */
-      }
-      .section--multicolumn-custom slider-component ul {
-        scroll-snap-type: none; /* stop snap scrolling on tablet */
-      }
+       /* Neutralize mobile-slider behavior on tablet */
+       .section--multicolumn-custom slider-component {
+         overflow: visible; /* avoid clipping */
+       }
+       .section--multicolumn-custom slider-component ul {
+         scroll-snap-type: none; /* stop snap scrolling on tablet */
+       }
 
-      /* If Dawn utilities still force 1-col, override them here */
-      .section--multicolumn-custom .grid--1-col-tablet-down {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      }
-    }
-    /* Example: small mobile tweaks */
-    @media only screen and (max-width: 749px) {
-      .hxl {
-        font-size: calc(var(--font-heading-scale) * 3rem);
-      }
-    }
-    /* Mobile: make the logo ~80% bigger */
-    @media only screen and (max-width: 749px) {
-      .rt__logo {
-        display: flex;
-        justify-content: center;
-        overflow: visible; /* avoid clipping when scaling */
-      }
-      .rt__logo-img {
-        display: inline-block;
-        height: auto;
-        max-width: none !important; /* override any Dawn max-width caps */
-        transform: scale(1.8); /* ~80% larger */
-        transform-origin: center center;
-      }
-    }
-  @media only screen and (max-width: 749px) {
-    .rt__logo-{{ section.id }} {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      box-sizing: border-box;
-      overflow: hidden;
+       /* If Dawn utilities still force 1-col, override them here */
+       .section--multicolumn-custom .grid--1-col-tablet-down {
+         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+       }
+     }
+     /* Example: small mobile tweaks */
+     @media only screen and (max-width: 749px) {
+       .hxl {
+         font-size: calc(var(--font-heading-scale) * 3rem);
+       }
+     }
+     /* Mobile: make the logo ~80% bigger */
+     @media only screen and (max-width: 749px) {
+       .rt__logo {
+         display: flex;
+         justify-content: center;
+         overflow: visible; /* avoid clipping when scaling */
+       }
+       .rt__logo-img {
+         display: inline-block;
+         height: auto;
+         max-width: none !important; /* override any Dawn max-width caps */
+         transform: scale(1.8); /* ~80% larger */
+         transform-origin: center center;
+       }
+     }
+   @media only screen and (max-width: 749px) {
+     .rt__logo-{{ section.id }} {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       padding: 16px;
+       box-sizing: border-box;
+       overflow: hidden;
 
-    }
+     }
 
-    .rt__logo-img-{{ section.id }} {
-      display: inline-block;
-      width: auto;
-      max-width: 64px;   /* ✅ never larger than 64px wide */
-      height: auto;
-      object-fit: contain;
-      margin-bottom: 20px!important;
-    }
-  }
+     .rt__logo-img-{{ section.id }} {
+       display: inline-block;
+       width: auto;
+       max-width: 64px;   /* ✅ never larger than 64px wide */
+       height: auto;
+       object-fit: contain;
+       margin-bottom: 20px!important;
+     }
+
+
+  #shopify-section-{{ section.id }} .rt {
+
+     gap: 24px;
+
+   }
+
+   }
 {%- endstyle -%}
 
 {%- liquid
