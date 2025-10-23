@@ -28,16 +28,7 @@
   #shopify-section-{{ section.id }} .rt.rt--wide         { --rt-maxw: 980px; }
 
   /* Logo (no Dawn .media wrapper) */
-  #shopify-section-{{ section.id }} .rt__logo { line-height: 0; }
-  #shopify-section-{{ section.id }} .rt__logo-img {
-    display: block;
-    width: {{ section.settings.logo_width | default: 120 }}px;
-    height: auto;
-    max-width: 100%;
-    object-fit: contain;
-    opacity: 1;
-    mix-blend-mode: normal;
-  }
+
 
   #shopify-section-{{ section.id }} .rt__heading { margin: 0; }
   #shopify-section-{{ section.id }} .rt__text { color: rgb(var(--color-foreground), .85); }
@@ -79,7 +70,7 @@
   /* Force the IMG to that width everywhere */
   #shopify-section-{{ section.id }} .rt__logo-img{
     display: block;              /* no inline gaps */
-    width: clamp(40px, var(--rt-logo-w), 100%);  /* exact editor width, but never overflow container */
+    width: clamp(100px, var(--rt-logo-w), 100%);  /* exact editor width, but never overflow container */
     height: auto;                /* keep aspect ratio */
     max-width: 100%;             /* safety on very narrow screens */
     object-fit: contain;         /* SVG/raster both safe */
@@ -130,6 +121,27 @@
     /* If Dawn utilities still force 1-col, override them here */
     .section--multicolumn-custom .grid--1-col-tablet-down {
       grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+  }
+  /* Example: small mobile tweaks */
+  @media only screen and (max-width: 749px) {
+    .hxl {
+      font-size: calc(var(--font-heading-scale) * 3rem);
+    }
+  }
+  /* Mobile: make the logo ~80% bigger */
+  @media only screen and (max-width: 749px) {
+    .rt__logo {
+      display: flex;
+      justify-content: center;
+      overflow: visible; /* avoid clipping when scaling */
+    }
+    .rt__logo-img {
+      display: inline-block;
+      height: auto;
+      max-width: none !important; /* override any Dawn max-width caps */
+      transform: scale(1.8); /* ~80% larger */
+      transform-origin: center center;
     }
   }
 {%- endstyle -%}

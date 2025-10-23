@@ -155,6 +155,14 @@
   .image-with-text.collapse-borders:not(.image-with-text--overlap) .image-with-text__content {
     border-top: 0;
   }
+
+
+  .image-with-text__content {
+    padding: 2.7rem;
+  }
+  .image-with-text__content .button {
+    margin-top: 1px;
+  }
 }
 
 .image-with-text__content--mobile-right > * {

@@ -15,24 +15,46 @@
 {%- endstyle -%}
 
 {%- style -%}
-  /* === Rounded corners for the whole Image with Text section === */
-  #shopify-section-{{ section.id }} .image-with-text {
-    border-radius: 12px; /* adjust as needed */
-    overflow: hidden; /* ensure inner content respects the curve */
-    background-clip: padding-box; /* optional: keeps background tidy */
-  }
+    /* === Rounded corners for the whole Image with Text section === */
+    #shopify-section-{{ section.id }} .image-with-text {
+      border-radius: 12px; /* adjust as needed */
+      overflow: hidden; /* ensure inner content respects the curve */
+      background-clip: padding-box; /* optional: keeps background tidy */
+    }
 
-  /* === Section logo (supports PNG/JPG/SVG) === */
-  #shopify-section-{{ section.id }} .section-logo {
-    display: inline-block;
-    line-height: 0;
-  }
-  #shopify-section-{{ section.id }} .section-logo img {
-    width: var(--logo-size, 80px);
-    height: auto;
-    max-width: 100%;
-    display: block;
-    object-fit: contain; /* no cropping */
+    /* === Section logo (supports PNG/JPG/SVG) === */
+    #shopify-section-{{ section.id }} .section-logo {
+      display: inline-block;
+      line-height: 0;
+    }
+    #shopify-section-{{ section.id }} .section-logo img {
+      width: var(--logo-size, 80px);
+      height: auto;
+      max-width: 100%;
+      display: block;
+      object-fit: contain; /* no cropping */
+    }
+    /* ──────────────────────────────────────────────
+     IMAGE WITH TEXT — logo resize on mobile
+     Dawn 15.4.0 / cross-browser safe
+     ────────────────────────────────────────────── */
+  @media only screen and (max-width: 749px) {
+    .image-with-text__content .image-with-text__text + .button {
+      margin-top:20px;
+    }
+
+    /* Target the logo inside this section */
+    #shopify-section-{{ section.id }} .section-logo__img {
+      transform: scale(0.7);             /* 30% smaller (70% of original size) */
+      transform-origin: center center;   /* keeps it centered while scaling */
+    }
+
+    /* Optional: ensure layout stays clean */
+    #shopify-section-{{ section.id }} .section-logo {
+      display: flex;
+      justify-content: center;
+      overflow: visible;
+    }
   }
 {%- endstyle -%}
 
