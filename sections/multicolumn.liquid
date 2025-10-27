@@ -62,6 +62,32 @@
     }
   }
 {%- endstyle -%}
+{%- style -%}
+  .section-{{ section.id }} .multicolumn__intro {
+    /* spacing sits between title and grid; tweak to taste */
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    /* match current color scheme’s foreground (with safe fallback) */
+    color: rgb(var(--color-foreground, 18,18,18));
+
+    /* inherit body font + size so it matches site paragraphs */
+    font: inherit;
+    line-height: var(--font-body-line-height, 1.6);
+  }
+
+  .section-{{ section.id }} .multicolumn__intro p {
+    /* keep paragraphs tight since the block already has margins */
+    margin: 0;
+  }
+
+  @media (min-width: 750px){
+    .section-{{ section.id }} .multicolumn__intro {
+      margin-top: 0.75rem;
+      margin-bottom: 2rem;
+    }
+  }
+{%- endstyle -%}
 
 {%- liquid
   assign columns_mobile_int = section.settings.columns_mobile | plus: 0
@@ -83,6 +109,13 @@
         <h2 class="title inline-richtext {{ section.settings.heading_size }}">
           {{ section.settings.title }}
         </h2>
+
+        {%- if section.settings.intro_text != blank -%}
+          <div class="multicolumn__intro rte">
+            {{ section.settings.intro_text }}
+          </div>
+        {%- endif -%}
+
         {%- if section.settings.button_label != blank and show_mobile_slider -%}
           <a href="{{ section.settings.button_link }}" class="link underlined-link large-up-hide">
             {{- section.settings.button_label | escape -}}
@@ -416,6 +449,12 @@
             { "value": "mono", "label": "Monospace (IBM Plex Mono)" }
           ],
           "default": "body"
+        },
+        {
+          "type": "richtext",
+          "id": "intro_text",
+          "label": "Intro paragraph below title",
+          "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
         },
 
         {
