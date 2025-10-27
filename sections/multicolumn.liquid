@@ -88,6 +88,41 @@
       margin-bottom: 2rem;
     }
   }
+  #shopify-section-{{ section.id }} .mc-eyebrow {
+    font-family: var(--font-body-family);
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity:.8;
+      margin-bottom: 4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(var(--color-foreground, 0, 0, 0));
+  }
+
+  #shopify-section-{{ section.id }} .title-wrapper-with-link {
+    margin-bottom:1rem;
+  }
+
+  #shopify-section-{{ section.id }} .multicolumn-card-spacing {
+    padding-bottom:1rem!important;
+  }
+{%- endstyle -%}
+{%- style -%}
+  .section-{{ section.id }} .title-wrapper-with-link,
+  .section-{{ section.id }} .multicolumn__intro {
+    width: 100%;
+    max-width: 50%;
+    margin-left: 0;        /* left-aligned */
+    margin-right: auto;    /* prevents centering when parent is centered */
+  }
+
+  /* Keep mobile readable: let them span full width */
+  @media (max-width: 749px){
+    .section-{{ section.id }} .title-wrapper-with-link,
+    .section-{{ section.id }} .multicolumn__intro {
+      max-width: 100%;
+    }
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -105,6 +140,15 @@
       data-cascade
     {% endif %}
   >
+    {% if section.settings.pretitle != blank %}
+      <div class="mc-eyebrow">
+        {{ section.settings.pretitle }}
+        {% if section.settings.show_rule %}
+          <div class="mc-eyebrow__rule" aria-hidden="true"></div>
+        {% endif %}
+      </div>
+    {% endif %}
+
     {%- unless section.settings.title == blank -%}
       <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
         <h2 class="title inline-richtext {{ section.settings.heading_size }}">
@@ -290,18 +334,24 @@
   "tag": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    {
-      "type": "richtext",
-      "id": "intro_paragraph",
-      "label": "Intro paragraph below title",
-      "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
-    },
+    { "type": "inline_richtext", "id": "pretitle", "label": "Pre-title (eyebrow)", "default": "Explora" },
+    { "type": "color", "id": "rule_color", "label": "Eyebrow rule color", "default": "#294E3F" },
+    { "type": "checkbox", "id": "show_rule", "label": "Show eyebrow rule", "default": true },
+
     {
       "type": "inline_richtext",
       "id": "title",
       "default": "t:sections.multicolumn.settings.title.default",
       "label": "t:sections.multicolumn.settings.title.label"
     },
+
+    {
+      "type": "richtext",
+      "id": "intro_paragraph",
+      "label": "Intro paragraph below title",
+      "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
+    },
+
     { "type": "header", "content": "Image & Card tweaks" },
     {
       "type": "range",
