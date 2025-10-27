@@ -122,6 +122,97 @@
     .section-{{ section.id }} .multicolumn__intro {
       max-width: 100%;
     }
+    .section-{{ section.id }} .title-wrapper--self-padded-tablet-down, .title-wrapper--self-padded-mobile {
+      padding:0;
+    }
+  }
+{%- endstyle -%}
+{%- style -%}
+  /* Tablet 750–989px: 4 columns + bigger, filled images */
+  @media (min-width: 750px) and (max-width: 989px){
+    .section-{{ section.id }} .grid--2-col-tablet-down .grid__item {
+      max-width:100%!important;
+    }
+
+
+    .section-{{ section.id }} .multicolumn-list{
+      display:grid !important;
+      grid-template-columns:repeat(4, minmax(1fr)) !important;
+      grid-auto-flow:row !important;
+      column-gap:12px; /* tighter gaps so cards feel larger */
+      row-gap:16px;
+    }
+
+    /* Neutralize slider sizing if present */
+    .section-{{ section.id }} .multicolumn-list.slider .slider__slide{
+      width:auto !important;
+      flex:0 0 auto !important;
+      scroll-snap-align:unset !important;
+    }
+
+    /* Make the media box taller than square (≈4:3) and let image cover */
+    .section-{{ section.id }} .multicolumn-card__image-wrapper{width:100% !important; max-width:none !important;}
+    .section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      width:100% !important;
+      padding-bottom:75% !important; /* was 100% (square) */
+      overflow:hidden;               /* hide overflow when covering */
+      border-radius:8px;            /* match your rounded look */
+    }
+    .section-{{ section.id }} .multicolumn-card__image{
+      width:100% !important;
+      height:100% !important;
+      object-fit:cover!important;              /* fill the frame—no letterboxing */
+      display:block!important;
+    }
+  }
+{%- endstyle -%}
+{%- style -%}
+  /* Tablet (750–989px): force 4 columns and make images fill the column */
+  @media (min-width: 750px) and (max-width: 989px){
+    /* 1) Override Dawn's tablet grid on THIS section only */
+    #Slider-{{ section.id }}{
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      grid-auto-flow: row !important;
+      column-gap: var(--grid-desktop-horizontal-spacing, 16px) !important;
+      row-gap: var(--grid-desktop-vertical-spacing, 16px) !important;
+    }
+
+    /* 2) Ensure items don't carry slider/flex widths */
+    #Slider-{{ section.id }} > .grid__item{
+      width: auto !important;
+      flex: 0 0 auto !important;
+    }
+
+    /* 3) Max out image area inside the card */
+    #shopify-section-{{ section.id }} .multicolumn-card.content-container{
+      padding: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: 0 !important;
+    }
+
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
+      width: 100% !important;
+      max-width: none !important;
+    }
+
+    /* Keep a square (or tweak to 75% for 4:3) and let image fill */
+    #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
+      width: 100% !important;
+      padding-bottom: 100% !important; /* change to 75% for taller thumbs */
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    #shopify-section-{{ section.id }} .multicolumn-card__image{
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important; /* use contain if you prefer no crop */
+      display: block !important;
+    }
   }
 {%- endstyle -%}
 
