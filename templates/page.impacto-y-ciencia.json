@@ -199,8 +199,8 @@
       ],
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
-        "intro_paragraph": "<p>Los Objetivos de Desarrollo Sostenible guían nuestra práctica diaria que sostienen nuestro trabajo.</p>",
         "title": "ODS como brújula",
+        "intro_paragraph": "<p>Los Objetivos de Desarrollo Sostenible guían nuestra práctica diaria que sostienen nuestro trabajo.</p>",
         "image_width_percent": 100,
         "remove_card_bg": true,
         "heading_size": "h1",
@@ -294,7 +294,7 @@
           "type": "heading",
           "settings": {
             "heading": "Cada historia comienza con una práctica diferente.",
-            "heading_size": "hxl"
+            "heading_size": "h1"
           }
         },
         "text_EpbRcj": {
@@ -472,8 +472,8 @@
       ],
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
-        "intro_paragraph": "<p>Columna</p>",
         "title": "",
+        "intro_paragraph": "<p>Columna</p>",
         "image_width_percent": 16,
         "remove_card_bg": true,
         "heading_size": "h1",
