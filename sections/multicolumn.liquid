@@ -5,7 +5,7 @@
   /* ==== Instance-only controls (scoped by section.id) ==== */
 
   /* A) Smaller image width (overrides Dawn's third/half/full classes) */
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper {
+  .section-{{ section.id }} .multicolumn-card__image-wrapper {
     /* Force our width regardless of --third/--half/--full classes */
     max-width: {{ section.settings.image_width_percent | default: 33 }}% !important;
     margin-left: auto;
@@ -13,13 +13,13 @@
   }
 
   /* Optional nicety: center image when a smaller width is chosen */
-  #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media {
+  .section-{{ section.id }} .multicolumn-card__image-wrapper .media {
     display: block;
   }
 
   /* B) Remove light gray card background (content-container) */
   {% if section.settings.remove_card_bg %}
-  #shopify-section-{{ section.id }} .multicolumn-card.content-container {
+  .section-{{ section.id }} .multicolumn-card.content-container {
     background: transparent !important;
     box-shadow: none !important;
     border: 0 !important;
@@ -27,11 +27,11 @@
   {% endif %}
 
   /* ==== Description font styles (per-column) ==== */
-  #shopify-section-{{ section.id }} .mc-desc--body {
+  .section-{{ section.id }} .mc-desc--body {
     font-family: var(--font-body-family);
     font-weight: 400;
   }
-  #shopify-section-{{ section.id }} .mc-desc--mono {
+  .section-{{ section.id }} .mc-desc--mono {
     /* Will use your uploaded IBM Plex Mono if present; otherwise falls back safely */
     font-family: "IBM Plex Mono", "Courier New", Courier, monospace !important;
     font-weight: 300;
@@ -41,8 +41,8 @@
     text-transform: uppercase;
   }
   /* Ensure children inside RTE inherit the chosen style */
-  #shopify-section-{{ section.id }} .mc-desc--mono *,
-  #shopify-section-{{ section.id }} .mc-desc--body * {
+  .section-{{ section.id }} .mc-desc--mono *,
+  .section-{{ section.id }} .mc-desc--body * {
     font-family: inherit !important;
     font-weight: inherit;
     letter-spacing: inherit;
@@ -62,6 +62,7 @@
     }
   }
 {%- endstyle -%}
+
 {%- style -%}
   .section-{{ section.id }} .multicolumn__intro {
     /* spacing sits between title and grid; tweak to taste */
@@ -290,10 +291,10 @@
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     {
-      "type": "inline_richtext",
+      "type": "richtext",
       "id": "intro_paragraph",
-      "default": "t:sections.multicolumn.blocks.column.settings.title.default",
-      "label": "t:sections.multicolumn.blocks.column.settings.title.label"
+      "label": "Intro paragraph below title",
+      "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
     },
     {
       "type": "inline_richtext",
@@ -441,12 +442,11 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "t:sections.multicolumn.blocks.column.settings.image.label" },
         {
-          "type": "richtext",
-          "id": "intro_text",
-          "label": "Intro paragraph below title",
-          "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "t:sections.multicolumn.blocks.column.settings.title.default",
+          "label": "t:sections.multicolumn.blocks.column.settings.title.label"
         },
-
         {
           "type": "select",
           "id": "desc_font",
@@ -457,7 +457,6 @@
           ],
           "default": "body"
         },
-
         {
           "type": "richtext",
           "id": "text",
