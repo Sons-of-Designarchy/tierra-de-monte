@@ -438,7 +438,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/loop-white.svg",
-            "title": "Columna",
+            "title": "",
             "desc_font": "mono",
             "text": "<p>Suelos con aroma fresco</p>",
             "link_label": "",
@@ -449,7 +449,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/loop-white.svg",
-            "title": "Columna",
+            "title": "",
             "desc_font": "mono",
             "text": "<p>Agua que corre clara</p>",
             "link_label": "",
@@ -460,7 +460,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/loop-white.svg",
-            "title": "Columna",
+            "title": "",
             "desc_font": "mono",
             "text": "<p>Comunidades que prosperan</p>",
             "link_label": "",
@@ -475,11 +475,11 @@
       ],
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
-        "pretitle": "Explora",
+        "pretitle": "",
         "rule_color": "#294e3f",
         "show_rule": true,
         "title": "",
-        "intro_paragraph": "<p>Columna</p>",
+        "intro_paragraph": "",
         "image_width_percent": 16,
         "remove_card_bg": true,
         "heading_size": "h1",
