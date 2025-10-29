@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "custom_breadcrumb_blog": {
@@ -10,7 +19,6 @@
         "padding_bottom": 12
       }
     },
-
     "main": {
       "type": "main-article",
       "blocks": {
@@ -38,16 +46,23 @@
           "settings": {}
         }
       },
-      "block_order": ["title", "share", "featured_image", "content"],
+      "block_order": [
+        "title",
+        "share",
+        "featured_image",
+        "content"
+      ],
       "settings": {}
     },
-
     "image_with_text": {
       "type": "image-with-text",
       "blocks": {
         "heading": {
           "type": "heading",
-          "settings": { "heading": "Imagen con texto", "heading_size": "h1" }
+          "settings": {
+            "heading": "Imagen con texto",
+            "heading_size": "h1"
+          }
         },
         "text": {
           "type": "text",
@@ -65,7 +80,11 @@
           }
         }
       },
-      "block_order": ["heading", "text", "button"],
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
         "image": "shopify://shop_images/img.png",
@@ -85,7 +104,6 @@
         "padding_bottom": 36
       }
     },
-
     "featured_blog": {
       "type": "featured-blog",
       "name": "t:sections.featured-blog.presets.name",
@@ -104,7 +122,6 @@
         "padding_bottom": 36
       }
     },
-
     "featured_collection": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -134,26 +151,24 @@
         "padding_bottom": 36
       }
     },
-
     "article_nav": {
       "type": "custom-article-nav",
       "settings": {
         "back_label": "Regresar",
         "next_label": "Siguiente blog",
-        "next_bg": "#FFFBE6",
+        "next_bg": "#fffbe6",
         "color_scheme": "scheme-1",
         "padding_top": 12,
         "padding_bottom": 12
       }
     }
   },
-
   "order": [
     "custom_breadcrumb_blog",
     "main",
+    "article_nav",
     "image_with_text",
     "featured_blog",
-    "featured_collection",
-    "article_nav"
+    "featured_collection"
   ]
 }
