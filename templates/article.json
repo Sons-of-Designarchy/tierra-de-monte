@@ -1,14 +1,14 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
+    "breadcrumb": {
+      "type": "custom-breadcrumb-blog",
+      "settings": {
+        "back_label": "Back",
+        "color_scheme": "scheme-1",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
     "main": {
       "type": "main-article",
       "blocks": {
@@ -36,32 +36,38 @@
           "settings": {}
         }
       },
-      "block_order": [
-        "title",
-        "share",
-        "featured_image",
-        "content"
-      ],
+      "block_order": ["title", "share", "featured_image", "content"],
       "settings": {}
     },
-    "image_with_text_xWGVQj": {
+    "article_nav": {
+      "type": "custom-article-nav",
+      "settings": {
+        "back_label": "Regresar",
+        "next_label": "Siguiente blog",
+        "next_bg": "#FFFBE6",
+        "color_scheme": "scheme-1",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "image_with_text": {
       "type": "image-with-text",
       "blocks": {
-        "heading_QNzrWA": {
+        "heading": {
           "type": "heading",
           "settings": {
             "heading": "Imagen con texto",
             "heading_size": "h1"
           }
         },
-        "text_9WQ6Lq": {
+        "text": {
           "type": "text",
           "settings": {
             "text": "<p>Vincula un texto con una imagen para atraer la atención hacia tu producto, colección o artículo de blog seleccionados. Agrega detalles sobre disponibilidad y estilo, o incluso ofrece una reseña.</p>",
             "text_style": "body"
           }
         },
-        "button_qGdwx8": {
+        "button": {
           "type": "button",
           "settings": {
             "button_label": "Etiqueta de botón",
@@ -70,11 +76,7 @@
           }
         }
       },
-      "block_order": [
-        "heading_QNzrWA",
-        "text_9WQ6Lq",
-        "button_qGdwx8"
-      ],
+      "block_order": ["heading", "text", "button"],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
         "image": "shopify://shop_images/img.png",
@@ -94,7 +96,7 @@
         "padding_bottom": 36
       }
     },
-    "featured_blog_fMW9M6": {
+    "featured_blog": {
       "type": "featured-blog",
       "name": "t:sections.featured-blog.presets.name",
       "settings": {
@@ -112,7 +114,7 @@
         "padding_bottom": 36
       }
     },
-    "featured_collection_Cebch9": {
+    "featured_collection": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
@@ -140,23 +142,14 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "custom_breadcrumb_blog_a8JMfj": {
-      "type": "custom-breadcrumb-blog",
-      "name": "Custom breadcrumb — blog",
-      "settings": {
-        "back_label": "Back",
-        "color_scheme": "scheme-1",
-        "padding_top": 12,
-        "padding_bottom": 12
-      }
     }
   },
   "order": [
-    "custom_breadcrumb_blog_a8JMfj",
+    "breadcrumb",
     "main",
-    "image_with_text_xWGVQj",
-    "featured_blog_fMW9M6",
-    "featured_collection_Cebch9"
+    "article_nav",
+    "image_with_text",
+    "featured_blog",
+    "featured_collection"
   ]
 }
