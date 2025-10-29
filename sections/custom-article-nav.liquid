@@ -1,64 +1,67 @@
 {% comment %}
-  Article Nav — segmented 2 buttons
-  Left: back to blog; Right: next article (disabled if none)
-  Dawn 15.4.0 safe
+  Custom Article Nav (robust)
+  - Derives blog from article.url if article.blog is unavailable
+  - Back button → blog url
+  - Next button → next newer article (fallback: compute from blog.articles)
 {% endcomment %}
 
-{% style %}
-  .section-{{ section.id }}-padding{
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media (min-width:750px){
-    .section-{{ section.id }}-padding{
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
+{%- assign blog_obj = article.blog -%}
 
-  /* Segmented pill */
-  #shopify-section-{{ section.id }} .anav{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items:stretch;
-    border:1px solid currentColor;
-    border-radius:9999px;
-    overflow:hidden;
-  }
-  #shopify-section-{{ section.id }} .anav__btn{
-    display:flex;align-items:center;justify-content:center;
-    min-height:48px;padding:.9rem 1.2rem;
-    text-decoration:none;border:0;background:transparent;color:currentColor;line-height:1;
-    white-space:nowrap;
-  }
-  #shopify-section-{{ section.id }} .anav__btn + .anav__btn{border-left:1px solid currentColor}
-  #shopify-section-{{ section.id }} .anav__btn--next{ background: {{ section.settings.next_bg }}; }
+{%- if blog_obj == blank and article and article.url != blank -%}
+  {%- assign parts = article.url | split: '/' -%}
 
-  #shopify-section-{{ section.id }} .anav__btn[aria-disabled="true"]{
-    opacity:.45;pointer-events:none;
-  }
-  @media (prefers-reduced-motion:no-preference){
-    #shopify-section-{{ section.id }} .anav__btn:focus-visible{outline:2px solid currentColor;outline-offset:2px}
-  }
-{% endstyle %}
+  {%- assign blog_handle = parts[2] -%}
+  {%- if blog_handle != blank -%}
+    {%- assign blog_obj = blogs[blog_handle] -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign back_url = blog_obj.url | default: routes.blogs_url -%}
+
+{%- comment -%} 1) Try built-in next {%- endcomment -%}
+{%- assign next_article = article.next -%}
+
+{%- comment -%}
+  2) Fallback: scan blog.articles (newest → oldest) and take the previous index.
+     (If we’re on the newest — index 0 — try the next older one.)
+{%- endcomment -%}
+{%- if next_article == null and blog_obj and blog_obj.articles_count > 1 -%}
+  {%- assign found_index = null -%}
+  {%- for a in blog_obj.articles -%}
+    {%- if a.id == article.id -%}
+      {%- assign found_index = forloop.index0 -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if found_index != null -%}
+    {%- assign prev_index = found_index | minus: 1 -%}
+    {%- if prev_index >= 0 -%}
+      {%- assign next_article = blog_obj.articles[prev_index] -%}
+    {%- else -%}
+      {%- assign after_index = found_index | plus: 1 -%}
+      {%- if after_index < blog_obj.articles.size -%}
+        {%- assign next_article = blog_obj.articles[after_index] -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
 
 <section class="section-{{ section.id }}-padding color-scheme-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
     <nav class="anav" aria-label="Article navigation">
-      <a class="anav__btn anav__btn--back" href="{{ blog.url }}">
-        {{ section.settings.back_label }}
+      <a class="anav__btn anav__btn--back" href="{{ back_url }}">
+        {{ section.settings.back_label | default: 'Regresar' }}
       </a>
 
-      {% assign next_article = article.next %}
-      {% if next_article %}
+      {%- if next_article -%}
         <a class="anav__btn anav__btn--next" href="{{ next_article.url }}">
-          {{ section.settings.next_label }}
+          {{ section.settings.next_label | default: 'Siguiente blog' }}
         </a>
-      {% else %}
+      {%- else -%}
         <span class="anav__btn anav__btn--next" aria-disabled="true">
-          {{ section.settings.next_label }}
+          {{ section.settings.next_label | default: 'Siguiente blog' }}
         </span>
-      {% endif %}
+      {%- endif -%}
     </nav>
   </div>
 </section>
@@ -66,46 +69,30 @@
 {% schema %}
 {
   "name": "Custom article nav",
-  "class": "section--article-nav",
   "settings": [
     { "type": "text", "id": "back_label", "label": "Back label", "default": "Regresar" },
     { "type": "text", "id": "next_label", "label": "Next label", "default": "Siguiente blog" },
-    { "type": "color", "id": "next_bg", "label": "Next background", "default": "#FFFBE6" },
-    {
-      "type": "select",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1",
-      "options": [
-        { "value": "", "label": "Theme default" },
-        { "value": "scheme-1", "label": "Scheme 1" },
-        { "value": "scheme-2", "label": "Scheme 2" },
-        { "value": "scheme-3", "label": "Scheme 3" },
-        { "value": "scheme-4", "label": "Scheme 4" },
-        { "value": "scheme-5", "label": "Scheme 5" }
-      ]
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding top",
-      "default": 12
-    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 48, "step": 1, "default": 12 },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
       "label": "Padding bottom",
+      "min": 0,
+      "max": 48,
+      "step": 1,
       "default": 12
     }
   ],
   "presets": [{ "name": "Custom article nav" }]
 }
 {% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}
+  .anav{display:grid;grid-template-columns:1fr 1fr;border:1px solid currentColor;border-radius:12px;overflow:hidden}
+  .anav__btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.2rem;text-decoration:none}
+  .anav__btn--back{border-right:1px solid currentColor}
+  .anav__btn--next[aria-disabled="true"]{opacity:.55;pointer-events:none}
+  @media (max-width:480px){.anav{grid-template-columns:1fr 1fr}}
+{% endstyle %}

@@ -73,6 +73,8 @@
   --shadow-opacity: var(--media-shadow-opacity);
   --shadow-visible: var(--media-shadow-visible);
 }
+/* hidde-regresar-og */
+.article-template__back { display: none !important; }
 
 /* base */
 
