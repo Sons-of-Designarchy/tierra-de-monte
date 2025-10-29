@@ -101,7 +101,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 @media screen and (min-width: 750px) {
-  .page-width {
+  .page-width { 
     padding: 0 5rem;
   }
 
@@ -114,7 +114,10 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   .page-width--narrow {
     padding: 0 9rem;
   }
-
+  .page-width--narrow-head-soda {
+    padding: 0 5rem!important;
+    
+  }
   .page-width-desktop {
     padding: 0;
   }
