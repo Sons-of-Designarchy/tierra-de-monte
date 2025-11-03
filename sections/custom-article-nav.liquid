@@ -91,7 +91,7 @@
 {% style %}
   .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}
   .anav{display:grid;grid-template-columns:1fr 1fr;border:1px solid currentColor;border-radius:12px;overflow:hidden}
-  .anav__btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.2rem;text-decoration:none}
+  .anav__btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.2rem;text-decoration:none;color: inherit;}
   .anav__btn--back{border-right:1px solid currentColor}
   .anav__btn--next[aria-disabled="true"]{opacity:.55;pointer-events:none}
   @media (max-width:480px){.anav{grid-template-columns:1fr 1fr}}
