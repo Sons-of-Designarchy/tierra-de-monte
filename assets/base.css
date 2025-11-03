@@ -245,12 +245,12 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 /*casa-soda-test*/
 
-@font-face {
+/* @font-face {
   font-family: 'Aujournuit-Densed';
   src: url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format("opentype"),
     url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format("opentype");
 
-}
+} */
 
 @font-face {
   font-family: 'IBMPlexMono-Regular';
@@ -573,7 +573,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 
 :root {
-  --font-heading-family: 'Aujournuit-Densed', serif !important;
+  --font-heading-family: 'Inter', serif;
   /* self-hosted */
   --font-body-family: 'Inter', serif;
   /* Google font */
@@ -587,17 +587,13 @@ h1,
 h2,
 h3,
 h4,
-h6 {
-  font-family: 'Aujournuit-Densed', serif;
-  font-weight: 400;
-  /* match @font-face */
-}
-
+h6,
 h1,
 h2,
 h3 {
-  font-family: 'Aujournuit-Densed', serif !important;
-  line-height: 1.1em;
+  font-family: var(--font-heading-family);
+  line-height: 112%;
+  font-weight: lighter!important;
 }
 
 
@@ -3978,13 +3974,7 @@ details-disclosure>details {
    ================================ */
 
 /* 0) Fonts: add font-display and better fallbacks */
-@font-face {
-  font-family: 'Aujournuit-Densed';
-  src: url('https://cdn.shopify.com/s/files/1/0951/7111/7358/files/Aujournuit-Densed.otf?v=1756836134') format('opentype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
+
 @font-face {
   font-family: 'IBMPlexMono-Regular';
   src: url('{{ "IBMPlexMono-Regular.woff2" | asset_url }}') format('woff2'),
@@ -3996,7 +3986,7 @@ details-disclosure>details {
 
 /* 1) Variables: sensible font fallbacks */
 :root {
-  --font-heading-family: 'Aujournuit-Densed', serif !important;
+  --font-heading-family:  'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-body-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-caption-family: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
 }
