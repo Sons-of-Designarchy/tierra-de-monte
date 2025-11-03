@@ -32,23 +32,11 @@
           "settings": {
             "text": "<p>Comparte información sobre tu marca con los clientes. Describe un producto, comparte anuncios o da la bienvenida a los clientes a tu tienda.Donec ullamcorper nulla non metus auctor fringilla.</p>"
           }
-        },
-        "button_V4AtE3": {
-          "type": "button",
-          "settings": {
-            "button_label": "Etiqueta de botón",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
         }
       },
       "block_order": [
         "heading_tFLYGx",
-        "text_zF9Y8Y",
-        "button_V4AtE3"
+        "text_zF9Y8Y"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
