@@ -4017,8 +4017,4 @@ h1, h2, h3, h4, .h0, .h1, .h2, .h3, .h4 {
   border-radius: 8px;
 }
 
-/* 5) Collapse duplicate .card__view-link declarations into one canonical style */
-.card__view-link {
-  display: inline-block;
-  margin-top
 
