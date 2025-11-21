@@ -258,7 +258,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   font-family: 'IBMPlexMono-Regular';
   src: url('{{ "IBMPlexMono-Regular.woff2" | asset_url }}') format('woff2'),
     url('{{ "IBMPlexMono-Regular.woff" | asset_url }}') format('woff');
-  font-weight: 300;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -3998,7 +3998,7 @@ details-disclosure > details {
   src: url('{{ "IBMPlexMono-Regular.woff2" | asset_url }}') format('woff2'),
     url('{{ "IBMPlexMono-Regular.woff"  | asset_url }}') format('woff');
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-display: swap;
 }
 
