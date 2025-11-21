@@ -199,11 +199,11 @@
       align-items:stretch!important;
       height:var(--mcf-height)!important;
       border-left:1px solid {{ section.settings.divider_color }}!important;
-      padding-left:8px!important;
+      padding-left:16px!important;
     }
     #shopify-section-{{ section.id }} #Slider-{{ section.id }} > li.multicolumn-list__item + li.multicolumn-list__item{
       border-left:1px solid {{ section.settings.divider_color }}!important;
-      padding-left:8px!important;
+      padding-left:16px!important;
     }
   }
 
@@ -257,12 +257,12 @@
 
     .multicolumn .mc-feature__cols .multicolumn-list > li.multicolumn-list__item{
       border-left:1px solid var(--mcf-rule, {{ section.settings.rule_color | default: '#294e3f' }})!important;
-      padding-left:8px!important;
+      padding-left:16px!important;
     }
     .multicolumn .mc-feature__cols
     ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item{
       border-left:1px solid rgb(var(--color-foreground))!important;
-      padding-left:8px!important;
+      padding-left:16px!important;
     }
     .multicolumn .mc-feature__cols
     ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item:first-child{
@@ -316,7 +316,7 @@
     .multicolumn .mc-feature__cols ul[id^='Slider-'] > li.multicolumn-list__item,
     .multicolumn slider-component ul[id^='Slider-'] > li.multicolumn-list__item{
       border-left:1px solid var(--mcf-rule, rgb(var(--color-foreground)))!important;
-      padding-left:8px!important;
+      padding-left:16px!important;
     }
   }
 {% endstyle %}
