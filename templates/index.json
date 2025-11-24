@@ -344,6 +344,7 @@
         },
         "logo_fGzpXJ": {
           "type": "logo",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/bioagtech-logo.png",
             "alt": ""
@@ -419,6 +420,7 @@
         "review_VB7Ljz",
         "review_zxQAXt"
       ],
+      "disabled": true,
       "name": "Reviews",
       "settings": {
         "title": "",
