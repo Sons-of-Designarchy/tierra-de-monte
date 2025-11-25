@@ -321,6 +321,7 @@
         "text_EpbRcj",
         "button_hRhLqj"
       ],
+      "disabled": true,
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
         "image": "shopify://shop_images/mariposa_e448a708-ff94-43dc-b9df-3936556bb0e7.png",
