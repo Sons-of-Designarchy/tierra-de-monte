@@ -247,15 +247,16 @@
           "settings": {
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
-            "title": "Diseñador Gráfico",
+            "title": "Escribe tu carta de postulacion",
             "text": "",
             "desc_font": "body",
             "link_label": "",
-            "link": "https://kyd1xoc5f0nuz0jz-95171117358.shopifypreview.com/pages?preview_key=a7cb894829035207a83cccdbb4a5a493"
+            "link": "shopify://pages/vacante-de-ejemplo"
           }
         },
         "row_YRUD7w": {
           "type": "row",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
@@ -268,6 +269,7 @@
         },
         "row_dfQhUh": {
           "type": "row",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
@@ -280,34 +282,11 @@
         },
         "row_QzUgQH": {
           "type": "row",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
             "title": "Agente de ventas",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_E3iriE": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Agente de ventas - CDMX",
-            "text": "",
-            "desc_font": "body",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "row_f9dm33": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/icon-dise.svg",
-            "icon_size": 40,
-            "title": "Agente de ventas - CDMX SUR",
             "text": "",
             "desc_font": "body",
             "link_label": "",
@@ -319,17 +298,15 @@
         "row_BcFUXr",
         "row_YRUD7w",
         "row_dfQhUh",
-        "row_QzUgQH",
-        "row_E3iriE",
-        "row_f9dm33"
+        "row_QzUgQH"
       ],
       "name": "Multicolumn — Row list",
       "settings": {
         "pretitle": "Vacantes",
         "rule_color": "#294e3f",
         "show_rule": true,
-        "title": "Estamos buscando buscando a exploradores con ganas de contribuir a la tierra",
-        "description": "<p>Estamos buscando seguir expandiendo el futuro regenerativo de la tierra de mexico con personas como tu.</p>",
+        "title": "Siempre estamos buscando personas que gusten ser parte del cambio",
+        "description": "<p>Maecenas faucibus mollis interdum. Donec sed odio dui. Vestibulum id ligula porta felis euismod semper.</p>",
         "button_label": "",
         "button_link": "",
         "heading_size": "h1",
