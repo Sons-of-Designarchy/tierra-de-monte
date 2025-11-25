@@ -253,25 +253,39 @@
                   {%- endfor -%}
                 </div>
 
-                {%- comment -%} --------- INGREDIENTES COLLAPSIBLE --------- {%- endcomment -%}
                 {%- if product.metafields.custom.ingredientes != blank -%}
-                  <div class="product__accordion accordion quick-add-hidden">
-                    <details id="Details-ingredientes-{{ section.id }}">
-                      <summary>
-                        <div class="summary__title">
-                          <span class="svg-wrapper">
-                            <img src="https://cdn.shopify.com/s/files/1/0951/7111/7358/files/icon-prod-4.svg">
-                          </span>
-                          <h2 class="h4 accordion__title inline-richtext" style="font-size: 1.5rem!important">
-                            {{ block.settings.heading_ingredientes | default: 'Ingredientes' }}
-                          </h2>
-                        </div>
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
-                      </summary>
-                      <div class="accordion__content rte" id="ProductAccordion-ingredientes-{{ section.id }}">
-                        {{ product.metafields.custom.ingredientes | metafield_tag }}
-                      </div>
-                    </details>
+                  {%- assign html = product.metafields.custom.ingredientes | metafield_tag -%}
+                  {%- assign items = html | split: '<li>' -%}
+
+                  <div class="product__extras-ingredientes" style="margin: 12px 0 20px;">
+                    <h2
+                      class="h4 inline-richtext"
+                      style="font-size: 1.5rem!important; font-weight: bold!important; margin-bottom: 0"
+                    >
+                      {{ block.settings.heading_ingredientes | default: 'Ingredientes:' }}
+                    </h2>
+
+                    <div style="display:grid; gap:10px;">
+                      {%- for item in items offset: 1 -%}
+                        {%- assign cleaned = item | split: '</li>' | first | strip_html | strip -%}
+                        {%- unless cleaned == '' or cleaned contains '{' -%}
+                          <div
+                            class="icon-with-text__item accordion"
+                            style="display:flex; align-items:flex-start; gap:10px; padding: 1rem;"
+                          >
+                            <div class="icon-with-text__icon" style="line-height:0;">
+                              <img
+                                src="https://cdn.shopify.com/s/files/1/0951/7111/7358/files/icon-prod-4.svg"
+                                alt="ingrediente"
+                              >
+                            </div>
+                            <div class="h4 accordion__title inline-richtext" style="font-size: 1.5rem!important">
+                              {{ cleaned }}
+                            </div>
+                          </div>
+                        {%- endunless -%}
+                      {%- endfor -%}
+                    </div>
                   </div>
                 {%- endif -%}
 
