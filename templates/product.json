@@ -196,73 +196,73 @@
         "height": 100
       }
     },
-    "multicolumn_feature_naNDXH": {
+    "multicolumn_feature_Ddw7mA": {
       "type": "multicolumn-feature",
       "blocks": {
-        "column_hzXPBR": {
+        "column_DTtNfg": {
           "type": "column",
           "settings": {
-            "desc_font": "body",
-            "image": "shopify://shop_images/prod-tdm-1.jpg",
-            "title": "Hola a suelos mas fértiles",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 40,
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_F87fnc": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "image": "shopify://shop_images/prod-tdm-2.jpg",
-            "title": "No sabes cual es producto correcto?",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
+            "desc_font": "mono",
+            "image": "shopify://shop_images/quienes-somos-1.png",
+            "title": "",
+            "stat_font": "mono",
+            "stat_size_mobile": 24,
             "stat_size_desktop": 40,
             "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
             "link_label": "",
             "link": ""
           }
         },
-        "column_qjbXwH": {
+        "column_EMyLQp": {
           "type": "column",
           "settings": {
+            "desc_font": "mono",
+            "image": "shopify://shop_images/quines-3.jpg",
+            "title": "",
+            "stat_font": "heading",
+            "stat_size_mobile": 24,
+            "stat_size_desktop": 40,
+            "text": "<p>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_MiFMnr": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
             "desc_font": "body",
-            "image": "shopify://shop_images/prod-tdm-3.jpg",
-            "title": "Lorem ipsum",
+            "title": "+230",
             "stat_font": "heading",
             "stat_size_mobile": 48,
-            "stat_size_desktop": 40,
-            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
+            "stat_size_desktop": 72,
+            "text": "<p>Hectáreas regeneradas</p>",
             "link_label": "",
             "link": ""
           }
         }
       },
       "block_order": [
-        "column_hzXPBR",
-        "column_F87fnc",
-        "column_qjbXwH"
+        "column_DTtNfg",
+        "column_EMyLQp",
+        "column_MiFMnr"
       ],
       "name": "Multicolumn — Feature",
       "settings": {
         "pretitle": "",
-        "rule_color": "#294e3f",
-        "show_rule": true,
-        "title": "Mejora la produccion y calidad de tus suelos en cada cosecha",
-        "description": "",
+        "rule_color": "#d8e35b",
+        "show_rule": false,
+        "title": "¿Quienes somos?",
+        "description": "<p>Somos una empresa mexicana de especialistas en biotecnología agrícola comprometidos con desarrollar <strong>soluciones biológicas</strong> que respondan a las necesidades de todo tipo de cultivo con el objetivo de restablecer el equilibrio en la biodiversidad del suelo y los ecosistemas agrícolas.</p>",
         "button_label": "Acerca de nosotros",
         "button_link": "shopify://pages/nosotros",
         "heading_size": "h1",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
+        "columns_desktop": 2,
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "color_scheme": "scheme-5",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "ticker_Yh88L3": {
@@ -286,6 +286,7 @@
     },
     "video_UAKytP": {
       "type": "video",
+      "disabled": true,
       "name": "t:sections.video.presets.name",
       "settings": {
         "heading": "No lo decimos nosotros, lo dicen nuestros amigos",
@@ -342,7 +343,7 @@
     "slideshow_3je3CQ",
     "featured_collection_maNLMy",
     "ticker_6tg7Qb",
-    "multicolumn_feature_naNDXH",
+    "multicolumn_feature_Ddw7mA",
     "ticker_Yh88L3",
     "video_UAKytP",
     "featured_blog_e4hABD",
