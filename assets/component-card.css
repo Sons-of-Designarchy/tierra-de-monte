@@ -421,7 +421,7 @@
 }
 
 .card--standard > .card__content {
-  padding: 0;
+  /* padding: 0; */
 }
 
 .card--standard > .card__content .card__information {
