@@ -12,11 +12,18 @@
     "blog_nav_URfRYd": {
       "type": "blog-nav",
       "blocks": {
-        "blog_link_yyn696": {
+        "blog_link_9nznyr": {
           "type": "blog_link",
           "settings": {
             "blog": "noticias",
-            "title": ""
+            "title": "Inicio"
+          }
+        },
+        "blog_link_yyn696": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "news",
+            "title": "Noticias"
           }
         },
         "blog_link_RpFExx": {
@@ -42,6 +49,7 @@
         }
       },
       "block_order": [
+        "blog_link_9nznyr",
         "blog_link_yyn696",
         "blog_link_RpFExx",
         "blog_link_T4UXA7",
@@ -121,7 +129,7 @@
           "type": "button",
           "settings": {
             "button_label": "Descubre como lo hacemos",
-            "button_link": "shopify://blogs/noticias/una-tierra-sana-y-biodiversa-el-puente-hacia-una-tradicion-dia-de-muertos",
+            "button_link": "shopify://blogs/news/una-tierra-sana-y-biodiversa-el-puente-hacia-una-tradicion-dia-de-muertos",
             "button_style_secondary": true
           }
         }
@@ -133,7 +141,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/tdm-img-bioestimulantes.jpg",
+        "image": "shopify://shop_images/img2.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
