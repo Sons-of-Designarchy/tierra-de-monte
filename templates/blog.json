@@ -21,6 +21,52 @@
         "padding_bottom": 36
       }
     },
+    "blog_nav_xajjEF": {
+      "type": "blog-nav",
+      "blocks": {
+        "blog_link_ek3qrC": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "news",
+            "title": ""
+          }
+        },
+        "blog_link_heEEHb": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "compartiendo-conocimiento",
+            "title": "Ciencia"
+          }
+        },
+        "blog_link_xKtLgX": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "post",
+            "title": "Soluciones biológicas"
+          }
+        },
+        "blog_link_hRExEp": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "lo-que-le-das-a-tu-tierra",
+            "title": "Tierra"
+          }
+        }
+      },
+      "block_order": [
+        "blog_link_ek3qrC",
+        "blog_link_heEEHb",
+        "blog_link_xKtLgX",
+        "blog_link_hRExEp"
+      ],
+      "name": "Blog navigation",
+      "settings": {
+        "label": "Explora nuestro blog",
+        "color_scheme": "",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
     "featured_collection_3xiCjC": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -52,6 +98,7 @@
     }
   },
   "order": [
+    "blog_nav_xajjEF",
     "main",
     "featured_collection_3xiCjC"
   ]
