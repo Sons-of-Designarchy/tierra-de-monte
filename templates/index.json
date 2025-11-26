@@ -97,7 +97,7 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/quienes-somos-1.png",
+            "image": "shopify://shop_images/tdm-quienes-somos-1.jpg",
             "title": "",
             "stat_font": "mono",
             "stat_size_mobile": 24,
@@ -111,7 +111,7 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/quines-3.jpg",
+            "image": "shopify://shop_images/tdm-quienes-somos-2.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 24,
