@@ -273,7 +273,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/img-dudes.png",
+        "image": "shopify://shop_images/tdm-img-equipo.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -531,7 +531,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/img2.png",
+        "image": "shopify://shop_images/tdm-img-bioestimulantes.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
