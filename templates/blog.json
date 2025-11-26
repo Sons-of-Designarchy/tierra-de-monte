@@ -9,21 +9,16 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-blog",
-      "settings": {
-        "layout": "grid",
-        "show_image": true,
-        "image_height": "medium",
-        "show_date": true,
-        "show_author": true,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "blog_nav_xajjEF": {
       "type": "blog-nav",
       "blocks": {
+        "blog_link_RDP7kD": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "{{ blog }}",
+            "title": "Inicio"
+          }
+        },
         "blog_link_ek3qrC": {
           "type": "blog_link",
           "settings": {
@@ -54,6 +49,7 @@
         }
       },
       "block_order": [
+        "blog_link_RDP7kD",
         "blog_link_ek3qrC",
         "blog_link_heEEHb",
         "blog_link_xKtLgX",
@@ -65,6 +61,18 @@
         "color_scheme": "",
         "padding_top": 24,
         "padding_bottom": 24
+      }
+    },
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "layout": "grid",
+        "show_image": true,
+        "image_height": "medium",
+        "show_date": true,
+        "show_author": true,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "featured_collection_3xiCjC": {
