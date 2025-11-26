@@ -22,7 +22,7 @@
         "blog_link_ek3qrC": {
           "type": "blog_link",
           "settings": {
-            "blog": "news",
+            "blog": "noticias",
             "title": ""
           }
         },

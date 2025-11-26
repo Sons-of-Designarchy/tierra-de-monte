@@ -15,7 +15,7 @@
         "blog_link_yyn696": {
           "type": "blog_link",
           "settings": {
-            "blog": "news",
+            "blog": "noticias",
             "title": ""
           }
         },
@@ -121,7 +121,7 @@
           "type": "button",
           "settings": {
             "button_label": "Descubre como lo hacemos",
-            "button_link": "shopify://blogs/news/una-tierra-sana-y-biodiversa-el-puente-hacia-una-tradicion-dia-de-muertos",
+            "button_link": "shopify://blogs/noticias/una-tierra-sana-y-biodiversa-el-puente-hacia-una-tradicion-dia-de-muertos",
             "button_style_secondary": true
           }
         }
