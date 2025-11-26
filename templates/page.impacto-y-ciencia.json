@@ -348,7 +348,7 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/sandia.png",
+            "image": "shopify://shop_images/sandia.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
@@ -362,7 +362,7 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/chiles.png",
+            "image": "shopify://shop_images/chiles.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
@@ -376,7 +376,7 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/rosa.png",
+            "image": "shopify://shop_images/rosa.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
