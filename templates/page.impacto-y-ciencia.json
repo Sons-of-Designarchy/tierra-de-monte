@@ -414,7 +414,7 @@
       "type": "rich-text-with-logo",
       "name": "Rich text + Logo (custom)",
       "settings": {
-        "logo": "shopify://shop_images/omri-logo.png",
+        "logo": "shopify://shop_images/image_195.png",
         "logo_alt": "Section logo",
         "logo_width": 24,
         "heading": "",
