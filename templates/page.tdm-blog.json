@@ -69,7 +69,7 @@
       "settings": {
         "blog": "una-nueva-agricultura-1",
         "post_limit": 2,
-        "heading": "Ultimas noticias",
+        "heading": "Últimas noticias",
         "heading_size": "h1",
         "columns_desktop": 2,
         "show_view_all": true,
@@ -83,6 +83,7 @@
     },
     "featured_blog_p387gt": {
       "type": "featured-blog",
+      "disabled": true,
       "name": "t:sections.featured-blog.presets.name",
       "settings": {
         "blog": "post",
