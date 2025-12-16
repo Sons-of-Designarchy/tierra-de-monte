@@ -80,7 +80,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 24,
             "stat_size_desktop": 24,
-            "text": "<p>suelos que respiran de nuevo.<br/></p>",
+            "text": "<p>Suelos vivos y productivos</p>",
             "link_label": "",
             "link": ""
           }
@@ -91,11 +91,11 @@
             "desc_font": "mono",
             "image": "shopify://shop_images/icon-create.svg",
             "icon_size": 40,
-            "title": "Productores  aliados",
+            "title": "Personas",
             "stat_font": "heading",
             "stat_size_mobile": 24,
             "stat_size_desktop": 24,
-            "text": "<p>familias que recuperan dignidad en el campo.</p>",
+            "text": "<p>Trabajadores de campo que pueden volver a casa sin riesgos de intoxicación.</p>",
             "link_label": "",
             "link": ""
           }
@@ -106,11 +106,11 @@
             "desc_font": "mono",
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
-            "title": "Biodiversidad recuperada",
+            "title": "Vida que regresa",
             "stat_font": "heading",
             "stat_size_mobile": 24,
             "stat_size_desktop": 24,
-            "text": "<p>aves, insectos y plantas regresan donde antes había silencio.</p>",
+            "text": "<p>Fauna benéfica que puede volver a los campos.</p>",
             "link_label": "",
             "link": ""
           }
@@ -203,7 +203,7 @@
         "rule_color": "#294e3f",
         "show_rule": true,
         "title": "ODS como brújula",
-        "intro_paragraph": "<p>Los Objetivos de Desarrollo Sostenible guían nuestra práctica diaria que sostienen nuestro trabajo.</p>",
+        "intro_paragraph": "<p>Los Objetivos de Desarrollo Sostenible guían nuestra práctica diaria, y nos conectan con nuestro propósito.</p>",
         "image_width_percent": 100,
         "remove_card_bg": true,
         "heading_size": "h1",
@@ -246,14 +246,14 @@
         "heading_mrhQPn": {
           "type": "heading",
           "settings": {
-            "heading": "Ecosistemas que responden",
+            "heading": "Ecosistemas que producen",
             "heading_size": "hxl"
           }
         },
         "text_fftMby": {
           "type": "text",
           "settings": {
-            "text": "<p>En cada parcela regenerada, la vida regresa con fuerza.</p><ul><li>Suelos cansados que hoy florecen con diversidad microbiana.</li><li>Comunidades que abandonan químicos y encuentran resiliencia en bioinsumos.</li><li>Jóvenes que vuelven al campo porque la tierra otra vez es fértil y prometedora.</li></ul>",
+            "text": "<p>Una tierra regenerada se ve: </p><ul><li>Producción más estable, con menos fertilizantes. </li><li>Mayor retención de agua. </li><li>Control de plagas por periodos más largos. </li><li>Agricultores más sanos y más rentables, que mejoran su rendimiento año con año.</li></ul>",
             "text_style": "subtitle"
           }
         },
@@ -367,7 +367,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 72,
-            "text": "<p>Ciencia que integra en lugar de fragmentar</p>",
+            "text": "<p>Hacemos ciencia para dialogar, no para excluir</p>",
             "link_label": "",
             "link": ""
           }
