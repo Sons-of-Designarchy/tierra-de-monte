@@ -48,11 +48,11 @@
             "desc_font": "body",
             "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
             "icon_size": 45,
-            "title": "Investigamos en campo",
+            "title": "Investigamos",
             "stat_font": "heading",
             "stat_size_mobile": 16,
             "stat_size_desktop": 24,
-            "text": "<p>para escuchar lo que la tierra realmente necesita.</p>",
+            "text": "<p>Para entender cada sistema, para trabajar en conjunto con tu tierra. </p>",
             "link_label": "",
             "link": ""
           }
@@ -63,11 +63,11 @@
             "desc_font": "body",
             "image": "shopify://shop_images/icon-create.svg",
             "icon_size": 45,
-            "title": "Creamos soluciones de raíz",
+            "title": "Creamos soluciones",
             "stat_font": "heading",
             "stat_size_mobile": 16,
             "stat_size_desktop": 24,
-            "text": "<p>Que despiertan la microbiología dormida.</p>",
+            "text": "<p>Para activar la riqueza de tu suelo.</p>",
             "link_label": "",
             "link": ""
           }
@@ -78,11 +78,11 @@
             "desc_font": "body",
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 45,
-            "title": "Diseñamos para el mañana",
+            "title": "Diseñamos hoy",
             "stat_font": "heading",
             "stat_size_mobile": 16,
             "stat_size_desktop": 24,
-            "text": "<p>midiendo impacto productivo, social y ambiental.</p>",
+            "text": "<p>Para construir un mejor mañana: medimos impacto productivo, social y ambiental, para garantizar una huella positiva. </p>",
             "link_label": "",
             "link": ""
           }
@@ -121,7 +121,7 @@
         "heading_Ac8tnp": {
           "type": "heading",
           "settings": {
-            "heading": "La ciencia es nuestro lenguaje común con la tierra",
+            "heading": "La ciencia es nuestro lenguaje común con la tierra.",
             "heading_size": "h1"
           }
         },
@@ -204,7 +204,7 @@
         "text_PxJYhD": {
           "type": "text",
           "settings": {
-            "text": "<p>Un ecosistema de productores, científicos, comunidades y consumidores conscientes que trabajan juntos para demostrar que la agricultura puede ser regenerativa, justa y generar bienestar.</p>",
+            "text": "<p>Un ecosistema de productores, científicos, industria y consumidores que trabajan juntos para hacer que la agricultura regenerativa se vuelva la nueva manera de producir.</p>",
             "text_style": "body"
           }
         },
@@ -309,7 +309,7 @@
         "rule_color": "#294e3f",
         "show_rule": true,
         "title": "Si te inspira construir un futuro más fértil, únete a nuestro equipo.",
-        "description": "<p>En Tierra de Monte buscamos gente comprometida con regenerar los suelos, impulsar la vida y mejorar la agricultura desde la ciencia. </p>",
+        "description": "<p>En Tierra de Monte buscamos gente comprometida con regenerar los suelos y las sociedades, impulsar la vida y mejorar la agricultura desde la ciencia.</p>",
         "button_label": "",
         "button_link": "",
         "heading_size": "h1",
