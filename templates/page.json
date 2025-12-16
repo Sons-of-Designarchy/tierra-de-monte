@@ -16,9 +16,9 @@
         "logo": "shopify://shop_images/Client-Logo.svg",
         "logo_alt": "Section logo",
         "logo_width": 128,
-        "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida en el campo.",
+        "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida de las personas y los ecosistemas. Creamos soluciones biológicas que para regenerar ecosistemas equilibrados y agricultores que prosperan con mayor rentabilidad, menor costo y la recuperación de sus áreas productivas.",
         "heading_size": "h0",
-        "text": "<p>Creamos soluciones biológicas que regeneran el suelo, fortalecen los cultivos y reducen el uso de químicos, impulsando ecosistemas equilibrados y comunidades que prosperan junto con la tierra.</p>",
+        "text": "",
         "button_label": "",
         "button_link": "",
         "button_style_secondary": false,
@@ -95,7 +95,7 @@
       ],
       "name": "Multicolumn — custom box",
       "settings": {
-        "pretitle": "Lo que nos HAce Diferentes",
+        "pretitle": "Con resultados inmediatos, construimos ecosistemas de largo plazo",
         "rule_color": "#294e3f",
         "show_rule": true,
         "title": "En un mundo que busca resultados inmediatos. Nosotros pensamos en los ecosistemas a largo plazo.",
@@ -121,14 +121,14 @@
         "heading_Ac8tnp": {
           "type": "heading",
           "settings": {
-            "heading": "La ciencia es nuestro lenguaje común con la tierra.",
+            "heading": "La ciencia es nuestro lenguaje común con la tierra",
             "heading_size": "h1"
           }
         },
         "text_tGCcQQ": {
           "type": "text",
           "settings": {
-            "text": "<p>Cada bioinsumo nace de investigación rigurosa, pruebas en campo y diálogo con el conocimiento ancestral. Creemos que la verdadera innovación ocurre cuando los datos se vuelven vida.</p>",
+            "text": "<p>Cada producto nace de una investigación rigurosa, pruebas en campo y diálogo con el conocimiento de todos los actores involucrados en la producción. La innovación es un proceso vivo y permanente, que se alimenta de la realidad del campo.</p>",
             "text_style": "body"
           }
         },
@@ -178,7 +178,7 @@
         "logo_width": 24,
         "heading": "",
         "heading_size": "h2",
-        "text": "<p>Nuestra certificación como Empresa B no es un sello, es un compromiso:  alineamos cada acción con los Objetivos de Desarrollo Sostenible, porque entendemos que el campo, la sociedad y el planeta son un solo ecosistema.</p>",
+        "text": "<p>Nuestra certificación como Empresa B no es un sello, es un compromiso: Todas nuestras acciones están alineadas con los Objetivos de Desarrollo Sostenible, porque entendemos que el campo, la sociedad y el planeta son un solo ecosistema.</p>",
         "button_label": "",
         "button_link": "https://youtube.com",
         "button_style_secondary": true,

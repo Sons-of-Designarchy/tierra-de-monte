@@ -27,7 +27,7 @@
         "subtitle": "",
         "heading": "Vida que genera vida",
         "heading_size": "xl",
-        "body": "<p>Nuestros productos combinan ciencia y biotecnología con el poder de la naturaleza, restaurando la vida del suelo y fortaleciendo las plantas desde la raíz.</p>",
+        "body": "<p>Nuestros productos combinan ciencia y tecnología biológica para regenerar los ciclos naturales y devolver el equilibrio a los sistemas productivos. Atendemos todas las necesidades de los cultivos en conjunto con la Naturaleza, no en contra de ella.</p>",
         "button_label": "Soluciones",
         "button_link": "shopify://collections",
         "button_pill": false,
@@ -39,8 +39,8 @@
       "custom_css": [],
       "settings": {
         "kicker": "",
-        "heading": "Soluciones para potencializar todo tipo de cultivo",
-        "subheading": "Impulsa tus cosechas con biología viva. Bio-estimulantes diseñados para dar fuerza, calidad y productividad a tu tierra.",
+        "heading": "Soluciones para todos los cultivos",
+        "subheading": "Nuestros consorcios especializados de microorganismos permiten responder a todas las necesidades del cultivo para producir más con menos.",
         "show_card_excerpt": true,
         "collection_1": "bio-estimulantes",
         "label_1": "",
@@ -190,7 +190,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 80,
-            "text": "<h4>HECTÁREAS REGENERADAS</h4>",
+            "text": "<h4>Has que cada año mejoran su desempeño</h4>",
             "link_label": "",
             "link": ""
           }
@@ -204,7 +204,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 80,
-            "text": "<h4>DE BIODIVERSIDAD DEL SUELO RECUPERADA</h4>",
+            "text": "<p>No sólo evitamos el daño ambiental: regeneramos los suelos para que recobren su capacidad productiva propia.</p>",
             "link_label": "",
             "link": ""
           }
@@ -214,11 +214,11 @@
           "settings": {
             "desc_font": "mono",
             "image": "shopify://shop_images/home-tdm5.jpg",
-            "title": "<strong>+30</strong>",
+            "title": "<strong>+100,000</strong>",
             "stat_font": "mono",
             "stat_size_mobile": 49,
             "stat_size_desktop": 80,
-            "text": "<h4>COMUNIDADES ACOMPAÑADAS</h4>",
+            "text": "<p>agricultores y agricultoras beneficiados.</p>",
             "link_label": "",
             "link": ""
           }
@@ -234,8 +234,8 @@
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
         "rule_color": "#294e3f",
         "show_rule": true,
-        "title": "Efecto Tierra de Monte: Innovación que siembra futuro",
-        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad. Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y sus comunidades.</p>",
+        "title": "Innovación que siembra futuro",
+        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad. Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y quienes trabajamos en él.</p>",
         "button_label": "Encuentra tu solución",
         "button_link": "shopify://collections/all",
         "heading_size": "h1",
