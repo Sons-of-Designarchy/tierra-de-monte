@@ -37,8 +37,8 @@
         "button_i479y4": {
           "type": "button",
           "settings": {
-            "button_label": "",
-            "button_link": "",
+            "button_label": "Habla con un especialista",
+            "button_link": "https://wa.me/524423741871",
             "button_style_secondary": false
           }
         }
