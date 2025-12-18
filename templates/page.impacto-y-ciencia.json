@@ -260,8 +260,8 @@
         "button_r8mUMC": {
           "type": "button",
           "settings": {
-            "button_label": "",
-            "button_link": "",
+            "button_label": "Contáctanos",
+            "button_link": "https://wa.me/524423741871",
             "button_style_secondary": false
           }
         }
