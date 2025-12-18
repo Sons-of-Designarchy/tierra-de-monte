@@ -17,6 +17,115 @@
         "color_scheme": "scheme-1"
       }
     },
+    "slideshow_XRP4Ym": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_NPBcMU": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-antracnosis-en_aguacate.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        },
+        "slide_gR8RWL": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "Diapositiva de imagen",
+            "heading_size": "h1",
+            "subheading": "Cuenta la historia de tu marca a través de imágenes",
+            "button_label": "Etiqueta de botón",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_TTWgCJ": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "Diapositiva de imagen",
+            "heading_size": "h1",
+            "subheading": "Cuenta la historia de tu marca a través de imágenes",
+            "button_label": "Etiqueta de botón",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_kym9xQ": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "Diapositiva de imagen",
+            "heading_size": "h1",
+            "subheading": "Cuenta la historia de tu marca a través de imágenes",
+            "button_label": "Etiqueta de botón",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_HdLc7d": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "Diapositiva de imagen",
+            "heading_size": "h1",
+            "subheading": "Cuenta la historia de tu marca a través de imágenes",
+            "button_label": "Etiqueta de botón",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_NPBcMU",
+        "slide_gR8RWL",
+        "slide_TTWgCJ",
+        "slide_kym9xQ",
+        "slide_HdLc7d"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Presentación de diapositivas sobre tu marca"
+      }
+    },
     "product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
@@ -40,6 +149,7 @@
   },
   "order": [
     "banner",
+    "slideshow_XRP4Ym",
     "product-grid"
   ]
 }
