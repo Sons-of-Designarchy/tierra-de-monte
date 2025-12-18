@@ -37,43 +37,38 @@
         "padding_bottom": 36
       }
     },
-    "collage_N4LgJ7": {
-      "type": "collage",
+    "1766099042491e0469": {
+      "type": "apps",
       "blocks": {
-        "image_cBtdXf": {
-          "type": "image",
-          "settings": {}
-        },
-        "image_4Azq6m": {
-          "type": "image",
-          "settings": {}
-        },
-        "image_jfHW7z": {
-          "type": "image",
-          "settings": {}
+        "essential_grid_gallery_app_block_BYVqn3": {
+          "type": "shopify://apps/essential-grid-gallery/blocks/app-block/b252af1e-c43a-4272-b19c-e87bc447c686",
+          "settings": {
+            "eg_grid_metakey": 1,
+            "eg_grid_dynamic_metakey": "",
+            "eg_grid_heading": "",
+            "eg_grid_sub_heading": "",
+            "eg_grid_heading_size": 30,
+            "eg_grid_sub_heading_size": 15,
+            "eg_grid_heading_alignment": "center",
+            "eg_grid_sec_back_color": "",
+            "eg_grid_sec_front_color": "",
+            "eg_grid_sec_sub_heading_color": "",
+            "eg_grid_sec_pad_top": 0,
+            "eg_grid_sec_pad_bot": 0
+          }
         }
       },
       "block_order": [
-        "image_cBtdXf",
-        "image_4Azq6m",
-        "image_jfHW7z"
+        "essential_grid_gallery_app_block_BYVqn3"
       ],
-      "name": "t:sections.collage.presets.name",
       "settings": {
-        "heading": "Collage multimedia",
-        "heading_size": "h1",
-        "desktop_layout": "left",
-        "mobile_layout": "column",
-        "card_styles": "product-card-wrapper",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "include_margins": true
       }
     }
   },
   "order": [
     "banner",
     "product-grid",
-    "collage_N4LgJ7"
+    "1766099042491e0469"
   ]
 }
