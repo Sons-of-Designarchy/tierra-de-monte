@@ -135,7 +135,7 @@
         "button_AnLYhL": {
           "type": "button",
           "settings": {
-            "button_label": "Conocer más",
+            "button_label": "Cónoce sobre nuestra investigación",
             "button_link": "shopify://pages/impacto-y-ciencia",
             "button_style_secondary": true
           }
@@ -253,8 +253,8 @@
             "title": "Escribenos para conocernos",
             "text": "",
             "desc_font": "body",
-            "link_label": "",
-            "link": "shopify://pages/vacante-de-ejemplo"
+            "link_label": "Carta postulacion",
+            "link": "shopify://pages/carta-postulacion"
           }
         },
         "row_YRUD7w": {

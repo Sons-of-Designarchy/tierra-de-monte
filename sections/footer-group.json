@@ -56,6 +56,9 @@
         "link_list_fBryQX",
         "footer-2"
       ],
+      "custom_css": [
+        ".newsletter-form__field-wrapper{display:none!important}"
+      ],
       "settings": {
         "color_scheme": "scheme-3",
         "newsletter_enable": false,
