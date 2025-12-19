@@ -4057,3 +4057,24 @@ h4,
   padding-bottom: 1rem;
   margin-bottom: 3rem;
 }
+
+.card {
+  position: relative;
+}
+
+.card__link-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block!important;
+}
+
+.card__actions,
+.quick-add,
+.quick-add-modal,
+.modal-opener,
+.product-form,
+.card__view-link {
+  position: relative;
+  z-index: 2;
+}
