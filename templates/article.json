@@ -13,7 +13,7 @@
       "type": "custom-breadcrumb-blog",
       "name": "Custom breadcrumb — blog",
       "settings": {
-        "back_label": "Back",
+        "back_label": "Atrás",
         "color_scheme": "scheme-1",
         "padding_top": 12,
         "padding_bottom": 12
