@@ -45,7 +45,7 @@
           "type": "text",
           "settings": {
             "heading": "contacto",
-            "subtext": "<p>Hola@tierrademonte.mx<br/><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 55 1234-4321</p><p>Carretera Estatal 431, km 1+933, Europark II bodega 15C, C.P. 76246, El Marqués, Querétaro, Querétaro</p>"
+            "subtext": "<p><a href=\"mailto:hola@tierrademonte.mx\" target=\"_blank\" title=\"mailto:hola@tierrademonte.mx\">hola@tierrademonte.mx</a><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 55 1234-4321</p><p>WhatsApp: 4423741871</p><p>Carretera Estatal 431, km 1+933, Europark II bodega 15C, C.P. 76246, El Marqués, Querétaro, Querétaro</p>"
           }
         }
       },
@@ -58,9 +58,9 @@
       ],
       "settings": {
         "color_scheme": "scheme-3",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "newsletter_title": "Recibe nuestro Newletter por correo",
+        "newsletter_enable": false,
+        "newsletter_heading": "",
+        "newsletter_title": "",
         "newsletter_image": "shopify://shop_images/Frame_56.png",
         "newsletter_image_alt": "Newsletter",
         "newsletter_image_max_width": 280,
