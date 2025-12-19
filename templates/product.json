@@ -67,7 +67,7 @@
         "custom_liquid_XXVPDt": {
           "type": "custom_liquid",
           "settings": {
-            "custom_liquid": "<div style=\"margin-top: 24px; margin-bottom: 24px; text-align: center;\"><a href=\"https://wa.me/524423741871\n\" style=\"display: inline-block; padding: 16px 48px; background-color: #d8e35b; color: #1f4d37; text-decoration: none; font-weight: 400; border-radius: 40px; font-size: 16px; transition: all 0.3s ease; border: 2px solid #d8e35b;\" onmouseover=\"this.style.backgroundColor='#1f4d37'; this.style.color='#d8e35b';\" onmouseout=\"this.style.backgroundColor='#d8e35b'; this.style.color='#1f4d37';\">Solicita información</a></div>"
+            "custom_liquid": "<div style=\"margin-top: 24px; margin-bottom: 24px; text-align: center;\"><a href=\"https://wa.me/524423741871\n\" style=\" width: 100%; display: block; padding: 16px 48px; background-color: #d8e35b; color: #1f4d37; text-decoration: none; font-weight: 400; border-radius: 40px; font-size: 16px; transition: all 0.3s ease; border: 2px solid #d8e35b;\" onmouseover=\"this.style.backgroundColor='#1f4d37'; this.style.color='#d8e35b';\" onmouseout=\"this.style.backgroundColor='#d8e35b'; this.style.color='#1f4d37';\">Solicita información</a></div>"
           }
         },
         "collapsible_tab_dgJxpK": {
