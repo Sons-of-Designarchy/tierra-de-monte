@@ -65,50 +65,51 @@
         "padding_bottom": 12
       }
     },
-    "image_with_text": {
+    "image_with_text_bNYmpQ": {
       "type": "image-with-text",
       "blocks": {
-        "heading": {
+        "heading_wmQAT6": {
           "type": "heading",
           "settings": {
-            "heading": "Imagen con texto",
+            "heading": "Tierra de Monte no es una empresa aislada, es un nodo dentro de una red en expansión.",
             "heading_size": "h1"
           }
         },
-        "text": {
+        "text_3cMX9X": {
           "type": "text",
           "settings": {
-            "text": "<p>Vincula un texto con una imagen para atraer la atención hacia tu producto, colección o artículo de blog seleccionados. Agrega detalles sobre disponibilidad y estilo, o incluso ofrece una reseña.</p>",
+            "text": "<p>Un ecosistema de productores, científicos, industria y consumidores que trabajan juntos para hacer que la agricultura regenerativa se vuelva la nueva manera de producir.</p>",
             "text_style": "body"
           }
         },
-        "button": {
+        "button_w7bKtR": {
           "type": "button",
           "settings": {
-            "button_label": "Etiqueta de botón",
-            "button_link": "",
+            "button_label": "Descubre cómo lo hacemos",
+            "button_link": "shopify://pages/impacto-y-ciencia",
             "button_style_secondary": true
           }
         }
       },
       "block_order": [
-        "heading",
-        "text",
-        "button"
+        "heading_wmQAT6",
+        "text_3cMX9X",
+        "button_w7bKtR"
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/img.png",
+        "image": "shopify://shop_images/tdm-image-with_text2.png",
         "height": "adapt",
         "desktop_image_width": "medium",
-        "layout": "image_first",
+        "layout": "text_first",
         "image_behavior": "none",
         "content_layout": "no-overlap",
         "desktop_content_position": "top",
         "desktop_content_alignment": "left",
         "mobile_content_alignment": "left",
-        "section_color_scheme": "scheme-1",
-        "color_scheme": "scheme-3",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-5",
+        "logo_asset": "shopify://shop_images/Logo-white.svg",
         "logo_alt": "",
         "logo_size": 80,
         "padding_top": 36,
@@ -167,7 +168,7 @@
     "custom_breadcrumb_blog",
     "main",
     "article_nav",
-    "image_with_text",
+    "image_with_text_bNYmpQ",
     "featured_blog",
     "featured_collection"
   ]
