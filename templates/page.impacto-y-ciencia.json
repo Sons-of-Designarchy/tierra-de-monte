@@ -517,6 +517,7 @@
         },
         "button_68Vjky": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "button_label": "Descubre como lo hacemos",
             "button_link": "shopify://blogs/news/mitigando-y-revirtiendo-problematicas-medioambientales-y-sociales-la-agricultura-como-eje-de-cambio",
