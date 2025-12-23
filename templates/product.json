@@ -131,7 +131,7 @@
           "type": "heading",
           "settings": {
             "heading": "{{ product.metafields.custom.texto_tabla.value }}",
-            "heading_size": "h1"
+            "heading_size": "h2"
           }
         }
       },
