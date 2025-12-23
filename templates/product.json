@@ -124,6 +124,30 @@
         "padding_bottom": 12
       }
     },
+    "rich_text_3X3e8H": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_9dTJV7": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ product.metafields.custom.texto_tabla.value }}",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9dTJV7"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "image_banner_8hJfW9": {
       "type": "image-banner",
       "name": "Tabla valores producto",
@@ -397,6 +421,7 @@
   },
   "order": [
     "main",
+    "rich_text_3X3e8H",
     "image_banner_8hJfW9",
     "slideshow_3je3CQ",
     "featured_collection_maNLMy",
