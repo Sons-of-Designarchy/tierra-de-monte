@@ -34,10 +34,10 @@
           "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
           "settings": {
             "form_id": "801675",
-            "text_color": "#d8e35b",
+            "text_color": "#1f4d37",
             "button_background_color": "#d8e35b",
             "button_label_color": "#373736",
-            "links_color": "#1878B9",
+            "links_color": "#458e74",
             "errors_color": "#c41d1d",
             "text_alignment": "center",
             "form_alignment": "center",
