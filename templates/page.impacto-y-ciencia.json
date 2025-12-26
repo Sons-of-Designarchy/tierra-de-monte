@@ -376,12 +376,12 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/rosa.jpg",
+            "image": "shopify://shop_images/tdm-ciencia-03.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 72,
-            "text": "<p>Datos que nacen de la vida en movimiento</p>",
+            "text": "<p>Datos que cuentan nuestra historia de campos regenerados, cosechas abundantes, y productores y productoras exitosos</p>",
             "link_label": "",
             "link": ""
           }
