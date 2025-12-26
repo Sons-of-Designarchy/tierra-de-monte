@@ -148,7 +148,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/tdm-image-with_text2-2.png",
+        "image": "shopify://shop_images/image-with_text2-2_2x-1.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -224,7 +224,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/image-with_text2-2_2x-1.jpg",
+        "image": "shopify://shop_images/image-with_text2-2_2x-2.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "text_first",
