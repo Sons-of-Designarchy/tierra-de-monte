@@ -11,9 +11,41 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "rich_text_43J6yk": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nwhawz": {
+          "type": "heading",
+          "settings": {
+            "heading": "Contacto",
+            "heading_size": "h1"
+          }
+        },
+        "text_j7i6Pd": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Estamos para ayudarte</h2><p>Si tienes alguna duda o comentario no dudes en contactarnos. Escríbenos y una persona de nuestro equipo se contactará contigo a la brevedad.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nwhawz",
+        "text_j7i6Pd"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "form": {
@@ -58,6 +90,7 @@
   },
   "order": [
     "main",
+    "rich_text_43J6yk",
     "form",
     "176651568325d898f7"
   ]

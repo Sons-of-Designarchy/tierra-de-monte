@@ -70,7 +70,7 @@
             "button_background_color": "#d8e35b",
             "button_label_color": "#373736",
             "links_color": "#458e74",
-            "errors_color": "#E02229",
+            "errors_color": "#e02229",
             "text_alignment": "center",
             "form_alignment": "center",
             "padding_top": 24,
