@@ -419,7 +419,7 @@
         "logo_width": 24,
         "heading": "",
         "heading_size": "h2",
-        "text": "<p>Contamos con sellos como OMRI y estándares internacionales.  Pero nuestra mayor certificación es la vida que regresa.</p>",
+        "text": "<p>Contamos con certificación OMRI en nuestros productos, pero nuestra mayor certificación es la vida que regresa a tu campo.</p>",
         "button_label": "",
         "button_link": "",
         "button_style_secondary": false,
@@ -441,7 +441,7 @@
             "image": "shopify://shop_images/loop-white.svg",
             "title": "",
             "desc_font": "mono",
-            "text": "<p>Suelos con aroma fresco</p>",
+            "text": "<p>Suelos vivos</p>",
             "link_label": "",
             "link": ""
           }
@@ -452,7 +452,7 @@
             "image": "shopify://shop_images/loop-white.svg",
             "title": "",
             "desc_font": "mono",
-            "text": "<p>Agua que corre clara</p>",
+            "text": "<p>Agua que nutre y que fluye limpia</p>",
             "link_label": "",
             "link": ""
           }
@@ -463,7 +463,7 @@
             "image": "shopify://shop_images/loop-white.svg",
             "title": "",
             "desc_font": "mono",
-            "text": "<p>Comunidades que prosperan</p>",
+            "text": "<p>El campo y su gente que prospera</p>",
             "link_label": "",
             "link": ""
           }
@@ -511,7 +511,7 @@
         "text_AiDiT3": {
           "type": "text",
           "settings": {
-            "text": "<p>Cada bioinsumo nace de investigación rigurosa, pruebas en campo y diálogo con el conocimiento ancestral. Creemos que la verdadera innovación ocurre cuando los datos se vuelven vida.</p>",
+            "text": "<p>Cada bioinsumo nace de investigación rigurosa, pruebas en campo y diálogo con el conocimiento ancestral. Creemos que la verdadera innovación ocurre cuando los datos sirven a la vida.</p>",
             "text_style": "body"
           }
         },
