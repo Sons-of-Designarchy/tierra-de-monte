@@ -248,7 +248,7 @@
           "type": "column",
           "settings": {
             "desc_font": "mono",
-            "image": "shopify://shop_images/quines-3.jpg",
+            "image": "shopify://shop_images/tdm-home-quienes-somos-3.jpg",
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 24,
@@ -348,7 +348,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/img2.png",
+        "image": "shopify://shop_images/image-with_text2-2_2x-1.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
