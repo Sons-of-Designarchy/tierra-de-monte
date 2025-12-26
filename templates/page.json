@@ -224,7 +224,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/tdm-image-with_text2.png",
+        "image": "shopify://shop_images/image-with_text2-2_2x-1.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "text_first",
