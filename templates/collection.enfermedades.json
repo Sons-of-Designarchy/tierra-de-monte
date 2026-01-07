@@ -11,9 +11,23 @@
   "sections": {
     "grid_gallery": {
       "type": "grid-gallery",
+      "blocks": {
+        "item_meyG9T": {
+          "type": "item",
+          "settings": {
+            "name": "",
+            "scientific_name": "",
+            "product": "",
+            "note": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_meyG9T"
+      ],
       "settings": {
         "kicker": "",
-        "heading": "Plagas comunes",
+        "heading": "Enfermedades",
         "subheading": "",
         "product_label": "Producto recomendado"
       }
