@@ -15,28 +15,127 @@
         "item_hXXeUe": {
           "type": "item",
           "settings": {
-            "image": "shopify://shop_images/tdm-aqa-b-3.jpg",
-            "name": "nombre de plaga",
-            "scientific_name": "nombre cientifico de plaga",
-            "product": "crecr",
+            "image": "shopify://shop_images/tdm-plagas-arana-roja-usado-7.jpg",
+            "name": "Araña roja",
+            "scientific_name": "Tetranychus urticae",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_nVkLCc": {
+          "type": "item",
+          "settings": {
+            "name": "Araña cristalina",
+            "scientific_name": "Oligonychus perseae",
+            "product": "lanz",
             "note": ""
           }
         },
         "item_68xMMG": {
           "type": "item",
           "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
+            "name": "Palomilla Dorso de Diamante",
+            "scientific_name": "Plutella xylostella",
+            "product": "lanz",
             "note": ""
           }
         },
-        "item_pPzi3c": {
+        "item_9RjPfk": {
           "type": "item",
           "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
+            "name": "Palomilla europea",
+            "scientific_name": "Duponchelia Fovealis",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_hpVWPG": {
+          "type": "item",
+          "settings": {
+            "name": "Falsa Chinche Lygus",
+            "scientific_name": "Nysius raphanus",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_Mge6Bj": {
+          "type": "item",
+          "settings": {
+            "name": "Fungus Gnat",
+            "scientific_name": "Bradysia paupera",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_h7g6qF": {
+          "type": "item",
+          "settings": {
+            "name": "Gallina Ciega",
+            "scientific_name": "Phyllophaga spp",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_kgW8fN": {
+          "type": "item",
+          "settings": {
+            "name": "Gusano Cogollero",
+            "scientific_name": "Spodoptera frugiperda",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_yQ37Fp": {
+          "type": "item",
+          "settings": {
+            "name": "Mosquita Blanca",
+            "scientific_name": "Bemisia tabaci",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_e9hLd4": {
+          "type": "item",
+          "settings": {
+            "name": "Picudo del Chile",
+            "scientific_name": "Anthonomus eugenii",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_CBqRfz": {
+          "type": "item",
+          "settings": {
+            "name": "Thrips de flor",
+            "scientific_name": "Frankliniella occidentalis",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_i4gWnt": {
+          "type": "item",
+          "settings": {
+            "name": "Thrips de hoja",
+            "scientific_name": "Scirtothrips dorsalis",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_DWcMgq": {
+          "type": "item",
+          "settings": {
+            "name": "Pulgón",
+            "scientific_name": "Mysius spp",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_cb8qR6": {
+          "type": "item",
+          "settings": {
+            "name": "Piojo harinoso",
+            "scientific_name": "Planococcus ficus",
+            "product": "lanz",
             "note": ""
           }
         },
@@ -52,8 +151,19 @@
       },
       "block_order": [
         "item_hXXeUe",
+        "item_nVkLCc",
         "item_68xMMG",
-        "item_pPzi3c",
+        "item_9RjPfk",
+        "item_hpVWPG",
+        "item_Mge6Bj",
+        "item_h7g6qF",
+        "item_kgW8fN",
+        "item_yQ37Fp",
+        "item_e9hLd4",
+        "item_CBqRfz",
+        "item_i4gWnt",
+        "item_DWcMgq",
+        "item_cb8qR6",
         "item_YrYNXL"
       ],
       "settings": {
