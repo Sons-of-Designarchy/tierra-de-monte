@@ -16,8 +16,8 @@
           "type": "item",
           "settings": {
             "image": "shopify://shop_images/tdm-aqa-b-3.jpg",
-            "name": "name",
-            "scientific_name": "test name",
+            "name": "nombre de plaga",
+            "scientific_name": "nombre cientifico de plaga",
             "product": "crecr",
             "note": ""
           }
