@@ -9,60 +9,6 @@
  */
 {
   "sections": {
-    "grid_gallery": {
-      "type": "grid-gallery",
-      "blocks": {
-        "item_hXXeUe": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/tdm-aqa-b-3.jpg",
-            "name": "nombre de plaga",
-            "scientific_name": "nombre cientifico de plaga",
-            "product": "crecr",
-            "note": ""
-          }
-        },
-        "item_68xMMG": {
-          "type": "item",
-          "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
-            "note": ""
-          }
-        },
-        "item_pPzi3c": {
-          "type": "item",
-          "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
-            "note": ""
-          }
-        },
-        "item_YrYNXL": {
-          "type": "item",
-          "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
-            "note": ""
-          }
-        }
-      },
-      "block_order": [
-        "item_hXXeUe",
-        "item_68xMMG",
-        "item_pPzi3c",
-        "item_YrYNXL"
-      ],
-      "settings": {
-        "kicker": "",
-        "heading": "Plagas",
-        "subheading": "Hemos generado productos para control de plagas de alta efectividad, de amplio espectro pero precisa selectividad contra insectos nocivos sin dañar depredadores ni polinizadores. Nuestros tratamientos son exitosos contra insectos y ácaros en una amplia gama de cultivos, mostrando efectividad superior a las alternativas.",
-        "product_label": "Producto recomendado"
-      }
-    },
     "banner": {
       "type": "main-collection-banner",
       "settings": {
@@ -71,32 +17,204 @@
         "color_scheme": "scheme-1"
       }
     },
-    "1766099042491e0469": {
-      "type": "apps",
+    "grid_gallery": {
+      "type": "grid-gallery",
       "blocks": {
-        "essential_grid_gallery_app_block_BYVqn3": {
-          "type": "shopify://apps/essential-grid-gallery/blocks/app-block/b252af1e-c43a-4272-b19c-e87bc447c686",
+        "item_hXXeUe": {
+          "type": "item",
           "settings": {
-            "eg_grid_metakey": 1,
-            "eg_grid_dynamic_metakey": "",
-            "eg_grid_heading": "",
-            "eg_grid_sub_heading": "",
-            "eg_grid_heading_size": 30,
-            "eg_grid_sub_heading_size": 15,
-            "eg_grid_heading_alignment": "center",
-            "eg_grid_sec_back_color": "",
-            "eg_grid_sec_front_color": "",
-            "eg_grid_sec_sub_heading_color": "",
-            "eg_grid_sec_pad_top": 0,
-            "eg_grid_sec_pad_bot": 0
+            "image": "shopify://shop_images/tdm-plagas-arana-roja-usado-7.jpg",
+            "name": "Araña roja",
+            "scientific_name": "Tetranychus urticae",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_68xMMG": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-palomilla-dorso-de-diamante-pupa-no-usado.jpg",
+            "name": "Palomilla Dorso de Diamante",
+            "scientific_name": "Plutella xylostella",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_Mge6Bj": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Dano_por_fungus_gnat_3.jpg",
+            "name": "Fungus Gnat",
+            "scientific_name": "Bradysia paupera",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_h7g6qF": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gallina_ciega_en_raiz.jpg",
+            "name": "Gallina Ciega",
+            "scientific_name": "Phyllophaga spp",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_kgW8fN": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gusano-cogollero-2_d9b32518-4939-4080-b1ab-3d0b90812616.jpg",
+            "name": "Gusano Cogollero",
+            "scientific_name": "Spodoptera frugiperda",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_yQ37Fp": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-mosquita-blanca-usado-2.jpg",
+            "name": "Mosquita Blanca",
+            "scientific_name": "Bemisia tabaci",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_e9hLd4": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-picudo-del-chile-larvas-de-barrenillo-del-chile-Anthonomus-eugenii-Cano.jpg",
+            "name": "Picudo del Chile",
+            "scientific_name": "Anthonomus eugenii",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_CBqRfz": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-thrips-4.jpg",
+            "name": "Thrips de flor",
+            "scientific_name": "Frankliniella occidentalis",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_i4gWnt": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-thrips-30.jpg",
+            "name": "Thrips de hoja",
+            "scientific_name": "Scirtothrips dorsalis",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_DWcMgq": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2079.jpg",
+            "name": "Pulgón",
+            "scientific_name": "Mysius spp",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_cb8qR6": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Piojo_harinoso_1.jpg",
+            "name": "Piojo harinoso",
+            "scientific_name": "Planococcus ficus",
+            "product": "lanz",
+            "note": ""
+          }
+        },
+        "item_YrYNXL": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Dano_por_fungus_gnat_2_71b85e1b-8b2b-44bb-b600-f81f8f53cc77.jpg",
+            "name": "Fungus Gnat",
+            "scientific_name": "Bradysia paupera",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_qXzMqD": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gallina_ciega.png",
+            "name": "Gallina Ciega",
+            "scientific_name": "Phyllophaga spp",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_HGrbEm": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gusano-cogollero-4.jpg",
+            "name": "Gusano Cogollero",
+            "scientific_name": "Spodoptera frugiperda",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_AmkFzz": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gusano-elotero-5.jpg",
+            "name": "Gusano Elotero",
+            "scientific_name": "Helicoverpa zea",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_RmNVM7": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-mosquita-blanca-usado-1_135d2910-cea0-4e4b-81e6-ebea409e8ada.jpg",
+            "name": "Mosquita Blanca",
+            "scientific_name": "Bemisia tabaci",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_pw7XRH": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-plagas-mosca-suzukii-mosca_suzukii.jpg",
+            "name": "Mosca Suzukii",
+            "scientific_name": "Drosophilia suzukii",
+            "product": "protg",
+            "note": ""
           }
         }
       },
       "block_order": [
-        "essential_grid_gallery_app_block_BYVqn3"
+        "item_hXXeUe",
+        "item_68xMMG",
+        "item_Mge6Bj",
+        "item_h7g6qF",
+        "item_kgW8fN",
+        "item_yQ37Fp",
+        "item_e9hLd4",
+        "item_CBqRfz",
+        "item_i4gWnt",
+        "item_DWcMgq",
+        "item_cb8qR6",
+        "item_YrYNXL",
+        "item_qXzMqD",
+        "item_HGrbEm",
+        "item_AmkFzz",
+        "item_RmNVM7",
+        "item_pw7XRH"
       ],
       "settings": {
-        "include_margins": true
+        "kicker": "",
+        "heading": "",
+        "subheading": "",
+        "product_label": "Producto recomendado"
       }
     },
     "product-grid": {
@@ -121,9 +239,8 @@
     }
   },
   "order": [
-    "grid_gallery",
     "banner",
-    "1766099042491e0469",
+    "grid_gallery",
     "product-grid"
   ]
 }
