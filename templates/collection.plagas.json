@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
     "grid_gallery": {
       "type": "grid-gallery",
       "blocks": {
@@ -204,17 +212,9 @@
       ],
       "settings": {
         "kicker": "",
-        "heading": "Plagas",
-        "subheading": "Hemos generado productos para control de plagas de alta efectividad, de amplio espectro pero precisa selectividad contra insectos nocivos sin dañar depredadores ni polinizadores. Nuestros tratamientos son exitosos contra insectos y ácaros en una amplia gama de cultivos, mostrando efectividad superior a las alternativas.",
+        "heading": "",
+        "subheading": "",
         "product_label": "Producto recomendado"
-      }
-    },
-    "banner": {
-      "type": "main-collection-banner",
-      "settings": {
-        "show_collection_description": true,
-        "show_collection_image": false,
-        "color_scheme": "scheme-1"
       }
     },
     "product-grid": {
