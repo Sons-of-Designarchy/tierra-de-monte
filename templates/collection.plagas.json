@@ -9,6 +9,60 @@
  */
 {
   "sections": {
+    "grid_gallery": {
+      "type": "grid-gallery",
+      "blocks": {
+        "item_hXXeUe": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-aqa-b-3.jpg",
+            "name": "nombre de plaga",
+            "scientific_name": "nombre cientifico de plaga",
+            "product": "crecr",
+            "note": ""
+          }
+        },
+        "item_68xMMG": {
+          "type": "item",
+          "settings": {
+            "name": "",
+            "scientific_name": "",
+            "product": "",
+            "note": ""
+          }
+        },
+        "item_pPzi3c": {
+          "type": "item",
+          "settings": {
+            "name": "",
+            "scientific_name": "",
+            "product": "",
+            "note": ""
+          }
+        },
+        "item_YrYNXL": {
+          "type": "item",
+          "settings": {
+            "name": "",
+            "scientific_name": "",
+            "product": "",
+            "note": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_hXXeUe",
+        "item_68xMMG",
+        "item_pPzi3c",
+        "item_YrYNXL"
+      ],
+      "settings": {
+        "kicker": "",
+        "heading": "Plagas comunes",
+        "subheading": "",
+        "product_label": "Producto recomendado"
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
       "settings": {
@@ -64,18 +118,7 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "grid_gallery": {
-  "type": "grid-gallery",
-  "blocks": {},
-  "block_order": [],
-  "settings": {
-    "kicker": "",
-    "heading": "Plagas comunes",
-    "subheading": "",
-    "product_label": "Producto recomendado"
-  }
-}
+    }
   },
   "order": [
     "grid_gallery",
