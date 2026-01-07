@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
     "grid_gallery": {
       "type": "grid-gallery",
       "blocks": {
@@ -138,17 +146,9 @@
       ],
       "settings": {
         "kicker": "",
-        "heading": "Enfermedades",
+        "heading": "",
         "subheading": "",
         "product_label": "Producto recomendado"
-      }
-    },
-    "banner": {
-      "type": "main-collection-banner",
-      "settings": {
-        "show_collection_description": true,
-        "show_collection_image": false,
-        "color_scheme": "scheme-1"
       }
     },
     "product-grid": {
