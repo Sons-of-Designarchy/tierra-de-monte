@@ -22,38 +22,12 @@
             "note": ""
           }
         },
-        "item_nVkLCc": {
-          "type": "item",
-          "settings": {
-            "name": "Araña cristalina",
-            "scientific_name": "Oligonychus perseae",
-            "product": "lanz",
-            "note": ""
-          }
-        },
         "item_68xMMG": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-palomilla-dorso-de-diamante-pupa-no-usado.jpg",
             "name": "Palomilla Dorso de Diamante",
             "scientific_name": "Plutella xylostella",
-            "product": "lanz",
-            "note": ""
-          }
-        },
-        "item_9RjPfk": {
-          "type": "item",
-          "settings": {
-            "name": "Palomilla europea",
-            "scientific_name": "Duponchelia Fovealis",
-            "product": "lanz",
-            "note": ""
-          }
-        },
-        "item_hpVWPG": {
-          "type": "item",
-          "settings": {
-            "name": "Falsa Chinche Lygus",
-            "scientific_name": "Nysius raphanus",
             "product": "lanz",
             "note": ""
           }
@@ -61,6 +35,7 @@
         "item_Mge6Bj": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/Dano_por_fungus_gnat_3.jpg",
             "name": "Fungus Gnat",
             "scientific_name": "Bradysia paupera",
             "product": "lanz",
@@ -70,6 +45,7 @@
         "item_h7g6qF": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gallina_ciega_en_raiz.jpg",
             "name": "Gallina Ciega",
             "scientific_name": "Phyllophaga spp",
             "product": "lanz",
@@ -79,6 +55,7 @@
         "item_kgW8fN": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gusano-cogollero-2_d9b32518-4939-4080-b1ab-3d0b90812616.jpg",
             "name": "Gusano Cogollero",
             "scientific_name": "Spodoptera frugiperda",
             "product": "lanz",
@@ -88,6 +65,7 @@
         "item_yQ37Fp": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-mosquita-blanca-usado-2.jpg",
             "name": "Mosquita Blanca",
             "scientific_name": "Bemisia tabaci",
             "product": "lanz",
@@ -97,6 +75,7 @@
         "item_e9hLd4": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-picudo-del-chile-larvas-de-barrenillo-del-chile-Anthonomus-eugenii-Cano.jpg",
             "name": "Picudo del Chile",
             "scientific_name": "Anthonomus eugenii",
             "product": "lanz",
@@ -106,6 +85,7 @@
         "item_CBqRfz": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-thrips-4.jpg",
             "name": "Thrips de flor",
             "scientific_name": "Frankliniella occidentalis",
             "product": "lanz",
@@ -115,6 +95,7 @@
         "item_i4gWnt": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-thrips-30.jpg",
             "name": "Thrips de hoja",
             "scientific_name": "Scirtothrips dorsalis",
             "product": "lanz",
@@ -124,6 +105,7 @@
         "item_DWcMgq": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/IMG_2079.jpg",
             "name": "Pulgón",
             "scientific_name": "Mysius spp",
             "product": "lanz",
@@ -133,6 +115,7 @@
         "item_cb8qR6": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/Piojo_harinoso_1.jpg",
             "name": "Piojo harinoso",
             "scientific_name": "Planococcus ficus",
             "product": "lanz",
@@ -142,6 +125,7 @@
         "item_YrYNXL": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/Dano_por_fungus_gnat_2_71b85e1b-8b2b-44bb-b600-f81f8f53cc77.jpg",
             "name": "Fungus Gnat",
             "scientific_name": "Bradysia paupera",
             "product": "protg",
@@ -151,6 +135,7 @@
         "item_qXzMqD": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gallina_ciega.png",
             "name": "Gallina Ciega",
             "scientific_name": "Phyllophaga spp",
             "product": "protg",
@@ -160,6 +145,7 @@
         "item_HGrbEm": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gusano-cogollero-4.jpg",
             "name": "Gusano Cogollero",
             "scientific_name": "Spodoptera frugiperda",
             "product": "protg",
@@ -169,6 +155,7 @@
         "item_AmkFzz": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-gusano-elotero-5.jpg",
             "name": "Gusano Elotero",
             "scientific_name": "Helicoverpa zea",
             "product": "protg",
@@ -178,6 +165,7 @@
         "item_RmNVM7": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-mosquita-blanca-usado-1_135d2910-cea0-4e4b-81e6-ebea409e8ada.jpg",
             "name": "Mosquita Blanca",
             "scientific_name": "Bemisia tabaci",
             "product": "protg",
@@ -187,6 +175,7 @@
         "item_pw7XRH": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/tdm-plagas-mosca-suzukii-mosca_suzukii.jpg",
             "name": "Mosca Suzukii",
             "scientific_name": "Drosophilia suzukii",
             "product": "protg",
@@ -196,10 +185,7 @@
       },
       "block_order": [
         "item_hXXeUe",
-        "item_nVkLCc",
         "item_68xMMG",
-        "item_9RjPfk",
-        "item_hpVWPG",
         "item_Mge6Bj",
         "item_h7g6qF",
         "item_kgW8fN",
@@ -223,73 +209,12 @@
         "product_label": "Producto recomendado"
       }
     },
-    "grid_gallery_TaqzkH": {
-      "type": "grid-gallery",
-      "blocks": {
-        "item_pjLJ3e": {
-          "type": "item",
-          "settings": {
-            "name": "Thrips de flor",
-            "scientific_name": "Frankliniella occidentalis",
-            "product": "protg",
-            "note": ""
-          }
-        },
-        "item_hGA74Y": {
-          "type": "item",
-          "settings": {
-            "name": "Pulgón amarillo",
-            "scientific_name": "Mysius sacchari",
-            "product": "protg",
-            "note": ""
-          }
-        }
-      },
-      "block_order": [
-        "item_pjLJ3e",
-        "item_hGA74Y"
-      ],
-      "settings": {
-        "kicker": "",
-        "heading": "",
-        "subheading": "",
-        "product_label": "Producto recomendado"
-      }
-    },
     "banner": {
       "type": "main-collection-banner",
       "settings": {
         "show_collection_description": true,
         "show_collection_image": false,
         "color_scheme": "scheme-1"
-      }
-    },
-    "1766099042491e0469": {
-      "type": "apps",
-      "blocks": {
-        "essential_grid_gallery_app_block_BYVqn3": {
-          "type": "shopify://apps/essential-grid-gallery/blocks/app-block/b252af1e-c43a-4272-b19c-e87bc447c686",
-          "settings": {
-            "eg_grid_metakey": 1,
-            "eg_grid_dynamic_metakey": "",
-            "eg_grid_heading": "",
-            "eg_grid_sub_heading": "",
-            "eg_grid_heading_size": 30,
-            "eg_grid_sub_heading_size": 15,
-            "eg_grid_heading_alignment": "center",
-            "eg_grid_sec_back_color": "",
-            "eg_grid_sec_front_color": "",
-            "eg_grid_sec_sub_heading_color": "",
-            "eg_grid_sec_pad_top": 0,
-            "eg_grid_sec_pad_bot": 0
-          }
-        }
-      },
-      "block_order": [
-        "essential_grid_gallery_app_block_BYVqn3"
-      ],
-      "settings": {
-        "include_margins": true
       }
     },
     "product-grid": {
@@ -314,10 +239,8 @@
     }
   },
   "order": [
-    "grid_gallery",
-    "grid_gallery_TaqzkH",
     "banner",
-    "1766099042491e0469",
+    "grid_gallery",
     "product-grid"
   ]
 }
