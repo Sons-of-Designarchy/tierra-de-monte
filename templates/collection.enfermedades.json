@@ -15,15 +15,126 @@
         "item_meyG9T": {
           "type": "item",
           "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
+            "image": "shopify://shop_images/tdm-enfermedades-antracnosis_en_fresa_7f0c2ac6-5220-41a5-b53b-f2dc890e557f.jpg",
+            "name": "Antracnosis",
+            "scientific_name": "Colletotrichum spp",
+            "product": "revib",
+            "note": "Antracnosis en fresa"
+          }
+        },
+        "item_JXBTJM": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-antracnosis-en_aguacate_c00c37b2-fc46-4223-a9c2-d7ebeb793b6f.jpg",
+            "name": "Antracnosis",
+            "scientific_name": "Colletotrichum spp",
+            "product": "revib",
+            "note": "Antracnosis en aguacate"
+          }
+        },
+        "item_YPT3A6": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-botrytis-4_6e65b34b-4b68-4849-a90f-71850cc5f1f9.jpg",
+            "name": "Botrytis",
+            "scientific_name": "Botrytis cinerea",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_8QcDDK": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/DampingOff_MaricarmenOchoa1_a8648ce9-091e-4a45-8915-5783ed939a50.jpg",
+            "name": "Damping Off",
+            "scientific_name": "Damping-off",
+            "product": "revib",
+            "note": "Damping Off en brócoli"
+          }
+        },
+        "item_Ua4wXN": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-neopestalotia-5_2a53e23b-ee3b-4d8d-bae7-d8b4908fe583.jpg",
+            "name": "Neopestalotiopsis",
+            "scientific_name": "Neopestalotiopsis rosae",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_WdwhwB": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-phythophtora-1_6d041528-10be-44e8-a6a0-107bc7707120.jpg",
+            "name": "Phytophthora",
+            "scientific_name": "Phytophthra spp",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_xNREtm": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-pudricion-rosada-erwinia_de_la_pina.webp",
+            "name": "Pudrición Rosada",
+            "scientific_name": "Erwinia carotovora",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_CFEhRT": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-pythium-1pythium_antes.jpg",
+            "name": "Pythium",
+            "scientific_name": "Pythium spp",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_8bXxwE": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-rona-2-rona_de_aguacate.jpg",
+            "name": "Roña",
+            "scientific_name": "Sphaceloma persea",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_XAwAe4": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-roya-en-cafeto-usado-hoja_con_roya_2.jpg",
+            "name": "Roya de cafeto",
+            "scientific_name": "Hemileia Vastratrix",
+            "product": "revib",
+            "note": ""
+          }
+        },
+        "item_cnfUiL": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/tdm-enfermedades-roya-de-la-frambuesa-sin-tratamiento-4.jpg",
+            "name": "Roya de Frambuesa",
+            "scientific_name": "Pucciniastrum Americanum",
+            "product": "revib",
             "note": ""
           }
         }
       },
       "block_order": [
-        "item_meyG9T"
+        "item_meyG9T",
+        "item_JXBTJM",
+        "item_YPT3A6",
+        "item_8QcDDK",
+        "item_Ua4wXN",
+        "item_WdwhwB",
+        "item_xNREtm",
+        "item_CFEhRT",
+        "item_8bXxwE",
+        "item_XAwAe4",
+        "item_cnfUiL"
       ],
       "settings": {
         "kicker": "",
@@ -38,23 +149,6 @@
         "show_collection_description": true,
         "show_collection_image": false,
         "color_scheme": "scheme-1"
-      }
-    },
-    "1766097792296b2187": {
-      "type": "apps",
-      "blocks": {
-        "enorm_image_gallery_video_embed_code_LXgiKV": {
-          "type": "shopify://apps/enorm-image-gallery-video/blocks/embed-code/01219f89-c8d0-40c2-a0ff-1987199e84a2",
-          "settings": {
-            "embed-code": "<div id=\"enap-gallery-94759\"></div>"
-          }
-        }
-      },
-      "block_order": [
-        "enorm_image_gallery_video_embed_code_LXgiKV"
-      ],
-      "settings": {
-        "include_margins": true
       }
     },
     "product-grid": {
@@ -79,9 +173,8 @@
     }
   },
   "order": [
-    "grid_gallery",
     "banner",
-    "1766097792296b2187",
+    "grid_gallery",
     "product-grid"
   ]
 }
