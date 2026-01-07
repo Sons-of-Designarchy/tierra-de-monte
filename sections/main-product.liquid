@@ -211,7 +211,8 @@
                 >
                   {%- if product.metafields.custom.hoja_de_seguridad -%}
                     <a
-                      class="button button--primary"
+                      class="button"
+                      style="flex: 1 1 220px; text-align:center;"
                       href="{{ product.metafields.custom.hoja_de_seguridad | file_url }}"
                       target="_blank"
                       rel="noopener"
@@ -219,9 +220,11 @@
                       {{ block.settings.label_hoja | default: 'Hoja de seguridad' }}
                     </a>
                   {%- endif -%}
+
                   {%- if product.metafields.custom.ficha_tecnica -%}
                     <a
                       class="button"
+                      style="flex: 1 1 220px; text-align:center;"
                       href="{{ product.metafields.custom.ficha_tecnica | file_url }}"
                       target="_blank"
                       rel="noopener"

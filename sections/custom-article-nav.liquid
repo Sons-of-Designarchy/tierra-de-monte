@@ -1,49 +1,45 @@
-{% comment %}
-  Custom Article Nav (robust)
-  - Derives blog from article.url if article.blog is unavailable
-  - Back button → blog url
-  - Next button → next newer article (fallback: compute from blog.articles)
-{% endcomment %}
+{%- assign current_raw = canonical_url | default: request.path | default: '' -%}
+{%- assign current_path = current_raw | split: '?' | first | remove: shop.url | remove_last: '/' -%}
 
-{%- assign blog_obj = article.blog -%}
+{%- assign back_url = routes.blogs_url -%}
+{%- assign next_url = routes.blogs_url -%}
 
-{%- if blog_obj == blank and article and article.url != blank -%}
-  {%- assign parts = article.url | split: '/' -%}
-
-  {%- assign blog_handle = parts[2] -%}
-  {%- if blog_handle != blank -%}
-    {%- assign blog_obj = blogs[blog_handle] -%}
+{%- assign all_articles = '' | split: ',' -%}
+{%- for b in blogs -%}
+  {%- assign bo = b[1] -%}
+  {%- if bo and bo.articles_count > 0 -%}
+    {%- assign all_articles = all_articles | concat: bo.articles -%}
   {%- endif -%}
-{%- endif -%}
+{%- endfor -%}
 
-{%- assign back_url = blog_obj.url | default: routes.blogs_url -%}
+{%- assign sorted = all_articles | sort: 'published_at' -%}
 
-{%- comment -%} 1) Try built-in next {%- endcomment -%}
-{%- assign next_article = article.next -%}
+{%- assign found_current = false -%}
+{%- assign first_other_url = blank -%}
+{%- assign picked = false -%}
 
-{%- comment -%}
-  2) Fallback: scan blog.articles (newest → oldest) and take the previous index.
-     (If we’re on the newest — index 0 — try the next older one.)
-{%- endcomment -%}
-{%- if next_article == null and blog_obj and blog_obj.articles_count > 1 -%}
-  {%- assign found_index = null -%}
-  {%- for a in blog_obj.articles -%}
-    {%- if a.id == article.id -%}
-      {%- assign found_index = forloop.index0 -%}
+{%- for a in sorted -%}
+  {%- if a and a.url != blank and a.published_at != blank -%}
+    {%- assign a_path = a.url | split: '?' | first | remove_last: '/' -%}
+
+    {%- if a_path != current_path and first_other_url == blank -%}
+      {%- assign first_other_url = a.url -%}
+    {%- endif -%}
+
+    {%- if found_current and picked == false and a_path != current_path -%}
+      {%- assign next_url = a.url -%}
+      {%- assign picked = true -%}
       {%- break -%}
     {%- endif -%}
-  {%- endfor -%}
-  {%- if found_index != null -%}
-    {%- assign prev_index = found_index | minus: 1 -%}
-    {%- if prev_index >= 0 -%}
-      {%- assign next_article = blog_obj.articles[prev_index] -%}
-    {%- else -%}
-      {%- assign after_index = found_index | plus: 1 -%}
-      {%- if after_index < blog_obj.articles.size -%}
-        {%- assign next_article = blog_obj.articles[after_index] -%}
-      {%- endif -%}
+
+    {%- if a_path == current_path -%}
+      {%- assign found_current = true -%}
     {%- endif -%}
   {%- endif -%}
+{%- endfor -%}
+
+{%- if picked == false and first_other_url != blank -%}
+  {%- assign next_url = first_other_url -%}
 {%- endif -%}
 
 <section class="section-{{ section.id }}-padding color-scheme-{{ section.settings.color_scheme }} gradient">
@@ -53,18 +49,20 @@
         {{ section.settings.back_label | default: 'Regresar' }}
       </a>
 
-      {%- if next_article -%}
-        <a class="anav__btn anav__btn--next" href="{{ next_article.url }}">
-          {{ section.settings.next_label | default: 'Siguiente blog' }}
-        </a>
-      {%- else -%}
-        <span class="anav__btn anav__btn--next" aria-disabled="true">
-          {{ section.settings.next_label | default: 'Siguiente blog' }}
-        </span>
-      {%- endif -%}
+      <a class="anav__btn anav__btn--next" href="{{ next_url }}">
+        {{ section.settings.next_label | default: 'Siguiente blog' }}
+      </a>
     </nav>
   </div>
 </section>
+
+{% style %}
+  .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}
+  .anav{display:grid;grid-template-columns:1fr 1fr;border:1px solid currentColor;border-radius:12px;overflow:hidden}
+  .anav__btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.2rem;text-decoration:none;color:inherit}
+  .anav__btn--back{border-right:1px solid currentColor}
+  @media (max-width:480px){.anav{grid-template-columns:1fr 1fr}}
+{% endstyle %}
 
 {% schema %}
 {
@@ -84,15 +82,6 @@
       "default": 12
     }
   ],
-  "presets": [{ "name": "Custom article nav" }]
+  "presets": [{ "name": "Custom article nav (global)" }]
 }
 {% endschema %}
-
-{% style %}
-  .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}
-  .anav{display:grid;grid-template-columns:1fr 1fr;border:1px solid currentColor;border-radius:12px;overflow:hidden}
-  .anav__btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.2rem;text-decoration:none;color: inherit;}
-  .anav__btn--back{border-right:1px solid currentColor}
-  .anav__btn--next[aria-disabled="true"]{opacity:.55;pointer-events:none}
-  @media (max-width:480px){.anav{grid-template-columns:1fr 1fr}}
-{% endstyle %}
