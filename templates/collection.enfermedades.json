@@ -9,17 +9,29 @@
  */
 {
   "sections": {
-        "grid_gallery": {
-  "type": "grid-gallery",
-  "blocks": {},
-  "block_order": [],
-  "settings": {
-    "kicker": "",
-    "heading": "Plagas comunes",
-    "subheading": "",
-    "product_label": "Producto recomendado"
-  }
-},
+    "grid_gallery": {
+      "type": "grid-gallery",
+      "blocks": {
+        "item_meyG9T": {
+          "type": "item",
+          "settings": {
+            "name": "",
+            "scientific_name": "",
+            "product": "",
+            "note": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_meyG9T"
+      ],
+      "settings": {
+        "kicker": "",
+        "heading": "Enfermedades",
+        "subheading": "",
+        "product_label": "Producto recomendado"
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
       "settings": {
