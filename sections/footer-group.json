@@ -45,7 +45,7 @@
           "type": "text",
           "settings": {
             "heading": "contacto",
-            "subtext": "<p><a href=\"mailto:hola@tierrademonte.mx\" target=\"_blank\" title=\"mailto:contacto@tierrademonte.com\">contacto@tierrademonte.com</a><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 442 589 6045</p><p>WhatsApp: 4423741871</p><p>Carretera Estatal 431, km 1+933, Europark II bodega 15C, C.P. 76246, El Marqués, Querétaro, Querétaro</p>"
+            "subtext": "<p><a href=\"mailto:hola@tierrademonte.mx\" target=\"_blank\" title=\"mailto:contacto@tierrademonte.com\">contacto@tierrademonte.com</a><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 442 589 6045</p><p>WhatsApp: <a href=\"https://wa.me/4423741871\" title=\"https://wa.me/4423741871\">4423741871</a></p><p>Carretera Estatal 431, km 1+933, Europark II bodega 15C, C.P. 76246, El Marqués, Querétaro, Querétaro</p>"
           }
         }
       },
