@@ -9,6 +9,17 @@
  */
 {
   "sections": {
+        "grid_gallery": {
+  "type": "grid-gallery",
+  "blocks": {},
+  "block_order": [],
+  "settings": {
+    "kicker": "",
+    "heading": "Plagas comunes",
+    "subheading": "",
+    "product_label": "Producto recomendado"
+  }
+},
     "banner": {
       "type": "main-collection-banner",
       "settings": {
@@ -56,6 +67,7 @@
     }
   },
   "order": [
+    "grid_gallery",
     "banner",
     "1766097792296b2187",
     "product-grid"

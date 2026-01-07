@@ -12,7 +12,7 @@
   {% endif %}
 
   {% if section.blocks.size > 0 %}
-    <div class="grid-gallery__grid" role="list">
+    <div class="grid-gallery__grid" role="list" style="margin-top: 1rem">
       {% for block in section.blocks %}
         {% liquid
           assign img = block.settings.image
