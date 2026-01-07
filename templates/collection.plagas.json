@@ -142,9 +142,54 @@
         "item_YrYNXL": {
           "type": "item",
           "settings": {
-            "name": "",
-            "scientific_name": "",
-            "product": "",
+            "name": "Fungus Gnat",
+            "scientific_name": "Bradysia paupera",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_qXzMqD": {
+          "type": "item",
+          "settings": {
+            "name": "Gallina Ciega",
+            "scientific_name": "Phyllophaga spp",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_HGrbEm": {
+          "type": "item",
+          "settings": {
+            "name": "Gusano Cogollero",
+            "scientific_name": "Spodoptera frugiperda",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_AmkFzz": {
+          "type": "item",
+          "settings": {
+            "name": "Gusano Elotero",
+            "scientific_name": "Helicoverpa zea",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_RmNVM7": {
+          "type": "item",
+          "settings": {
+            "name": "Mosquita Blanca",
+            "scientific_name": "Bemisia tabaci",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_pw7XRH": {
+          "type": "item",
+          "settings": {
+            "name": "Mosca Suzukii",
+            "scientific_name": "Drosophilia suzukii",
+            "product": "protg",
             "note": ""
           }
         }
@@ -164,12 +209,50 @@
         "item_i4gWnt",
         "item_DWcMgq",
         "item_cb8qR6",
-        "item_YrYNXL"
+        "item_YrYNXL",
+        "item_qXzMqD",
+        "item_HGrbEm",
+        "item_AmkFzz",
+        "item_RmNVM7",
+        "item_pw7XRH"
       ],
       "settings": {
         "kicker": "",
         "heading": "Plagas",
         "subheading": "Hemos generado productos para control de plagas de alta efectividad, de amplio espectro pero precisa selectividad contra insectos nocivos sin dañar depredadores ni polinizadores. Nuestros tratamientos son exitosos contra insectos y ácaros en una amplia gama de cultivos, mostrando efectividad superior a las alternativas.",
+        "product_label": "Producto recomendado"
+      }
+    },
+    "grid_gallery_TaqzkH": {
+      "type": "grid-gallery",
+      "blocks": {
+        "item_pjLJ3e": {
+          "type": "item",
+          "settings": {
+            "name": "Thrips de flor",
+            "scientific_name": "Frankliniella occidentalis",
+            "product": "protg",
+            "note": ""
+          }
+        },
+        "item_hGA74Y": {
+          "type": "item",
+          "settings": {
+            "name": "Pulgón amarillo",
+            "scientific_name": "Mysius sacchari",
+            "product": "protg",
+            "note": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_pjLJ3e",
+        "item_hGA74Y"
+      ],
+      "settings": {
+        "kicker": "",
+        "heading": "",
+        "subheading": "",
         "product_label": "Producto recomendado"
       }
     },
@@ -232,6 +315,7 @@
   },
   "order": [
     "grid_gallery",
+    "grid_gallery_TaqzkH",
     "banner",
     "1766099042491e0469",
     "product-grid"
