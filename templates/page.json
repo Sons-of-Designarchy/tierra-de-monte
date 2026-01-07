@@ -250,8 +250,8 @@
           "settings": {
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
-            "title": "Escribenos para conocernos",
-            "text": "",
+            "title": "Envía tu CV",
+            "text": "<p>Por ahora no tenemos vacantes abiertas, pero siempre queremos conocer a personas que compartan nuestra visión.</p>",
             "desc_font": "body",
             "link_label": "Carta postulacion",
             "link": "shopify://pages/carta-postulacion"
