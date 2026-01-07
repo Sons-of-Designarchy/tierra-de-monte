@@ -59,6 +59,10 @@
   padding-right: 0 !important;
 }
 
+.article-card__date {
+  display: none!important;
+}
+
 /* 8) Stack rhythm (date → divider → title block → excerpt → divider) */
 .article-card__stack {
   display: flex;
@@ -72,17 +76,9 @@
 
 /* 9) Bigger heading (1–2 levels up) */
 .article-card__stack h3.card__heading {
-  font-size: clamp(3rem, 2.2vw, 2.4rem);
+  font-size: 2rem;
   line-height: 1.2;
-  font-weight: 600;
-}
-
-/* 10) Dark-green title block borders & comfortable breathing room */
-.article-card__heading-container {
-  border-top: 1px solid #294E3F;
-  border-bottom: 1px solid #294E3F;
-  padding: 16px 0;   /* 16px from borders to text */
-  /* margin-top: 16px;  16px below date */
+  font-weight: 500!important;
 }
 
 /* 11) Optional extra dividers elsewhere (same color) */
