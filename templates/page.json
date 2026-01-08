@@ -17,7 +17,7 @@
         "logo_alt": "Section logo",
         "logo_width": 128,
         "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida de las personas y los ecosistemas. Creamos soluciones biológicas que para regenerar ecosistemas equilibrados y agricultores que prosperan con mayor rentabilidad, menor costo y la recuperación de sus áreas productivas.",
-        "heading_size": "h0",
+        "heading_size": "h1",
         "heading_tag": "h1",
         "text": "",
         "button_label": "Solicita información",
@@ -53,7 +53,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 16,
             "stat_size_desktop": 24,
-            "text": "<p>Para entender cada sistema, para trabajar en conjunto con tu tierra. </p>",
+            "text": "<p></p><p>Para entender cada sistema, para trabajar en conjunto con tu tierra. </p>",
             "link_label": "",
             "link": ""
           }
@@ -68,7 +68,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 16,
             "stat_size_desktop": 24,
-            "text": "<p>Para activar la riqueza de tu suelo.</p>",
+            "text": "<p></p><p>Para activar la riqueza de tu suelo.</p>",
             "link_label": "",
             "link": ""
           }
@@ -83,7 +83,7 @@
             "stat_font": "heading",
             "stat_size_mobile": 16,
             "stat_size_desktop": 24,
-            "text": "<p><strong>Para construir un mejor mañana: </strong>medimos impacto productivo, social y ambiental, para garantizar una huella positiva. </p>",
+            "text": "<p></p><p></p><p><strong>Para construir un mejor mañana: </strong>medimos impacto productivo, social y ambiental, para garantizar una huella positiva. </p>",
             "link_label": "",
             "link": ""
           }
