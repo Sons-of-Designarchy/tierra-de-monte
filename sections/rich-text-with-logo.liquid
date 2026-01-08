@@ -51,14 +51,23 @@
 {%- endstyle -%}
 
 {%- style -%}
-  /* widen the "wide" layout to 990px */
-  #shopify-section-{{ section.id }} .rt.rt--wide { --rt-maxw: 990px; }
-
-  /* heading line-height */
+  /* Heading: responsive + cross-browser + keeps Dawn classes */
   #shopify-section-{{ section.id }} .rt__heading {
-    line-height: 108%;
-    font-weight: lighter !important;
-    font-size: 59px;
+    margin: 0;
+    line-height: 1.08;
+    font-weight: 300; /* avoid !important */
+    font-size: 2rem;  /* fallback for older browsers (no clamp) */
+    font-size: clamp(1.75rem, 4.2vw + 0.5rem, 3.6875rem); /* 28px -> 59px */
+    overflow-wrap: anywhere; /* prevents overflow with long words */
+    word-break: normal;
+    hyphens: auto;
+  }
+
+  /* If user selects HXL, cap it on mobile so it stays readable */
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .rt__heading.hxl {
+      font-size: clamp(2rem, 6vw + 0.25rem, 3rem);
+    }
   }
 {%- endstyle -%}
 
@@ -77,6 +86,9 @@
     max-width: 100%;             /* safety on very narrow screens */
     object-fit: contain;         /* SVG/raster both safe */
     line-height: 0;              /* avoid stray descender space on some browsers */
+  }
+    #shopify-section-{{ section.id }}{
+    --rt-logo-w: {{ section.settings.logo_width }}px;
   }
 {%- endstyle -%}
 
@@ -200,9 +212,10 @@
       {%- endif -%}
 
       {%- if section.settings.heading != blank -%}
-        <h2 class="rt__heading title inline-richtext {{ section.settings.heading_size }}">
+        {%- assign heading_tag = section.settings.heading_tag | default: 'h2' -%}
+        <{{ heading_tag }} class="rt__heading title inline-richtext {{ section.settings.heading_size }}">
           {{ section.settings.heading }}
-        </h2>
+        </{{ heading_tag }}>
       {%- endif -%}
 
       {%- if section.settings.text != blank -%}
@@ -260,6 +273,17 @@
         { "value": "h1", "label": "H1" },
         { "value": "h0", "label": "H0" },
         { "value": "hxl", "label": "HXL" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
       ],
       "default": "h2"
     },
