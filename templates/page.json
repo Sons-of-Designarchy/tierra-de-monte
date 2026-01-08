@@ -170,7 +170,7 @@
     "rich_text_with_logo_yziVXy": {
       "type": "rich-text-with-logo",
       "custom_css": [
-        ".rt__logo-img {width: 80px;}"
+        ".rt__logo-img {width: 40px;}"
       ],
       "name": "Rich text + Logo (custom)",
       "settings": {
