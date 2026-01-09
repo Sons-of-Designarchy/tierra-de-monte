@@ -36,12 +36,20 @@
         },
         "link_list_fBryQX": {
           "type": "link_list",
+          "disabled": true,
           "settings": {
             "heading": "Redes Sociales",
             "menu": "footer-menu-redes-sociales"
           }
         },
         "footer-2": {
+          "type": "text",
+          "settings": {
+            "heading": "Redes sociales",
+            "subtext": "<p><a href=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\" target=\"_blank\" title=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\">Facebook</a></p><p><a href=\"https://www.instagram.com/tierrademonte/?hl=es\" target=\"_blank\" title=\"https://www.instagram.com/tierrademonte/?hl=es\">Instagram</a></p><p><a href=\"https://www.youtube.com/@tierrademonte\" target=\"_blank\" title=\"https://www.youtube.com/@tierrademonte\">Youtube</a></p>"
+          }
+        },
+        "text_fVakYt": {
           "type": "text",
           "settings": {
             "heading": "contacto",
@@ -54,7 +62,8 @@
         "footer-0",
         "footer-1",
         "link_list_fBryQX",
-        "footer-2"
+        "footer-2",
+        "text_fVakYt"
       ],
       "custom_css": [
         ".newsletter-form__field-wrapper {display: none !important;}"
