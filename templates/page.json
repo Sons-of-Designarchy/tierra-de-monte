@@ -52,7 +52,7 @@
             "title": "Investigamos",
             "stat_font": "heading",
             "stat_size_mobile": 16,
-            "stat_size_desktop": 24,
+            "stat_size_desktop": 21,
             "text": "<p></p><p>Para entender cada sistema, para trabajar en conjunto con tu tierra. </p>",
             "link_label": "",
             "link": ""
@@ -67,7 +67,7 @@
             "title": "Creamos soluciones",
             "stat_font": "heading",
             "stat_size_mobile": 16,
-            "stat_size_desktop": 24,
+            "stat_size_desktop": 21,
             "text": "<p></p><p>Para activar la riqueza de tu suelo.</p>",
             "link_label": "",
             "link": ""
@@ -82,7 +82,7 @@
             "title": "Diseñamos hoy",
             "stat_font": "heading",
             "stat_size_mobile": 16,
-            "stat_size_desktop": 24,
+            "stat_size_desktop": 21,
             "text": "<p></p><p></p><p>Para construir un mejor mañana: medimos impacto productivo, social y ambiental, para garantizar una huella positiva. </p>",
             "link_label": "",
             "link": ""
