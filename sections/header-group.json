@@ -39,8 +39,8 @@
     "header": {
       "type": "header",
       "custom_css": [
-        ".header__search {display: none!important}",
-        ".header__icon--account{display:none!important}"
+        ".header__search {display: none !important;}",
+        ".header__icon--account {display: none !important;}"
       ],
       "settings": {
         "logo_position": "middle-left",
