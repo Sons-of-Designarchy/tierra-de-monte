@@ -75,7 +75,7 @@
       "type": "featured-blog",
       "name": "t:sections.featured-blog.presets.name",
       "settings": {
-        "blog": "una-nueva-agricultura-1",
+        "blog": "noticias",
         "post_limit": 2,
         "heading": "Últimas noticias",
         "heading_size": "h1",
