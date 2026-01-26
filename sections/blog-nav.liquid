@@ -1,9 +1,8 @@
 {% comment %}
-  Blog Nav (Dawn 15.4.0 compatible)
-  - Left label in monospaced style
-  - Right: row of buttons, each links to a chosen blog
-  - Active state when you're on that blog page
-  - Uses color schemes + theme tokens (no hard-coded colors)
+  Blog Nav (Dawn 15.4.0 compatible) — MOBILE FIXED
+  - Mobile: label on top + horizontally scrollable “pill” tabs (no squished text)
+  - Desktop: keeps your segmented-control look
+  - Uses theme tokens (no hard-coded colors)
 {% endcomment %}
 
 <section id="shopify-section-{{ section.id }}" class="blog-nav color-{{ section.settings.color_scheme }} gradient">
@@ -42,105 +41,204 @@
   </div>
 
   {%- style -%}
-    /* ===== Instance scope ===== */
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
-    }
-    @media (min-width: 750px) {
-      .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
-      }
-    }
+        /* ===== Instance scope ===== */
+        .section-{{ section.id }}-padding {
+          padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+          padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+        }
+        @media (min-width: 750px) {
+          .section-{{ section.id }}-padding {
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
+          }
+        }
 
-    /* Bar layout */
-    #shopify-section-{{ section.id }} .blog-nav__bar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+        /* Bar layout */
+        #shopify-section-{{ section.id }} .blog-nav__bar {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
 
-    /* Label (monospaced) */
-    #shopify-section-{{ section.id }} .blog-nav__label {
-      font-family: var(--font-mono-family, 'ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','Liberation Mono','Courier New', monospace);
-      font-size: 12px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      line-height: 1;
-      color: rgb(var(--color-foreground));
-      white-space: nowrap;
-    }
+        /* Label (monospaced) */
+        #shopify-section-{{ section.id }} .blog-nav__label {
+          font-family: var(--font-mono-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+          font-size: 12px;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+          line-height: 1;
+          color: rgb(var(--color-foreground));
+          white-space: nowrap;
+        }
 
-    /* List of buttons */
-    #shopify-section-{{ section.id }} .blog-nav__list {
-      display: flex;
-      align-items: stretch;
-      gap: 0; /* separators are drawn by borders */
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      width: 100%;
-      border: 1px solid rgba(var(--color-foreground), .8);
-      border-radius: 8px;
-      overflow: hidden; /* keep rounded ends clean */
-      background: rgb(var(--color-background));
-    }
+        /* List of buttons (DESKTOP segmented control) */
+        #shopify-section-{{ section.id }} .blog-nav__list {
+          display: flex;
+          align-items: stretch;
+          gap: 0; /* separators are drawn by borders */
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          width: 100%;
+          border: 1px solid rgba(var(--color-foreground), .8);
+          border-radius: 10px;
+          overflow: hidden; /* keep rounded ends clean */
+          background: rgb(var(--color-background));
+        }
 
-    /* Items become equal-width on large screens; natural width on small screens */
-    #shopify-section-{{ section.id }} .blog-nav__item {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
+        #shopify-section-{{ section.id }} .blog-nav__item {
+          flex: 1 1 auto;
+          min-width: 0;
+        }
 
-    /* Buttons */
-    #shopify-section-{{ section.id }} .blog-nav__btn {
-      display: inline-flex;
-      width: 100%;
-      justify-content: center;
-      align-items: center;
-      padding: 12px 20px;
-      text-decoration: none;
-      color: rgb(var(--color-foreground));
-      line-height: 1;
-      background: transparent;
-      transition: background-color .2s ease, color .2s ease;
-      position: relative;
-    }
+        #shopify-section-{{ section.id }} .blog-nav__btn {
+          display: inline-flex;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+          padding: 12px 18px;
+          text-decoration: none;
+          color: rgb(var(--color-foreground));
+          line-height: 1.1;
+          background: transparent;
+          transition: background-color .2s ease, color .2s ease;
+          position: relative;
 
-    /* Vertical separators between buttons */
-    #shopify-section-{{ section.id }} .blog-nav__item + .blog-nav__item .blog-nav__btn {
-      border-left: 1px solid rgba(var(--color-foreground), .6);
-    }
+          /* prevent awkward wrapping on desktop */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-    /* Hover/Focus */
-    #shopify-section-{{ section.id }} .blog-nav__btn:hover,
-    #shopify-section-{{ section.id }} .blog-nav__btn:focus-visible {
-      background: #F4E0C3;
-      outline: none;
-    }
+        /* Vertical separators between buttons (desktop only; mobile will override) */
+        #shopify-section-{{ section.id }} .blog-nav__item + .blog-nav__item .blog-nav__btn {
+          border-left: 1px solid rgba(var(--color-foreground), .6);
+        }
 
-    /* Active button (current blog) */
-    #shopify-section-{{ section.id }} .blog-nav__btn.is-active {
-      background: rgb(var(--color-accent-1, var(--color-button-background)));
-      color: rgb(var(--color-button-text));
-    }
+        /* Hover/Focus (token-based, no hard-coded colors) */
+        #shopify-section-{{ section.id }} .blog-nav__btn:hover,
+        #shopify-section-{{ section.id }} .blog-nav__btn:focus-visible {
+          background: rgba(var(--color-foreground), .08);
+          outline: none;
+        }
 
-    /* Responsive: stack on narrow screens */
+        /* Active button (current blog) */
+        #shopify-section-{{ section.id }} .blog-nav__btn.is-active {
+          background: rgb(var(--color-button));
+          color: rgb(var(--color-button-text));
+        }
+
+        /* =========================================================
+           MOBILE FIX (≤749px)
+           - Stack label
+           - Turn list into horizontal scroll "pills"
+           - Remove segmented separators to avoid squished columns
+           ========================================================= */
+        @media (max-width: 749px) {
+          #shopify-section-{{ section.id }} .blog-nav__bar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+          }
+
+          #shopify-section-{{ section.id }} .blog-nav__label {
+            align-self: flex-start;
+          }
+
+          /* Horizontal scrolling rail */
+          #shopify-section-{{ section.id }} .blog-nav__list {
+            width: 100%;
+            border-radius: 14px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+
+            /* turn into “rail” instead of equal-width columns */
+            align-items: center;
+            padding: 8px;
+            gap: 8px;
+          }
+
+          /* Hide scrollbar (still scrollable) */
+          #shopify-section-{{ section.id }} .blog-nav__list::-webkit-scrollbar { height: 0; }
+          #shopify-section-{{ section.id }} .blog-nav__list { scrollbar-width: none; }
+
+          /* Items become natural width pills */
+          #shopify-section-{{ section.id }} .blog-nav__item {
+            flex: 0 0 auto;
+            min-width: auto;
+          }
+
+          /* Pills */
+          #shopify-section-{{ section.id }} .blog-nav__btn {
+            width: auto;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(var(--color-foreground), .25);
+
+            /* allow long labels without breaking layout */
+            max-width: 75vw;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          /* Remove desktop separators on mobile */
+          #shopify-section-{{ section.id }} .blog-nav__item + .blog-nav__item .blog-nav__btn {
+            border-left: none;
+          }
+
+          /* Active pill */
+          #shopify-section-{{ section.id }} .blog-nav__btn.is-active {
+            border-color: rgba(var(--color-foreground), .0);
+          }
+        }
+
+
+        /* =================================================
+       Blog Nav — MOBILE: remove container completely
+       ================================================= */
     @media (max-width: 749px) {
-      #shopify-section-{{ section.id }} .blog-nav__bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-      }
-      #shopify-section-{{ section.id }} .blog-nav__label {
-        align-self: flex-start;
-      }
+
+      /* Kill the container look */
       #shopify-section-{{ section.id }} .blog-nav__list {
-        border-radius: 12px;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 0 !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
       }
+
+      /* Hide scrollbar (WebKit) */
+      #shopify-section-{{ section.id }} .blog-nav__list::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Items should NOT stretch */
+      #shopify-section-{{ section.id }} .blog-nav__item {
+        flex: 0 0 auto;
+      }
+
+      /* Remove vertical separators */
+      #shopify-section-{{ section.id }}
+      .blog-nav__item + .blog-nav__item .blog-nav__btn {
+        border-left: none !important;
+      }
+
+      /* Buttons become standalone pills */
       #shopify-section-{{ section.id }} .blog-nav__btn {
-        padding: 12px 14px;
+        border: 1px solid rgba(var(--color-foreground), .6);
+        border-radius: 999px;
+        padding: 10px 16px;
+        white-space: nowrap;
+        background: transparent;
+      }
+
+      /* Space between pills */
+      #shopify-section-{{ section.id }} .blog-nav__list {
+        gap: 8px;
       }
     }
   {%- endstyle -%}
