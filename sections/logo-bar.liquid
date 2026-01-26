@@ -1,112 +1,117 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  /* Load IBM Plex Mono Light (safe if the file doesn’t exist) */
-  @font-face {
-    font-family: "IBM Plex Mono Light";
-    src: url({{ 'IBMPlexMono-Light.woff2' | asset_url }}) format("woff2");
-    font-weight: 200;
-    font-style: normal;
-    font-display: swap;
-  }
+    #shopify-section-{{ section.id }} .logo-bar__title--mono{
+    font-family: var(--font-mono-family) !important;
+    font-style:  var(--font-mono-style) !important;
+    font-weight: var(--font-mono-weight) !important;
 
-  /* Section padding */
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-
-  /* Section base */
-  #shopify-section-{{ section.id }} { background: none; }
-
-  #shopify-section-{{ section.id }} .logo-bar__card {
-    border-radius: {{ section.settings.radius }}px;
-    padding: 32px;
-    background-color: rgb(var(--color-background));
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
-    overflow: hidden;
-    display: flex; flex-direction: column; align-items: center;
-  }
-
-  /* Header */
-  #shopify-section-{{ section.id }} .logo-bar__header {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 10px; margin-bottom: 24px;
-  }
-  #shopify-section-{{ section.id }} .logo-bar__title { text-align: center; margin: 0; }
-
-  /* Font style options */
-  #shopify-section-{{ section.id }} .logo-bar__title--heading {
-    font-family: var(--font-heading-family);
-    font-weight: var(--font-heading-weight);
-  }
-  #shopify-section-{{ section.id }} .logo-bar__title--body {
-    font-family: var(--font-body-family);
-    font-weight: 400;
-  }
-  #shopify-section-{{ section.id }} .logo-bar__title--mono {
-    font-family: "IBM Plex Mono Light", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-    font-weight: 200 !important;
-    letter-spacing: -0.02em !important;
+    /* optional: keep it feeling “mono title” */
+    letter-spacing: 0.02em !important;
     text-transform: none !important;
+
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Rule under heading */
-  #shopify-section-{{ section.id }} .logo-bar__rule {
-    width: 64px; height: 3px; border-radius: 3px;
-    background: currentColor; opacity: .25;
-  }
-
-  /* Grid */
-  #shopify-section-{{ section.id }} .logo-bar__list {
-    list-style: none; margin: 0; padding: 0;
-    display: grid;
-    gap: {{ section.settings.gap }}px;
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-  }
-  @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .logo-bar__list {
-      grid-template-columns: repeat(var(--cols-mobile), 1fr);
+    /* Section padding */
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-  }
-  @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .logo-bar__list {
-      grid-template-columns: repeat(var(--cols-desktop), 1fr);
+    @media (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
     }
-  }
 
-  /* Items */
-  #shopify-section-{{ section.id }} .logo-bar__item { text-align: center; width: 100%; }
-  #shopify-section-{{ section.id }} .logo-bar__box {
-    --logo-h: {{ section.settings.max_height }}px;
-    height: var(--logo-h);
-    width: 100%;
-    display: flex; align-items: center; justify-content: center;
-  }
+    /* Section base */
+    #shopify-section-{{ section.id }} { background: none; }
 
-  /* Images */
-  #shopify-section-{{ section.id }} .logo-bar__img {
-    display: block;
-    height: auto; width: auto;
-    max-width: 100%; max-height: 100%;
-    object-fit: contain;
-    opacity: .9; transition: opacity .2s ease, transform .2s ease;
-  }
-  #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img {
-    opacity: 1; transform: scale(1.02);
-  }
-  {% if section.settings.grayscale %}
-    #shopify-section-{{ section.id }} .logo-bar__img { filter: grayscale(100%); }
-    #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img { filter: none; }
-  {% endif %}
+    #shopify-section-{{ section.id }} .logo-bar__card {
+      border-radius: {{ section.settings.radius }}px;
+      padding: 32px;
+      background-color: rgb(var(--color-background));
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      overflow: hidden;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* Header */
+    #shopify-section-{{ section.id }} .logo-bar__header {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; margin-bottom: 24px;
+    }
+    #shopify-section-{{ section.id }} .logo-bar__title { text-align: center; margin: 0; }
+
+    /* Font style options */
+    #shopify-section-{{ section.id }} .logo-bar__title--heading {
+      font-family: var(--font-heading-family);
+      font-weight: var(--font-heading-weight);
+    }
+    #shopify-section-{{ section.id }} .logo-bar__title--body {
+      font-family: var(--font-body-family);
+      font-weight: 400;
+    }
+    #shopify-section-{{ section.id }} .logo-bar__title--mono {
+      font-family: "IBM Plex Mono Light", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+      font-weight: 200 !important;
+      letter-spacing: -0.02em !important;
+      text-transform: none !important;
+    }
+
+    /* Rule under heading */
+    #shopify-section-{{ section.id }} .logo-bar__rule {
+      width: 64px; height: 3px; border-radius: 3px;
+      background: currentColor; opacity: .25;
+    }
+
+    /* Grid */
+    #shopify-section-{{ section.id }} .logo-bar__list {
+      list-style: none; margin: 0; padding: 0;
+      display: grid;
+      gap: {{ section.settings.gap }}px;
+      align-items: center;
+      justify-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 749px) {
+      #shopify-section-{{ section.id }} .logo-bar__list {
+        grid-template-columns: repeat(var(--cols-mobile), 1fr);
+      }
+    }
+    @media (min-width: 750px) {
+      #shopify-section-{{ section.id }} .logo-bar__list {
+        grid-template-columns: repeat(var(--cols-desktop), 1fr);
+      }
+    }
+
+    /* Items */
+    #shopify-section-{{ section.id }} .logo-bar__item { text-align: center; width: 100%; }
+    #shopify-section-{{ section.id }} .logo-bar__box {
+      --logo-h: {{ section.settings.max_height }}px;
+      height: var(--logo-h);
+      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Images */
+    #shopify-section-{{ section.id }} .logo-bar__img {
+      display: block;
+      height: auto; width: auto;
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      opacity: .9; transition: opacity .2s ease, transform .2s ease;
+    }
+    #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img {
+      opacity: 1; transform: scale(1.02);
+    }
+    {% if section.settings.grayscale %}
+      #shopify-section-{{ section.id }} .logo-bar__img { filter: grayscale(100%); }
+      #shopify-section-{{ section.id }} .logo-bar__item:hover .logo-bar__img { filter: none; }
+    {% endif %}
 {%- endstyle -%}
 
 {%- liquid

@@ -630,6 +630,15 @@ figcaption {
 }
 
 /*casa-soda-test-ends*/
+.text-mono {
+  font-family: var(--font-mono-family);
+  font-style: var(--font-mono-style);
+  font-weight: var(--font-mono-weight);
+  font-size: calc(1rem * var(--font-mono-scale));
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
+
 .text-body {
   font-size: 1.5rem;
   letter-spacing: -0.02rem !important;

@@ -2,12 +2,17 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {% style %}
-  @font-face{
-    font-family:"IBM Plex Mono";
-    src:url({{ 'IBMPlexMono-Light.woff2' | asset_url }}) format("woff2");
-    font-weight:300;
-    font-style:normal;
-    font-display:swap;
+  /* =========================================================
+     MULTICOLUMN — FEATURE (Typography + Layout)
+     Uses global mono tokens (theme.liquid) with safe fallbacks
+  ========================================================== */
+
+  /* Section-scoped fallbacks (works even if :root mono vars are missing) */
+  #shopify-section-{{ section.id }}{
+    --mcf-font-mono-family: var(--font-mono-family, ui-monospace, "Courier New", monospace);
+    --mcf-font-mono-style:  var(--font-mono-style, normal);
+    --mcf-font-mono-weight: var(--font-mono-weight, 400);
+    --mcf-font-mono-scale:  var(--font-mono-scale, 1);
   }
 
   .section-{{ section.id }}-padding{
@@ -52,38 +57,48 @@
     flex-direction:column;
     gap:16px;
   }
+
   #shopify-section-{{ section.id }} .mc-heading{ margin:0; }
+
   #shopify-section-{{ section.id }} .mc-desc{
-    color:rgb(var(--color-foreground), .8);
+    color: rgb(var(--color-foreground), .8);
   }
+
   #shopify-section-{{ section.id }} .mc-cta-wrap{
     margin-top:8px;
   }
 
+  /* =========================================================
+     Typography: Mono description (token-driven)
+  ========================================================== */
   #shopify-section-{{ section.id }} .rte.mc-desc--mono,
   #shopify-section-{{ section.id }} .mc-desc--mono{
-    font-family:"IBM Plex Mono","Courier New",Courier,monospace!important;
-    font-weight:400;
-    letter-spacing:-0.04em!important;
-    line-height:1.8rem;
-    text-transform:uppercase;
-    font-synthesis-weight:none;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
+    font-family: var(--mcf-font-mono-family);
+    font-style:  var(--mcf-font-mono-style);
+    font-weight: var(--mcf-font-mono-weight);
+
+    font-size: calc(1.5rem * var(--mcf-font-mono-scale));
+    line-height: 1.6;
+    text-transform: uppercase;
+
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  #shopify-section-{{ section.id }} .mc-desc--mono *{
-    font-family:inherit!important;
-    font-weight:inherit!important;
-    line-height:inherit!important;
-    letter-spacing:inherit!important;
-    text-transform:inherit!important;
+
+  /* Keep RTE children aligned to mono style without specificity wars */
+  #shopify-section-{{ section.id }} .mc-desc--mono :where(*){
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
   }
+
   #shopify-section-{{ section.id }} .rte.mc-desc--body,
   #shopify-section-{{ section.id }} .mc-desc--body{
-    font-family:var(--font-body-family);
-    font-weight:400;
-    letter-spacing:.02em;
-    line-height:1.8rem;
+    font-family: var(--font-body-family);
+    font-weight: 400;
+    letter-spacing: .02em;
+    line-height: 1.8rem;
   }
 
   #shopify-section-{{ section.id }} .multicolumn__title{
@@ -99,10 +114,12 @@
     max-width:none!important;
     width:100%!important;
   }
+
   #shopify-section-{{ section.id }} .multicolumn-card__info{
     order:1;
     margin-bottom:16px!important;
   }
+
   #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper{
     order:3;
     margin-top:auto!important;
@@ -110,9 +127,11 @@
     border-radius:8px;
     overflow:hidden;
   }
+
   #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper.multicolumn-card-spacing{
     margin-bottom:16px!important;
   }
+
   #shopify-section-{{ section.id }} .multicolumn-card__image-wrapper .media{
     position:relative!important;
     padding-bottom:0!important;
@@ -122,6 +141,7 @@
     overflow:hidden;
     width:100%;
   }
+
   #shopify-section-{{ section.id }} .multicolumn-card__image{
     position:static!important;
     width:100%!important;
@@ -135,44 +155,56 @@
     line-height:1;
     margin:0 0 4px;
   }
+
   #shopify-section-{{ section.id }} .mc-stat{
     line-height:1;
     margin:0 0 4px;
-    font-size:var(--stat-size-m,48px);
+    font-size: var(--stat-size-m, 48px);
   }
+
   @media (min-width:750px){
     #shopify-section-{{ section.id }} .mc-stat{
-      font-size:var(--stat-size-d,72px);
+      font-size: var(--stat-size-d, 72px);
     }
   }
+
   #shopify-section-{{ section.id }} .mc-stat--heading{
-    font-family:var(--font-heading-family);
-    font-weight:var(--font-heading-weight);
-    letter-spacing:var(--heading-letter-spacing,0);
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: var(--heading-letter-spacing, 0);
   }
+
   #shopify-section-{{ section.id }} .mc-stat--body{
-    font-family:var(--font-body-family);
-    font-weight:600;
+    font-family: var(--font-body-family);
+    font-weight: 600;
   }
+
+  /* =========================================================
+     Typography: Mono stat (token-driven)
+  ========================================================== */
   #shopify-section-{{ section.id }} .mc-stat--mono{
-    font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-    font-weight:300;
-    letter-spacing:.02em;
-    font-synthesis-weight:none;
+    font-family: var(--mcf-font-mono-family);
+    font-style:  var(--mcf-font-mono-style);
+    font-weight: var(--mcf-font-mono-weight);
+    letter-spacing: 0.02em;
+    font-synthesis: none;
   }
+
+  /* Prevent nested tags from breaking stat typography */
   #shopify-section-{{ section.id }} .mc-stat :is(h1,h2,h3,h4,h5,h6,p,div,span){
-    all:unset;
-    font:inherit;
-    line-height:inherit;
-    display:inline;
+    all: unset;
+    font: inherit;
+    line-height: inherit;
+    display: inline;
   }
 
   .multicolumn{
     padding-inline:16px;
   }
+
   .multicolumn .page-width{
-    max-width:var(--page-width,1200px);
-    margin-inline:auto;
+    max-width: var(--page-width, 1200px);
+    margin-inline: auto;
   }
 
   @media (min-width:990px){
@@ -183,6 +215,7 @@
     #Slider-{{ section.id }}.grid{
       align-items:stretch!important;
     }
+
     #Slider-{{ section.id }} .grid__item{
       min-height:0!important;
     }
@@ -210,12 +243,9 @@
       margin-inline:auto;
       padding-inline:clamp(16px,4vw,40px);
     }
-    .multicolumn .mc-feature__grid > .mc-feature__lead{
-      grid-area:lead;
-    }
-    .multicolumn .mc-feature__grid > .mc-feature__cols{
-      grid-area:cols;
-    }
+
+    .multicolumn .mc-feature__grid > .mc-feature__lead{ grid-area:lead; }
+    .multicolumn .mc-feature__grid > .mc-feature__cols{ grid-area:cols; }
 
     .multicolumn .mc-feature__cols{
       width:100%;
@@ -232,6 +262,7 @@
       padding:0!important;
       grid-template-columns:1fr;
     }
+
     .multicolumn .mc-feature__cols .multicolumn-list__item{
       width:auto!important;
       max-width:none!important;
@@ -240,12 +271,8 @@
       scroll-snap-align:none!important;
     }
 
-    .multicolumn .mc-feature__cols .multicolumn-list[data-count="2"]{
-      grid-template-columns:repeat(2,1fr)!important;
-    }
-    .multicolumn .mc-feature__cols .multicolumn-list[data-count="3"]{
-      grid-template-columns:repeat(3,1fr)!important;
-    }
+    .multicolumn .mc-feature__cols .multicolumn-list[data-count="2"]{ grid-template-columns:repeat(2,1fr)!important; }
+    .multicolumn .mc-feature__cols .multicolumn-list[data-count="3"]{ grid-template-columns:repeat(3,1fr)!important; }
     .multicolumn .mc-feature__cols .multicolumn-list[data-count]:not([data-count="1"]):not([data-count="2"]):not([data-count="3"]){
       grid-template-columns:repeat(3,1fr)!important;
     }
@@ -254,13 +281,13 @@
       border-left:1px solid var(--mcf-rule, {{ section.settings.rule_color | default: '#294e3f' }})!important;
       padding-left:16px!important;
     }
-    .multicolumn .mc-feature__cols
-    ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item{
+
+    .multicolumn .mc-feature__cols ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item{
       border-left:1px solid rgb(var(--color-foreground))!important;
       padding-left:16px!important;
     }
-    .multicolumn .mc-feature__cols
-    ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item:first-child{
+
+    .multicolumn .mc-feature__cols ul.multicolumn-list[id^="Slider-"] > li.multicolumn-list__item:first-child{
       border-left:1px solid rgb(var(--color-foreground))!important;
     }
 
@@ -271,6 +298,7 @@
       height:auto!important;
       padding:0!important;
     }
+
     .multicolumn .mc-feature__cols .multicolumn-card__image-wrapper .media > img{
       position:absolute!important;
       inset:0!important;
@@ -285,6 +313,7 @@
     .multicolumn .button{
       margin-top:0rem!important;
     }
+
     .mc-feature__lead{
       margin-bottom:3rem;
     }
@@ -293,11 +322,13 @@
       padding-left:0;
       padding-right:0;
     }
+
     .multicolumn-list{
       display:grid!important;
       grid-template-columns:1fr!important;
       row-gap:24px;
     }
+
     .multicolumn-list__item{
       width:100%!important;
       max-width:none!important;
@@ -419,11 +450,13 @@
                         {% if block.settings.link == blank %}
                           role="link" aria-disabled="true"
                         {% else %}
-                          href="{{ block.settings.link }}
+                          href="{{ block.settings.link }}"
                         {% endif %}
                       >
                         {{- block.settings.link_label | escape -}}
-                        <span class="svg-wrapper"><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span>
+                        <span class="svg-wrapper"
+                          ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                        >
                       </a>
                     {% endif %}
                   </div>
@@ -584,7 +617,7 @@
           "label": "Description font",
           "options": [
             { "value": "body", "label": "Regular body" },
-            { "value": "mono", "label": "Monospace (IBM Plex Mono Light)" }
+            { "value": "mono", "label": "Monospace (Theme mono token)" }
           ],
           "default": "body"
         },
@@ -597,7 +630,7 @@
           "options": [
             { "value": "heading", "label": "Theme heading" },
             { "value": "body", "label": "Theme body (bold)" },
-            { "value": "mono", "label": "Monospace (IBM Plex Mono Light)" }
+            { "value": "mono", "label": "Monospace (Theme mono token)" }
           ],
           "default": "heading"
         },
