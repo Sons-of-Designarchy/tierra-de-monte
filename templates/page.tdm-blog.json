@@ -15,14 +15,14 @@
         "blog_link_9nznyr": {
           "type": "blog_link",
           "settings": {
-            "blog": "una-nueva-agricultura-1",
+            "blog": "noticias",
             "title": "Inicio"
           }
         },
         "blog_link_yyn696": {
           "type": "blog_link",
           "settings": {
-            "blog": "news",
+            "blog": "una-nueva-agricultura-1",
             "title": "Noticias"
           }
         },
