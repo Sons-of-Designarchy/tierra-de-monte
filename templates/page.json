@@ -16,7 +16,7 @@
         "logo": "shopify://shop_images/Client-Logo.svg",
         "logo_alt": "Section logo",
         "logo_width": 128,
-        "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida de las personas y los ecosistemas.        Creamos soluciones biológicas que para regenerar ecosistemas equilibrados y agricultores que prosperan con mayor rentabilidad, menor costo y la recuperación de sus áreas productivas.",
+        "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida de las personas y los ecosistemas.  Creamos soluciones biológicas  para regenerar ecosistemas equilibrados y agricultores que prosperan con mayor rentabilidad, menor costo y la recuperación de sus áreas productivas.",
         "heading_size": "h1",
         "heading_tag": "h1",
         "text": "",
@@ -136,7 +136,7 @@
         "button_AnLYhL": {
           "type": "button",
           "settings": {
-            "button_label": "Cónoce sobre nuestra investigación",
+            "button_label": "Conoce sobre nuestra investigación",
             "button_link": "shopify://pages/impacto-y-ciencia",
             "button_style_secondary": true
           }
@@ -367,9 +367,8 @@
             "member_8_image": "shopify://shop_images/Diana_Farias_-_Asistente_de_Direccion.jpg",
             "member_8_name": "Diana Farías",
             "member_8_role": "Asistente de Dirección",
-            "member_9_image": "shopify://shop_images/Estefania_Rodriguez_-_Project_Manager.jpg",
-            "member_9_name": "Estefanía Rodríguez",
-            "member_9_role": "Project Manager",
+            "member_9_name": "",
+            "member_9_role": "",
             "member_10_image": "shopify://shop_images/Etienne_Rajchenberg_-_CTO_y_Co-Fundador.jpg",
             "member_10_name": "Etienne Rajchenberg",
             "member_10_role": "CTO y Co-Fundador",
