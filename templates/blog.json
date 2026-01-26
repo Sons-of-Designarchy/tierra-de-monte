@@ -9,38 +9,38 @@
  */
 {
   "sections": {
-    "blog_nav_xajjEF": {
+    "blog_nav_JhHHpX": {
       "type": "blog-nav",
       "blocks": {
-        "blog_link_RDP7kD": {
-          "type": "blog_link",
-          "settings": {
-            "blog": "{{ blog }}",
-            "title": "Inicio"
-          }
-        },
-        "blog_link_ek3qrC": {
+        "blog_link_P6PhbB": {
           "type": "blog_link",
           "settings": {
             "blog": "noticias",
+            "title": "Inicio"
+          }
+        },
+        "blog_link_QJkYhf": {
+          "type": "blog_link",
+          "settings": {
+            "blog": "una-nueva-agricultura-1",
             "title": "Noticias"
           }
         },
-        "blog_link_heEEHb": {
+        "blog_link_RdCaeE": {
           "type": "blog_link",
           "settings": {
             "blog": "compartiendo-conocimiento",
             "title": "Ciencia"
           }
         },
-        "blog_link_xKtLgX": {
+        "blog_link_4K8zmL": {
           "type": "blog_link",
           "settings": {
             "blog": "post",
             "title": "Soluciones biológicas"
           }
         },
-        "blog_link_hRExEp": {
+        "blog_link_qJFfz8": {
           "type": "blog_link",
           "settings": {
             "blog": "lo-que-le-das-a-tu-tierra",
@@ -49,11 +49,11 @@
         }
       },
       "block_order": [
-        "blog_link_RDP7kD",
-        "blog_link_ek3qrC",
-        "blog_link_heEEHb",
-        "blog_link_xKtLgX",
-        "blog_link_hRExEp"
+        "blog_link_P6PhbB",
+        "blog_link_QJkYhf",
+        "blog_link_RdCaeE",
+        "blog_link_4K8zmL",
+        "blog_link_qJFfz8"
       ],
       "name": "Blog navigation",
       "settings": {
@@ -106,7 +106,7 @@
     }
   },
   "order": [
-    "blog_nav_xajjEF",
+    "blog_nav_JhHHpX",
     "main",
     "featured_collection_3xiCjC"
   ]
