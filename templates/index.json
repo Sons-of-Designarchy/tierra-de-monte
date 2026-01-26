@@ -43,23 +43,23 @@
         "subheading": "Nuestros consorcios especializados de microorganismos permiten responder a todas las necesidades del cultivo para producir más con menos.",
         "show_card_excerpt": true,
         "collection_1": "bio-estimulantes",
-        "label_1": "",
+        "label_1": "Bio-estimulantes",
         "dot_1": true,
         "icon_1": "shopify://shop_images/tab-icon-bio.svg",
         "collection_2": "plagas-y-enfermedades",
-        "label_2": "",
+        "label_2": "Plagas y enfermedades",
         "dot_2": true,
         "icon_2": "shopify://shop_images/tab-icon-micro.svg",
         "collection_3": "tratamiento-para-semillas",
-        "label_3": "",
+        "label_3": "Tratamiento para semillas",
         "dot_3": true,
         "icon_3": "shopify://shop_images/tab-icon-sem.svg",
         "collection_4": "soluciones-acuicolas",
-        "label_4": "",
+        "label_4": "Soluciones Acuícolas",
         "dot_4": true,
         "icon_4": "shopify://shop_images/tab-icon-acu.svg",
         "collection_5": "degradadores",
-        "label_5": "",
+        "label_5": "Degradadores",
         "dot_5": true,
         "icon_5": "shopify://shop_images/tab-icon-deg.svg",
         "collection_6": "",
@@ -339,7 +339,7 @@
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/hechomexico-logo.png",
-            "alt": ""
+            "alt": "Hecho en méxico logotipo"
           }
         },
         "logo_fGzpXJ": {
@@ -354,14 +354,14 @@
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/omri-logo.png",
-            "alt": ""
+            "alt": "Omri listed logotipo"
           }
         },
         "logo_VLbihw": {
           "type": "logo",
           "settings": {
             "image": "shopify://shop_images/empresab-certificada.png",
-            "alt": ""
+            "alt": "logo certificado empresa B"
           }
         }
       },
