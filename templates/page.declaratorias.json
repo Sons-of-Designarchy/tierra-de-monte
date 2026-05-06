@@ -23,14 +23,14 @@
         "heading_nwhawz": {
           "type": "heading",
           "settings": {
-            "heading": "Contacto",
+            "heading": "{{ page.title }}",
             "heading_size": "h1"
           }
         },
         "text_j7i6Pd": {
           "type": "text",
           "settings": {
-            "text": "<h2>Estamos para ayudarte</h2><p>Si tienes alguna duda o comentario no dudes en contactarnos. Escríbenos y una persona de nuestro equipo se contactará contigo a la brevedad.</p>"
+            "text": "{{ page.content }}"
           }
         }
       },
@@ -61,28 +61,6 @@
     },
     "176651568325d898f7": {
       "type": "apps",
-      "blocks": {
-        "forms_inline_ejKKMa": {
-          "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
-          "settings": {
-            "form_id": "801675",
-            "text_color": "#1f4d37",
-            "button_background_color": "#d8e35b",
-            "button_label_color": "#373736",
-            "links_color": "#458e74",
-            "errors_color": "#c41d1d",
-            "text_alignment": "center",
-            "form_alignment": "center",
-            "padding_top": 24,
-            "padding_bottom": 24,
-            "padding_right": 0,
-            "padding_left": 0
-          }
-        }
-      },
-      "block_order": [
-        "forms_inline_ejKKMa"
-      ],
       "settings": {
         "include_margins": true
       }
