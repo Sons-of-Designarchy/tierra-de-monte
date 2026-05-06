@@ -45,7 +45,6 @@
         "footer-2": {
           "type": "text",
           "name": "REDES",
-          "disabled": true,
           "settings": {
             "heading": "Redes sociales",
             "subtext": "<p><a href=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\" target=\"_blank\" title=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\">Facebook</a></p><p><a href=\"https://www.instagram.com/tierrademonte/?hl=es\" target=\"_blank\" title=\"https://www.instagram.com/tierrademonte/?hl=es\">Instagram</a></p><p><a href=\"https://www.youtube.com/@tierrademonte\" target=\"_blank\" title=\"https://www.youtube.com/@tierrademonte\">Youtube</a></p>"
@@ -53,6 +52,7 @@
         },
         "text_VXE7Hp": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "heading": "DECLARATORIAS",
             "subtext": "<p>Datos personales</p><p>Cero tolerancia a la violencia</p><p>Compromiso con los Derechos Humanos</p>"
@@ -61,6 +61,7 @@
         "text_fVakYt": {
           "type": "text",
           "name": "CONTACTO Y REDES",
+          "disabled": true,
           "settings": {
             "heading": "contacto",
             "subtext": "<p><a href=\"mailto:hola@tierrademonte.mx\" target=\"_blank\" title=\"mailto:contacto@tierrademonte.com\">contacto@tierrademonte.com</a><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 442 589 6045</p><p><a href=\"https://wa.me/4423741871\" target=\"_blank\" title=\"https://wa.me/4423741871\">WhatsApp: 4423741871</a></p><p>Carretera Estatal 431, km 1+933, Europark II bodega 15C, C.P. 76246, El Marqués, Querétaro, Querétaro</p><p></p><p><strong>REDES SOCIALES</strong></p><p><a href=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\" target=\"_blank\" title=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\">Facebook</a></p><p><a href=\"https://www.instagram.com/tierrademonte/?hl=es\" target=\"_blank\" title=\"https://www.instagram.com/tierrademonte/?hl=es\">Instagram</a></p><p><a href=\"https://www.youtube.com/@tierrademonte\" target=\"_blank\" title=\"https://www.youtube.com/@tierrademonte\">Youtube</a></p>"
@@ -69,7 +70,6 @@
         "text_KhETT3": {
           "type": "text",
           "name": "Contacto",
-          "disabled": true,
           "settings": {
             "heading": "contacto",
             "subtext": "<p><a href=\"mailto:hola@tierrademonte.mx\" target=\"_blank\" title=\"mailto:contacto@tierrademonte.com\">contacto@tierrademonte.com</a><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 442 589 6045</p><p><a href=\"https://wa.me/4423741871\" target=\"_blank\" title=\"https://wa.me/4423741871\">WhatsApp: 4423741871</a></p><p>Carretera Estatal 431, km 1+933, Europark II bodega 15C, C.P. 76246, El Marqués, Querétaro, Querétaro</p>"
