@@ -95,6 +95,25 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "ticker_7kVcPk": {
+      "type": "ticker",
+      "name": "Infinite Ticker",
+      "settings": {
+        "text": "VIDA QUE GENERA VIDA",
+        "icon_height": 32,
+        "bg_image": "shopify://shop_images/chiles.png",
+        "bg_color": "#00000000",
+        "text_color": "#F3EFCF",
+        "font_size": 28,
+        "text_transform": "uppercase",
+        "typography_variant": "secondary",
+        "font_variant": "mono",
+        "speed": 36,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 100
+      }
     }
   },
   "order": [
@@ -102,6 +121,7 @@
     "rich_text_pqKpTa",
     "rich_text_43J6yk",
     "form",
-    "176651568325d898f7"
+    "176651568325d898f7",
+    "ticker_7kVcPk"
   ]
 }
