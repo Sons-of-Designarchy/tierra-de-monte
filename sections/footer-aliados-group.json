@@ -1,0 +1,96 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand_information_BaB3qe": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": false
+          }
+        },
+        "footer-0": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Aliados",
+            "menu": "footer-menu-aliados"
+          }
+        },
+        "footer-1": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Soluciones",
+            "menu": ""
+          }
+        },
+        "link_list_fBryQX": {
+          "type": "link_list",
+          "disabled": true,
+          "settings": {
+            "heading": "Redes Sociales",
+            "menu": "footer-menu-redes-sociales"
+          }
+        },
+        "text_VXE7Hp": {
+          "type": "text",
+          "settings": {
+            "heading": "DECLARATORIAS",
+            "subtext": "<p><a href=\"https://tierrademonte.com/pages/declaracion-datos-personales\" title=\"https://tierrademonte.com/pages/declaracion-datos-personales\">Datos personales</a></p><p><a href=\"https://tierrademonte.com/pages/declaracion-cero-tolerancia-a-la-violencia\" title=\"https://tierrademonte.com/pages/declaracion-cero-tolerancia-a-la-violencia\">Cero tolerancia a la violencia</a></p><p><a href=\"https://tierrademonte.com/pages/declaratoria-de-compromiso-con-los-derechos-humanos\" title=\"https://tierrademonte.com/pages/declaratoria-de-compromiso-con-los-derechos-humanos\">Compromiso con los Derechos Humanos</a></p><p><a href=\"https://tierrademonte.com/pages/compromiso-jedi\" title=\"https://tierrademonte.com/pages/compromiso-jedi\">Compromiso JEDI</a></p>"
+          }
+        },
+        "text_fVakYt": {
+          "type": "text",
+          "name": "CONTACTO Y REDES",
+          "settings": {
+            "heading": "contacto",
+            "subtext": "<p><a href=\"mailto:hola@tierrademonte.mx\" target=\"_blank\" title=\"mailto:contacto@tierrademonte.com\">contacto@tierrademonte.com</a><br/><a href=\"/pages/buzon-de-sugerencias\" title=\"Buzón de Sugerencias\">Buzón de Sugerencias</a></p><p>Tel: 442 589 6045</p><p><a href=\"https://wa.me/4423741871\" target=\"_blank\" title=\"https://wa.me/4423741871\">WhatsApp: 4423741871</a></p><p>Paseo Centenario del Ejercito Mexicano, KM 1+37, Supermanzana Bodega D61, Terrapark Centenario, 76267 Cerro Prieto, Qro.<br/></p><p></p><p><strong>REDES SOCIALES</strong></p><p><a href=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\" target=\"_blank\" title=\"https://www.facebook.com/tierrademontevidaquegeneravida/?locale=es_LA\">Facebook</a></p><p><a href=\"https://www.instagram.com/tierrademonte/?hl=es\" target=\"_blank\" title=\"https://www.instagram.com/tierrademonte/?hl=es\">Instagram</a></p><p><a href=\"https://www.youtube.com/@tierrademonte\" target=\"_blank\" title=\"https://www.youtube.com/@tierrademonte\">Youtube</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "brand_information_BaB3qe",
+        "footer-0",
+        "footer-1",
+        "link_list_fBryQX",
+        "text_VXE7Hp",
+        "text_fVakYt"
+      ],
+      "custom_css": [
+        ".newsletter-form__field-wrapper {display: none !important;}"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "newsletter_enable": false,
+        "newsletter_heading": "",
+        "newsletter_title": "",
+        "newsletter_image": "shopify://shop_images/Frame_56.png",
+        "newsletter_image_alt": "Newsletter",
+        "newsletter_image_max_width": 280,
+        "newsletter_image_circle": false,
+        "enable_follow_on_shop": false,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": false,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 80,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}
