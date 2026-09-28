@@ -10,29 +10,63 @@
 {
   "layout": "aliados",
   "sections": {
-    "hero_overlay_card_AxX4Gc": {
-      "type": "hero-overlay-card",
-      "name": "Hero overlay card",
+    "hero_slider_Q8CAkg": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_xcpWeD": {
+          "type": "slide",
+          "settings": {
+            "image_alt": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 45,
+            "eyebrow": "Programa de aliados · Tierra de Monte",
+            "heading": "<p>Tú pones la <em>palabra.</em></p><p>Nosotros ponemos con qué cumplirla</p>",
+            "text": "<p>Somos una empresa mexicana de biotecnología agrícola. Distribuye en tu zona una línea que tus clientes no encuentran con nadie más, con precio de aliado, cartera protegida y respaldo técnico.</p>",
+            "text_color": "#ffffff",
+            "accent_color": "#CBD55B",
+            "button_1_label": "Escríbenos por WhatsApp",
+            "button_1_link": "",
+            "button_1_new_tab": true,
+            "button_1_style": "primary",
+            "button_1_scheme": "",
+            "button_2_label": "Cómo funciona",
+            "button_2_link": "",
+            "button_2_new_tab": false,
+            "button_2_style": "secondary",
+            "button_2_scheme": "",
+            "caption": "<p><strong>Nombre</strong></p><p>Tipo de cultivo</p>",
+            "caption_position": "bottom-left"
+          }
+        }
+      },
+      "block_order": [
+        "slide_xcpWeD"
+      ],
+      "name": "Hero slider",
       "settings": {
-        "image": "shopify://shop_images/IMG-20200928-WA0024.jpg",
-        "image_alt": "campo agrícola trabajado",
-        "min_height_desktop": 80,
-        "min_height_mobile": 55,
-        "corner_radius": 8,
-        "card_position": "bottom-left",
-        "card_max_width": 560,
-        "card_padding": 24,
-        "card_bg_opacity": 100,
-        "card_glass": false,
-        "card_shadow": true,
-        "subtitle": "",
-        "heading": "Vida que genera vida",
-        "heading_size": "xl",
-        "body": "<p>Nuestros productos combinan ciencia y tecnología biológica para regenerar los ciclos naturales y devolver el equilibrio a los sistemas productivos. Atendemos todas las necesidades de los cultivos en conjunto con la Naturaleza, no en contra de ella.</p>",
-        "button_label": "Contáctanos",
-        "button_link": "https://wa.me/524423741871",
-        "button_pill": false,
-        "text_on_dark": true
+        "container_width": "page-width",
+        "min_height_desktop": 85,
+        "min_height_mobile": 80,
+        "corner_radius": 0,
+        "content_vertical": "center",
+        "content_align": "left",
+        "content_max_width": 760,
+        "heading_size": 60,
+        "use_custom_font": false,
+        "heading_font": "assistant_n4",
+        "accent_marks": true,
+        "buttons_layout": "stacked",
+        "button_size": "small",
+        "button_pill": true,
+        "buttons_heading_font": true,
+        "autoplay": true,
+        "autoplay_speed": 6,
+        "show_arrows": true,
+        "show_dots": true,
+        "controls_position": "center",
+        "aria_label": "Programa de aliados",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "tabs-collections": {
@@ -91,75 +125,6 @@
         "height": 100
       }
     },
-    "multicolumn_feature_iTWNGU": {
-      "type": "multicolumn-feature",
-      "blocks": {
-        "column_mnx3UR": {
-          "type": "column",
-          "settings": {
-            "desc_font": "mono",
-            "image": "shopify://shop_images/tdm-quienes-somos-1.jpg",
-            "title": "",
-            "stat_font": "mono",
-            "stat_size_mobile": 24,
-            "stat_size_desktop": 40,
-            "text": "<p>Unimos ciencia, tradición y respeto por la tierra para regenerar su productividad.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_V8h7JY": {
-          "type": "column",
-          "settings": {
-            "desc_font": "mono",
-            "image": "shopify://shop_images/tdm-home-quienes-somos-3.jpg",
-            "title": "",
-            "stat_font": "heading",
-            "stat_size_mobile": 24,
-            "stat_size_desktop": 40,
-            "text": "<p>Nuestro propósito: que cada cosecha crezca fuerte, sana y sostenible.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_mnCD7n": {
-          "type": "column",
-          "disabled": true,
-          "settings": {
-            "desc_font": "body",
-            "title": "+230",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<p>Hectáreas regeneradas</p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_mnx3UR",
-        "column_V8h7JY",
-        "column_mnCD7n"
-      ],
-      "name": "Multicolumn — Feature",
-      "settings": {
-        "pretitle": "",
-        "rule_color": "#d8e35b",
-        "show_rule": false,
-        "title": "¿Quiénes somos?",
-        "description": "<p>Somos un equipo multidisciplinario integrado en una plataforma de investigación, desarrollo e implementación de soluciones regenerativas, dedicado a desarrollar el potencial agrícola restableciendo el equilibrio en la biodiversidad de suelos, insectos y ecosistemas.</p>",
-        "button_label": "Acerca de nosotros",
-        "button_link": "shopify://pages/nosotros",
-        "heading_size": "h1",
-        "columns_desktop": 2,
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-5",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
     "ticker_fLHMnW": {
       "type": "ticker",
       "name": "Infinite Ticker",
@@ -177,75 +142,6 @@
         "show_top_border": true,
         "show_bottom_border": true,
         "height": 135
-      }
-    },
-    "multicolumn_feature_mjeJtX": {
-      "type": "multicolumn-feature",
-      "blocks": {
-        "column_Xhqkrg": {
-          "type": "column",
-          "settings": {
-            "desc_font": "mono",
-            "image": "shopify://shop_images/tdm-home-innovacion-01.jpg",
-            "title": "",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 40,
-            "text": "<p>+80,000 Hectáreas que cada año mejoran su desempeño</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_QHz6eD": {
-          "type": "column",
-          "settings": {
-            "desc_font": "mono",
-            "image": "shopify://shop_images/tdm-home-innovacion-02.jpg",
-            "title": "",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 80,
-            "text": "<p>No sólo evitamos el daño ambiental: regeneramos los suelos para que recobren su capacidad productiva propia.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_kkT3TQ": {
-          "type": "column",
-          "settings": {
-            "desc_font": "mono",
-            "image": "shopify://shop_images/home-tdm5.jpg",
-            "title": "",
-            "stat_font": "heading",
-            "stat_size_mobile": 24,
-            "stat_size_desktop": 40,
-            "text": "<p>+100,000 agricultores y agricultoras beneficiados.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_Xhqkrg",
-        "column_QHz6eD",
-        "column_kkT3TQ"
-      ],
-      "name": "Multicolumn — Feature",
-      "settings": {
-        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
-        "rule_color": "#294e3f",
-        "show_rule": true,
-        "title": "Innovación que siembra futuro",
-        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad. Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y quienes trabajamos en él.</p>",
-        "button_label": "Habla con un especialista",
-        "button_link": "https://wa.me/524423741871",
-        "heading_size": "h1",
-        "columns_desktop": 3,
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "color_scheme": "",
-        "padding_top": 100,
-        "padding_bottom": 100
       }
     },
     "ticker_GYwFQh": {
@@ -333,61 +229,6 @@
         "padding_bottom": 36
       }
     },
-    "logobar_BrfwU4": {
-      "type": "logo-bar",
-      "blocks": {
-        "logo_AbpUBY": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/hechomexico-logo.png",
-            "alt": "Hecho en méxico logotipo"
-          }
-        },
-        "logo_fGzpXJ": {
-          "type": "logo",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/bioagtech-logo.png",
-            "alt": ""
-          }
-        },
-        "logo_GAeFMC": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/omri-logo.png",
-            "alt": "Omri listed logotipo"
-          }
-        },
-        "logo_VLbihw": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/empresab-certificada.png",
-            "alt": "logo certificado empresa B"
-          }
-        }
-      },
-      "block_order": [
-        "logo_AbpUBY",
-        "logo_fGzpXJ",
-        "logo_GAeFMC",
-        "logo_VLbihw"
-      ],
-      "name": "Logo bar",
-      "settings": {
-        "title": "<strong>ALIANZAS QUE NUTREN LA TIERRA</strong>",
-        "heading_size": "h4",
-        "title_font": "mono",
-        "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
-        "radius": 16,
-        "gap": 24,
-        "grayscale": true,
-        "max_height": 56,
-        "columns_mobile": "2",
-        "columns_desktop": 5,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "reviews_4eGYH6": {
       "type": "reviews",
       "blocks": {
@@ -454,93 +295,16 @@
         "show_bottom_border": false,
         "height": 100
       }
-    },
-    "multicol_custom_feature_hj8GCm": {
-      "type": "multicol-custom-feature",
-      "blocks": {
-        "column_NA6DP9": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "icon_size": 40,
-            "title": "+230",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<p>Hectáreas regeneradas</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_ikJ4TC": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "icon_size": 40,
-            "title": "+230",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<p>Hectáreas regeneradas</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_jdcenA": {
-          "type": "column",
-          "settings": {
-            "desc_font": "body",
-            "icon_size": 40,
-            "title": "+230",
-            "stat_font": "heading",
-            "stat_size_mobile": 48,
-            "stat_size_desktop": 72,
-            "text": "<p>Hectáreas regeneradas</p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_NA6DP9",
-        "column_ikJ4TC",
-        "column_jdcenA"
-      ],
-      "name": "Multicolumn — custom box",
-      "settings": {
-        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
-        "rule_color": "#294E3F",
-        "show_rule": true,
-        "title": "Efecto Tierra de monte\nInnovación que siembra futuro",
-        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza...</p>",
-        "button_label": "Encuentra tu solución",
-        "button_link": "",
-        "heading_size": "h1",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "divider_color": "#1a1a1a",
-        "color_scheme": "",
-        "use_custom_col_height": false,
-        "col_height_vh_desktop": 35,
-        "col_height_vh_mobile": 35,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
     }
   },
   "order": [
-    "hero_overlay_card_AxX4Gc",
+    "hero_slider_Q8CAkg",
     "tabs-collections",
     "ticker_H9daYM",
-    "multicolumn_feature_iTWNGU",
     "ticker_fLHMnW",
-    "multicolumn_feature_mjeJtX",
     "ticker_GYwFQh",
     "multicolumn",
-    "logobar_BrfwU4",
     "reviews_4eGYH6",
-    "ticker_q7YzML",
-    "multicol_custom_feature_hj8GCm"
+    "ticker_q7YzML"
   ]
 }
