@@ -234,6 +234,7 @@
         "column_RNVrBL": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/aliados-icon-precio.png",
             "title": "Nuestros productos ofrecen importantes márgenes de utilidad y retorno de inversión.&nbsp;",
             "text": "<p>Accede a condiciones comerciales exclusivas que mejoran tu margen y hacen más competitiva tu oferta frente a tus clientes.</p>",
             "desc_font": "body",
@@ -251,6 +252,7 @@
         "column_MTc9cW": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/aliados-icon-acompanamiento.png",
             "title": "Acompañamiento de expertos",
             "text": "<p>Cuenta con un equipo científico que te acompaña para resolver dudas, fortalecer tus recomendaciones y dar seguimiento a las necesidades de tus clientes.</p>",
             "desc_font": "body",
@@ -268,6 +270,7 @@
         "column_wWKeDk": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/aliados-icon-capacitacion.png",
             "title": "&nbsp;Capacitación continua&nbsp;",
             "text": "<p>Fortalece tus conocimientos técnicos y comerciales con capacitaciones, contenidos y herramientas que te ayudan a vender con mayor confianza.</p>",
             "desc_font": "body",
@@ -285,6 +288,7 @@
         "column_8WWFt3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/aliados-icon-crecimiento.png",
             "title": "Un programa que crece contigo&nbsp;",
             "text": "<p>Crece con herramientas pensadas para tu negocio: materiales comerciales, recursos de publicidad y comunicación, beneficios exclusivos y oportunidades para fortalecer la relación con -----------</p>",
             "desc_font": "body",
@@ -395,25 +399,6 @@
         "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
         "icon_height": 45,
         "bg_color": "#c8e7c3",
-        "text_color": "#373736",
-        "font_size": 100,
-        "text_transform": "none",
-        "typography_variant": "primary",
-        "font_variant": "normal",
-        "speed": 74,
-        "show_top_border": true,
-        "show_bottom_border": true,
-        "height": 135
-      }
-    },
-    "ticker_GYwFQh": {
-      "type": "ticker",
-      "name": "Infinite Ticker",
-      "settings": {
-        "text": "Colaboración en campo",
-        "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
-        "icon_height": 55,
-        "bg_color": "rgba(0,0,0,0)",
         "text_color": "#373736",
         "font_size": 100,
         "text_transform": "none",
@@ -564,27 +549,27 @@
         "column_mwfihX": {
           "type": "column",
           "settings": {
-            "title": "Premium",
+            "title": "BRONCE",
             "subtitle": "",
             "badge": "",
             "link": "",
             "header_icon": "none",
-            "price": "desde <strong>MXN 279 / mes</strong>",
-            "price_note": "Ahorra un 17% durante 6 meses*",
+            "price": "desde <strong>$10,000</strong>",
+            "price_note": "Compra mínima cada dos meses",
             "cta_label": "Seleccionar",
             "cta_link": "",
             "cta_new_tab": false,
             "cta_style": "solid",
             "cta_custom_scheme": false,
             "cta_scheme": "",
-            "highlight": true,
+            "highlight": false,
             "highlight_scheme": "scheme-3"
           }
         },
         "column_jg8fy8": {
           "type": "column",
           "settings": {
-            "title": "Premium",
+            "title": "PLATA",
             "subtitle": "",
             "badge": "",
             "link": "",
@@ -597,14 +582,14 @@
             "cta_style": "solid",
             "cta_custom_scheme": false,
             "cta_scheme": "",
-            "highlight": true,
+            "highlight": false,
             "highlight_scheme": "scheme-3"
           }
         },
         "column_78mbPV": {
           "type": "column",
           "settings": {
-            "title": "Estándar",
+            "title": "ORO",
             "subtitle": "",
             "badge": "",
             "link": "",
@@ -624,7 +609,7 @@
         "column_fiTbt6": {
           "type": "column",
           "settings": {
-            "title": "Básico",
+            "title": "PLATINO",
             "subtitle": "",
             "badge": "",
             "link": "",
@@ -637,19 +622,32 @@
             "cta_style": "solid",
             "cta_custom_scheme": false,
             "cta_scheme": "",
-            "highlight": false,
+            "highlight": true,
             "highlight_scheme": ""
           }
         },
         "row_JbxEJW": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Duración de los planes</p>",
+            "feature_content": "<p>Compra mínima cada 2 meses</p>",
             "feature_note": "",
-            "col1_content": "<p>Mensual, semestral y anual</p>",
-            "col2_content": "<p>Mensual, semestral y anual</p>",
-            "col3_content": "<p>Mensual y semestral</p>",
-            "col4_content": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_9V7eHX": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Incluye todo lo del nivel anterior</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
             "col5_content": "",
             "col6_content": ""
           }
@@ -657,12 +655,12 @@
         "row_qDArga": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Característica exclusiva</p>",
+            "feature_content": "<p>Kit de bienvenida</p>",
             "feature_note": "",
             "col1_content": "<p>si</p>",
-            "col2_content": "<p>-</p>",
-            "col3_content": "<p>-</p>",
-            "col4_content": "",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
             "col5_content": "",
             "col6_content": ""
           }
@@ -670,12 +668,12 @@
         "row_XncMzU": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Contenido completo</p>",
+            "feature_content": "<p>Tus clientes protegidos</p>",
             "feature_note": "",
             "col1_content": "<p>si</p>",
             "col2_content": "<p>si</p>",
             "col3_content": "<p>si</p>",
-            "col4_content": "",
+            "col4_content": "<p>si</p>",
             "col5_content": "",
             "col6_content": ""
           }
@@ -683,12 +681,12 @@
         "row_QqeDVU": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Sin anuncios</p>",
+            "feature_content": "<p>Podcast técnicos exclusivos</p>",
             "feature_note": "",
-            "col1_content": "<p>si</p>",
+            "col1_content": "<p>-</p>",
             "col2_content": "<p>si</p>",
-            "col3_content": "<p>-</p>",
-            "col4_content": "",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
             "col5_content": "",
             "col6_content": ""
           }
@@ -696,12 +694,77 @@
         "row_aatLcd": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Dispositivos en simultáneo</p>",
+            "feature_content": "<p>Cursos de marketing y ventas</p>",
             "feature_note": "",
-            "col1_content": "<p>4</p>",
-            "col2_content": "<p>2</p>",
-            "col3_content": "<p>2</p>",
-            "col4_content": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_BMBrzP": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Herramientas de diseño</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_xdrneX": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Grupo de WhatsApp con los ingenieros y con otros Aliados</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_gX8nxQ": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Producto a crédito, según cómo te haya ido</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_kbgJAG": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Tu lugar en el <strong>Encuentro Tierra de Monte</strong></p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_RaXbnX": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Una videollamada al mes con un ingeniero, para ver tus casos</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>-</p>",
+            "col4_content": "<p>si</p>",
             "col5_content": "",
             "col6_content": ""
           }
@@ -713,10 +776,16 @@
         "column_78mbPV",
         "column_fiTbt6",
         "row_JbxEJW",
+        "row_9V7eHX",
         "row_qDArga",
         "row_XncMzU",
         "row_QqeDVU",
-        "row_aatLcd"
+        "row_aatLcd",
+        "row_BMBrzP",
+        "row_xdrneX",
+        "row_gX8nxQ",
+        "row_kbgJAG",
+        "row_RaXbnX"
       ],
       "name": "Tabla comparativa",
       "settings": {
@@ -816,7 +885,6 @@
     "multicolumn_sept2026_cQktdB",
     "ticker_H9daYM",
     "ticker_fLHMnW",
-    "ticker_GYwFQh",
     "multicolumn",
     "reviews_4eGYH6",
     "ticker_q7YzML",
