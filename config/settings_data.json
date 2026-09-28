@@ -149,11 +149,6 @@
         "type": "shopify://apps/az-google-font-custom-fonts/blocks/arc_fontify_block-app-embed/e720f1f7-5778-4825-85a3-3572dbcf27c4",
         "disabled": false,
         "settings": {}
-      },
-      "12741885996470144523": {
-        "type": "shopify://apps/enorm-image-gallery-video/blocks/embed-js/01219f89-c8d0-40c2-a0ff-1987199e84a2",
-        "disabled": false,
-        "settings": {}
       }
     },
     "color_schemes": {
@@ -287,6 +282,17 @@
           "button_label": "#ffffff",
           "secondary_button_label": "#121212",
           "shadow": "#121212"
+        }
+      },
+      "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be": {
+        "settings": {
+          "background": "#DFE6C5",
+          "background_gradient": "",
+          "text": "#003118",
+          "button": "#2B7034",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#0D5216",
+          "shadow": "#482b28"
         }
       }
     }
