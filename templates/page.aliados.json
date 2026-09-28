@@ -295,6 +295,256 @@
         "show_bottom_border": false,
         "height": 100
       }
+    },
+    "comparison_table_CjRhQt": {
+      "type": "comparison-table",
+      "blocks": {
+        "column_mwfihX": {
+          "type": "column",
+          "settings": {
+            "title": "Premium",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_icon": "none",
+            "price": "desde <strong>MXN 279 / mes</strong>",
+            "price_note": "Ahorra un 17% durante 6 meses*",
+            "cta_label": "Seleccionar",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": true,
+            "highlight_scheme": "scheme-3"
+          }
+        },
+        "column_jg8fy8": {
+          "type": "column",
+          "settings": {
+            "title": "Premium",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_icon": "none",
+            "price": "desde <strong>MXN 279 / mes</strong>",
+            "price_note": "Ahorra un 17% durante 6 meses*",
+            "cta_label": "Seleccionar",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": true,
+            "highlight_scheme": "scheme-3"
+          }
+        },
+        "column_78mbPV": {
+          "type": "column",
+          "settings": {
+            "title": "Estándar",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_icon": "none",
+            "price": "desde <strong>MXN 199 / mes</strong>",
+            "price_note": "Ahorra un 23% durante 6 meses*",
+            "cta_label": "Seleccionar",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": false,
+            "highlight_scheme": ""
+          }
+        },
+        "column_fiTbt6": {
+          "type": "column",
+          "settings": {
+            "title": "Básico",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_icon": "none",
+            "price": "desde <strong>MXN 129 / mes</strong>",
+            "price_note": "Ahorra un 18% durante 6 meses*",
+            "cta_label": "Seleccionar",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": false,
+            "highlight_scheme": ""
+          }
+        },
+        "row_JbxEJW": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Duración de los planes</p>",
+            "feature_note": "",
+            "col1_content": "<p>Mensual, semestral y anual</p>",
+            "col2_content": "<p>Mensual, semestral y anual</p>",
+            "col3_content": "<p>Mensual y semestral</p>",
+            "col4_content": "",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_qDArga": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Característica exclusiva</p>",
+            "feature_note": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>-</p>",
+            "col4_content": "",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_XncMzU": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Contenido completo</p>",
+            "feature_note": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_QqeDVU": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Sin anuncios</p>",
+            "feature_note": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>-</p>",
+            "col4_content": "",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_aatLcd": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Dispositivos en simultáneo</p>",
+            "feature_note": "",
+            "col1_content": "<p>4</p>",
+            "col2_content": "<p>2</p>",
+            "col3_content": "<p>2</p>",
+            "col4_content": "",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_mwfihX",
+        "column_jg8fy8",
+        "column_78mbPV",
+        "column_fiTbt6",
+        "row_JbxEJW",
+        "row_qDArga",
+        "row_XncMzU",
+        "row_QqeDVU",
+        "row_aatLcd"
+      ],
+      "name": "Tabla comparativa",
+      "settings": {
+        "heading": "Compara nuestros planes",
+        "heading_size": "h1",
+        "description": "",
+        "text_align": "center",
+        "footnote": "",
+        "color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "table_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "check_color": "text",
+        "first_column_width": 28,
+        "first_column_label": "",
+        "feature_bold": false,
+        "feature_tint": false,
+        "cell_align": "center",
+        "image_size": 120,
+        "table_radius": 12,
+        "table_padding_x": 16,
+        "highlight_radius": 0,
+        "striped_rows": false,
+        "show_vertical_borders": false,
+        "border_opacity": 15,
+        "sticky_first_column": true,
+        "cta_color_scheme": "scheme-1",
+        "cta_position": "before_price",
+        "full_width_buttons": true,
+        "show_bottom_ctas": false,
+        "button_uppercase": true,
+        "button_radius": 12,
+        "button_label": "",
+        "button_link": "",
+        "button_new_tab": false,
+        "button_style": "solid",
+        "button_scheme_source": "cta",
+        "button_color_scheme": "",
+        "button_align": "center",
+        "container_width": "page-width",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "slide_gallery_aK44mg": {
+      "type": "slide-gallery",
+      "blocks": {
+        "slide_EiNnYf": {
+          "type": "slide",
+          "settings": {}
+        },
+        "slide_ULFabq": {
+          "type": "slide",
+          "settings": {}
+        },
+        "slide_qhnhGp": {
+          "type": "slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "slide_EiNnYf",
+        "slide_ULFabq",
+        "slide_qhnhGp"
+      ],
+      "name": "Slide gallery",
+      "settings": {
+        "intro_title": "Título de la sección",
+        "intro_heading_size": "h1",
+        "intro_text": "<p>Escribe aquí una descripción breve que acompañe a la galería.</p>",
+        "button_label": "Ver más",
+        "button_link": "",
+        "button_style_secondary": false,
+        "button_pill": true,
+        "intro_alignment": "center",
+        "intro_position": "top",
+        "intro_color_scheme": "",
+        "intro_padding_top": 36,
+        "intro_padding_bottom": 36,
+        "layout": "grid",
+        "corner_radius": 8,
+        "padding_x_desktop": 50,
+        "padding_x_mobile": 15,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "accessibility_info": "Presentación de diapositivas sobre tu marca"
+      }
     }
   },
   "order": [
@@ -305,6 +555,8 @@
     "ticker_GYwFQh",
     "multicolumn",
     "reviews_4eGYH6",
-    "ticker_q7YzML"
+    "ticker_q7YzML",
+    "comparison_table_CjRhQt",
+    "slide_gallery_aK44mg"
   ]
 }
