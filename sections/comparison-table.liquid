@@ -1,0 +1,683 @@
+{%- comment -%}
+  Tabla comparativa editable (v4)
+  - Columnas: bloques "Columna" (máx. 6) con precio, nota y botón (CTA) propios
+  - Filas: bloques "Fila"
+  - Esquemas de color independientes:
+      · Sección (fondo general)
+      · Tabla (fondo y texto del contenido)
+      · Columna destacada (esquema propio por columna)
+      · Botones de columnas (esquema propio a nivel sección, independiente de tabla y columna destacada)
+        └ Cada columna puede sobrescribirlo con su propio esquema
+      · Botón general debajo de la tabla (esquema propio)
+  - En las celdas escribe "si" / "✓" para palomita y "-" / "no" para guion
+  - Compatible con Dawn, Horizon y temas OS 2.0 (lee directamente los colores del esquema)
+{%- endcomment -%}
+
+{%- liquid
+  assign column_blocks = section.blocks | where: 'type', 'column'
+  assign row_blocks = section.blocks | where: 'type', 'row'
+  assign display_columns = column_blocks.size | at_most: 6
+  assign other_width = 100 | minus: section.settings.first_column_width
+  assign sid = section.id
+  assign radius = section.settings.table_radius
+  assign hl_radius = section.settings.highlight_radius
+
+  assign ts = section.settings.table_color_scheme.settings
+  assign t_bg = ts.background
+  assign t_fg = ts.text | default: ts.foreground
+  assign t_accent = ts.button | default: ts.primary_button_background | default: t_fg
+
+  # ---------- Esquema de los CTA (nivel sección) ----------
+  # Se lee el color directo del esquema. Si el tema usa otros nombres,
+  # se cae a las variables CSS que el tema define en .color-scheme-X
+  assign cta_scheme_id = section.settings.cta_color_scheme.id | default: section.settings.cta_color_scheme
+  assign gs = section.settings.cta_color_scheme.settings
+  assign g_bg = gs.button | default: gs.primary_button_background | default: 'var(--color-primary-button-background, rgb(var(--color-button)))'
+  assign g_fg = gs.button_label | default: gs.primary_button_text | default: 'var(--color-primary-button-text, rgb(var(--color-button-text)))'
+  assign g_hbg = gs.primary_button_hover_background | default: g_bg
+  assign g_hfg = gs.primary_button_hover_text | default: g_fg
+
+  # ---------- Botón general (debajo de la tabla) ----------
+  # Por defecto usa el mismo esquema de CTA; opcionalmente uno propio
+  if section.settings.button_scheme_source == 'custom'
+    assign btn_scheme_id = section.settings.button_color_scheme.id | default: section.settings.button_color_scheme
+    assign bs = section.settings.button_color_scheme.settings
+    assign b_bg = bs.button | default: bs.primary_button_background | default: 'var(--color-primary-button-background, rgb(var(--color-button)))'
+    assign b_fg = bs.button_label | default: bs.primary_button_text | default: 'var(--color-primary-button-text, rgb(var(--color-button-text)))'
+    assign b_hbg = bs.primary_button_hover_background | default: b_bg
+    assign b_hfg = bs.primary_button_hover_text | default: b_fg
+  else
+    assign btn_scheme_id = cta_scheme_id
+    assign b_bg = g_bg
+    assign b_fg = g_fg
+    assign b_hbg = g_hbg
+    assign b_hfg = g_hfg
+  endif
+
+  assign has_bottom_ctas = false
+  if section.settings.show_bottom_ctas
+    for col in column_blocks limit: display_columns
+      if col.settings.cta_label != blank
+        assign has_bottom_ctas = true
+      endif
+    endfor
+  endif
+-%}
+
+<style>
+  #shopify-section-{{ sid }} .ct-section {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ sid }} .ct-section {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ sid }} .ct-intro { text-align: {{ section.settings.text_align }}; margin-bottom: 2.4rem; }
+  #shopify-section-{{ sid }} .ct-intro > *:last-child { margin-bottom: 0; }
+
+  /* ---------- Contenedor de la tabla (esquema de tabla) ---------- */
+  #shopify-section-{{ sid }} .ct-wrapper {
+    --ct-table-bg: {{ t_bg }};
+    --ct-table-fg: {{ t_fg }};
+    --ct-accent: {{ t_accent }};
+    background-color: var(--ct-table-bg);
+    color: var(--ct-table-fg);
+    border-radius: {{ radius }}px;
+    padding: 0 {{ section.settings.table_padding_x }}px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    --ct-border: color-mix(in srgb, var(--ct-table-fg) {{ section.settings.border_opacity }}%, transparent);
+    --ct-soft: color-mix(in srgb, var(--ct-table-fg) 5%, transparent);
+  }
+
+  #shopify-section-{{ sid }} .ct-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: {{ display_columns | plus: 1 | times: 150 }}px;
+    color: inherit;
+    table-layout: fixed;
+    margin: 0;
+    border: 0;
+  }
+
+  #shopify-section-{{ sid }} .ct-table th,
+  #shopify-section-{{ sid }} .ct-table td {
+    padding: 1.6rem 1.4rem;
+    border: 0;
+    border-bottom: 1px solid var(--ct-border);
+    vertical-align: middle;
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+  #shopify-section-{{ sid }} .ct-table tr.ct-last > * { border-bottom: 0; }
+  {%- if section.settings.show_vertical_borders -%}
+  #shopify-section-{{ sid }} .ct-table th + th,
+  #shopify-section-{{ sid }} .ct-table td + td,
+  #shopify-section-{{ sid }} .ct-table th + td { border-left: 1px solid var(--ct-border); }
+  {%- endif -%}
+
+  /* ---------- Encabezado de columnas ---------- */
+  #shopify-section-{{ sid }} .ct-header { text-align: center; vertical-align: top !important; padding-top: 2.4rem !important; padding-bottom: 2rem !important; }
+  #shopify-section-{{ sid }} .ct-header__inner { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  #shopify-section-{{ sid }} .ct-header__title { font-size: 1.8rem; font-weight: 700; color: inherit; text-decoration: none; }
+  #shopify-section-{{ sid }} a.ct-header__title:hover { text-decoration: underline; }
+  #shopify-section-{{ sid }} .ct-header__subtitle { font-size: 1.3rem; opacity: 0.75; font-weight: 400; }
+  #shopify-section-{{ sid }} .ct-header__image { width: 100%; max-width: {{ section.settings.image_size }}px; height: auto; object-fit: contain; }
+  #shopify-section-{{ sid }} .ct-header__price { font-size: 1.3rem; font-weight: 400; }
+  #shopify-section-{{ sid }} .ct-header__price strong { font-size: 1.5rem; font-weight: 700; }
+  #shopify-section-{{ sid }} .ct-header__note { display: block; font-size: 1.15rem; opacity: 0.75; font-weight: 400; margin-top: 0.2rem; }
+  #shopify-section-{{ sid }} .ct-icon { width: 2.4rem; height: 2.4rem; }
+  #shopify-section-{{ sid }} .ct-badge {
+    font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;
+    padding: 0.2rem 0.8rem; border-radius: 99px; border: 1px solid currentColor;
+  }
+
+  /* ---------- Columna de características ---------- */
+  #shopify-section-{{ sid }} .ct-feature {
+    text-align: left; font-weight: {% if section.settings.feature_bold %}600{% else %}400{% endif %};
+    {%- if section.settings.feature_tint %} background-color: var(--ct-soft);{% endif %}
+  }
+  #shopify-section-{{ sid }} .ct-feature p { margin: 0; }
+  #shopify-section-{{ sid }} .ct-feature > * + * { margin-top: 0.4rem; }
+  #shopify-section-{{ sid }} .ct-feature small { display: block; font-weight: 400; opacity: 0.7; margin-top: 0.3rem; }
+
+  /* ---------- Celdas ---------- */
+  #shopify-section-{{ sid }} .ct-cell { text-align: {{ section.settings.cell_align }}; }
+  #shopify-section-{{ sid }} .ct-cell p { margin: 0; }
+  #shopify-section-{{ sid }} .ct-cell > * + * { margin-top: 0.4rem; }
+  #shopify-section-{{ sid }} .ct-check {
+    width: 2rem; height: 2rem; display: inline-block; vertical-align: middle;
+    color: {% if section.settings.check_color == 'accent' %}var(--ct-accent){% else %}currentColor{% endif %};
+  }
+  #shopify-section-{{ sid }} .ct-hl .ct-check { color: {% if section.settings.check_color == 'accent' %}var(--ct-hl-accent, var(--ct-accent)){% else %}currentColor{% endif %}; }
+  #shopify-section-{{ sid }} .ct-dash {
+    display: inline-block; width: 1.4rem; height: 2px; vertical-align: middle;
+    background-color: currentColor; opacity: 0.35; border-radius: 2px;
+  }
+
+  {%- if section.settings.striped_rows -%}
+  #shopify-section-{{ sid }} .ct-table tbody tr:nth-child(even) > *:not(.ct-hl) { background-color: var(--ct-soft); }
+  {%- endif -%}
+
+  /* ---------- Columna destacada (esquema por columna) ---------- */
+  #shopify-section-{{ sid }} .ct-hl { background-color: var(--ct-hl-bg); color: var(--ct-hl-fg); }
+  #shopify-section-{{ sid }} .ct-hl { --ct-border: color-mix(in srgb, var(--ct-hl-fg) {{ section.settings.border_opacity }}%, transparent); }
+  #shopify-section-{{ sid }} thead .ct-hl { border-top-left-radius: {{ hl_radius }}px; border-top-right-radius: {{ hl_radius }}px; }
+  #shopify-section-{{ sid }} tr.ct-last .ct-hl { border-bottom-left-radius: {{ hl_radius }}px; border-bottom-right-radius: {{ hl_radius }}px; }
+
+  /* ---------- Botones de columnas: esquema independiente (nivel sección) ---------- */
+  #shopify-section-{{ sid }} .ct-section a.ct-btn {
+    --ct-btn-bg: {{ g_bg }};
+    --ct-btn-fg: {{ g_fg }};
+    --ct-btn-hover-bg: {{ g_hbg }};
+    --ct-btn-hover-fg: {{ g_hfg }};
+  }
+
+  {%- for col in column_blocks limit: display_columns -%}
+    {%- liquid
+      assign hs = col.settings.highlight_scheme.settings
+      assign h_bg = hs.background
+      assign h_fg = hs.text | default: hs.foreground
+      assign h_ac = hs.button | default: hs.primary_button_background | default: h_fg
+    -%}
+    #shopify-section-{{ sid }} .ct-c{{ forloop.index }} { --ct-hl-bg: {{ h_bg }}; --ct-hl-fg: {{ h_fg }}; --ct-hl-accent: {{ h_ac }}; }
+
+    {%- if col.settings.cta_custom_scheme -%}
+      {%- liquid
+        assign cs = col.settings.cta_scheme.settings
+        assign c_bg = cs.button | default: cs.primary_button_background | default: 'var(--color-primary-button-background, rgb(var(--color-button)))'
+        assign c_fg = cs.button_label | default: cs.primary_button_text | default: 'var(--color-primary-button-text, rgb(var(--color-button-text)))'
+        assign c_hbg = cs.primary_button_hover_background | default: c_bg
+        assign c_hfg = cs.primary_button_hover_text | default: c_fg
+      -%}
+      /* Columna {{ forloop.index }}: esquema propio del botón (sobrescribe el de la sección) */
+      #shopify-section-{{ sid }} .ct-section a.ct-btn.ct-btn-c{{ forloop.index }} {
+        --ct-btn-bg: {{ c_bg }};
+        --ct-btn-fg: {{ c_fg }};
+        --ct-btn-hover-bg: {{ c_hbg }};
+        --ct-btn-hover-fg: {{ c_hfg }};
+      }
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if section.settings.sticky_first_column -%}
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ sid }} .ct-table .ct-feature {
+      position: sticky; left: 0; z-index: 1;
+      background-color: var(--ct-table-bg);
+      {%- if section.settings.feature_tint %} background-image: linear-gradient(var(--ct-soft), var(--ct-soft));{% endif %}
+    }
+  }
+  {%- endif -%}
+
+  /* ---------- Botones (columna y sección) ---------- */
+  /* Selectores con #id + a.ct-btn para ganarle a los estilos de enlaces del tema */
+  #shopify-section-{{ sid }} .ct-section a.ct-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 4.4rem; padding: 1rem 2rem;
+    font: inherit; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.03em;
+    text-transform: {% if section.settings.button_uppercase %}uppercase{% else %}none{% endif %};
+    text-decoration: none; text-align: center; line-height: 1.2;
+    border-radius: {{ section.settings.button_radius }}px;
+    border: 2px solid var(--ct-btn-bg);
+    transition: opacity .2s ease, transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+    cursor: pointer;
+  }
+  #shopify-section-{{ sid }} .ct-section a.ct-btn--solid,
+  #shopify-section-{{ sid }} .ct-section a.ct-btn--solid:visited { background-color: var(--ct-btn-bg); color: var(--ct-btn-fg); box-shadow: none; }
+  #shopify-section-{{ sid }} .ct-section a.ct-btn--outline,
+  #shopify-section-{{ sid }} .ct-section a.ct-btn--outline:visited { background-color: transparent; color: var(--ct-btn-bg); box-shadow: none; }
+  #shopify-section-{{ sid }} .ct-section a.ct-btn--solid:hover {
+    background-color: var(--ct-btn-hover-bg, var(--ct-btn-bg));
+    border-color: var(--ct-btn-hover-bg, var(--ct-btn-bg));
+    color: var(--ct-btn-hover-fg, var(--ct-btn-fg));
+    opacity: 0.9;
+  }
+  #shopify-section-{{ sid }} .ct-section a.ct-btn--outline:hover { background-color: var(--ct-btn-bg); color: var(--ct-btn-fg); }
+  #shopify-section-{{ sid }} .ct-btn[aria-disabled="true"] { pointer-events: none; }
+  {%- if section.settings.full_width_buttons -%}
+  #shopify-section-{{ sid }} .ct-header .ct-btn,
+  #shopify-section-{{ sid }} .ct-foot .ct-btn { width: 100%; }
+  {%- endif -%}
+  #shopify-section-{{ sid }} .ct-foot td { text-align: center; }
+
+  #shopify-section-{{ sid }} .ct-footnote { margin-top: 1.6rem; font-size: 1.2rem; opacity: 0.75; text-align: {{ section.settings.text_align }}; }
+  #shopify-section-{{ sid }} .ct-footnote p { margin: 0 0 0.4rem; }
+
+  /* ---------- Botón general (esquema propio) ---------- */
+  #shopify-section-{{ sid }} .ct-cta { display: flex; justify-content: {{ section.settings.button_align }}; margin-top: 3.2rem; }
+  #shopify-section-{{ sid }} .ct-section .ct-cta a.ct-btn {
+    --ct-btn-bg: {{ b_bg }};
+    --ct-btn-fg: {{ b_fg }};
+    --ct-btn-hover-bg: {{ b_hbg }};
+    --ct-btn-hover-fg: {{ b_hfg }};
+  }
+</style>
+
+{%- capture ct_check_svg -%}
+  <svg class="ct-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span class="visually-hidden">Incluido</span>
+{%- endcapture -%}
+{%- capture ct_dash -%}
+  <span class="ct-dash" aria-hidden="true"></span><span class="visually-hidden">No incluido</span>
+{%- endcapture -%}
+
+<div class="ct-section color-{{ section.settings.color_scheme }} gradient">
+  <div class="{{ section.settings.container_width }}">
+    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+      <div class="ct-intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="rte">{{ section.settings.description }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if display_columns > 0 -%}
+      <div class="ct-wrapper">
+        <table class="ct-table">
+          <colgroup>
+            <col style="width: {{ section.settings.first_column_width }}%;">
+            {%- for i in (1..display_columns) -%}
+              <col style="width: calc({{ other_width }}% / {{ display_columns }});">
+            {%- endfor -%}
+          </colgroup>
+
+          <thead>
+            <tr{% if row_blocks.size == 0 and has_bottom_ctas == false %} class="ct-last"{% endif %}>
+              <th class="ct-feature ct-corner" scope="col">{{ section.settings.first_column_label }}</th>
+              {%- for block in column_blocks limit: display_columns -%}
+                {%- capture col_cta -%}
+                  {%- if block.settings.cta_label != blank -%}
+                    <a
+                      {% if block.settings.cta_link != blank %}href="{{ block.settings.cta_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+                      {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
+                      class="ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
+                    >{{ block.settings.cta_label | escape }}</a>
+                  {%- endif -%}
+                {%- endcapture -%}
+                {%- capture col_price -%}
+                  {%- if block.settings.price != blank or block.settings.price_note != blank -%}
+                    <div class="ct-header__price">
+                      {%- if block.settings.price != blank -%}<span>{{ block.settings.price }}</span>{%- endif -%}
+                      {%- if block.settings.price_note != blank -%}<span class="ct-header__note">{{ block.settings.price_note }}</span>{%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endcapture -%}
+
+                <th
+                  class="ct-header ct-c{{ forloop.index }}{% if block.settings.highlight %} ct-hl{% endif %}"
+                  scope="col"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="ct-header__inner">
+                    {%- if block.settings.badge != blank -%}
+                      <span class="ct-badge">{{ block.settings.badge }}</span>
+                    {%- endif -%}
+
+                    {%- if block.settings.header_image != blank -%}
+                      {{ block.settings.header_image
+                        | image_url: width: 400
+                        | image_tag: class: 'ct-header__image', loading: 'lazy', alt: block.settings.title
+                      }}
+                    {%- else -%}
+                      {%- case block.settings.header_icon -%}
+                        {%- when 'star' -%}
+                          <svg class="ct-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        {%- when 'heart' -%}
+                          <svg class="ct-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        {%- when 'check' -%}
+                          <svg class="ct-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                      {%- endcase -%}
+                    {%- endif -%}
+
+                    {%- if block.settings.link != blank -%}
+                      <a href="{{ block.settings.link }}" class="ct-header__title">{{ block.settings.title }}</a>
+                    {%- else -%}
+                      <span class="ct-header__title">{{ block.settings.title }}</span>
+                    {%- endif -%}
+
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="ct-header__subtitle">{{ block.settings.subtitle }}</span>
+                    {%- endif -%}
+
+                    {%- if section.settings.cta_position == 'before_price' -%}
+                      {{ col_cta }}{{ col_price }}
+                    {%- else -%}
+                      {{ col_price }}{{ col_cta }}
+                    {%- endif -%}
+                  </div>
+                </th>
+              {%- endfor -%}
+            </tr>
+          </thead>
+
+          <tbody>
+            {%- for block in row_blocks -%}
+              <tr
+                {% if forloop.last and has_bottom_ctas == false %}class="ct-last"{% endif %}
+                {{ block.shopify_attributes }}
+              >
+                <th class="ct-feature" scope="row">
+                  {{- block.settings.feature_content -}}
+                  {%- if block.settings.feature_note != blank -%}<small>{{ block.settings.feature_note }}</small>{%- endif -%}
+                </th>
+                {%- for col in column_blocks limit: display_columns -%}
+                  {%- capture col_key %}col{{ forloop.index }}_content{% endcapture -%}
+                  {%- assign cell = block.settings[col_key] -%}
+                  {%- assign cell_key = cell | strip_html | strip | downcase -%}
+                  <td class="ct-cell ct-c{{ forloop.index }}{% if col.settings.highlight %} ct-hl{% endif %}">
+                    {%- case cell_key -%}
+                      {%- when 'si', 'sí', 'yes', '✓', '✔', 'check' -%}
+                        {{ ct_check_svg }}
+                      {%- when '-', '—', '–', 'no' -%}
+                        {{ ct_dash }}
+                      {%- else -%}
+                        {{ cell }}
+                    {%- endcase -%}
+                  </td>
+                {%- endfor -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+
+          {%- if has_bottom_ctas -%}
+            <tfoot>
+              <tr class="ct-foot ct-last">
+                <th class="ct-feature" scope="row"></th>
+                {%- for block in column_blocks limit: display_columns -%}
+                  <td class="ct-c{{ forloop.index }}{% if block.settings.highlight %} ct-hl{% endif %}">
+                    {%- if block.settings.cta_label != blank -%}
+                      <a
+                        {% if block.settings.cta_link != blank %}href="{{ block.settings.cta_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+                        {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
+                        class="ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
+                      >{{ block.settings.cta_label | escape }}</a>
+                    {%- endif -%}
+                  </td>
+                {%- endfor -%}
+              </tr>
+            </tfoot>
+          {%- endif -%}
+        </table>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footnote != blank -%}
+      <div class="ct-footnote rte">{{ section.settings.footnote }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="ct-cta">
+        <a
+          {% if section.settings.button_link != blank %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          {% if section.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
+          class="ct-btn ct-btn--{{ section.settings.button_style }} color-{{ btn_scheme_id }}"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Tabla comparativa",
+  "tag": "section",
+  "class": "section section-comparison-table",
+  "max_blocks": 50,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "header", "content": "Contenido" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Compara nuestros planes" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    { "type": "richtext", "id": "description", "label": "Descripción" },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Alineación del título",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "center"
+    },
+    { "type": "richtext", "id": "footnote", "label": "Notas al pie (debajo de la tabla)", "info": "Útil para aclaraciones con asteriscos (*)." },
+
+    { "type": "header", "content": "Colores" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de la sección (fondo general)", "default": "scheme-1" },
+    { "type": "color_scheme", "id": "table_color_scheme", "label": "Esquema de la tabla (contenido)", "default": "scheme-2", "info": "Fondo y texto de la tabla. El color de acento (palomitas) usa el color de botón de este esquema." },
+    {
+      "type": "select",
+      "id": "check_color",
+      "label": "Color de palomitas",
+      "options": [
+        { "value": "text", "label": "Color de texto" },
+        { "value": "accent", "label": "Color de acento (botón del esquema)" }
+      ],
+      "default": "text"
+    },
+
+    { "type": "header", "content": "Tabla" },
+    { "type": "paragraph", "content": "Cada bloque Columna aparece a la derecha y las demás se ajustan automáticamente (máx. 6). En las celdas escribe \"si\" o \"✓\" para palomita y \"-\" o \"no\" para guion." },
+    { "type": "range", "id": "first_column_width", "min": 15, "max": 40, "step": 1, "unit": "%", "default": 28, "label": "Ancho de la columna de características" },
+    { "type": "text", "id": "first_column_label", "label": "Encabezado de la primera columna" },
+    { "type": "checkbox", "id": "feature_bold", "label": "Características en negrita", "default": false },
+    { "type": "checkbox", "id": "feature_tint", "label": "Sombrear columna de características", "default": false },
+    {
+      "type": "select",
+      "id": "cell_align",
+      "label": "Alineación de celdas",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "image_size", "min": 40, "max": 240, "step": 10, "unit": "px", "default": 120, "label": "Tamaño de imagen del encabezado" },
+    { "type": "range", "id": "table_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de la tabla" },
+    { "type": "range", "id": "table_padding_x", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16, "label": "Margen interno lateral de la tabla" },
+    { "type": "range", "id": "highlight_radius", "min": 0, "max": 30, "step": 2, "unit": "px", "default": 0, "label": "Redondeo de la columna destacada" },
+    { "type": "checkbox", "id": "striped_rows", "label": "Filas alternadas (cebra)", "default": false },
+    { "type": "checkbox", "id": "show_vertical_borders", "label": "Mostrar bordes verticales", "default": false },
+    { "type": "range", "id": "border_opacity", "min": 0, "max": 50, "step": 5, "unit": "%", "default": 15, "label": "Opacidad de bordes" },
+    { "type": "checkbox", "id": "sticky_first_column", "label": "Fijar primera columna en móvil", "default": true },
+
+    { "type": "header", "content": "Botones de columnas (CTA)" },
+    {
+      "type": "color_scheme",
+      "id": "cta_color_scheme",
+      "label": "Esquema de los botones",
+      "default": "scheme-1",
+      "info": "Aplica a los botones de cada columna y al botón general. Es independiente del esquema de la tabla y de la columna destacada. Cada columna puede sobrescribirlo."
+    },
+    {
+      "type": "select",
+      "id": "cta_position",
+      "label": "Posición del botón en el encabezado",
+      "options": [
+        { "value": "before_price", "label": "Antes del precio" },
+        { "value": "after_price", "label": "Después del precio" }
+      ],
+      "default": "before_price"
+    },
+    { "type": "checkbox", "id": "full_width_buttons", "label": "Botones a todo el ancho de la columna", "default": true },
+    { "type": "checkbox", "id": "show_bottom_ctas", "label": "Repetir botones al final de la tabla", "default": false },
+    { "type": "checkbox", "id": "button_uppercase", "label": "Texto de botones en mayúsculas", "default": true },
+    { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de botones" },
+
+    { "type": "header", "content": "Botón general (debajo de la tabla)" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "info": "Déjalo vacío para ocultar el botón." },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+    { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en otra pestaña", "default": false },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Estilo del botón",
+      "options": [
+        { "value": "solid", "label": "Relleno" },
+        { "value": "outline", "label": "Contorno" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "select",
+      "id": "button_scheme_source",
+      "label": "Color del botón general",
+      "options": [
+        { "value": "cta", "label": "Igual que los botones de columnas" },
+        { "value": "custom", "label": "Esquema propio" }
+      ],
+      "default": "cta"
+    },
+    {
+      "type": "color_scheme",
+      "id": "button_color_scheme",
+      "label": "Esquema propio del botón general",
+      "default": "scheme-1",
+      "visible_if": "{{ section.settings.button_scheme_source == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "button_align",
+      "label": "Alineación del botón",
+      "options": [
+        { "value": "flex-start", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "flex-end", "label": "Derecha" }
+      ],
+      "default": "center"
+    },
+
+    { "type": "header", "content": "Diseño" },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Ancho del contenedor",
+      "options": [
+        { "value": "page-width", "label": "Estándar" },
+        { "value": "full-width", "label": "Ancho completo" }
+      ],
+      "default": "page-width"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado superior" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior" }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Columna",
+      "limit": 6,
+      "settings": [
+        { "type": "header", "content": "Encabezado" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Plan" },
+        { "type": "text", "id": "subtitle", "label": "Subtítulo" },
+        { "type": "text", "id": "badge", "label": "Etiqueta (ej. Más popular)" },
+        { "type": "url", "id": "link", "label": "Enlace del título" },
+        { "type": "image_picker", "id": "header_image", "label": "Imagen" },
+        {
+          "type": "select",
+          "id": "header_icon",
+          "label": "Ícono (si no hay imagen)",
+          "options": [
+            { "value": "none", "label": "Ninguno" },
+            { "value": "star", "label": "Estrella" },
+            { "value": "check", "label": "Palomita" },
+            { "value": "heart", "label": "Corazón" }
+          ],
+          "default": "none"
+        },
+
+        { "type": "header", "content": "Precio" },
+        { "type": "inline_richtext", "id": "price", "label": "Precio", "info": "Usa negrita para resaltar el monto. Ej: desde **MXN 279 / mes**" },
+        { "type": "text", "id": "price_note", "label": "Nota del precio", "info": "Ej: Ahorra un 17% durante 6 meses*" },
+
+        { "type": "header", "content": "Botón (CTA)" },
+        { "type": "text", "id": "cta_label", "label": "Texto del botón", "info": "Déjalo vacío para ocultarlo." },
+        { "type": "url", "id": "cta_link", "label": "Enlace del botón" },
+        { "type": "checkbox", "id": "cta_new_tab", "label": "Abrir en otra pestaña", "default": false },
+        {
+          "type": "select",
+          "id": "cta_style",
+          "label": "Estilo del botón",
+          "options": [
+            { "value": "solid", "label": "Relleno" },
+            { "value": "outline", "label": "Contorno" }
+          ],
+          "default": "solid"
+        },
+        {
+          "type": "checkbox",
+          "id": "cta_custom_scheme",
+          "label": "Usar esquema propio en este botón",
+          "default": false,
+          "info": "Si está desactivado, usa el esquema de \"Botones de columnas\" de la sección."
+        },
+        {
+          "type": "color_scheme",
+          "id": "cta_scheme",
+          "label": "Esquema propio del botón",
+          "default": "scheme-1",
+          "visible_if": "{{ block.settings.cta_custom_scheme }}"
+        },
+
+        { "type": "header", "content": "Destacar" },
+        { "type": "checkbox", "id": "highlight", "label": "Destacar esta columna", "default": false },
+        { "type": "color_scheme", "id": "highlight_scheme", "label": "Esquema de la columna destacada", "default": "scheme-3", "info": "Fondo y texto de toda la columna cuando está destacada. No afecta el color del botón." }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Fila",
+      "settings": [
+        { "type": "richtext", "id": "feature_content", "label": "Característica", "default": "<p>Característica</p>" },
+        { "type": "text", "id": "feature_note", "label": "Nota de la característica" },
+        { "type": "paragraph", "content": "Escribe \"si\" / \"✓\" para palomita o \"-\" / \"no\" para guion. Cualquier otro texto se muestra tal cual." },
+        { "type": "richtext", "id": "col1_content", "label": "Columna 1" },
+        { "type": "richtext", "id": "col2_content", "label": "Columna 2" },
+        { "type": "richtext", "id": "col3_content", "label": "Columna 3" },
+        { "type": "richtext", "id": "col4_content", "label": "Columna 4" },
+        { "type": "richtext", "id": "col5_content", "label": "Columna 5" },
+        { "type": "richtext", "id": "col6_content", "label": "Columna 6" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabla comparativa",
+      "settings": { "cta_color_scheme": "scheme-1" },
+      "blocks": [
+        { "type": "column", "settings": { "title": "Premium", "price": "desde <strong>MXN 279 / mes</strong>", "price_note": "Ahorra un 17% durante 6 meses*", "cta_label": "Seleccionar", "highlight": true, "highlight_scheme": "scheme-3" } },
+        { "type": "column", "settings": { "title": "Estándar", "price": "desde <strong>MXN 199 / mes</strong>", "price_note": "Ahorra un 23% durante 6 meses*", "cta_label": "Seleccionar" } },
+        { "type": "column", "settings": { "title": "Básico", "price": "desde <strong>MXN 129 / mes</strong>", "price_note": "Ahorra un 18% durante 6 meses*", "cta_label": "Seleccionar" } },
+        { "type": "row", "settings": { "feature_content": "<p>Duración de los planes</p>", "col1_content": "<p>Mensual, semestral y anual</p>", "col2_content": "<p>Mensual, semestral y anual</p>", "col3_content": "<p>Mensual y semestral</p>" } },
+        { "type": "row", "settings": { "feature_content": "<p>Característica exclusiva</p>", "col1_content": "<p>si</p>", "col2_content": "<p>-</p>", "col3_content": "<p>-</p>" } },
+        { "type": "row", "settings": { "feature_content": "<p>Contenido completo</p>", "col1_content": "<p>si</p>", "col2_content": "<p>si</p>", "col3_content": "<p>si</p>" } },
+        { "type": "row", "settings": { "feature_content": "<p>Sin anuncios</p>", "col1_content": "<p>si</p>", "col2_content": "<p>si</p>", "col3_content": "<p>-</p>" } },
+        { "type": "row", "settings": { "feature_content": "<p>Dispositivos en simultáneo</p>", "col1_content": "<p>4</p>", "col2_content": "<p>2</p>", "col3_content": "<p>2</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
