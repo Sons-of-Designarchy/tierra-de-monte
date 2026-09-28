@@ -16,6 +16,7 @@
         "slide_xcpWeD": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/hero-aliado.jpg",
             "image_alt": "",
             "overlay_color": "#000000",
             "overlay_opacity": 45,
@@ -389,6 +390,68 @@
         "show_top_border": false,
         "show_bottom_border": false,
         "height": 100
+      }
+    },
+    "slide_gallery_aK44mg": {
+      "type": "slide-gallery",
+      "blocks": {
+        "slide_qNeMrf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg"
+          }
+        },
+        "slide_EiNnYf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1.4.1_1.4.1.jpg"
+          }
+        },
+        "slide_ULFabq": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1.7.1_1.7.1.jpg"
+          }
+        },
+        "slide_qhnhGp": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "slide_qNeMrf",
+        "slide_EiNnYf",
+        "slide_ULFabq",
+        "slide_qhnhGp"
+      ],
+      "name": "Slide gallery",
+      "settings": {
+        "intro_title": "Gente que ya trabaja con nosotros",
+        "intro_heading_size": "h1",
+        "intro_text": "<p>Escribe aquí una descripción breve que acompañe a la galería.</p>",
+        "button_label": "Ver más",
+        "button_link": "",
+        "button_style_secondary": false,
+        "button_pill": true,
+        "intro_alignment": "center",
+        "intro_position": "top",
+        "intro_color_scheme": "",
+        "intro_padding_top": 36,
+        "intro_padding_bottom": 36,
+        "layout": "grid",
+        "corner_radius": 8,
+        "padding_x_desktop": 50,
+        "padding_x_mobile": 15,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "accessibility_info": "Presentación de diapositivas sobre tu marca"
       }
     },
     "ticker_fLHMnW": {
@@ -831,55 +894,6 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "slide_gallery_aK44mg": {
-      "type": "slide-gallery",
-      "blocks": {
-        "slide_EiNnYf": {
-          "type": "slide",
-          "settings": {}
-        },
-        "slide_ULFabq": {
-          "type": "slide",
-          "settings": {}
-        },
-        "slide_qhnhGp": {
-          "type": "slide",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "slide_EiNnYf",
-        "slide_ULFabq",
-        "slide_qhnhGp"
-      ],
-      "name": "Slide gallery",
-      "settings": {
-        "intro_title": "Título de la sección",
-        "intro_heading_size": "h1",
-        "intro_text": "<p>Escribe aquí una descripción breve que acompañe a la galería.</p>",
-        "button_label": "Ver más",
-        "button_link": "",
-        "button_style_secondary": false,
-        "button_pill": true,
-        "intro_alignment": "center",
-        "intro_position": "top",
-        "intro_color_scheme": "",
-        "intro_padding_top": 36,
-        "intro_padding_bottom": 36,
-        "layout": "grid",
-        "corner_radius": 8,
-        "padding_x_desktop": 50,
-        "padding_x_mobile": 15,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "slide_height": "medium",
-        "slider_visual": "counter",
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "image_behavior": "none",
-        "accessibility_info": "Presentación de diapositivas sobre tu marca"
-      }
     }
   },
   "order": [
@@ -888,11 +902,11 @@
     "multicolumn_sept2026_AwmWPk",
     "multicolumn_sept2026_cQktdB",
     "ticker_H9daYM",
+    "slide_gallery_aK44mg",
     "ticker_fLHMnW",
     "multicolumn",
     "reviews_4eGYH6",
     "ticker_q7YzML",
-    "comparison_table_CjRhQt",
-    "slide_gallery_aK44mg"
+    "comparison_table_CjRhQt"
   ]
 }
