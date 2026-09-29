@@ -1,5 +1,5 @@
 {%- comment -%}
-  Tabla comparativa editable (v4)
+  Tabla comparativa editable (v8)
   - Columnas: bloques "Columna" (máx. 6) con precio, nota y botón (CTA) propios
   - Filas: bloques "Fila"
   - Esquemas de color independientes:
@@ -54,14 +54,47 @@
     assign b_hfg = g_hfg
   endif
 
-  assign has_bottom_ctas = false
-  if section.settings.show_bottom_ctas
-    for col in column_blocks limit: display_columns
-      if col.settings.cta_label != blank
-        assign has_bottom_ctas = true
-      endif
-    endfor
+  # ---------- Posición de los botones de columnas ----------
+  # bottom = fila al final de la tabla (por defecto)
+  assign cta_placement = section.settings.cta_placement | default: 'bottom'
+  assign ctas_in_header = true
+  if cta_placement == 'bottom'
+    assign ctas_in_header = false
   endif
+
+  assign any_cta = false
+  for col in column_blocks limit: display_columns
+    if col.settings.cta_label != blank
+      assign any_cta = true
+    endif
+  endfor
+
+  assign has_bottom_ctas = false
+  if any_cta
+    if cta_placement == 'bottom' or section.settings.show_bottom_ctas
+      assign has_bottom_ctas = true
+    endif
+  endif
+
+  # ---------- Estilo de botones: del tema (clase .button) o propio de la sección ----------
+  assign theme_btn = section.settings.use_theme_buttons
+
+  # ---------- Anchos en móvil (px) ----------
+  assign m_feat_w = section.settings.mobile_feature_width | default: 130
+  assign m_col_w = section.settings.mobile_column_width | default: 120
+  assign m_pad = section.settings.table_padding_x | at_most: 8
+
+  # ---------- Ancho de columnas (la destacada puede ser más ancha) ----------
+  assign hl_extra = section.settings.highlight_extra_width | default: 0 | times: 0.01
+  assign total_weight = 0.0
+  for col in column_blocks limit: display_columns
+    assign total_weight = total_weight | plus: 1
+    if col.settings.highlight
+      assign total_weight = total_weight | plus: hl_extra
+    endif
+  endfor
+  assign m_hl_w = m_col_w | times: hl_extra | plus: m_col_w | round: 0
+  assign m_table_w = m_col_w | times: total_weight | plus: m_feat_w | round: 0
 -%}
 
 <style>
@@ -79,6 +112,23 @@
   #shopify-section-{{ sid }} .ct-intro { text-align: {{ section.settings.text_align }}; margin-bottom: 2.4rem; }
   #shopify-section-{{ sid }} .ct-intro > *:last-child { margin-bottom: 0; }
 
+  /* ---------- Eyebrow ----------
+     Usa las mismas clases que la sección Multicolumn (.mc-eyebrow / .mc-eyebrow__rule)
+     para heredar el estilo del tema. Los valores de respaldo van con :where()
+     (especificidad 0) para que el CSS del tema siempre tenga prioridad. */
+  :where(#shopify-section-{{ sid }} .ct-eyebrow) {
+    font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+  :where(#shopify-section-{{ sid }} .ct-eyebrow .mc-eyebrow__rule) {
+    width: 4.8rem; height: 2px; margin-top: 0.8rem;
+  }
+  #shopify-section-{{ sid }} .ct-eyebrow { text-align: {{ section.settings.text_align }}; }
+  #shopify-section-{{ sid }} .ct-eyebrow .mc-eyebrow__rule {
+    background-color: {{ section.settings.rule_color }};
+    {%- if section.settings.text_align == 'center' %} margin-left: auto; margin-right: auto;{% else %} margin-left: 0; margin-right: auto;{% endif %}
+  }
+
   /* ---------- Contenedor de la tabla (esquema de tabla) ---------- */
   #shopify-section-{{ sid }} .ct-wrapper {
     --ct-table-bg: {{ t_bg }};
@@ -87,18 +137,26 @@
     background-color: var(--ct-table-bg);
     color: var(--ct-table-fg);
     border-radius: {{ radius }}px;
-    padding: 0 {{ section.settings.table_padding_x }}px;
+    --ct-pad: {{ section.settings.table_padding_x }}px;
+    padding: 0 var(--ct-pad);
+    position: relative; /* contiene los textos ocultos para lectores de pantalla y evita scroll horizontal de la página */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
     --ct-border: color-mix(in srgb, var(--ct-table-fg) {{ section.settings.border_opacity }}%, transparent);
     --ct-soft: color-mix(in srgb, var(--ct-table-fg) 5%, transparent);
   }
+
+  #shopify-section-{{ sid }} .ct-block,
+  #shopify-section-{{ sid }} .ct-block *,
+  #shopify-section-{{ sid }} .ct-cta a.ct-btn { box-sizing: border-box; }
 
   #shopify-section-{{ sid }} .ct-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    min-width: {{ display_columns | plus: 1 | times: 150 }}px;
+    min-width: {{ display_columns | plus: 1 | times: 130 }}px;
     color: inherit;
     table-layout: fixed;
     margin: 0;
@@ -170,6 +228,15 @@
   #shopify-section-{{ sid }} thead .ct-hl { border-top-left-radius: {{ hl_radius }}px; border-top-right-radius: {{ hl_radius }}px; }
   #shopify-section-{{ sid }} tr.ct-last .ct-hl { border-bottom-left-radius: {{ hl_radius }}px; border-bottom-right-radius: {{ hl_radius }}px; }
 
+  /* La columna destacada en el extremo se extiende sobre el margen lateral de la tabla,
+     para que el color llegue hasta el borde (con o sin botones, filas o imágenes) */
+  #shopify-section-{{ sid }} .ct-table tr > .ct-hl:last-child {
+    box-shadow: var(--ct-pad) 0 0 0 var(--ct-hl-bg);
+  }
+  /* Si la destacada es la última columna, las esquinas derechas siguen el redondeo de la tabla */
+  #shopify-section-{{ sid }} thead tr > .ct-hl:last-child { border-top-right-radius: 0; }
+  #shopify-section-{{ sid }} tr.ct-last > .ct-hl:last-child { border-bottom-right-radius: 0; }
+
   /* ---------- Botones de columnas: esquema independiente (nivel sección) ---------- */
   #shopify-section-{{ sid }} .ct-section a.ct-btn {
     --ct-btn-bg: {{ g_bg }};
@@ -205,17 +272,87 @@
     {%- endif -%}
   {%- endfor -%}
 
-  {%- if section.settings.sticky_first_column -%}
+  /* ---------- Indicador de desplazamiento (todas las pantallas, solo si la tabla no cabe) ---------- */
+  #shopify-section-{{ sid }} .ct-scroll { position: relative; }
+  #shopify-section-{{ sid }} .ct-scroll::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 3.2rem; pointer-events: none;
+    border-radius: 0 {{ radius }}px {{ radius }}px 0;
+    background: linear-gradient(to right, transparent, color-mix(in srgb, {{ t_fg }} 18%, transparent));
+    opacity: 0; transition: opacity .2s ease;
+  }
+  #shopify-section-{{ sid }} .ct-scroll.is-scrollable:not(.is-end)::after { opacity: 1; }
+  #shopify-section-{{ sid }} .ct-scroll-hint {
+    display: none; align-items: center; justify-content: center; gap: 0.6rem;
+    margin: 0 0 1rem; font-size: 1.2rem; opacity: 0.75;
+  }
+  #shopify-section-{{ sid }} .ct-scroll-hint svg { width: 1.4rem; height: 1.4rem; }
+  #shopify-section-{{ sid }} .ct-block.is-scrollable .ct-scroll-hint { display: flex; }
+
+  /* ---------- Móvil ---------- */
   @media screen and (max-width: 749px) {
+    #shopify-section-{{ sid }} .ct-intro { margin-bottom: 1.6rem; }
+    #shopify-section-{{ sid }} .ct-wrapper { --ct-pad: {{ m_pad }}px; }
+
+    /* Anchos fijos legibles: columna de características + planes */
+    #shopify-section-{{ sid }} .ct-table {
+      width: max(100%, {{ m_table_w }}px);
+      min-width: 0;
+    }
+    #shopify-section-{{ sid }} .ct-table col.ct-col-feature { width: {{ m_feat_w }}px !important; }
+    #shopify-section-{{ sid }} .ct-table col.ct-col-plan { width: {{ m_col_w }}px !important; }
+    #shopify-section-{{ sid }} .ct-table col.ct-col-plan.ct-col-hl { width: {{ m_hl_w }}px !important; }
+
+    /* Tipografía y espaciados compactos */
+    #shopify-section-{{ sid }} .ct-table th,
+    #shopify-section-{{ sid }} .ct-table td { padding: 1.2rem 0.8rem; font-size: 1.3rem; line-height: 1.35; }
+    #shopify-section-{{ sid }} .ct-feature { padding-left: 0.4rem !important; overflow-wrap: anywhere; hyphens: auto; }
+    #shopify-section-{{ sid }} .ct-feature small { font-size: 1.1rem; }
+    #shopify-section-{{ sid }} .ct-cell { overflow-wrap: anywhere; }
+    #shopify-section-{{ sid }} .ct-header { padding-top: 1.6rem !important; padding-bottom: 1.4rem !important; }
+    #shopify-section-{{ sid }} .ct-header__inner { gap: 0.6rem; }
+    #shopify-section-{{ sid }} .ct-header__image { max-width: {{ section.settings.mobile_image_size | default: 64 }}px; }
+    #shopify-section-{{ sid }} .ct-header__title { font-size: 1.5rem; line-height: 1.2; overflow-wrap: anywhere; }
+    #shopify-section-{{ sid }} .ct-header__subtitle { font-size: 1.15rem; }
+    #shopify-section-{{ sid }} .ct-header__price { font-size: 1.15rem; line-height: 1.3; }
+    #shopify-section-{{ sid }} .ct-header__price strong { font-size: 1.3rem; }
+    #shopify-section-{{ sid }} .ct-header__note { font-size: 1.05rem; }
+    #shopify-section-{{ sid }} .ct-icon { width: 2rem; height: 2rem; }
+    #shopify-section-{{ sid }} .ct-badge { font-size: 0.9rem; padding: 0.2rem 0.6rem; letter-spacing: 0.03em; white-space: nowrap; }
+    #shopify-section-{{ sid }} .ct-check { width: 1.8rem; height: 1.8rem; }
+
+    /* Botones de columna: caben en columnas angostas */
+    #shopify-section-{{ sid }} .ct-section .ct-table a.ct-btn {
+      min-width: 0; min-height: 4rem; padding: 0.8rem 0.4rem; font-size: 1.05rem; letter-spacing: 0;
+      white-space: normal; overflow-wrap: normal; word-break: normal; hyphens: manual;
+    }
+    #shopify-section-{{ sid }} .ct-foot td,
+    #shopify-section-{{ sid }} .ct-foot th { padding-top: 1.6rem; padding-bottom: 2rem; }
+
+    /* Botón general a todo el ancho */
+    #shopify-section-{{ sid }} .ct-cta { margin-top: 2.4rem; }
+    #shopify-section-{{ sid }} .ct-section .ct-cta a.ct-btn { width: 100%; max-width: 44rem; }
+
+    {%- if section.settings.sticky_first_column -%}
+    /* Primera columna fija con sombra para indicar que el resto se desliza */
     #shopify-section-{{ sid }} .ct-table .ct-feature {
-      position: sticky; left: 0; z-index: 1;
+      position: sticky; left: calc(-1 * var(--ct-pad)); z-index: 2;
       background-color: var(--ct-table-bg);
+      transition: box-shadow .2s ease;
       {%- if section.settings.feature_tint %} background-image: linear-gradient(var(--ct-soft), var(--ct-soft));{% endif %}
     }
+    #shopify-section-{{ sid }} .ct-scroll.is-scrolled .ct-table .ct-feature {
+      box-shadow: 6px 0 8px -6px color-mix(in srgb, var(--ct-table-fg) 35%, transparent);
+    }
+    {%- endif -%}
   }
-  {%- endif -%}
 
   /* ---------- Botones (columna y sección) ---------- */
+  {%- if theme_btn -%}
+  /* Usa la clase .button del tema: mismo alto, padding, fuente, radio, borde y sombra
+     que los demás botones del sitio (Configuración del tema → Botones) */
+  #shopify-section-{{ sid }} .ct-section a.ct-btn.button { margin: 0; text-decoration: none; }
+  #shopify-section-{{ sid }} .ct-table a.ct-btn.button { min-width: 0; max-width: 100%; }
+  {%- else -%}
   /* Selectores con #id + a.ct-btn para ganarle a los estilos de enlaces del tema */
   #shopify-section-{{ sid }} .ct-section a.ct-btn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -239,12 +376,17 @@
     opacity: 0.9;
   }
   #shopify-section-{{ sid }} .ct-section a.ct-btn--outline:hover { background-color: var(--ct-btn-bg); color: var(--ct-btn-fg); }
+  {%- endif -%}
   #shopify-section-{{ sid }} .ct-btn[aria-disabled="true"] { pointer-events: none; }
   {%- if section.settings.full_width_buttons -%}
   #shopify-section-{{ sid }} .ct-header .ct-btn,
   #shopify-section-{{ sid }} .ct-foot .ct-btn { width: 100%; }
   {%- endif -%}
-  #shopify-section-{{ sid }} .ct-foot td { text-align: center; }
+  #shopify-section-{{ sid }} .ct-foot td,
+  #shopify-section-{{ sid }} .ct-foot th {
+    text-align: center; vertical-align: top;
+    padding-top: 2.4rem; padding-bottom: 2.8rem;
+  }
 
   #shopify-section-{{ sid }} .ct-footnote { margin-top: 1.6rem; font-size: 1.2rem; opacity: 0.75; text-align: {{ section.settings.text_align }}; }
   #shopify-section-{{ sid }} .ct-footnote p { margin: 0 0 0.4rem; }
@@ -268,8 +410,16 @@
 
 <div class="ct-section color-{{ section.settings.color_scheme }} gradient">
   <div class="{{ section.settings.container_width }}">
-    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+    {%- if section.settings.pretitle != blank or section.settings.heading != blank or section.settings.description != blank -%}
       <div class="ct-intro">
+        {%- if section.settings.pretitle != blank -%}
+          <div class="mc-eyebrow ct-eyebrow">
+            {{ section.settings.pretitle }}
+            {%- if section.settings.show_rule -%}
+              <div class="mc-eyebrow__rule" aria-hidden="true"></div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
         {%- if section.settings.heading != blank -%}
           <h2 class="title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
         {%- endif -%}
@@ -280,12 +430,27 @@
     {%- endif -%}
 
     {%- if display_columns > 0 -%}
-      <div class="ct-wrapper">
+      <div class="ct-block" id="CtBlock-{{ sid }}">
+      {%- if section.settings.scroll_hint != blank -%}
+        <p class="ct-scroll-hint" aria-hidden="true">
+          {{ section.settings.scroll_hint | escape }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </p>
+      {%- endif -%}
+      <div class="ct-scroll">
+      <div class="ct-wrapper" tabindex="0" role="region" aria-label="{{ section.settings.heading | strip_html | default: 'Tabla comparativa' | escape }}">
         <table class="ct-table">
           <colgroup>
-            <col style="width: {{ section.settings.first_column_width }}%;">
-            {%- for i in (1..display_columns) -%}
-              <col style="width: calc({{ other_width }}% / {{ display_columns }});">
+            <col class="ct-col-feature" style="width: {{ section.settings.first_column_width }}%;">
+            {%- for col in column_blocks limit: display_columns -%}
+              {%- liquid
+                assign w = 1.0
+                if col.settings.highlight
+                  assign w = w | plus: hl_extra
+                endif
+                assign col_pct = other_width | times: w | divided_by: total_weight | round: 3
+              -%}
+              <col class="ct-col-plan{% if col.settings.highlight %} ct-col-hl{% endif %}" style="width: {{ col_pct }}%;">
             {%- endfor -%}
           </colgroup>
 
@@ -298,7 +463,7 @@
                     <a
                       {% if block.settings.cta_link != blank %}href="{{ block.settings.cta_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
                       {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
-                      class="ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
+                      class="{% if theme_btn %}button button--{% if block.settings.cta_style == 'outline' %}secondary{% else %}primary{% endif %} {% endif %}ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
                     >{{ block.settings.cta_label | escape }}</a>
                   {%- endif -%}
                 {%- endcapture -%}
@@ -347,7 +512,9 @@
                       <span class="ct-header__subtitle">{{ block.settings.subtitle }}</span>
                     {%- endif -%}
 
-                    {%- if section.settings.cta_position == 'before_price' -%}
+                    {%- if ctas_in_header == false -%}
+                      {{ col_price }}
+                    {%- elsif cta_placement == 'before_price' -%}
                       {{ col_cta }}{{ col_price }}
                     {%- else -%}
                       {{ col_price }}{{ col_cta }}
@@ -397,7 +564,7 @@
                       <a
                         {% if block.settings.cta_link != blank %}href="{{ block.settings.cta_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
                         {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
-                        class="ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
+                        class="{% if theme_btn %}button button--{% if block.settings.cta_style == 'outline' %}secondary{% else %}primary{% endif %} {% endif %}ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
                       >{{ block.settings.cta_label | escape }}</a>
                     {%- endif -%}
                   </td>
@@ -407,6 +574,28 @@
           {%- endif -%}
         </table>
       </div>
+      </div>
+      </div>
+      <script>
+        (function () {
+          var block = document.getElementById('CtBlock-{{ sid }}');
+          if (!block) return;
+          var outer = block.querySelector('.ct-scroll');
+          var wrap = block.querySelector('.ct-wrapper');
+          function update() {
+            var scrollable = wrap.scrollWidth > wrap.clientWidth + 2;
+            var atEnd = wrap.scrollLeft + wrap.clientWidth >= wrap.scrollWidth - 2;
+            block.classList.toggle('is-scrollable', scrollable);
+            outer.classList.toggle('is-scrollable', scrollable);
+            outer.classList.toggle('is-end', atEnd);
+            outer.classList.toggle('is-scrolled', wrap.scrollLeft > 2);
+          }
+          wrap.addEventListener('scroll', update, { passive: true });
+          window.addEventListener('resize', update);
+          if ('ResizeObserver' in window) new ResizeObserver(update).observe(wrap);
+          update();
+        })();
+      </script>
     {%- endif -%}
 
     {%- if section.settings.footnote != blank -%}
@@ -422,7 +611,7 @@
             role="link" aria-disabled="true"
           {% endif %}
           {% if section.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
-          class="ct-btn ct-btn--{{ section.settings.button_style }} color-{{ btn_scheme_id }}"
+          class="{% if theme_btn %}button button--{% if section.settings.button_style == 'outline' %}secondary{% else %}primary{% endif %} {% endif %}ct-btn ct-btn--{{ section.settings.button_style }} color-{{ btn_scheme_id }}"
         >
           {{- section.settings.button_label | escape -}}
         </a>
@@ -440,6 +629,9 @@
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     { "type": "header", "content": "Contenido" },
+    { "type": "text", "id": "pretitle", "label": "Eyebrow", "placeholder": "Ej. Planes", "info": "Texto pequeño arriba del título. Déjalo vacío para ocultarlo." },
+    { "type": "checkbox", "id": "show_rule", "label": "Mostrar línea del eyebrow", "default": true },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Compara nuestros planes" },
     {
       "type": "select",
@@ -456,7 +648,7 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Alineación del título",
+      "label": "Alineación del título y eyebrow",
       "options": [
         { "value": "left", "label": "Izquierda" },
         { "value": "center", "label": "Centro" }
@@ -498,11 +690,18 @@
     { "type": "range", "id": "image_size", "min": 40, "max": 240, "step": 10, "unit": "px", "default": 120, "label": "Tamaño de imagen del encabezado" },
     { "type": "range", "id": "table_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de la tabla" },
     { "type": "range", "id": "table_padding_x", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16, "label": "Margen interno lateral de la tabla" },
+    { "type": "range", "id": "highlight_extra_width", "min": 0, "max": 60, "step": 5, "unit": "%", "default": 20, "label": "Espacio extra de la columna destacada", "info": "Hace la columna destacada más ancha que las demás." },
     { "type": "range", "id": "highlight_radius", "min": 0, "max": 30, "step": 2, "unit": "px", "default": 0, "label": "Redondeo de la columna destacada" },
     { "type": "checkbox", "id": "striped_rows", "label": "Filas alternadas (cebra)", "default": false },
     { "type": "checkbox", "id": "show_vertical_borders", "label": "Mostrar bordes verticales", "default": false },
     { "type": "range", "id": "border_opacity", "min": 0, "max": 50, "step": 5, "unit": "%", "default": 15, "label": "Opacidad de bordes" },
+
+    { "type": "header", "content": "Móvil" },
     { "type": "checkbox", "id": "sticky_first_column", "label": "Fijar primera columna en móvil", "default": true },
+    { "type": "range", "id": "mobile_feature_width", "min": 90, "max": 200, "step": 5, "unit": "px", "default": 130, "label": "Ancho de la columna de características" },
+    { "type": "range", "id": "mobile_column_width", "min": 80, "max": 180, "step": 5, "unit": "px", "default": 120, "label": "Ancho de cada plan" },
+    { "type": "range", "id": "mobile_image_size", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 64, "label": "Tamaño de imagen del encabezado" },
+    { "type": "text", "id": "scroll_hint", "label": "Texto de ayuda para deslizar", "default": "Desliza para ver todos los planes", "info": "Solo aparece cuando la tabla no cabe en la pantalla. Déjalo vacío para ocultarlo." },
 
     { "type": "header", "content": "Botones de columnas (CTA)" },
     {
@@ -514,18 +713,26 @@
     },
     {
       "type": "select",
-      "id": "cta_position",
-      "label": "Posición del botón en el encabezado",
+      "id": "cta_placement",
+      "label": "Posición de los botones",
       "options": [
-        { "value": "before_price", "label": "Antes del precio" },
-        { "value": "after_price", "label": "Después del precio" }
+        { "value": "bottom", "label": "Abajo (al final de la tabla)" },
+        { "value": "after_price", "label": "Arriba, después del precio" },
+        { "value": "before_price", "label": "Arriba, antes del precio" }
       ],
-      "default": "before_price"
+      "default": "bottom"
     },
     { "type": "checkbox", "id": "full_width_buttons", "label": "Botones a todo el ancho de la columna", "default": true },
-    { "type": "checkbox", "id": "show_bottom_ctas", "label": "Repetir botones al final de la tabla", "default": false },
-    { "type": "checkbox", "id": "button_uppercase", "label": "Texto de botones en mayúsculas", "default": true },
-    { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de botones" },
+    { "type": "checkbox", "id": "show_bottom_ctas", "label": "Repetir botones al final de la tabla", "default": false, "info": "Solo aplica cuando los botones van arriba." },
+    {
+      "type": "checkbox",
+      "id": "use_theme_buttons",
+      "label": "Usar el estilo de botones del tema",
+      "default": true,
+      "info": "Los botones miden y se ven igual que el resto del sitio (Configuración del tema → Botones). Desactívalo para usar mayúsculas y redondeo propios de esta sección."
+    },
+    { "type": "checkbox", "id": "button_uppercase", "label": "Texto de botones en mayúsculas", "default": true, "visible_if": "{{ section.settings.use_theme_buttons == false }}" },
+    { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de botones", "visible_if": "{{ section.settings.use_theme_buttons == false }}" },
 
     { "type": "header", "content": "Botón general (debajo de la tabla)" },
     { "type": "text", "id": "button_label", "label": "Texto del botón", "info": "Déjalo vacío para ocultar el botón." },
