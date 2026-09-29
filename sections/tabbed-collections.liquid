@@ -3,9 +3,7 @@
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 <section class="tdm-tabs page-width section-{{ section.id }}-padding">
-  {% if section.settings.kicker != blank %}
-    <p class="caption-with-letter-spacing">{{ section.settings.kicker }}</p>
-  {% endif %}
+  {% render 'tdm-section-eyebrow', text: section.settings.kicker, rule_color: section.settings.rule_color, align: 'center' %}
   {% if section.settings.heading != blank %}
     <h1 class="h1">{{ section.settings.heading }}</h1>
   {% endif %}
@@ -96,7 +94,8 @@
 {
   "name": "Tabbed collections",
   "settings": [
-    { "type": "text", "id": "kicker", "label": "Kicker" },
+    { "type": "text", "id": "kicker", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading" },
     { "type": "text", "id": "subheading", "label": "Subheading" },
     { "type": "checkbox", "id": "show_card_excerpt", "label": "Show product description", "default": true },

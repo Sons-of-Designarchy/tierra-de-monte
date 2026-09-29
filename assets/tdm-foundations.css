@@ -101,6 +101,32 @@
 }
 
 /* -----------------------------------------------------------------------------
+   Section eyebrow — shared by the section headers (snippets/tdm-section-eyebrow).
+   One size everywhere; the rule is always full width and only renders with text.
+   -------------------------------------------------------------------------- */
+.tdm-section-eyebrow {
+  margin: 0 0 var(--tdm-space-8);
+}
+
+.tdm-section-eyebrow__text {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+/* Parent class raises specificity above Dawn's div:empty { display: none } */
+.tdm-section-eyebrow .tdm-section-eyebrow__rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: var(--tdm-space-3);
+  background: var(--tdm-rule, rgba(var(--color-foreground), 0.15));
+}
+
+/* -----------------------------------------------------------------------------
    Split — lead copy on the left, content on the right (5 / 7 on desktop).
    -------------------------------------------------------------------------- */
 .tdm-split {

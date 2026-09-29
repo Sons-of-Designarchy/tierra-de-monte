@@ -98,6 +98,9 @@
 
   # ---------- Root modifier classes (settings booleans become classes, not conditional CSS) ----------
   assign root_class = 'ct-section tdm-comparison-table section-' | append: sid | append: '-padding color-' | append: section.settings.color_scheme | append: ' gradient'
+  if section.settings.price_size != 'default'
+    assign root_class = root_class | append: ' ct-price--' | append: section.settings.price_size
+  endif
   if section.settings.show_vertical_borders
     assign root_class = root_class | append: ' ct-vborders'
   endif
@@ -124,11 +127,6 @@
   assign feature_weight = 400
   if section.settings.feature_bold
     assign feature_weight = 600
-  endif
-
-  assign eyebrow_rule_ml = '0'
-  if section.settings.text_align == 'center'
-    assign eyebrow_rule_ml = 'auto'
   endif
 
   assign btn_uppercase = 'none'
@@ -163,8 +161,6 @@
 {%- comment -%} All per-instance/setting values, as custom properties on the root element. Styles: assets/section-tdm-comparison-table.css {%- endcomment -%}
 {%- capture root_style -%}
   --ct-align: {{ section.settings.text_align }};
-  --ct-rule-color: {{ section.settings.rule_color }};
-  --ct-rule-ml: {{ eyebrow_rule_ml }};
   --ct-table-bg: {{ t_bg }};
   --ct-table-fg: {{ t_fg }};
   --ct-accent: {{ t_accent }};
@@ -210,14 +206,7 @@
   <div class="{{ section.settings.container_width }}">
     {%- if section.settings.pretitle != blank or section.settings.heading != blank or section.settings.description != blank -%}
       <div class="ct-intro">
-        {%- if section.settings.pretitle != blank -%}
-          <div class="mc-eyebrow ct-eyebrow">
-            {{ section.settings.pretitle }}
-            {%- if section.settings.show_rule -%}
-              <div class="mc-eyebrow__rule" aria-hidden="true"></div>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+        {%- render 'tdm-section-eyebrow', text: section.settings.pretitle, rule_color: section.settings.rule_color, align: 'var(--ct-align)' -%}
         {%- if section.settings.heading != blank -%}
           <h2 class="title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
         {%- endif -%}
@@ -408,8 +397,7 @@
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     { "type": "header", "content": "Contenido" },
-    { "type": "text", "id": "pretitle", "label": "Eyebrow", "placeholder": "Ej. Planes", "info": "Texto pequeño arriba del título. Déjalo vacío para ocultarlo." },
-    { "type": "checkbox", "id": "show_rule", "label": "Mostrar línea del eyebrow", "default": true },
+    { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Planes" },
     { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Compara nuestros planes" },
     {
@@ -467,6 +455,20 @@
       "default": "center"
     },
     { "type": "range", "id": "image_size", "min": 40, "max": 240, "step": 10, "unit": "px", "default": 120, "label": "Tamaño de imagen del encabezado" },
+    {
+      "type": "select",
+      "id": "price_size",
+      "label": "Tamaño del precio",
+      "info": "Usa la escala de títulos del tema (H4–H1). En móvil se reduce igual que los títulos.",
+      "options": [
+        { "value": "default", "label": "Pequeño (actual)" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" }
+      ],
+      "default": "default"
+    },
     { "type": "range", "id": "table_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de la tabla" },
     { "type": "range", "id": "table_padding_x", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16, "label": "Margen interno lateral de la tabla" },
     { "type": "range", "id": "highlight_extra_width", "min": 0, "max": 60, "step": 5, "unit": "%", "default": 20, "label": "Espacio extra de la columna destacada", "info": "Hace la columna destacada más ancha que las demás." },

@@ -1,0 +1,20 @@
+{%- comment -%}
+  Section eyebrow: small uppercase label with a rule beneath.
+  The rule only exists when there is text — empty eyebrow renders nothing.
+
+  {% render 'tdm-section-eyebrow', text: section.settings.pretitle, rule_color: section.settings.rule_color, align: 'center' %}
+
+  - text        (required) eyebrow copy
+  - rule_color  (optional) colour setting for the rule; falls back to the scheme text colour
+  - align       (optional) left | center | right | any CSS text-align value
+  Styles: .tdm-section-eyebrow in assets/tdm-foundations.css
+{%- endcomment -%}
+{%- if text != blank -%}
+  <div
+    class="tdm-section-eyebrow"
+    style="{% if rule_color != blank %}--tdm-rule: {{ rule_color }};{% endif %}{% if align != blank %} text-align: {{ align }};{% endif %}"
+  >
+    <p class="tdm-section-eyebrow__text">{{ text }}</p>
+    <div class="tdm-section-eyebrow__rule" aria-hidden="true"></div>
+  </div>
+{%- endif -%}

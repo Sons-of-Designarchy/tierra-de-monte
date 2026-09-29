@@ -299,7 +299,10 @@
   }
 
   /* ===== Encabezado: eyebrow + título (alineación editable) ===== */
-  .section-{{ section.id }} .mc-eyebrow { text-align: {{ title_align }}; }
+  @media screen and (max-width: 749px) {
+    /* Same side gutter as the self-padded title on mobile */
+    .section-{{ section.id }} .tdm-section-eyebrow { padding: 0 1.5rem; }
+  }
   #shopify-section-{{ section.id }} .title-wrapper-with-link {
     width: 100%;
     max-width: {{ s.header_max_width | default: 50 }}%;
@@ -396,14 +399,7 @@
       data-cascade
     {% endif %}
   >
-    {% if s.pretitle != blank %}
-      <div class="mc-eyebrow">
-        {{ s.pretitle }}
-        {% if s.show_rule %}
-          <div class="mc-eyebrow__rule" aria-hidden="true"></div>
-        {% endif %}
-      </div>
-    {% endif %}
+    {% render 'tdm-section-eyebrow', text: s.pretitle, rule_color: s.rule_color, align: title_align %}
 
     {%- unless s.title == blank -%}
       <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
@@ -740,9 +736,8 @@
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     { "type": "header", "content": "Encabezado" },
-    { "type": "text", "id": "pretitle", "label": "Eyebrow", "placeholder": "Ej. Explora", "default": "Explora" },
+    { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Explora", "default": "Explora" },
     { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
-    { "type": "checkbox", "id": "show_rule", "label": "Mostrar línea del eyebrow", "default": true },
     {
       "type": "inline_richtext",
       "id": "title",

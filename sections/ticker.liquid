@@ -28,6 +28,9 @@
   endif
 -%}
 
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+<div class="section-{{ section.id }}-padding">
 <section
   class="{{ root_classes }}"
   style="--ticker-speed: {{ speed }}s; --ticker-h: {{ section.settings.height | default: 100 }}px; --ticker-fs: {{ section.settings.font_size | default: 22 }}px; --ticker-icon-h: {{ section.settings.icon_height | default: 32 }}px; --ticker-ink: {{ section.settings.text_color | default: '#F3EFCF' }}; --ticker-bg: {{ section.settings.bg_color | default: 'transparent' }};"
@@ -86,6 +89,7 @@
     </div>
   </div>
 </section>
+</div>
 
 {% schema %}
 {
@@ -169,7 +173,10 @@
       "max": 200,
       "step": 5,
       "default": 100
-    }
+    },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0, "label": "Espaciado superior" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." }
   ],
   "presets": [{ "name": "Infinite Ticker" }]
 }

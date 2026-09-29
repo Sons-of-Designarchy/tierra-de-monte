@@ -126,3 +126,28 @@
     }
   }
 }
+
+/* Row cards: each question + answer in its own colour-scheme container */
+.accordion.accordion--card {
+  margin-top: 0;
+  padding: 0 2rem;
+  border: 0;
+  border-radius: var(--tdm-radius-md, 12px);
+}
+
+.accordion + .accordion--card,
+.accordion--card + .accordion {
+  margin-top: 1.2rem;
+}
+
+/* Padding (not margin) so the open answer keeps its space inside the card */
+.accordion--card .accordion__content {
+  margin-bottom: 0;
+  padding: 0 0 2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .accordion.accordion--card {
+    padding: 0 1.6rem;
+  }
+}

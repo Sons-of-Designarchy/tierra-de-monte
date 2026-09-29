@@ -529,7 +529,7 @@
     })();
   </script>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if template.suffix == 'aliados' %} color-scheme-fd06554c-69db-4e2a-a946-14bc2c7020be{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -539,6 +539,7 @@
     {%- endif -%}
 
     {%- if template.suffix == 'aliados' -%}
+      {{ 'section-tdm-header-aliados.css' | asset_url | stylesheet_tag }}
       {% sections 'header-aliados-group' %}
     {%- else -%}
       {% sections 'header-group' %}

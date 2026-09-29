@@ -2,14 +2,22 @@
    Hero slider (sections/hero-slider.liquid)
    Layers per slide, back to front: image -> overlay -> content -> controls.
    Per-instance values arrive as custom properties on .tdm-hero-slider:
-     --hs-h --hs-h-m --hs-text --hs-accent --hs-btn-bg --hs-btn-text
-     --hs-radius --hs-hsize
+     --hs-h --hs-h-m --hs-radius --hs-hsize
+   Colours come from Dawn colour schemes: the section scheme sits on
+   .tdm-hero-slider (controls), each .hs__slide carries its own (or the
+   section's) scheme class. foreground = text, button = accent + primary
+   button, secondary-button-text = secondary button.
    Per-slide overlay colour arrives as --hs-overlay on .hs__overlay.
    ========================================================================== */
 
 .tdm-hero-slider {
   display: block;
   position: relative;
+  /* Keep the layer z-indexes (up to 4) local so they never paint over the sticky header */
+  isolation: isolate;
+  /* Boxed inside .page-width like the home hero, with rounded frame */
+  border-radius: var(--hs-frame-radius, 0);
+  overflow: hidden;
 }
 
 .hs__track {
@@ -27,15 +35,50 @@
   display: none;
 }
 
-.hs__slide {
+.tdm-hero-slider .hs__slide {
   flex: 0 0 100%;
   position: relative;
   display: flex;
   overflow: hidden;
   isolation: isolate;
   scroll-snap-align: start;
-  padding: 48px 6vw 96px;
+}
+
+/* Content column inside the framed slide */
+.tdm-hero-slider .hs__container {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  width: 100%;
+  padding: 48px 48px 96px;
   box-sizing: border-box;
+}
+
+/* Full width: edge-to-edge frame, text column aligned to .page-width */
+.tdm-hero-slider.tdm-hero-slider--full {
+  border-radius: 0;
+}
+
+.tdm-hero-slider.tdm-hero-slider--full .hs__container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.tdm-hero-slider.tdm-hero-slider--full .hs__credit {
+  left: 5rem;
+}
+
+@media (max-width: 749px) {
+  .tdm-hero-slider.tdm-hero-slider--full .hs__container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .tdm-hero-slider.tdm-hero-slider--full .hs__credit {
+    left: 1.5rem;
+  }
 }
 
 /* ---- Layers --------------------------------------------------------------- */
@@ -65,7 +108,7 @@
 }
 
 .tdm-hero-slider .hs__media svg {
-  background: #d9d9d9;
+  background: rgb(var(--tdm-sand));
 }
 
 .tdm-hero-slider .hs__overlay {
@@ -114,7 +157,7 @@
 
 .hs__content {
   max-width: 760px;
-  color: var(--hs-text);
+  color: rgb(var(--color-foreground));
 }
 
 .hs__h-center .hs__content {
@@ -130,7 +173,7 @@
   margin: 0 0 14px;
   font-size: 1.3rem;
   letter-spacing: 0.16em;
-  color: var(--hs-accent);
+  color: rgb(var(--color-button));
   font-weight: 500;
 }
 
@@ -146,7 +189,7 @@
 .hs__title em,
 .hs__title i,
 .hs__hl {
-  color: var(--hs-accent);
+  color: rgb(var(--color-button));
   font-style: normal;
 }
 
@@ -182,7 +225,7 @@
   font-weight: 600;
   font-size: 1.5rem;
   text-decoration: none;
-  border: 1.5px solid var(--hs-btn-bg);
+  border: 1.5px solid rgb(var(--color-button));
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -192,23 +235,23 @@
 }
 
 .hs__btn--primary {
-  background: var(--hs-btn-bg);
-  color: var(--hs-btn-text);
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
 }
 
 .hs__btn--secondary {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--hs-text);
-  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(var(--color-secondary-button-text), 0.08);
+  color: rgb(var(--color-secondary-button-text));
+  border-color: rgba(var(--color-secondary-button-text), 0.7);
   backdrop-filter: blur(4px);
 }
 
 /* ---- Credit (bottom corner) --------------------------------------------------- */
 .hs__credit {
   position: absolute;
-  left: 6vw;
+  left: 48px; /* matches .hs__container side padding */
   bottom: 36px;
-  color: var(--hs-text);
+  color: rgb(var(--color-foreground));
   font-size: 1.5rem;
   line-height: 1.35;
   margin: 0;
@@ -239,16 +282,16 @@
   height: 44px;
   border-radius: 50%;
   cursor: pointer;
-  border: 1.5px solid rgba(255, 255, 255, 0.75);
-  background: rgba(0, 0, 0, 0.2);
-  color: #fff;
+  border: 1.5px solid rgba(var(--color-foreground), 0.75);
+  background: rgba(var(--color-background), 0.2);
+  color: rgb(var(--color-foreground));
   display: grid;
   place-items: center;
   transition: background 0.2s;
 }
 
 .hs__arrow:hover {
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(var(--color-background), 0.45);
 }
 
 .hs__dots {
@@ -266,19 +309,19 @@
   border: 0;
   padding: 0;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(var(--color-foreground), 0.5);
   transition: width 0.3s, background 0.3s;
 }
 
 .hs__dot[aria-current='true'] {
   width: 24px;
-  background: #fff;
+  background: rgb(var(--color-foreground));
 }
 
 .hs__arrow:focus-visible,
 .hs__dot:focus-visible,
 .hs__btn:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid rgb(var(--color-foreground));
   outline-offset: 3px;
 }
 
@@ -287,7 +330,7 @@
     height: var(--hs-h-m);
   }
 
-  .hs__slide {
+  .tdm-hero-slider .hs__container {
     padding: 32px 20px 120px;
   }
 

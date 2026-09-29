@@ -7,8 +7,14 @@
 
 {{ 'section-tdm-hero-slider.css' | asset_url | stylesheet_tag }}
 
+{%- assign hs_full = false -%}
+{%- if section.settings.width == 'full' -%}{%- assign hs_full = true -%}{%- endif -%}
+
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+<div class="section-{{ section.id }}-padding{% unless hs_full %} page-width{% endunless %}">
 <hero-slider
-  class="tdm-hero-slider"
+  class="tdm-hero-slider{% if hs_full %} tdm-hero-slider--full{% endif %} color-{{ section.settings.color_scheme }}"
   id="HeroSlider-{{ section.id }}"
   data-autoplay="{{ section.settings.autoplay }}"
   data-speed="{{ section.settings.speed | times: 1000 }}"
@@ -17,19 +23,22 @@
   style="
     --hs-h: {{ section.settings.height_desktop }}px;
     --hs-h-m: {{ section.settings.height_mobile }}px;
-    --hs-text: {{ section.settings.text_color }};
-    --hs-accent: {{ section.settings.accent_color }};
-    --hs-btn-bg: {{ section.settings.button_bg }};
-    --hs-btn-text: {{ section.settings.button_text }};
     --hs-radius: {{ section.settings.button_radius }}px;
+    --hs-frame-radius: {{ section.settings.corner_radius }}px;
     --hs-hsize: {{ section.settings.heading_size | divided_by: 10.0 }}rem;
   "
 >
   <div class="hs__track">
     {%- for block in section.blocks -%}
-      {%- assign overlay_alpha = block.settings.overlay_opacity | divided_by: 100.0 -%}
+      {%- liquid
+        assign overlay_alpha = block.settings.overlay_opacity | divided_by: 100.0
+        assign slide_scheme = section.settings.color_scheme
+        if block.settings.use_custom_scheme
+          assign slide_scheme = block.settings.color_scheme
+        endif
+      -%}
       <div
-        class="hs__slide hs__h-{{ block.settings.align_h }} hs__v-{{ block.settings.align_v }}"
+        class="hs__slide color-{{ slide_scheme }}"
         role="group"
         aria-roledescription="diapositiva"
         aria-label="{{ forloop.index }} de {{ forloop.length }}"
@@ -82,6 +91,7 @@
         ><span></span></div>
 
         {%- comment -%} CAPA 2 · TEXTOS Y BOTONES {%- endcomment -%}
+        <div class="hs__container hs__h-{{ block.settings.align_h }} hs__v-{{ block.settings.align_v }}">
         <div class="hs__content">
           {%- if block.settings.subheading != blank -%}
             {%- comment -%} tdm-upper: no setting controls this — flagged for Dan, uppercase was previously hardcoded here {%- endcomment -%}
@@ -140,6 +150,7 @@
             {%- if block.settings.credit_detail != blank -%}<span>{{ block.settings.credit_detail | escape }}</span>{%- endif -%}
           </p>
         {%- endif -%}
+        </div>
       </div>
     {%- endfor -%}
   </div>
@@ -176,6 +187,7 @@
     {%- endif -%}
   {%- endif -%}
 </hero-slider>
+</div>
 
 <script src="{{ 'tdm-hero-slider.js' | asset_url }}" defer="defer"></script>
 
@@ -190,6 +202,17 @@
     { "type": "header", "content": "Tamaño" },
     { "type": "range", "id": "height_desktop", "label": "Altura en escritorio", "min": 400, "max": 900, "step": 20, "unit": "px", "default": 700 },
     { "type": "range", "id": "height_mobile", "label": "Altura en móvil", "min": 300, "max": 800, "step": 20, "unit": "px", "default": 620 },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Ancho",
+      "options": [
+        { "value": "page", "label": "Ancho de página (como el resto de secciones)" },
+        { "value": "full", "label": "Ancho completo" }
+      ],
+      "default": "page"
+    },
+    { "type": "range", "id": "corner_radius", "label": "Redondeo del marco", "info": "Solo aplica con ancho de página.", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 8 },
     { "type": "range", "id": "heading_size", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 60 },
     { "type": "checkbox", "id": "first_h1", "label": "Usar H1 en el primer slide", "info": "Actívalo si este es el título principal de la página (bueno para SEO).", "default": true },
     { "type": "header", "content": "Reproducción" },
@@ -198,11 +221,11 @@
     { "type": "checkbox", "id": "show_arrows", "label": "Mostrar flechas", "default": true },
     { "type": "checkbox", "id": "show_dots", "label": "Mostrar puntos", "default": true },
     { "type": "header", "content": "Colores" },
-    { "type": "color", "id": "text_color", "label": "Color del texto", "default": "#FFFFFF" },
-    { "type": "color", "id": "accent_color", "label": "Color de acento", "info": "Se usa en el antetítulo y la palabra destacada.", "default": "#C5D86D" },
-    { "type": "color", "id": "button_bg", "label": "Fondo del botón principal", "default": "#C5D86D" },
-    { "type": "color", "id": "button_text", "label": "Texto del botón principal", "default": "#1F2A12" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "info": "Texto: color de texto del esquema. Antetítulo, palabra destacada y botón principal: color de botón. Botón secundario: etiqueta secundaria. Cada slide puede usar su propio esquema.", "default": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9" },
     { "type": "range", "id": "button_radius", "label": "Redondeo de botones", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 40 },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0, "label": "Espaciado superior" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." },
     { "type": "header", "content": "Accesibilidad" },
     { "type": "text", "id": "aria_label", "label": "Nombre del carrusel (lectores de pantalla)", "default": "Programa de aliados" }
   ],
@@ -218,8 +241,11 @@
         { "type": "header", "content": "Overlay" },
         { "type": "color", "id": "overlay_color", "label": "Color del overlay", "default": "#000000" },
         { "type": "range", "id": "overlay_opacity", "label": "Opacidad del overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 45 },
+        { "type": "header", "content": "Colores" },
+        { "type": "checkbox", "id": "use_custom_scheme", "label": "Usar esquema propio", "info": "Si está apagado, el slide usa el esquema de la sección.", "default": false },
+        { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9" },
         { "type": "header", "content": "Textos" },
-        { "type": "text", "id": "subheading", "label": "Antetítulo", "default": "Programa de aliados · Tierra de Monte" },
+        { "type": "text", "id": "subheading", "label": "Eyebrow", "info": "Va sobre la imagen, sin línea.", "default": "Programa de aliados · Tierra de Monte" },
         { "type": "richtext", "id": "heading", "label": "Título", "info": "Cada párrafo es una línea. Pon en cursiva (I) la palabra que quieras en color de acento.", "default": "<p>Tú pones la <em>palabra.</em></p><p>Nosotros ponemos con qué cumplirla</p>" },
         { "type": "text", "id": "highlight", "label": "Palabra destacada (opcional)", "info": "Alternativa a la cursiva: escribe la palabra exacta del título que quieres en color de acento." },
         { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Somos una empresa mexicana de biotecnología agrícola.</p>" },

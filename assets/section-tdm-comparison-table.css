@@ -2,7 +2,7 @@
    Comparison table (sections/comparison-table.liquid)
    All per-instance/setting values arrive as custom properties on the root
    .tdm-comparison-table element (which is also .ct-section):
-     --ct-align --ct-rule-color --ct-rule-ml --ct-table-bg --ct-table-fg
+     --ct-align --ct-table-bg --ct-table-fg
      --ct-accent --ct-radius --ct-hl-radius --ct-pad --ct-pad-mobile
      --ct-border-opacity --ct-min-w --ct-image-size --ct-image-size-mobile
      --ct-cell-align --ct-feature-weight --ct-mobile-feat-w --ct-mobile-col-w
@@ -24,33 +24,7 @@
   margin-bottom: 0;
 }
 
-/* ---- Eyebrow ----
-   Uses the same classes as the Multicolumn section (.mc-eyebrow / .mc-eyebrow__rule)
-   to inherit the theme's styling. Fallback values use :where() (0 specificity)
-   so the theme's own CSS always wins when it defines these. */
-:where(.tdm-comparison-table .ct-eyebrow) {
-  font-size: 1.3rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 1.2rem;
-}
-
-:where(.tdm-comparison-table .ct-eyebrow .mc-eyebrow__rule) {
-  width: 4.8rem;
-  height: 1px;
-  margin-top: 0.8rem;
-}
-
-.tdm-comparison-table .ct-eyebrow {
-  text-align: var(--ct-align);
-}
-
-.tdm-comparison-table .ct-eyebrow .mc-eyebrow__rule {
-  background-color: var(--ct-rule-color);
-  margin-left: var(--ct-rule-ml);
-  margin-right: auto;
-}
+/* Eyebrow: shared .tdm-section-eyebrow (assets/tdm-foundations.css) */
 
 /* ---- Table container (table colour scheme) --------------------------------- */
 .tdm-comparison-table .ct-wrapper {
@@ -155,6 +129,46 @@
 .tdm-comparison-table .ct-header__price strong {
   font-size: 1.5rem;
   font-weight: 700;
+}
+
+/* Price size: follows the theme heading scale (base.css .h1–.h4), body font kept.
+   The amount (bold) keeps the same size as the line so "Desde $10,000" reads as one. */
+.tdm-comparison-table[class*='ct-price--'] .ct-header__price {
+  line-height: 1.2;
+}
+
+.tdm-comparison-table[class*='ct-price--'] .ct-header__price strong {
+  font-size: 1em;
+}
+
+.tdm-comparison-table.ct-price--h4 .ct-header__price {
+  font-size: calc(var(--font-heading-scale) * 1.5rem);
+}
+
+.tdm-comparison-table.ct-price--h3 .ct-header__price {
+  font-size: calc(var(--font-heading-scale) * 1.7rem);
+}
+
+.tdm-comparison-table.ct-price--h2 .ct-header__price {
+  font-size: calc(var(--font-heading-scale) * 2rem);
+}
+
+.tdm-comparison-table.ct-price--h1 .ct-header__price {
+  font-size: calc(var(--font-heading-scale) * 3rem);
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-comparison-table.ct-price--h3 .ct-header__price {
+    font-size: calc(var(--font-heading-scale) * 1.8rem);
+  }
+
+  .tdm-comparison-table.ct-price--h2 .ct-header__price {
+    font-size: calc(var(--font-heading-scale) * 2.4rem);
+  }
+
+  .tdm-comparison-table.ct-price--h1 .ct-header__price {
+    font-size: calc(var(--font-heading-scale) * 4rem);
+  }
 }
 
 .tdm-comparison-table .ct-header__note {

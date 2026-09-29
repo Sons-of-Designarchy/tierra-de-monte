@@ -92,7 +92,47 @@
     #Slider-{{ section.id }} {
       border-radius: 0;
     }
+
+    .slide-gallery-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .slide-gallery-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
   {%- endif -%}
+  /* Móvil: el slider siempre es un rectángulo horizontal con proporción fija */
+  @media screen and (max-width: 749px) {
+    {%- liquid
+      case section.settings.mobile_ratio
+        when '16_9'
+          assign mobile_ratio = '16 / 9'
+        when '4_3'
+          assign mobile_ratio = '4 / 3'
+        else
+          assign mobile_ratio = '3 / 2'
+      endcase
+    -%}
+    #Slider-{{ section.id }} {
+      aspect-ratio: {{ mobile_ratio }};
+      height: auto;
+      min-height: 0;
+    }
+
+    #Slider-{{ section.id }} .slideshow__slide {
+      height: 100%;
+    }
+
+    #Slider-{{ section.id }} .slideshow__media {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+    }
+  }
 {%- endstyle -%}
 
 {%- if section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank -%}
@@ -114,9 +154,10 @@
 -%}
 
 {%- capture intro -%}
-  {%- if section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta -%}
-    <div class="slide-gallery-intro section-{{ section.id }}-intro color-{{ section.settings.intro_color_scheme }} gradient">
+  {%- if section.settings.eyebrow != blank or section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta -%}
+    <div class="slide-gallery-intro section-{{ section.id }}-intro">
       <div class="slide-gallery-intro__inner page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color -%}
         {%- if section.settings.intro_title != blank -%}
           <h2 class="slide-gallery-intro__heading inline-richtext {{ section.settings.intro_heading_size }}">
             {{ section.settings.intro_title }}
@@ -195,6 +236,7 @@
   </button>
 {%- endcapture -%}
 
+<div class="slide-gallery color-{{ section.settings.intro_color_scheme }} gradient">
 {%- if section.settings.intro_position == 'top' -%}
   {{ intro }}
 {%- endif -%}
@@ -293,6 +335,7 @@
 {%- if section.settings.intro_position == 'bottom' -%}
   {{ intro }}
 {%- endif -%}
+</div>
 
 {%- if request.design_mode -%}
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
@@ -308,9 +351,18 @@
   },
   "settings": [
     {
+      "type": "color_scheme",
+      "id": "intro_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "Aplica a toda la sección: texto, galería y controles.",
+      "default": "scheme-1"
+    },
+    {
       "type": "header",
       "content": "Título y párrafo"
     },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     {
       "type": "inline_richtext",
       "id": "intro_title",
@@ -388,12 +440,6 @@
       ],
       "default": "top",
       "label": "Posición"
-    },
-    {
-      "type": "color_scheme",
-      "id": "intro_color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
     },
     {
       "type": "range",
@@ -494,6 +540,17 @@
       ],
       "default": "medium",
       "label": "t:sections.slideshow.settings.slide_height.label"
+    },
+    {
+      "type": "select",
+      "id": "mobile_ratio",
+      "options": [
+        { "value": "16_9", "label": "Rectángulo 16:9" },
+        { "value": "3_2", "label": "Rectángulo 3:2" },
+        { "value": "4_3", "label": "Rectángulo 4:3" }
+      ],
+      "default": "3_2",
+      "label": "Proporción en móvil"
     },
     {
       "type": "select",
