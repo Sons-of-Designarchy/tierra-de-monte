@@ -1,0 +1,339 @@
+{%- comment -%}
+  Detalles con imagen — imagen al centro con puntos (título + párrafo) a los lados.
+  Escritorio: puntos a la izquierda | imagen | puntos a la derecha.
+  Móvil: título, imagen y debajo todos los puntos en orden.
+  Cada punto es un bloque: se agregan, quitan y reordenan desde el editor.
+  Styles: assets/section-tdm-detail-spotlight.css
+{%- endcomment -%}
+
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+
+{{ 'section-tdm-detail-spotlight.css' | asset_url | stylesheet_tag }}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign s = section.settings
+
+  case s.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'portrait_34'
+      assign ratio = '3 / 4'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    when 'wide'
+      assign ratio = '16 / 9'
+    when 'adapt'
+      assign ratio = 'auto'
+    else
+      assign ratio = '4 / 5'
+  endcase
+
+  assign ratio_m = ratio
+  case s.image_ratio_mobile
+    when 'square'
+      assign ratio_m = '1 / 1'
+    when 'portrait'
+      assign ratio_m = '4 / 5'
+    when 'portrait_34'
+      assign ratio_m = '3 / 4'
+    when 'landscape'
+      assign ratio_m = '4 / 3'
+    when 'wide'
+      assign ratio_m = '16 / 9'
+    when 'adapt'
+      assign ratio_m = 'auto'
+  endcase
+
+  # Puntos: "Automático" reparte la primera mitad a la izquierda y el resto a la derecha
+  assign point_blocks = section.blocks | where: 'type', 'point'
+  assign half = point_blocks.size | plus: 1 | divided_by: 2
+
+  # Imágenes que rotan: imagen principal + bloques "Imagen"
+  assign image_blocks = section.blocks | where: 'type', 'image'
+  assign first_image = s.image
+  if first_image == blank and image_blocks.size > 0
+    assign first_image = image_blocks.first.settings.image
+  endif
+
+  # "Original de la imagen" usa la proporción de la primera imagen (todas comparten el marco)
+  if first_image != blank
+    assign first_ratio = first_image.width | append: ' / ' | append: first_image.height
+  else
+    assign first_ratio = '4 / 5'
+  endif
+  if ratio == 'auto'
+    assign ratio = first_ratio
+  endif
+  if ratio_m == 'auto'
+    assign ratio_m = first_ratio
+  endif
+-%}
+
+{%- capture points_left -%}{%- endcapture -%}
+{%- capture points_right -%}{%- endcapture -%}
+{%- for block in point_blocks -%}
+  {%- liquid
+    assign side = block.settings.side | default: 'auto'
+    if side == 'auto'
+      if forloop.index <= half
+        assign side = 'left'
+      else
+        assign side = 'right'
+      endif
+    endif
+  -%}
+  {%- capture point -%}
+    <li
+      class="tdm-spotlight__point{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {{ block.shopify_attributes }}
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+        style="--animation-order: {{ forloop.index }};"
+      {% endif %}
+    >
+      {%- if s.show_accent -%}
+        <span class="tdm-spotlight__accent" aria-hidden="true"></span>
+      {%- endif -%}
+      {%- if block.settings.title != blank -%}
+        <h3 class="tdm-spotlight__point-title {{ s.point_title_size }}">{{ block.settings.title }}</h3>
+      {%- endif -%}
+      {%- if block.settings.text != blank -%}
+        <div class="tdm-spotlight__point-text rte">{{ block.settings.text }}</div>
+      {%- endif -%}
+    </li>
+  {%- endcapture -%}
+  {%- if side == 'left' -%}
+    {%- capture points_left -%}{{ points_left }}{{ point }}{%- endcapture -%}
+  {%- else -%}
+    {%- capture points_right -%}{{ points_right }}{{ point }}{%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<section
+  class="tdm-spotlight color-{{ s.color_scheme }} gradient"
+  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }}; --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg | default: '#F4F1F2' }};"
+>
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}
+
+    {%- if s.title != blank or s.text != blank -%}
+      <div class="tdm-spotlight__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- if s.title != blank -%}
+          <h2 class="tdm-spotlight__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+        {%- endif -%}
+        {%- if s.text != blank -%}
+          <div class="tdm-spotlight__text rte">{{ s.text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="tdm-spotlight__grid">
+      <ul class="tdm-spotlight__col tdm-spotlight__col--left" role="list">
+        {{- points_left -}}
+      </ul>
+
+      <tdm-spotlight-media class="tdm-spotlight__media{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}" data-interval="{{ s.rotate_speed | times: 1000 }}">
+        {%- liquid
+          assign slide_count = 0
+          if s.image != blank
+            assign slide_count = 1
+          endif
+          assign slide_count = slide_count | plus: image_blocks.size
+        -%}
+        {%- if slide_count == 0 -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'tdm-spotlight__placeholder' }}
+        {%- else -%}
+          {%- if s.image != blank -%}
+            <div class="tdm-spotlight__slide is-active">
+              {{
+                s.image
+                | image_url: width: 1600
+                | image_tag:
+                  widths: '400, 600, 800, 1000, 1200, 1600',
+                  sizes: '(min-width: 990px) 40vw, 100vw',
+                  loading: 'lazy',
+                  alt: s.image.alt
+              }}
+            </div>
+          {%- endif -%}
+          {%- for block in image_blocks -%}
+            <div
+              class="tdm-spotlight__slide{% if s.image == blank and forloop.first %} is-active{% endif %}{% if block.settings.fit != 'section' %} tdm-spotlight__slide--{{ block.settings.fit }}{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1600
+                  | image_tag:
+                    widths: '400, 600, 800, 1000, 1200, 1600',
+                    sizes: '(min-width: 990px) 40vw, 100vw',
+                    loading: 'lazy',
+                    alt: block.settings.image.alt
+                }}
+              {%- else -%}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'tdm-spotlight__placeholder' }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </tdm-spotlight-media>
+
+      <ul class="tdm-spotlight__col tdm-spotlight__col--right" role="list">
+        {{- points_right -}}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'tdm-detail-spotlight.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Detalles con imagen",
+  "tag": "div",
+  "class": "section section-tdm-spotlight",
+  "max_blocks": 16,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+    { "type": "header", "content": "Encabezado" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
+    { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Every Detail, Considered" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    { "type": "richtext", "id": "text", "label": "Párrafo", "info": "Opcional. Va debajo del título." },
+    { "type": "header", "content": "Imagen" },
+    { "type": "image_picker", "id": "image", "label": "Imagen principal", "info": "Agrega bloques \"Imagen\" para que roten automáticamente con esta." },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Ajuste de las imágenes",
+      "info": "Cubrir llena el marco (puede recortar). Contener muestra la imagen completa con relleno. Cada bloque Imagen puede cambiarlo.",
+      "options": [
+        { "value": "cover", "label": "Cubrir" },
+        { "value": "contain", "label": "Contener" }
+      ],
+      "default": "cover"
+    },
+    { "type": "color", "id": "contain_bg", "label": "Color de relleno al contener", "default": "#F4F1F2" },
+    { "type": "range", "id": "rotate_speed", "label": "Tiempo por imagen", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 4, "info": "Solo aplica si hay más de una imagen. Sin flechas ni contador." },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Aspecto de la imagen (escritorio)",
+      "options": [
+        { "value": "portrait", "label": "Vertical 4:5" },
+        { "value": "portrait_34", "label": "Vertical 3:4" },
+        { "value": "square", "label": "Cuadrado 1:1" },
+        { "value": "landscape", "label": "Horizontal 4:3" },
+        { "value": "wide", "label": "Horizontal 16:9" },
+        { "value": "adapt", "label": "Original de la imagen" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio_mobile",
+      "label": "Aspecto de la imagen (móvil)",
+      "options": [
+        { "value": "same", "label": "Igual que en escritorio" },
+        { "value": "portrait", "label": "Vertical 4:5" },
+        { "value": "portrait_34", "label": "Vertical 3:4" },
+        { "value": "square", "label": "Cuadrado 1:1" },
+        { "value": "landscape", "label": "Horizontal 4:3" },
+        { "value": "wide", "label": "Horizontal 16:9" },
+        { "value": "adapt", "label": "Original de la imagen" }
+      ],
+      "default": "landscape"
+    },
+    { "type": "range", "id": "image_width", "label": "Ancho de la imagen (escritorio)", "min": 26, "max": 50, "step": 2, "unit": "%", "default": 36 },
+    { "type": "range", "id": "image_radius", "label": "Redondeo de la imagen", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+    { "type": "header", "content": "Puntos" },
+    {
+      "type": "select",
+      "id": "point_title_size",
+      "label": "Tamaño del título de cada punto",
+      "options": [
+        { "value": "h5", "label": "Pequeño" },
+        { "value": "h4", "label": "Mediano" },
+        { "value": "h3", "label": "Grande" }
+      ],
+      "default": "h4"
+    },
+    { "type": "checkbox", "id": "show_accent", "label": "Mostrar línea de acento arriba de cada punto", "info": "Usa el color de botón del esquema.", "default": true },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado superior" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Imagen",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Se suma a la rotación de la imagen principal." },
+        {
+          "type": "select",
+          "id": "fit",
+          "label": "Ajuste",
+          "info": "Contener es ideal para fotos de producto: se ve completo sin recortes.",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "cover", "label": "Cubrir" },
+            { "value": "contain", "label": "Contener" }
+          ],
+          "default": "section"
+        }
+      ]
+    },
+    {
+      "type": "point",
+      "name": "Punto",
+      "settings": [
+        { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Aircraft-grade aluminum" },
+        { "type": "richtext", "id": "text", "label": "Párrafo", "default": "<p>Anodized shell shrugs off scratches and stays cool to the touch.</p>" },
+        {
+          "type": "select",
+          "id": "side",
+          "label": "Lado en escritorio",
+          "info": "Automático: la primera mitad de los puntos va a la izquierda y el resto a la derecha. En móvil todos van debajo de la imagen.",
+          "options": [
+            { "value": "auto", "label": "Automático" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "auto"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Detalles con imagen",
+      "blocks": [
+        { "type": "point", "settings": { "title": "Aircraft-grade aluminum", "text": "<p>Anodized shell shrugs off scratches and stays cool to the touch.</p>" } },
+        { "type": "point", "settings": { "title": "Tool-free filter door", "text": "<p>Swap filters in ten seconds — no screwdriver, no manual.</p>" } },
+        { "type": "point", "settings": { "title": "360° intake", "text": "<p>Pulls air from every direction to clean rooms up to 90 m².</p>" } },
+        { "type": "point", "settings": { "title": "Ambient light ring", "text": "<p>Glances tell you the air quality — green, amber or red.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

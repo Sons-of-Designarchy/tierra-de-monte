@@ -1,0 +1,204 @@
+/* =============================================================================
+   Proceso con scroll (sections/tdm-scroll-steps.liquid)
+   Desktop (≥990px): pinned frame — aside (title, text, image) | steps advancing on scroll.
+   The image cross-fades to the step crossing the middle of the viewport
+   (assets/tdm-scroll-steps.js toggles .is-active).
+   Mobile: aside first (image shows step 1), steps below.
+   Per-instance values arrive as custom properties on .tdm-steps:
+     --st-ratio --st-radius --st-num (desktop number size, unitless px)
+   ========================================================================== */
+
+tdm-scroll-steps {
+  display: block;
+}
+
+.tdm-steps {
+  /* Space kept above the sticky column (clears the header when it slides back in) */
+  --st-sticky-top: 3.2rem;
+}
+
+.tdm-steps__grid {
+  display: grid;
+  gap: var(--tdm-space-12);
+}
+
+.tdm-steps__title {
+  margin: 0;
+}
+
+.tdm-steps__text {
+  margin-top: var(--tdm-space-4);
+  max-width: 60rem;
+}
+
+/* ---- Image ------------------------------------------------------------------ */
+.tdm-steps__media {
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--tdm-space-8);
+  aspect-ratio: var(--st-ratio, 16 / 10);
+  border-radius: var(--st-radius, 16px);
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.tdm-steps__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s var(--tdm-ease);
+}
+
+.tdm-steps__slide.is-active {
+  opacity: 1;
+}
+
+.tdm-steps__slide img,
+.tdm-steps__slide .tdm-steps__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tdm-steps__placeholder {
+  fill: rgba(var(--color-foreground), 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tdm-steps__slide {
+    transition: none;
+  }
+}
+
+/* ---- Steps ------------------------------------------------------------------ */
+.tdm-steps__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-steps__step {
+  padding: var(--tdm-space-8) 0;
+}
+
+.tdm-steps__step:first-child {
+  padding-top: 0;
+}
+
+/* Section padding alone sets the space above and below the list */
+.tdm-steps__step:last-child {
+  padding-bottom: 0;
+}
+
+.tdm-steps--dividers .tdm-steps__step + .tdm-steps__step {
+  border-top: 1px solid var(--tdm-border-strong);
+}
+
+.tdm-steps__num {
+  display: block;
+  margin-bottom: var(--tdm-space-6);
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: calc(var(--st-num, 112) * 0.64px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-foreground));
+}
+
+.tdm-steps__step-title {
+  margin: 0 0 var(--tdm-space-3);
+}
+
+.tdm-steps__step-text,
+.tdm-steps__step-text p {
+  margin: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.tdm-steps__step-text p + p {
+  margin-top: 0.8em;
+}
+
+.tdm-steps__btn {
+  margin-top: var(--tdm-space-6);
+}
+
+/* ---- Desktop: pinned frame --------------------------------------------------
+   .tdm-steps__pin is made taller by JS (frame height + the list overflow), so the
+   frame stays pinned for exactly as long as it takes to scroll the list through the
+   viewport at 1:1 speed. The list moves with transform; nothing scrolls internally. */
+@media screen and (min-width: 990px) {
+  .tdm-steps__frame {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Header slides back in on scroll-up (it stays above, z-index 3): push the frame
+     content down by its height so it never covers the title */
+  .tdm-steps__frame {
+    transition: padding-top 0.15s ease-out;
+  }
+
+  body:has(.section-header.shopify-section-header-sticky:not(.shopify-section-header-hidden)) .tdm-steps__frame {
+    padding-top: var(--header-height, 0px);
+  }
+
+  .tdm-steps__grid {
+    width: 100%;
+    height: calc(100% - var(--st-sticky-top) * 2);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: 0 10rem;
+    align-items: stretch;
+  }
+
+  /* Left column fits the frame: the image gives up height first (object-fit: cover) */
+  .tdm-steps__sticky {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+  }
+
+  .tdm-steps__sticky > * {
+    flex: 0 0 auto;
+  }
+
+  .tdm-steps__sticky > .tdm-steps__media {
+    flex: 0 1 auto;
+    min-height: 16rem;
+  }
+
+  /* Right column: a window onto the list, soft fade at both edges */
+  .tdm-steps__viewport {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3rem, #000 calc(100% - 4rem), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 3rem, #000 calc(100% - 4rem), transparent 100%);
+  }
+
+  .tdm-steps__list {
+    padding-top: 3rem;
+    will-change: transform;
+  }
+
+  .tdm-steps__step {
+    padding: 6rem 0;
+  }
+
+  .tdm-steps__step:first-child {
+    padding-top: 0;
+  }
+
+  /* Room for the last step to rise to the reading line before the frame releases */
+  .tdm-steps__step:last-child {
+    padding-bottom: 4rem;
+  }
+
+  .tdm-steps__num {
+    font-size: calc(var(--st-num, 112) * 1px);
+  }
+}

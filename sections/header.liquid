@@ -138,18 +138,31 @@
       endif
     -%}
 
+    {%- liquid
+      # Optional per-header logo (e.g. the aliados header); falls back to the theme logo
+      assign header_logo = settings.logo
+      if section.settings.logo_override != blank
+        assign header_logo = section.settings.logo_override
+      endif
+      # Optional logo link (e.g. aliados header goes back to /pages/aliados)
+      assign header_logo_url = routes.root_url
+      if section.settings.logo_link != blank
+        assign header_logo_url = section.settings.logo_link
+      endif
+    -%}
+
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
       {%- endif -%}
-          <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-            {%- if settings.logo != blank -%}
+          <a href="{{ header_logo_url }}" class="header__heading-link link link--text focus-inset">
+            {%- if header_logo != blank -%}
               <div class="header__heading-logo-wrapper">
-                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                {%- assign logo_alt = header_logo.alt | default: shop.name | escape -%}
+                {%- assign logo_height = settings.logo_width | divided_by: header_logo.aspect_ratio -%}
                 {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
                 {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
-                {{ settings.logo | image_url: width: 600 | image_tag:
+                {{ header_logo | image_url: width: 600 | image_tag:
                   class: 'header__heading-logo motion-reduce',
                   widths: widths,
                   height: logo_height,
@@ -182,14 +195,14 @@
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
       {%- endif -%}
-          <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-            {%- if settings.logo != blank -%}
+          <a href="{{ header_logo_url }}" class="header__heading-link link link--text focus-inset">
+            {%- if header_logo != blank -%}
               <div class="header__heading-logo-wrapper">
-                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                {%- assign logo_alt = header_logo.alt | default: shop.name | escape -%}
+                {%- assign logo_height = settings.logo_width | divided_by: header_logo.aspect_ratio -%}
                 {% capture sizes %}(min-width: 750px) {{ settings.logo_width }}px, 50vw{% endcapture %}
                 {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
-                {{ settings.logo | image_url: width: 600 | image_tag:
+                {{ header_logo | image_url: width: 600 | image_tag:
                   class: 'header__heading-logo',
                   widths: widths,
                   height: logo_height,
@@ -452,6 +465,18 @@
   "class": "section-header",
   "max_blocks": 3,
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_override",
+      "label": "Logo de esta sección",
+      "info": "Opcional. Reemplaza el logo del tema solo en este header (p. ej. el header de aliados)."
+    },
+    {
+      "type": "url",
+      "id": "logo_link",
+      "label": "Enlace del logo",
+      "info": "Opcional. Si está vacío, el logo lleva a la página de inicio."
+    },
     {
       "type": "select",
       "id": "logo_position",

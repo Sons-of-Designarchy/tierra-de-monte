@@ -1,0 +1,233 @@
+{%- comment -%}
+  Proceso con scroll — pasos numerados; la imagen muestra el paso en curso.
+  Escritorio: la sección se queda fija en un marco del alto de la pantalla (título, párrafo e
+  imagen a la izquierda) y los pasos de la derecha avanzan con el scroll dentro del marco;
+  la imagen cambia al paso en curso (assets/tdm-scroll-steps.js).
+  Móvil: encabezado e imagen arriba; los pasos debajo.
+  Styles: assets/section-tdm-scroll-steps.css
+{%- endcomment -%}
+
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+
+{{ 'section-tdm-scroll-steps.css' | asset_url | stylesheet_tag }}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign s = section.settings
+  case s.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    when 'wide'
+      assign ratio = '16 / 9'
+    else
+      assign ratio = '16 / 10'
+  endcase
+  assign step_blocks = section.blocks | where: 'type', 'step'
+-%}
+
+<section
+  class="tdm-steps{% if s.show_dividers %} tdm-steps--dividers{% endif %} color-{{ s.color_scheme }} gradient"
+  style="--st-ratio: {{ ratio }}; --st-radius: {{ s.image_radius }}px; --st-num: {{ s.number_size }};"
+>
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color -%}
+
+    <tdm-scroll-steps class="tdm-steps__pin">
+     <div class="tdm-steps__frame">
+     <div class="tdm-steps__grid">
+      <div class="tdm-steps__aside">
+        <div class="tdm-steps__sticky">
+          {%- if s.title != blank -%}
+            <h2 class="tdm-steps__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+          {%- endif -%}
+          {%- if s.text != blank -%}
+            <div class="tdm-steps__text rte">{{ s.text }}</div>
+          {%- endif -%}
+
+          <div class="tdm-steps__media">
+            {%- for block in step_blocks -%}
+              {%- assign step_img = block.settings.image | default: s.image -%}
+              <div class="tdm-steps__slide{% if forloop.first %} is-active{% endif %}" data-step="{{ forloop.index0 }}">
+                {%- if step_img != blank -%}
+                  {{
+                    step_img
+                    | image_url: width: 1400
+                    | image_tag:
+                      widths: '400, 600, 800, 1000, 1400',
+                      sizes: '(min-width: 990px) 45vw, 100vw',
+                      loading: 'lazy',
+                      alt: step_img.alt
+                  }}
+                {%- else -%}
+                  {%- assign ph = forloop.index | modulo: 2 | plus: 1 -%}
+                  {{ 'lifestyle-' | append: ph | placeholder_svg_tag: 'tdm-steps__placeholder' }}
+                {%- endif -%}
+              </div>
+            {%- else -%}
+              <div class="tdm-steps__slide is-active">
+                {%- if s.image != blank -%}
+                  {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 45vw, 100vw' }}
+                {%- else -%}
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'tdm-steps__placeholder' }}
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tdm-steps__viewport">
+      <ol class="tdm-steps__list" role="list">
+        {%- for block in step_blocks -%}
+          {%- liquid
+            assign num = block.settings.number
+            if num == blank
+              if forloop.index < 10
+                assign num = '0' | append: forloop.index
+              else
+                assign num = forloop.index
+              endif
+            endif
+          -%}
+          <li
+            class="tdm-steps__step{% if forloop.first %} is-active{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            data-step="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            <span class="tdm-steps__num" aria-hidden="true">{{ num }}</span>
+            {%- if block.settings.title != blank -%}
+              <h3 class="tdm-steps__step-title {{ s.step_title_size }}">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="tdm-steps__step-text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                class="tdm-steps__btn button button--{{ block.settings.button_style | default: 'primary' }}"
+                {% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ block.settings.button_link }}"{% endif %}
+                {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
+              >
+                {{- block.settings.button_label | escape -}}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ol>
+      </div>
+     </div>
+     </div>
+    </tdm-scroll-steps>
+  </div>
+</section>
+
+<script src="{{ 'tdm-scroll-steps.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Proceso con scroll",
+  "tag": "div",
+  "class": "section section-tdm-steps",
+  "max_blocks": 10,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+    { "type": "header", "content": "Encabezado" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
+    { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Our Process" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h0"
+    },
+    { "type": "richtext", "id": "text", "label": "Párrafo", "default": "<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime amet dolorem eum est voluptatem id repellendus ut laborum laboriosam debitis.</p>" },
+    { "type": "header", "content": "Imagen" },
+    { "type": "image_picker", "id": "image", "label": "Imagen por defecto", "info": "Se usa en los pasos que no tienen imagen propia." },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Aspecto de la imagen",
+      "options": [
+        { "value": "wide_1610", "label": "Horizontal 16:10" },
+        { "value": "wide", "label": "Horizontal 16:9" },
+        { "value": "landscape", "label": "Horizontal 4:3" },
+        { "value": "square", "label": "Cuadrado 1:1" },
+        { "value": "portrait", "label": "Vertical 4:5" }
+      ],
+      "default": "wide_1610"
+    },
+    { "type": "range", "id": "image_radius", "label": "Redondeo de la imagen", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+    { "type": "header", "content": "Pasos" },
+    { "type": "range", "id": "number_size", "label": "Tamaño del número (escritorio)", "min": 48, "max": 160, "step": 4, "unit": "px", "default": 112, "info": "En móvil se reduce proporcionalmente." },
+    {
+      "type": "select",
+      "id": "step_title_size",
+      "label": "Tamaño del título de cada paso",
+      "options": [
+        { "value": "h4", "label": "Pequeño" },
+        { "value": "h3", "label": "Mediano" },
+        { "value": "h2", "label": "Grande" }
+      ],
+      "default": "h3"
+    },
+    { "type": "checkbox", "id": "show_dividers", "label": "Mostrar línea entre pasos", "default": true },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado superior" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Número", "info": "Vacío = automático (01, 02, 03…)." },
+        { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Discover & Research" },
+        { "type": "richtext", "id": "text", "label": "Párrafo", "default": "<p>We begin by understanding your business goals, target audience, and current challenges. This phase involves research, analysis, and strategic planning to identify opportunities.</p>" },
+        { "type": "image_picker", "id": "image", "label": "Imagen de este paso", "info": "Se muestra en la imagen de la izquierda cuando este paso está en pantalla." },
+        { "type": "header", "content": "Botón" },
+        { "type": "text", "id": "button_label", "label": "Texto del botón", "info": "Vacío = sin botón." },
+        { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+        { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en otra pestaña", "default": false },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Estilo del botón",
+          "options": [
+            { "value": "primary", "label": "Sólido" },
+            { "value": "secondary", "label": "Contorno" }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proceso con scroll",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Discover & Research", "text": "<p>We begin by understanding your business goals, target audience, and current challenges. This phase involves research, analysis, and strategic planning to identify opportunities.</p>" } },
+        { "type": "step", "settings": { "title": "Strategy & Planning", "text": "<p>Based on our findings, we develop a comprehensive strategy that aligns with your objectives. This includes defining the approach, timeline, and key milestones for success.</p>" } },
+        { "type": "step", "settings": { "title": "Execute & Develop", "text": "<p>We bring the strategy to life through careful implementation and development. Our team works collaboratively to ensure every detail meets your requirements and standards.</p>" } },
+        { "type": "step", "settings": { "title": "Optimize & Improve", "text": "<p>We continuously monitor performance and gather feedback to refine and improve the solution. This iterative process ensures long-term success and growth.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

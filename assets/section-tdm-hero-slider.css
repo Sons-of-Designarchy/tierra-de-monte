@@ -2,15 +2,19 @@
    Hero slider (sections/hero-slider.liquid)
    Layers per slide, back to front: image -> overlay -> content -> controls.
    Per-instance values arrive as custom properties on .tdm-hero-slider:
-     --hs-h --hs-h-m --hs-radius --hs-hsize
+     --hs-h --hs-h-m --hs-hsize
    Colours come from Dawn colour schemes: the section scheme sits on
    .tdm-hero-slider (controls), each .hs__slide carries its own (or the
-   section's) scheme class. foreground = text, button = accent + primary
-   button, secondary-button-text = secondary button.
+   section's) scheme class. foreground = text, button = accent. Buttons use the
+   theme's .button classes with the slide's scheme.
    Per-slide overlay colour arrives as --hs-overlay on .hs__overlay.
    ========================================================================== */
 
 .tdm-hero-slider {
+  /* Slide gutters shared by the content column and the credit corner */
+  --hs-pad-x: 48px;
+  --hs-pad-top: 48px;
+  --hs-credit-bottom: 36px;
   display: block;
   position: relative;
   /* Keep the layer z-indexes (up to 4) local so they never paint over the sticky header */
@@ -66,8 +70,8 @@
   padding-right: 5rem;
 }
 
-.tdm-hero-slider.tdm-hero-slider--full .hs__credit {
-  left: 5rem;
+.tdm-hero-slider.tdm-hero-slider--full {
+  --hs-pad-x: 5rem;
 }
 
 @media (max-width: 749px) {
@@ -76,8 +80,8 @@
     padding-right: 1.5rem;
   }
 
-  .tdm-hero-slider.tdm-hero-slider--full .hs__credit {
-    left: 1.5rem;
+  .tdm-hero-slider.tdm-hero-slider--full {
+    --hs-pad-x: 1.5rem;
   }
 }
 
@@ -218,39 +222,20 @@
   justify-content: flex-end;
 }
 
-.hs__btn {
-  display: inline-block;
-  padding: 14px 28px;
-  border-radius: var(--hs-radius);
-  font-weight: 600;
-  font-size: 1.5rem;
-  text-decoration: none;
-  border: 1.5px solid rgb(var(--color-button));
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.hs__btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.92;
-}
-
-.hs__btn--primary {
-  background: rgb(var(--color-button));
-  color: rgb(var(--color-button-text));
-}
-
-.hs__btn--secondary {
-  background: rgba(var(--color-secondary-button-text), 0.08);
-  color: rgb(var(--color-secondary-button-text));
-  border-color: rgba(var(--color-secondary-button-text), 0.7);
+/* Buttons are the theme's .button (primary / secondary): same size, padding, radius and
+   border as the rest of the site. Only the secondary gets a glass fill over the photo. */
+.hs__btns .button--secondary {
+  --color-button: var(--color-secondary-button-text);
+  --alpha-button-background: 0.08;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
 /* ---- Credit (bottom corner) --------------------------------------------------- */
 .hs__credit {
   position: absolute;
-  left: 48px; /* matches .hs__container side padding */
-  bottom: 36px;
+  left: var(--hs-pad-x);
+  bottom: var(--hs-credit-bottom);
   color: rgb(var(--color-foreground));
   font-size: 1.5rem;
   line-height: 1.35;
@@ -264,6 +249,18 @@
 
 .hs__credit span {
   opacity: 0.85;
+}
+
+/* Credit corner (section setting): right side and/or top */
+.tdm-hero-slider.hs--credit-right .hs__credit {
+  left: auto;
+  right: var(--hs-pad-x);
+  text-align: right;
+}
+
+.tdm-hero-slider.hs--credit-top .hs__credit {
+  bottom: auto;
+  top: var(--hs-pad-top);
 }
 
 /* ---- Controls ------------------------------------------------------------------ */
@@ -319,8 +316,7 @@
 }
 
 .hs__arrow:focus-visible,
-.hs__dot:focus-visible,
-.hs__btn:focus-visible {
+.hs__dot:focus-visible {
   outline: 2px solid rgb(var(--color-foreground));
   outline-offset: 3px;
 }
@@ -343,13 +339,13 @@
     margin-bottom: 20px;
   }
 
-  .hs__btn {
-    padding: 12px 22px;
+  .tdm-hero-slider {
+    --hs-pad-x: 20px;
+    --hs-pad-top: 32px;
+    --hs-credit-bottom: 80px; /* clears the arrows/dots */
   }
 
   .hs__credit {
-    left: 20px;
-    bottom: 80px;
     font-size: 1.4rem;
   }
 
@@ -368,7 +364,6 @@
     scroll-behavior: auto;
   }
 
-  .hs__btn,
   .hs__dot {
     transition: none;
   }

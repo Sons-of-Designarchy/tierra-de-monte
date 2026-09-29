@@ -1,0 +1,67 @@
+/* =============================================================================
+   Aliados landing — text consistency (loaded only when template.suffix == 'aliados',
+   see layout/theme.liquid).
+   1. Reading text at full opacity (body/scheme opacity is handled in theme.liquid).
+   2. Reading text never below the body size: 15px mobile / 16px desktop.
+   Eyebrows (12–13px) are a design element and stay as they are.
+   ========================================================================== */
+
+/* 1. Full opacity */
+body .hs__credit span,
+.tdm-tabs .subtitle,
+.tdm-tabs__empty,
+.product-card-wrapper .card__excerpt,
+.tdm-comparison-table .ct-header__subtitle,
+.tdm-comparison-table .ct-header__note,
+.tdm-comparison-table .ct-feature small,
+.tdm-comparison-table .ct-scroll-hint,
+.tdm-comparison-table .ct-footnote {
+  opacity: 1;
+  color: rgb(var(--color-foreground));
+}
+
+/* 2. Body size (Dawn body: 1.5rem, 1.6rem ≥750px).
+   `body` prefix: section stylesheets load after this file, so equal specificity would lose. */
+body .hs__credit,
+body .hs__credit span,
+body .tdm-tabs .subtitle,
+body .product-card-wrapper .card__excerpt,
+body .tdm-comparison-table .ct-table .ct-feature,
+body .tdm-comparison-table .ct-table th.ct-feature,
+body .tdm-comparison-table .ct-header__subtitle,
+body .tdm-comparison-table .ct-header__note,
+body .tdm-comparison-table .ct-scroll-hint,
+body .tdm-comparison-table .ct-footnote {
+  font-size: 1.5rem;
+  line-height: 1.46;
+}
+
+@media screen and (min-width: 750px) {
+  body .hs__credit,
+  body .hs__credit span,
+  body .tdm-tabs .subtitle,
+  body .product-card-wrapper .card__excerpt,
+  body .tdm-comparison-table .ct-table .ct-feature,
+  body .tdm-comparison-table .ct-table th.ct-feature,
+  body .tdm-comparison-table .ct-header__subtitle,
+  body .tdm-comparison-table .ct-header__note,
+  body .tdm-comparison-table .ct-scroll-hint,
+  body .tdm-comparison-table .ct-footnote {
+    font-size: 1.6rem;
+  }
+}
+
+/* 3. Footer: same side gutter as the page sections (was 10px) */
+body .shopify-section-group-footer-aliados-group .footer__content-top.page-width,
+body .shopify-section-group-footer-aliados-group .footer__content-bottom .page-width {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  body .shopify-section-group-footer-aliados-group .footer__content-top.page-width,
+  body .shopify-section-group-footer-aliados-group .footer__content-bottom .page-width {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}

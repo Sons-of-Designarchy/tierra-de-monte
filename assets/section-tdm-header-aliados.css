@@ -9,6 +9,20 @@
   z-index: 3;
 }
 
+/* Same side gutter as the page sections: 1.5rem mobile, 5rem from 750px */
+.shopify-section-group-header-aliados-group .header.page-width {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .shopify-section-group-header-aliados-group .header.page-width,
+  .shopify-section-group-header-aliados-group .header:not(.drawer-menu).page-width {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
 /* Logo at one edge, CTA at the other, on every breakpoint. The single link
    lives inline, so the mobile drawer and the empty icons slot are hidden. */
 .shopify-section-group-header-aliados-group .header {
@@ -66,4 +80,11 @@
 .shopify-section-group-header-aliados-group .header__inline-menu .header__menu-item span,
 .shopify-section-group-header-aliados-group .header__inline-menu .header__menu-item:hover span {
   text-decoration: none;
+}
+
+/* Below 990px Dawn pads the logo link, pushing the logo 8px inside the page gutter */
+@media screen and (max-width: 989px) {
+  .shopify-section-group-header-aliados-group .header__heading-link {
+    padding-left: 0;
+  }
 }

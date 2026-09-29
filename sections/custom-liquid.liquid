@@ -1,3 +1,4 @@
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: calc({{ section.settings.padding_top }}px * 0.75);
@@ -12,7 +13,7 @@
   }
 {%- endstyle -%}
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="section-{{ section.id }}-padding">
+  <div class="section-{{ section.id }}-padding{% if section.settings.page_width %} page-width{% endif %}">
     {{ section.settings.custom_liquid }}
   </div>
 </div>
@@ -23,6 +24,19 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    {
+      "type": "checkbox",
+      "id": "page_width",
+      "label": "Márgenes laterales de página",
+      "info": "Deja el contenido con el mismo margen lateral que el resto de secciones en lugar de ir de extremo a extremo.",
+      "default": false
+    },
     {
       "type": "liquid",
       "id": "custom_liquid",

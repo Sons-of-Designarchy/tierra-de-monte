@@ -214,7 +214,7 @@
     min-width: 0;
     max-width: 100%;
     white-space: normal;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
     word-break: break-word;
     line-height: 1.15;
   }

@@ -7,7 +7,7 @@
      --ct-border-opacity --ct-min-w --ct-image-size --ct-image-size-mobile
      --ct-cell-align --ct-feature-weight --ct-mobile-feat-w --ct-mobile-col-w
      --ct-mobile-hl-w --ct-mobile-table-w --ct-btn-bg/-fg/-hover-bg/-hover-fg
-     --ct-cta-bg/-fg/-hover-bg/-hover-fg --ct-btn-radius --ct-btn-uppercase --ct-cta-align
+     --ct-cta-bg/-fg/-hover-bg/-hover-fg --ct-cta-align
    and, per column 1-6 when that column exists: --ct-hl-bg-N --ct-hl-fg-N
    --ct-hl-accent-N, plus --ct-btn-bg-N etc. when that column has a custom CTA
    scheme. Each <col> in the colgroup carries its own --ct-col-w.
@@ -394,8 +394,8 @@
 
   .tdm-comparison-table .ct-table th.ct-feature {
     padding-left: 0.4rem;
-    overflow-wrap: anywhere;
-    hyphens: auto;
+    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
+    hyphens: manual;
   }
 
   .tdm-comparison-table .ct-feature small {
@@ -403,7 +403,7 @@
   }
 
   .tdm-comparison-table .ct-cell {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
   }
 
   .tdm-comparison-table .ct-table th.ct-header {
@@ -422,7 +422,7 @@
   .tdm-comparison-table .ct-header__title {
     font-size: 1.5rem;
     line-height: 1.2;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
   }
 
   .tdm-comparison-table .ct-header__subtitle {
@@ -459,17 +459,12 @@
     height: 1.8rem;
   }
 
-  /* Column buttons: fit inside narrow columns */
+  /* Column buttons: theme button, only allowed to wrap inside narrow columns */
   .tdm-comparison-table .ct-table a.ct-btn {
     min-width: 0;
-    min-height: 4rem;
-    padding: 0.8rem 0.4rem;
-    font-size: 1.05rem;
-    letter-spacing: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
     white-space: normal;
-    overflow-wrap: normal;
-    word-break: normal;
-    hyphens: manual;
   }
 
   .tdm-comparison-table .ct-foot td,
@@ -478,14 +473,9 @@
     padding-bottom: 2rem;
   }
 
-  /* General button, full width */
+  /* General button */
   .tdm-comparison-table .ct-cta {
     margin-top: 2.4rem;
-  }
-
-  .tdm-comparison-table .ct-cta a.ct-btn {
-    width: 100%;
-    max-width: 44rem;
   }
 
   /* Sticky feature column with a shadow to signal the rest scrolls */
@@ -508,8 +498,8 @@
 
 /* ---- Buttons (column and section) --------------------------------------------- */
 
-/* Uses the theme's .button class: same height, padding, font, radius, border and
-   shadow as the rest of the site's buttons (Theme settings -> Buttons) */
+/* Always the theme's .button class (no section-specific variant): same height, padding,
+   font, radius, border and shadow as the rest of the site (Theme settings -> Buttons) */
 .tdm-comparison-table.ct-theme-btn a.ct-btn.button {
   margin: 0;
   text-decoration: none;
@@ -518,53 +508,6 @@
 .tdm-comparison-table.ct-theme-btn .ct-table a.ct-btn.button {
   min-width: 0;
   max-width: 100%;
-}
-
-/* Section-scoped selectors so this wins over the theme's link styles, without !important */
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 4.4rem;
-  padding: 1rem 2rem;
-  font: inherit;
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: var(--ct-btn-uppercase);
-  text-decoration: none;
-  text-align: center;
-  line-height: 1.2;
-  border-radius: var(--ct-btn-radius);
-  border: 1px solid var(--ct-btn-bg);
-  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  cursor: pointer;
-}
-
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--solid,
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--solid:visited {
-  background-color: var(--ct-btn-bg);
-  color: var(--ct-btn-fg);
-  box-shadow: none;
-}
-
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--outline,
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--outline:visited {
-  background-color: transparent;
-  color: var(--ct-btn-bg);
-  box-shadow: none;
-}
-
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--solid:hover {
-  background-color: var(--ct-btn-hover-bg, var(--ct-btn-bg));
-  border-color: var(--ct-btn-hover-bg, var(--ct-btn-bg));
-  color: var(--ct-btn-hover-fg, var(--ct-btn-fg));
-  opacity: 0.9;
-}
-
-.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--outline:hover {
-  background-color: var(--ct-btn-bg);
-  color: var(--ct-btn-fg);
 }
 
 .tdm-comparison-table .ct-btn[aria-disabled='true'] {

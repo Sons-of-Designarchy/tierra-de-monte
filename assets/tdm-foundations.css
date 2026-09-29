@@ -127,6 +127,22 @@
 }
 
 /* -----------------------------------------------------------------------------
+   Section anchor (snippets/tdm-anchor) — zero-height jump target at the top of a
+   section. scroll-margin keeps the sticky header from covering the section start.
+   -------------------------------------------------------------------------- */
+.tdm-anchor {
+  display: block;
+  height: 0;
+  scroll-margin-top: var(--header-height, 0px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.tdm-anchor) {
+    scroll-behavior: smooth;
+  }
+}
+
+/* -----------------------------------------------------------------------------
    Split — lead copy on the left, content on the right (5 / 7 on desktop).
    -------------------------------------------------------------------------- */
 .tdm-split {

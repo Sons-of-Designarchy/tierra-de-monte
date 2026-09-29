@@ -1,3 +1,4 @@
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
 {{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
@@ -146,6 +147,11 @@
   .section-{{ section.id }} .mc-card__title { margin: 0 0 1.2rem; overflow-wrap: break-word; }
   .section-{{ section.id }} .mc-media-wrap { margin-bottom: {{ s.image_gap | default: 16 }}px !important; }
 
+  /* ===== Título que cabe en la card =====
+     1em = el tamaño elegido (h2/h3… o personalizado); en cards angostas baja con el ancho
+     de la card (container query) para que ninguna palabra se parta. Nunca crece. */
+  .section-{{ section.id }} .mc-card__title-fit { display: block; font-size: min(1em, 9.5cqi); line-height: 1.15; }
+
   /* ===== Tamaños de texto (sección o por card) =====
      Cada card es un "container": el texto se reduce solo cuando la card se hace angosta
      (tablet, laptops chicas) y nunca pasa del tamaño elegido. */
@@ -161,6 +167,70 @@
     font-size: clamp(calc(var(--mc-ps) * 0.9px), calc(var(--mc-ps) * 0.42cqi), calc(var(--mc-ps) * 1px)) !important;
     line-height: 1.5;
   }
+
+  /* ===== Íconos en las viñetas de la descripción ===== */
+  {%- if s.list_icon != blank and s.list_icon != 'none' -%}
+  .section-{{ section.id }} .multicolumn-card__info .rte ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+  .section-{{ section.id }} .multicolumn-card__info .rte ul > li {
+    position: relative;
+    list-style: none;
+    padding-left: 1.8em;
+  }
+  .section-{{ section.id }} .multicolumn-card__info .rte ul > li + li { margin-top: 0.4em; }
+  .section-{{ section.id }} .mc-li-icon {
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    width: 1.2em;
+    height: 1.2em;
+    display: block;
+  }
+  .section-{{ section.id }} .mc-li-icon .svg-wrapper,
+  .section-{{ section.id }} .mc-li-icon svg { display: block; width: 100%; height: 100%; }
+  .section-{{ section.id }} .mc-li-icon svg {
+    fill: {% if s.list_icon_color == 'text' %}rgb(var(--color-foreground)){% else %}rgb(var(--color-button)){% endif %};
+  }
+  .section-{{ section.id }} .mc-li-icon .icon-check-circle__check { stroke: rgb(var(--color-background)); }
+  {%- endif -%}
+
+  /* ===== Card con imagen de fondo + overlay + texto en vidrio ===== */
+  .section-{{ section.id }} .multicolumn-card.mc-card--bgimg {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    justify-content: flex-end;
+    min-height: 36rem;
+    border-radius: {{ s.card_radius }}px;
+    padding: var(--mc-pad, 2rem);
+    color: rgb(var(--color-foreground));
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} .multicolumn-card.mc-card--bgimg { min-height: 44rem; }
+  }
+  .section-{{ section.id }} .mc-card--bgimg .mc-bg { position: absolute; inset: 0; z-index: -2; }
+  .section-{{ section.id }} .mc-card--bgimg .mc-bg img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* display:block beats Dawn's div:empty { display: none } */
+  .section-{{ section.id }} .mc-card--bgimg .mc-bg__overlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--mc-ov, transparent);
+  }
+  .section-{{ section.id }} .mc-card--glass .multicolumn-card__info {
+    flex: 0 0 auto !important;
+    padding: 2rem !important;
+    border-radius: 16px;
+    background: var(--mc-glass-bg);
+    -webkit-backdrop-filter: blur(var(--mc-glass-blur, 12px));
+    backdrop-filter: blur(var(--mc-glass-blur, 12px));
+    border: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  .section-{{ section.id }} .mc-card--glass .multicolumn-card__info > .rte { flex: 0 0 auto !important; }
 
   /* ===== Forma de las cards (rectángulo / cuadrado) ===== */
   {%- liquid
@@ -201,7 +271,8 @@
     {%- endif -%}
   }
   {%- if shape_ratio != '' and shape_mobile == 'auto' -%}
-  @media screen and (max-width: 749px) {
+  /* Mobile and tablet: cards are too narrow for a fixed shape, height follows content */
+  @media screen and (max-width: 989px) {
     .section-{{ section.id }} .multicolumn-card { aspect-ratio: auto; }
   }
   {%- endif -%}
@@ -299,10 +370,36 @@
   }
 
   /* ===== Encabezado: eyebrow + título (alineación editable) ===== */
+  {%- unless show_mobile_slider -%}
+  /* Stacked cards (no swipe slider): keep the page gutter on mobile and tablet.
+     Dawn drops it below 990px for sliders, which left these cards edge to edge.
+     `.multicolumn` prefix: section-multicolumn.css is linked again by every later
+     instance, so equal specificity would lose to it. */
+  @media screen and (max-width: 989px) {
+    .multicolumn .section-{{ section.id }}.page-width { padding-left: 1.5rem; padding-right: 1.5rem; }
+    #Slider-{{ section.id }}.multicolumn-list { padding-left: 0; padding-right: 0; }
+    .section-{{ section.id }} .title-wrapper--self-padded-mobile { padding-left: 0; padding-right: 0; }
+  }
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .multicolumn .section-{{ section.id }}.page-width { padding-left: 5rem; padding-right: 5rem; }
+  }
   @media screen and (max-width: 749px) {
-    /* Same side gutter as the self-padded title on mobile */
+    /* Even spacing between stacked cards (theme default is 4px) */
+    #Slider-{{ section.id }} {
+      --grid-mobile-horizontal-spacing: 1.2rem;
+      --grid-mobile-vertical-spacing: 1.2rem;
+    }
+    {%- if s.columns_mobile == '2' -%}
+    /* Two cards per row: a little less inner padding so the text keeps a usable width */
+    .section-{{ section.id }} .multicolumn-card.mc-card { --mc-pad: 1.4rem; }
+    {%- endif -%}
+  }
+  {%- else -%}
+  @media screen and (max-width: 749px) {
+    /* Swipe slider stays edge to edge; the eyebrow keeps the title's gutter */
     .section-{{ section.id }} .tdm-section-eyebrow { padding: 0 1.5rem; }
   }
+  {%- endunless -%}
   #shopify-section-{{ section.id }} .title-wrapper-with-link {
     width: 100%;
     max-width: {{ s.header_max_width | default: 50 }}%;
@@ -434,6 +531,14 @@
             assign highest_ratio = 1
           endif
         -%}
+        {%- liquid
+          assign list_icon = s.list_icon | default: 'none'
+          if list_icon != 'none'
+            capture list_icon_html
+              render 'icon-accordion', icon: list_icon
+            endcapture
+          endif
+        -%}
         {%- for block in section.blocks limit: visible -%}
           {%- liquid
             assign empty_column = ''
@@ -482,6 +587,19 @@
                 break
               endif
             endfor
+
+            # "|" en el título = salto de línea (el campo no admite Enter)
+            if card_title contains '|'
+              assign card_title_lines = card_title | split: '|'
+              assign card_title = ''
+              for line in card_title_lines
+                assign line = line | strip | remove: '&nbsp;'
+                unless forloop.first
+                  assign card_title = card_title | append: '<br>'
+                endunless
+                assign card_title = card_title | append: line
+              endfor
+            endif
           -%}
           {%- if block.settings.image == blank
             and block.settings.title == blank
@@ -505,13 +623,42 @@
               if block.settings.use_custom_scheme
                 assign card_scheme = block.settings.card_color_scheme
               endif
+
+              # Imagen de fondo + overlay + texto en vidrio (por card)
+              assign card_bg = block.settings.bg_image
+              assign glass_on = false
+              if card_bg != blank
+                assign ov_alpha = block.settings.overlay_opacity | divided_by: 100.0
+                assign ov_rgba = block.settings.overlay_color | color_modify: 'alpha', ov_alpha
+                assign card_style = card_style | append: '--mc-ov: ' | append: ov_rgba | append: ';'
+                if block.settings.glass
+                  assign glass_on = true
+                  assign g_alpha = block.settings.glass_opacity | divided_by: 100.0
+                  assign g_rgba = block.settings.glass_color | color_modify: 'alpha', g_alpha
+                  assign card_style = card_style | append: '--mc-glass-bg: ' | append: g_rgba | append: '; --mc-glass-blur: ' | append: block.settings.glass_blur | append: 'px;'
+                endif
+              endif
             -%}
             <div
-              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% endif %}"
+              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% elsif card_bg != blank %} color-{{ card_scheme }}{% endif %}{% if card_bg != blank %} mc-card--bgimg{% endif %}{% if glass_on %} mc-card--glass{% endif %}"
               {% if card_style != '' %}
                 style="{{ card_style }}"
               {% endif %}
             >
+              {%- if card_bg != blank -%}
+                <div class="mc-bg" aria-hidden="true">
+                  {{
+                    card_bg
+                    | image_url: width: 1600
+                    | image_tag:
+                      widths: '500, 750, 1000, 1300, 1600',
+                      sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                      loading: 'lazy',
+                      alt: ''
+                  }}
+                </div>
+                <div class="mc-bg__overlay" aria-hidden="true"></div>
+              {%- endif -%}
               {%- if block.settings.image != blank -%}
                 {%- liquid
                   assign number_of_columns = cols_desktop
@@ -588,13 +735,21 @@
               {%- endif -%}
               <div class="multicolumn-card__info">
                 {%- if card_title != blank -%}
-                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}">{{ card_title }}</h3>
+                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}"><span class="mc-card__title-fit">{{ card_title }}</span></h3>
                 {%- elsif reserve_title -%}
                   <div class="mc-card__title mc-card__title--empty {{ s.card_heading_size | default: 'h3' }}" aria-hidden="true"></div>
                 {%- endif -%}
                 {%- if block.settings.text != blank -%}
+                  {%- liquid
+                    # Ícono en cada viñeta (misma lista de íconos que el desplegable de Dawn)
+                    assign card_text = block.settings.text
+                    if list_icon != 'none'
+                      assign li_open = '<li><span class="mc-li-icon" aria-hidden="true">' | append: list_icon_html | append: '</span>'
+                      assign card_text = card_text | replace: '<li>', li_open
+                    endif
+                  -%}
                   <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
-                    {{ block.settings.text }}
+                    {{ card_text }}
                   </div>
                 {%- endif -%}
                 {%- if block.settings.link_label != blank -%}
@@ -735,6 +890,12 @@
   "tag": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
     { "type": "header", "content": "Encabezado" },
     { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Explora", "default": "Explora" },
     { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
@@ -899,7 +1060,7 @@
       "label": "Forma en móvil",
       "options": [
         { "value": "same", "label": "Igual que en escritorio" },
-        { "value": "auto", "label": "Automática (según contenido)" }
+        { "value": "auto", "label": "Automática (según contenido, también en tablet)" }
       ],
       "default": "auto"
     },
@@ -955,6 +1116,70 @@
     { "type": "checkbox", "id": "custom_text_sizes", "label": "Tamaños de texto personalizados", "default": false, "info": "Aplica a todas las cards. Cada card puede tener su propio tamaño." },
     { "type": "range", "id": "card_title_size", "min": 16, "max": 64, "step": 2, "unit": "px", "default": 28, "label": "Tamaño del heading" },
     { "type": "range", "id": "card_text_size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15, "label": "Tamaño del párrafo" },
+    {
+      "type": "select",
+      "id": "list_icon",
+      "label": "Ícono de las viñetas",
+      "info": "Reemplaza el punto de las listas en la descripción de cada card.",
+      "options": [
+        { "value": "none", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__1.label" },
+        { "value": "check_circle", "label": "Palomita en círculo" },
+        { "value": "apple", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__2.label" },
+        { "value": "banana", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__3.label" },
+        { "value": "bottle", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__4.label" },
+        { "value": "box", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__5.label" },
+        { "value": "carrot", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__6.label" },
+        { "value": "chat_bubble", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__7.label" },
+        { "value": "check_mark", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__8.label" },
+        { "value": "clipboard", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__9.label" },
+        { "value": "dairy", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__10.label" },
+        { "value": "dairy_free", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__11.label" },
+        { "value": "dryer", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__12.label" },
+        { "value": "eye", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__13.label" },
+        { "value": "fire", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__14.label" },
+        { "value": "gluten_free", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__15.label" },
+        { "value": "heart", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__16.label" },
+        { "value": "iron", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__17.label" },
+        { "value": "leaf", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__18.label" },
+        { "value": "leather", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__19.label" },
+        { "value": "lightning_bolt", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__20.label" },
+        { "value": "lipstick", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__21.label" },
+        { "value": "lock", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__22.label" },
+        { "value": "map_pin", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__23.label" },
+        { "value": "nut_free", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__24.label" },
+        { "value": "pants", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__25.label" },
+        { "value": "paw_print", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__26.label" },
+        { "value": "pepper", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__27.label" },
+        { "value": "perfume", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__28.label" },
+        { "value": "plane", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__29.label" },
+        { "value": "plant", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__30.label" },
+        { "value": "price_tag", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__31.label" },
+        { "value": "question_mark", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__32.label" },
+        { "value": "recycle", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__33.label" },
+        { "value": "return", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__34.label" },
+        { "value": "ruler", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__35.label" },
+        { "value": "serving_dish", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__36.label" },
+        { "value": "shirt", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__37.label" },
+        { "value": "shoe", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__38.label" },
+        { "value": "silhouette", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__39.label" },
+        { "value": "snowflake", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__40.label" },
+        { "value": "star", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__41.label" },
+        { "value": "stopwatch", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__42.label" },
+        { "value": "truck", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__43.label" },
+        { "value": "washing", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__44.label" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "list_icon_color",
+      "label": "Color del ícono",
+      "options": [
+        { "value": "button", "label": "Color de botón del esquema (acento)" },
+        { "value": "text", "label": "Color de texto del esquema" }
+      ],
+      "default": "button"
+    },
     {
       "type": "select",
       "id": "background_style",
@@ -1107,7 +1332,7 @@
           "id": "title",
           "default": "Precio preferencial",
           "label": "Heading",
-          "info": "Ej. Precio preferencial"
+          "info": "Ej. Precio preferencial. Escribe | donde quieras un salto de línea: Profesionales de campo|¡Tu recomendación vale!"
         },
         {
           "type": "richtext",
@@ -1188,7 +1413,15 @@
         },
         { "type": "range", "id": "image_size", "min": 0, "max": 400, "step": 8, "unit": "px", "default": 0, "label": "Tamaño de imagen de esta card", "info": "0 = igual que la sección." },
         { "type": "checkbox", "id": "use_custom_scheme", "label": "Usar esquema propio", "default": false },
-        { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+        { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color", "default": "scheme-1", "info": "Con imagen de fondo, el color de texto de este esquema es el del texto sobre la foto." },
+        { "type": "header", "content": "Imagen de fondo" },
+        { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo de la card", "info": "La card se vuelve una foto a todo el tamaño con el texto encima." },
+        { "type": "color", "id": "overlay_color", "label": "Color del overlay", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "label": "Opacidad del overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 30, "info": "Oscurece la foto para que el texto se lea." },
+        { "type": "checkbox", "id": "glass", "label": "Texto en efecto vidrio", "default": true },
+        { "type": "range", "id": "glass_blur", "label": "Intensidad del desenfoque", "min": 0, "max": 30, "step": 1, "unit": "px", "default": 12 },
+        { "type": "color", "id": "glass_color", "label": "Color del vidrio", "default": "#FFFFFF" },
+        { "type": "range", "id": "glass_opacity", "label": "Opacidad del vidrio", "min": 0, "max": 60, "step": 2, "unit": "%", "default": 14 },
         { "type": "header", "content": "Alineación de esta card" },
         {
           "type": "select",

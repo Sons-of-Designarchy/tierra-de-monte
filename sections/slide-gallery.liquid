@@ -1,3 +1,4 @@
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
@@ -54,15 +55,6 @@
 
   .slide-gallery-intro--right .slide-gallery-intro__text {
     margin-left: auto;
-  }
-
-  .slide-gallery-intro__btn--pill {
-    border-radius: 999px;
-  }
-
-  .slide-gallery-intro__btn--pill::after,
-  .slide-gallery-intro__btn--pill::before {
-    border-radius: 999px;
   }
 
   {%- if section.settings.layout == 'grid' -%}
@@ -133,6 +125,72 @@
       height: 100%;
     }
   }
+
+  /* Controls: no border lines; arrows and dots match the hero slider (.hs__arrow / .hs__dot) */
+  #shopify-section-{{ section.id }} .slideshow__controls {
+    border: 0;
+  }
+
+  #shopify-section-{{ section.id }} .slider-buttons {
+    gap: 16px;
+    padding: 1.6rem 0;
+  }
+
+  #shopify-section-{{ section.id }} .slider-button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(var(--color-foreground), 0.75);
+    background: rgba(var(--color-background), 0.2);
+    color: rgb(var(--color-foreground));
+    transition: background 0.2s;
+  }
+
+  #shopify-section-{{ section.id }} .slider-button:not([disabled]):hover {
+    background: rgba(var(--color-foreground), 0.08);
+  }
+
+  #shopify-section-{{ section.id }} .slider-button[disabled] {
+    opacity: 0.4;
+  }
+
+  #shopify-section-{{ section.id }} .slider-button .icon {
+    height: 0.8rem;
+  }
+
+  #shopify-section-{{ section.id }} .slideshow__control-wrapper {
+    gap: 8px;
+    align-items: center;
+  }
+
+  #shopify-section-{{ section.id }} .slider-counter__link--dots {
+    padding: 0;
+  }
+
+  #shopify-section-{{ section.id }} .slider-counter__link--dots .dot {
+    width: 8px;
+    height: 8px;
+    border: 0;
+    border-radius: var(--tdm-radius-pill);
+    background: rgba(var(--color-foreground), 0.5);
+    transition: width 0.3s, background 0.3s;
+  }
+
+  #shopify-section-{{ section.id }} .slider-counter__link--active.slider-counter__link--dots .dot {
+    width: 24px;
+    background: rgb(var(--color-foreground));
+  }
+
+  #shopify-section-{{ section.id }} .slider-counter__link--dots:hover .dot {
+    transform: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .slider-button {
+      width: 38px;
+      height: 38px;
+    }
+  }
 {%- endstyle -%}
 
 {%- if section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank -%}
@@ -176,7 +234,7 @@
               {% else %}
                 role="link" aria-disabled="true"
               {% endif %}
-              class="button {% if section.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}{% if section.settings.button_pill %} slide-gallery-intro__btn--pill{% endif %}"
+              class="button {% if section.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
             >
               {{- section.settings.button_label | escape -}}
             </a>
@@ -351,6 +409,12 @@
   },
   "settings": [
     {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    {
       "type": "color_scheme",
       "id": "intro_color_scheme",
       "label": "t:sections.all.colors.label",
@@ -409,12 +473,6 @@
       "id": "button_style_secondary",
       "label": "Usar estilo secundario",
       "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "button_pill",
-      "label": "Botón redondeado (pill)",
-      "default": true
     },
     {
       "type": "header",

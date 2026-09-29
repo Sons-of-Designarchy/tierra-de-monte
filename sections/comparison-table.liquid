@@ -13,6 +13,8 @@
   - Compatible con Dawn, Horizon y temas OS 2.0 (lee directamente los colores del esquema)
 {%- endcomment -%}
 
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+
 {%- liquid
   assign column_blocks = section.blocks | where: 'type', 'column'
   assign row_blocks = section.blocks | where: 'type', 'row'
@@ -76,8 +78,8 @@
     endif
   endif
 
-  # ---------- Estilo de botones: del tema (clase .button) o propio de la sección ----------
-  assign theme_btn = section.settings.use_theme_buttons
+  # ---------- Botones: siempre el estilo del tema (clase .button), sin variantes propias ----------
+  assign theme_btn = true
 
   # ---------- Anchos en móvil (px) ----------
   assign m_feat_w = section.settings.mobile_feature_width | default: 130
@@ -129,10 +131,6 @@
     assign feature_weight = 600
   endif
 
-  assign btn_uppercase = 'none'
-  if section.settings.button_uppercase
-    assign btn_uppercase = 'uppercase'
-  endif
 -%}
 
 {%- comment -%} Per-column custom properties: highlight scheme + optional CTA scheme override {%- endcomment -%}
@@ -186,8 +184,6 @@
   --ct-cta-fg: {{ b_fg }};
   --ct-cta-hover-bg: {{ b_hbg }};
   --ct-cta-hover-fg: {{ b_hfg }};
-  --ct-btn-radius: {{ section.settings.button_radius }}px;
-  --ct-btn-uppercase: {{ btn_uppercase }};
   --ct-cta-align: {{ section.settings.button_align }};
   {{ col_style }}
 {%- endcapture -%}
@@ -396,6 +392,12 @@
   "max_blocks": 50,
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
     { "type": "header", "content": "Contenido" },
     { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Planes" },
     { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
@@ -505,15 +507,6 @@
     },
     { "type": "checkbox", "id": "full_width_buttons", "label": "Botones a todo el ancho de la columna", "default": true },
     { "type": "checkbox", "id": "show_bottom_ctas", "label": "Repetir botones al final de la tabla", "default": false, "info": "Solo aplica cuando los botones van arriba." },
-    {
-      "type": "checkbox",
-      "id": "use_theme_buttons",
-      "label": "Usar el estilo de botones del tema",
-      "default": true,
-      "info": "Los botones miden y se ven igual que el resto del sitio (Configuración del tema → Botones). Desactívalo para usar mayúsculas y redondeo propios de esta sección."
-    },
-    { "type": "checkbox", "id": "button_uppercase", "label": "Texto de botones en mayúsculas", "default": true, "visible_if": "{{ section.settings.use_theme_buttons == false }}" },
-    { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12, "label": "Redondeo de botones", "visible_if": "{{ section.settings.use_theme_buttons == false }}" },
 
     { "type": "header", "content": "Botón general (debajo de la tabla)" },
     { "type": "text", "id": "button_label", "label": "Texto del botón", "info": "Déjalo vacío para ocultar el botón." },

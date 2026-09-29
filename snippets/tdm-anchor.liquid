@@ -1,0 +1,20 @@
+{%- comment -%}
+  Section anchor: gives the section an id so buttons can link to it
+  (e.g. /pages/aliados#formulario).
+
+  {% render 'tdm-anchor', id: section.settings.anchor_id %}
+
+  The id is normalised: lowercase, no accents or symbols, at most two words
+  joined by a hyphen ("Cómo Funciona Ahora" → "como-funciona").
+  Styles: .tdm-anchor in assets/tdm-foundations.css
+{%- endcomment -%}
+{%- liquid
+  assign anchor = id | handleize
+  assign anchor_parts = anchor | split: '-'
+  if anchor_parts.size > 2
+    assign anchor = anchor_parts[0] | append: '-' | append: anchor_parts[1]
+  endif
+-%}
+{%- if anchor != blank -%}
+  <span id="{{ anchor }}" class="tdm-anchor" aria-hidden="true"></span>
+{%- endif -%}

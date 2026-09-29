@@ -106,16 +106,23 @@
                     {%- endif -%}
                   {%- when 'brand_information' -%}
                     <div class="footer-block__brand-info">
-                      {%- if settings.brand_image != blank -%}
+                      {%- liquid
+                        # Optional per-footer logo (e.g. the aliados footer); falls back to the theme brand image
+                        assign brand_img = settings.brand_image
+                        if block.settings.brand_image_override != blank
+                          assign brand_img = block.settings.brand_image_override
+                        endif
+                      -%}
+                      {%- if brand_img != blank -%}
                         {%- assign brand_image_height = settings.brand_image_width
-                          | divided_by: settings.brand_image.aspect_ratio
+                          | divided_by: brand_img.aspect_ratio
                         -%}
                         <div
                           class="footer-block__image-wrapper"
                           style="max-width: min(100%, {{ settings.brand_image_width }}px);"
                         >
                           {{
-                            settings.brand_image
+                            brand_img
                             | image_url: width: 1100
                             | image_tag:
                               loading: 'lazy',
@@ -344,6 +351,12 @@
         {
           "type": "paragraph",
           "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
+        },
+        {
+          "type": "image_picker",
+          "id": "brand_image_override",
+          "label": "Logo de este footer",
+          "info": "Opcional. Reemplaza el logo de marca del tema solo en este footer (p. ej. el footer de aliados)."
         },
         {
           "type": "checkbox",

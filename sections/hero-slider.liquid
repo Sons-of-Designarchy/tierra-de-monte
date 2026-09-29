@@ -5,6 +5,8 @@
   Styles: assets/section-tdm-hero-slider.css. Behaviour: assets/tdm-hero-slider.js.
 {%- endcomment -%}
 
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+
 {{ 'section-tdm-hero-slider.css' | asset_url | stylesheet_tag }}
 
 {%- assign hs_full = false -%}
@@ -14,7 +16,7 @@
 
 <div class="section-{{ section.id }}-padding{% unless hs_full %} page-width{% endunless %}">
 <hero-slider
-  class="tdm-hero-slider{% if hs_full %} tdm-hero-slider--full{% endif %} color-{{ section.settings.color_scheme }}"
+  class="tdm-hero-slider{% if hs_full %} tdm-hero-slider--full{% endif %}{% if section.settings.credit_position contains 'right' %} hs--credit-right{% endif %}{% if section.settings.credit_position contains 'top' %} hs--credit-top{% endif %} color-{{ section.settings.color_scheme }}"
   id="HeroSlider-{{ section.id }}"
   data-autoplay="{{ section.settings.autoplay }}"
   data-speed="{{ section.settings.speed | times: 1000 }}"
@@ -23,7 +25,6 @@
   style="
     --hs-h: {{ section.settings.height_desktop }}px;
     --hs-h-m: {{ section.settings.height_mobile }}px;
-    --hs-radius: {{ section.settings.button_radius }}px;
     --hs-frame-radius: {{ section.settings.corner_radius }}px;
     --hs-hsize: {{ section.settings.heading_size | divided_by: 10.0 }}rem;
   "
@@ -124,7 +125,7 @@
             <div class="hs__btns">
               {%- if block.settings.button_label != blank -%}
                 <a
-                  class="hs__btn hs__btn--primary"
+                  class="button button--primary"
                   href="{{ block.settings.button_link | default: '#' }}"
                   {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
                 >
@@ -133,7 +134,7 @@
               {%- endif -%}
               {%- if block.settings.button_label_2 != blank -%}
                 <a
-                  class="hs__btn hs__btn--secondary"
+                  class="button button--secondary"
                   href="{{ block.settings.button_link_2 | default: '#' }}"
                   {% if block.settings.button_new_tab_2 %}target="_blank" rel="noopener"{% endif %}
                 >
@@ -199,6 +200,12 @@
   "max_blocks": 8,
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
     { "type": "header", "content": "Tamaño" },
     { "type": "range", "id": "height_desktop", "label": "Altura en escritorio", "min": 400, "max": 900, "step": 20, "unit": "px", "default": 700 },
     { "type": "range", "id": "height_mobile", "label": "Altura en móvil", "min": 300, "max": 800, "step": 20, "unit": "px", "default": 620 },
@@ -222,7 +229,19 @@
     { "type": "checkbox", "id": "show_dots", "label": "Mostrar puntos", "default": true },
     { "type": "header", "content": "Colores" },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "info": "Texto: color de texto del esquema. Antetítulo, palabra destacada y botón principal: color de botón. Botón secundario: etiqueta secundaria. Cada slide puede usar su propio esquema.", "default": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9" },
-    { "type": "range", "id": "button_radius", "label": "Redondeo de botones", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 40 },
+    {
+      "type": "select",
+      "id": "credit_position",
+      "label": "Posición del crédito (nombre y cultivo)",
+      "info": "Esquina del slide donde va el nombre y el tipo de cultivo. Respeta los márgenes del slide.",
+      "options": [
+        { "value": "bottom_left", "label": "Abajo a la izquierda" },
+        { "value": "bottom_right", "label": "Abajo a la derecha" },
+        { "value": "top_left", "label": "Arriba a la izquierda" },
+        { "value": "top_right", "label": "Arriba a la derecha" }
+      ],
+      "default": "bottom_left"
+    },
     { "type": "header", "content": "Espaciado" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0, "label": "Espaciado superior" },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." },

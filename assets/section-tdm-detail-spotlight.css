@@ -1,0 +1,173 @@
+/* =============================================================================
+   Detalles con imagen (sections/tdm-detail-spotlight.liquid)
+   Desktop: points left | image | points right, columns vertically centred.
+   Mobile: image first, then every point (left list, then right list), left-aligned.
+   "Original de la imagen" uses the first image's proportions so every image
+   shares one frame.
+   Per-instance values arrive as custom properties on .tdm-spotlight:
+     --sp-ratio --sp-ratio-m --sp-radius --sp-media-w
+   ========================================================================== */
+
+.tdm-spotlight__header {
+  max-width: 72rem;
+  margin: 0 auto var(--tdm-space-8);
+  text-align: center;
+}
+
+.tdm-spotlight__title {
+  margin: 0;
+}
+
+.tdm-spotlight__text {
+  margin-top: var(--tdm-space-3);
+}
+
+.tdm-spotlight__grid {
+  display: grid;
+  grid-template-areas:
+    'media'
+    'left'
+    'right';
+  gap: var(--tdm-space-8);
+}
+
+.tdm-spotlight__col--left {
+  grid-area: left;
+}
+
+.tdm-spotlight__col--right {
+  grid-area: right;
+}
+
+.tdm-spotlight__media {
+  grid-area: media;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--sp-ratio-m, 4 / 3);
+  border-radius: var(--sp-radius, 16px);
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+tdm-spotlight-media {
+  display: block;
+}
+
+.tdm-spotlight__media img,
+.tdm-spotlight__media .tdm-spotlight__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Fit: section default (--sp-fit), per image override via modifier. Contain fills with --sp-contain-bg */
+.tdm-spotlight__slide img {
+  object-fit: var(--sp-fit, cover);
+}
+
+.tdm-spotlight__slide--cover img {
+  object-fit: cover;
+}
+
+.tdm-spotlight__slide--contain img {
+  object-fit: contain;
+}
+
+.tdm-spotlight__slide--contain,
+.tdm-spotlight[style*='--sp-fit: contain'] .tdm-spotlight__slide:not(.tdm-spotlight__slide--cover) {
+  background: var(--sp-contain-bg, #f4f1f2);
+}
+
+/* Rotating images: stacked, cross-fade on .is-active (assets/tdm-detail-spotlight.js) */
+.tdm-spotlight__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s var(--tdm-ease);
+}
+
+.tdm-spotlight__slide.is-active {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tdm-spotlight__slide {
+    transition: none;
+  }
+}
+
+.tdm-spotlight__media .tdm-spotlight__placeholder {
+  fill: rgba(var(--color-foreground), 0.5);
+}
+
+/* ---- Points ---------------------------------------------------------------- */
+.tdm-spotlight__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tdm-space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-spotlight__col:empty {
+  display: none;
+}
+
+.tdm-spotlight__point {
+  margin: 0;
+}
+
+.tdm-spotlight__accent {
+  display: block;
+  width: 28px;
+  height: 3px;
+  margin-bottom: var(--tdm-space-3);
+  border-radius: var(--tdm-radius-pill);
+  background: rgb(var(--color-button));
+}
+
+.tdm-spotlight__point-title {
+  margin: 0 0 var(--tdm-space-2);
+}
+
+.tdm-spotlight__point-text,
+.tdm-spotlight__point-text p {
+  margin: 0;
+  color: rgb(var(--color-foreground));
+}
+
+/* ---- Desktop --------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+  .tdm-spotlight__grid {
+    grid-template-areas: 'left media right';
+    grid-template-columns: 1fr minmax(0, var(--sp-media-w, 36%)) 1fr;
+    align-items: center;
+    gap: var(--tdm-space-12);
+  }
+
+  .tdm-spotlight__media {
+    aspect-ratio: var(--sp-ratio, 4 / 5);
+  }
+
+  .tdm-spotlight__col {
+    gap: var(--tdm-space-12);
+  }
+
+  /* Left column reads towards the image */
+  .tdm-spotlight__col--left {
+    text-align: right;
+  }
+
+  .tdm-spotlight__col--left .tdm-spotlight__accent {
+    margin-left: auto;
+  }
+
+  .tdm-spotlight__col--left .tdm-spotlight__point-text {
+    margin-left: auto;
+  }
+
+  .tdm-spotlight__point-text {
+    max-width: 34rem;
+  }
+}

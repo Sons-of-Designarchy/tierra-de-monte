@@ -17,6 +17,7 @@
         "brand_information_BaB3qe": {
           "type": "brand_information",
           "settings": {
+            "brand_image_override": "shopify://shop_images/logo-stacked-white.png",
             "show_social": false
           }
         },

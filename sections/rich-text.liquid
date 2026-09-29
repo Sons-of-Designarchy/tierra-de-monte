@@ -1,3 +1,4 @@
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
@@ -109,6 +110,12 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
     {
       "type": "text",
       "id": "eyebrow",

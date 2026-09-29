@@ -19,19 +19,20 @@
             "overlay_color": "#000000",
             "overlay_opacity": 45,
             "subheading": "Programa de aliados · Tierra de Monte",
-            "heading": "<p>otros textos</p>",
+            "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla</p>",
             "highlight": "",
-            "text": "<p>otros textos</p>",
-            "button_label": "CTA 1",
+            "text": "<p>Compra a precio de aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
+            "button_label": "Escríbenos por WhatsApp",
             "button_link": "",
             "button_new_tab": true,
-            "button_label_2": "CTA 2",
-            "button_link_2": "",
+            "button_label_2": "Cómo funciona",
+            "button_link_2": "/pages/aliados#proceso",
             "button_new_tab_2": false,
-            "credit_name": "Nombre",
-            "credit_detail": "Tipo de cultivo",
+            "credit_name": "",
+            "credit_detail": "",
             "align_h": "left",
-            "align_v": "middle"
+            "align_v": "middle",
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg"
           }
         },
         "slide_xcpWeD": {
@@ -42,14 +43,14 @@
             "overlay_color": "#000000",
             "overlay_opacity": 45,
             "subheading": "Programa de aliados · Tierra de Monte",
-            "heading": "<p>Tú pones la <em>palabra.</em></p><p>Nosotros ponemos con qué cumplirla</p>",
+            "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla</p>",
             "highlight": "",
-            "text": "<p>Somos una empresa mexicana de biotecnología agrícola. Distribuye en tu zona una línea que tus clientes no encuentran con nadie más, con precio de aliado, cartera protegida y respaldo técnico.</p>",
+            "text": "<p>Compra a precio de aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
             "button_label": "Escríbenos por WhatsApp",
             "button_link": "",
             "button_new_tab": true,
             "button_label_2": "Cómo funciona",
-            "button_link_2": "",
+            "button_link_2": "/pages/aliados#proceso",
             "button_new_tab_2": false,
             "credit_name": "Francisco González",
             "credit_detail": "Productor de Berries y Aliado TDEM",
@@ -59,8 +60,8 @@
         }
       },
       "block_order": [
-        "slide_kAWH4n",
-        "slide_xcpWeD"
+        "slide_xcpWeD",
+        "slide_kAWH4n"
       ],
       "name": "Hero slider",
       "settings": {
@@ -73,8 +74,9 @@
         "show_arrows": true,
         "show_dots": true,
         "color_scheme": "scheme-696296f7-bee5-432a-8d7e-1c97193ea4dc",
-        "button_radius": 40,
-        "aria_label": "Programa de aliados"
+        "credit_position": "bottom_left",
+        "aria_label": "Programa de aliados",
+        "anchor_id": "inicio"
       }
     },
     "ticker_q7YzML": {
@@ -96,51 +98,14 @@
         "height": 100
       }
     },
-    "tabs-collections": {
-      "type": "tabbed-collections",
-      "custom_css": [],
-      "settings": {
-        "kicker": "",
-        "heading": "Soluciones para todos los cultivos",
-        "subheading": "Nuestros consorcios especializados de microorganismos permiten responder a todas las necesidades del cultivo para producir más con menos.",
-        "show_card_excerpt": true,
-        "collection_1": "bio-estimulantes",
-        "label_1": "Bio-estimulantes",
-        "dot_1": true,
-        "icon_1": "shopify://shop_images/tab-icon-bio.svg",
-        "collection_2": "plagas-y-enfermedades",
-        "label_2": "Plagas y enfermedades",
-        "dot_2": true,
-        "icon_2": "shopify://shop_images/tab-icon-micro.svg",
-        "collection_3": "tratamiento-para-semillas",
-        "label_3": "Tratamiento para semillas",
-        "dot_3": true,
-        "icon_3": "shopify://shop_images/tab-icon-sem.svg",
-        "collection_4": "soluciones-acuicolas",
-        "label_4": "Soluciones Acuícolas",
-        "dot_4": true,
-        "icon_4": "shopify://shop_images/tab-icon-acu.svg",
-        "collection_5": "degradadores",
-        "label_5": "Degradadores",
-        "dot_5": true,
-        "icon_5": "shopify://shop_images/tab-icon-deg.svg",
-        "collection_6": "",
-        "label_6": "",
-        "dot_6": false,
-        "icon_6": "shopify://shop_images/tab-icon-hue.svg",
-        "products_limit": "4",
-        "show_view_all": true,
-        "view_all_label": "Ver más productos"
-      }
-    },
     "multicolumn_sept2026_AwmWPk": {
       "type": "tdm-card-grid",
       "blocks": {
         "column_wwFQtn": {
           "type": "column",
           "settings": {
-            "title": "Profesionales de campo ¡Tu recomendación vale!&nbsp;",
-            "text": "<ul><li>Cuentas con cartera de clientes o te interesa empezar tu propio negocio</li><li>﻿﻿Comparas productos por margen, rotación, demanda y facilidad de venta</li><li>﻿﻿recomiendas</li></ul>",
+            "title": "Profesionales de campo|¡Tu recomendación vale!",
+            "text": "<ul><li>Cuentas con cartera de clientes o te interesa empezar tu propio negocio</li><li>Comparas productos por margen, rotación, demanda y facilidad de venta</li><li>Recomiendas</li></ul>",
             "desc_font": "body",
             "title_size": 0,
             "text_size": 0,
@@ -179,8 +144,8 @@
         "column_LDywrp": {
           "type": "column",
           "settings": {
-            "title": "Dueños de Punto de venta agricola&nbsp;",
-            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados te interesa destacar tu negocio</li><li>acompañamiento técnico y comercial</li></ul>",
+            "title": "Dueños de Punto de venta agrícola",
+            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados te interesa destacar tu negocio</li><li>Acompañamiento técnico y comercial</li></ul>",
             "desc_font": "body",
             "title_size": 0,
             "text_size": 0,
@@ -204,6 +169,8 @@
       ],
       "name": "Multicolumn Sept 2026",
       "settings": {
+        "list_icon": "check_circle",
+        "list_icon_color": "button",
         "pretitle": "A quién va dirigido",
         "rule_color": "#003118",
         "title": "Para ti que recomiendas, asesoras o vendes",
@@ -213,7 +180,7 @@
         "intro_alignment": "center",
         "header_max_width": 50,
         "columns_desktop": 4,
-        "columns_tablet": 4,
+        "columns_tablet": 2,
         "auto_fit_columns": true,
         "rows": 0,
         "grid_justify": "left",
@@ -223,12 +190,12 @@
         "gap_vertical": 32,
         "image_alignment": "center",
         "column_alignment": "left",
-        "text_valign": "top",
+        "text_valign": "bottom",
         "card_background": true,
         "card_color_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9",
         "card_radius": 16,
         "card_padding": 24,
-        "card_shape": "auto",
+        "card_shape": "square",
         "card_shape_mobile": "auto",
         "card_content_position": "spread",
         "mobile_side_line": false,
@@ -262,7 +229,8 @@
         "columns_mobile": "1",
         "swipe_on_mobile": false,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "anchor_id": "para-quien"
       }
     },
     "multicolumn_sept2026_cQktdB": {
@@ -370,7 +338,7 @@
         "intro_alignment": "center",
         "header_max_width": 50,
         "columns_desktop": 4,
-        "columns_tablet": 4,
+        "columns_tablet": 2,
         "auto_fit_columns": true,
         "rows": 0,
         "grid_justify": "left",
@@ -410,16 +378,17 @@
         "image_contain_bg": true,
         "image_radius": 0,
         "button_label": "Quiero ser Aliado",
-        "button_link": "",
+        "button_link": "/pages/aliados#formulario",
         "button_new_tab": false,
         "button_style": "primary",
         "button_color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
         "button_pill": false,
         "button_alignment": "center",
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "anchor_id": "beneficios"
       }
     },
     "ticker_H9daYM": {
@@ -492,7 +461,6 @@
         "button_label": "Ver más",
         "button_link": "",
         "button_style_secondary": false,
-        "button_pill": true,
         "cta_position": "bottom",
         "cta_alignment": "center",
         "cta_padding_top": 24,
@@ -505,11 +473,12 @@
         "padding_bottom": 0,
         "slide_height": "medium",
         "mobile_ratio": "3_2",
-        "slider_visual": "counter",
+        "slider_visual": "dots",
         "auto_rotate": false,
         "change_slides_speed": 5,
         "image_behavior": "none",
-        "accessibility_info": "Presentación de diapositivas sobre tu marca"
+        "accessibility_info": "Presentación de diapositivas sobre tu marca",
+        "anchor_id": "resultados"
       }
     },
     "ticker_fLHMnW": {
@@ -814,11 +783,8 @@
         "cta_placement": "bottom",
         "full_width_buttons": true,
         "show_bottom_ctas": false,
-        "use_theme_buttons": true,
-        "button_uppercase": true,
-        "button_radius": 12,
         "button_label": "Conviértete en un Aliado",
-        "button_link": "",
+        "button_link": "/pages/aliados#formulario",
         "button_new_tab": false,
         "button_style": "solid",
         "button_scheme_source": "cta",
@@ -826,7 +792,8 @@
         "button_align": "center",
         "container_width": "page-width",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "anchor_id": "niveles"
       }
     },
     "rich_text_CXFLjY": {
@@ -852,13 +819,15 @@
         "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
         "full_width": true,
         "padding_top": 40,
-        "padding_bottom": 52
+        "padding_bottom": 52,
+        "anchor_id": "formulario"
       }
     },
     "custom_liquid_mMUaMW": {
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
+        "page_width": true,
         "custom_liquid": "<iframe\n    src=\"https://api.leadconnectorhq.com/widget/form/PokFnUnhtj45vXhbVBBj\"\n    style=\"width:100%;height:100%;border:none;border-radius:8px\"\n    id=\"inline-PokFnUnhtj45vXhbVBBj\" \n    data-layout=\"{'id':'INLINE'}\"\n    data-trigger-type=\"alwaysShow\"\n    data-trigger-value=\"\"\n    data-activation-type=\"alwaysActivated\"\n    data-activation-value=\"\"\n    data-deactivation-type=\"neverDeactivate\"\n    data-deactivation-value=\"\"\n    data-form-name=\"Form v.0 Aliados\"\n    data-height=\"709\"\n    data-layout-iframe-id=\"inline-PokFnUnhtj45vXhbVBBj\"\n    data-form-id=\"PokFnUnhtj45vXhbVBBj\"\n    data-cookie-consent=\"true\"\n    data-cookie-consent-provider=\"auto\"\n    title=\"Form v.0 Aliados\"\n    \n        >\n</iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
         "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
         "padding_top": 40,
@@ -895,15 +864,6 @@
             "page": ""
           }
         },
-        "collapsible_row_HEgaXb": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Fila desplegable",
-            "icon": "check_mark",
-            "row_content": "",
-            "page": ""
-          }
-        },
         "collapsible_row_9nErwx": {
           "type": "collapsible_row",
           "settings": {
@@ -936,7 +896,6 @@
         "collapsible_row_GDzrXr",
         "collapsible_row_AKwAGA",
         "collapsible_row_bdnEWF",
-        "collapsible_row_HEgaXb",
         "collapsible_row_9nErwx",
         "collapsible_row_BpRhfh",
         "collapsible_row_MnDPgR"
@@ -957,16 +916,232 @@
         "image_ratio": "adapt",
         "desktop_layout": "image_second",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "anchor_id": "preguntas"
+      }
+    },
+    "tdm_detail_spotlight_aliados": {
+      "type": "tdm-detail-spotlight",
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Mayor rentabilidad",
+            "text": "<p>Ayudan a mejorar la rentabilidad, más ingreso para tu negocio.</p>",
+            "side": "auto"
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Más oportunidades de venta",
+            "text": "<p>Una sola línea para todos los cultivos, todas las etapas.</p>",
+            "side": "auto"
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Más recompra",
+            "text": "<p>Resultados que generan confianza y construyen relaciones comerciales de largo plazo.</p>",
+            "side": "auto"
+          }
+        },
+        "point_4": {
+          "type": "point",
+          "settings": {
+            "title": "Una propuesta diferenciada",
+            "text": "<p>Biotecnología de alto desempeño para diferenciarte y ofrecer más valor a tus clientes.</p>",
+            "side": "auto"
+          }
+        },
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
+            "fit": "section"
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/AqAB_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ReIntegra_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/FoliaCA_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_5": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Refuerza_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/FloreC_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ProTG_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/FoliaG_front-web.png",
+            "fit": "section"
+          }
+        },
+        "image_9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ReIntegra_der-web.png",
+            "fit": "section"
+          }
+        },
+        "image_10": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/AqA_front-web.png",
+            "fit": "section"
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3",
+        "image_4",
+        "image_5",
+        "image_6",
+        "image_7",
+        "image_8",
+        "image_9",
+        "image_10",
+        "point_1",
+        "point_2",
+        "point_3",
+        "point_4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "eyebrow": "Productos",
+        "rule_color": "#003118",
+        "title": "Una línea que genera valor en el campo y en tu negocio",
+        "heading_size": "h1",
+        "text": "<p>Soluciones biológicas que resuelven lo que los químicos no.</p><p>Fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
+        "image_ratio": "landscape",
+        "image_ratio_mobile": "landscape",
+        "image_width": 36,
+        "image_radius": 16,
+        "point_title_size": "h4",
+        "show_accent": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "rotate_speed": 4,
+        "image_fit": "cover",
+        "contain_bg": "#F4F1F2",
+        "anchor_id": "productos"
+      }
+    },
+    "tdm_scroll_steps_aliados": {
+      "type": "tdm-scroll-steps",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "number": "",
+            "title": "Ponte en contacto con nosotros",
+            "text": "<p>Envíanos tu información a través de correo <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a>, WhatsApp, o llena el formulario que encontrarás al final de esta página.</p>",
+            "image": "shopify://shop_images/hero-aliado.jpg",
+            "button_label": "Realiza tu primera compra",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "primary"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "number": "",
+            "title": "Conocemos tu negocio y te acompañamos",
+            "text": "<p>Una vez que recibamos tu información, la revisamos y uno de nuestros especialistas se pondrá en contacto contigo para concretar tu proceso de registro.</p><p>Completa tu proceso de afiliación.</p>",
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "number": "",
+            "title": "Haz tu primer pedido",
+            "text": "<p>Tu registro como Aliado se concreta con tu primer pedido.</p><p>Uno de nuestros ejecutivos se pondrá en contacto contigo para acompañarte y explicarte todo lo que tiene el programa para ti.</p>",
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "number": "",
+            "title": "¡Ya eres Aliado Tierra de Monte!",
+            "text": "<p>Bienvenido a una comunidad que está transformando la agricultura.</p><p>Ahora podrás desarrollar tu negocio con nuestras soluciones biológicas y contar con el acompañamiento de Tierra de Monte.</p>",
+            "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
+            "button_label": "",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "eyebrow": "",
+        "rule_color": "#003118",
+        "title": "Proceso",
+        "heading_size": "h1",
+        "text": "",
+        "image_ratio": "wide_1610",
+        "image_radius": 16,
+        "number_size": 112,
+        "step_title_size": "h3",
+        "show_dividers": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "anchor_id": "proceso"
       }
     }
   },
   "order": [
     "hero_slider_Q8CAkg",
+    "tdm_detail_spotlight_aliados",
     "ticker_q7YzML",
-    "tabs-collections",
     "multicolumn_sept2026_AwmWPk",
     "multicolumn_sept2026_cQktdB",
+    "tdm_scroll_steps_aliados",
     "ticker_H9daYM",
     "slide_gallery_aK44mg",
     "ticker_fLHMnW",

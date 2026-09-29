@@ -41,9 +41,9 @@
   font-weight: 300;
   font-size: 2rem;
   font-size: clamp(1.75rem, 4.2vw + 0.5rem, 3.6875rem);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
   word-break: normal;
-  hyphens: auto;
+  hyphens: manual;
 }
 
 .tdm-rich-text .rt__text {
