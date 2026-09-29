@@ -13,6 +13,28 @@
     "hero_slider_Q8CAkg": {
       "type": "hero-slider",
       "blocks": {
+        "slide_kAWH4n": {
+          "type": "slide",
+          "settings": {
+            "alt": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 45,
+            "subheading": "Programa de aliados · Tierra de Monte",
+            "heading": "<p>otros textos</p>",
+            "highlight": "",
+            "text": "<p>otros textos</p>",
+            "button_label": "CTA 1",
+            "button_link": "",
+            "button_new_tab": true,
+            "button_label_2": "CTA 2",
+            "button_link_2": "",
+            "button_new_tab_2": false,
+            "credit_name": "Nombre",
+            "credit_detail": "Tipo de cultivo",
+            "align_h": "left",
+            "align_v": "middle"
+          }
+        },
         "slide_xcpWeD": {
           "type": "slide",
           "settings": {
@@ -38,6 +60,7 @@
         }
       },
       "block_order": [
+        "slide_kAWH4n",
         "slide_xcpWeD"
       ],
       "name": "Hero slider",
