@@ -219,7 +219,7 @@
         "button_link": "",
         "button_new_tab": false,
         "button_style": "primary",
-        "button_color_scheme": "",
+        "button_color_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9",
         "button_pill": false,
         "button_alignment": "center",
         "columns_mobile": "1",
@@ -928,6 +928,98 @@
         "padding_bottom": 36
       }
     },
+    "collapsible_content_wp3zF8": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_GDzrXr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Los $5,000 son cuota de inscripción?",
+            "icon": "check_mark",
+            "row_content": "<p>No. Son $5,000 en producto que te llega a tu bodega. No cobramos por entrar.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_AKwAGA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Tengo que dejar de vender lo que ya vendo?",
+            "icon": "check_mark",
+            "row_content": "<p>No. Sigues con tus marcas y le sumas la nuestra. Nadie te pide que cambies tu negocio.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_bdnEWF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Y si un bimestre no llego al mínimo?",
+            "icon": "check_mark",
+            "row_content": "<p>No pasa nada, sigues siendo aliado. Ese bimestre operas con los beneficios del nivel que sí alcanzaste y luego vuelves a subir.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_HEgaXb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Fila desplegable",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_9nErwx": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Cómo funciona lo de mis clientes?",
+            "icon": "check_mark",
+            "row_content": "<p>No le vendemos a tus clientes ni los buscamos por nuestra cuenta. Si alguno nos escribe, lo mandamos contigo.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_BpRhfh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Para qué quieren mi identificación?",
+            "icon": "check_mark",
+            "row_content": "<p>Para saber con quién estamos trabajando. Es lo que nos permite proteger a tus clientes a tu nombre y que nadie más de la red te los toque.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_MnDPgR": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Tengo que haber usado sus productos antes?",
+            "icon": "check_mark",
+            "row_content": "<p>No. Muchos aliados llegan porque ya los probaron en su tierra, y es el mejor camino. Pero si vienes recomendado o ya tienes clientes que confían en ti, también entras.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_GDzrXr",
+        "collapsible_row_AKwAGA",
+        "collapsible_row_bdnEWF",
+        "collapsible_row_HEgaXb",
+        "collapsible_row_9nErwx",
+        "collapsible_row_BpRhfh",
+        "collapsible_row_MnDPgR"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "Lo que todos preguntan",
+        "heading": "Preguntas",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "custom_liquid_xw7Wcd": {
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
@@ -951,6 +1043,7 @@
     "reviews_4eGYH6",
     "ticker_q7YzML",
     "comparison_table_CjRhQt",
+    "collapsible_content_wp3zF8",
     "custom_liquid_xw7Wcd"
   ]
 }
