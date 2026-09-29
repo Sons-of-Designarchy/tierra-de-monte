@@ -19,15 +19,26 @@
   endif
   assign cols_tablet = s.columns_tablet | default: 2 | at_most: cols_desktop
 
-  # ¿Alguna card visible tiene imagen? (para reservar el espacio en las que no)
+  # ¿Alguna card visible tiene imagen / título? (para reservar el espacio en las que no)
   assign any_image = false
+  assign any_title = false
   for b in section.blocks limit: visible
     if b.settings.image != blank
       assign any_image = true
-      break
+    endif
+    if b.settings.title != blank
+      assign any_title = true
     endif
   endfor
   assign unify = s.unify_layout
+  assign align_titles = s.align_titles
+  assign reserve_title = false
+  if unify or align_titles
+    assign reserve_title = any_title
+  endif
+
+  # Posición vertical del párrafo (sección)
+  assign text_valign_default = s.text_valign | default: 'top'
 
   # Posición del grid
   case s.grid_justify
@@ -132,21 +143,24 @@
     border: 0 !important;
   }
   {%- endif -%}
-  .section-{{ section.id }} .mc-card__title { margin: 0 0 1.2rem; }
+  .section-{{ section.id }} .mc-card__title { margin: 0 0 1.2rem; overflow-wrap: break-word; }
   .section-{{ section.id }} .mc-media-wrap { margin-bottom: {{ s.image_gap | default: 16 }}px !important; }
 
-  /* ===== Tamaños de texto personalizados ===== */
-  {%- if s.custom_text_sizes -%}
-  .section-{{ section.id }} .mc-card__title {
-    font-size: clamp({{ s.card_title_size | times: 0.75 | round }}px, 2.2vw, {{ s.card_title_size }}px) !important;
+  /* ===== Tamaños de texto (sección o por card) =====
+     Cada card es un "container": el texto se reduce solo cuando la card se hace angosta
+     (tablet, laptops chicas) y nunca pasa del tamaño elegido. */
+  #Slider-{{ section.id }} > .grid__item { container-type: inline-size; }
+  .section-{{ section.id }} .mc-card--ts .mc-card__title {
+    font-size: clamp(calc(var(--mc-ts) * 0.72px), calc(var(--mc-ts) * 0.4cqi), calc(var(--mc-ts) * 1px)) !important;
+    line-height: 1.15;
   }
-  .section-{{ section.id }} .multicolumn-card__info .rte,
-  .section-{{ section.id }} .multicolumn-card__info .rte p,
-  .section-{{ section.id }} .multicolumn-card__info .link {
-    font-size: {{ s.card_text_size }}px !important;
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte,
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte p,
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte li,
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .link {
+    font-size: clamp(calc(var(--mc-ps) * 0.9px), calc(var(--mc-ps) * 0.42cqi), calc(var(--mc-ps) * 1px)) !important;
     line-height: 1.5;
   }
-  {%- endif -%}
 
   /* ===== Forma de las cards (rectángulo / cuadrado) ===== */
   {%- liquid
@@ -213,6 +227,24 @@
   .section-{{ section.id }} .mc-media-wrap--empty { visibility: hidden; display: block !important; }
   .section-{{ section.id }} .mc-media-wrap--empty .mc-media { display: block !important; width: 100%;{% if s.image_mode == 'icon' %} height: {{ s.icon_size }}px;{% endif %} }
   {%- endif -%}
+
+  /* ===== Posición vertical del párrafo dentro de la card (arriba / en medio / abajo) =====
+     El párrafo ocupa el espacio libre entre el título y el enlace, y se acomoda ahí. */
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+  }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte { justify-content: center; }
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte { justify-content: flex-end; }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte > *,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte > * { flex: 0 0 auto; }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte > :last-child,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte > :last-child { margin-bottom: 0; }
 
   /* ===== Imagen / ícono de card ===== */
   .section-{{ section.id }} .mc-media-wrap {
@@ -417,6 +449,43 @@
             if txt_align == 'section'
               assign txt_align = card_align
             endif
+
+            # Posición vertical del párrafo: card > sección
+            assign txt_valign = block.settings.text_valign_override | default: 'section'
+            if txt_valign == 'section'
+              assign txt_valign = text_valign_default
+            endif
+
+            # Tamaños de texto: card > sección (0 = no forzar)
+            assign t_size = block.settings.title_size | default: 0
+            if t_size == 0 and s.custom_text_sizes
+              assign t_size = s.card_title_size
+            endif
+            assign p_size = block.settings.text_size | default: 0
+            if p_size == 0 and s.custom_text_sizes
+              assign p_size = s.card_text_size
+            endif
+            assign card_style = ''
+            if t_size > 0
+              assign card_style = card_style | append: '--mc-ts: ' | append: t_size | append: ';'
+            endif
+            if p_size > 0
+              assign card_style = card_style | append: '--mc-ps: ' | append: p_size | append: ';'
+            endif
+
+            # Título sin espacios duros al inicio (evita que se vea desalineado)
+            assign card_title = block.settings.title | strip
+            for i in (1..5)
+              assign head6 = card_title | slice: 0, 6
+              assign head1 = card_title | slice: 0
+              if head6 == '&nbsp;'
+                assign card_title = card_title | remove_first: '&nbsp;' | strip
+              elsif head1 == ' '
+                assign card_title = card_title | remove_first: ' ' | strip
+              else
+                break
+              endif
+            endfor
           -%}
           {%- if block.settings.image == blank
             and block.settings.title == blank
@@ -441,7 +510,12 @@
                 assign card_scheme = block.settings.card_color_scheme
               endif
             -%}
-            <div class="multicolumn-card content-container{% if s.card_background %} mc-card color-{{ card_scheme }}{% endif %}">
+            <div
+              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% endif %}"
+              {% if card_style != '' %}
+                style="{{ card_style }}"
+              {% endif %}
+            >
               {%- if block.settings.image != blank -%}
                 {%- liquid
                   assign number_of_columns = cols_desktop
@@ -517,8 +591,10 @@
                 </div>
               {%- endif -%}
               <div class="multicolumn-card__info">
-                {%- if block.settings.title != blank -%}
-                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}">{{ block.settings.title }}</h3>
+                {%- if card_title != blank -%}
+                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}">{{ card_title }}</h3>
+                {%- elsif reserve_title -%}
+                  <div class="mc-card__title mc-card__title--empty {{ s.card_heading_size | default: 'h3' }}" aria-hidden="true"></div>
                 {%- endif -%}
                 {%- if block.settings.text != blank -%}
                   <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
@@ -591,6 +667,70 @@
     {%- endif -%}
   </div>
 </div>
+
+{%- if align_titles -%}
+  <script>
+    /* Iguala la altura de los títulos de las cards que quedan en la misma fila
+       para que los párrafos empiecen a la misma altura, en cualquier ancho de pantalla. */
+    (function () {
+      var listId = 'Slider-{{ section.id }}';
+      var lastWidth = -1;
+      var raf = 0;
+
+      function equalize() {
+        var list = document.getElementById(listId);
+        if (!list) return;
+        var titles = Array.prototype.slice.call(list.querySelectorAll('.mc-card__title'));
+        titles.forEach(function (t) { t.style.minHeight = ''; });
+
+        var rows = {};
+        titles.forEach(function (t) {
+          var li = t.closest('.grid__item');
+          if (!li) return;
+          var key = String(Math.round(li.offsetTop));
+          (rows[key] = rows[key] || []).push(t);
+        });
+
+        Object.keys(rows).forEach(function (key) {
+          var group = rows[key];
+          if (group.length < 2) return;
+          var max = 0;
+          group.forEach(function (t) { max = Math.max(max, t.getBoundingClientRect().height); });
+          group.forEach(function (t) { t.style.minHeight = Math.ceil(max) + 'px'; });
+        });
+      }
+
+      function schedule() {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(equalize);
+      }
+
+      function init() {
+        var list = document.getElementById(listId);
+        if (!list) return;
+        schedule();
+        if ('ResizeObserver' in window) {
+          new ResizeObserver(function (entries) {
+            var w = Math.round(entries[0].contentRect.width);
+            if (w === lastWidth) return;
+            lastWidth = w;
+            schedule();
+          }).observe(list);
+        } else {
+          window.addEventListener('resize', schedule);
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+        window.addEventListener('load', schedule);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -727,6 +867,18 @@
       "label": "Alineación de los textos",
       "default": "left"
     },
+    {
+      "type": "select",
+      "id": "text_valign",
+      "label": "Posición vertical del párrafo",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "En medio" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "top",
+      "info": "Acomoda el párrafo en el espacio libre de la card. Se nota cuando las cards tienen la misma altura y textos de distinto largo. Funciona con \"Posición del contenido\" en Repartido."
+    },
     { "type": "header", "content": "Estilo de las cards" },
     { "type": "checkbox", "id": "card_background", "label": "Cards con fondo", "default": true },
     { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color de las cards", "default": "scheme-1", "info": "Define fondo, texto y enlaces de las cards. Cada card puede usar uno distinto." },
@@ -789,6 +941,13 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "align_titles",
+      "label": "Alinear párrafos automáticamente",
+      "info": "Iguala la altura de los títulos de cada fila para que los párrafos empiecen a la misma altura, en cualquier tamaño de pantalla.",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "title_lines",
       "min": 0,
@@ -796,9 +955,9 @@
       "step": 1,
       "default": 2,
       "label": "Reservar líneas para el título",
-      "info": "Iguala la altura de los títulos para que los párrafos empiecen a la misma altura. 0 = automático."
+      "info": "Altura mínima de los títulos. Con \"Alinear párrafos automáticamente\" normalmente puedes dejarlo en 0."
     },
-    { "type": "checkbox", "id": "custom_text_sizes", "label": "Tamaños de texto personalizados", "default": false },
+    { "type": "checkbox", "id": "custom_text_sizes", "label": "Tamaños de texto personalizados", "default": false, "info": "Aplica a todas las cards. Cada card puede tener su propio tamaño." },
     { "type": "range", "id": "card_title_size", "min": 16, "max": 64, "step": 2, "unit": "px", "default": 28, "label": "Tamaño del heading" },
     { "type": "range", "id": "card_text_size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15, "label": "Tamaño del párrafo" },
     {
@@ -972,7 +1131,42 @@
           ],
           "default": "body"
         },
-        { "type": "header", "content": "Color de esta card" },
+        { "type": "header", "content": "Tamaño de texto de esta card" },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 0,
+          "max": 64,
+          "step": 2,
+          "unit": "px",
+          "default": 0,
+          "label": "Tamaño del heading",
+          "info": "0 = igual que la sección. En pantallas chicas se reduce solo para que no se desborde."
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 0,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 0,
+          "label": "Tamaño del párrafo",
+          "info": "0 = igual que la sección."
+        },
+        {
+          "type": "select",
+          "id": "text_valign_override",
+          "label": "Posición vertical del párrafo",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "top", "label": "Arriba" },
+            { "value": "center", "label": "En medio" },
+            { "value": "bottom", "label": "Abajo" }
+          ],
+          "default": "section"
+        },
+        { "type": "header", "content": "Imagen y color de esta card" },
         {
           "type": "select",
           "id": "image_fit_override",
