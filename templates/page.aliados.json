@@ -927,6 +927,16 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "custom_liquid_xw7Wcd": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<div id=\"popupAliados\" class=\"modal-aliados\" hidden>\n  <div class=\"caja\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Catálogo exclusivo\">\n    <button class=\"cerrar\" aria-label=\"Cerrar\">×</button>\n\n    <section id=\"pantallaCatalogo\">\n      <h2>Precio exclusivo para ti</h2>\n      <p>Precio de aliado válido para una sola compra por persona.</p>\n      <div id=\"productos\">Aquí va el catálogo (paso siguiente)</div>\n    </section>\n\n    <section id=\"pantallaRegistro\" hidden></section>\n    <section id=\"pantallaPago\" hidden></section>\n  </div>\n</div>\n\n<style>\n  .modal-aliados { position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; z-index:9999; }\n  .modal-aliados[hidden] { display:none; }\n  .modal-aliados .caja { position:relative; background:#fff; color:#111; width:min(960px,94vw); max-height:90vh; overflow:auto; border-radius:12px; padding:24px; }\n  .modal-aliados .cerrar { position:absolute; top:8px; right:12px; background:none; border:0; font-size:28px; cursor:pointer; }\n  body.aliados-abierto { overflow:hidden; }\n  @media (max-width:640px) {\n    .modal-aliados .caja { width:100vw; height:100vh; max-height:none; border-radius:0; }\n  }\n</style>\n\n<script>\n(() => {\n  // Botones que abren la ventana (por su texto). \"Escríbenos por WhatsApp\" NO está: sigue abriendo WhatsApp.\n  const TEXTOS = [\n    'Quiero ser Aliado',\n    'Cómo funciona',\n    'Ver más productos',\n    'Ver más',\n    'Conviértete en un Aliado'\n  ];\n\n  const normal = t => (t || '').normalize('NFD').replace(/[\\u0300-\\u036f]/g, '')\n                               .replace(/\\s+/g, ' ').trim().toLowerCase();\n  const LISTA = TEXTOS.map(normal);\n\n  const el = id => document.getElementById(id);\n  const popup = el('popupAliados');\n  const pantallas = ['pantallaCatalogo', 'pantallaRegistro', 'pantallaPago'];\n  const irA = p => pantallas.forEach(x => el(x).hidden = x !== p);\n\n  function abrir() {\n    popup.hidden = false;\n    document.body.classList.add('aliados-abierto');\n    irA('pantallaCatalogo');\n  }\n  function cerrar() {\n    popup.hidden = true;\n    document.body.classList.remove('aliados-abierto');\n    if (location.hash === '#catalogo') history.replaceState(null, '', location.pathname + location.search); // conserva ?ref=\n  }\n\n  function esCTA(b) {\n    if (!b || popup.contains(b)) return false;\n    if (b.matches('a[href*=\"wa.me\"], a[href*=\"whatsapp\"]')) return false; // nunca interceptar WhatsApp\n    if (b.matches('.cta, a[href*=\"#catalogo\"]')) return true;\n    return LISTA.includes(normal(b.textContent));\n  }\n\n  // \"true\" = se atiende antes que el tema, para que no siga el enlace original\n  document.addEventListener('click', e => {\n    const b = e.target.closest('a, button, [role=\"button\"]');\n    if (esCTA(b)) { e.preventDefault(); e.stopPropagation(); abrir(); return; }\n    if (e.target.closest('.modal-aliados .cerrar') || e.target === popup) cerrar();\n  }, true);\n\n  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !popup.hidden) cerrar(); });\n\n  if (location.hash === '#catalogo') abrir();   // liga directa: /pages/aliados#catalogo\n  window.aliados = { abrir, cerrar, irA };\n})();\n</script>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -940,6 +950,7 @@
     "multicolumn",
     "reviews_4eGYH6",
     "ticker_q7YzML",
-    "comparison_table_CjRhQt"
+    "comparison_table_CjRhQt",
+    "custom_liquid_xw7Wcd"
   ]
 }
