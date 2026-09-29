@@ -1,11 +1,3 @@
-{% comment %}
-  Custom article nav — back / next control between blog articles.
-  Styles: assets/section-tdm-article-nav.css.
-{% endcomment %}
-
-{{ 'section-tdm-article-nav.css' | asset_url | stylesheet_tag }}
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
-
 {%- assign current_raw = canonical_url | default: request.path | default: '' -%}
 {%- assign current_path = current_raw | split: '?' | first | remove: shop.url | remove_last: '/' -%}
 
@@ -50,7 +42,7 @@
   {%- assign next_url = first_other_url -%}
 {%- endif -%}
 
-<section class="tdm-article-nav section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+<section class="section-{{ section.id }}-padding color-scheme-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
     <nav class="anav" aria-label="Article navigation">
       <a class="anav__btn anav__btn--back" href="{{ back_url }}">
@@ -63,6 +55,14 @@
     </nav>
   </div>
 </section>
+
+{% style %}
+  .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}
+  .anav{display:grid;grid-template-columns:1fr 1fr;border:1px solid currentColor;border-radius:12px;overflow:hidden}
+  .anav__btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.2rem;text-decoration:none;color:inherit}
+  .anav__btn--back{border-right:1px solid currentColor}
+  @media (max-width:480px){.anav{grid-template-columns:1fr 1fr}}
+{% endstyle %}
 
 {% schema %}
 {

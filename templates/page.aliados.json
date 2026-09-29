@@ -8,6 +8,7 @@
  * ------------------------------------------------------------
  */
 {
+  "layout": "aliados",
   "sections": {
     "hero_slider_Q8CAkg": {
       "type": "hero-slider",
@@ -137,7 +138,7 @@
       }
     },
     "multicolumn_sept2026_AwmWPk": {
-      "type": "tdm-card-grid",
+      "type": "multicolumn-sept2026",
       "blocks": {
         "column_wwFQtn": {
           "type": "column",
@@ -270,7 +271,7 @@
       }
     },
     "multicolumn_sept2026_cQktdB": {
-      "type": "tdm-card-grid",
+      "type": "multicolumn-sept2026",
       "blocks": {
         "column_RNVrBL": {
           "type": "column",

@@ -228,7 +228,7 @@
       }
     },
     "multicolumn_feature_Ddw7mA": {
-      "type": "tdm-feature",
+      "type": "multicolumn-feature",
       "blocks": {
         "column_DTtNfg": {
           "type": "column",
@@ -280,7 +280,6 @@
       ],
       "name": "Multicolumn — Feature",
       "settings": {
-        "layout": "stats",
         "pretitle": "",
         "rule_color": "#d8e35b",
         "show_rule": false,
@@ -291,12 +290,10 @@
         "heading_size": "h1",
         "columns_desktop": 2,
         "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "color_scheme": "scheme-5",
         "padding_top": 80,
-        "padding_bottom": 80,
-        "show_dividers": true,
-        "divider_color": "#d8e35b",
-        "column_min_height": 60
+        "padding_bottom": 80
       }
     },
     "ticker_Yh88L3": {

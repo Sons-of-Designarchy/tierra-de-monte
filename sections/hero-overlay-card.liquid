@@ -4,8 +4,6 @@
   - Class-only CSS (no IDs) so it’s safe inside the section file
 {% endcomment %}
 
-{{ 'section-tdm-hero.css' | asset_url | stylesheet_tag }}
-
 {% liquid
   assign sec = section.settings
   assign img = sec.image
@@ -22,7 +20,7 @@
         --tdm-card-pad: {{ sec.card_padding | default: 24 }}px;
         --tdm-card-opacity: {{ sec.card_bg_opacity | divided_by: 100.0 }};
         --tdm-min-h-desktop: {{ sec.min_height_desktop | default: 100 }}vh;
-        --tdm-min-h-mobile-n: {{ sec.min_height_mobile | default: 55 }};
+        --tdm-min-h-mobile: {{ sec.min_height_mobile | default: 55 }}vh;
         {% if img != blank %}background-image:url({{ img | image_url: width: 2880 }});{% endif %}
       "
     >
@@ -60,6 +58,125 @@
       </div>
     </div>
   </div>
+
+  <style>
+            /* ===== Base: container + frame (class-scoped only) ===== */
+            .tdm-hero .page-width{
+              max-width: var(--page-width, 120rem);
+              margin-inline: auto;
+            }
+            .tdm-hero .tdm-hero__frame{
+              position: relative;
+              width: 100%;
+              min-height: var(--tdm-min-h-desktop);
+              border-radius: var(--tdm-radius);
+              overflow: hidden;
+              background-color: var(--color-base-background-1, #f6f4ef);
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+              z-index: 1; /* sit above any stray scheme layer */
+            }
+            @media (max-width: 749px){
+              .tdm-hero .tdm-hero__frame{ min-height: var(--tdm-min-h-mobile); }
+            }
+
+            /* Placeholder */
+            .tdm-hero .tdm-hero__placeholder{
+              position:absolute; inset:0;
+              display:flex; align-items:center; justify-content:center;
+              background: rgba(var(--color-foreground), 0.04);
+            }
+
+            /* ===== Overlay card positions (desktop/tablet presets) ===== */
+            @media (min-width: 750px){
+              .tdm-hero .tdm-hero__card{ position:absolute; inset:auto auto 2rem 2rem; max-width:var(--tdm-card-max); }
+              .tdm-hero .tdm-hero__card--top-left{ inset:2rem auto auto 2rem; }
+              .tdm-hero .tdm-hero__card--top-right{ inset:2rem 2rem auto auto; }
+              .tdm-hero .tdm-hero__card--bottom-right{ inset:auto 2rem 2rem auto; }
+              .tdm-hero .tdm-hero__card--center-left{ top:50%; left:2rem; transform:translateY(-50%); }
+              .tdm-hero .tdm-hero__card--center-right{ top:50%; right:2rem; left:auto; transform:translateY(-50%); }
+            }
+
+            /* ===== Card look ===== */
+            .tdm-hero .tdm-hero__card-inner{
+              background: rgba(250, 250, 250, var(--tdm-card-opacity));
+              -webkit-backdrop-filter: blur(6px);
+              backdrop-filter: blur(6px);
+              border-radius: 12px;
+              padding: var(--tdm-card-pad);
+              color: {% if section.settings.text_on_dark %}rgb(var(--color-foreground)){% else %}#ffffff{% endif %} !important;
+            }
+            .tdm-hero .tdm-hero__card--shadow .tdm-hero__card-inner{ box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+            .tdm-hero .tdm-hero__card-inner--glass{ background: rgba(255,255,255, var(--tdm-card-opacity)); }
+            .tdm-hero .tdm-hero__card-inner--invert{ color: rgb(var(--color-foreground)) !important; }
+
+            /* Type (force inherit so Dawn doesn’t recolor) */
+            .tdm-hero .tdm-hero__heading,
+            .tdm-hero .tdm-hero__body,
+            .tdm-hero .tdm-hero__eyebrow{ color: inherit !important; }
+            .tdm-hero .tdm-hero__card-inner a:not(.button){
+              color: inherit !important; text-decoration: underline;
+            }
+
+            /* Type sizes + spacing */
+            .tdm-hero .tdm-hero__eyebrow{ margin:0 0 .25rem; letter-spacing:.04em; opacity:.85; }
+            .tdm-hero .tdm-hero__heading{ margin:0 0 .5rem; line-height:1.1; }
+            .tdm-hero .tdm-hero__heading--xl{ font-size: clamp(28px, 4vw, 52px); font-weight: 500; }
+            .tdm-hero .tdm-hero__heading--lg{ font-size: clamp(26px, 3.2vw, 44px); }
+            .tdm-hero .tdm-hero__body{ margin:0 0 1rem; }
+            .tdm-hero .tdm-hero__btn{ margin-top:.25rem; }
+            .tdm-hero .tdm-hero__btn--pill{ border-radius: 999px; }
+
+            /* ===== Neutralize Dawn’s color-scheme/gradient just inside this hero ===== */
+            .tdm-hero,
+            .tdm-hero [class^="color-"],
+            .tdm-hero [class*=" color-"],
+            .tdm-hero [class*="gradient"]{ background: transparent !important; }
+            .tdm-hero .gradient::before,
+            .tdm-hero .section::before{ content:none !important; display:none !important; }
+
+          /* ===== MOBILE (≤ 749.98px): improved bottom layout with 8px gap ===== */
+    @media (max-width: 749.98px){
+      /* Maintain consistent hero height */
+      .tdm-hero .tdm-hero__frame{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* push card to bottom */
+        align-items: center;
+        min-height: var(--tdm-min-h-mobile, 55vh);
+        padding: 0 8px max(8px, env(safe-area-inset-bottom)); /* side + bottom space */
+        box-sizing: border-box;
+      }
+      @supports (height: 100svh){
+        .tdm-hero .tdm-hero__frame{ min-height: 55svh; }
+      }
+      @supports (height: 100dvh){
+        .tdm-hero .tdm-hero__frame{ min-height: 55dvh; }
+      }
+
+      /* Card: natural flow, full width with nice gutters */
+      .tdm-hero .tdm-hero__card{
+        position: relative !important;
+        inset: auto !important;
+        transform: none !important;
+        width: 100%;
+        max-width: var(--tdm-card-max, 560px);
+        margin: 0 auto; /* center horizontally */
+        z-index: 2;
+      }
+
+      /* Inner card adjustments: tighter padding + reliable blur */
+      .tdm-hero .tdm-hero__card-inner{
+        padding: clamp(14px, 4vw, var(--tdm-card-pad, 24px));
+        background: rgba(255,255,255, var(--tdm-card-opacity, .7));
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        background-clip: padding-box;
+        isolation: isolate;
+      }
+    }
+  </style>
 </section>
 
 {% schema %}

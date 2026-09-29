@@ -40,7 +40,7 @@
       }
     },
     "multicol_custom_feature_Vd6Rq7": {
-      "type": "tdm-feature",
+      "type": "multicol-custom-feature",
       "blocks": {
         "column_AAWaCA": {
           "type": "column",
@@ -95,7 +95,6 @@
       ],
       "name": "Multicolumn — custom box",
       "settings": {
-        "layout": "cards",
         "pretitle": "Lo que nos hace diferentes:",
         "rule_color": "#294e3f",
         "show_rule": true,
@@ -106,10 +105,14 @@
         "heading_size": "h2",
         "columns_desktop": 3,
         "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "divider_color": "#1a1a1a",
         "color_scheme": "",
+        "use_custom_col_height": true,
+        "col_height_vh_desktop": 40,
+        "col_height_vh_mobile": 30,
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_dividers": false
+        "padding_bottom": 36
       }
     },
     "image_with_text_YqAQVK": {
@@ -240,7 +243,7 @@
       }
     },
     "multicol_row_list_tUFHeJ": {
-      "type": "tdm-feature",
+      "type": "multicol-row-list",
       "blocks": {
         "row_BcFUXr": {
           "type": "row",
@@ -302,7 +305,6 @@
       ],
       "name": "Multicolumn — Row list",
       "settings": {
-        "layout": "rows",
         "pretitle": "Vacantes",
         "rule_color": "#294e3f",
         "show_rule": true,
@@ -314,170 +316,152 @@
         "row_title_size": 24,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "padding_top": 80,
-        "padding_bottom": 80,
-        "show_dividers": false
+        "padding_bottom": 80
       }
     },
     "1760564647858fff0c": {
       "type": "_blocks",
       "blocks": {
-        "team_grid_PfRyEB": {
-          "type": "team-grid",
-          "blocks": {
-            "team_member_01": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Adriana_Luna_Diaz_-_CEO_y_Co-Fundadora.jpg",
-                "name": "Adriana Luna Díaz",
-                "role": "CEO y Co-Fundadora"
-              }
-            },
-            "team_member_02": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Antonio_Quinones_-_Tecnico_de_Campo.jpg",
-                "name": "Antonio Quiñones",
-                "role": "Técnico de Campo"
-              }
-            },
-            "team_member_03": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Axel_Garcia_-_Compras_y_Logistica.jpg",
-                "name": "Axel García",
-                "role": "Compras y Logística"
-              }
-            },
-            "team_member_04": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Beatriz_Santiago_-_Auxiliar_Administrativo.jpg",
-                "name": "Beatriz Santiago",
-                "role": "Auxiliar Administrativo"
-              }
-            },
-            "team_member_05": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Carlos_Montelongo_-_Tecnico_de_Campo.jpg",
-                "name": "Carlos Montelongo",
-                "role": "Técnico de Campo"
-              }
-            },
-            "team_member_06": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Christian_Martinez_Rodriguez_es_Auxiliar_de_Produccion.jpg",
-                "name": "Christian Martínez Rodríguez",
-                "role": "Auxiliar de Producción"
-              }
-            },
-            "team_member_07": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Diana_Farias_-_Asistente_de_Direccion.jpg",
-                "name": "Diana Farías",
-                "role": "Asistente de Dirección"
-              }
-            },
-            "team_member_08": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Etienne_Rajchenberg_-_CTO_y_Co-Fundador.jpg",
-                "name": "Etienne Rajchenberg",
-                "role": "CTO y Co-Fundador"
-              }
-            },
-            "team_member_09": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Karime.png",
-                "name": "Karime Jiménez",
-                "role": "Staff Manager"
-              }
-            },
-            "team_member_10": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Ingrid_Ortiz_-_Coordinadora_de_Comunicacion.jpg",
-                "name": "Ingrid Ortiz",
-                "role": "Coordinadora de Comunicación"
-              }
-            },
-            "team_member_11": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Maria_Sarabia_-_Especialista_de_Impacto_Jr..jpg",
-                "name": "María Sarabia",
-                "role": "Especialista de Impacto Jr."
-              }
-            },
-            "team_member_12": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Miguel_Ramirez_-_Coordinador_de_Laboratorio.jpg",
-                "name": "Miguel Ramírez",
-                "role": "Coordinador de Laboratorio"
-              }
-            },
-            "team_member_13": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Julia-Garcia---Coordinadora-Administrativa.png",
-                "name": "Julia García",
-                "role": "Coordinadora Administrativa"
-              }
-            },
-            "team_member_14": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Sofia_Vazquez_Hernandez.jpg",
-                "name": "Sofia Vazquez Hernandez",
-                "role": "Auxiliar contable"
-              }
-            },
-            "team_member_15": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Maria_Guadalupe_Gonzalez_Garcia.jpg",
-                "name": "María Guadalupe Gonzalez García",
-                "role": "Auxiliar de limpieza"
-              }
-            }
-          },
-          "block_order": [
-            "team_member_01",
-            "team_member_02",
-            "team_member_03",
-            "team_member_04",
-            "team_member_05",
-            "team_member_06",
-            "team_member_07",
-            "team_member_08",
-            "team_member_09",
-            "team_member_10",
-            "team_member_11",
-            "team_member_12",
-            "team_member_13",
-            "team_member_14",
-            "team_member_15"
-          ],
+        "ai_gen_block_8f6d7f6_PfRyEB": {
+          "type": "ai_gen_block_8f6d7f6",
           "settings": {
             "pretitle": "Conoce a nuestro equipo",
-            "show_rule": true,
             "rule_color": "#294e3f",
-            "columns_desktop": 5,
-            "columns_mobile": "2",
-            "gap": 10,
+            "show_rule": true,
+            "max_width": 1200,
+            "background_color": "#faf4ec",
+            "heading_color": "#1f4d37",
+            "heading_size": 36,
+            "card_background": "#faf4ec",
+            "border_color": "#1f4d37",
+            "card_padding": 10,
+            "card_gap": 10,
             "text_alignment": "left",
-            "color_scheme": "scheme-1",
-            "padding_top": 80,
-            "padding_bottom": 20
-          }
+            "name_color": "#1f4d37",
+            "name_size": 20,
+            "role_color": "#1f4d37",
+            "role_size": 14,
+            "member_1_image": "shopify://shop_images/Adriana_Luna_Diaz_-_CEO_y_Co-Fundadora.jpg",
+            "member_1_name": "Adriana Luna Díaz",
+            "member_1_role": "CEO y Co-Fundadora",
+            "member_2_name": "",
+            "member_2_role": "",
+            "member_3_image": "shopify://shop_images/Antonio_Quinones_-_Tecnico_de_Campo.jpg",
+            "member_3_name": "Antonio Quiñones",
+            "member_3_role": "Técnico de Campo",
+            "member_4_image": "shopify://shop_images/Axel_Garcia_-_Compras_y_Logistica.jpg",
+            "member_4_name": "Axel García",
+            "member_4_role": "Compras y Logística",
+            "member_5_image": "shopify://shop_images/Beatriz_Santiago_-_Auxiliar_Administrativo.jpg",
+            "member_5_name": "Beatriz Santiago",
+            "member_5_role": "Auxiliar Administrativo",
+            "member_6_image": "shopify://shop_images/Carlos_Montelongo_-_Tecnico_de_Campo.jpg",
+            "member_6_name": "Carlos Montelongo",
+            "member_6_role": "Técnico de Campo",
+            "member_7_image": "shopify://shop_images/Christian_Martinez_Rodriguez_es_Auxiliar_de_Produccion.jpg",
+            "member_7_name": "Christian Martínez Rodríguez",
+            "member_7_role": "Auxiliar de Producción",
+            "member_8_image": "shopify://shop_images/Diana_Farias_-_Asistente_de_Direccion.jpg",
+            "member_8_name": "Diana Farías",
+            "member_8_role": "Asistente de Dirección",
+            "member_9_name": "",
+            "member_9_role": "",
+            "member_10_image": "shopify://shop_images/Etienne_Rajchenberg_-_CTO_y_Co-Fundador.jpg",
+            "member_10_name": "Etienne Rajchenberg",
+            "member_10_role": "CTO y Co-Fundador",
+            "member_11_image": "shopify://shop_images/Karime.png",
+            "member_11_name": "Karime Jiménez",
+            "member_11_role": "Staff Manager",
+            "member_12_name": "",
+            "member_12_role": "",
+            "member_13_image": "shopify://shop_images/Ingrid_Ortiz_-_Coordinadora_de_Comunicacion.jpg",
+            "member_13_name": "Ingrid Ortiz",
+            "member_13_role": "Coordinadora de Comunicación",
+            "member_14_image": "shopify://shop_images/Maria_Sarabia_-_Especialista_de_Impacto_Jr..jpg",
+            "member_14_name": "María Sarabia",
+            "member_14_role": "Especialista de Impacto Jr.",
+            "member_15_image": "shopify://shop_images/Miguel_Ramirez_-_Coordinador_de_Laboratorio.jpg",
+            "member_15_name": "Miguel Ramírez",
+            "member_15_role": "Coordinador de Laboratorio",
+            "member_16_image": "shopify://shop_images/Julia-Garcia---Coordinadora-Administrativa.png",
+            "member_16_name": "Julia García",
+            "member_16_role": "Coordinadora Administrativa",
+            "member_17_image": "shopify://shop_images/Sofia_Vazquez_Hernandez.jpg",
+            "member_17_name": "Sofia Vazquez Hernandez",
+            "member_17_role": "Auxiliar contable",
+            "member_18_image": "shopify://shop_images/Maria_Guadalupe_Gonzalez_Garcia.jpg",
+            "member_18_name": "María Guadalupe Gonzalez García",
+            "member_18_role": "Auxiliar de limpieza",
+            "member_19_name": "",
+            "member_19_role": "",
+            "member_20_name": "",
+            "member_20_role": "",
+            "member_21_name": "",
+            "member_21_role": "",
+            "member_22_name": "",
+            "member_22_role": "",
+            "member_23_name": "",
+            "member_23_role": "",
+            "member_24_name": "",
+            "member_24_role": "",
+            "member_25_name": "",
+            "member_25_role": "",
+            "member_26_name": "",
+            "member_26_role": "",
+            "member_27_name": "",
+            "member_27_role": "",
+            "member_28_name": "",
+            "member_28_role": "",
+            "member_29_name": "",
+            "member_29_role": "",
+            "member_30_name": "",
+            "member_30_role": "",
+            "member_31_name": "",
+            "member_31_role": "",
+            "member_32_name": "",
+            "member_32_role": "",
+            "member_33_name": "",
+            "member_33_role": "",
+            "member_34_name": "",
+            "member_34_role": "",
+            "member_35_name": "",
+            "member_35_role": "",
+            "member_36_name": "",
+            "member_36_role": "",
+            "member_37_name": "",
+            "member_37_role": "",
+            "member_38_name": "",
+            "member_38_role": "",
+            "member_39_name": "",
+            "member_39_role": "",
+            "member_40_name": "",
+            "member_40_role": "",
+            "member_41_name": "",
+            "member_41_role": "",
+            "member_42_name": "",
+            "member_42_role": "",
+            "member_43_name": "",
+            "member_43_role": "",
+            "member_44_name": "",
+            "member_44_role": "",
+            "member_45_name": "",
+            "member_45_role": "",
+            "member_46_name": "",
+            "member_46_role": "",
+            "member_47_name": "",
+            "member_47_role": "",
+            "member_48_name": "",
+            "member_48_role": "",
+            "member_49_name": "",
+            "member_49_role": "",
+            "member_50_name": "",
+            "member_50_role": ""
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "team_grid_PfRyEB"
+        "ai_gen_block_8f6d7f6_PfRyEB"
       ],
       "settings": {}
     }

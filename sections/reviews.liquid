@@ -1,18 +1,168 @@
-{{ 'section-tdm-reviews.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'tdm-reviews.js' | asset_url }}" defer="defer"></script>
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
-  assign root_classes = 'tdm-reviews'
-  if section.settings.show_dividers
-    assign root_classes = root_classes | append: ' tdm-reviews--dividers'
-  endif
--%}
+{%- style -%}
+  /* ===== Section spacing ===== */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
 
-<section
-  class="{{ root_classes }}"
-  style="--tdm-radius: {{ section.settings.radius }}px; --reviews-gap: {{ section.settings.gap }}px; --avatar-size: {{ section.settings.avatar_size }}px; --tdm-divider-color: {{ section.settings.divider_color | default: '#000000' }};"
->
+  /* Section inherits page bg; card uses scheme */
+  #shopify-section-{{ section.id }} { background: none; }
+
+  /* ===== Card container ===== */
+  #shopify-section-{{ section.id }} .reviews__card {
+    width: 100%;
+    background: rgb(var(--color-background));
+    border-radius: {{ section.settings.radius }}px;
+    padding: clamp(20px, 4vw, 36px);
+    overflow: hidden;
+  }
+
+  /* ===== Title ===== */
+  #shopify-section-{{ section.id }} .reviews__title {
+    text-align: center;
+    margin: 0 0 20px;
+  }
+
+  /* ===== Centered carousel with side peeks ===== */
+  #shopify-section-{{ section.id }} .reviews__viewport {
+    --gap: {{ section.settings.gap }}px;
+    --peek: clamp(24px, 12vw, 220px); /* visible on each side */
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .reviews__track {
+    display: flex;
+    gap: var(--gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: calc(var(--peek) + var(--gap));
+    padding-inline: calc(var(--peek) + var(--gap));
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    list-style: none;       /* ensure no list bullets */
+    padding-left: 0;        /* kill UA default left padding */
+  }
+  #shopify-section-{{ section.id }} .reviews__track::-webkit-scrollbar { display: none; }
+
+  /* Each slide takes full width minus the peeks */
+  #shopify-section-{{ section.id }} .review {
+    box-sizing: border-box;
+    flex: 0 0 calc(100% - (var(--peek) * 2));
+    max-width: calc(100% - (var(--peek) * 2));
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: transform .25s ease, opacity .25s ease;
+    opacity: .35;
+    transform: scale(.98);
+    cursor: pointer;
+    position: relative;    /* for any inner positioning, no pseudo dots */
+  }
+
+  /* Remove the green dot pseudo-element (and any quote pseudo) safely */
+  #shopify-section-{{ section.id }} .review::before,
+  #shopify-section-{{ section.id }} .review__quote::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .review:hover { opacity: .55; }
+  #shopify-section-{{ section.id }} .review.is-active {
+    opacity: 1;
+    transform: scale(1);
+    cursor: default;
+  }
+
+  /* Inner layout */
+  #shopify-section-{{ section.id }} .review__inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding-inline: 8px;
+  }
+  #shopify-section-{{ section.id }} .review__avatar {
+    width: {{ section.settings.avatar_size }}px;
+    height: {{ section.settings.avatar_size }}px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .review__quote {
+    font-family: var(--font-heading-family);
+    line-height: 1.25;
+    font-size: clamp(18px, 2.1vw, 30px);
+  }
+  #shopify-section-{{ section.id }} .review__author {
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-size: 14px;
+    opacity: .9;
+  }
+  #shopify-section-{{ section.id }} .review__company {
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: .75;
+  }
+
+  /* Optional subtle dividers on very wide screens */
+  @media (min-width: 1200px) {
+    {% if section.settings.show_dividers %}
+    #shopify-section-{{ section.id }} .review:not(.is-active) {
+      border-left: 2px solid {{ section.settings.divider_color }};
+    }
+    {% endif %}
+  }
+
+  /* ===== Nav buttons (desktop) ===== */
+  #shopify-section-{{ section.id }} .reviews__nav { display: none; }
+  @media (min-width: 990px) {
+    #shopify-section-{{ section.id }} .reviews__nav {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    #shopify-section-{{ section.id }} .reviews__btn {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    #shopify-section-{{ section.id }} .reviews__btn svg { width: 28px; height: 28px; opacity: .6; }
+    #shopify-section-{{ section.id }} .reviews__btn:hover svg { opacity: 1; }
+    #shopify-section-{{ section.id }} .reviews__btn--prev { justify-content: flex-start; padding-left: 10px; }
+    #shopify-section-{{ section.id }} .reviews__btn--next { justify-content: flex-end;   padding-right: 10px; }
+  }
+
+  /* Keyboard focus visibility for a11y */
+  #shopify-section-{{ section.id }} .reviews__btn:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  #shopify-section-{{ section.id }} .review:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+{%- endstyle -%}
+
+<section class="reviews">
   <div class="section-{{ section.id }}-padding isolate">
     <div class="reviews__card color-{{ section.settings.color_scheme }} gradient">
       {% if section.settings.title != blank %}
@@ -21,8 +171,8 @@
         </h2>
       {% endif %}
 
-      <tdm-reviews class="reviews__viewport">
-        <ul class="reviews__track" role="list" aria-live="polite">
+      <div class="reviews__viewport" id="rvp-{{ section.id }}">
+        <ul class="reviews__track" id="track-{{ section.id }}" role="list" aria-live="polite">
           {%- for block in section.blocks -%}
             <li
               class="review"
@@ -67,10 +217,100 @@
             </svg>
           </button>
         </div>
-      </tdm-reviews>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  (() => {
+    const root = document.getElementById('rvp-{{ section.id }}');
+    const track = document.getElementById('track-{{ section.id }}');
+    if (!root || !track) return;
+
+    const slides = Array.from(track.querySelectorAll('.review'));
+    if (!slides.length) return;
+
+    // Respect reduced motion
+    const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+    const center = (i) => {
+      const el = slides[clamp(i, 0, slides.length - 1)];
+      if (!el) return;
+      el.scrollIntoView({ behavior: smooth, inline: 'center', block: 'nearest' });
+    };
+
+    const setActive = () => {
+      const vw = track.getBoundingClientRect();
+      const centerX = vw.left + vw.width / 2;
+      let bestIdx = 0,
+        bestDist = Infinity;
+      slides.forEach((s, i) => {
+        const r = s.getBoundingClientRect();
+        const mid = r.left + r.width / 2;
+        const d = Math.abs(mid - centerX);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      });
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === bestIdx));
+      return bestIdx;
+    };
+
+    // Initial selection after layout paint
+    let active;
+    requestAnimationFrame(() => {
+      active = setActive();
+    });
+
+    const onScroll = () => {
+      active = setActive();
+    };
+    track.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    // Click & keyboard navigation
+    slides.forEach((s, i) => s.addEventListener('click', () => center(i)));
+    slides.forEach((s, i) =>
+      s.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          center(i);
+        }
+      })
+    );
+
+    const prevBtn = root.querySelector('.reviews__btn--prev');
+    const nextBtn = root.querySelector('.reviews__btn--next');
+
+    // Hide nav when only one slide
+    if (slides.length <= 1 && root.querySelector('.reviews__nav')) {
+      root.querySelector('.reviews__nav').style.display = 'none';
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => center(clamp((active ?? 0) - 1, 0, slides.length - 1)));
+    if (nextBtn) nextBtn.addEventListener('click', () => center(clamp((active ?? 0) + 1, 0, slides.length - 1)));
+
+    // Keyboard arrows for the viewport
+    root.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          center(clamp((active ?? 0) - 1, 0, slides.length - 1));
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          center(clamp((active ?? 0) + 1, 0, slides.length - 1));
+        }
+      },
+      true
+    );
+  })();
+</script>
 
 {% schema %}
 {

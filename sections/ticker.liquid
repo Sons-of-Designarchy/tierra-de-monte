@@ -1,63 +1,150 @@
-{{ 'section-tdm-ticker.css' | asset_url | stylesheet_tag }}
+<section id="ticker-{{ section.id }}" class="tdm-ticker">
+  {% liquid
+    assign base_speed = section.settings.speed | default: 36
+    assign speed = base_speed
+    if section.settings.font_variant == 'mono'
+      assign speed = base_speed | plus: 8
+    endif
+  %}
+  <style>
+        /* ===== Container ===== */
+        #ticker-{{ section.id }}{
+          --gap: 2.2rem;
+          --speed: {{ speed }}s;                 /* slower, esp. in mono */
+          --h: {{ section.settings.height | default: 100 }}px;
+          --fs: {{ section.settings.font_size | default: 22 }}px;
+          --icon-h: {{ section.settings.icon_height | default: 32 }}px;
+          --text-color: {{ section.settings.text_color | default: '#F3EFCF' }};
+          position: relative;
+          min-height: var(--h);
+          overflow: hidden;
+          isolation: isolate;
+          background: {{ section.settings.bg_color | default: 'transparent' }};
+          border-top: {% if section.settings.show_top_border %}1px solid var(--text-color){% else %}none{% endif %};
+          border-bottom: {% if section.settings.show_bottom_border %}1px solid var(--text-color){% else %}none{% endif %};
+        }
 
-{%- liquid
-  assign base_speed = section.settings.speed | default: 36
-  assign speed = base_speed
-  if section.settings.font_variant == 'mono'
-    assign speed = base_speed | plus: 8
-  endif
+        /* Background image */
+        #ticker-{{ section.id }} .ticker-img{
+          position:absolute; inset:0;
+          width:100%; height:100%;
+          object-fit:cover; object-position:center;
+          z-index:1;
+          display:block;
+        }
 
-  assign track_class = 'typo-secondary'
-  if section.settings.font_variant == 'mono'
-    assign track_class = 'tdm-mono'
-  elsif section.settings.typography_variant == 'primary'
-    assign track_class = 'typo-primary'
-  endif
+        /* Ticker layer */
+        #ticker-{{ section.id }} .ticker{
+          position:absolute; inset:0;
+          display:flex; align-items:center; justify-content:center;
+          padding:0; border:0; background:transparent;
+          z-index:2;
+        }
 
-  assign root_classes = 'tdm-ticker'
-  if section.settings.show_top_border
-    assign root_classes = root_classes | append: ' tdm-ticker--border-top'
-  endif
-  if section.settings.show_bottom_border
-    assign root_classes = root_classes | append: ' tdm-ticker--border-bottom'
-  endif
-  if section.settings.text_transform == 'title'
-    assign root_classes = root_classes | append: ' tdm-ticker--transform-title'
-  elsif section.settings.text_transform == 'none'
-    assign root_classes = root_classes | append: ' tdm-ticker--transform-none'
-  endif
--%}
+        /* Typography */
+        #ticker-{{ section.id }} .typo-primary,
+        #ticker-{{ section.id }} .typo-secondary{
+          line-height:1;
+          white-space:nowrap;
+          color: var(--text-color);
+          font-size: var(--fs);
+          text-transform:
+            {% if section.settings.text_transform == 'none' %}none
+            {% elsif section.settings.text_transform == 'title' %}capitalize
+            {% else %}uppercase
+            {% endif %};
+        }
 
-<section
-  class="{{ root_classes }}"
-  style="--ticker-speed: {{ speed }}s; --ticker-h: {{ section.settings.height | default: 100 }}px; --ticker-fs: {{ section.settings.font_size | default: 22 }}px; --ticker-icon-h: {{ section.settings.icon_height | default: 32 }}px; --ticker-ink: {{ section.settings.text_color | default: '#F3EFCF' }}; --ticker-bg: {{ section.settings.bg_color | default: 'transparent' }};"
->
+        #ticker-{{ section.id }} .typo-primary{
+          font-family: var(--font-heading-family);
+          font-weight: lighter;
+          letter-spacing: -0.5rem; /* tighter for heading style */
+
+        }
+
+        #ticker-{{ section.id }} .typo-secondary{
+          font-family: var(--font-body-family);
+          font-weight: 400;
+          letter-spacing: .08em;
+        }
+
+        /* Monospace toggle */
+        {% if section.settings.font_variant == 'mono' %}
+      #ticker-{{ section.id }}{
+        /* pull from your global theme tokens */
+        --ticker-mono-family: var(--font-mono-family);
+        --ticker-mono-style:  var(--font-mono-style);
+        --ticker-mono-weight: var(--font-mono-weight);
+        --ticker-mono-scale:  var(--font-mono-scale, 1);
+      }
+
+      #ticker-{{ section.id }} .typo-primary,
+      #ticker-{{ section.id }} .typo-secondary{
+        font-family: var(--ticker-mono-family) !important;
+        font-style:  var(--ticker-mono-style) !important;
+        font-weight: var(--ticker-mono-weight) !important;
+
+        /* respect mono scale */
+        font-size: calc(var(--fs) * var(--ticker-mono-scale));
+
+        /* mono-friendly spacing */
+        letter-spacing: 0.06em;
+
+        font-synthesis: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    {% endif %}
+
+
+        /* Seamless marquee */
+        #ticker-{{ section.id }} .marquee{ width:100%; overflow:hidden; }
+        #ticker-{{ section.id }} .track{
+          display:inline-flex; align-items:center; gap:var(--gap);
+          will-change:transform;
+          animation: ticker-{{ section.id }} var(--speed) linear infinite;
+        }
+        #ticker-{{ section.id }} .chunk{
+          display:inline-flex; align-items:center; gap:var(--gap);
+        }
+        #ticker-{{ section.id }} .item{ display:inline-flex; align-items:center; gap:2rem }
+        #ticker-{{ section.id }} .icon{
+          height:var(--icon-h);
+          width:auto;
+          max-height:55px;
+          object-fit:contain;
+          flex:0 0 auto;
+        }
+
+        @keyframes ticker-{{ section.id }}{
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+  </style>
+
   {% if section.settings.bg_image != blank %}
     <img
-      class="tdm-ticker__img"
+      class="ticker-img"
       src="{{ section.settings.bg_image | image_url: width: 2880 }}"
       alt=""
-      width="{{ section.settings.bg_image.width }}"
-      height="{{ section.settings.bg_image.height }}"
       loading="lazy"
       aria-hidden="true"
     >
   {% endif %}
 
-  <div class="tdm-ticker__layer">
+  <div class="ticker">
     {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
-    <div class="tdm-ticker__marquee">
-      <div class="tdm-ticker__track {{ track_class }}">
-        <span class="tdm-ticker__chunk">
+    <div class="marquee">
+      <div class="track {% if section.settings.typography_variant == 'primary' %}typo-primary{% else %}typo-secondary{% endif %}">
+        <span class="chunk">
           {% for i in (1..10) %}
-            <span class="tdm-ticker__item">
+            <span class="item">
               {% if section.settings.icon != blank %}
                 <img
                   alt=""
-                  class="tdm-ticker__icon"
+                  class="icon"
                   src="{{ section.settings.icon | image_url }}"
-                  width="{{ section.settings.icon.width }}"
-                  height="{{ section.settings.icon.height }}"
+                  height="{{ section.settings.icon_height | default: 32 }}"
                   loading="lazy"
                 >
               {% endif %}
@@ -65,16 +152,15 @@
             </span>
           {% endfor %}
         </span>
-        <span class="tdm-ticker__chunk" aria-hidden="true">
+        <span class="chunk" aria-hidden="true">
           {% for i in (1..10) %}
-            <span class="tdm-ticker__item">
+            <span class="item">
               {% if section.settings.icon != blank %}
                 <img
                   alt=""
-                  class="tdm-ticker__icon"
+                  class="icon"
                   src="{{ section.settings.icon | image_url }}"
-                  width="{{ section.settings.icon.width }}"
-                  height="{{ section.settings.icon.height }}"
+                  height="{{ section.settings.icon_height | default: 32 }}"
                   loading="lazy"
                 >
               {% endif %}
