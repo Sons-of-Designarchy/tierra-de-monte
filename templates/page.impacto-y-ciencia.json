@@ -68,7 +68,7 @@
       }
     },
     "multicol_custom_feature_tBt498": {
-      "type": "multicol-custom-feature",
+      "type": "tdm-feature",
       "blocks": {
         "column_ykPz9y": {
           "type": "column",
@@ -123,6 +123,7 @@
       ],
       "name": "Multicolumn — custom box",
       "settings": {
+        "layout": "cards",
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
         "rule_color": "#294e3f",
         "show_rule": true,
@@ -133,14 +134,10 @@
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "divider_color": "#1a1a1a",
         "color_scheme": "",
-        "use_custom_col_height": true,
-        "col_height_vh_desktop": 33,
-        "col_height_vh_mobile": 33,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "show_dividers": false
       }
     },
     "multicolumn_7dgeDY": {
@@ -342,7 +339,7 @@
       }
     },
     "multicolumn_feature_pmP3rR": {
-      "type": "multicolumn-feature",
+      "type": "tdm-feature",
       "blocks": {
         "column_YgPceV": {
           "type": "column",
@@ -394,6 +391,7 @@
       ],
       "name": "Multicolumn — Feature",
       "settings": {
+        "layout": "stats",
         "pretitle": "Metodología",
         "rule_color": "#294e3f",
         "show_rule": true,
@@ -404,10 +402,12 @@
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "swipe_on_mobile": false,
         "color_scheme": "",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "show_dividers": true,
+        "divider_color": "#294e3f",
+        "column_min_height": 60
       }
     },
     "rich_text_with_logo_MbzGeT": {

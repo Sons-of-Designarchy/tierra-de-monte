@@ -1,0 +1,130 @@
+/* =============================================================================
+   Logo bar section (sections/logo-bar.liquid)
+   A card of partner/ally logos in a responsive grid, with an optional title.
+   Per-instance values arrive as custom properties on .tdm-logo-bar:
+     --tdm-radius --logo-bar-gap --logo-h --cols-mobile --cols-desktop
+   Grayscale is a modifier class (.tdm-logo-bar--grayscale).
+   ========================================================================== */
+
+.tdm-logo-bar {
+  background: none;
+}
+
+.tdm-logo-bar .logo-bar__card {
+  border-radius: var(--tdm-radius, 16px);
+  padding: 32px;
+  background-color: rgb(var(--color-background));
+  box-shadow: var(--tdm-shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---- Header ---------------------------------------------------------------- */
+.tdm-logo-bar .logo-bar__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--tdm-space-6);
+}
+
+.tdm-logo-bar .logo-bar__title {
+  text-align: center;
+  margin: 0;
+}
+
+/* Font style options */
+.tdm-logo-bar .logo-bar__title--heading {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+}
+
+.tdm-logo-bar .logo-bar__title--body {
+  font-family: var(--font-body-family);
+  font-weight: 400;
+}
+
+.tdm-logo-bar .logo-bar__title--mono {
+  font-family: var(--font-mono-family);
+  font-style: var(--font-mono-style);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Rule under heading */
+.tdm-logo-bar .logo-bar__rule {
+  width: 64px;
+  height: 3px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+/* ---- Grid ------------------------------------------------------------------ */
+.tdm-logo-bar .logo-bar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--logo-bar-gap, 24px);
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 749px) {
+  .tdm-logo-bar .logo-bar__list {
+    grid-template-columns: repeat(var(--cols-mobile), 1fr);
+  }
+}
+
+@media (min-width: 750px) {
+  .tdm-logo-bar .logo-bar__list {
+    grid-template-columns: repeat(var(--cols-desktop), 1fr);
+  }
+}
+
+/* ---- Items ------------------------------------------------------------------ */
+.tdm-logo-bar .logo-bar__item {
+  text-align: center;
+  width: 100%;
+}
+
+.tdm-logo-bar .logo-bar__box {
+  height: var(--logo-h, 56px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Images ------------------------------------------------------------------ */
+.tdm-logo-bar .logo-bar__img {
+  display: block;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity var(--tdm-duration) var(--tdm-ease), transform var(--tdm-duration) var(--tdm-ease);
+}
+
+.tdm-logo-bar .logo-bar__item:hover .logo-bar__img {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.tdm-logo-bar--grayscale .logo-bar__img {
+  filter: grayscale(100%);
+}
+
+.tdm-logo-bar--grayscale .logo-bar__item:hover .logo-bar__img {
+  filter: none;
+}

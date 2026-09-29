@@ -1,0 +1,61 @@
+{%- comment -%}
+  Product extras — safety sheet / datasheet buttons, benefits, ingredients.
+  Rendered from the custom_liquid block in sections/main-product.liquid.
+  Reads product.metafields.custom.{hoja_de_seguridad, ficha_tecnica, beneficio_1..3, ingredientes}
+  Styles: assets/component-tdm-product-extras.css
+
+  {% render 'product-extras', block: block %}
+{%- endcomment -%}
+
+{{ 'component-tdm-product-extras.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign hoja = product.metafields.custom.hoja_de_seguridad
+  assign ficha = product.metafields.custom.ficha_tecnica
+-%}
+
+{%- if hoja != blank or ficha != blank -%}
+  <div class="product-extras__buttons">
+    {%- if hoja != blank -%}
+      <a class="button product-extras__button" href="{{ hoja | file_url }}" target="_blank" rel="noopener">
+        {{ block.settings.label_hoja | default: 'Hoja de seguridad' }}
+      </a>
+    {%- endif -%}
+    {%- if ficha != blank -%}
+      <a class="button product-extras__button" href="{{ ficha | file_url }}" target="_blank" rel="noopener">
+        {{ block.settings.label_ficha | default: 'Ficha técnica' }}
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{%- capture benefits -%}
+  {%- for i in (1..3) -%}
+    {%- assign key = 'beneficio_' | append: i -%}
+    {%- assign val = product.metafields.custom[key] -%}
+    {%- if val != blank -%}
+      {% render 'product-extras-item', icon: i, text: val %}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if benefits != blank -%}
+  <div class="product-extras__list">{{ benefits }}</div>
+{%- endif -%}
+
+{%- if product.metafields.custom.ingredientes != blank -%}
+  {%- assign items = product.metafields.custom.ingredientes | metafield_tag | split: '<li>' -%}
+  <div class="product-extras__group">
+    <h2 class="h4 product-extras__heading">
+      {{ block.settings.heading_ingredientes | default: 'Ingredientes:' }}
+    </h2>
+    <div class="product-extras__list">
+      {%- for item in items offset: 1 -%}
+        {%- assign cleaned = item | split: '</li>' | first | strip_html | strip -%}
+        {%- unless cleaned == '' or cleaned contains '{' -%}
+          {% render 'product-extras-item', icon: 4, text: cleaned %}
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

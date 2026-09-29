@@ -1,0 +1,47 @@
+{%- comment -%}
+  Team member — one card inside blocks/team-grid.liquid.
+{%- endcomment -%}
+
+<div class="tdm-team__card" {{ block.shopify_attributes }}>
+  <div class="tdm-team__media">
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          widths: '200, 300, 400, 500, 800',
+          sizes: '(min-width: 990px) calc((100vw - 100px) / 5), (min-width: 750px) calc((100vw - 100px) / 5), calc((100vw - 30px) / 2)',
+          alt: block.settings.name
+      }}
+    {%- else -%}
+      <div class="tdm-team__placeholder">
+        {{ 'image' | placeholder_svg_tag }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if block.settings.name != blank or block.settings.role != blank -%}
+    <div class="tdm-team__info">
+      {%- if block.settings.name != blank -%}
+        <h3 class="tdm-team__name">{{ block.settings.name | escape }}</h3>
+      {%- endif -%}
+      {%- if block.settings.role != blank -%}
+        <p class="tdm-team__role tdm-mono tdm-upper">{{ block.settings.role | escape }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Team member",
+  "tag": null,
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "name", "label": "Name", "default": "Nombre Apellido" },
+    { "type": "text", "id": "role", "label": "Role", "default": "Puesto" }
+  ],
+  "presets": [{ "name": "Team member" }]
+}
+{% endschema %}

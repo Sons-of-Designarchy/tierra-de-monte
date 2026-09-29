@@ -68,7 +68,7 @@
       }
     },
     "multicol_custom_feature_Ep8zpe": {
-      "type": "multicol-custom-feature",
+      "type": "tdm-feature",
       "blocks": {
         "column_fy3VtW": {
           "type": "column",
@@ -123,6 +123,7 @@
       ],
       "name": "Multicolumn — custom box",
       "settings": {
+        "layout": "cards",
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
         "rule_color": "#294E3F",
         "show_rule": true,
@@ -133,15 +134,14 @@
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "divider_color": "#1a1a1a",
         "color_scheme": "",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "show_dividers": false
       }
     },
     "multicolumn_feature_mCEQmN": {
-      "type": "multicolumn-feature",
+      "type": "tdm-feature",
       "blocks": {
         "column_9Jk7Km": {
           "type": "column",
@@ -208,6 +208,7 @@
       ],
       "name": "Multicolumn — Feature",
       "settings": {
+        "layout": "stats",
         "pretitle": "Compromiso con ODS",
         "rule_color": "#294E3F",
         "show_rule": true,
@@ -218,11 +219,12 @@
         "heading_size": "h1",
         "columns_desktop": 4,
         "columns_mobile": "1",
-        "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "scheme-2",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "show_dividers": true,
+        "column_min_height": 60
       }
     },
     "ticker_TrU9VH": {
@@ -345,7 +347,7 @@
       }
     },
     "multicolumn_feature_AVBr6L": {
-      "type": "multicolumn-feature",
+      "type": "tdm-feature",
       "blocks": {
         "column_kgaP8r": {
           "type": "column",
@@ -397,6 +399,7 @@
       ],
       "name": "Multicolumn — Feature",
       "settings": {
+        "layout": "stats",
         "pretitle": "Metodología",
         "rule_color": "#294E3F",
         "show_rule": true,
@@ -407,11 +410,12 @@
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "swipe_on_mobile": false,
         "divider_color": "#1a1a1a",
         "color_scheme": "",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "show_dividers": true,
+        "column_min_height": 60
       }
     },
     "rich_text_with_logo_pxVFif": {

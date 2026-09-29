@@ -1,0 +1,596 @@
+/* =============================================================================
+   Comparison table (sections/comparison-table.liquid)
+   All per-instance/setting values arrive as custom properties on the root
+   .tdm-comparison-table element (which is also .ct-section):
+     --ct-align --ct-rule-color --ct-rule-ml --ct-table-bg --ct-table-fg
+     --ct-accent --ct-radius --ct-hl-radius --ct-pad --ct-pad-mobile
+     --ct-border-opacity --ct-min-w --ct-image-size --ct-image-size-mobile
+     --ct-cell-align --ct-feature-weight --ct-mobile-feat-w --ct-mobile-col-w
+     --ct-mobile-hl-w --ct-mobile-table-w --ct-btn-bg/-fg/-hover-bg/-hover-fg
+     --ct-cta-bg/-fg/-hover-bg/-hover-fg --ct-btn-radius --ct-btn-uppercase --ct-cta-align
+   and, per column 1-6 when that column exists: --ct-hl-bg-N --ct-hl-fg-N
+   --ct-hl-accent-N, plus --ct-btn-bg-N etc. when that column has a custom CTA
+   scheme. Each <col> in the colgroup carries its own --ct-col-w.
+   Boolean settings are root modifier classes: ct-vborders, ct-feature-tint,
+   ct-striped, ct-sticky-feature, ct-theme-btn, ct-full-btns, ct-check-accent.
+   ========================================================================== */
+
+.tdm-comparison-table .ct-intro {
+  text-align: var(--ct-align);
+  margin-bottom: 2.4rem;
+}
+
+.tdm-comparison-table .ct-intro > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Eyebrow ----
+   Uses the same classes as the Multicolumn section (.mc-eyebrow / .mc-eyebrow__rule)
+   to inherit the theme's styling. Fallback values use :where() (0 specificity)
+   so the theme's own CSS always wins when it defines these. */
+:where(.tdm-comparison-table .ct-eyebrow) {
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+:where(.tdm-comparison-table .ct-eyebrow .mc-eyebrow__rule) {
+  width: 4.8rem;
+  height: 1px;
+  margin-top: 0.8rem;
+}
+
+.tdm-comparison-table .ct-eyebrow {
+  text-align: var(--ct-align);
+}
+
+.tdm-comparison-table .ct-eyebrow .mc-eyebrow__rule {
+  background-color: var(--ct-rule-color);
+  margin-left: var(--ct-rule-ml);
+  margin-right: auto;
+}
+
+/* ---- Table container (table colour scheme) --------------------------------- */
+.tdm-comparison-table .ct-wrapper {
+  background-color: var(--ct-table-bg);
+  color: var(--ct-table-fg);
+  border-radius: var(--ct-radius);
+  padding: 0 var(--ct-pad);
+  position: relative; /* contains the screen-reader text and stops the page scrolling horizontally */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  --ct-border: color-mix(in srgb, var(--ct-table-fg) var(--ct-border-opacity), transparent);
+  --ct-soft: color-mix(in srgb, var(--ct-table-fg) 5%, transparent);
+}
+
+.tdm-comparison-table .ct-block,
+.tdm-comparison-table .ct-block *,
+.tdm-comparison-table .ct-cta a.ct-btn {
+  box-sizing: border-box;
+}
+
+.tdm-comparison-table .ct-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: var(--ct-min-w);
+  color: inherit;
+  table-layout: fixed;
+  margin: 0;
+  border: 0;
+}
+
+.tdm-comparison-table .ct-table col {
+  width: var(--ct-col-w);
+}
+
+.tdm-comparison-table .ct-table th,
+.tdm-comparison-table .ct-table td {
+  padding: 1.6rem 1.4rem;
+  border: 0;
+  border-bottom: 1px solid var(--ct-border);
+  vertical-align: middle;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+.tdm-comparison-table .ct-table tr.ct-last > * {
+  border-bottom: 0;
+}
+
+.tdm-comparison-table.ct-vborders .ct-table th + th,
+.tdm-comparison-table.ct-vborders .ct-table td + td,
+.tdm-comparison-table.ct-vborders .ct-table th + td {
+  border-left: 1px solid var(--ct-border);
+}
+
+/* ---- Column headers ---------------------------------------------------------- */
+.tdm-comparison-table .ct-table th.ct-header {
+  text-align: center;
+  vertical-align: top;
+  padding-top: 2.4rem;
+  padding-bottom: 2rem;
+}
+
+.tdm-comparison-table .ct-header__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tdm-comparison-table .ct-header__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+}
+
+.tdm-comparison-table a.ct-header__title:hover {
+  text-decoration: underline;
+}
+
+.tdm-comparison-table .ct-header__subtitle {
+  font-size: 1.3rem;
+  opacity: 0.75;
+  font-weight: 400;
+}
+
+.tdm-comparison-table .ct-header__image {
+  width: 100%;
+  max-width: var(--ct-image-size);
+  height: auto;
+  object-fit: contain;
+}
+
+.tdm-comparison-table .ct-header__price {
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.tdm-comparison-table .ct-header__price strong {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.tdm-comparison-table .ct-header__note {
+  display: block;
+  font-size: 1.15rem;
+  opacity: 0.75;
+  font-weight: 400;
+  margin-top: 0.2rem;
+}
+
+.tdm-comparison-table .ct-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.tdm-comparison-table .ct-badge {
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--tdm-radius-pill);
+  border: 1px solid currentColor;
+}
+
+/* ---- Feature column ---------------------------------------------------------- */
+.tdm-comparison-table .ct-feature {
+  text-align: left;
+  font-weight: var(--ct-feature-weight);
+}
+
+.tdm-comparison-table.ct-feature-tint .ct-feature {
+  background-color: var(--ct-soft);
+}
+
+.tdm-comparison-table .ct-feature p {
+  margin: 0;
+}
+
+.tdm-comparison-table .ct-feature > * + * {
+  margin-top: 0.4rem;
+}
+
+.tdm-comparison-table .ct-feature small {
+  display: block;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 0.3rem;
+}
+
+/* ---- Cells -------------------------------------------------------------------- */
+.tdm-comparison-table .ct-cell {
+  text-align: var(--ct-cell-align);
+}
+
+.tdm-comparison-table .ct-cell p {
+  margin: 0;
+}
+
+.tdm-comparison-table .ct-cell > * + * {
+  margin-top: 0.4rem;
+}
+
+.tdm-comparison-table .ct-check {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  vertical-align: middle;
+  color: currentColor;
+}
+
+.tdm-comparison-table.ct-check-accent .ct-check {
+  color: var(--ct-accent);
+}
+
+.tdm-comparison-table.ct-check-accent .ct-hl .ct-check {
+  color: var(--ct-hl-accent, var(--ct-accent));
+}
+
+.tdm-comparison-table .ct-dash {
+  display: inline-block;
+  width: 1.4rem;
+  height: 1px;
+  vertical-align: middle;
+  background-color: currentColor;
+  opacity: 0.35;
+  border-radius: 1px;
+}
+
+.tdm-comparison-table.ct-striped .ct-table tbody tr:nth-child(even) > *:not(.ct-hl) {
+  background-color: var(--ct-soft);
+}
+
+/* ---- Highlighted column (per-column scheme) ----------------------------------
+   --ct-hl-bg-1..6 / --ct-hl-fg-1..6 / --ct-hl-accent-1..6 are set on the root
+   element per column; these rules just map the positional variable onto the
+   semantic one that .ct-hl reads. */
+.tdm-comparison-table .ct-c1 { --ct-hl-bg: var(--ct-hl-bg-1); --ct-hl-fg: var(--ct-hl-fg-1); --ct-hl-accent: var(--ct-hl-accent-1); }
+.tdm-comparison-table .ct-c2 { --ct-hl-bg: var(--ct-hl-bg-2); --ct-hl-fg: var(--ct-hl-fg-2); --ct-hl-accent: var(--ct-hl-accent-2); }
+.tdm-comparison-table .ct-c3 { --ct-hl-bg: var(--ct-hl-bg-3); --ct-hl-fg: var(--ct-hl-fg-3); --ct-hl-accent: var(--ct-hl-accent-3); }
+.tdm-comparison-table .ct-c4 { --ct-hl-bg: var(--ct-hl-bg-4); --ct-hl-fg: var(--ct-hl-fg-4); --ct-hl-accent: var(--ct-hl-accent-4); }
+.tdm-comparison-table .ct-c5 { --ct-hl-bg: var(--ct-hl-bg-5); --ct-hl-fg: var(--ct-hl-fg-5); --ct-hl-accent: var(--ct-hl-accent-5); }
+.tdm-comparison-table .ct-c6 { --ct-hl-bg: var(--ct-hl-bg-6); --ct-hl-fg: var(--ct-hl-fg-6); --ct-hl-accent: var(--ct-hl-accent-6); }
+
+.tdm-comparison-table .ct-hl {
+  background-color: var(--ct-hl-bg);
+  color: var(--ct-hl-fg);
+  --ct-border: color-mix(in srgb, var(--ct-hl-fg) var(--ct-border-opacity), transparent);
+}
+
+.tdm-comparison-table thead .ct-hl {
+  border-top-left-radius: var(--ct-hl-radius);
+  border-top-right-radius: var(--ct-hl-radius);
+}
+
+.tdm-comparison-table tr.ct-last .ct-hl {
+  border-bottom-left-radius: var(--ct-hl-radius);
+  border-bottom-right-radius: var(--ct-hl-radius);
+}
+
+/* The highlighted column at either edge bleeds into the table's side padding,
+   so its colour reaches the edge (with or without buttons, rows or images) */
+.tdm-comparison-table .ct-table tr > .ct-hl:last-child {
+  box-shadow: var(--ct-pad) 0 0 0 var(--ct-hl-bg);
+}
+
+/* If the highlighted column is last, its right corners follow the table radius */
+.tdm-comparison-table thead tr > .ct-hl:last-child {
+  border-top-right-radius: 0;
+}
+
+.tdm-comparison-table tr.ct-last > .ct-hl:last-child {
+  border-bottom-right-radius: 0;
+}
+
+/* ---- Column buttons: independent scheme (section level) ----------------------
+   --ct-btn-bg/-fg/-hover-bg/-hover-fg are already set on the root element and
+   inherit into every a.ct-btn; these rules only apply per-column overrides. */
+.tdm-comparison-table a.ct-btn.ct-btn-c1 { --ct-btn-bg: var(--ct-btn-bg-1, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-1, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-1, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-1, var(--ct-btn-hover-fg)); }
+.tdm-comparison-table a.ct-btn.ct-btn-c2 { --ct-btn-bg: var(--ct-btn-bg-2, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-2, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-2, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-2, var(--ct-btn-hover-fg)); }
+.tdm-comparison-table a.ct-btn.ct-btn-c3 { --ct-btn-bg: var(--ct-btn-bg-3, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-3, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-3, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-3, var(--ct-btn-hover-fg)); }
+.tdm-comparison-table a.ct-btn.ct-btn-c4 { --ct-btn-bg: var(--ct-btn-bg-4, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-4, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-4, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-4, var(--ct-btn-hover-fg)); }
+.tdm-comparison-table a.ct-btn.ct-btn-c5 { --ct-btn-bg: var(--ct-btn-bg-5, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-5, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-5, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-5, var(--ct-btn-hover-fg)); }
+.tdm-comparison-table a.ct-btn.ct-btn-c6 { --ct-btn-bg: var(--ct-btn-bg-6, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-6, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-6, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-6, var(--ct-btn-hover-fg)); }
+
+/* ---- Scroll affordance (all screens, only when the table doesn't fit) -------- */
+.tdm-comparison-table .ct-scroll {
+  position: relative;
+}
+
+.tdm-comparison-table .ct-scroll::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3.2rem;
+  pointer-events: none;
+  border-radius: 0 var(--ct-radius) var(--ct-radius) 0;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--ct-table-fg) 18%, transparent));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tdm-comparison-table .ct-scroll.is-scrollable:not(.is-end)::after {
+  opacity: 1;
+}
+
+.tdm-comparison-table .ct-scroll-hint {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  opacity: 0.75;
+}
+
+.tdm-comparison-table .ct-scroll-hint svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.tdm-comparison-table .ct-block.is-scrollable .ct-scroll-hint {
+  display: flex;
+}
+
+/* ---- Mobile -------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .tdm-comparison-table .ct-intro {
+    margin-bottom: 1.6rem;
+  }
+
+  .tdm-comparison-table .ct-wrapper {
+    --ct-pad: var(--ct-pad-mobile);
+  }
+
+  /* Legible fixed widths: feature column + plans */
+  .tdm-comparison-table .ct-table {
+    width: max(100%, var(--ct-mobile-table-w));
+    min-width: 0;
+  }
+
+  .tdm-comparison-table .ct-table col.ct-col-feature {
+    width: var(--ct-mobile-feat-w);
+  }
+
+  .tdm-comparison-table .ct-table col.ct-col-plan {
+    width: var(--ct-mobile-col-w);
+  }
+
+  .tdm-comparison-table .ct-table col.ct-col-plan.ct-col-hl {
+    width: var(--ct-mobile-hl-w);
+  }
+
+  /* Compact type and spacing */
+  .tdm-comparison-table .ct-table th,
+  .tdm-comparison-table .ct-table td {
+    padding: 1.2rem 0.8rem;
+    font-size: 1.3rem;
+    line-height: 1.35;
+  }
+
+  .tdm-comparison-table .ct-table th.ct-feature {
+    padding-left: 0.4rem;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .tdm-comparison-table .ct-feature small {
+    font-size: 1.1rem;
+  }
+
+  .tdm-comparison-table .ct-cell {
+    overflow-wrap: anywhere;
+  }
+
+  .tdm-comparison-table .ct-table th.ct-header {
+    padding-top: 1.6rem;
+    padding-bottom: 1.4rem;
+  }
+
+  .tdm-comparison-table .ct-header__inner {
+    gap: 0.6rem;
+  }
+
+  .tdm-comparison-table .ct-header__image {
+    max-width: var(--ct-image-size-mobile);
+  }
+
+  .tdm-comparison-table .ct-header__title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .tdm-comparison-table .ct-header__subtitle {
+    font-size: 1.15rem;
+  }
+
+  .tdm-comparison-table .ct-header__price {
+    font-size: 1.15rem;
+    line-height: 1.3;
+  }
+
+  .tdm-comparison-table .ct-header__price strong {
+    font-size: 1.3rem;
+  }
+
+  .tdm-comparison-table .ct-header__note {
+    font-size: 1.05rem;
+  }
+
+  .tdm-comparison-table .ct-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .tdm-comparison-table .ct-badge {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .tdm-comparison-table .ct-check {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  /* Column buttons: fit inside narrow columns */
+  .tdm-comparison-table .ct-table a.ct-btn {
+    min-width: 0;
+    min-height: 4rem;
+    padding: 0.8rem 0.4rem;
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
+  }
+
+  .tdm-comparison-table .ct-foot td,
+  .tdm-comparison-table .ct-foot th {
+    padding-top: 1.6rem;
+    padding-bottom: 2rem;
+  }
+
+  /* General button, full width */
+  .tdm-comparison-table .ct-cta {
+    margin-top: 2.4rem;
+  }
+
+  .tdm-comparison-table .ct-cta a.ct-btn {
+    width: 100%;
+    max-width: 44rem;
+  }
+
+  /* Sticky feature column with a shadow to signal the rest scrolls */
+  .tdm-comparison-table.ct-sticky-feature .ct-table .ct-feature {
+    position: sticky;
+    left: calc(-1 * var(--ct-pad));
+    z-index: 2;
+    background-color: var(--ct-table-bg);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .tdm-comparison-table.ct-sticky-feature.ct-feature-tint .ct-table .ct-feature {
+    background-image: linear-gradient(var(--ct-soft), var(--ct-soft));
+  }
+
+  .tdm-comparison-table.ct-sticky-feature .ct-scroll.is-scrolled .ct-table .ct-feature {
+    box-shadow: 6px 0 8px -6px color-mix(in srgb, var(--ct-table-fg) 35%, transparent);
+  }
+}
+
+/* ---- Buttons (column and section) --------------------------------------------- */
+
+/* Uses the theme's .button class: same height, padding, font, radius, border and
+   shadow as the rest of the site's buttons (Theme settings -> Buttons) */
+.tdm-comparison-table.ct-theme-btn a.ct-btn.button {
+  margin: 0;
+  text-decoration: none;
+}
+
+.tdm-comparison-table.ct-theme-btn .ct-table a.ct-btn.button {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Section-scoped selectors so this wins over the theme's link styles, without !important */
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.4rem;
+  padding: 1rem 2rem;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: var(--ct-btn-uppercase);
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.2;
+  border-radius: var(--ct-btn-radius);
+  border: 1px solid var(--ct-btn-bg);
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--solid,
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--solid:visited {
+  background-color: var(--ct-btn-bg);
+  color: var(--ct-btn-fg);
+  box-shadow: none;
+}
+
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--outline,
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--outline:visited {
+  background-color: transparent;
+  color: var(--ct-btn-bg);
+  box-shadow: none;
+}
+
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--solid:hover {
+  background-color: var(--ct-btn-hover-bg, var(--ct-btn-bg));
+  border-color: var(--ct-btn-hover-bg, var(--ct-btn-bg));
+  color: var(--ct-btn-hover-fg, var(--ct-btn-fg));
+  opacity: 0.9;
+}
+
+.tdm-comparison-table:not(.ct-theme-btn) a.ct-btn--outline:hover {
+  background-color: var(--ct-btn-bg);
+  color: var(--ct-btn-fg);
+}
+
+.tdm-comparison-table .ct-btn[aria-disabled='true'] {
+  pointer-events: none;
+}
+
+.tdm-comparison-table.ct-full-btns .ct-header .ct-btn,
+.tdm-comparison-table.ct-full-btns .ct-foot .ct-btn {
+  width: 100%;
+}
+
+.tdm-comparison-table .ct-foot td,
+.tdm-comparison-table .ct-foot th {
+  text-align: center;
+  vertical-align: top;
+  padding-top: 2.4rem;
+  padding-bottom: 2.8rem;
+}
+
+.tdm-comparison-table .ct-footnote {
+  margin-top: 1.6rem;
+  font-size: 1.2rem;
+  opacity: 0.75;
+  text-align: var(--ct-align);
+}
+
+.tdm-comparison-table .ct-footnote p {
+  margin: 0 0 0.4rem;
+}
+
+/* ---- General button (own scheme) ----------------------------------------------- */
+.tdm-comparison-table .ct-cta {
+  display: flex;
+  justify-content: var(--ct-cta-align);
+  margin-top: 3.2rem;
+}
+
+.tdm-comparison-table .ct-cta a.ct-btn {
+  --ct-btn-bg: var(--ct-cta-bg);
+  --ct-btn-fg: var(--ct-cta-fg);
+  --ct-btn-hover-bg: var(--ct-cta-hover-bg);
+  --ct-btn-hover-fg: var(--ct-cta-hover-fg);
+}

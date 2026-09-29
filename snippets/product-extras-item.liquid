@@ -1,0 +1,10 @@
+{%- comment -%}
+  One icon + text row for product-extras. `icon` is 1–4 (icon-prod-N.svg in Files).
+{%- endcomment -%}
+{%- assign icon_file = 'icon-prod-' | append: icon | append: '.svg' -%}
+<div class="product-extras__item">
+  <span class="product-extras__icon">
+    <img src="{{ icon_file | file_url }}" alt="" width="24" height="24" loading="lazy">
+  </span>
+  <span class="h4 product-extras__text">{{ text }}</span>
+</div>

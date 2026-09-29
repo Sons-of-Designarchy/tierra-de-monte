@@ -1,4 +1,8 @@
-<section id="tabbed-collections-{{ section.id }}" class="page-width">
+{{ 'section-tdm-tabs.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'tdm-tabs.js' | asset_url }}" defer="defer"></script>
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+<section class="tdm-tabs page-width section-{{ section.id }}-padding">
   {% if section.settings.kicker != blank %}
     <p class="caption-with-letter-spacing">{{ section.settings.kicker }}</p>
   {% endif %}
@@ -17,7 +21,7 @@
   {%- endfor -%}
 
   {% if has_any %}
-    <div class="tabs">
+    <tdm-tabs class="tabs">
       <div class="tabs__list" role="tablist">
         {%- assign first_rendered = true -%}
         {%- for i in (1..6) -%}
@@ -47,189 +51,46 @@
           {%- endif -%}
         {%- endfor -%}
       </div>
-    </div>
 
-    <div class="tabs__panels">
-      {%- assign first_panel = true -%}
-      {%- for i in (1..6) -%}
-        {%- capture ckey %}collection_{{ i }}{% endcapture -%}
-        {%- assign c = section.settings[ckey] -%}
-        {%- if c != blank -%}
-          <div
-            id="tc-panel-{{ section.id }}-{{ i }}"
-            class="tabs__panel{% unless first_panel %} is-hidden{% endunless %}"
-            role="tabpanel"
-          >
-            {% liquid
-              assign prod_limit = section.settings.products_limit | plus: 0
-            %}
-            <div class="grid grid--2-col-tablet grid--4-col-desktop">
-              {% for product in c.products limit: prod_limit %}
-                <div class="grid__item">
-                  {% render 'card-product', card_product: product, section_id: section.id, show_excerpt: true %}
-                </div>
-              {% endfor %}
-            </div>
-
-            {% if section.settings.show_view_all and c.url %}
-              <div class="center" style="margin-top:2rem;">
-                <a href="{{ c.url }}" class="button tc__cta">
-                  {{ section.settings.view_all_label | default: 'Ver más productos' }}
-                </a>
+      <div class="tabs__panels">
+        {%- assign first_panel = true -%}
+        {%- for i in (1..6) -%}
+          {%- capture ckey %}collection_{{ i }}{% endcapture -%}
+          {%- assign c = section.settings[ckey] -%}
+          {%- if c != blank -%}
+            <div
+              id="tc-panel-{{ section.id }}-{{ i }}"
+              class="tabs__panel{% unless first_panel %} is-hidden{% endunless %}"
+              role="tabpanel"
+            >
+              {% liquid
+                assign prod_limit = section.settings.products_limit | plus: 0
+              %}
+              <div class="grid grid--2-col-tablet grid--4-col-desktop">
+                {% for product in c.products limit: prod_limit %}
+                  <div class="grid__item">
+                    {% render 'card-product', card_product: product, section_id: section.id, show_excerpt: true %}
+                  </div>
+                {% endfor %}
               </div>
-            {% endif %}
-          </div>
-          {%- assign first_panel = false -%}
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+
+              {% if section.settings.show_view_all and c.url %}
+                <div class="center">
+                  <a href="{{ c.url }}" class="button tc__cta">
+                    {{ section.settings.view_all_label | default: 'Ver más productos' }}
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+            {%- assign first_panel = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </tdm-tabs>
   {% else %}
-    <p style="opacity:.7">Set “Collection 1…6” in the section settings.</p>
+    <p class="tdm-tabs__empty">Set “Collection 1…6” in the section settings.</p>
   {% endif %}
 </section>
-
-<script>
-  document.addEventListener('click', function (e) {
-    var root = document.getElementById('tabbed-collections-{{ section.id }}');
-    if (!root) return;
-
-    var btn = e.target.closest('#tabbed-collections-{{ section.id }} .tabs__tab');
-    if (!btn || !root.contains(btn)) return;
-
-    root.querySelectorAll('.tabs__tab').forEach(function (t) {
-      var active = t === btn;
-      t.classList.toggle('is-active', active);
-      t.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-
-    root.querySelectorAll('.tabs__panel').forEach(function (p) {
-      p.classList.add('is-hidden');
-    });
-
-    var panelId = btn.getAttribute('data-target');
-    if (!panelId) return;
-    var panel = root.querySelector('#' + panelId);
-    if (panel) panel.classList.remove('is-hidden');
-  });
-</script>
-
-<style>
-  #tabbed-collections-{{ section.id }}{
-    --tc-border: rgba(var(--color-foreground), .25);
-    --tc-dot: #2fb673;
-    --tc-gap: 12px;
-    padding-top: 80px;
-    padding-bottom: 80px;
-  }
-  #tabbed-collections-{{ section.id }} .caption-with-letter-spacing,
-  #tabbed-collections-{{ section.id }} .h1,
-  #tabbed-collections-{{ section.id }} .subtitle{
-    text-align:center; margin-left:auto; margin-right:auto;
-  }
-  #tabbed-collections-{{ section.id }} .h1{ margin:.5rem 0 0; }
-  #tabbed-collections-{{ section.id }} .subtitle{ margin:.5rem 0 2.25rem; opacity:.9; }
-
-  #tabbed-collections-{{ section.id }} .tabs__list{
-    display:grid !important;
-    gap:var(--tc-gap);
-    margin:2rem auto 2rem;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    width:auto;
-    justify-content:center;
-  }
-  @media (min-width:750px){
-    #tabbed-collections-{{ section.id }} .tabs__list{ grid-template-columns:repeat(3,minmax(0,1fr)); }
-  }
-  @media (min-width:990px){
-    #tabbed-collections-{{ section.id }} .tabs__list{ grid-template-columns:repeat(6,minmax(0,1fr)); }
-  }
-
-  #tabbed-collections-{{ section.id }} .tabs__tab{
-    width:100%; display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
-    border:1px solid var(--tc-border); border-radius:4px; background:#f7f3ee;
-    padding:.65rem .95rem; line-height:1; cursor:pointer;
-    transition:background .15s ease, border-color .15s ease, box-shadow .15s ease;
-    color: rgba(var(--color-foreground), 1) !important;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #tabbed-collections-{{ section.id }} .tabs__tab:is(:hover,:focus,:focus-visible,:active),
-  #tabbed-collections-{{ section.id }} .tabs__tab[aria-selected="true"]{
-    color: rgba(var(--color-foreground), 1) !important;
-  }
-  #tabbed-collections-{{ section.id }} .tabs__tab:hover{ background:rgba(var(--color-foreground),.05); }
-  #tabbed-collections-{{ section.id }} .tabs__tab.is-active{
-    background:#E4E7C3; color:#1F4D37; font-weight: 500; border: 0!important;
-  }
-  #tabbed-collections-{{ section.id }} .tabs__icon-img{ width:18px; height:18px; object-fit:contain; flex:0 0 auto; }
-  #tabbed-collections-{{ section.id }} .tabs__label{
-    color:inherit !important; text-decoration:none !important; white-space:nowrap; font-size: 12px;
-  }
-  #tabbed-collections-{{ section.id }} .tabs__dot{ width:.9rem; height:.9rem; border-radius:999px; background:var(--tc-dot); }
-
-  #tabbed-collections-{{ section.id }} .tabs__panels{ margin-top:24px; }
-  #tabbed-collections-{{ section.id }} .tabs__panel.is-hidden{ display:none !important; }
-  #tabbed-collections-{{ section.id }} .grid__item{ margin-bottom:1.25rem; }
-  #tabbed-collections-{{ section.id }} .center{ text-align:center; }
-  #tabbed-collections-{{ section.id }} .tc__cta{ border-radius:999px; padding:.6rem 1.1rem; }
-
-  .product-card-wrapper .card{
-    cursor:pointer;
-  }
-
-  @media (max-width: 749.98px){
-    #tabbed-collections-{{ section.id }}{ padding-top:60px; padding-bottom:60px; }
-
-    #tabbed-collections-{{ section.id }} .tabs__list{
-      display:flex !important; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
-      -webkit-overflow-scrolling:touch; gap:10px; padding:0 12px; margin:1rem 0 1.25rem;
-      scroll-snap-type:x proximity;
-      width:100%;
-    }
-    #tabbed-collections-{{ section.id }} .tabs__tab{
-      flex:0 0 auto; white-space:nowrap; min-height:40px; scroll-snap-align:start;
-    }
-    #tabbed-collections-{{ section.id }} .tabs__list::-webkit-scrollbar{ height:0; }
-
-    #tabbed-collections-{{ section.id }} .tabs__panel .grid{
-      display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:24px; row-gap:24px;
-    }
-    #tabbed-collections-{{ section.id }} .tabs__panel .grid__item{
-      width:auto !important; max-width:none !important; margin:0 !important;
-    }
-
-    #tabbed-collections-{{ section.id }} .card__inner.ratio{
-      position:relative !important; aspect-ratio:1/1 !important; overflow:hidden !important;
-    }
-    #tabbed-collections-{{ section.id }} .card__inner.ratio::before{ display:none !important; }
-    #tabbed-collections-{{ section.id }} .card__inner.ratio > .card__media,
-    #tabbed-collections-{{ section.id }} .card__inner.ratio > .card__media > .media{
-      position:absolute !important; inset:0 !important; width:100% !important; height:100% !important;
-      contain:paint; -webkit-backface-visibility:hidden;
-    }
-    #tabbed-collections-{{ section.id }} .card__inner.ratio .media > img{
-      position:absolute !important; inset:0 !important; display:block !important;
-      width:100% !important; height:100% !important; max-width:none !important; max-height:none !important;
-      object-fit:cover !important; object-position:center !important;
-      transform:none !important; -webkit-transform:translateZ(0);
-      backface-visibility:hidden; -webkit-backface-visibility:hidden;
-    }
-    #tabbed-collections-{{ section.id }} .media.media--hover-effect > img{ transform:none !important; }
-  }
-
-  @media (min-width: 990px){
-    #tabbed-collections-{{ section.id }} .tabs__list{
-      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-    }
-    #tabbed-collections-{{ section.id }} .tabs__tab{
-      min-width:0; box-sizing:border-box; overflow:hidden; white-space:normal; text-align:center;
-    }
-    #tabbed-collections-{{ section.id }} .tabs__label{
-      display:block; min-width:0; max-width:100%; white-space:normal !important;
-      overflow-wrap:anywhere; word-break:break-word; line-height:1.15;
-    }
-    #tabbed-collections-{{ section.id }} .tabs__icon-img{ flex:0 0 auto; }
-  }
-</style>
 
 {% schema %}
 {
@@ -282,7 +143,29 @@
       ]
     },
     { "type": "checkbox", "id": "show_view_all", "label": "Show “View more” button", "default": true },
-    { "type": "text", "id": "view_all_label", "label": "Button label", "default": "Ver más productos" }
+    { "type": "text", "id": "view_all_label", "label": "Button label", "default": "Ver más productos" },
+
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
   ],
   "presets": [{ "name": "Tabbed collections" }]
 }

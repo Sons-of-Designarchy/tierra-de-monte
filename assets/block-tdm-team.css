@@ -1,0 +1,72 @@
+/* =============================================================================
+   Team grid (blocks/team-grid.liquid + blocks/team-member.liquid)
+   Per-instance values on .tdm-team: --cols-mobile --cols-desktop --team-gap --tdm-rule
+   ========================================================================== */
+
+.tdm-team__grid {
+  display: grid;
+  gap: var(--team-gap, 10px);
+  grid-template-columns: repeat(var(--cols-mobile, 2), minmax(0, 1fr));
+}
+
+@media (min-width: 750px) {
+  .tdm-team__grid {
+    grid-template-columns: repeat(var(--cols-desktop, 5), minmax(0, 1fr));
+  }
+}
+
+.tdm-team__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tdm-team__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--tdm-radius-lg);
+}
+
+.tdm-team__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.tdm-team__placeholder {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tdm-hover);
+}
+
+.tdm-team__placeholder svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.3;
+}
+
+.tdm-team__info {
+  padding-top: var(--tdm-space-3);
+}
+
+.tdm-team--align-center .tdm-team__info {
+  text-align: center;
+}
+
+.tdm-team__name {
+  margin: 0 0 var(--tdm-space-1);
+  font-family: var(--font-body-family);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.tdm-team__role {
+  margin: 0;
+  font-size: 1.4rem;
+  opacity: 0.8;
+}

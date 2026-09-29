@@ -1,0 +1,395 @@
+{%- comment -%}
+  Feature — lead copy on the left, one of three layouts on the right.
+  Replaces multicolumn-feature (stats), multicol-custom-feature (cards)
+  and multicol-row-list (rows). Styles: assets/section-tdm-feature.css.
+{%- endcomment -%}
+
+{{ 'section-tdm-feature.css' | asset_url | stylesheet_tag }}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign layout = section.settings.layout | default: 'stats'
+  assign cols_desktop = section.settings.columns_desktop | default: 3
+  assign cols_tablet = cols_desktop | at_most: 3
+  assign cols_mobile = section.settings.columns_mobile | default: '1'
+  assign rule_color = section.settings.rule_color | default: 'currentColor'
+  assign divider_color = section.settings.divider_color | default: rule_color
+-%}
+
+<div
+  class="tdm-feature tdm-feature--{{ layout }} color-{{ section.settings.color_scheme }} gradient"
+  style="--tdm-rule: {{ rule_color }}; --tdm-divider: {{ divider_color }}; --cols-mobile: {{ cols_mobile }}; --cols-tablet: {{ cols_tablet }}; --cols-desktop: {{ cols_desktop }}; --column-min-height: {{ section.settings.column_min_height | default: 0 }}vh; --row-title-size: {{ section.settings.row_title_size | default: 20 }}px;"
+>
+  <div
+    class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    {%- if section.settings.pretitle != blank -%}
+      <div class="tdm-eyebrow">
+        {{ section.settings.pretitle }}
+        {%- if section.settings.show_rule -%}
+          <div class="tdm-eyebrow__rule" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="tdm-split">
+      <div class="tdm-lead">
+        {%- if section.settings.title != blank -%}
+          <h2 class="tdm-lead__heading title inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="tdm-lead__text rte">{{ section.settings.description }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <div class="tdm-lead__cta">
+            <a
+              class="button button--primary"
+              {% if section.settings.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link }}"
+              {% endif %}
+            >
+              {{ section.settings.button_label | escape }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if layout == 'rows' -%}
+        <ul class="tdm-feature__rows" role="list">
+          {%- for block in section.blocks -%}
+            <li class="tdm-feature__row tdm-card" {{ block.shopify_attributes }}>
+              <a
+                class="tdm-feature__row-link"
+                {% if block.settings.link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.link }}"
+                {% endif %}
+                style="--icon-size: {{ block.settings.icon_size | default: 40 }}px;"
+              >
+                {%- if block.settings.image != blank -%}
+                  <span class="tdm-feature__icon">
+                    {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy' }}
+                  </span>
+                {%- endif -%}
+
+                <span class="tdm-feature__row-texts">
+                  {%- if block.settings.title != blank -%}
+                    <strong class="tdm-feature__row-title">{{ block.settings.title }}</strong>
+                  {%- endif -%}
+                  {%- if block.settings.text != blank -%}
+                    <span class="tdm-feature__row-desc{% if block.settings.desc_font == 'mono' %} tdm-mono{% else %} tdm-copy{% endif %}">
+                      {{ block.settings.text }}
+                    </span>
+                  {%- endif -%}
+                </span>
+
+                <span class="tdm-feature__row-arrow" aria-hidden="true">
+                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                </span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <ul class="tdm-feature__grid" role="list">
+          {%- for block in section.blocks -%}
+            <li
+              class="tdm-feature__item{% if layout == 'stats' and section.settings.show_dividers %} tdm-feature__item--divided{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              style="--stat-size-m: {{ block.settings.stat_size_mobile | default: 48 }}px; --stat-size-d: {{ block.settings.stat_size_desktop | default: 72 }}px; --icon-size: {{ block.settings.icon_size | default: 40 }}px;{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}"
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+              {% endif %}
+            >
+              <div class="tdm-feature__tile{% if layout == 'cards' %} tdm-card{% endif %}">
+                {%- if layout == 'cards' and block.settings.image != blank -%}
+                  <div class="tdm-feature__icon">
+                    {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy' }}
+                  </div>
+                {%- endif -%}
+
+                <div class="tdm-feature__info">
+                  {%- if block.settings.title != blank -%}
+                    {%- assign stat_font = block.settings.stat_font | default: 'heading' -%}
+                    <h3 class="tdm-stat inline-richtext{% if stat_font == 'mono' %} tdm-mono{% else %} tdm-stat--{{ stat_font }}{% endif %}">
+                      {{ block.settings.title }}
+                    </h3>
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <div class="tdm-feature__text rte{% if block.settings.desc_font == 'mono' %} tdm-mono tdm-upper{% else %} tdm-copy{% endif %}">
+                      {{ block.settings.text }}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.link_label != blank -%}
+                    <a
+                      class="link animate-arrow"
+                      {% if block.settings.link == blank %}
+                        role="link" aria-disabled="true"
+                      {% else %}
+                        href="{{ block.settings.link }}"
+                      {% endif %}
+                    >
+                      {{- block.settings.link_label | escape -}}
+                      <span class="svg-wrapper"
+                        ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                      >
+                    </a>
+                  {%- endif -%}
+                </div>
+
+                {%- if layout == 'stats' and block.settings.image != blank -%}
+                  <div class="tdm-feature__media">
+                    {{
+                      block.settings.image
+                      | image_url: width: 1600
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: '(min-width: 990px) calc((100vw - 116px) * 7 / 12 / 3), (min-width: 750px) calc((100vw - 100px) / 3), calc(100vw - 30px)'
+                    }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "stats", "label": "Stats — numbers with image" },
+        { "value": "cards", "label": "Cards — icon tiles" },
+        { "value": "rows", "label": "Rows — clickable list" }
+      ],
+      "default": "stats"
+    },
+
+    { "type": "header", "content": "Eyebrow" },
+    { "type": "inline_richtext", "id": "pretitle", "label": "Eyebrow" },
+    { "type": "checkbox", "id": "show_rule", "label": "Show rule under eyebrow", "default": true },
+    { "type": "color", "id": "rule_color", "label": "Rule color", "default": "#294E3F" },
+
+    { "type": "header", "content": "Lead" },
+    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Efecto Tierra de monte" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" },
+        { "value": "hxl", "label": "HXL" },
+        { "value": "hxxl", "label": "HXXL" }
+      ],
+      "default": "h1"
+    },
+    { "type": "richtext", "id": "description", "label": "Description" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+
+    { "type": "header", "content": "Columns (stats and cards)" },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1",
+      "label": "Columns on mobile"
+    },
+    { "type": "checkbox", "id": "show_dividers", "label": "Vertical dividers (stats)", "default": true },
+    { "type": "color", "id": "divider_color", "label": "Divider color" },
+    {
+      "type": "range",
+      "id": "column_min_height",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Column min height on desktop (stats)",
+      "default": 60
+    },
+
+    { "type": "header", "content": "Rows" },
+    {
+      "type": "range",
+      "id": "row_title_size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Row title size",
+      "default": 20
+    },
+
+    { "type": "header", "content": "Section" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image (stats) / Icon (cards)" },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size (cards)",
+          "min": 16,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "default": 40
+        },
+        { "type": "inline_richtext", "id": "title", "label": "Heading / Stat", "default": "+230" },
+        {
+          "type": "select",
+          "id": "stat_font",
+          "label": "Heading font",
+          "options": [
+            { "value": "heading", "label": "Theme heading" },
+            { "value": "body", "label": "Theme body (bold)" },
+            { "value": "mono", "label": "Monospace" }
+          ],
+          "default": "heading"
+        },
+        {
+          "type": "range",
+          "id": "stat_size_mobile",
+          "label": "Heading size (mobile)",
+          "min": 8,
+          "max": 108,
+          "step": 1,
+          "unit": "px",
+          "default": 48
+        },
+        {
+          "type": "range",
+          "id": "stat_size_desktop",
+          "label": "Heading size (desktop)",
+          "min": 8,
+          "max": 140,
+          "step": 1,
+          "unit": "px",
+          "default": 72
+        },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Hectáreas regeneradas</p>" },
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Text font",
+          "options": [
+            { "value": "body", "label": "Theme body" },
+            { "value": "mono", "label": "Monospace (uppercase)" }
+          ],
+          "default": "body"
+        },
+        { "type": "text", "id": "link_label", "label": "Link label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Icon" },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "min": 16,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "default": 40
+        },
+        { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Ver más" },
+        { "type": "richtext", "id": "text", "label": "Description" },
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Description font",
+          "options": [
+            { "value": "body", "label": "Theme body" },
+            { "value": "mono", "label": "Monospace" }
+          ],
+          "default": "body"
+        },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature — stats",
+      "settings": { "layout": "stats" },
+      "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }]
+    },
+    {
+      "name": "Feature — cards",
+      "settings": { "layout": "cards" },
+      "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }]
+    },
+    {
+      "name": "Feature — rows",
+      "settings": { "layout": "rows" },
+      "blocks": [{ "type": "row" }, { "type": "row" }, { "type": "row" }]
+    }
+  ]
+}
+{% endschema %}
