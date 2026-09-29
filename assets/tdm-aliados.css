@@ -65,3 +65,33 @@ body .shopify-section-group-footer-aliados-group .footer__content-bottom .page-w
     padding-right: 5rem;
   }
 }
+
+/* 4. Footer certifications image (newsletter block): own row, left-aligned with the logo */
+body .shopify-section-group-footer-aliados-group .footer__content-top .footer-block--newsletter {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  align-items: flex-start; /* Dawn centres it on mobile */
+}
+
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter,
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter {
+  width: auto;
+  justify-content: flex-start;
+  justify-items: start;
+  text-align: left;
+}
+
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter__media {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Newsletter is off in this footer: its empty form wrapper still took the first column
+   and pushed the image right */
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter {
+  display: block !important;
+}
+
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter__form {
+  display: none;
+}

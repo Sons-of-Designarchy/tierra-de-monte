@@ -131,6 +131,19 @@
     border: 0;
   }
 
+  /* Button below the gallery: same alignment as the intro text */
+  .slide-gallery-cta {
+    display: flex;
+    padding-top: 1.6rem;
+  }
+  .slide-gallery-cta.slide-gallery-intro--center { justify-content: center; }
+  .slide-gallery-cta.slide-gallery-intro--right { justify-content: flex-end; }
+  /* Space below the button = the intro's bottom spacing (75% on mobile, like every section) */
+  .section-{{ section.id }}-cta { padding-bottom: {{ section.settings.intro_padding_bottom | times: 0.75 | round: 0 }}px; }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-cta { padding-bottom: {{ section.settings.intro_padding_bottom }}px; }
+  }
+
   #shopify-section-{{ section.id }} .slider-buttons {
     gap: 16px;
     padding: 1.6rem 0;
@@ -209,10 +222,27 @@
   if section.settings.button_label != blank
     assign has_cta = true
   endif
+  assign cta_below = false
+  if has_cta and section.settings.button_position == 'below_gallery'
+    assign cta_below = true
+  endif
 -%}
 
+{%- capture cta -%}
+  <a
+    {% if section.settings.button_link != blank %}
+      href="{{ section.settings.button_link }}"
+    {% else %}
+      role="link" aria-disabled="true"
+    {% endif %}
+    class="button {% if section.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
+  >
+    {{- section.settings.button_label | escape -}}
+  </a>
+{%- endcapture -%}
+
 {%- capture intro -%}
-  {%- if section.settings.eyebrow != blank or section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta -%}
+  {%- if section.settings.eyebrow != blank or section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta and cta_below == false -%}
     <div class="slide-gallery-intro section-{{ section.id }}-intro">
       <div class="slide-gallery-intro__inner page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color -%}
@@ -226,19 +256,8 @@
             {{ section.settings.intro_text }}
           </div>
         {%- endif -%}
-        {%- if has_cta -%}
-          <div class="slide-gallery-intro__buttons">
-            <a
-              {% if section.settings.button_link != blank %}
-                href="{{ section.settings.button_link }}"
-              {% else %}
-                role="link" aria-disabled="true"
-              {% endif %}
-              class="button {% if section.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
-            >
-              {{- section.settings.button_label | escape -}}
-            </a>
-          </div>
+        {%- if has_cta and cta_below == false -%}
+          <div class="slide-gallery-intro__buttons">{{ cta }}</div>
         {%- endif -%}
       </div>
     </div>
@@ -390,6 +409,12 @@
   {%- endif -%}
 </slideshow-component>
 
+{%- if cta_below -%}
+  <div class="slide-gallery-cta section-{{ section.id }}-cta page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {{ cta }}
+  </div>
+{%- endif -%}
+
 {%- if section.settings.intro_position == 'bottom' -%}
   {{ intro }}
 {%- endif -%}
@@ -467,6 +492,16 @@
       "type": "url",
       "id": "button_link",
       "label": "Enlace del botón"
+    },
+    {
+      "type": "select",
+      "id": "button_position",
+      "label": "Posición del botón",
+      "options": [
+        { "value": "with_text", "label": "Con el texto" },
+        { "value": "below_gallery", "label": "Debajo de la galería" }
+      ],
+      "default": "with_text"
     },
     {
       "type": "checkbox",

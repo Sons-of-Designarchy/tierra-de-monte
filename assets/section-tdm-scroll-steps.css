@@ -138,14 +138,16 @@ tdm-scroll-steps {
     overflow: hidden;
   }
 
-  /* Header slides back in on scroll-up (it stays above, z-index 3): push the frame
-     content down by its height so it never covers the title */
-  .tdm-steps__frame {
-    transition: padding-top 0.15s ease-out;
+  /* Header slides back in on scroll-up (it stays above, z-index 3): shift the frame
+     content down by its height so it never covers the title. transform, not padding:
+     it must not change any size, or the pin height (and the page height) would change
+     mid-scroll and make the page jump. */
+  .tdm-steps__grid {
+    transition: transform 0.15s ease-out;
   }
 
-  body:has(.section-header.shopify-section-header-sticky:not(.shopify-section-header-hidden)) .tdm-steps__frame {
-    padding-top: var(--header-height, 0px);
+  body:has(.section-header.shopify-section-header-sticky:not(.shopify-section-header-hidden)) .tdm-steps__grid {
+    transform: translateY(var(--header-height, 0px));
   }
 
   .tdm-steps__grid {

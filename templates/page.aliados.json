@@ -18,10 +18,10 @@
             "alt": "",
             "overlay_color": "#000000",
             "overlay_opacity": 45,
-            "subheading": "Programa de aliados · Tierra de Monte",
+            "subheading": "Programa de Aliados · Tierra de Monte",
             "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla</p>",
             "highlight": "",
-            "text": "<p>Compra a precio de aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
+            "text": "<p>Compra a precio de Aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
             "button_label": "Escríbenos por WhatsApp",
             "button_link": "",
             "button_new_tab": true,
@@ -42,10 +42,10 @@
             "alt": "",
             "overlay_color": "#000000",
             "overlay_opacity": 45,
-            "subheading": "Programa de aliados · Tierra de Monte",
+            "subheading": "Programa de Aliados · Tierra de Monte",
             "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla</p>",
             "highlight": "",
-            "text": "<p>Compra a precio de aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
+            "text": "<p>Compra a precio de Aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
             "button_label": "Escríbenos por WhatsApp",
             "button_link": "",
             "button_new_tab": true,
@@ -75,7 +75,7 @@
         "show_dots": true,
         "color_scheme": "scheme-696296f7-bee5-432a-8d7e-1c97193ea4dc",
         "credit_position": "bottom_left",
-        "aria_label": "Programa de aliados",
+        "aria_label": "Programa de Aliados",
         "anchor_id": "inicio"
       }
     },
@@ -331,7 +331,7 @@
       "settings": {
         "pretitle": "",
         "rule_color": "#003118",
-        "title": "Como Aliado obtienes...",
+        "title": "Como Aliado TDEM obtienes...",
         "heading_size": "h1",
         "title_alignment": "center",
         "intro_paragraph": "<p>Como Aliado Tierra de Monte, tu negocio crece.</p><p>Te damos las herramientas, el conocimiento y el acompañamiento para que puedas ofrecer más valor a tus clientes y construir relaciones comerciales de largo plazo.</p>",
@@ -458,7 +458,8 @@
         "intro_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
         "intro_padding_top": 36,
         "intro_padding_bottom": 36,
-        "button_label": "Ver más",
+        "button_position": "below_gallery",
+        "button_label": "",
         "button_link": "",
         "button_style_secondary": false,
         "cta_position": "bottom",
@@ -470,7 +471,7 @@
         "padding_x_desktop": 50,
         "padding_x_mobile": 15,
         "padding_top": 0,
-        "padding_bottom": 0,
+        "padding_bottom": 36,
         "slide_height": "medium",
         "mobile_ratio": "3_2",
         "slider_visual": "dots",
@@ -812,7 +813,7 @@
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
-        "eyebrow": "Prueba",
+        "eyebrow": "",
         "rule_color": "#003118",
         "desktop_content_position": "center",
         "content_alignment": "center",
@@ -860,7 +861,7 @@
           "settings": {
             "heading": "¿Y si un bimestre no llego al mínimo?",
             "icon": "check_mark",
-            "row_content": "<p>No pasa nada, sigues siendo aliado. Ese bimestre operas con los beneficios del nivel que sí alcanzaste y luego vuelves a subir.</p>",
+            "row_content": "<p>No pasa nada, sigues siendo Aliado. Ese bimestre operas con los beneficios del nivel que sí alcanzaste y luego vuelves a subir.</p>",
             "page": ""
           }
         },
@@ -887,7 +888,7 @@
           "settings": {
             "heading": "¿Tengo que haber usado sus productos antes?",
             "icon": "check_mark",
-            "row_content": "<p>No. Muchos aliados llegan porque ya los probaron en su tierra, y es el mejor camino. Pero si vienes recomendado o ya tienes clientes que confían en ti, también entras.</p>",
+            "row_content": "<p>No. Muchos Aliados llegan porque ya los probaron en su tierra, y es el mejor camino. Pero si vienes recomendado o ya tienes clientes que confían en ti, también entras.</p>",
             "page": ""
           }
         }
@@ -1084,8 +1085,12 @@
           "settings": {
             "number": "",
             "title": "Conocemos tu negocio y te acompañamos",
-            "text": "<p>Una vez que recibamos tu información, la revisamos y uno de nuestros especialistas se pondrá en contacto contigo para concretar tu proceso de registro.</p><p>Completa tu proceso de afiliación.</p>",
-            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg"
+            "text": "<p>Una vez que recibamos tu información, la revisamos y uno de nuestros especialistas se pondrá en contacto contigo para concretar tu proceso de registro.</p>",
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
+            "button_label": "Completa tu proceso de afiliación",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "primary"
           }
         },
         "step_3": {
