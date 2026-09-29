@@ -1,0 +1,1235 @@
+{{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+
+  # Filas visibles: 0 = todas las cards; si no, columnas x filas
+  assign cols_desktop = s.columns_desktop | default: 3
+  assign rows = s.rows | default: 0
+  if rows > 0
+    assign visible = cols_desktop | times: rows | at_most: section.blocks.size
+  else
+    assign visible = section.blocks.size
+  endif
+
+  # Columnas efectivas: si hay menos cards que columnas, el grid usa el número de cards
+  if s.auto_fit_columns and visible > 0 and visible < cols_desktop
+    assign cols_desktop = visible
+  endif
+  assign cols_tablet = s.columns_tablet | default: 2 | at_most: cols_desktop
+
+  # ¿Alguna card visible tiene imagen / título? (para reservar el espacio en las que no)
+  assign any_image = false
+  assign any_title = false
+  for b in section.blocks limit: visible
+    if b.settings.image != blank
+      assign any_image = true
+    endif
+    if b.settings.title != blank
+      assign any_title = true
+    endif
+  endfor
+  assign unify = s.unify_layout
+  assign align_titles = s.align_titles
+  assign reserve_title = false
+  if unify or align_titles
+    assign reserve_title = any_title
+  endif
+
+  # Posición vertical del párrafo (sección)
+  assign text_valign_default = s.text_valign | default: 'top'
+
+  # Posición del grid
+  case s.grid_justify
+    when 'center'
+      assign grid_justify = 'center'
+    when 'right'
+      assign grid_justify = 'flex-end'
+    else
+      assign grid_justify = 'flex-start'
+  endcase
+  assign grid_align = s.grid_align | default: 'stretch'
+
+  # Alineación de cards (sección)
+  assign img_align_default = s.image_alignment | default: 'center'
+
+  assign columns_mobile_int = s.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if s.swipe_on_mobile and visible > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+
+  # Márgenes para alinear encabezado / intro (izq, centro, der)
+  assign title_align = s.title_alignment | default: 'left'
+  assign intro_align = s.intro_alignment | default: 'left'
+  assign card_align = s.column_alignment | default: 'left'
+
+  case title_align
+    when 'center'
+      assign title_ml = 'auto'
+      assign title_mr = 'auto'
+      assign title_justify = 'center'
+    when 'right'
+      assign title_ml = 'auto'
+      assign title_mr = '0'
+      assign title_justify = 'flex-end'
+    else
+      assign title_ml = '0'
+      assign title_mr = 'auto'
+      assign title_justify = 'flex-start'
+  endcase
+
+  case intro_align
+    when 'center'
+      assign intro_ml = 'auto'
+      assign intro_mr = 'auto'
+    when 'right'
+      assign intro_ml = 'auto'
+      assign intro_mr = '0'
+    else
+      assign intro_ml = '0'
+      assign intro_mr = 'auto'
+  endcase
+
+  case s.button_alignment
+    when 'left'
+      assign btn_justify = 'flex-start'
+    when 'right'
+      assign btn_justify = 'flex-end'
+    else
+      assign btn_justify = 'center'
+  endcase
+-%}
+
+{%- style -%}
+  /* ===== Espaciado de sección ===== */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ s.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ s.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ s.padding_top }}px;
+      padding-bottom: {{ s.padding_bottom }}px;
+    }
+  }
+
+  /* ===== Cards con fondo (esquema de color) ===== */
+  {%- if s.card_background -%}
+  .section-{{ section.id }} .multicolumn-card.mc-card {
+    background: rgb(var(--color-background)) !important;
+    color: rgb(var(--color-foreground));
+    border-radius: {{ s.card_radius }}px !important;
+    --mc-pad: {{ s.card_padding | times: 0.75 | round: 0 }}px;
+    padding: var(--mc-pad) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden;
+    height: 100%;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} .multicolumn-card.mc-card { --mc-pad: {{ s.card_padding }}px; }
+  }
+  .section-{{ section.id }} .mc-card .multicolumn-card__info { padding: 0 !important; }
+  .section-{{ section.id }} .mc-card h3,
+  .section-{{ section.id }} .mc-card .rte,
+  .section-{{ section.id }} .mc-card .rte *,
+  .section-{{ section.id }} .mc-card .link { color: rgb(var(--color-foreground)); }
+  {%- else -%}
+  .section-{{ section.id }} .multicolumn-card.content-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  {%- endif -%}
+  .section-{{ section.id }} .mc-card__title { margin: 0 0 1.2rem; overflow-wrap: break-word; }
+  .section-{{ section.id }} .mc-media-wrap { margin-bottom: {{ s.image_gap | default: 16 }}px !important; }
+
+  /* ===== Tamaños de texto (sección o por card) =====
+     Cada card es un "container": el texto se reduce solo cuando la card se hace angosta
+     (tablet, laptops chicas) y nunca pasa del tamaño elegido. */
+  #Slider-{{ section.id }} > .grid__item { container-type: inline-size; }
+  .section-{{ section.id }} .mc-card--ts .mc-card__title {
+    font-size: clamp(calc(var(--mc-ts) * 0.72px), calc(var(--mc-ts) * 0.4cqi), calc(var(--mc-ts) * 1px)) !important;
+    line-height: 1.15;
+  }
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte,
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte p,
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte li,
+  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .link {
+    font-size: clamp(calc(var(--mc-ps) * 0.9px), calc(var(--mc-ps) * 0.42cqi), calc(var(--mc-ps) * 1px)) !important;
+    line-height: 1.5;
+  }
+
+  /* ===== Forma de las cards (rectángulo / cuadrado) ===== */
+  {%- liquid
+    case s.card_shape
+      when 'square'
+        assign shape_ratio = '1 / 1'
+      when 'rect_h'
+        assign shape_ratio = '3 / 2'
+      when 'rect_43'
+        assign shape_ratio = '4 / 3'
+      when 'rect_v'
+        assign shape_ratio = '4 / 5'
+      else
+        assign shape_ratio = ''
+    endcase
+    assign ccp = s.card_content_position | default: 'spread'
+    assign shape_mobile = s.card_shape_mobile | default: 'auto'
+    case ccp
+      when 'center'
+        assign content_justify = 'center'
+      when 'bottom'
+        assign content_justify = 'flex-end'
+      when 'spread'
+        assign content_justify = 'space-between'
+      else
+        assign content_justify = 'flex-start'
+    endcase
+  -%}
+  #Slider-{{ section.id }} > .grid__item { display: flex; flex-direction: column; }
+  .section-{{ section.id }} .multicolumn-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    justify-content: {{ content_justify }};
+    {%- if shape_ratio != '' -%}
+    aspect-ratio: {{ shape_ratio }};
+    height: auto !important;
+    {%- endif -%}
+  }
+  {%- if shape_ratio != '' and shape_mobile == 'auto' -%}
+  @media screen and (max-width: 749px) {
+    .section-{{ section.id }} .multicolumn-card { aspect-ratio: auto; }
+  }
+  {%- endif -%}
+  {%- if ccp != 'spread' -%}
+  .section-{{ section.id }} .multicolumn-card__info { flex: 0 0 auto !important; }
+  .section-{{ section.id }} .multicolumn-card__info > .rte { flex: 0 0 auto !important; }
+  .section-{{ section.id }} .multicolumn-card__info > .link { margin-top: 0 !important; }
+  {%- endif -%}
+
+  /* ===== Diseño unificado: mismas alturas y elementos alineados ===== */
+  {%- if unify -%}
+  .section-{{ section.id }} .multicolumn-card { display: flex; flex-direction: column; height: 100%; }
+  .section-{{ section.id }} .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
+  .section-{{ section.id }} .multicolumn-card__info > .rte { flex: 1 1 auto; margin-top: 0; }
+  .section-{{ section.id }} .multicolumn-card__info > .link { margin-top: auto; padding-top: 1.6rem; align-self: var(--mc-link-align, flex-start); }
+  .section-{{ section.id }} .mc-txt--center .multicolumn-card__info > .link { --mc-link-align: center; }
+  .section-{{ section.id }} .mc-txt--right .multicolumn-card__info > .link { --mc-link-align: flex-end; }
+  {%- if s.title_lines > 0 -%}
+  .section-{{ section.id }} .mc-card__title { line-height: 1.15; min-height: calc({{ s.title_lines }} * 1.15em); }
+  {%- endif -%}
+  .section-{{ section.id }} .mc-media--adapt { aspect-ratio: {% if s.image_mode == 'icon' %}1 / 1{% else %}4 / 3{% endif %}; }
+  .section-{{ section.id }} .mc-media--adapt img { height: 100%; }
+  .section-{{ section.id }} .mc-media-wrap--empty { visibility: hidden; display: block !important; }
+  .section-{{ section.id }} .mc-media-wrap--empty .mc-media { display: block !important; width: 100%;{% if s.image_mode == 'icon' %} height: {{ s.icon_size }}px;{% endif %} }
+  {%- endif -%}
+
+  /* ===== Posición vertical del párrafo dentro de la card (arriba / en medio / abajo) =====
+     El párrafo ocupa el espacio libre entre el título y el enlace, y se acomoda ahí. */
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+  }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte { justify-content: center; }
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte { justify-content: flex-end; }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte > *,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte > * { flex: 0 0 auto; }
+  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte > :last-child,
+  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte > :last-child { margin-bottom: 0; }
+
+  /* ===== Imagen / ícono de card ===== */
+  .section-{{ section.id }} .mc-media-wrap {
+    width: 100%;
+    max-width: var(--mc-img-size, {% if s.image_mode == 'icon' %}{{ s.icon_size }}px{% else %}{{ s.image_width_percent | default: 100 }}%{% endif %});
+    margin: 0 auto 1.6rem;
+  }
+  .section-{{ section.id }} .mc-img--left .mc-media-wrap { margin-left: 0; margin-right: auto; }
+  .section-{{ section.id }} .mc-img--center .mc-media-wrap { margin-left: auto; margin-right: auto; }
+  .section-{{ section.id }} .mc-img--right .mc-media-wrap { margin-left: auto; margin-right: 0; }
+  .section-{{ section.id }} .mc-media { position: relative; overflow: hidden; border-radius: {{ s.image_radius }}px; }
+  .section-{{ section.id }} .mc-media img { display: block; width: 100%; height: auto; }
+  .section-{{ section.id }} .mc-media--square,
+  .section-{{ section.id }} .mc-media--circle { aspect-ratio: 1 / 1; }
+  .section-{{ section.id }} .mc-media--portrait { aspect-ratio: 4 / 5; }
+  .section-{{ section.id }} .mc-media--landscape { aspect-ratio: 4 / 3; }
+  .section-{{ section.id }} .mc-media--circle { border-radius: 50%; }
+  .section-{{ section.id }} .mc-media--wide { aspect-ratio: 16 / 9; }
+  .section-{{ section.id }} .mc-media--classic { aspect-ratio: 3 / 2; }
+  .section-{{ section.id }} .mc-media--fixed { height: {{ s.image_height | times: 0.75 | round: 0 }}px; }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} .mc-media--fixed { height: {{ s.image_height }}px; }
+  }
+  .section-{{ section.id }} .mc-media:not(.mc-media--adapt) img { height: 100%; }
+  .section-{{ section.id }} .mc-media img {
+    object-fit: var(--mc-fit, {% if s.image_mode == 'icon' %}contain{% else %}{{ s.image_fit | default: 'cover' }}{% endif %});
+    object-position: var(--mc-pos, center center);
+  }
+  {%- if s.image_contain_bg -%}
+  .section-{{ section.id }} .mc-media--has-bg { background: rgba(var(--color-foreground), 0.06); }
+  {%- endif -%}
+
+  /* Imagen de borde a borde dentro de la card */
+  {%- if s.image_bleed and s.card_background and s.image_mode == 'image' -%}
+  .section-{{ section.id }} .mc-card .mc-media-wrap {
+    width: calc(100% + 2 * var(--mc-pad)) !important;
+    max-width: none !important;
+    margin: calc(-1 * var(--mc-pad)) calc(-1 * var(--mc-pad)) {{ s.image_gap | default: 16 }}px !important;
+  }
+  .section-{{ section.id }} .mc-card .mc-media { border-radius: 0; }
+  {%- endif -%}
+
+  /* ===== Fuente de descripción por card ===== */
+  .section-{{ section.id }} .mc-desc--body { font-family: var(--font-body-family); font-weight: 400; }
+  .section-{{ section.id }} .mc-desc--mono {
+    font-family: "IBM Plex Mono", "Courier New", Courier, monospace !important;
+    font-weight: 400; letter-spacing: .02em; padding-top: 1rem; line-height: 1.5rem; text-transform: uppercase;
+  }
+  .section-{{ section.id }} .mc-desc--mono *,
+  .section-{{ section.id }} .mc-desc--body * {
+    font-family: inherit !important; font-weight: inherit; letter-spacing: inherit;
+  }
+
+  /* ===== Encabezado: eyebrow + título (alineación editable) ===== */
+  .section-{{ section.id }} .mc-eyebrow { text-align: {{ title_align }}; }
+  #shopify-section-{{ section.id }} .title-wrapper-with-link {
+    width: 100%;
+    max-width: {{ s.header_max_width | default: 50 }}%;
+    margin-left: {{ title_ml }};
+    margin-right: {{ title_mr }};
+    margin-bottom: 1rem;
+    justify-content: {{ title_justify }};
+    text-align: {{ title_align }};
+  }
+  #shopify-section-{{ section.id }} .title-wrapper-with-link .title { width: 100%; text-align: {{ title_align }}; }
+
+  /* ===== Párrafo intro (alineación editable) ===== */
+  .section-{{ section.id }} .multicolumn__intro {
+    width: 100%;
+    max-width: {{ s.header_max_width | default: 50 }}%;
+    margin: 0.5rem {{ intro_mr }} 1.5rem {{ intro_ml }};
+    text-align: {{ intro_align }};
+    color: rgb(var(--color-foreground, 18,18,18));
+    font: inherit;
+    line-height: var(--font-body-line-height, 1.6);
+  }
+  .section-{{ section.id }} .multicolumn__intro p { margin: 0; }
+  @media (min-width: 750px) {
+    .section-{{ section.id }} .multicolumn__intro { margin-top: 0.75rem; margin-bottom: 2rem; }
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .title-wrapper-with-link,
+    .section-{{ section.id }} .multicolumn__intro { max-width: 100%; }
+    .section-{{ section.id }} .title-wrapper--self-padded-tablet-down,
+    .section-{{ section.id }} .title-wrapper--self-padded-mobile { padding: 0; }
+  }
+
+  /* ===== Cards: alineación (izq / centro / der) ===== */
+  #shopify-section-{{ section.id }} .multicolumn-card-spacing { padding-bottom: 1rem !important; }
+  /* Alineación de texto por card (izq / centro / der) */
+  .section-{{ section.id }} .mc-txt--left .multicolumn-card__info { text-align: left !important; }
+  .section-{{ section.id }} .mc-txt--center .multicolumn-card__info { text-align: center !important; }
+  .section-{{ section.id }} .mc-txt--right .multicolumn-card__info { text-align: right !important; }
+
+  /* ===== Posición del grid ===== */
+  #Slider-{{ section.id }} {
+    justify-content: {{ grid_justify }};
+    align-items: {{ grid_align }};
+    {%- unless s.use_theme_spacing -%}
+    --grid-desktop-horizontal-spacing: {{ s.gap_horizontal }}px;
+    --grid-desktop-vertical-spacing: {{ s.gap_vertical }}px;
+    --grid-mobile-horizontal-spacing: {{ s.gap_horizontal | divided_by: 2 }}px;
+    --grid-mobile-vertical-spacing: {{ s.gap_vertical | divided_by: 2 }}px;
+    {%- endunless -%}
+  }
+  {%- if show_mobile_slider -%}
+  @media (max-width: 749px) { #Slider-{{ section.id }} { justify-content: flex-start; } }
+  {%- endif -%}
+  {%- if grid_align != 'stretch' -%}
+  #Slider-{{ section.id }} .multicolumn-card { height: auto; }
+  {%- endif -%}
+
+  /* ===== Tablet (750–989px): columnas editables ===== */
+  @media (min-width: 750px) and (max-width: 989px) {
+    #Slider-{{ section.id }} {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      overflow: visible !important;
+      column-gap: var(--grid-desktop-horizontal-spacing, 16px) !important;
+      row-gap: var(--grid-desktop-vertical-spacing, 16px) !important;
+    }
+    #Slider-{{ section.id }} > .grid__item {
+      width: calc((100% - {{ cols_tablet | minus: 1 }} * var(--grid-desktop-horizontal-spacing, 16px)) / {{ cols_tablet }}) !important;
+      max-width: calc((100% - {{ cols_tablet | minus: 1 }} * var(--grid-desktop-horizontal-spacing, 16px)) / {{ cols_tablet }}) !important;
+      flex: 0 0 auto !important;
+    }
+  }
+
+  /* ===== CTA general ===== */
+  .section-{{ section.id }} .mc-cta {
+    display: flex;
+    justify-content: {{ btn_justify }};
+    margin-top: 3.2rem;
+  }
+  .section-{{ section.id }} .mc-cta .button {
+    background-color: rgba(var(--color-button), var(--alpha-button-background));
+    color: rgb(var(--color-button-text));
+    margin: 0;
+  }
+  {%- if s.button_pill -%}
+  .section-{{ section.id }} .mc-cta .button { --buttons-radius: 999px; --buttons-radius-outset: 999px; border-radius: 999px; }
+  {%- endif -%}
+{%- endstyle -%}
+
+<div class="multicolumn color-{{ s.color_scheme }} gradient{% unless s.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ s.background_style }}{% endunless %}{% if s.title == blank %} no-heading{% endif %}">
+  <div
+    class="section-{{ section.id }} page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    {% if s.pretitle != blank %}
+      <div class="mc-eyebrow">
+        {{ s.pretitle }}
+        {% if s.show_rule %}
+          <div class="mc-eyebrow__rule" aria-hidden="true"></div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {%- unless s.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
+        <h2 class="title inline-richtext {{ s.heading_size }}">
+          {{ s.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+
+    {%- if s.intro_paragraph != blank -%}
+      <div class="multicolumn__intro rte">
+        {{ s.intro_paragraph }}
+      </div>
+    {%- endif -%}
+
+    <slider-component class="slider-mobile-gutter">
+      <ul
+        class="multicolumn-list contains-content-container grid grid--{{ s.columns_mobile }}-col-tablet-down grid--{{ cols_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
+        id="Slider-{{ section.id }}"
+        role="list"
+      >
+        {%- liquid
+          assign highest_ratio = 0
+          for block in section.blocks
+            if block.settings.image != blank and block.settings.image.aspect_ratio
+              if block.settings.image.aspect_ratio > highest_ratio
+                assign highest_ratio = block.settings.image.aspect_ratio
+              endif
+            endif
+          endfor
+          if highest_ratio == 0
+            assign highest_ratio = 1
+          endif
+        -%}
+        {%- for block in section.blocks limit: visible -%}
+          {%- liquid
+            assign empty_column = ''
+            assign img_align = block.settings.image_alignment_override | default: 'section'
+            if img_align == 'section'
+              assign img_align = img_align_default
+            endif
+            assign txt_align = block.settings.text_alignment_override | default: 'section'
+            if txt_align == 'section'
+              assign txt_align = card_align
+            endif
+
+            # Posición vertical del párrafo: card > sección
+            assign txt_valign = block.settings.text_valign_override | default: 'section'
+            if txt_valign == 'section'
+              assign txt_valign = text_valign_default
+            endif
+
+            # Tamaños de texto: card > sección (0 = no forzar)
+            assign t_size = block.settings.title_size | default: 0
+            if t_size == 0 and s.custom_text_sizes
+              assign t_size = s.card_title_size
+            endif
+            assign p_size = block.settings.text_size | default: 0
+            if p_size == 0 and s.custom_text_sizes
+              assign p_size = s.card_text_size
+            endif
+            assign card_style = ''
+            if t_size > 0
+              assign card_style = card_style | append: '--mc-ts: ' | append: t_size | append: ';'
+            endif
+            if p_size > 0
+              assign card_style = card_style | append: '--mc-ps: ' | append: p_size | append: ';'
+            endif
+
+            # Título sin espacios duros al inicio (evita que se vea desalineado)
+            assign card_title = block.settings.title | strip
+            for i in (1..5)
+              assign head6 = card_title | slice: 0, 6
+              assign head1 = card_title | slice: 0
+              if head6 == '&nbsp;'
+                assign card_title = card_title | remove_first: '&nbsp;' | strip
+              elsif head1 == ' '
+                assign card_title = card_title | remove_first: ' ' | strip
+              else
+                break
+              endif
+            endfor
+          -%}
+          {%- if block.settings.image == blank
+            and block.settings.title == blank
+            and block.settings.text == blank
+            and block.settings.link_label == blank
+          -%}
+            {%- assign empty_column = ' multicolumn-list__item--empty' -%}
+          {%- endif -%}
+
+          <li
+            id="Slide-{{ section.id }}-{{ forloop.index }}"
+            class="{% if s.mobile_side_line %}multicolumn-list__item{% else %}mc-list__item{% endif %} grid__item mc-img--{{ img_align }} mc-txt--{{ txt_align }}{% if s.swipe_on_mobile %} slider__slide{% endif %}{{ empty_column }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+            {%- liquid
+              assign card_scheme = s.card_color_scheme
+              if block.settings.use_custom_scheme
+                assign card_scheme = block.settings.card_color_scheme
+              endif
+            -%}
+            <div
+              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% endif %}"
+              {% if card_style != '' %}
+                style="{{ card_style }}"
+              {% endif %}
+            >
+              {%- if block.settings.image != blank -%}
+                {%- liquid
+                  assign number_of_columns = cols_desktop
+                  assign number_of_columns_mobile = s.columns_mobile
+                  if s.image_mode == 'icon'
+                    assign img_px = s.icon_size | times: 2
+                    capture sizes
+                      echo s.icon_size | append: 'px'
+                    endcapture
+                  else
+                    assign img_px = 1600
+                    assign pct = s.image_width_percent | divided_by: 100.0
+                    capture sizes
+                      echo '(min-width: 990px) calc(100vw * ' | append: pct | append: ' / ' | append: number_of_columns | append: '), '
+                      echo '(min-width: 750px) calc(100vw * ' | append: pct | append: ' / ' | append: cols_tablet | append: '), '
+                      echo 'calc(100vw * ' | append: pct | append: ' / ' | append: number_of_columns_mobile | append: ')'
+                    endcapture
+                  endif
+                -%}
+                {%- liquid
+                  # Ajuste (cubrir / contener) por card
+                  assign fit = block.settings.image_fit_override | default: 'section'
+                  if fit == 'section'
+                    if s.image_mode == 'icon'
+                      assign fit = 'contain'
+                    else
+                      assign fit = s.image_fit | default: 'cover'
+                    endif
+                  endif
+
+                  # Posición: punto focal de Shopify o vertical elegida + alineación horizontal
+                  assign pos_v = block.settings.image_position_override | default: 'section'
+                  if pos_v == 'section'
+                    assign pos_v = s.image_position | default: 'focal'
+                  endif
+                  case img_align
+                    when 'left'
+                      assign pos_h = 'left'
+                    when 'right'
+                      assign pos_h = 'right'
+                    else
+                      assign pos_h = 'center'
+                  endcase
+                  if pos_v == 'focal' and block.settings.image.presentation.focal_point != blank
+                    assign pos = block.settings.image.presentation.focal_point
+                  elsif pos_v == 'focal'
+                    assign pos = pos_h | append: ' center'
+                  else
+                    assign pos = pos_h | append: ' ' | append: pos_v
+                  endif
+
+                  assign has_bg = false
+                  if fit == 'contain' and s.image_mode == 'image'
+                    assign has_bg = true
+                  endif
+                -%}
+                <div class="mc-media-wrap"{% if block.settings.image_size > 0 %} style="--mc-img-size: {{ block.settings.image_size }}px;"{% endif %}>
+                  <div class="mc-media mc-media--{{ s.image_ratio }}{% if has_bg %} mc-media--has-bg{% endif %}" style="--mc-fit: {{ fit }}; --mc-pos: {{ pos }};">
+                    {{
+                      block.settings.image
+                      | image_url: width: img_px
+                      | image_tag:
+                        widths: '80, 160, 300, 500, 750, 1000, 1300, 1600',
+                        sizes: sizes,
+                        loading: 'lazy',
+                        class: 'multicolumn-card__image'
+                    }}
+                  </div>
+                </div>
+              {%- elsif unify and any_image -%}
+                <div class="mc-media-wrap mc-media-wrap--empty" aria-hidden="true">
+                  <div class="mc-media mc-media--{{ s.image_ratio }}">&nbsp;</div>
+                </div>
+              {%- endif -%}
+              <div class="multicolumn-card__info">
+                {%- if card_title != blank -%}
+                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}">{{ card_title }}</h3>
+                {%- elsif reserve_title -%}
+                  <div class="mc-card__title mc-card__title--empty {{ s.card_heading_size | default: 'h3' }}" aria-hidden="true"></div>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
+                    {{ block.settings.text }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.link_label != blank -%}
+                  <a
+                    class="link animate-arrow"
+                    {% if block.settings.link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.link }}"
+                    {% endif %}
+                  >
+                    {{- block.settings.link_label | escape -}}
+                    <span class="svg-wrapper"
+                      ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                    >
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if show_mobile_slider -%}
+        <div class="slider-buttons large-up-hide">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ visible }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+          </button>
+        </div>
+      {%- endif -%}
+    </slider-component>
+
+    {%- if s.button_label != blank -%}
+      <div class="mc-cta">
+        <a
+          class="button button--{{ s.button_style | default: 'primary' }} color-{{ s.button_color_scheme }}"
+          {% if s.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ s.button_link }}"
+          {% endif %}
+          {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}
+        >
+          {{ s.button_label | escape }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- if align_titles -%}
+  <script>
+    /* Iguala la altura de los títulos de las cards que quedan en la misma fila
+       para que los párrafos empiecen a la misma altura, en cualquier ancho de pantalla. */
+    (function () {
+      var listId = 'Slider-{{ section.id }}';
+      var lastWidth = -1;
+      var raf = 0;
+
+      function equalize() {
+        var list = document.getElementById(listId);
+        if (!list) return;
+        var titles = Array.prototype.slice.call(list.querySelectorAll('.mc-card__title'));
+        titles.forEach(function (t) { t.style.minHeight = ''; });
+
+        var rows = {};
+        titles.forEach(function (t) {
+          var li = t.closest('.grid__item');
+          if (!li) return;
+          var key = String(Math.round(li.offsetTop));
+          (rows[key] = rows[key] || []).push(t);
+        });
+
+        Object.keys(rows).forEach(function (key) {
+          var group = rows[key];
+          if (group.length < 2) return;
+          var max = 0;
+          group.forEach(function (t) { max = Math.max(max, t.getBoundingClientRect().height); });
+          group.forEach(function (t) { t.style.minHeight = Math.ceil(max) + 'px'; });
+        });
+      }
+
+      function schedule() {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(equalize);
+      }
+
+      function init() {
+        var list = document.getElementById(listId);
+        if (!list) return;
+        schedule();
+        if ('ResizeObserver' in window) {
+          new ResizeObserver(function (entries) {
+            var w = Math.round(entries[0].contentRect.width);
+            if (w === lastWidth) return;
+            lastWidth = w;
+            schedule();
+          }).observe(list);
+        } else {
+          window.addEventListener('resize', schedule);
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+        window.addEventListener('load', schedule);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Multicolumn Sept 2026",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "header", "content": "Encabezado" },
+    { "type": "text", "id": "pretitle", "label": "Eyebrow", "placeholder": "Ej. Explora", "default": "Explora" },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
+    { "type": "checkbox", "id": "show_rule", "label": "Mostrar línea del eyebrow", "default": true },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Beneficios de ser aliado",
+      "label": "Título de la sección",
+      "info": "Ej. Beneficios de ser aliado"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" },
+        { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
+        { "value": "hxxl", "label": "t:sections.all.heading_size.options__5.label" }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text_alignment",
+      "id": "title_alignment",
+      "label": "Alineación del título y eyebrow",
+      "default": "left"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_paragraph",
+      "label": "Párrafo introductorio",
+      "info": "Ej. Todo lo que recibes al distribuir Tierra de Monte en tu zona.",
+      "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
+    },
+    {
+      "type": "text_alignment",
+      "id": "intro_alignment",
+      "label": "Alineación del párrafo",
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "label": "Ancho máximo del título y párrafo",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+
+    { "type": "header", "content": "Cards" },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Columnas en escritorio"
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columnas en tablet"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_fit_columns",
+      "label": "Ajustar columnas al número de cards",
+      "info": "Si hay menos cards que columnas, las cards se estiran para llenar el ancho.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rows",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "default": 0,
+      "label": "Filas visibles",
+      "info": "0 = mostrar todas las cards. Si eliges un número, se muestran columnas × filas."
+    },
+
+    { "type": "header", "content": "Posición del grid" },
+    {
+      "type": "text_alignment",
+      "id": "grid_justify",
+      "label": "Alineación horizontal del grid",
+      "info": "Se nota cuando la última fila no está completa.",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "grid_align",
+      "label": "Alineación vertical de las cards",
+      "options": [
+        { "value": "stretch", "label": "Misma altura" },
+        { "value": "flex-start", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "flex-end", "label": "Abajo" }
+      ],
+      "default": "stretch"
+    },
+    { "type": "checkbox", "id": "use_theme_spacing", "label": "Usar espaciado del tema", "default": true },
+    { "type": "range", "id": "gap_horizontal", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24, "label": "Espacio entre columnas" },
+    { "type": "range", "id": "gap_vertical", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 32, "label": "Espacio entre filas" },
+
+    { "type": "header", "content": "Alineación dentro de las cards" },
+    {
+      "type": "text_alignment",
+      "id": "image_alignment",
+      "label": "Alineación de las imágenes",
+      "default": "center"
+    },
+    {
+      "type": "text_alignment",
+      "id": "column_alignment",
+      "label": "Alineación de los textos",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_valign",
+      "label": "Posición vertical del párrafo",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "En medio" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "top",
+      "info": "Acomoda el párrafo en el espacio libre de la card. Se nota cuando las cards tienen la misma altura y textos de distinto largo. Funciona con \"Posición del contenido\" en Repartido."
+    },
+    { "type": "header", "content": "Estilo de las cards" },
+    { "type": "checkbox", "id": "card_background", "label": "Cards con fondo", "default": true },
+    { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color de las cards", "default": "scheme-1", "info": "Define fondo, texto y enlaces de las cards. Cada card puede usar uno distinto." },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16, "label": "Radio de esquinas" },
+    { "type": "range", "id": "card_padding", "min": 0, "max": 64, "step": 4, "unit": "px", "default": 24, "label": "Espaciado interno" },
+    {
+      "type": "select",
+      "id": "card_shape",
+      "label": "Forma de las cards",
+      "options": [
+        { "value": "auto", "label": "Automática (según contenido)" },
+        { "value": "rect_h", "label": "Rectángulo horizontal 3:2" },
+        { "value": "rect_43", "label": "Rectángulo 4:3" },
+        { "value": "square", "label": "Cuadrado 1:1" },
+        { "value": "rect_v", "label": "Rectángulo vertical 4:5" }
+      ],
+      "default": "auto",
+      "info": "Todas las cards mantienen la misma proporción. Si un texto es más largo, la card crece sin cortarse."
+    },
+    {
+      "type": "select",
+      "id": "card_shape_mobile",
+      "label": "Forma en móvil",
+      "options": [
+        { "value": "same", "label": "Igual que en escritorio" },
+        { "value": "auto", "label": "Automática (según contenido)" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "card_content_position",
+      "label": "Posición del contenido en la card",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "spread", "label": "Repartido (título arriba, enlace abajo)" }
+      ],
+      "default": "spread"
+    },
+    { "type": "checkbox", "id": "mobile_side_line", "label": "Línea lateral en móvil", "default": false, "info": "La línea vertical a la izquierda de cada card que agrega el tema en móvil." },
+    {
+      "type": "select",
+      "id": "card_heading_size",
+      "label": "Tamaño del heading de las cards",
+      "options": [
+        { "value": "h4", "label": "Pequeño" },
+        { "value": "h3", "label": "Mediano" },
+        { "value": "h2", "label": "Grande" },
+        { "value": "h1", "label": "Extra grande" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "unify_layout",
+      "label": "Diseño unificado",
+      "info": "Todas las cards con la misma altura; títulos, textos y enlaces alineados aunque unas tengan imagen o enlace y otras no.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "align_titles",
+      "label": "Alinear párrafos automáticamente",
+      "info": "Iguala la altura de los títulos de cada fila para que los párrafos empiecen a la misma altura, en cualquier tamaño de pantalla.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "title_lines",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "label": "Reservar líneas para el título",
+      "info": "Altura mínima de los títulos. Con \"Alinear párrafos automáticamente\" normalmente puedes dejarlo en 0."
+    },
+    { "type": "checkbox", "id": "custom_text_sizes", "label": "Tamaños de texto personalizados", "default": false, "info": "Aplica a todas las cards. Cada card puede tener su propio tamaño." },
+    { "type": "range", "id": "card_title_size", "min": 16, "max": 64, "step": 2, "unit": "px", "default": 28, "label": "Tamaño del heading" },
+    { "type": "range", "id": "card_text_size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15, "label": "Tamaño del párrafo" },
+    {
+      "type": "select",
+      "id": "background_style",
+      "options": [
+        { "value": "none", "label": "t:sections.multicolumn.settings.background_style.options__1.label" },
+        { "value": "primary", "label": "t:sections.multicolumn.settings.background_style.options__2.label" }
+      ],
+      "default": "primary",
+      "label": "t:sections.multicolumn.settings.background_style.label"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+
+    { "type": "header", "content": "Imagen de las cards" },
+    {
+      "type": "select",
+      "id": "image_mode",
+      "label": "Tipo de imagen",
+      "options": [
+        { "value": "icon", "label": "Ícono (tamaño fijo en px)" },
+        { "value": "image", "label": "Imagen (ancho en %)" }
+      ],
+      "default": "icon"
+    },
+    { "type": "range", "id": "icon_size", "min": 16, "max": 240, "step": 4, "unit": "px", "default": 64, "label": "Tamaño del ícono" },
+    { "type": "range", "id": "image_gap", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 16, "label": "Espacio debajo de la imagen" },
+    { "type": "range", "id": "image_width_percent", "label": "Ancho de la imagen", "min": 10, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Proporción",
+      "options": [
+        { "value": "adapt", "label": "Original" },
+        { "value": "square", "label": "Cuadrada" },
+        { "value": "landscape", "label": "Horizontal 4:3" },
+        { "value": "classic", "label": "Horizontal 3:2" },
+        { "value": "wide", "label": "Panorámica 16:9" },
+        { "value": "portrait", "label": "Vertical 4:5" },
+        { "value": "circle", "label": "Círculo" },
+        { "value": "fixed", "label": "Altura fija (px)" }
+      ],
+      "default": "adapt",
+      "info": "Con \"Diseño unificado\", Original usa un cuadro 4:3 (o cuadrado en modo ícono) para que todas midan igual."
+    },
+    { "type": "range", "id": "image_height", "min": 80, "max": 600, "step": 10, "unit": "px", "default": 240, "label": "Altura fija", "info": "Solo con proporción \"Altura fija\"." },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Ajuste de la imagen",
+      "options": [
+        { "value": "cover", "label": "Cubrir (llena el espacio, puede recortar)" },
+        { "value": "contain", "label": "Contener (imagen completa, sin recortar)" }
+      ],
+      "default": "cover",
+      "info": "En modo ícono siempre se usa Contener."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Posición de la imagen",
+      "options": [
+        { "value": "focal", "label": "Punto focal de Shopify" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "focal",
+      "info": "Marca el punto focal al editar la imagen en Shopify (ej. la cara de la persona) para que no se corte."
+    },
+    { "type": "checkbox", "id": "image_bleed", "label": "Imagen de borde a borde en la card", "default": false, "info": "Solo en tipo Imagen con cards con fondo." },
+    { "type": "checkbox", "id": "image_contain_bg", "label": "Fondo suave detrás de imágenes contenidas", "default": true },
+    { "type": "range", "id": "image_radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0, "label": "Radio de esquinas de la imagen" },
+
+    { "type": "header", "content": "Botón (CTA) de la sección" },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "placeholder": "Ej. Quiero ser aliado",
+      "info": "Déjalo vacío para ocultar el botón."
+    },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón", "info": "Ej. /pages/quiero-ser-aliado" },
+    { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en otra pestaña", "default": false },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Estilo del botón",
+      "options": [
+        { "value": "primary", "label": "Principal (relleno)" },
+        { "value": "secondary", "label": "Secundario (contorno)" }
+      ],
+      "default": "primary"
+    },
+    { "type": "color_scheme", "id": "button_color_scheme", "label": "Esquema de color del botón", "default": "scheme-1" },
+    { "type": "checkbox", "id": "button_pill", "label": "Botón redondeado (pill)", "default": false },
+    {
+      "type": "text_alignment",
+      "id": "button_alignment",
+      "label": "Alineación del botón",
+      "default": "center"
+    },
+
+    { "type": "header", "content": "t:sections.multicolumn.settings.header_mobile.content" },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label" },
+        { "value": "2", "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label" }
+      ],
+      "default": "1",
+      "label": "t:sections.multicolumn.settings.columns_mobile.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.multicolumn.settings.swipe_on_mobile.label"
+    },
+
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "Precio preferencial",
+          "label": "Heading",
+          "info": "Ej. Precio preferencial"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Compras entre 5 y 20% abajo del precio de lista, según tu volumen.</p>",
+          "label": "Párrafo",
+          "info": "Ej. Compras entre 5 y 20% abajo del precio de lista."
+        },
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Fuente del párrafo",
+          "options": [
+            { "value": "body", "label": "Texto normal" },
+            { "value": "mono", "label": "Monoespaciada (IBM Plex Mono)" }
+          ],
+          "default": "body"
+        },
+        { "type": "header", "content": "Tamaño de texto de esta card" },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 0,
+          "max": 64,
+          "step": 2,
+          "unit": "px",
+          "default": 0,
+          "label": "Tamaño del heading",
+          "info": "0 = igual que la sección. En pantallas chicas se reduce solo para que no se desborde."
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 0,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 0,
+          "label": "Tamaño del párrafo",
+          "info": "0 = igual que la sección."
+        },
+        {
+          "type": "select",
+          "id": "text_valign_override",
+          "label": "Posición vertical del párrafo",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "top", "label": "Arriba" },
+            { "value": "center", "label": "En medio" },
+            { "value": "bottom", "label": "Abajo" }
+          ],
+          "default": "section"
+        },
+        { "type": "header", "content": "Imagen y color de esta card" },
+        {
+          "type": "select",
+          "id": "image_fit_override",
+          "label": "Ajuste de imagen de esta card",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "cover", "label": "Cubrir" },
+            { "value": "contain", "label": "Contener" }
+          ],
+          "default": "section"
+        },
+        {
+          "type": "select",
+          "id": "image_position_override",
+          "label": "Posición de imagen de esta card",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "focal", "label": "Punto focal" },
+            { "value": "top", "label": "Arriba" },
+            { "value": "center", "label": "Centro" },
+            { "value": "bottom", "label": "Abajo" }
+          ],
+          "default": "section"
+        },
+        { "type": "range", "id": "image_size", "min": 0, "max": 400, "step": 8, "unit": "px", "default": 0, "label": "Tamaño de imagen de esta card", "info": "0 = igual que la sección." },
+        { "type": "checkbox", "id": "use_custom_scheme", "label": "Usar esquema propio", "default": false },
+        { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+        { "type": "header", "content": "Alineación de esta card" },
+        {
+          "type": "select",
+          "id": "image_alignment_override",
+          "label": "Imagen",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "section"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment_override",
+          "label": "Texto",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "section"
+        },
+        { "type": "header", "content": "Enlace (opcional)" },
+        { "type": "text", "id": "link_label", "label": "Texto del enlace", "placeholder": "Ej. Ver más" },
+        { "type": "url", "id": "link", "label": "Enlace", "info": "Ej. /pages/beneficios" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn Sept 2026",
+      "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }]
+    }
+  ]
+}
+{% endschema %}

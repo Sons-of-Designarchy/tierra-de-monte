@@ -1,0 +1,981 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "aliados",
+  "sections": {
+    "hero_slider_Q8CAkg": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_kAWH4n": {
+          "type": "slide",
+          "settings": {
+            "alt": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 45,
+            "subheading": "Programa de aliados · Tierra de Monte",
+            "heading": "<p>otros textos</p>",
+            "highlight": "",
+            "text": "<p>otros textos</p>",
+            "button_label": "CTA 1",
+            "button_link": "",
+            "button_new_tab": true,
+            "button_label_2": "CTA 2",
+            "button_link_2": "",
+            "button_new_tab_2": false,
+            "credit_name": "Nombre",
+            "credit_detail": "Tipo de cultivo",
+            "align_h": "left",
+            "align_v": "middle"
+          }
+        },
+        "slide_xcpWeD": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hero-aliado.jpg",
+            "alt": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 45,
+            "subheading": "Programa de aliados · Tierra de Monte",
+            "heading": "<p>Tú pones la <em>palabra.</em></p><p>Nosotros ponemos con qué cumplirla</p>",
+            "highlight": "",
+            "text": "<p>Somos una empresa mexicana de biotecnología agrícola. Distribuye en tu zona una línea que tus clientes no encuentran con nadie más, con precio de aliado, cartera protegida y respaldo técnico.</p>",
+            "button_label": "Escríbenos por WhatsApp",
+            "button_link": "",
+            "button_new_tab": true,
+            "button_label_2": "Cómo funciona",
+            "button_link_2": "",
+            "button_new_tab_2": false,
+            "credit_name": "Francisco González",
+            "credit_detail": "Productor de Berries y Aliado TDEM",
+            "align_h": "left",
+            "align_v": "middle"
+          }
+        }
+      },
+      "block_order": [
+        "slide_kAWH4n",
+        "slide_xcpWeD"
+      ],
+      "name": "Hero slider",
+      "settings": {
+        "height_desktop": 700,
+        "height_mobile": 620,
+        "heading_size": 60,
+        "first_h1": true,
+        "autoplay": true,
+        "speed": 6,
+        "show_arrows": true,
+        "show_dots": true,
+        "text_color": "#ffffff",
+        "accent_color": "#c5d86d",
+        "button_bg": "#c5d86d",
+        "button_text": "#1f2a12",
+        "button_radius": 40,
+        "aria_label": "Programa de aliados"
+      }
+    },
+    "ticker_q7YzML": {
+      "type": "ticker",
+      "name": "Infinite Ticker",
+      "settings": {
+        "text": "ALIMENTOS MÁS SALUDABLES",
+        "icon_height": 32,
+        "bg_image": "shopify://shop_images/ticker-1.jpg",
+        "bg_color": "rgba(0,0,0,0)",
+        "text_color": "#faf4ec",
+        "font_size": 22,
+        "text_transform": "uppercase",
+        "typography_variant": "secondary",
+        "font_variant": "mono",
+        "speed": 36,
+        "show_top_border": false,
+        "show_bottom_border": false,
+        "height": 100
+      }
+    },
+    "tabs-collections": {
+      "type": "tabbed-collections",
+      "custom_css": [],
+      "settings": {
+        "kicker": "",
+        "heading": "Soluciones para todos los cultivos",
+        "subheading": "Nuestros consorcios especializados de microorganismos permiten responder a todas las necesidades del cultivo para producir más con menos.",
+        "show_card_excerpt": true,
+        "collection_1": "bio-estimulantes",
+        "label_1": "Bio-estimulantes",
+        "dot_1": true,
+        "icon_1": "shopify://shop_images/tab-icon-bio.svg",
+        "collection_2": "plagas-y-enfermedades",
+        "label_2": "Plagas y enfermedades",
+        "dot_2": true,
+        "icon_2": "shopify://shop_images/tab-icon-micro.svg",
+        "collection_3": "tratamiento-para-semillas",
+        "label_3": "Tratamiento para semillas",
+        "dot_3": true,
+        "icon_3": "shopify://shop_images/tab-icon-sem.svg",
+        "collection_4": "soluciones-acuicolas",
+        "label_4": "Soluciones Acuícolas",
+        "dot_4": true,
+        "icon_4": "shopify://shop_images/tab-icon-acu.svg",
+        "collection_5": "degradadores",
+        "label_5": "Degradadores",
+        "dot_5": true,
+        "icon_5": "shopify://shop_images/tab-icon-deg.svg",
+        "collection_6": "",
+        "label_6": "",
+        "dot_6": false,
+        "icon_6": "shopify://shop_images/tab-icon-hue.svg",
+        "products_limit": "4",
+        "show_view_all": true,
+        "view_all_label": "Ver más productos"
+      }
+    },
+    "multicolumn_sept2026_AwmWPk": {
+      "type": "multicolumn-sept2026",
+      "blocks": {
+        "column_wwFQtn": {
+          "type": "column",
+          "settings": {
+            "title": "Profesionales de campo ¡Tu recomendación vale!&nbsp;",
+            "text": "<ul><li>Cuentas con cartera de clientes o te interesa empezar tu propio negocio</li><li>﻿﻿Comparas productos por margen, rotación, demanda y facilidad de venta</li><li>﻿﻿recomiendas</li></ul>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": false,
+            "card_color_scheme": "",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_nHDKFW": {
+          "type": "column",
+          "settings": {
+            "title": "Asesores y Agrónomos independientes&nbsp;",
+            "text": "<ul><li>Influyes en decisiones técnicas.</li><li>Diseñas programas de manejo.</li><li>Te reconocen por tus resultados.</li></ul><p></p>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": false,
+            "card_color_scheme": "",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_LDywrp": {
+          "type": "column",
+          "settings": {
+            "title": "Dueños de Punto de venta agricola&nbsp;",
+            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados te interesa destacar tu negocio</li><li>acompañamiento técnico y comercial</li></ul>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": false,
+            "card_color_scheme": "",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_wwFQtn",
+        "column_nHDKFW",
+        "column_LDywrp"
+      ],
+      "name": "Multicolumn Sept 2026",
+      "settings": {
+        "pretitle": "A quién va dirigido",
+        "rule_color": "#294e3f",
+        "show_rule": true,
+        "title": "Para ti que recomiendas, asesoras o vendes",
+        "heading_size": "h1",
+        "title_alignment": "center",
+        "intro_paragraph": "<p>Amplia tu portafolio.</p>",
+        "intro_alignment": "center",
+        "header_max_width": 50,
+        "columns_desktop": 4,
+        "columns_tablet": 4,
+        "auto_fit_columns": true,
+        "rows": 0,
+        "grid_justify": "left",
+        "grid_align": "stretch",
+        "use_theme_spacing": true,
+        "gap_horizontal": 24,
+        "gap_vertical": 32,
+        "image_alignment": "center",
+        "column_alignment": "left",
+        "text_valign": "top",
+        "card_background": true,
+        "card_color_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9",
+        "card_radius": 16,
+        "card_padding": 24,
+        "card_shape": "auto",
+        "card_shape_mobile": "auto",
+        "card_content_position": "spread",
+        "mobile_side_line": false,
+        "card_heading_size": "h2",
+        "unify_layout": true,
+        "align_titles": true,
+        "title_lines": 2,
+        "custom_text_sizes": false,
+        "card_title_size": 28,
+        "card_text_size": 15,
+        "background_style": "primary",
+        "color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "image_mode": "icon",
+        "icon_size": 64,
+        "image_gap": 16,
+        "image_width_percent": 100,
+        "image_ratio": "adapt",
+        "image_height": 240,
+        "image_fit": "cover",
+        "image_position": "focal",
+        "image_bleed": false,
+        "image_contain_bg": true,
+        "image_radius": 0,
+        "button_label": "",
+        "button_link": "",
+        "button_new_tab": false,
+        "button_style": "primary",
+        "button_color_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9",
+        "button_pill": false,
+        "button_alignment": "center",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_sept2026_cQktdB": {
+      "type": "multicolumn-sept2026",
+      "blocks": {
+        "column_RNVrBL": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/aliados-icon-precio.png",
+            "title": "Nuestros productos ofrecen importantes márgenes de utilidad y retorno de inversión.&nbsp;",
+            "text": "<p>Accede a condiciones comerciales exclusivas que mejoran tu margen y hacen más competitiva tu oferta frente a tus clientes.</p>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": true,
+            "card_color_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_MTc9cW": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/aliados-icon-acompanamiento.png",
+            "title": "Acompañamiento de expertos",
+            "text": "<p>Cuenta con un equipo científico que te acompaña para resolver dudas, fortalecer tus recomendaciones y dar seguimiento a las necesidades de tus clientes.</p>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": true,
+            "card_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_wWKeDk": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/aliados-icon-capacitacion.png",
+            "title": "&nbsp;Capacitación continua&nbsp;",
+            "text": "<p>Fortalece tus conocimientos técnicos y comerciales con capacitaciones, contenidos y herramientas que te ayudan a vender con mayor confianza.</p>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": true,
+            "card_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_8WWFt3": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/aliados-icon-crecimiento.png",
+            "title": "Un programa que crece contigo&nbsp;",
+            "text": "<p>Crece con herramientas pensadas para tu negocio: materiales comerciales, recursos de publicidad y comunicación, beneficios exclusivos y oportunidades para fortalecer la relación con -----------</p>",
+            "desc_font": "body",
+            "title_size": 0,
+            "text_size": 0,
+            "text_valign_override": "section",
+            "image_fit_override": "section",
+            "image_position_override": "section",
+            "image_size": 0,
+            "use_custom_scheme": true,
+            "card_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+            "image_alignment_override": "section",
+            "text_alignment_override": "section",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_RNVrBL",
+        "column_MTc9cW",
+        "column_wWKeDk",
+        "column_8WWFt3"
+      ],
+      "name": "Multicolumn Sept 2026",
+      "settings": {
+        "pretitle": "",
+        "rule_color": "#294e3f",
+        "show_rule": true,
+        "title": "Como Aliado obtienes...",
+        "heading_size": "h1",
+        "title_alignment": "center",
+        "intro_paragraph": "<p>Como Aliado Tierra de Monte, tu negocio crece.</p><p>Te damos las herramientas, el conocimiento y el acompañamiento para que puedas ofrecer más valor a tus clientes y construir relaciones comerciales de largo plazo.</p>",
+        "intro_alignment": "center",
+        "header_max_width": 50,
+        "columns_desktop": 4,
+        "columns_tablet": 4,
+        "auto_fit_columns": true,
+        "rows": 0,
+        "grid_justify": "left",
+        "grid_align": "stretch",
+        "use_theme_spacing": true,
+        "gap_horizontal": 24,
+        "gap_vertical": 32,
+        "image_alignment": "center",
+        "column_alignment": "left",
+        "text_valign": "top",
+        "card_background": true,
+        "card_color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "card_radius": 16,
+        "card_padding": 24,
+        "card_shape": "auto",
+        "card_shape_mobile": "auto",
+        "card_content_position": "spread",
+        "mobile_side_line": false,
+        "card_heading_size": "h2",
+        "unify_layout": true,
+        "align_titles": true,
+        "title_lines": 2,
+        "custom_text_sizes": false,
+        "card_title_size": 28,
+        "card_text_size": 15,
+        "background_style": "primary",
+        "color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "image_mode": "icon",
+        "icon_size": 64,
+        "image_gap": 16,
+        "image_width_percent": 100,
+        "image_ratio": "adapt",
+        "image_height": 240,
+        "image_fit": "cover",
+        "image_position": "focal",
+        "image_bleed": false,
+        "image_contain_bg": true,
+        "image_radius": 0,
+        "button_label": "Quiero ser Aliado",
+        "button_link": "",
+        "button_new_tab": false,
+        "button_style": "primary",
+        "button_color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "button_pill": false,
+        "button_alignment": "center",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ticker_H9daYM": {
+      "type": "ticker",
+      "name": "Infinite Ticker",
+      "settings": {
+        "text": "VIDA QUE GENERA VIDA",
+        "icon_height": 32,
+        "bg_image": "shopify://shop_images/ticker-1.jpg",
+        "bg_color": "rgba(0,0,0,0)",
+        "text_color": "#faf4ec",
+        "font_size": 22,
+        "text_transform": "uppercase",
+        "typography_variant": "secondary",
+        "font_variant": "mono",
+        "speed": 36,
+        "show_top_border": false,
+        "show_bottom_border": false,
+        "height": 100
+      }
+    },
+    "slide_gallery_aK44mg": {
+      "type": "slide-gallery",
+      "blocks": {
+        "slide_qNeMrf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg"
+          }
+        },
+        "slide_EiNnYf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1.4.1_1.4.1.jpg"
+          }
+        },
+        "slide_ULFabq": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1.7.1_1.7.1.jpg"
+          }
+        },
+        "slide_qhnhGp": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "slide_qNeMrf",
+        "slide_EiNnYf",
+        "slide_ULFabq",
+        "slide_qhnhGp"
+      ],
+      "name": "Slide gallery",
+      "settings": {
+        "eyebrow": "RESULTADOS",
+        "rule_color": "#294e3f",
+        "show_rule": false,
+        "rule_thickness": 1,
+        "intro_title": "Gente que ya trabaja con nosotros",
+        "intro_heading_size": "h1",
+        "intro_alignment": "center",
+        "intro_text": "<p>Escribe aquí una descripción breve que acompañe a la galería.</p>",
+        "intro_text_alignment": "center",
+        "header_max_width": 70,
+        "intro_position": "top",
+        "intro_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "intro_padding_top": 36,
+        "intro_padding_bottom": 36,
+        "button_label": "Ver más",
+        "button_link": "",
+        "button_style_secondary": false,
+        "button_pill": true,
+        "cta_position": "bottom",
+        "cta_alignment": "center",
+        "cta_padding_top": 24,
+        "cta_padding_bottom": 36,
+        "layout": "grid",
+        "corner_radius": 8,
+        "padding_x_desktop": 50,
+        "padding_x_mobile": 15,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "slide_height": "medium",
+        "mobile_ratio": "desktop",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "accessibility_info": "Presentación de diapositivas sobre tu marca"
+      }
+    },
+    "ticker_fLHMnW": {
+      "type": "ticker",
+      "name": "Infinite Ticker",
+      "settings": {
+        "text": "Ciencia al servicio del campo",
+        "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
+        "icon_height": 45,
+        "bg_color": "#c8e7c3",
+        "text_color": "#373736",
+        "font_size": 100,
+        "text_transform": "none",
+        "typography_variant": "primary",
+        "font_variant": "normal",
+        "speed": 74,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 135
+      }
+    },
+    "comparison_table_CjRhQt": {
+      "type": "comparison-table",
+      "blocks": {
+        "column_mwfihX": {
+          "type": "column",
+          "settings": {
+            "title": "BRONCE",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_image": "shopify://shop_images/aliados-bronce.png",
+            "header_icon": "none",
+            "price": "Desde <strong>$10,000</strong>",
+            "price_note": "Compra mínima cada dos meses",
+            "cta_label": "",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": false,
+            "highlight_scheme": "scheme-3"
+          }
+        },
+        "column_jg8fy8": {
+          "type": "column",
+          "settings": {
+            "title": "PLATA",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_image": "shopify://shop_images/aliados-plata.png",
+            "header_icon": "none",
+            "price": "Desde <strong>$30,000</strong>",
+            "price_note": "Compra mínima cada dos meses",
+            "cta_label": "",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": false,
+            "highlight_scheme": "scheme-3"
+          }
+        },
+        "column_78mbPV": {
+          "type": "column",
+          "settings": {
+            "title": "ORO",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_image": "shopify://shop_images/aliados-oro.png",
+            "header_icon": "none",
+            "price": "Desde <strong>$60,000</strong>",
+            "price_note": "Compra mínima cada dos meses",
+            "cta_label": "",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": false,
+            "highlight_scheme": ""
+          }
+        },
+        "column_fiTbt6": {
+          "type": "column",
+          "settings": {
+            "title": "PLATINO",
+            "subtitle": "",
+            "badge": "",
+            "link": "",
+            "header_image": "shopify://shop_images/aliados-platino.png",
+            "header_icon": "none",
+            "price": "Desde <strong>$100,000</strong>",
+            "price_note": "Compra mínima cada dos meses",
+            "cta_label": "",
+            "cta_link": "",
+            "cta_new_tab": false,
+            "cta_style": "solid",
+            "cta_custom_scheme": false,
+            "cta_scheme": "",
+            "highlight": false,
+            "highlight_scheme": ""
+          }
+        },
+        "row_JbxEJW": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Compra mínima cada 2 meses</p>",
+            "feature_note": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_9V7eHX": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Incluye todo lo del nivel anterior</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_qDArga": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Kit de bienvenida</p>",
+            "feature_note": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_XncMzU": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Tus clientes protegidos</p>",
+            "feature_note": "",
+            "col1_content": "<p>si</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_QqeDVU": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Podcast técnicos exclusivos</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_aatLcd": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Cursos de marketing y ventas</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_BMBrzP": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Herramientas de diseño</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>si</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_xdrneX": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Grupo de WhatsApp con los ingenieros y con otros Aliados</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_gX8nxQ": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Producto a crédito, según cómo te haya ido</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_kbgJAG": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Tu lugar en el <strong>Encuentro Tierra de Monte</strong></p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>si</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        },
+        "row_RaXbnX": {
+          "type": "row",
+          "settings": {
+            "feature_content": "<p>Una videollamada al mes con un ingeniero, para ver tus casos</p>",
+            "feature_note": "",
+            "col1_content": "<p>-</p>",
+            "col2_content": "<p>-</p>",
+            "col3_content": "<p>-</p>",
+            "col4_content": "<p>si</p>",
+            "col5_content": "",
+            "col6_content": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_mwfihX",
+        "column_jg8fy8",
+        "column_78mbPV",
+        "column_fiTbt6",
+        "row_JbxEJW",
+        "row_9V7eHX",
+        "row_qDArga",
+        "row_XncMzU",
+        "row_QqeDVU",
+        "row_aatLcd",
+        "row_BMBrzP",
+        "row_xdrneX",
+        "row_gX8nxQ",
+        "row_kbgJAG",
+        "row_RaXbnX"
+      ],
+      "name": "Tabla comparativa",
+      "settings": {
+        "pretitle": "RESULTADOS",
+        "show_rule": true,
+        "rule_color": "#294e3f",
+        "heading": "Más beneficios a medida que creces",
+        "heading_size": "h1",
+        "description": "<p>Avanza de nivel conforme aumenta tu volumen de compra y accede a nuevas herramientas, beneficios y oportunidades para hacer crecer tu negocio.</p>",
+        "text_align": "center",
+        "footnote": "",
+        "color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "table_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "check_color": "text",
+        "first_column_width": 28,
+        "first_column_label": "",
+        "feature_bold": false,
+        "feature_tint": false,
+        "cell_align": "center",
+        "image_size": 120,
+        "table_radius": 12,
+        "table_padding_x": 16,
+        "highlight_extra_width": 20,
+        "highlight_radius": 0,
+        "striped_rows": false,
+        "show_vertical_borders": false,
+        "border_opacity": 15,
+        "sticky_first_column": true,
+        "mobile_feature_width": 130,
+        "mobile_column_width": 120,
+        "mobile_image_size": 64,
+        "scroll_hint": "Desliza para ver todos los planes",
+        "cta_color_scheme": "scheme-1",
+        "cta_placement": "bottom",
+        "full_width_buttons": true,
+        "show_bottom_ctas": false,
+        "use_theme_buttons": true,
+        "button_uppercase": true,
+        "button_radius": 12,
+        "button_label": "Conviértete en un Aliado",
+        "button_link": "",
+        "button_new_tab": false,
+        "button_style": "solid",
+        "button_scheme_source": "cta",
+        "button_color_scheme": "",
+        "button_align": "center",
+        "container_width": "page-width",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_CXFLjY": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_yNFznP": {
+          "type": "heading",
+          "settings": {
+            "heading": "Da el paso, un Aliado te trajo hasta aquí",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_yNFznP"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "custom_liquid_mMUaMW": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<iframe\n    src=\"https://api.leadconnectorhq.com/widget/form/PokFnUnhtj45vXhbVBBj\"\n    style=\"width:100%;height:100%;border:none;border-radius:8px\"\n    id=\"inline-PokFnUnhtj45vXhbVBBj\" \n    data-layout=\"{'id':'INLINE'}\"\n    data-trigger-type=\"alwaysShow\"\n    data-trigger-value=\"\"\n    data-activation-type=\"alwaysActivated\"\n    data-activation-value=\"\"\n    data-deactivation-type=\"neverDeactivate\"\n    data-deactivation-value=\"\"\n    data-form-name=\"Form v.0 Aliados\"\n    data-height=\"709\"\n    data-layout-iframe-id=\"inline-PokFnUnhtj45vXhbVBBj\"\n    data-form-id=\"PokFnUnhtj45vXhbVBBj\"\n    data-cookie-consent=\"true\"\n    data-cookie-consent-provider=\"auto\"\n    title=\"Form v.0 Aliados\"\n    \n        >\n</iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "collapsible_content_wp3zF8": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_GDzrXr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Los $5,000 son cuota de inscripción?",
+            "icon": "check_mark",
+            "row_content": "<p>No. Son $5,000 en producto que te llega a tu bodega. No cobramos por entrar.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_AKwAGA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Tengo que dejar de vender lo que ya vendo?",
+            "icon": "check_mark",
+            "row_content": "<p>No. Sigues con tus marcas y le sumas la nuestra. Nadie te pide que cambies tu negocio.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_bdnEWF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Y si un bimestre no llego al mínimo?",
+            "icon": "check_mark",
+            "row_content": "<p>No pasa nada, sigues siendo aliado. Ese bimestre operas con los beneficios del nivel que sí alcanzaste y luego vuelves a subir.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_HEgaXb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Fila desplegable",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_9nErwx": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Cómo funciona lo de mis clientes?",
+            "icon": "check_mark",
+            "row_content": "<p>No le vendemos a tus clientes ni los buscamos por nuestra cuenta. Si alguno nos escribe, lo mandamos contigo.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_BpRhfh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Para qué quieren mi identificación?",
+            "icon": "check_mark",
+            "row_content": "<p>Para saber con quién estamos trabajando. Es lo que nos permite proteger a tus clientes a tu nombre y que nadie más de la red te los toque.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_MnDPgR": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "¿Tengo que haber usado sus productos antes?",
+            "icon": "check_mark",
+            "row_content": "<p>No. Muchos aliados llegan porque ya los probaron en su tierra, y es el mejor camino. Pero si vienes recomendado o ya tienes clientes que confían en ti, también entras.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_GDzrXr",
+        "collapsible_row_AKwAGA",
+        "collapsible_row_bdnEWF",
+        "collapsible_row_HEgaXb",
+        "collapsible_row_9nErwx",
+        "collapsible_row_BpRhfh",
+        "collapsible_row_MnDPgR"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "Lo que todos preguntan",
+        "heading": "Preguntas",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "hero_slider_Q8CAkg",
+    "ticker_q7YzML",
+    "tabs-collections",
+    "multicolumn_sept2026_AwmWPk",
+    "multicolumn_sept2026_cQktdB",
+    "ticker_H9daYM",
+    "slide_gallery_aK44mg",
+    "ticker_fLHMnW",
+    "comparison_table_CjRhQt",
+    "rich_text_CXFLjY",
+    "custom_liquid_mMUaMW",
+    "collapsible_content_wp3zF8"
+  ]
+}

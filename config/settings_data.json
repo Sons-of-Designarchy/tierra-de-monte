@@ -149,11 +149,6 @@
         "type": "shopify://apps/az-google-font-custom-fonts/blocks/arc_fontify_block-app-embed/e720f1f7-5778-4825-85a3-3572dbcf27c4",
         "disabled": false,
         "settings": {}
-      },
-      "12741885996470144523": {
-        "type": "shopify://apps/enorm-image-gallery-video/blocks/embed-js/01219f89-c8d0-40c2-a0ff-1987199e84a2",
-        "disabled": false,
-        "settings": {}
       }
     },
     "color_schemes": {
@@ -247,10 +242,10 @@
       },
       "scheme-3d60605a-57e4-4a09-a2d8-98bf4ecd11fb": {
         "settings": {
-          "background": "#c41d1d",
+          "background": "#000000",
           "background_gradient": "linear-gradient(57deg, rgba(249, 119, 255, 1) 8%, rgba(54, 212, 255, 1) 47%, rgba(43, 252, 135, 1) 83%)",
-          "text": "#ff1b1b",
-          "button": "#f54b4b",
+          "text": "#000000",
+          "button": "#000000",
           "button_label": "#458e74",
           "secondary_button_label": "#815555",
           "shadow": "#350f49"
@@ -267,26 +262,37 @@
           "shadow": "#121212"
         }
       },
-      "scheme-c75dd240-b73a-43c1-a07b-4e9c574ba6e9": {
+      "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be": {
         "settings": {
-          "background": "#c78080",
+          "background": "#DFE6C5",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#ffffff",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#003118",
+          "button": "#2B7034",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#0D5216",
+          "shadow": "#482b28"
         }
       },
-      "scheme-9d2ecf75-7ac1-47fd-9d1c-0d224ce1dade": {
+      "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460": {
         "settings": {
-          "background": "#458e74",
+          "background": "#B2D286",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#ffffff",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#003118",
+          "button": "#2B7034",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#1a4330",
+          "shadow": "#482b28"
+        }
+      },
+      "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9": {
+        "settings": {
+          "background": "#003118",
+          "background_gradient": "",
+          "text": "#FFFFFF",
+          "button": "#d8e35b",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#FFFFFF",
+          "shadow": "#482b28"
         }
       }
     }
