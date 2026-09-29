@@ -1,0 +1,171 @@
+/* =============================================================================
+   Feature section (sections/tdm-feature.liquid)
+   Three layouts share one lead column and one schema:
+     --stats  big numbers, image pinned to the bottom, vertical dividers
+     --cards  icon tiles on the sand surface
+     --rows   clickable rows with icon, title, description, arrow
+   Per-instance values arrive as custom properties on .tdm-feature:
+     --cols-mobile --cols-tablet --cols-desktop --tdm-rule --tdm-divider
+     --column-min-height --row-title-size
+   ========================================================================== */
+
+.tdm-feature__text {
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+
+/* ---- Column grid (stats + cards) ---------------------------------------- */
+.tdm-feature__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--tdm-space-6);
+  grid-template-columns: repeat(var(--cols-mobile, 1), minmax(0, 1fr));
+  align-items: stretch;
+}
+
+@media (min-width: 750px) {
+  .tdm-feature__grid {
+    grid-template-columns: repeat(var(--cols-tablet, 3), minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 990px) {
+  .tdm-feature__grid {
+    grid-template-columns: repeat(var(--cols-desktop, 3), minmax(0, 1fr));
+    gap: var(--tdm-space-8);
+  }
+}
+
+.tdm-feature__item {
+  display: flex;
+  min-width: 0;
+}
+
+.tdm-feature__tile {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 100%;
+}
+
+.tdm-feature__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tdm-space-2);
+}
+
+.tdm-feature__info .link {
+  margin-top: var(--tdm-space-2);
+}
+
+/* ---- Stats ---------------------------------------------------------------- */
+.tdm-feature--stats .tdm-feature__item--divided {
+  border-left: 1px solid var(--tdm-divider, var(--tdm-border-strong));
+  padding-left: var(--tdm-space-4);
+}
+
+.tdm-feature--stats .tdm-feature__info {
+  margin-bottom: var(--tdm-space-4);
+}
+
+.tdm-feature--stats .tdm-feature__media {
+  margin-top: auto;
+  width: 100%;
+  border-radius: var(--tdm-radius-sm);
+  overflow: hidden;
+}
+
+.tdm-feature--stats .tdm-feature__media img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+@media (min-width: 990px) {
+  .tdm-feature--stats .tdm-feature__item {
+    min-height: var(--column-min-height, 0);
+  }
+}
+
+/* ---- Cards ---------------------------------------------------------------- */
+.tdm-feature--cards .tdm-feature__tile {
+  padding: var(--tdm-space-4);
+  gap: var(--tdm-space-3);
+}
+
+.tdm-feature__icon {
+  width: var(--icon-size, 40px);
+  height: var(--icon-size, 40px);
+  flex: 0 0 auto;
+}
+
+.tdm-feature__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- Rows ----------------------------------------------------------------- */
+.tdm-feature__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tdm-space-3);
+}
+
+.tdm-feature__row {
+  overflow: hidden;
+}
+
+.tdm-feature__row-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px var(--tdm-space-4);
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  transition: background-color var(--tdm-duration) var(--tdm-ease);
+}
+
+.tdm-feature__row-link:hover {
+  background: var(--tdm-hover);
+}
+
+.tdm-feature__row-link .tdm-feature__icon {
+  border-radius: var(--tdm-radius-sm);
+  overflow: hidden;
+}
+
+.tdm-feature__row-texts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tdm-space-1);
+  min-width: 0;
+}
+
+.tdm-feature__row-title {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--row-title-size, 20px);
+  line-height: 1.1;
+}
+
+.tdm-feature__row-desc {
+  margin: 0;
+  color: var(--tdm-ink-soft);
+}
+
+.tdm-feature__row-arrow {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.7;
+}
