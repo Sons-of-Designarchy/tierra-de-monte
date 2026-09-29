@@ -1,0 +1,59 @@
+/* =============================================================================
+   Custom breadcrumb — blog (sections/custom-breadcrumb-blog.liquid)
+   Back link + mono uppercase crumb trail, rule top and bottom.
+   ========================================================================== */
+
+.tdm-breadcrumb .cbb__bar {
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.tdm-breadcrumb .cbb__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--tdm-space-4);
+  min-height: 48px;
+  padding: 10px 0;
+}
+
+.tdm-breadcrumb .cbb__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  padding: var(--tdm-space-4) var(--tdm-space-8);
+  border: 1px solid currentColor;
+  border-radius: var(--tdm-radius-pill);
+  color: currentColor;
+  text-decoration: none;
+}
+
+.tdm-breadcrumb .cbb__back svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
+.tdm-breadcrumb .cbb__crumbs {
+  font-size: 0.8em;
+  letter-spacing: -0.04em;
+  line-height: 1.8rem;
+}
+
+.tdm-breadcrumb .cbb__crumbs a {
+  font-size: 1em;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .tdm-breadcrumb .cbb__inner {
+    gap: var(--tdm-space-3);
+  }
+
+  .tdm-breadcrumb .cbb__crumbs {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

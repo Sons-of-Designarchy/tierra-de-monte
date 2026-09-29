@@ -1,0 +1,129 @@
+/* =============================================================================
+   Ticker section (sections/ticker.liquid)
+   Infinite marquee of a repeated line of text, optional background image and
+   icon. Per-instance values arrive as custom properties on .tdm-ticker:
+     --ticker-speed --ticker-h --ticker-fs --ticker-icon-h --ticker-ink --ticker-bg
+   Text transform, borders and the mono swap are modifier classes; see
+   tdm-foundations.css for the shared .tdm-mono utility.
+   ========================================================================== */
+
+.tdm-ticker {
+  position: relative;
+  min-height: var(--ticker-h, 100px);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ticker-bg, transparent);
+}
+
+.tdm-ticker--border-top {
+  border-top: 1px solid var(--ticker-ink, rgb(var(--tdm-cream)));
+}
+
+.tdm-ticker--border-bottom {
+  border-bottom: 1px solid var(--ticker-ink, rgb(var(--tdm-cream)));
+}
+
+.tdm-ticker__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  display: block;
+}
+
+.tdm-ticker__layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  z-index: 2;
+}
+
+.tdm-ticker .typo-primary,
+.tdm-ticker .typo-secondary,
+.tdm-ticker .tdm-mono {
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ticker-ink, rgb(var(--tdm-cream)));
+  font-size: var(--ticker-fs, 22px);
+  text-transform: uppercase;
+}
+
+.tdm-ticker--transform-title .typo-primary,
+.tdm-ticker--transform-title .typo-secondary,
+.tdm-ticker--transform-title .tdm-mono {
+  text-transform: capitalize;
+}
+
+.tdm-ticker--transform-none .typo-primary,
+.tdm-ticker--transform-none .typo-secondary,
+.tdm-ticker--transform-none .tdm-mono {
+  text-transform: none;
+}
+
+.tdm-ticker .typo-primary {
+  font-family: var(--font-heading-family);
+  font-weight: lighter;
+  letter-spacing: -0.5rem; /* tighter for heading style */
+}
+
+.tdm-ticker .typo-secondary {
+  font-family: var(--font-body-family);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.tdm-ticker .tdm-mono {
+  font-size: calc(var(--ticker-fs, 22px) * var(--font-mono-scale, 1));
+  letter-spacing: 0.06em;
+}
+
+.tdm-ticker__marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.tdm-ticker__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.2rem;
+  will-change: transform;
+  animation: tdm-ticker var(--ticker-speed, 36s) linear infinite;
+}
+
+.tdm-ticker__chunk {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.tdm-ticker__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.tdm-ticker__icon {
+  height: var(--ticker-icon-h, 32px);
+  width: auto;
+  max-height: 55px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+@keyframes tdm-ticker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
