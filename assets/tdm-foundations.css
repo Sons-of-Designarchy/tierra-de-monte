@@ -25,13 +25,6 @@
   --tdm-cream: 243 239 207; /* #F3EFCF  ticker default ink */
   --tdm-dot: 47 182 115; /* #2FB673  tab status dot */
 
-  /* Derived, scheme-aware */
-  --tdm-border: rgba(var(--color-foreground), 0.12);
-  --tdm-border-strong: rgba(var(--color-foreground), 0.25);
-  --tdm-ink-muted: rgba(var(--color-foreground), 0.72);
-  --tdm-ink-soft: rgba(var(--color-foreground), 0.85);
-  --tdm-hover: rgba(var(--color-foreground), 0.05);
-
   /* Shape */
   --tdm-radius-sm: 8px;
   --tdm-radius-md: 12px;
@@ -59,6 +52,17 @@
   /* Motion */
   --tdm-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --tdm-duration: 0.2s;
+}
+
+/* Derived, scheme-aware. Declared on every scheme element (not only :root) so
+   they resolve against that section's --color-foreground, e.g. white on dark. */
+:root,
+[class*='color-scheme'] {
+  --tdm-border: rgba(var(--color-foreground), 0.12);
+  --tdm-border-strong: rgba(var(--color-foreground), 0.25);
+  --tdm-ink-muted: rgba(var(--color-foreground), 0.72);
+  --tdm-ink-soft: rgba(var(--color-foreground), 0.85);
+  --tdm-hover: rgba(var(--color-foreground), 0.05);
 }
 
 /* -----------------------------------------------------------------------------

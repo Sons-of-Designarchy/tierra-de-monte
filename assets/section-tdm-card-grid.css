@@ -421,11 +421,12 @@ tdm-card-grid-titles {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0) 65%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.45) 55%, rgba(0, 0, 0, 0.3) 100%);
 }
 .tdm-card-grid--photo-bg .multicolumn-card__info {
   position: relative;
   z-index: 1;
+  margin-top: auto;
   padding: var(--tdm-cg-card-pad-mobile, 1.6rem);
 }
 @media screen and (min-width: 750px) {
