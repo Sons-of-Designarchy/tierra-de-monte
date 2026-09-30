@@ -116,7 +116,16 @@ tdm-scroll-steps {
 .tdm-steps__step-text,
 .tdm-steps__step-text p {
   margin: 0;
+  font-size: var(--tdm-text-lead);
+  line-height: var(--tdm-text-body-leading);
   color: rgb(var(--color-foreground));
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-steps__step-text,
+  .tdm-steps__step-text p {
+    font-size: var(--tdm-text-lead-desktop);
+  }
 }
 
 .tdm-steps__step-text p + p {

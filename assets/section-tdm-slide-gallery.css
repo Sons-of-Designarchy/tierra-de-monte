@@ -55,6 +55,10 @@
 .tdm-slide-gallery[data-layout='grid'] .tdm-slide-gallery__slider {
   padding-left: var(--sg-pad-x-mobile);
   padding-right: var(--sg-pad-x-mobile);
+}
+
+/* The radius goes on the image track, not the padded frame around it */
+.tdm-slide-gallery[data-layout='grid'] .tdm-slide-gallery__slider .slideshow {
   border-radius: var(--sg-radius);
   isolation: isolate;
 }
@@ -66,9 +70,9 @@
   }
 }
 
-/* Mobile: the slider is always a fixed-ratio rectangle */
+/* Mobile: the image track is always a fixed-ratio rectangle (the controls sit below it) */
 @media screen and (max-width: 749px) {
-  .tdm-slide-gallery .tdm-slide-gallery__slider {
+  .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow {
     aspect-ratio: var(--sg-mobile-ratio, 3 / 2);
     height: auto;
     min-height: 0;

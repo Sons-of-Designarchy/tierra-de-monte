@@ -49,6 +49,10 @@
   --tdm-text-body-desktop: 1.6rem;
   --tdm-text-body-leading: 1.46;
 
+  /* Lead text — one step up from body, for short intro/step copy */
+  --tdm-text-lead: 1.7rem;
+  --tdm-text-lead-desktop: 1.8rem;
+
   /* Motion */
   --tdm-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --tdm-duration: 0.2s;

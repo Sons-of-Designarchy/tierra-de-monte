@@ -49,7 +49,7 @@
 .tdm-ticker .typo-primary,
 .tdm-ticker .typo-secondary,
 .tdm-ticker .tdm-mono {
-  line-height: 1;
+  line-height: 1.25; /* room for descenders (g, p, y) inside the clipped marquee */
   white-space: nowrap;
   color: var(--ticker-ink, rgb(var(--tdm-cream)));
   font-size: var(--ticker-fs, 22px);

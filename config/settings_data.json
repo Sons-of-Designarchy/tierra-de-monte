@@ -13,6 +13,7 @@
     "logo_width": 160,
     "favicon": "shopify://shop_images/shield-2.svg",
     "type_header_font": "inter_n3",
+    "aliados_heading_font": "barlow_condensed_n5",
     "heading_scale": 130,
     "type_body_font": "inter_n4",
     "body_scale": 100,

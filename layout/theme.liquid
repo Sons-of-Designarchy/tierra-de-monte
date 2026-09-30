@@ -16,6 +16,10 @@
       if is_aliados and settings.aliados_favicon != blank
         assign favicon = settings.aliados_favicon
       endif
+      assign heading_font = settings.type_header_font
+      if is_aliados and settings.aliados_heading_font != blank
+        assign heading_font = settings.aliados_heading_font
+      endif
     -%}
     {%- if favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ favicon | image_url: width: 32, height: 32 }}">
@@ -28,7 +32,7 @@
     {%- if settings.font_mono -%}
       {%- assign mono_is_system = settings.font_mono.system? -%}
     {%- endif -%}
-    {%- unless settings.type_header_font.system? and settings.type_body_font.system? and mono_is_system -%}
+    {%- unless heading_font.system? and settings.type_body_font.system? and mono_is_system -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
@@ -207,7 +211,7 @@
       {{ body_font_bold | font_face: font_display: 'swap' }}
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+      {{ heading_font | font_face: font_display: 'swap' }}
 
       {%- if settings.font_mono -%}
         {{ settings.font_mono | font_face: font_display: 'swap' }}
@@ -273,9 +277,9 @@
         --font-body-weight: {{ settings.type_body_font.weight }};
         --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
 
-        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
-        --font-heading-style: {{ settings.type_header_font.style }};
-        --font-heading-weight: {{ settings.type_header_font.weight }};
+        --font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+        --font-heading-style: {{ heading_font.style }};
+        --font-heading-weight: {{ heading_font.weight }};
 
         --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
@@ -434,9 +438,9 @@
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
       {% comment %}theme-check-enable AssetPreload{% endcomment %}
     {%- endunless -%}
-    {%- unless settings.type_header_font.system? -%}
+    {%- unless heading_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      <link rel="preload" as="font" href="{{ heading_font | font_url }}" type="font/woff2" crossorigin>
       {% comment %}theme-check-enable AssetPreload{% endcomment %}
     {%- endunless -%}
 

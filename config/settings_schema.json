@@ -1497,6 +1497,13 @@
         "id": "aliados_full_opacity_text",
         "label": "Texto de lectura al 100% de opacidad",
         "default": true
+      },
+      {
+        "type": "font_picker",
+        "id": "aliados_heading_font",
+        "label": "Tipografía de títulos",
+        "info": "Párrafos y eyebrows no cambian.",
+        "default": "barlow_condensed_n5"
       }
     ]
   }

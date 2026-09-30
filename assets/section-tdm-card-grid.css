@@ -287,9 +287,10 @@ tdm-card-grid-titles {
   .tdm-card-grid--mobile-slider .tdm-section-eyebrow { padding: 0 1.5rem; }
 }
 
+/* Header width is a % of the section, but never narrower than 64rem (or the section) */
 .tdm-card-grid .title-wrapper-with-link {
   width: 100%;
-  max-width: var(--tdm-cg-header-max-width, 50%);
+  max-width: min(100%, max(var(--tdm-cg-header-max-width, 50%), 64rem));
   margin-left: var(--tdm-cg-title-ml, 0);
   margin-right: var(--tdm-cg-title-mr, auto);
   margin-bottom: 1rem;
@@ -301,7 +302,7 @@ tdm-card-grid-titles {
 /* ===== Párrafo intro (alineación editable) ===== */
 .tdm-card-grid .multicolumn__intro {
   width: 100%;
-  max-width: var(--tdm-cg-header-max-width, 50%);
+  max-width: min(100%, max(var(--tdm-cg-header-max-width, 50%), 64rem));
   margin: 0.5rem var(--tdm-cg-intro-mr, auto) 1.5rem var(--tdm-cg-intro-ml, 0);
   text-align: var(--tdm-cg-intro-align, left);
   color: rgb(var(--color-foreground, 18, 18, 18));
@@ -336,11 +337,12 @@ tdm-card-grid-titles {
 }
 .tdm-card-grid--grid-align-auto .tdm-card-grid__grid .multicolumn-card { height: auto; }
 
-/* ===== Tablet (750–989px): columnas editables =====
+/* ===== Tablet (750–1199px): columnas editables =====
+   Runs up to 1199px so landscape tablets don't get 4+ cramped desktop columns.
    Beats base.css's .slider--tablet.grid--peek[...] .grid__item combos (3-4 classes
    across several column-count variants): this section always shows a static wrapped
    grid on tablet, never the peek slider, regardless of the swipe-on-mobile setting. */
-@media (min-width: 750px) and (max-width: 989px) {
+@media (min-width: 750px) and (max-width: 1199px) {
   .tdm-card-grid .tdm-card-grid__grid {
     display: flex !important;
     flex-wrap: wrap !important;

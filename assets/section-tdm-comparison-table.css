@@ -565,6 +565,15 @@
   opacity: 1;
 }
 
+/* Text inside the table follows the table scheme, not the section scheme */
+.tdm-comparison-table .ct-table .ct-feature,
+.tdm-comparison-table .ct-table th.ct-feature,
+.tdm-comparison-table .ct-header__subtitle,
+.tdm-comparison-table .ct-header__note,
+.tdm-comparison-table .ct-feature small {
+  color: var(--ct-table-fg);
+}
+
 @media screen and (min-width: 750px) {
   .tdm-comparison-table .ct-table .ct-feature,
   .tdm-comparison-table .ct-table th.ct-feature,
@@ -577,6 +586,5 @@
 }
 
 .tdm-comparison-table .ct-feature small {
-  color: rgb(var(--color-foreground));
   opacity: 1;
 }
