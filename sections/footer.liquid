@@ -172,10 +172,10 @@
         <div class="footer-block--newsletter">
           <div class="footer-block__newsletter">
             <div
-              class="footer-newsletter"
+              class="footer-newsletter{% unless section.settings.newsletter_enable %} footer-newsletter--media-only{% endunless %}"
               style="--nl-media-w: {{ section.settings.newsletter_image_max_width | default: 140 }}px;"
             >
-              <!-- LEFT: heading + form -->
+              {%- if section.settings.newsletter_enable -%}
               <div class="footer-newsletter__form">
                 {% if section.settings.newsletter_title != blank %}
                   <p class="footer-block__heading inline-richtext">
@@ -220,6 +220,7 @@
                   </div>
                 </form>
               </div>
+              {%- endif -%}
 
               <!-- RIGHT: image -->
               {% if section.settings.newsletter_image != blank %}

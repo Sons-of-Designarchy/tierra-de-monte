@@ -71,7 +71,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-3",
-        "newsletter_enable": false,
+        "newsletter_enable": true,
         "newsletter_heading": "",
         "newsletter_title": "",
         "newsletter_image": "shopify://shop_images/Frame_56.png",

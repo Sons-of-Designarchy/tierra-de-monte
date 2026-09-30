@@ -306,7 +306,10 @@
           "shadow": "#482b28"
         }
       }
-    }
+    },
+    "aliados_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+    "aliados_favicon": "shopify://shop_images/logo-stacked-white.png",
+    "aliados_full_opacity_text": true
   },
   "presets": {
     "Dawn": {

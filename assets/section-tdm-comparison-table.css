@@ -551,3 +551,32 @@
   --ct-btn-hover-bg: var(--ct-cta-hover-bg);
   --ct-btn-hover-fg: var(--ct-cta-hover-fg);
 }
+
+/* Reading text floor (tokens in tdm-foundations.css) */
+.tdm-comparison-table .ct-table .ct-feature,
+.tdm-comparison-table .ct-table th.ct-feature,
+.tdm-comparison-table .ct-header__subtitle,
+.tdm-comparison-table .ct-header__note,
+.tdm-comparison-table .ct-scroll-hint,
+.tdm-comparison-table .ct-footnote {
+  font-size: var(--tdm-text-body);
+  line-height: var(--tdm-text-body-leading);
+  color: rgb(var(--color-foreground));
+  opacity: 1;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-comparison-table .ct-table .ct-feature,
+  .tdm-comparison-table .ct-table th.ct-feature,
+  .tdm-comparison-table .ct-header__subtitle,
+  .tdm-comparison-table .ct-header__note,
+  .tdm-comparison-table .ct-scroll-hint,
+  .tdm-comparison-table .ct-footnote {
+    font-size: var(--tdm-text-body-desktop);
+  }
+}
+
+.tdm-comparison-table .ct-feature small {
+  color: rgb(var(--color-foreground));
+  opacity: 1;
+}

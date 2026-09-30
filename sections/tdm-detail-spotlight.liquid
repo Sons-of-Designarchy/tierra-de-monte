@@ -112,7 +112,7 @@
 
 <section
   class="tdm-spotlight color-{{ s.color_scheme }} gradient"
-  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }}; --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg | default: '#F4F1F2' }};"
+  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }}; --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }};"
 >
   <div class="page-width section-{{ section.id }}-padding">
     {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}

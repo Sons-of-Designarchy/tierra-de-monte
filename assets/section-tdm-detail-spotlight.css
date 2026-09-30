@@ -5,8 +5,14 @@
    "Original de la imagen" uses the first image's proportions so every image
    shares one frame.
    Per-instance values arrive as custom properties on .tdm-spotlight:
-     --sp-ratio --sp-ratio-m --sp-radius --sp-media-w
+     --sp-ratio --sp-ratio-m --sp-radius --sp-media-w --sp-fit --sp-contain-bg
    ========================================================================== */
+
+.tdm-spotlight {
+  /* Letterbox behind "contain"-fit images. Scheme-independent by design: it sits
+     under a photo, not on a text surface, so it doesn't follow --color-background. */
+  --sp-contain-bg-default: #f4f1f2;
+}
 
 .tdm-spotlight__header {
   max-width: 72rem;
@@ -75,7 +81,7 @@ tdm-spotlight-media {
 
 .tdm-spotlight__slide--contain,
 .tdm-spotlight[style*='--sp-fit: contain'] .tdm-spotlight__slide:not(.tdm-spotlight__slide--cover) {
-  background: var(--sp-contain-bg, #f4f1f2);
+  background: var(--sp-contain-bg, var(--sp-contain-bg-default));
 }
 
 /* Rotating images: stacked, cross-fade on .is-active (assets/tdm-detail-spotlight.js) */

@@ -1,0 +1,174 @@
+/* =============================================================================
+   Slide gallery (sections/slide-gallery.liquid)
+   Wraps Dawn's slideshow-component (component-slider.css / component-slideshow.css /
+   section-image-banner.css supply the base slider). This file only overrides Dawn's
+   look (buttons, dots, controls) and lays out the intro copy + optional CTA.
+   Per-instance values arrive as custom properties on .tdm-slide-gallery:
+     --sg-mobile-ratio --sg-radius --sg-pad-x-mobile --sg-pad-x-desktop --sg-adapt-pb
+   Layout ("Con padding" vs "Ancho completo") is read from [data-layout] on the root.
+   ========================================================================== */
+
+.tdm-slide-gallery .slide-gallery-intro__inner > * + * {
+  margin-top: 1.5rem;
+}
+
+.tdm-slide-gallery .slide-gallery-intro__heading {
+  margin: 0;
+}
+
+.tdm-slide-gallery .slide-gallery-intro__text {
+  max-width: 70rem;
+}
+
+.tdm-slide-gallery .slide-gallery-intro__text > *:first-child {
+  margin-top: 0;
+}
+
+.tdm-slide-gallery .slide-gallery-intro__text > *:last-child {
+  margin-bottom: 0;
+}
+
+.tdm-slide-gallery .slide-gallery-intro--left {
+  text-align: left;
+}
+
+.tdm-slide-gallery .slide-gallery-intro--center {
+  text-align: center;
+}
+
+.tdm-slide-gallery .slide-gallery-intro--center .slide-gallery-intro__text {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tdm-slide-gallery .slide-gallery-intro--right {
+  text-align: right;
+}
+
+.tdm-slide-gallery .slide-gallery-intro--right .slide-gallery-intro__text {
+  margin-left: auto;
+}
+
+/* ---- Gallery frame: "Con padding" gets side padding + rounded corners -------
+   Scoped to .tdm-slide-gallery__slider (not the generic .page-width, which the
+   intro and the below-gallery CTA also carry). */
+.tdm-slide-gallery[data-layout='grid'] .tdm-slide-gallery__slider {
+  padding-left: var(--sg-pad-x-mobile);
+  padding-right: var(--sg-pad-x-mobile);
+  border-radius: var(--sg-radius);
+  isolation: isolate;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-slide-gallery[data-layout='grid'] .tdm-slide-gallery__slider {
+    padding-left: var(--sg-pad-x-desktop);
+    padding-right: var(--sg-pad-x-desktop);
+  }
+}
+
+/* Mobile: the slider is always a fixed-ratio rectangle */
+@media screen and (max-width: 749px) {
+  .tdm-slide-gallery .tdm-slide-gallery__slider {
+    aspect-ratio: var(--sg-mobile-ratio, 3 / 2);
+    height: auto;
+    min-height: 0;
+  }
+
+  .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow__slide {
+    height: 100%;
+  }
+
+  .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow__media {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+}
+
+/* "Adapt to image" height: reserve space via the first slide's aspect ratio */
+.tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider::before,
+.tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider .media::before {
+  content: '';
+  display: block;
+  padding-bottom: var(--sg-adapt-pb);
+}
+
+/* Controls: no border lines; arrows and dots match the hero slider (.hs__arrow / .hs__dot) */
+.tdm-slide-gallery .slideshow__controls {
+  border: 0;
+}
+
+/* Button below the gallery: same alignment as the intro text */
+.tdm-slide-gallery .slide-gallery-cta {
+  display: flex;
+  padding-top: 1.6rem;
+}
+
+.tdm-slide-gallery .slide-gallery-cta.slide-gallery-intro--center {
+  justify-content: center;
+}
+
+.tdm-slide-gallery .slide-gallery-cta.slide-gallery-intro--right {
+  justify-content: flex-end;
+}
+
+.tdm-slide-gallery .slider-buttons {
+  gap: 16px;
+  padding: 1.6rem 0;
+}
+
+.tdm-slide-gallery .slider-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--color-foreground), 0.75);
+  background: rgba(var(--color-background), 0.2);
+  color: rgb(var(--color-foreground));
+  transition: background 0.2s;
+}
+
+.tdm-slide-gallery .slider-button:not([disabled]):hover {
+  background: rgba(var(--color-foreground), 0.08);
+}
+
+.tdm-slide-gallery .slider-button[disabled] {
+  opacity: 0.4;
+}
+
+.tdm-slide-gallery .slider-button .icon {
+  height: 0.8rem;
+}
+
+.tdm-slide-gallery .slideshow__control-wrapper {
+  gap: 8px;
+  align-items: center;
+}
+
+.tdm-slide-gallery .slider-counter__link--dots {
+  padding: 0;
+}
+
+.tdm-slide-gallery .slider-counter__link--dots .dot {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: var(--tdm-radius-pill);
+  background: rgba(var(--color-foreground), 0.5);
+  transition: width 0.3s, background 0.3s;
+}
+
+.tdm-slide-gallery .slider-counter__link--active.slider-counter__link--dots .dot {
+  width: 24px;
+  background: rgb(var(--color-foreground));
+}
+
+.tdm-slide-gallery .slider-counter__link--dots:hover .dot {
+  transform: none;
+}
+
+@media screen and (max-width: 749px) {
+  .tdm-slide-gallery .slider-button {
+    width: 38px;
+    height: 38px;
+  }
+}

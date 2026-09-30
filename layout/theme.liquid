@@ -7,11 +7,18 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if template.suffix == 'aliados' -%}
-      {%- comment -%} Aliados landing has its own favicon (Shopify Files: logo-stacked-white.png) {%- endcomment -%}
-      <link rel="icon" type="image/png" href="{{ 'logo-stacked-white.png' | file_url }}">
-    {%- elsif settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- liquid
+      assign is_aliados = false
+      if template.suffix == 'aliados'
+        assign is_aliados = true
+      endif
+      assign favicon = settings.favicon
+      if is_aliados and settings.aliados_favicon != blank
+        assign favicon = settings.aliados_favicon
+      endif
+    -%}
+    {%- if favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
 
     {%- comment -%}
@@ -254,8 +261,7 @@
         background-color: rgb(var(--color-background));
       }
 
-      {%- comment -%} Aliados: body text at full opacity for legibility (same selector list, so only the text colour changes) {%- endcomment -%}
-      {%- if template.suffix == 'aliados' -%}
+      {%- if is_aliados and settings.aliados_full_opacity_text -%}
         {{ scheme_classes | prepend: 'body' }} {
           color: rgb(var(--color-foreground));
         }
@@ -539,7 +545,7 @@
     })();
   </script>
 
-  <body class="gradient{% if template.suffix == 'aliados' %} color-scheme-fd06554c-69db-4e2a-a946-14bc2c7020be{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if is_aliados and settings.aliados_color_scheme != blank %} color-{{ settings.aliados_color_scheme }}{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -548,9 +554,8 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {%- if template.suffix == 'aliados' -%}
+    {%- if is_aliados -%}
       {{ 'section-tdm-header-aliados.css' | asset_url | stylesheet_tag }}
-      {{ 'tdm-aliados.css' | asset_url | stylesheet_tag }}
       {% sections 'header-aliados-group' %}
     {%- else -%}
       {% sections 'header-group' %}
@@ -560,7 +565,7 @@
       {{ content_for_layout }}
     </main>
 
-    {%- if template.suffix == 'aliados' -%}
+    {%- if is_aliados -%}
       {% sections 'footer-aliados-group' %}
     {%- else -%}
       {% sections 'footer-group' %}

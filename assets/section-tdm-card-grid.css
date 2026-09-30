@@ -1,0 +1,377 @@
+/* =============================================================================
+   Card grid section (sections/tdm-card-grid.liquid) — "Tarjetas"
+   A fork of Dawn's multicolumn kept as its own section. Still carries Dawn's
+   multicolumn/grid/slider classes for layout + the mobile swipe slider
+   (assets/global.js SliderComponent looks up [id^="Slider-"]).
+
+   Per-instance values arrive as custom properties on the .tdm-card-grid root:
+     --tdm-cg-header-max-width --tdm-cg-title-ml --tdm-cg-title-mr
+     --tdm-cg-title-justify --tdm-cg-title-align --tdm-cg-intro-ml --tdm-cg-intro-mr
+     --tdm-cg-intro-align --tdm-cg-grid-justify --tdm-cg-grid-align --tdm-cg-btn-justify
+     --tdm-cg-content-justify --tdm-cg-card-radius --tdm-cg-card-pad-mobile
+     --tdm-cg-card-pad-desktop --tdm-cg-image-gap --tdm-cg-image-radius
+     --tdm-cg-image-height-mobile --tdm-cg-image-height-desktop --tdm-cg-icon-size
+     --tdm-cg-media-max-width --tdm-cg-cols-tablet --tdm-cg-list-icon-fill
+     --tdm-cg-shape-ratio --tdm-cg-title-lines
+   Boolean/enum settings that change which rules apply are modifier classes on
+   the same root: --has-bg --has-list-icon --icon-mode --contain-bg
+   --fixed-shape --shape-mobile-auto --content-fixed --unify --title-lines
+   --image-bleed --mobile-slider --grid-align-auto --btn-pill
+   ========================================================================== */
+
+tdm-card-grid-titles {
+  display: contents;
+}
+
+/* ===== Cards con fondo (esquema de color) ===== */
+.tdm-card-grid.tdm-card-grid--has-bg .multicolumn-card.mc-card {
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  border-radius: var(--tdm-cg-card-radius);
+  --mc-pad: var(--tdm-cg-card-pad-mobile);
+  padding: var(--mc-pad);
+  border: 0;
+  box-shadow: none;
+  overflow: hidden;
+  height: 100%;
+}
+@media screen and (min-width: 750px) {
+  .tdm-card-grid.tdm-card-grid--has-bg .multicolumn-card.mc-card {
+    --mc-pad: var(--tdm-cg-card-pad-desktop);
+  }
+}
+.tdm-card-grid.tdm-card-grid--has-bg .mc-card .multicolumn-card__info { padding: 0; }
+.tdm-card-grid.tdm-card-grid--has-bg .mc-card h3,
+.tdm-card-grid.tdm-card-grid--has-bg .mc-card .rte,
+.tdm-card-grid.tdm-card-grid--has-bg .mc-card .rte *,
+.tdm-card-grid.tdm-card-grid--has-bg .mc-card .link { color: rgb(var(--color-foreground)); }
+
+.tdm-card-grid:not(.tdm-card-grid--has-bg) .multicolumn-card.content-container {
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+}
+
+.tdm-card-grid .mc-card__title { margin: 0 0 1.2rem; overflow-wrap: break-word; }
+
+/* ===== Título que cabe en la card =====
+   1em = el tamaño elegido (h2/h3… o personalizado); en cards angostas baja con el ancho
+   de la card (container query) para que ninguna palabra se parta. Nunca crece. */
+.tdm-card-grid .mc-card__title-fit { display: block; font-size: min(1em, 9.5cqi); line-height: 1.15; }
+
+/* ===== Tamaños de texto (sección o por card) =====
+   Cada card es un "container": el texto se reduce solo cuando la card se hace angosta
+   (tablet, laptops chicas) y nunca pasa del tamaño elegido. */
+.tdm-card-grid .tdm-card-grid__grid > .grid__item { container-type: inline-size; }
+.tdm-card-grid .mc-card--ts .mc-card__title {
+  font-size: clamp(calc(var(--mc-ts) * 0.72px), calc(var(--mc-ts) * 0.4cqi), calc(var(--mc-ts) * 1px));
+  line-height: 1.15;
+}
+.tdm-card-grid .mc-card--ps .multicolumn-card__info .rte,
+.tdm-card-grid .mc-card--ps .multicolumn-card__info .rte p,
+.tdm-card-grid .mc-card--ps .multicolumn-card__info .rte li,
+.tdm-card-grid .mc-card--ps .multicolumn-card__info .link {
+  font-size: clamp(calc(var(--mc-ps) * 0.9px), calc(var(--mc-ps) * 0.42cqi), calc(var(--mc-ps) * 1px));
+  line-height: 1.5;
+}
+
+/* ===== Íconos en las viñetas de la descripción ===== */
+.tdm-card-grid--has-list-icon .multicolumn-card__info .rte ul {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+.tdm-card-grid--has-list-icon .multicolumn-card__info .rte ul > li {
+  position: relative;
+  list-style: none;
+  padding-left: 1.8em;
+}
+.tdm-card-grid--has-list-icon .multicolumn-card__info .rte ul > li + li { margin-top: 0.4em; }
+.tdm-card-grid--has-list-icon .mc-li-icon {
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 1.2em;
+  height: 1.2em;
+  display: block;
+}
+.tdm-card-grid--has-list-icon .mc-li-icon .svg-wrapper,
+.tdm-card-grid--has-list-icon .mc-li-icon svg { display: block; width: 100%; height: 100%; }
+.tdm-card-grid--has-list-icon .mc-li-icon svg { fill: var(--tdm-cg-list-icon-fill, currentColor); }
+.tdm-card-grid--has-list-icon .mc-li-icon .icon-check-circle__check { stroke: rgb(var(--color-background)); }
+
+/* ===== Card con imagen de fondo + overlay + texto en vidrio ===== */
+.tdm-card-grid .multicolumn-card.mc-card--bgimg {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  justify-content: flex-end;
+  min-height: 36rem;
+  border-radius: var(--tdm-cg-card-radius);
+  padding: var(--mc-pad, 2rem);
+  color: rgb(var(--color-foreground));
+}
+@media screen and (min-width: 750px) {
+  .tdm-card-grid .multicolumn-card.mc-card--bgimg { min-height: 44rem; }
+}
+.tdm-card-grid .mc-card--bgimg .mc-bg { position: absolute; inset: 0; z-index: -2; }
+.tdm-card-grid .mc-card--bgimg .mc-bg img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* display:block beats base.css's div:empty { display: none } on the empty overlay div */
+.tdm-card-grid .mc-card--bgimg .mc-bg__overlay {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--mc-ov, transparent);
+}
+.tdm-card-grid .multicolumn-card.mc-card--glass .multicolumn-card__info {
+  flex: 0 0 auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background: var(--mc-glass-bg);
+  -webkit-backdrop-filter: blur(var(--mc-glass-blur, 12px));
+  backdrop-filter: blur(var(--mc-glass-blur, 12px));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.tdm-card-grid .multicolumn-card.mc-card--glass .multicolumn-card__info > .rte { flex: 0 0 auto; }
+
+/* ===== Diseño unificado: mismas alturas y elementos alineados =====
+   Placed before "Forma de las cards" below on purpose: fixed-shape's own
+   height rule needs to win over this block's height:100% when both are on. */
+.tdm-card-grid.tdm-card-grid--unify .multicolumn-card { display: flex; flex-direction: column; height: 100%; }
+.tdm-card-grid.tdm-card-grid--unify .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
+.tdm-card-grid.tdm-card-grid--unify .multicolumn-card__info > .rte { flex: 1 1 auto; margin-top: 0; }
+.tdm-card-grid.tdm-card-grid--unify .multicolumn-card__info > .link {
+  margin-top: auto;
+  padding-top: 1.6rem;
+  align-self: var(--mc-link-align, flex-start);
+}
+.tdm-card-grid.tdm-card-grid--unify .mc-txt--center .multicolumn-card__info > .link { --mc-link-align: center; }
+.tdm-card-grid.tdm-card-grid--unify .mc-txt--right .multicolumn-card__info > .link { --mc-link-align: flex-end; }
+.tdm-card-grid.tdm-card-grid--unify.tdm-card-grid--title-lines .mc-card__title {
+  line-height: 1.15;
+  min-height: calc(var(--tdm-cg-title-lines) * 1.15em);
+}
+.tdm-card-grid.tdm-card-grid--unify.tdm-card-grid--icon-mode .mc-media--adapt { aspect-ratio: 1 / 1; }
+.tdm-card-grid.tdm-card-grid--unify:not(.tdm-card-grid--icon-mode) .mc-media--adapt { aspect-ratio: 4 / 3; }
+.tdm-card-grid.tdm-card-grid--unify .mc-media--adapt img { height: 100%; }
+.tdm-card-grid.tdm-card-grid--unify .mc-media-wrap--empty { visibility: hidden; display: block; }
+.tdm-card-grid.tdm-card-grid--unify .mc-media-wrap--empty .mc-media { display: block; width: 100%; }
+.tdm-card-grid.tdm-card-grid--unify.tdm-card-grid--icon-mode .mc-media-wrap--empty .mc-media {
+  height: var(--tdm-cg-icon-size);
+}
+
+/* ===== Forma de las cards (rectángulo / cuadrado) ===== */
+.tdm-card-grid .tdm-card-grid__grid > .grid__item { display: flex; flex-direction: column; }
+.tdm-card-grid .multicolumn-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  justify-content: var(--tdm-cg-content-justify, space-between);
+}
+.tdm-card-grid.tdm-card-grid--fixed-shape .multicolumn-card {
+  aspect-ratio: var(--tdm-cg-shape-ratio);
+  height: auto;
+}
+/* Mobile and tablet: cards are too narrow for a fixed shape, height follows content */
+@media screen and (max-width: 989px) {
+  .tdm-card-grid.tdm-card-grid--fixed-shape.tdm-card-grid--shape-mobile-auto .multicolumn-card {
+    aspect-ratio: auto;
+  }
+}
+
+/* content_position (top/center/bottom) must win over both "unify_layout" above and
+   "text_valign" below — matches the documented behaviour that text_valign only takes
+   effect when content position is "Spread" (Repartido). */
+.tdm-card-grid.tdm-card-grid--content-fixed .multicolumn-card__info { flex: 0 0 auto !important; }
+.tdm-card-grid.tdm-card-grid--content-fixed .multicolumn-card__info > .rte { flex: 0 0 auto !important; }
+.tdm-card-grid.tdm-card-grid--content-fixed .multicolumn-card__info > .link { margin-top: 0 !important; }
+
+/* ===== Posición vertical del párrafo dentro de la card (arriba / en medio / abajo) =====
+   El párrafo ocupa el espacio libre entre el título y el enlace, y se acomoda ahí. */
+.tdm-card-grid .mc-tv--center .multicolumn-card__info,
+.tdm-card-grid .mc-tv--bottom .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
+.tdm-card-grid .mc-tv--center .multicolumn-card__info > .rte,
+.tdm-card-grid .mc-tv--bottom .multicolumn-card__info > .rte {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
+.tdm-card-grid .mc-tv--center .multicolumn-card__info > .rte { justify-content: center; }
+.tdm-card-grid .mc-tv--bottom .multicolumn-card__info > .rte { justify-content: flex-end; }
+.tdm-card-grid .mc-tv--center .multicolumn-card__info > .rte > *,
+.tdm-card-grid .mc-tv--bottom .multicolumn-card__info > .rte > * { flex: 0 0 auto; }
+.tdm-card-grid .mc-tv--center .multicolumn-card__info > .rte > :last-child,
+.tdm-card-grid .mc-tv--bottom .multicolumn-card__info > .rte > :last-child { margin-bottom: 0; }
+
+/* ===== Imagen / ícono de card ===== */
+.tdm-card-grid .mc-media-wrap {
+  width: 100%;
+  max-width: var(--mc-img-size, var(--tdm-cg-media-max-width, 100%));
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: var(--tdm-cg-image-gap, 1.6rem);
+}
+.tdm-card-grid .mc-img--left .mc-media-wrap { margin-left: 0; margin-right: auto; }
+.tdm-card-grid .mc-img--center .mc-media-wrap { margin-left: auto; margin-right: auto; }
+.tdm-card-grid .mc-img--right .mc-media-wrap { margin-left: auto; margin-right: 0; }
+.tdm-card-grid .mc-media { position: relative; overflow: hidden; border-radius: var(--tdm-cg-image-radius); }
+.tdm-card-grid .mc-media img { display: block; width: 100%; height: auto; }
+.tdm-card-grid .mc-media--square,
+.tdm-card-grid .mc-media--circle { aspect-ratio: 1 / 1; }
+.tdm-card-grid .mc-media--portrait { aspect-ratio: 4 / 5; }
+.tdm-card-grid .mc-media--landscape { aspect-ratio: 4 / 3; }
+.tdm-card-grid .mc-media--circle { border-radius: 50%; }
+.tdm-card-grid .mc-media--wide { aspect-ratio: 16 / 9; }
+.tdm-card-grid .mc-media--classic { aspect-ratio: 3 / 2; }
+.tdm-card-grid .mc-media--fixed { height: var(--tdm-cg-image-height-mobile); }
+@media screen and (min-width: 750px) {
+  .tdm-card-grid .mc-media--fixed { height: var(--tdm-cg-image-height-desktop); }
+}
+.tdm-card-grid .mc-media:not(.mc-media--adapt) img { height: 100%; }
+.tdm-card-grid .mc-media img {
+  object-fit: var(--mc-fit, cover);
+  object-position: var(--mc-pos, center center);
+}
+.tdm-card-grid--contain-bg .mc-media--has-bg { background: rgba(var(--color-foreground), 0.06); }
+
+/* Imagen de borde a borde dentro de la card */
+.tdm-card-grid--image-bleed .mc-card .mc-media-wrap {
+  width: calc(100% + 2 * var(--mc-pad));
+  max-width: none;
+  margin: calc(-1 * var(--mc-pad)) calc(-1 * var(--mc-pad)) var(--tdm-cg-image-gap, 1.6rem);
+}
+.tdm-card-grid--image-bleed .mc-card .mc-media { border-radius: 0; }
+
+/* ===== Fuente de descripción por card =====
+   Mono comes from the shared .tdm-mono/.tdm-upper utilities (tdm-foundations.css);
+   this only keeps the extra spacing the mono variant needs. */
+.tdm-card-grid .mc-desc--mono { padding-top: 1rem; line-height: 1.5rem; }
+
+/* ===== Encabezado: eyebrow + título (alineación editable) ===== */
+@media screen and (max-width: 989px) {
+  /* Stacked cards (no swipe slider): keep the page gutter on mobile and tablet.
+     Dawn drops it below 990px for sliders, which left these cards edge to edge. */
+  .tdm-card-grid:not(.tdm-card-grid--mobile-slider) .tdm-card-grid__inner.page-width {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .tdm-card-grid:not(.tdm-card-grid--mobile-slider) .tdm-card-grid__grid { padding-left: 0; padding-right: 0; }
+  .tdm-card-grid:not(.tdm-card-grid--mobile-slider) .title-wrapper--self-padded-mobile {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .tdm-card-grid:not(.tdm-card-grid--mobile-slider) .tdm-card-grid__inner.page-width {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+@media screen and (max-width: 749px) {
+  /* Even spacing between stacked cards (theme default is 4px) */
+  .tdm-card-grid:not(.tdm-card-grid--mobile-slider) .tdm-card-grid__grid {
+    --grid-mobile-horizontal-spacing: 1.2rem;
+    --grid-mobile-vertical-spacing: 1.2rem;
+  }
+  /* Two cards per row: a little less inner padding so the text keeps a usable width */
+  .tdm-card-grid:not(.tdm-card-grid--mobile-slider) .grid--2-col-tablet-down .multicolumn-card.mc-card {
+    --mc-pad: 1.4rem;
+  }
+
+  /* Swipe slider stays edge to edge; the eyebrow keeps the title's gutter */
+  .tdm-card-grid--mobile-slider .tdm-section-eyebrow { padding: 0 1.5rem; }
+}
+
+.tdm-card-grid .title-wrapper-with-link {
+  width: 100%;
+  max-width: var(--tdm-cg-header-max-width, 50%);
+  margin-left: var(--tdm-cg-title-ml, 0);
+  margin-right: var(--tdm-cg-title-mr, auto);
+  margin-bottom: 1rem;
+  justify-content: var(--tdm-cg-title-justify, flex-start);
+  text-align: var(--tdm-cg-title-align, left);
+}
+.tdm-card-grid .title-wrapper-with-link .title { width: 100%; text-align: var(--tdm-cg-title-align, left); }
+
+/* ===== Párrafo intro (alineación editable) ===== */
+.tdm-card-grid .multicolumn__intro {
+  width: 100%;
+  max-width: var(--tdm-cg-header-max-width, 50%);
+  margin: 0.5rem var(--tdm-cg-intro-mr, auto) 1.5rem var(--tdm-cg-intro-ml, 0);
+  text-align: var(--tdm-cg-intro-align, left);
+  color: rgb(var(--color-foreground, 18, 18, 18));
+  font: inherit;
+  line-height: var(--font-body-line-height, 1.6);
+}
+.tdm-card-grid .multicolumn__intro p { margin: 0; }
+@media (min-width: 750px) {
+  .tdm-card-grid .multicolumn__intro { margin-top: 0.75rem; margin-bottom: 2rem; }
+}
+@media (max-width: 749px) {
+  .tdm-card-grid .title-wrapper-with-link,
+  .tdm-card-grid .multicolumn__intro { max-width: 100%; }
+  .tdm-card-grid .title-wrapper--self-padded-tablet-down,
+  .tdm-card-grid .title-wrapper--self-padded-mobile { padding: 0; }
+}
+
+/* ===== Cards: alineación (izq / centro / der) ===== */
+.tdm-card-grid .multicolumn-card-spacing { padding-bottom: 1rem; }
+/* Alineación de texto por card (izq / centro / der) */
+.tdm-card-grid .mc-txt--left .multicolumn-card__info { text-align: left; }
+.tdm-card-grid .mc-txt--center .multicolumn-card__info { text-align: center; }
+.tdm-card-grid .mc-txt--right .multicolumn-card__info { text-align: right; }
+
+/* ===== Posición del grid ===== */
+.tdm-card-grid .tdm-card-grid__grid {
+  justify-content: var(--tdm-cg-grid-justify, flex-start);
+  align-items: var(--tdm-cg-grid-align, stretch);
+}
+@media (max-width: 749px) {
+  .tdm-card-grid--mobile-slider .tdm-card-grid__grid { justify-content: flex-start; }
+}
+.tdm-card-grid--grid-align-auto .tdm-card-grid__grid .multicolumn-card { height: auto; }
+
+/* ===== Tablet (750–989px): columnas editables =====
+   Beats base.css's .slider--tablet.grid--peek[...] .grid__item combos (3-4 classes
+   across several column-count variants): this section always shows a static wrapped
+   grid on tablet, never the peek slider, regardless of the swipe-on-mobile setting. */
+@media (min-width: 750px) and (max-width: 989px) {
+  .tdm-card-grid .tdm-card-grid__grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    column-gap: var(--grid-desktop-horizontal-spacing, 16px) !important;
+    row-gap: var(--grid-desktop-vertical-spacing, 16px) !important;
+  }
+  .tdm-card-grid .tdm-card-grid__grid > .grid__item {
+    width: calc(
+      (100% - (var(--tdm-cg-cols-tablet) - 1) * var(--grid-desktop-horizontal-spacing, 16px)) /
+        var(--tdm-cg-cols-tablet)
+    ) !important;
+    max-width: calc(
+      (100% - (var(--tdm-cg-cols-tablet) - 1) * var(--grid-desktop-horizontal-spacing, 16px)) /
+        var(--tdm-cg-cols-tablet)
+    ) !important;
+    flex: 0 0 auto !important;
+  }
+}
+
+/* ===== CTA general ===== */
+.tdm-card-grid .mc-cta {
+  display: flex;
+  justify-content: var(--tdm-cg-btn-justify, center);
+  margin-top: 3.2rem;
+}
+.tdm-card-grid .mc-cta .button {
+  background-color: rgba(var(--color-button), var(--alpha-button-background));
+  color: rgb(var(--color-button-text));
+  margin: 0;
+}
+.tdm-card-grid--btn-pill .mc-cta .button {
+  --buttons-radius: 999px;
+  --buttons-radius-outset: 999px;
+  border-radius: 999px;
+}

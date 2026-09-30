@@ -1,6 +1,9 @@
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
 {{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'section-tdm-card-grid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'tdm-card-grid.js' | asset_url }}" defer="defer"></script>
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 {%- liquid
   assign s = section.settings
@@ -101,397 +104,69 @@
     else
       assign btn_justify = 'center'
   endcase
+
+  # Forma de las cards (rectángulo / cuadrado) y posición del contenido
+  case s.card_shape
+    when 'square'
+      assign shape_ratio = '1 / 1'
+    when 'rect_h'
+      assign shape_ratio = '3 / 2'
+    when 'rect_43'
+      assign shape_ratio = '4 / 3'
+    when 'rect_v'
+      assign shape_ratio = '4 / 5'
+    else
+      assign shape_ratio = ''
+  endcase
+  assign ccp = s.card_content_position | default: 'spread'
+  assign shape_mobile = s.card_shape_mobile | default: 'auto'
+  case ccp
+    when 'center'
+      assign content_justify = 'center'
+    when 'bottom'
+      assign content_justify = 'flex-end'
+    when 'spread'
+      assign content_justify = 'space-between'
+    else
+      assign content_justify = 'flex-start'
+  endcase
+
+  # Ícono de las viñetas de la descripción
+  assign list_icon = s.list_icon | default: 'none'
 -%}
 
-{%- style -%}
-  /* ===== Espaciado de sección ===== */
-  .section-{{ section.id }}-padding {
-    padding-top: {{ s.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ s.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ s.padding_top }}px;
-      padding-bottom: {{ s.padding_bottom }}px;
-    }
-  }
-
-  /* ===== Cards con fondo (esquema de color) ===== */
-  {%- if s.card_background -%}
-  .section-{{ section.id }} .multicolumn-card.mc-card {
-    background: rgb(var(--color-background)) !important;
-    color: rgb(var(--color-foreground));
-    border-radius: {{ s.card_radius }}px !important;
-    --mc-pad: {{ s.card_padding | times: 0.75 | round: 0 }}px;
-    padding: var(--mc-pad) !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    overflow: hidden;
-    height: 100%;
-  }
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }} .multicolumn-card.mc-card { --mc-pad: {{ s.card_padding }}px; }
-  }
-  .section-{{ section.id }} .mc-card .multicolumn-card__info { padding: 0 !important; }
-  .section-{{ section.id }} .mc-card h3,
-  .section-{{ section.id }} .mc-card .rte,
-  .section-{{ section.id }} .mc-card .rte *,
-  .section-{{ section.id }} .mc-card .link { color: rgb(var(--color-foreground)); }
-  {%- else -%}
-  .section-{{ section.id }} .multicolumn-card.content-container {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: 0 !important;
-  }
-  {%- endif -%}
-  .section-{{ section.id }} .mc-card__title { margin: 0 0 1.2rem; overflow-wrap: break-word; }
-  .section-{{ section.id }} .mc-media-wrap { margin-bottom: {{ s.image_gap | default: 16 }}px !important; }
-
-  /* ===== Título que cabe en la card =====
-     1em = el tamaño elegido (h2/h3… o personalizado); en cards angostas baja con el ancho
-     de la card (container query) para que ninguna palabra se parta. Nunca crece. */
-  .section-{{ section.id }} .mc-card__title-fit { display: block; font-size: min(1em, 9.5cqi); line-height: 1.15; }
-
-  /* ===== Tamaños de texto (sección o por card) =====
-     Cada card es un "container": el texto se reduce solo cuando la card se hace angosta
-     (tablet, laptops chicas) y nunca pasa del tamaño elegido. */
-  #Slider-{{ section.id }} > .grid__item { container-type: inline-size; }
-  .section-{{ section.id }} .mc-card--ts .mc-card__title {
-    font-size: clamp(calc(var(--mc-ts) * 0.72px), calc(var(--mc-ts) * 0.4cqi), calc(var(--mc-ts) * 1px)) !important;
-    line-height: 1.15;
-  }
-  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte,
-  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte p,
-  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .rte li,
-  .section-{{ section.id }} .mc-card--ps .multicolumn-card__info .link {
-    font-size: clamp(calc(var(--mc-ps) * 0.9px), calc(var(--mc-ps) * 0.42cqi), calc(var(--mc-ps) * 1px)) !important;
-    line-height: 1.5;
-  }
-
-  /* ===== Íconos en las viñetas de la descripción ===== */
-  {%- if s.list_icon != blank and s.list_icon != 'none' -%}
-  .section-{{ section.id }} .multicolumn-card__info .rte ul {
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-  .section-{{ section.id }} .multicolumn-card__info .rte ul > li {
-    position: relative;
-    list-style: none;
-    padding-left: 1.8em;
-  }
-  .section-{{ section.id }} .multicolumn-card__info .rte ul > li + li { margin-top: 0.4em; }
-  .section-{{ section.id }} .mc-li-icon {
-    position: absolute;
-    left: 0;
-    top: 0.2em;
-    width: 1.2em;
-    height: 1.2em;
-    display: block;
-  }
-  .section-{{ section.id }} .mc-li-icon .svg-wrapper,
-  .section-{{ section.id }} .mc-li-icon svg { display: block; width: 100%; height: 100%; }
-  .section-{{ section.id }} .mc-li-icon svg {
-    fill: {% if s.list_icon_color == 'text' %}rgb(var(--color-foreground)){% else %}rgb(var(--color-button)){% endif %};
-  }
-  .section-{{ section.id }} .mc-li-icon .icon-check-circle__check { stroke: rgb(var(--color-background)); }
-  {%- endif -%}
-
-  /* ===== Card con imagen de fondo + overlay + texto en vidrio ===== */
-  .section-{{ section.id }} .multicolumn-card.mc-card--bgimg {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    justify-content: flex-end;
-    min-height: 36rem;
-    border-radius: {{ s.card_radius }}px;
-    padding: var(--mc-pad, 2rem);
-    color: rgb(var(--color-foreground));
-  }
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }} .multicolumn-card.mc-card--bgimg { min-height: 44rem; }
-  }
-  .section-{{ section.id }} .mc-card--bgimg .mc-bg { position: absolute; inset: 0; z-index: -2; }
-  .section-{{ section.id }} .mc-card--bgimg .mc-bg img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  /* display:block beats Dawn's div:empty { display: none } */
-  .section-{{ section.id }} .mc-card--bgimg .mc-bg__overlay {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--mc-ov, transparent);
-  }
-  .section-{{ section.id }} .mc-card--glass .multicolumn-card__info {
-    flex: 0 0 auto !important;
-    padding: 2rem !important;
-    border-radius: 16px;
-    background: var(--mc-glass-bg);
-    -webkit-backdrop-filter: blur(var(--mc-glass-blur, 12px));
-    backdrop-filter: blur(var(--mc-glass-blur, 12px));
-    border: 1px solid rgba(255, 255, 255, 0.22);
-  }
-  .section-{{ section.id }} .mc-card--glass .multicolumn-card__info > .rte { flex: 0 0 auto !important; }
-
-  /* ===== Forma de las cards (rectángulo / cuadrado) ===== */
-  {%- liquid
-    case s.card_shape
-      when 'square'
-        assign shape_ratio = '1 / 1'
-      when 'rect_h'
-        assign shape_ratio = '3 / 2'
-      when 'rect_43'
-        assign shape_ratio = '4 / 3'
-      when 'rect_v'
-        assign shape_ratio = '4 / 5'
-      else
-        assign shape_ratio = ''
-    endcase
-    assign ccp = s.card_content_position | default: 'spread'
-    assign shape_mobile = s.card_shape_mobile | default: 'auto'
-    case ccp
-      when 'center'
-        assign content_justify = 'center'
-      when 'bottom'
-        assign content_justify = 'flex-end'
-      when 'spread'
-        assign content_justify = 'space-between'
-      else
-        assign content_justify = 'flex-start'
-    endcase
-  -%}
-  #Slider-{{ section.id }} > .grid__item { display: flex; flex-direction: column; }
-  .section-{{ section.id }} .multicolumn-card {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0 auto;
-    justify-content: {{ content_justify }};
-    {%- if shape_ratio != '' -%}
-    aspect-ratio: {{ shape_ratio }};
-    height: auto !important;
-    {%- endif -%}
-  }
-  {%- if shape_ratio != '' and shape_mobile == 'auto' -%}
-  /* Mobile and tablet: cards are too narrow for a fixed shape, height follows content */
-  @media screen and (max-width: 989px) {
-    .section-{{ section.id }} .multicolumn-card { aspect-ratio: auto; }
-  }
-  {%- endif -%}
-  {%- if ccp != 'spread' -%}
-  .section-{{ section.id }} .multicolumn-card__info { flex: 0 0 auto !important; }
-  .section-{{ section.id }} .multicolumn-card__info > .rte { flex: 0 0 auto !important; }
-  .section-{{ section.id }} .multicolumn-card__info > .link { margin-top: 0 !important; }
-  {%- endif -%}
-
-  /* ===== Diseño unificado: mismas alturas y elementos alineados ===== */
-  {%- if unify -%}
-  .section-{{ section.id }} .multicolumn-card { display: flex; flex-direction: column; height: 100%; }
-  .section-{{ section.id }} .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
-  .section-{{ section.id }} .multicolumn-card__info > .rte { flex: 1 1 auto; margin-top: 0; }
-  .section-{{ section.id }} .multicolumn-card__info > .link { margin-top: auto; padding-top: 1.6rem; align-self: var(--mc-link-align, flex-start); }
-  .section-{{ section.id }} .mc-txt--center .multicolumn-card__info > .link { --mc-link-align: center; }
-  .section-{{ section.id }} .mc-txt--right .multicolumn-card__info > .link { --mc-link-align: flex-end; }
-  {%- if s.title_lines > 0 -%}
-  .section-{{ section.id }} .mc-card__title { line-height: 1.15; min-height: calc({{ s.title_lines }} * 1.15em); }
-  {%- endif -%}
-  .section-{{ section.id }} .mc-media--adapt { aspect-ratio: {% if s.image_mode == 'icon' %}1 / 1{% else %}4 / 3{% endif %}; }
-  .section-{{ section.id }} .mc-media--adapt img { height: 100%; }
-  .section-{{ section.id }} .mc-media-wrap--empty { visibility: hidden; display: block !important; }
-  .section-{{ section.id }} .mc-media-wrap--empty .mc-media { display: block !important; width: 100%;{% if s.image_mode == 'icon' %} height: {{ s.icon_size }}px;{% endif %} }
-  {%- endif -%}
-
-  /* ===== Posición vertical del párrafo dentro de la card (arriba / en medio / abajo) =====
-     El párrafo ocupa el espacio libre entre el título y el enlace, y se acomoda ahí. */
-  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info,
-  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info { display: flex; flex-direction: column; flex: 1 1 auto; }
-  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte,
-  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    margin-top: 0;
-  }
-  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte { justify-content: center; }
-  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte { justify-content: flex-end; }
-  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte > *,
-  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte > * { flex: 0 0 auto; }
-  .section-{{ section.id }} .mc-tv--center .multicolumn-card__info > .rte > :last-child,
-  .section-{{ section.id }} .mc-tv--bottom .multicolumn-card__info > .rte > :last-child { margin-bottom: 0; }
-
-  /* ===== Imagen / ícono de card ===== */
-  .section-{{ section.id }} .mc-media-wrap {
-    width: 100%;
-    max-width: var(--mc-img-size, {% if s.image_mode == 'icon' %}{{ s.icon_size }}px{% else %}{{ s.image_width_percent | default: 100 }}%{% endif %});
-    margin: 0 auto 1.6rem;
-  }
-  .section-{{ section.id }} .mc-img--left .mc-media-wrap { margin-left: 0; margin-right: auto; }
-  .section-{{ section.id }} .mc-img--center .mc-media-wrap { margin-left: auto; margin-right: auto; }
-  .section-{{ section.id }} .mc-img--right .mc-media-wrap { margin-left: auto; margin-right: 0; }
-  .section-{{ section.id }} .mc-media { position: relative; overflow: hidden; border-radius: {{ s.image_radius }}px; }
-  .section-{{ section.id }} .mc-media img { display: block; width: 100%; height: auto; }
-  .section-{{ section.id }} .mc-media--square,
-  .section-{{ section.id }} .mc-media--circle { aspect-ratio: 1 / 1; }
-  .section-{{ section.id }} .mc-media--portrait { aspect-ratio: 4 / 5; }
-  .section-{{ section.id }} .mc-media--landscape { aspect-ratio: 4 / 3; }
-  .section-{{ section.id }} .mc-media--circle { border-radius: 50%; }
-  .section-{{ section.id }} .mc-media--wide { aspect-ratio: 16 / 9; }
-  .section-{{ section.id }} .mc-media--classic { aspect-ratio: 3 / 2; }
-  .section-{{ section.id }} .mc-media--fixed { height: {{ s.image_height | times: 0.75 | round: 0 }}px; }
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }} .mc-media--fixed { height: {{ s.image_height }}px; }
-  }
-  .section-{{ section.id }} .mc-media:not(.mc-media--adapt) img { height: 100%; }
-  .section-{{ section.id }} .mc-media img {
-    object-fit: var(--mc-fit, {% if s.image_mode == 'icon' %}contain{% else %}{{ s.image_fit | default: 'cover' }}{% endif %});
-    object-position: var(--mc-pos, center center);
-  }
-  {%- if s.image_contain_bg -%}
-  .section-{{ section.id }} .mc-media--has-bg { background: rgba(var(--color-foreground), 0.06); }
-  {%- endif -%}
-
-  /* Imagen de borde a borde dentro de la card */
-  {%- if s.image_bleed and s.card_background and s.image_mode == 'image' -%}
-  .section-{{ section.id }} .mc-card .mc-media-wrap {
-    width: calc(100% + 2 * var(--mc-pad)) !important;
-    max-width: none !important;
-    margin: calc(-1 * var(--mc-pad)) calc(-1 * var(--mc-pad)) {{ s.image_gap | default: 16 }}px !important;
-  }
-  .section-{{ section.id }} .mc-card .mc-media { border-radius: 0; }
-  {%- endif -%}
-
-  /* ===== Fuente de descripción por card ===== */
-  .section-{{ section.id }} .mc-desc--body { font-family: var(--font-body-family); font-weight: 400; }
-  .section-{{ section.id }} .mc-desc--mono {
-    font-family: "IBM Plex Mono", "Courier New", Courier, monospace !important;
-    font-weight: 400; letter-spacing: .02em; padding-top: 1rem; line-height: 1.5rem; text-transform: uppercase;
-  }
-  .section-{{ section.id }} .mc-desc--mono *,
-  .section-{{ section.id }} .mc-desc--body * {
-    font-family: inherit !important; font-weight: inherit; letter-spacing: inherit;
-  }
-
-  /* ===== Encabezado: eyebrow + título (alineación editable) ===== */
-  {%- unless show_mobile_slider -%}
-  /* Stacked cards (no swipe slider): keep the page gutter on mobile and tablet.
-     Dawn drops it below 990px for sliders, which left these cards edge to edge.
-     `.multicolumn` prefix: section-multicolumn.css is linked again by every later
-     instance, so equal specificity would lose to it. */
-  @media screen and (max-width: 989px) {
-    .multicolumn .section-{{ section.id }}.page-width { padding-left: 1.5rem; padding-right: 1.5rem; }
-    #Slider-{{ section.id }}.multicolumn-list { padding-left: 0; padding-right: 0; }
-    .section-{{ section.id }} .title-wrapper--self-padded-mobile { padding-left: 0; padding-right: 0; }
-  }
-  @media screen and (min-width: 750px) and (max-width: 989px) {
-    .multicolumn .section-{{ section.id }}.page-width { padding-left: 5rem; padding-right: 5rem; }
-  }
-  @media screen and (max-width: 749px) {
-    /* Even spacing between stacked cards (theme default is 4px) */
-    #Slider-{{ section.id }} {
-      --grid-mobile-horizontal-spacing: 1.2rem;
-      --grid-mobile-vertical-spacing: 1.2rem;
-    }
-    {%- if s.columns_mobile == '2' -%}
-    /* Two cards per row: a little less inner padding so the text keeps a usable width */
-    .section-{{ section.id }} .multicolumn-card.mc-card { --mc-pad: 1.4rem; }
-    {%- endif -%}
-  }
-  {%- else -%}
-  @media screen and (max-width: 749px) {
-    /* Swipe slider stays edge to edge; the eyebrow keeps the title's gutter */
-    .section-{{ section.id }} .tdm-section-eyebrow { padding: 0 1.5rem; }
-  }
-  {%- endunless -%}
-  #shopify-section-{{ section.id }} .title-wrapper-with-link {
-    width: 100%;
-    max-width: {{ s.header_max_width | default: 50 }}%;
-    margin-left: {{ title_ml }};
-    margin-right: {{ title_mr }};
-    margin-bottom: 1rem;
-    justify-content: {{ title_justify }};
-    text-align: {{ title_align }};
-  }
-  #shopify-section-{{ section.id }} .title-wrapper-with-link .title { width: 100%; text-align: {{ title_align }}; }
-
-  /* ===== Párrafo intro (alineación editable) ===== */
-  .section-{{ section.id }} .multicolumn__intro {
-    width: 100%;
-    max-width: {{ s.header_max_width | default: 50 }}%;
-    margin: 0.5rem {{ intro_mr }} 1.5rem {{ intro_ml }};
-    text-align: {{ intro_align }};
-    color: rgb(var(--color-foreground, 18,18,18));
-    font: inherit;
-    line-height: var(--font-body-line-height, 1.6);
-  }
-  .section-{{ section.id }} .multicolumn__intro p { margin: 0; }
-  @media (min-width: 750px) {
-    .section-{{ section.id }} .multicolumn__intro { margin-top: 0.75rem; margin-bottom: 2rem; }
-  }
-  @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .title-wrapper-with-link,
-    .section-{{ section.id }} .multicolumn__intro { max-width: 100%; }
-    .section-{{ section.id }} .title-wrapper--self-padded-tablet-down,
-    .section-{{ section.id }} .title-wrapper--self-padded-mobile { padding: 0; }
-  }
-
-  /* ===== Cards: alineación (izq / centro / der) ===== */
-  #shopify-section-{{ section.id }} .multicolumn-card-spacing { padding-bottom: 1rem !important; }
-  /* Alineación de texto por card (izq / centro / der) */
-  .section-{{ section.id }} .mc-txt--left .multicolumn-card__info { text-align: left !important; }
-  .section-{{ section.id }} .mc-txt--center .multicolumn-card__info { text-align: center !important; }
-  .section-{{ section.id }} .mc-txt--right .multicolumn-card__info { text-align: right !important; }
-
-  /* ===== Posición del grid ===== */
-  #Slider-{{ section.id }} {
-    justify-content: {{ grid_justify }};
-    align-items: {{ grid_align }};
-    {%- unless s.use_theme_spacing -%}
-    --grid-desktop-horizontal-spacing: {{ s.gap_horizontal }}px;
-    --grid-desktop-vertical-spacing: {{ s.gap_vertical }}px;
-    --grid-mobile-horizontal-spacing: {{ s.gap_horizontal | divided_by: 2 }}px;
-    --grid-mobile-vertical-spacing: {{ s.gap_vertical | divided_by: 2 }}px;
-    {%- endunless -%}
-  }
-  {%- if show_mobile_slider -%}
-  @media (max-width: 749px) { #Slider-{{ section.id }} { justify-content: flex-start; } }
-  {%- endif -%}
-  {%- if grid_align != 'stretch' -%}
-  #Slider-{{ section.id }} .multicolumn-card { height: auto; }
-  {%- endif -%}
-
-  /* ===== Tablet (750–989px): columnas editables ===== */
-  @media (min-width: 750px) and (max-width: 989px) {
-    #Slider-{{ section.id }} {
-      display: flex !important;
-      flex-wrap: wrap !important;
-      overflow: visible !important;
-      column-gap: var(--grid-desktop-horizontal-spacing, 16px) !important;
-      row-gap: var(--grid-desktop-vertical-spacing, 16px) !important;
-    }
-    #Slider-{{ section.id }} > .grid__item {
-      width: calc((100% - {{ cols_tablet | minus: 1 }} * var(--grid-desktop-horizontal-spacing, 16px)) / {{ cols_tablet }}) !important;
-      max-width: calc((100% - {{ cols_tablet | minus: 1 }} * var(--grid-desktop-horizontal-spacing, 16px)) / {{ cols_tablet }}) !important;
-      flex: 0 0 auto !important;
-    }
-  }
-
-  /* ===== CTA general ===== */
-  .section-{{ section.id }} .mc-cta {
-    display: flex;
-    justify-content: {{ btn_justify }};
-    margin-top: 3.2rem;
-  }
-  .section-{{ section.id }} .mc-cta .button {
-    background-color: rgba(var(--color-button), var(--alpha-button-background));
-    color: rgb(var(--color-button-text));
-    margin: 0;
-  }
-  {%- if s.button_pill -%}
-  .section-{{ section.id }} .mc-cta .button { --buttons-radius: 999px; --buttons-radius-outset: 999px; border-radius: 999px; }
-  {%- endif -%}
-{%- endstyle -%}
-
-<div class="multicolumn color-{{ s.color_scheme }} gradient{% unless s.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ s.background_style }}{% endunless %}{% if s.title == blank %} no-heading{% endif %}">
+<div
+  class="multicolumn tdm-card-grid color-{{ s.color_scheme }} gradient{% unless s.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ s.background_style }}{% endunless %}{% if s.title == blank %} no-heading{% endif %}{% if s.card_background %} tdm-card-grid--has-bg{% endif %}{% if list_icon != 'none' %} tdm-card-grid--has-list-icon{% endif %}{% if s.image_mode == 'icon' %} tdm-card-grid--icon-mode{% endif %}{% if s.image_contain_bg %} tdm-card-grid--contain-bg{% endif %}{% if shape_ratio != '' %} tdm-card-grid--fixed-shape{% endif %}{% if shape_ratio != '' and shape_mobile == 'auto' %} tdm-card-grid--shape-mobile-auto{% endif %}{% if ccp != 'spread' %} tdm-card-grid--content-fixed{% endif %}{% if unify %} tdm-card-grid--unify{% endif %}{% if s.title_lines > 0 %} tdm-card-grid--title-lines{% endif %}{% if s.image_bleed and s.card_background and s.image_mode == 'image' %} tdm-card-grid--image-bleed{% endif %}{% if show_mobile_slider %} tdm-card-grid--mobile-slider{% endif %}{% if grid_align != 'stretch' %} tdm-card-grid--grid-align-auto{% endif %}{% if s.button_pill %} tdm-card-grid--btn-pill{% endif %}"
+  style="
+    --tdm-cg-header-max-width: {{ s.header_max_width | default: 50 }}%;
+    --tdm-cg-title-ml: {{ title_ml }};
+    --tdm-cg-title-mr: {{ title_mr }};
+    --tdm-cg-title-justify: {{ title_justify }};
+    --tdm-cg-title-align: {{ title_align }};
+    --tdm-cg-intro-ml: {{ intro_ml }};
+    --tdm-cg-intro-mr: {{ intro_mr }};
+    --tdm-cg-intro-align: {{ intro_align }};
+    --tdm-cg-grid-justify: {{ grid_justify }};
+    --tdm-cg-grid-align: {{ grid_align }};
+    --tdm-cg-btn-justify: {{ btn_justify }};
+    --tdm-cg-content-justify: {{ content_justify }};
+    --tdm-cg-card-radius: {{ s.card_radius }}px;
+    --tdm-cg-card-pad-mobile: {{ s.card_padding | times: 0.75 | round: 0 }}px;
+    --tdm-cg-card-pad-desktop: {{ s.card_padding }}px;
+    --tdm-cg-image-gap: {{ s.image_gap | default: 16 }}px;
+    --tdm-cg-image-radius: {{ s.image_radius }}px;
+    --tdm-cg-image-height-mobile: {{ s.image_height | times: 0.75 | round: 0 }}px;
+    --tdm-cg-image-height-desktop: {{ s.image_height }}px;
+    --tdm-cg-icon-size: {{ s.icon_size }}px;
+    --tdm-cg-media-max-width: {% if s.image_mode == 'icon' %}{{ s.icon_size }}px{% else %}{{ s.image_width_percent | default: 100 }}%{% endif %};
+    --tdm-cg-cols-tablet: {{ cols_tablet }};
+    --tdm-cg-list-icon-fill: {% if s.list_icon_color == 'text' %}rgb(var(--color-foreground)){% else %}rgb(var(--color-button)){% endif %};
+    --tdm-cg-shape-ratio: {{ shape_ratio }};
+    --tdm-cg-title-lines: {{ s.title_lines }};
+  "
+>
   <div
-    class="section-{{ section.id }} page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    class="tdm-card-grid__inner page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {% if settings.animations_reveal_on_scroll %}
       data-cascade
     {% endif %}
@@ -512,12 +187,16 @@
       </div>
     {%- endif -%}
 
-    <slider-component class="slider-mobile-gutter">
-      <ul
-        class="multicolumn-list contains-content-container grid grid--{{ s.columns_mobile }}-col-tablet-down grid--{{ cols_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
-        id="Slider-{{ section.id }}"
-        role="list"
-      >
+    <tdm-card-grid-titles data-active="{{ align_titles }}">
+      <slider-component class="slider-mobile-gutter">
+        <ul
+          class="tdm-card-grid__grid multicolumn-list contains-content-container grid grid--{{ s.columns_mobile }}-col-tablet-down grid--{{ cols_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
+          id="Slider-{{ section.id }}"
+          role="list"
+          {%- unless s.use_theme_spacing %}
+          style="--grid-desktop-horizontal-spacing: {{ s.gap_horizontal }}px; --grid-desktop-vertical-spacing: {{ s.gap_vertical }}px; --grid-mobile-horizontal-spacing: {{ s.gap_horizontal | divided_by: 2 }}px; --grid-mobile-vertical-spacing: {{ s.gap_vertical | divided_by: 2 }}px;"
+          {%- endunless %}
+        >
         {%- liquid
           assign highest_ratio = 0
           for block in section.blocks
@@ -532,7 +211,6 @@
           endif
         -%}
         {%- liquid
-          assign list_icon = s.list_icon | default: 'none'
           if list_icon != 'none'
             capture list_icon_html
               render 'icon-accordion', icon: list_icon
@@ -748,7 +426,7 @@
                       assign card_text = card_text | replace: '<li>', li_open
                     endif
                   -%}
-                  <div class="rte {{ block.settings.desc_font | default: 'body' | prepend: 'mc-desc--' }}">
+                  <div class="rte{% if block.settings.desc_font == 'mono' %} mc-desc--mono tdm-mono tdm-upper{% endif %}">
                     {{ card_text }}
                   </div>
                 {%- endif -%}
@@ -799,7 +477,8 @@
           </button>
         </div>
       {%- endif -%}
-    </slider-component>
+      </slider-component>
+    </tdm-card-grid-titles>
 
     {%- if s.button_label != blank -%}
       <div class="mc-cta">
@@ -818,70 +497,6 @@
     {%- endif -%}
   </div>
 </div>
-
-{%- if align_titles -%}
-  <script>
-    /* Iguala la altura de los títulos de las cards que quedan en la misma fila
-       para que los párrafos empiecen a la misma altura, en cualquier ancho de pantalla. */
-    (function () {
-      var listId = 'Slider-{{ section.id }}';
-      var lastWidth = -1;
-      var raf = 0;
-
-      function equalize() {
-        var list = document.getElementById(listId);
-        if (!list) return;
-        var titles = Array.prototype.slice.call(list.querySelectorAll('.mc-card__title'));
-        titles.forEach(function (t) { t.style.minHeight = ''; });
-
-        var rows = {};
-        titles.forEach(function (t) {
-          var li = t.closest('.grid__item');
-          if (!li) return;
-          var key = String(Math.round(li.offsetTop));
-          (rows[key] = rows[key] || []).push(t);
-        });
-
-        Object.keys(rows).forEach(function (key) {
-          var group = rows[key];
-          if (group.length < 2) return;
-          var max = 0;
-          group.forEach(function (t) { max = Math.max(max, t.getBoundingClientRect().height); });
-          group.forEach(function (t) { t.style.minHeight = Math.ceil(max) + 'px'; });
-        });
-      }
-
-      function schedule() {
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(equalize);
-      }
-
-      function init() {
-        var list = document.getElementById(listId);
-        if (!list) return;
-        schedule();
-        if ('ResizeObserver' in window) {
-          new ResizeObserver(function (entries) {
-            var w = Math.round(entries[0].contentRect.width);
-            if (w === lastWidth) return;
-            lastWidth = w;
-            schedule();
-          }).observe(list);
-        } else {
-          window.addEventListener('resize', schedule);
-        }
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
-        window.addEventListener('load', schedule);
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
-  </script>
-{%- endif -%}
 
 {% schema %}
 {

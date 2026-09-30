@@ -147,27 +147,26 @@
     ]
   },
   {
-  "name": "Mono typography",
-  "settings": [
-    {
-      "type": "font_picker",
-      "id": "font_mono",
-      "label": "Mono font",
-      "default": "ibm_plex_mono_n4"
-    },
-    {
-      "type": "range",
-      "id": "font_mono_scale",
-      "min": 80,
-      "max": 120,
-      "step": 5,
-      "unit": "%",
-      "label": "Mono font scale",
-      "default": 95
-    }
-  ]
-},
-
+    "name": "Mono typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_mono",
+        "label": "Mono font",
+        "default": "ibm_plex_mono_n4"
+      },
+      {
+        "type": "range",
+        "id": "font_mono_scale",
+        "min": 80,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "label": "Mono font scale",
+        "default": 95
+      }
+    ]
+  },
   {
     "name": "t:settings_schema.layout.name",
     "settings": [
@@ -1471,6 +1470,33 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
+      }
+    ]
+  },
+  {
+    "name": "Aliados (landing)",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Aplica solo a páginas con la plantilla page.aliados."
+      },
+      {
+        "type": "color_scheme",
+        "id": "aliados_color_scheme",
+        "label": "Esquema de color de la página",
+        "default": "scheme-1"
+      },
+      {
+        "type": "image_picker",
+        "id": "aliados_favicon",
+        "label": "Favicon",
+        "info": "Si está vacío usa el favicon del sitio."
+      },
+      {
+        "type": "checkbox",
+        "id": "aliados_full_opacity_text",
+        "label": "Texto de lectura al 100% de opacidad",
+        "default": true
       }
     ]
   }

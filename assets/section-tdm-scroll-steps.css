@@ -6,6 +6,7 @@
    Mobile: aside first (image shows step 1), steps below.
    Per-instance values arrive as custom properties on .tdm-steps:
      --st-ratio --st-radius --st-num (desktop number size, unitless px)
+   --st-sticky-top and --st-mask-stop are constants, not per-instance.
    ========================================================================== */
 
 tdm-scroll-steps {
@@ -15,6 +16,9 @@ tdm-scroll-steps {
 .tdm-steps {
   /* Space kept above the sticky column (clears the header when it slides back in) */
   --st-sticky-top: 3.2rem;
+  /* Mask stops: only the alpha channel matters here (opaque = visible, transparent =
+     faded), so the colour itself is scheme-independent by design. */
+  --st-mask-stop: #000;
 }
 
 .tdm-steps__grid {
@@ -178,8 +182,8 @@ tdm-scroll-steps {
   .tdm-steps__viewport {
     position: relative;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3rem, #000 calc(100% - 4rem), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 3rem, #000 calc(100% - 4rem), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, var(--st-mask-stop) 3rem, var(--st-mask-stop) calc(100% - 4rem), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, var(--st-mask-stop) 3rem, var(--st-mask-stop) calc(100% - 4rem), transparent 100%);
   }
 
   .tdm-steps__list {

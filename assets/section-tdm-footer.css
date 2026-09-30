@@ -38,8 +38,10 @@
   bottom: 0;
 }
 
+/* Vertical rhythm only; side gutters stay Dawn's .page-width (same as every section) */
 .footer .page-width {
-  padding: 2rem 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* ---- Column grid ---------------------------------------------------------- */
@@ -301,4 +303,22 @@
   .footer .footer-newsletter__media {
     justify-self: start;
   }
+}
+
+/* ---- Newsletter off: the image (certifications) takes its own row, left ---- */
+.footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.footer .footer-newsletter--media-only {
+  display: block;
+  width: auto;
+  text-align: left;
+}
+
+.footer .footer-newsletter--media-only .footer-newsletter__media {
+  margin-left: 0;
+  margin-right: auto;
 }
