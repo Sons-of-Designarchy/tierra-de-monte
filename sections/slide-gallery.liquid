@@ -5,8 +5,12 @@
 {{ 'section-tdm-slide-gallery.css' | asset_url | stylesheet_tag }}
 
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
-{% render 'section-padding', id: section.id | append: '-intro', top: section.settings.intro_padding_top, bottom: section.settings.intro_padding_bottom %}
-{% render 'section-padding', id: section.id | append: '-cta', top: 0, bottom: section.settings.intro_padding_bottom %}
+{%- liquid
+  assign intro_pad_id = section.id | append: '-intro'
+  assign cta_pad_id = section.id | append: '-cta'
+-%}
+{% render 'section-padding', id: intro_pad_id, top: section.settings.intro_padding_top, bottom: section.settings.intro_padding_bottom %}
+{% render 'section-padding', id: cta_pad_id, top: 0, bottom: section.settings.intro_padding_bottom %}
 
 {%- liquid
   case section.settings.mobile_ratio
