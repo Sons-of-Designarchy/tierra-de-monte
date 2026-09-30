@@ -440,13 +440,31 @@
         "slide_qNeMrf": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg"
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg",
+            "quote": "Texto de ejemplo para la cita del productor. Aquí va lo que cuenta de su experiencia con Tierra de Monte en una o dos frases.",
+            "quote_author": "Antonio Amezcua",
+            "stat_1": "300% de incremento en cosecha",
+            "stat_2": "30% en reducción de costos",
+            "stat_3": "12 tons de CO₂ mitigadas",
+            "caption_position": "right",
+            "caption_color_scheme": "scheme-tdm-blanco",
+            "quote_color": "#FFFFFF",
+            "stats_color": "#FFFFFF"
           }
         },
         "slide_EiNnYf": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1.4.1_1.4.1.jpg"
+            "image": "shopify://shop_images/1.4.1_1.4.1.jpg",
+            "quote": "Texto de ejemplo para el segundo testimonio. Aquí va cómo le ha ido a este Aliado con sus clientes desde que vende la línea biológica.",
+            "quote_author": "Nombre del Aliado",
+            "stat_1": "XX% más ventas por cliente",
+            "stat_2": "XX clientes nuevos al año",
+            "stat_3": "XX hectáreas atendidas",
+            "caption_position": "right",
+            "caption_color_scheme": "scheme-tdm-blanco",
+            "quote_color": "#FFFFFF",
+            "stats_color": "#FFFFFF"
           }
         },
         "slide_ULFabq": {
@@ -511,9 +529,9 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "Sube de nivel, crece tu negocio",
-        "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
-        "icon_height": 45,
-        "bg_color": "#c8e7c3",
+        "icon": "shopify://shop_images/logo-stacked-full.png",
+        "icon_height": 55,
+        "bg_color": "#E7EACE",
         "text_color": "#003118",
         "font_size": 100,
         "text_transform": "none",
@@ -1168,9 +1186,9 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "Resultados que se ven en el campo",
-        "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
-        "icon_height": 45,
-        "bg_color": "#c8e7c3",
+        "icon": "shopify://shop_images/logo-stacked-full.png",
+        "icon_height": 55,
+        "bg_color": "#FFFFFF",
         "text_color": "#003118",
         "font_size": 100,
         "text_transform": "none",

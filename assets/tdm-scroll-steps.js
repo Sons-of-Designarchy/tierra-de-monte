@@ -1,8 +1,10 @@
 /* Proceso con scroll — desktop pinned frame.
-   The section pins for (list height − window height) of extra scroll; within it the
-   step list translates 1:1 with the page scroll. The step nearest the reading line
+   The section pins until the last step has reached the reading line (or the list has
+   fully scrolled, whichever is later), plus a short hold so the last image is seen with
+   the frame still pinned. Within it the step list translates 1:1 with the page scroll. The step nearest the reading line
    becomes current and the image cross-fades to it. Mobile: normal flow, image on step 1. */
 const READING_LINE = 0.35; // fraction of the list window height
+const LAST_STEP_HOLD = 0.25; // extra pinned scroll after the last step, fraction of the window height
 
 if (!customElements.get('tdm-scroll-steps')) {
   customElements.define(
@@ -54,7 +56,11 @@ if (!customElements.get('tdm-scroll-steps')) {
           this.activate(0);
           return;
         }
-        this.travel = Math.max(0, this.list.scrollHeight - this.window.clientHeight);
+        const windowHeight = this.window.clientHeight;
+        const overflow = this.list.scrollHeight - windowHeight;
+        const lastStepToLine = this.steps[this.steps.length - 1].offsetTop - windowHeight * READING_LINE;
+        this.maxOffset = Math.max(0, overflow, lastStepToLine);
+        this.travel = this.maxOffset + windowHeight * LAST_STEP_HOLD;
         this.style.height = `${this.frame.offsetHeight + this.travel}px`;
         this.update();
       }
@@ -62,8 +68,8 @@ if (!customElements.get('tdm-scroll-steps')) {
       update() {
         if (!this.desktop.matches) return;
         const start = this.getBoundingClientRect().top;
-        const progress = this.travel ? Math.min(1, Math.max(0, -start / this.travel)) : 0;
-        const offset = progress * this.travel;
+        const scrolled = Math.min(this.travel, Math.max(0, -start));
+        const offset = Math.min(scrolled, this.maxOffset);
         this.list.style.transform = `translate3d(0, ${-offset}px, 0)`;
 
         // Current step: the last one whose top has passed the reading line
@@ -72,7 +78,7 @@ if (!customElements.get('tdm-scroll-steps')) {
         this.steps.forEach((step, index) => {
           if (step.offsetTop <= line) current = index;
         });
-        if (progress >= 0.999) current = this.steps.length - 1;
+        if (scrolled >= this.maxOffset) current = this.steps.length - 1;
         this.activate(current);
       }
 

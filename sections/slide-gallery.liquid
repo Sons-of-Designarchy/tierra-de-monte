@@ -215,6 +215,40 @@
             {%- endif -%}
           {%- endif -%}
         </div>
+        {%- liquid
+          assign bs = block.settings
+          assign has_stats = false
+          if bs.stat_1 != blank or bs.stat_2 != blank or bs.stat_3 != blank
+            assign has_stats = true
+          endif
+        -%}
+        {%- if bs.quote != blank or has_stats -%}
+          <div
+            class="tdm-slide-gallery__caption tdm-slide-gallery__caption--{{ bs.caption_position | default: 'right' }} color-{{ bs.caption_color_scheme }}"
+            {% if bs.quote_color != blank or bs.stats_color != blank %}
+              style="{% if bs.quote_color != blank %}--sg-quote-color: {{ bs.quote_color }};{% endif %}{% if bs.stats_color != blank %} --sg-stats-color: {{ bs.stats_color }};{% endif %}"
+            {% endif %}
+          >
+            {%- if bs.quote != blank -%}
+              <figure class="tdm-slide-gallery__quote">
+                <blockquote class="tdm-slide-gallery__quote-text">{{ bs.quote | escape | newline_to_br }}</blockquote>
+                {%- if bs.quote_author != blank -%}
+                  <figcaption class="tdm-slide-gallery__quote-author">{{ bs.quote_author | escape }}</figcaption>
+                {%- endif -%}
+              </figure>
+            {%- endif -%}
+            {%- if has_stats -%}
+              <ul class="tdm-slide-gallery__stats" role="list">
+                {%- for key in (1..3) -%}
+                  {%- assign stat_key = 'stat_' | append: key -%}
+                  {%- if bs[stat_key] != blank -%}
+                    <li class="tdm-slide-gallery__stat h3">{{ bs[stat_key] | escape }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
     {%- endfor -%}
   </div>
@@ -520,7 +554,79 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Imagen"
+          "label": "Imagen",
+          "info": "Solo foto, sin texto. Recomendado: 2400 × 1200 px, con la persona en el 60% izquierdo y el lado del texto despejado."
+        },
+        {
+          "type": "header",
+          "content": "Testimonio"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Cita",
+          "info": "Sin comillas: se agregan solas."
+        },
+        {
+          "type": "text",
+          "id": "quote_author",
+          "label": "Quién lo dice"
+        },
+        {
+          "type": "header",
+          "content": "Datos"
+        },
+        {
+          "type": "text",
+          "id": "stat_1",
+          "label": "Dato 1",
+          "info": "Ej: 300% de incremento en cosecha"
+        },
+        {
+          "type": "text",
+          "id": "stat_2",
+          "label": "Dato 2",
+          "info": "Ej: 30% en reducción de costos"
+        },
+        {
+          "type": "text",
+          "id": "stat_3",
+          "label": "Dato 3",
+          "info": "Ej: 12 tons de CO₂ mitigadas"
+        },
+        {
+          "type": "header",
+          "content": "Texto sobre la imagen"
+        },
+        {
+          "type": "select",
+          "id": "caption_position",
+          "label": "Posición en escritorio",
+          "info": "En móvil y tablet el texto va debajo de la foto.",
+          "options": [
+            { "value": "right", "label": "Derecha" },
+            { "value": "left", "label": "Izquierda" }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "color_scheme",
+          "id": "caption_color_scheme",
+          "label": "Esquema del texto",
+          "info": "Texto: color de texto del esquema. Comillas: color de botón. En móvil también da el fondo del bloque de texto.",
+          "default": "scheme-tdm-blanco"
+        },
+        {
+          "type": "color",
+          "id": "quote_color",
+          "label": "Color de la cita sobre la foto",
+          "info": "Solo en escritorio (1200px o más), donde el texto va sobre la foto. Vacío = color del esquema."
+        },
+        {
+          "type": "color",
+          "id": "stats_color",
+          "label": "Color de los datos sobre la foto",
+          "info": "Solo en escritorio. Vacío = color del esquema."
         }
       ]
     }
