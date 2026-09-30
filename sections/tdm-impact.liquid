@@ -1,0 +1,246 @@
+{%- comment -%}
+  Impacto — full-bleed photo section for a high-impact stat row or a diagram.
+  Two layouts: "stats_below" (heading on top, stats/diagram row under it) and
+  "split" (heading + text left, stats/diagram right on desktop).
+  Dark colour scheme by default so text reads white on the photo.
+  Styles: assets/section-tdm-impact.css. Background photo: snippets/tdm-section-background.
+{%- endcomment -%}
+
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+
+{{ 'section-tdm-impact.css' | asset_url | stylesheet_tag }}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign s = section.settings
+  assign layout = s.layout | default: 'stats_below'
+  assign align = s.content_align | default: 'left'
+  assign rule_color = s.rule_color | default: 'currentColor'
+
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+  assign stat_blocks = stat_blocks | slice: 0, 4
+  assign stats_count = stat_blocks.size | at_most: 4
+
+  assign diagram_blocks = section.blocks | where: 'type', 'diagram'
+  assign diagram = diagram_blocks.first
+  assign show_diagram = false
+  if diagram and diagram.settings.image != blank
+    assign show_diagram = true
+  endif
+-%}
+
+<section
+  class="tdm-impact tdm-impact--{{ layout }} tdm-impact--align-{{ align }} color-{{ s.color_scheme }} gradient{% if s.bg_image != blank %} tdm-has-bg{% endif %}"
+  style="--tdm-rule: {{ rule_color }}; --tdm-min-h-desktop: {{ s.min_height_desktop | default: 60 }}vh; --tdm-min-h-mobile-n: {{ s.min_height_mobile | default: 0 }};"
+>
+  {% render 'tdm-section-background', image: s.bg_image, image_mobile: s.bg_image_mobile, overlay: s.bg_overlay, position: s.bg_position %}
+
+  <div class="page-width section-{{ section.id }}-padding tdm-impact__inner">
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: rule_color, align: align -%}
+
+    <div class="tdm-impact__body">
+      <div class="tdm-impact__lead">
+        {%- if s.heading != blank -%}
+          <h2 class="tdm-impact__heading inline-richtext {{ s.heading_size | default: 'h1' }}">
+            {{ s.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if s.text != blank -%}
+          <div class="tdm-impact__text rte">{{ s.text }}</div>
+        {%- endif -%}
+
+        {%- if s.button_label != blank -%}
+          <div class="tdm-impact__cta">
+            <a
+              class="button button--{{ s.button_style | default: 'primary' }}"
+              {% if s.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ s.button_link }}"
+              {% endif %}
+              {% if s.button_new_tab %}
+                target="_blank" rel="noopener"
+              {% endif %}
+            >
+              {{ s.button_label | escape }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="tdm-impact__content">
+        {%- if show_diagram -%}
+          <div class="tdm-impact__diagram" {{ diagram.shopify_attributes }}>
+            {{
+              diagram.settings.image
+              | image_url: width: 2000
+              | image_tag:
+                loading: 'lazy',
+                widths: '400, 700, 1000, 1400, 2000',
+                sizes: '(min-width: 990px) 55vw, 100vw',
+                alt: diagram.settings.alt | default: diagram.settings.image.alt
+            }}
+          </div>
+        {%- elsif stat_blocks.size > 0 -%}
+          <ul
+            class="tdm-impact__stats"
+            role="list"
+            style="--stats-count: {{ stats_count }}; --stat-size-m: {{ s.stat_size_mobile | default: 40 }}px; --stat-size-d: {{ s.stat_size_desktop | default: 64 }}px;"
+          >
+            {%- for block in stat_blocks -%}
+              <li
+                class="tdm-impact__stat{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {%- if block.settings.value != blank -%}
+                  <p class="tdm-stat inline-richtext">{{ block.settings.value }}</p>
+                {%- endif -%}
+                {%- if block.settings.label != blank -%}
+                  <p class="tdm-impact__stat-label tdm-copy">{{ block.settings.label }}</p>
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  <p class="tdm-impact__stat-caption tdm-mono tdm-upper">{{ block.settings.caption }}</p>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Impacto",
+  "tag": "div",
+  "class": "section section-tdm-impact",
+  "max_blocks": 5,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. impacto."
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-696296f7-bee5-432a-8d7e-1c97193ea4dc" },
+
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Enfoque de la imagen",
+      "default": "center",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ]
+    },
+
+    { "type": "header", "content": "Diseño" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "stats_below", "label": "Título arriba, fila debajo" },
+        { "value": "split", "label": "Título a la izquierda, contenido a la derecha" }
+      ],
+      "default": "stats_below"
+    },
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Alineación del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "left"
+    },
+
+    { "type": "header", "content": "Encabezado" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "El impacto de ser Aliado" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h0"
+    },
+    { "type": "richtext", "id": "text", "label": "Párrafo" },
+
+    { "type": "header", "content": "Botón" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "info": "Vacío = sin botón." },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+    { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en otra pestaña", "default": false },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Estilo del botón",
+      "options": [
+        { "value": "primary", "label": "Sólido" },
+        { "value": "secondary", "label": "Contorno" }
+      ],
+      "default": "primary"
+    },
+
+    { "type": "header", "content": "Estadísticas" },
+    { "type": "range", "id": "stat_size_mobile", "label": "Tamaño del número (móvil)", "min": 24, "max": 96, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "stat_size_desktop", "label": "Tamaño del número (escritorio)", "min": 24, "max": 140, "step": 2, "unit": "px", "default": 64 },
+
+    { "type": "header", "content": "Altura mínima" },
+    { "type": "range", "id": "min_height_desktop", "label": "Altura mínima (escritorio, vh)", "min": 0, "max": 100, "step": 5, "unit": "vh", "default": 60 },
+    { "type": "range", "id": "min_height_mobile", "label": "Altura mínima (móvil, vh)", "min": 0, "max": 100, "step": 5, "unit": "vh", "default": 0 },
+
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Espaciado superior", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Espaciado inferior", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Estadística",
+      "settings": [
+        { "type": "inline_richtext", "id": "value", "label": "Número", "default": "00%" },
+        { "type": "text", "id": "label", "label": "Descripción" },
+        { "type": "text", "id": "caption", "label": "Nota pequeña (opcional)" }
+      ]
+    },
+    {
+      "type": "diagram",
+      "name": "Diagrama / ilustración",
+      "limit": 1,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Si hay una imagen, reemplaza la fila de estadísticas." },
+        { "type": "text", "id": "alt", "label": "Texto alternativo" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Impacto",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "00%", "label": "Descripción del dato" } },
+        { "type": "stat", "settings": { "value": "00%", "label": "Descripción del dato" } },
+        { "type": "stat", "settings": { "value": "00%", "label": "Descripción del dato" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

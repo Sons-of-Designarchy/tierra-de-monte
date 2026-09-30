@@ -16,7 +16,8 @@
   }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
+<div class="color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
+  {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
   <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}">
     <div class="collapsible-content__wrapper section-{{ section.id }}-padding{% if section.settings.layout == 'section' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}">
       {%- comment -%} Eyebrow sits outside the narrow column so its rule spans the full page width {%- endcomment -%}
@@ -250,6 +251,13 @@
       "label": "t:sections.collapsible_content.settings.section_color_scheme.label",
       "default": "scheme-1"
     },
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
+      { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
+    ] },
     {
       "type": "checkbox",
       "id": "open_first_collapsible_row",

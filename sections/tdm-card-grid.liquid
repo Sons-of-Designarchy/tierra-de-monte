@@ -133,11 +133,25 @@
 
   # Ícono de las viñetas de la descripción
   assign list_icon = s.list_icon | default: 'none'
+
+  # Estilo de tarjeta: ícono (actual) o foto (arriba / de fondo)
+  assign card_media_style = s.card_media_style | default: 'icon'
+  case s.photo_ratio
+    when 'square'
+      assign photo_ratio_css = '1 / 1'
+    when '3_4'
+      assign photo_ratio_css = '3 / 4'
+    when '16_9'
+      assign photo_ratio_css = '16 / 9'
+    else
+      assign photo_ratio_css = '4 / 3'
+  endcase
 -%}
 
 <div
-  class="multicolumn tdm-card-grid color-{{ s.color_scheme }} gradient{% unless s.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ s.background_style }}{% endunless %}{% if s.title == blank %} no-heading{% endif %}{% if s.card_background %} tdm-card-grid--has-bg{% endif %}{% if list_icon != 'none' %} tdm-card-grid--has-list-icon{% endif %}{% if s.image_mode == 'icon' %} tdm-card-grid--icon-mode{% endif %}{% if s.image_contain_bg %} tdm-card-grid--contain-bg{% endif %}{% if shape_ratio != '' %} tdm-card-grid--fixed-shape{% endif %}{% if shape_ratio != '' and shape_mobile == 'auto' %} tdm-card-grid--shape-mobile-auto{% endif %}{% if ccp != 'spread' %} tdm-card-grid--content-fixed{% endif %}{% if unify %} tdm-card-grid--unify{% endif %}{% if s.title_lines > 0 %} tdm-card-grid--title-lines{% endif %}{% if s.image_bleed and s.card_background and s.image_mode == 'image' %} tdm-card-grid--image-bleed{% endif %}{% if show_mobile_slider %} tdm-card-grid--mobile-slider{% endif %}{% if grid_align != 'stretch' %} tdm-card-grid--grid-align-auto{% endif %}{% if s.button_pill %} tdm-card-grid--btn-pill{% endif %}"
+  class="multicolumn tdm-card-grid color-{{ s.color_scheme }} gradient{% unless s.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ s.background_style }}{% endunless %}{% if s.title == blank %} no-heading{% endif %}{% if s.card_background %} tdm-card-grid--has-bg{% endif %}{% if list_icon != 'none' %} tdm-card-grid--has-list-icon{% endif %}{% if s.image_mode == 'icon' %} tdm-card-grid--icon-mode{% endif %}{% if s.image_contain_bg %} tdm-card-grid--contain-bg{% endif %}{% if shape_ratio != '' %} tdm-card-grid--fixed-shape{% endif %}{% if shape_ratio != '' and shape_mobile == 'auto' %} tdm-card-grid--shape-mobile-auto{% endif %}{% if ccp != 'spread' %} tdm-card-grid--content-fixed{% endif %}{% if unify %} tdm-card-grid--unify{% endif %}{% if s.title_lines > 0 %} tdm-card-grid--title-lines{% endif %}{% if s.image_bleed and s.card_background and s.image_mode == 'image' %} tdm-card-grid--image-bleed{% endif %}{% if show_mobile_slider %} tdm-card-grid--mobile-slider{% endif %}{% if grid_align != 'stretch' %} tdm-card-grid--grid-align-auto{% endif %}{% if s.button_pill %} tdm-card-grid--btn-pill{% endif %}{% if card_media_style == 'photo_top' %} tdm-card-grid--photo-top{% endif %}{% if card_media_style == 'photo_bg' %} tdm-card-grid--photo-bg{% endif %}{% if s.bg_image != blank %} tdm-has-bg{% endif %}"
   style="
+    --tdm-cg-photo-ratio: {{ photo_ratio_css }};
     --tdm-cg-header-max-width: {{ s.header_max_width | default: 50 }}%;
     --tdm-cg-title-ml: {{ title_ml }};
     --tdm-cg-title-mr: {{ title_mr }};
@@ -165,6 +179,7 @@
     --tdm-cg-title-lines: {{ s.title_lines }};
   "
 >
+  {% render 'tdm-section-background', image: s.bg_image, image_mobile: s.bg_image_mobile, overlay: s.bg_overlay, position: s.bg_position %}
   <div
     class="tdm-card-grid__inner page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {% if settings.animations_reveal_on_scroll %}
@@ -316,7 +331,18 @@
                   assign card_style = card_style | append: '--mc-glass-bg: ' | append: g_rgba | append: '; --mc-glass-blur: ' | append: block.settings.glass_blur | append: 'px;'
                 endif
               endif
+
+              # Foto de la card (estilos Foto arriba / Foto de fondo): la "Foto" dedicada,
+              # o la Imagen de siempre si esta card no tiene foto propia.
+              assign card_photo = block.settings.photo
+              if card_photo == blank
+                assign card_photo = block.settings.image
+              endif
+              assign card_photo_alt = block.settings.title | strip_html | escape
             -%}
+            {%- capture sizes_photo -%}
+              (min-width: 990px) calc(100vw / {{ cols_desktop }}), (min-width: 750px) calc(100vw / {{ cols_tablet }}), 100vw
+            {%- endcapture -%}
             <div
               class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% elsif card_bg != blank %} color-{{ card_scheme }}{% endif %}{% if card_bg != blank %} mc-card--bgimg{% endif %}{% if glass_on %} mc-card--glass{% endif %}"
               {% if card_style != '' %}
@@ -337,7 +363,37 @@
                 </div>
                 <div class="mc-bg__overlay" aria-hidden="true"></div>
               {%- endif -%}
-              {%- if block.settings.image != blank -%}
+              {%- if card_media_style == 'photo_bg' -%}
+                {%- if card_photo != blank -%}
+                  <div class="tdm-card-grid__photo-bg" aria-hidden="true">
+                    {{
+                      card_photo
+                      | image_url: width: 1600
+                      | image_tag:
+                        widths: '400, 600, 800, 1200, 1600',
+                        sizes: sizes_photo,
+                        loading: 'lazy',
+                        class: 'tdm-card-grid__photo-bg-img',
+                        alt: card_photo_alt
+                    }}
+                  </div>
+                {%- endif -%}
+              {%- elsif card_media_style == 'photo_top' -%}
+                {%- if card_photo != blank -%}
+                  <div class="tdm-card-grid__photo">
+                    {{
+                      card_photo
+                      | image_url: width: 1600
+                      | image_tag:
+                        widths: '400, 600, 800, 1200, 1600',
+                        sizes: sizes_photo,
+                        loading: 'lazy',
+                        class: 'tdm-card-grid__photo-img',
+                        alt: card_photo_alt
+                    }}
+                  </div>
+                {%- endif -%}
+              {%- elsif block.settings.image != blank -%}
                 {%- liquid
                   assign number_of_columns = cols_desktop
                   assign number_of_columns_mobile = s.columns_mobile
@@ -867,6 +923,33 @@
     { "type": "checkbox", "id": "image_contain_bg", "label": "Fondo suave detrás de imágenes contenidas", "default": true },
     { "type": "range", "id": "image_radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0, "label": "Radio de esquinas de la imagen" },
 
+    { "type": "header", "content": "Estilo de tarjeta" },
+    {
+      "type": "select",
+      "id": "card_media_style",
+      "label": "Estilo de tarjeta",
+      "info": "Foto arriba / Foto de fondo usan la \"Foto\" de cada card (o la imagen de arriba si no hay foto).",
+      "options": [
+        { "value": "icon", "label": "Ícono (actual)" },
+        { "value": "photo_top", "label": "Foto arriba" },
+        { "value": "photo_bg", "label": "Foto de fondo" }
+      ],
+      "default": "icon"
+    },
+    {
+      "type": "select",
+      "id": "photo_ratio",
+      "label": "Proporción de la foto",
+      "info": "Aplica con Foto arriba o Foto de fondo.",
+      "options": [
+        { "value": "square", "label": "Cuadrada 1:1" },
+        { "value": "4_3", "label": "Horizontal 4:3" },
+        { "value": "3_4", "label": "Vertical 3:4" },
+        { "value": "16_9", "label": "Panorámica 16:9" }
+      ],
+      "default": "4_3"
+    },
+
     { "type": "header", "content": "Botón (CTA) de la sección" },
     {
       "type": "text",
@@ -914,6 +997,22 @@
       "label": "t:sections.multicolumn.settings.swipe_on_mobile.label"
     },
 
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Enfoque de la imagen",
+      "default": "center",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ]
+    },
+
     { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
     {
       "type": "range",
@@ -942,6 +1041,7 @@
       "name": "Card",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "image_picker", "id": "photo", "label": "Foto", "info": "Para los estilos de tarjeta Foto arriba / Foto de fondo. Si está vacía, se usa la Imagen de arriba." },
         {
           "type": "inline_richtext",
           "id": "title",

@@ -16,7 +16,8 @@
 {%- endstyle -%}
 
 <div class="isolate{% unless section.settings.full_width %} page-width{% endunless %}">
-  <div class="rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding">
+  <div class="rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
+    {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
     {%- comment -%} Eyebrow spans the full page width, outside the narrow text column {%- endcomment -%}
     {%- if section.settings.eyebrow != blank -%}
       <div class="{% if section.settings.full_width %}page-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -173,6 +174,13 @@
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
+      { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
+    ] },
     {
       "type": "checkbox",
       "id": "full_width",

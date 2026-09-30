@@ -17,9 +17,10 @@
 -%}
 
 <div
-  class="tdm-feature tdm-feature--{{ layout }} color-{{ section.settings.color_scheme }} gradient"
+  class="tdm-feature tdm-feature--{{ layout }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}"
   style="--tdm-rule: {{ rule_color }}; --tdm-divider: {{ divider_color }}; --cols-mobile: {{ cols_mobile }}; --cols-tablet: {{ cols_tablet }}; --cols-desktop: {{ cols_desktop }}; --column-min-height: {{ section.settings.column_min_height | default: 0 }}vh; --row-title-size: {{ section.settings.row_title_size | default: 20 }}px;"
 >
+  {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
   <div
     class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {% if settings.animations_reveal_on_scroll %}
@@ -259,6 +260,14 @@
 
     { "type": "header", "content": "Section" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
+      { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
+    ] },
     {
       "type": "range",
       "id": "padding_top",

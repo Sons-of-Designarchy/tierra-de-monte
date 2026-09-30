@@ -100,6 +100,9 @@
 
   # ---------- Root modifier classes (settings booleans become classes, not conditional CSS) ----------
   assign root_class = 'ct-section tdm-comparison-table section-' | append: sid | append: '-padding color-' | append: section.settings.color_scheme | append: ' gradient'
+  if section.settings.bg_image != blank
+    assign root_class = root_class | append: ' tdm-has-bg'
+  endif
   if section.settings.price_size != 'default'
     assign root_class = root_class | append: ' ct-price--' | append: section.settings.price_size
   endif
@@ -199,6 +202,7 @@
 {%- endcapture -%}
 
 <div class="{{ root_class }}" style="{{ root_style }}">
+  {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
   <div class="{{ section.settings.container_width }}">
     {%- if section.settings.pretitle != blank or section.settings.heading != blank or section.settings.description != blank -%}
       <div class="ct-intro">
@@ -439,6 +443,14 @@
       ],
       "default": "text"
     },
+
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
+      { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
+    ] },
 
     { "type": "header", "content": "Tabla" },
     { "type": "paragraph", "content": "Cada bloque Columna aparece a la derecha y las demás se ajustan automáticamente (máx. 6). En las celdas escribe \"si\" o \"✓\" para palomita y \"-\" o \"no\" para guion." },

@@ -12,11 +12,13 @@
      --tdm-cg-card-pad-desktop --tdm-cg-image-gap --tdm-cg-image-radius
      --tdm-cg-image-height-mobile --tdm-cg-image-height-desktop --tdm-cg-icon-size
      --tdm-cg-media-max-width --tdm-cg-cols-tablet --tdm-cg-list-icon-fill
-     --tdm-cg-shape-ratio --tdm-cg-title-lines
+     --tdm-cg-shape-ratio --tdm-cg-title-lines --tdm-cg-photo-ratio
    Boolean/enum settings that change which rules apply are modifier classes on
    the same root: --has-bg --has-list-icon --icon-mode --contain-bg
    --fixed-shape --shape-mobile-auto --content-fixed --unify --title-lines
    --image-bleed --mobile-slider --grid-align-auto --btn-pill
+   --photo-top --photo-bg (card_media_style; default "icon" keeps every rule
+   above unchanged — see the section liquid's per-block if/elsif chain)
    ========================================================================== */
 
 tdm-card-grid-titles {
@@ -357,6 +359,88 @@ tdm-card-grid-titles {
     ) !important;
     flex: 0 0 auto !important;
   }
+}
+
+/* ===== Estilo de tarjeta: Foto arriba =====
+   The photo fills the card's top edge to edge at a fixed ratio; text sits
+   below on the normal card surface. Reuses the image-bleed negative-margin
+   trick so it works whether "Cards con fondo" is on or off. */
+.tdm-card-grid--photo-top .multicolumn-card {
+  overflow: hidden;
+  border-radius: var(--tdm-cg-card-radius);
+}
+.tdm-card-grid--photo-top .tdm-card-grid__photo {
+  width: calc(100% + 2 * var(--mc-pad, 0px));
+  margin: calc(-1 * var(--mc-pad, 0px)) calc(-1 * var(--mc-pad, 0px)) var(--tdm-cg-image-gap, 1.6rem);
+  aspect-ratio: var(--tdm-cg-photo-ratio, 4 / 3);
+  overflow: hidden;
+}
+.tdm-card-grid--photo-top .tdm-card-grid__photo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Estilo de tarjeta: Foto de fondo =====
+   The photo covers the whole card, a dark scrim sits over it, and the text
+   reads white at the bottom. The card keeps its own radius/aspect ratio.
+   Hover gently zooms the photo; prefers-reduced-motion turns that off. */
+.tdm-card-grid--photo-bg .multicolumn-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--tdm-cg-card-radius);
+  aspect-ratio: var(--tdm-cg-photo-ratio, 4 / 3);
+  justify-content: flex-end;
+}
+.tdm-card-grid--photo-bg .tdm-card-grid__photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.tdm-card-grid--photo-bg .tdm-card-grid__photo-bg-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--tdm-duration, 0.2s) var(--tdm-ease, ease);
+}
+.tdm-card-grid--photo-bg .multicolumn-card:hover .tdm-card-grid__photo-bg-img {
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tdm-card-grid--photo-bg .tdm-card-grid__photo-bg-img {
+    transition: none;
+  }
+  .tdm-card-grid--photo-bg .multicolumn-card:hover .tdm-card-grid__photo-bg-img {
+    transform: none;
+  }
+}
+.tdm-card-grid--photo-bg .tdm-card-grid__photo-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0) 65%);
+}
+.tdm-card-grid--photo-bg .multicolumn-card__info {
+  position: relative;
+  z-index: 1;
+  padding: var(--tdm-cg-card-pad-mobile, 1.6rem);
+}
+@media screen and (min-width: 750px) {
+  .tdm-card-grid--photo-bg .multicolumn-card__info {
+    padding: var(--tdm-cg-card-pad-desktop, 1.6rem);
+  }
+}
+/* Higher specificity + later in the cascade than the "Cards con fondo" text-colour
+   rule above (.tdm-card-grid.tdm-card-grid--has-bg .mc-card h3/.rte/.link), so white
+   text wins over it when both settings are on together. No !important needed. */
+.tdm-card-grid.tdm-card-grid--photo-bg .multicolumn-card__info .mc-card__title,
+.tdm-card-grid.tdm-card-grid--photo-bg .multicolumn-card__info .rte,
+.tdm-card-grid.tdm-card-grid--photo-bg .multicolumn-card__info .rte *,
+.tdm-card-grid.tdm-card-grid--photo-bg .multicolumn-card__info .link {
+  color: rgb(255 255 255);
 }
 
 /* ===== CTA general ===== */

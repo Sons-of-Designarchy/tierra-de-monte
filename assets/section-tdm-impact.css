@@ -1,0 +1,138 @@
+/* =============================================================================
+   Impact section (sections/tdm-impact.liquid)
+   Full-bleed photo, dark scheme by default, a heading + a stat row or a
+   diagram image. Two layouts:
+     --stats_below  heading/text on top, row underneath, full width
+     --split        heading/text left, row/diagram right (5 / 7 desktop)
+   Per-instance values arrive as custom properties on .tdm-impact:
+     --tdm-rule --tdm-min-h-desktop --tdm-min-h-mobile-n
+   and on .tdm-impact__stats: --stats-count --stat-size-m --stat-size-d
+   ========================================================================== */
+
+.tdm-impact {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--tdm-min-h-desktop, 0);
+}
+
+@media (max-width: 749.98px) {
+  .tdm-impact {
+    min-height: calc(var(--tdm-min-h-mobile-n, 0) * 1vh);
+  }
+
+  @supports (height: 100dvh) {
+    .tdm-impact {
+      min-height: calc(var(--tdm-min-h-mobile-n, 0) * 1dvh);
+    }
+  }
+}
+
+.tdm-impact__inner {
+  width: 100%;
+}
+
+.tdm-impact--align-center .tdm-impact__lead {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.tdm-impact--align-center .tdm-impact__stat {
+  text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
+   Body — lead (heading/text/cta) + content (stats or diagram).
+   -------------------------------------------------------------------------- */
+.tdm-impact__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tdm-space-8);
+}
+
+.tdm-impact--split .tdm-impact__body {
+  gap: var(--tdm-space-8);
+}
+
+@media (min-width: 990px) {
+  .tdm-impact--split .tdm-impact__body {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    align-items: center;
+    gap: var(--tdm-space-12);
+  }
+}
+
+.tdm-impact__lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tdm-space-4);
+  max-width: 44rem;
+}
+
+.tdm-impact--align-center .tdm-impact__lead {
+  max-width: 56rem;
+}
+
+.tdm-impact__heading {
+  margin: 0;
+}
+
+.tdm-impact__text {
+  color: var(--tdm-ink-soft);
+}
+
+.tdm-impact__cta {
+  margin-top: var(--tdm-space-2);
+}
+
+.tdm-impact--align-center .tdm-impact__cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* -----------------------------------------------------------------------------
+   Stats — two per row on mobile, one full row on tablet/desktop.
+   -------------------------------------------------------------------------- */
+.tdm-impact__stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--tdm-space-6);
+}
+
+@media (min-width: 750px) {
+  .tdm-impact__stats {
+    grid-template-columns: repeat(var(--stats-count, 4), minmax(0, 1fr));
+    gap: var(--tdm-space-8);
+  }
+}
+
+.tdm-impact__stat {
+  min-width: 0;
+}
+
+.tdm-impact__stat-label {
+  margin: var(--tdm-space-1) 0 0;
+}
+
+.tdm-impact__stat-caption {
+  margin: var(--tdm-space-2) 0 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+/* -----------------------------------------------------------------------------
+   Diagram — large illustration/process image, replaces the stat row.
+   -------------------------------------------------------------------------- */
+.tdm-impact__diagram img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--tdm-radius-md);
+}
