@@ -1,0 +1,58 @@
+{%- comment -%}
+  Section background photo — a cover image + scrim behind a section's content.
+
+  Put it as the FIRST child of the element that should carry the photo, and add
+  `tdm-has-bg` to that element when an image is set:
+
+    <div class="my-section{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
+      {% render 'tdm-section-background',
+        image: section.settings.bg_image,
+        image_mobile: section.settings.bg_image_mobile,
+        overlay: section.settings.bg_overlay,
+        position: section.settings.bg_position
+      %}
+      …content…
+    </div>
+
+  Standard schema settings (copy into any section that wants it):
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
+      { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
+    ] }
+
+  With an image, pick a dark colour scheme (white text) for the section so text
+  stays legible on the photo. Styles: .tdm-bg in assets/tdm-foundations.css.
+{%- endcomment -%}
+{%- if image != blank -%}
+  {%- liquid
+    assign overlay_value = overlay | default: 40 | divided_by: 100.0
+    assign focus = position | default: 'center'
+  -%}
+  <div class="tdm-bg tdm-bg--{{ focus }}" style="--tdm-bg-overlay: {{ overlay_value }};" aria-hidden="true">
+    {%- if image_mobile != blank -%}
+      {{
+        image_mobile
+        | image_url: width: 1500
+        | image_tag:
+          class: 'tdm-bg__img tdm-bg__img--mobile',
+          loading: 'lazy',
+          widths: '375, 750, 1100, 1500',
+          sizes: '100vw',
+          alt: ''
+      }}
+    {%- endif -%}
+    {{
+      image
+      | image_url: width: 3000
+      | image_tag:
+        class: 'tdm-bg__img',
+        loading: 'lazy',
+        widths: '750, 1100, 1500, 2200, 3000',
+        sizes: '100vw',
+        alt: ''
+    }}
+  </div>
+{%- endif -%}

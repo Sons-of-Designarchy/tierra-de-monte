@@ -305,9 +305,31 @@
           "secondary_button_label": "#FFFFFF",
           "shadow": "#482b28"
         }
+      },
+      "scheme-tdm-blanco": {
+        "settings": {
+          "background": "#FFFFFF",
+          "background_gradient": "",
+          "text": "#003118",
+          "button": "#2B7034",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#003118",
+          "shadow": "#482b28"
+        }
+      },
+      "scheme-tdm-crema": {
+        "settings": {
+          "background": "#F7F3EE",
+          "background_gradient": "",
+          "text": "#003118",
+          "button": "#2B7034",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#003118",
+          "shadow": "#482b28"
+        }
       }
     },
-    "aliados_color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+    "aliados_color_scheme": "scheme-tdm-blanco",
     "aliados_favicon": "shopify://shop_images/logo-stacked-white.png",
     "aliados_full_opacity_text": true
   },

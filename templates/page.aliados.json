@@ -817,7 +817,7 @@
         "rule_color": "#003118",
         "desktop_content_position": "center",
         "content_alignment": "center",
-        "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "color_scheme": "scheme-tdm-blanco",
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52,
@@ -830,7 +830,7 @@
       "settings": {
         "page_width": true,
         "custom_liquid": "<iframe\n    src=\"https://api.leadconnectorhq.com/widget/form/PokFnUnhtj45vXhbVBBj\"\n    style=\"width:100%;height:100%;border:none;border-radius:8px\"\n    id=\"inline-PokFnUnhtj45vXhbVBBj\" \n    data-layout=\"{'id':'INLINE'}\"\n    data-trigger-type=\"alwaysShow\"\n    data-trigger-value=\"\"\n    data-activation-type=\"alwaysActivated\"\n    data-activation-value=\"\"\n    data-deactivation-type=\"neverDeactivate\"\n    data-deactivation-value=\"\"\n    data-form-name=\"Form v.0 Aliados\"\n    data-height=\"709\"\n    data-layout-iframe-id=\"inline-PokFnUnhtj45vXhbVBBj\"\n    data-form-id=\"PokFnUnhtj45vXhbVBBj\"\n    data-cookie-consent=\"true\"\n    data-cookie-consent-provider=\"auto\"\n    title=\"Form v.0 Aliados\"\n    \n        >\n</iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
-        "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "color_scheme": "scheme-tdm-blanco",
         "padding_top": 40,
         "padding_bottom": 52
       }
@@ -912,7 +912,7 @@
         "container_color_scheme": "",
         "row_container": true,
         "row_color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
-        "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "color_scheme": "scheme-tdm-blanco",
         "open_first_collapsible_row": false,
         "image_ratio": "adapt",
         "desktop_layout": "image_second",
@@ -1123,7 +1123,7 @@
         "step_4"
       ],
       "settings": {
-        "color_scheme": "scheme-fd06554c-69db-4e2a-a946-14bc2c7020be",
+        "color_scheme": "scheme-tdm-blanco",
         "eyebrow": "",
         "rule_color": "#003118",
         "title": "Proceso",
