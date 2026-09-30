@@ -9,7 +9,7 @@
 
     {%- liquid
       assign is_aliados = false
-      if template.suffix == 'aliados'
+      if template.suffix contains 'aliados'
         assign is_aliados = true
       endif
       assign favicon = settings.favicon
