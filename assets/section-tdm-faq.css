@@ -26,6 +26,14 @@
   margin-top: 0.8rem;
 }
 
+.tdm-faq .collapsible-content__header {
+  margin-bottom: var(--tdm-space-8);
+}
+
+.tdm-faq .collapsible-content__heading {
+  margin-bottom: 0;
+}
+
 .tdm-faq .accordion summary {
   padding: 2.4rem 0;
 }

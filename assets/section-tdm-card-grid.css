@@ -253,6 +253,11 @@ tdm-card-grid-titles {
 .tdm-card-grid .mc-desc--mono { padding-top: 1rem; line-height: 1.5rem; }
 
 /* ===== Encabezado: eyebrow + título (alineación editable) ===== */
+/* No intro paragraph: the title keeps a gap above the cards (the intro's own margin does this otherwise) */
+.tdm-card-grid .multicolumn__title:not(:has(+ .multicolumn__intro)) {
+  margin-bottom: var(--tdm-space-8);
+}
+
 @media screen and (max-width: 989px) {
   /* Stacked cards (no swipe slider): keep the page gutter on mobile and tablet.
      Dawn drops it below 990px for sliders, which left these cards edge to edge. */
@@ -303,7 +308,7 @@ tdm-card-grid-titles {
 .tdm-card-grid .multicolumn__intro {
   width: 100%;
   max-width: min(100%, max(var(--tdm-cg-header-max-width, 50%), 64rem));
-  margin: 0.5rem var(--tdm-cg-intro-mr, auto) 1.5rem var(--tdm-cg-intro-ml, 0);
+  margin: 0.5rem var(--tdm-cg-intro-mr, auto) var(--tdm-space-8) var(--tdm-cg-intro-ml, 0);
   text-align: var(--tdm-cg-intro-align, left);
   color: rgb(var(--color-foreground, 18, 18, 18));
   font: inherit;
@@ -311,7 +316,7 @@ tdm-card-grid-titles {
 }
 .tdm-card-grid .multicolumn__intro p { margin: 0; }
 @media (min-width: 750px) {
-  .tdm-card-grid .multicolumn__intro { margin-top: 0.75rem; margin-bottom: 2rem; }
+  .tdm-card-grid .multicolumn__intro { margin-top: 0.75rem; }
 }
 @media (max-width: 749px) {
   .tdm-card-grid .title-wrapper-with-link,

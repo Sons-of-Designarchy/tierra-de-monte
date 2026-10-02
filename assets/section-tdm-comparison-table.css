@@ -17,7 +17,7 @@
 
 .tdm-comparison-table .ct-intro {
   text-align: var(--ct-align);
-  margin-bottom: 2.4rem;
+  margin-bottom: var(--tdm-space-8);
 }
 
 .tdm-comparison-table .ct-intro > *:last-child {
@@ -358,10 +358,6 @@
 
 /* ---- Mobile -------------------------------------------------------------------- */
 @media screen and (max-width: 749px) {
-  .tdm-comparison-table .ct-intro {
-    margin-bottom: 1.6rem;
-  }
-
   .tdm-comparison-table .ct-wrapper {
     --ct-pad: var(--ct-pad-mobile);
   }

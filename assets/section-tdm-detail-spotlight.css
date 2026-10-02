@@ -238,7 +238,6 @@ tdm-spotlight-media {
 
   .tdm-spotlight--stacked .tdm-spotlight__header {
     max-width: none;
-    margin-bottom: var(--tdm-space-4);
   }
 
   .tdm-spotlight--stacked .tdm-spotlight__text p {
