@@ -43,8 +43,8 @@
         ".header__icon--account {display: none !important;}"
       ],
       "settings": {
-        "logo_override": "shopify://shop_images/logo-h-full.png",
-        "logo_link": "/pages/aliados",
+        "logo_override": "shopify://shop_images/logo-h-full.svg",
+        "logo_link": "",
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "menu": "menu-aliados",
