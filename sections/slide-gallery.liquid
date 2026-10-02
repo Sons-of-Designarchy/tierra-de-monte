@@ -25,8 +25,17 @@
   assign adapt_image = false
   if section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank
     assign adapt_image = true
-    assign adapt_pb = 1 | divided_by: section.blocks.first.settings.image.aspect_ratio | times: 100
+    assign adapt_ratio = section.blocks.first.settings.image.width | append: ' / ' | append: section.blocks.first.settings.image.height
   endif
+  # Fixed desktop proportions: same mechanism as "adapt", image centred (cover)
+  case section.settings.slide_height
+    when 'ratio_16_9'
+      assign adapt_image = true
+      assign adapt_ratio = '16 / 9'
+    when 'ratio_2_1'
+      assign adapt_image = true
+      assign adapt_ratio = '2 / 1'
+  endcase
 
   assign has_cta = false
   if section.settings.button_label != blank
@@ -129,7 +138,7 @@
   {% if adapt_image %}
     data-adapt-image
   {% endif %}
-  style="--sg-mobile-ratio: {{ mobile_ratio }}; --sg-radius: {{ section.settings.corner_radius }}px; --sg-pad-x-mobile: {{ section.settings.padding_x_mobile }}px; --sg-pad-x-desktop: {{ section.settings.padding_x_desktop }}px;{% if adapt_image %} --sg-adapt-pb: {{ adapt_pb }}%;{% endif %}"
+  style="--sg-mobile-ratio: {{ mobile_ratio }}; --sg-radius: {{ section.settings.corner_radius }}px; --sg-pad-x-mobile: {{ section.settings.padding_x_mobile }}px; --sg-pad-x-desktop: {{ section.settings.padding_x_desktop }}px;{% if adapt_image %} --sg-adapt-ratio: {{ adapt_ratio }};{% endif %}"
 >
 {%- if section.settings.intro_position == 'top' -%}
   {{ intro }}
@@ -232,8 +241,15 @@
             {%- if bs.quote != blank -%}
               <figure class="tdm-slide-gallery__quote">
                 <blockquote class="tdm-slide-gallery__quote-text">{{ bs.quote | escape | newline_to_br }}</blockquote>
-                {%- if bs.quote_author != blank -%}
-                  <figcaption class="tdm-slide-gallery__quote-author">{{ bs.quote_author | escape }}</figcaption>
+                {%- if bs.quote_author != blank or bs.quote_role != blank -%}
+                  <figcaption class="tdm-slide-gallery__quote-author">
+                    {%- if bs.quote_author != blank -%}
+                      <span class="tdm-slide-gallery__quote-name">{{ bs.quote_author | escape }}</span>
+                    {%- endif -%}
+                    {%- if bs.quote_role != blank -%}
+                      <span class="tdm-slide-gallery__quote-role">{{ bs.quote_role | escape }}</span>
+                    {%- endif -%}
+                  </figcaption>
                 {%- endif -%}
               </figure>
             {%- endif -%}
@@ -480,7 +496,9 @@
         { "value": "adapt_image", "label": "t:sections.slideshow.settings.slide_height.options__1.label" },
         { "value": "small", "label": "t:sections.slideshow.settings.slide_height.options__2.label" },
         { "value": "medium", "label": "t:sections.slideshow.settings.slide_height.options__3.label" },
-        { "value": "large", "label": "t:sections.slideshow.settings.slide_height.options__4.label" }
+        { "value": "large", "label": "t:sections.slideshow.settings.slide_height.options__4.label" },
+        { "value": "ratio_2_1", "label": "Proporción 2:1" },
+        { "value": "ratio_16_9", "label": "Proporción 16:9" }
       ],
       "default": "medium",
       "label": "t:sections.slideshow.settings.slide_height.label"
@@ -573,6 +591,12 @@
           "label": "Quién lo dice"
         },
         {
+          "type": "text",
+          "id": "quote_role",
+          "label": "Ocupación o cultivo",
+          "info": "Ej: Productor de berries. Va debajo del nombre."
+        },
+        {
           "type": "header",
           "content": "Datos"
         },
@@ -604,8 +628,14 @@
           "label": "Posición en escritorio",
           "info": "En móvil y tablet el texto va debajo de la foto.",
           "options": [
-            { "value": "right", "label": "Derecha" },
-            { "value": "left", "label": "Izquierda" }
+            { "value": "left", "label": "Izquierda al centro" },
+            { "value": "right", "label": "Derecha al centro" },
+            { "value": "top_left", "label": "Arriba a la izquierda" },
+            { "value": "top_center", "label": "Arriba al centro" },
+            { "value": "top_right", "label": "Arriba a la derecha" },
+            { "value": "bottom_left", "label": "Abajo a la izquierda" },
+            { "value": "bottom_center", "label": "Abajo al centro" },
+            { "value": "bottom_right", "label": "Abajo a la derecha" }
           ],
           "default": "right"
         },

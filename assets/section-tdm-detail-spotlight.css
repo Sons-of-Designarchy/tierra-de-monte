@@ -1,11 +1,14 @@
 /* =============================================================================
    Detalles con imagen (sections/tdm-detail-spotlight.liquid)
-   Desktop: points left | image | points right, columns vertically centred.
-   Mobile: image first, then every point (left list, then right list), left-aligned.
+   Layout "sides" (default) — desktop: points left | image | points right, columns
+   vertically centred. Mobile: image first, then every point, left-aligned.
+   Layout "stacked" (.tdm-spotlight--stacked) — wide image, then eyebrow + header,
+   then all points in a two-column panel with its own colour scheme.
    "Original de la imagen" uses the first image's proportions so every image
    shares one frame.
    Per-instance values arrive as custom properties on .tdm-spotlight:
-     --sp-ratio --sp-ratio-m --sp-radius --sp-media-w --sp-fit --sp-contain-bg
+     --sp-ratio --sp-ratio-m --sp-radius --sp-media-w --sp-fit --sp-contain-bg --sp-icon
+   and on the stacked panel: --sp-rows
    ========================================================================== */
 
 .tdm-spotlight {
@@ -175,5 +178,65 @@ tdm-spotlight-media {
 
   .tdm-spotlight__point-text {
     max-width: 34rem;
+  }
+}
+
+/* ---- Layout: stacked --------------------------------------------------------- */
+.tdm-spotlight--stacked .tdm-spotlight__media {
+  margin-bottom: var(--tdm-space-12);
+}
+
+.tdm-spotlight__point-icon {
+  margin-right: 0.5em;
+  color: rgb(var(--color-button));
+}
+
+/* Uploaded icon: sits on the title's first line (title becomes a flex row) */
+.tdm-spotlight__point-title:has(.tdm-spotlight__point-icon--image) {
+  display: flex;
+  align-items: center;
+}
+
+.tdm-spotlight__point-icon--image {
+  flex: 0 0 auto;
+  width: var(--sp-icon, 24px);
+  height: var(--sp-icon, 24px);
+  object-fit: contain;
+}
+
+.tdm-spotlight__panel {
+  display: grid;
+  gap: var(--tdm-space-8);
+  margin: 0;
+  padding: var(--tdm-space-8) var(--tdm-space-6);
+  list-style: none;
+  border-radius: var(--sp-radius, 16px);
+  color: rgb(var(--color-foreground));
+}
+
+.tdm-spotlight__panel .tdm-spotlight__point-text {
+  max-width: 48rem;
+}
+
+/* Two columns filled top to bottom: first half of the points left, rest right
+   (--sp-rows = half the points), so mobile keeps the same reading order */
+@media screen and (min-width: 750px) {
+  .tdm-spotlight__panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(var(--sp-rows, 2), auto);
+    grid-auto-flow: column;
+    gap: var(--tdm-space-8) var(--tdm-space-12);
+    padding: var(--tdm-space-12);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .tdm-spotlight--stacked .tdm-spotlight__media {
+    aspect-ratio: var(--sp-ratio, 2 / 1);
+  }
+
+  .tdm-spotlight__panel {
+    padding: 5.6rem 6.4rem;
+    gap: var(--tdm-space-12) 9.6rem;
   }
 }

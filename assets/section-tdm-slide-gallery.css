@@ -4,7 +4,7 @@
    section-image-banner.css supply the base slider). This file only overrides Dawn's
    look (buttons, dots, controls) and lays out the intro copy + optional CTA.
    Per-instance values arrive as custom properties on .tdm-slide-gallery:
-     --sg-mobile-ratio --sg-radius --sg-pad-x-mobile --sg-pad-x-desktop --sg-adapt-pb
+     --sg-mobile-ratio --sg-radius --sg-pad-x-mobile --sg-pad-x-desktop --sg-adapt-ratio
    Layout ("Con padding" vs "Ancho completo") is read from [data-layout] on the root.
    ========================================================================== */
 
@@ -102,11 +102,12 @@
 /* ---- Slide caption: quote + author + stats ---------------------------------
    Desktop (≥1200px): over the photo, on one side. Below that: a block under the photo, on its
    own scheme background. Text colour = the caption's scheme foreground (desktop can
-   override quote and stats per slide); the opening quote mark uses the scheme's
-   button colour. */
+   override quote and stats per slide). Opening mark hangs top-left, closing mark
+   trails the last line; both use the scheme's button colour (or the quote colour
+   over the photo). */
 .tdm-slide-gallery__caption {
-  --sg-quote-indent: 3.2rem;
-  --sg-quote-mark: 4.8rem;
+  --sg-quote-indent: 3.6rem;
+  --sg-quote-mark: 5.2rem;
   display: flex;
   flex-direction: column;
   gap: var(--tdm-space-8);
@@ -124,22 +125,38 @@
   margin: 0;
   padding: 0 0 0 var(--sg-quote-indent);
   border: 0;
-  font-size: var(--tdm-text-lead);
-  line-height: var(--tdm-text-body-leading);
+  font-size: var(--tdm-text-quote);
+  line-height: 1.35;
   font-style: normal;
   color: rgb(var(--color-foreground)); /* base.css fades blockquote to 75% */
+}
+
+/* Marks are decorative glyphs, not text: Inter draws them as slanted bars, so they
+   use a system face with curly 66/99 marks (no font file loaded) */
+.tdm-slide-gallery__quote-text::before,
+.tdm-slide-gallery__quote-text::after {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: var(--sg-quote-mark);
+  color: var(--sg-mark-color, rgb(var(--color-button)));
 }
 
 .tdm-slide-gallery__quote-text::before {
   content: '\201C';
   position: absolute;
   left: 0;
-  top: -0.05em;
-  font-family: var(--font-heading-family);
-  font-weight: 700;
-  font-size: var(--sg-quote-mark);
-  line-height: 1;
-  color: rgb(var(--color-button));
+  top: 0.08em;
+  line-height: 0.8;
+}
+
+/* Closing mark: inline after the last word, hanging below the line without
+   adding height to it (line-height 0) */
+.tdm-slide-gallery__quote-text::after {
+  content: '\201D';
+  display: inline-block;
+  margin-left: 0.08em;
+  line-height: 0;
+  vertical-align: -0.42em;
 }
 
 .tdm-slide-gallery__quote-author {
@@ -148,6 +165,15 @@
   padding-left: var(--sg-quote-indent);
   font-size: var(--tdm-text-body);
   line-height: var(--tdm-text-body-leading);
+}
+
+.tdm-slide-gallery__quote-name,
+.tdm-slide-gallery__quote-role {
+  display: block;
+}
+
+.tdm-slide-gallery__quote-name {
+  font-weight: var(--font-body-weight-bold);
 }
 
 .tdm-slide-gallery__stats {
@@ -173,28 +199,66 @@
 
 @media screen and (min-width: 1200px) {
   .tdm-slide-gallery .tdm-slide-gallery__caption {
-    --sg-quote-indent: 4.4rem;
-    --sg-quote-mark: 6.4rem;
+    --sg-quote-indent: 4.8rem;
+    --sg-quote-mark: 7.2rem;
+    /* Glass card, same treatment as the hero's secondary button (.hs__btns
+       .button--secondary): 8% tint of the text colour, blur, 1px border, rounded.
+       Blur is a touch stronger than the button's so text stays legible on busy photos. */
+    --sg-glass-ink: var(--sg-quote-color, rgb(var(--color-foreground)));
+    --sg-caption-inset: 4rem;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
     z-index: 1;
     width: 42%;
+    max-height: calc(100% - 2 * var(--sg-caption-inset));
+    transform: translateY(-50%);
     justify-content: center;
-    padding: 4rem;
-    background: transparent;
+    padding: 4.8rem 4.8rem 4.8rem 4rem;
+    border: 1px solid color-mix(in srgb, var(--sg-glass-ink) 55%, transparent);
+    border-radius: var(--tdm-radius-lg);
+    background: color-mix(in srgb, var(--sg-glass-ink) 8%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
   }
 
-  .tdm-slide-gallery__caption--right {
-    right: 0;
+  /* Position: middle left/right, the four corners, or top/bottom centre — always
+     --sg-caption-inset away from the photo's edges */
+  .tdm-slide-gallery__caption--right,
+  .tdm-slide-gallery__caption--top_right,
+  .tdm-slide-gallery__caption--bottom_right {
+    right: var(--sg-caption-inset);
   }
 
-  .tdm-slide-gallery__caption--left {
-    left: 0;
+  .tdm-slide-gallery__caption--left,
+  .tdm-slide-gallery__caption--top_left,
+  .tdm-slide-gallery__caption--bottom_left {
+    left: var(--sg-caption-inset);
+  }
+
+  .tdm-slide-gallery .tdm-slide-gallery__caption--top_left,
+  .tdm-slide-gallery .tdm-slide-gallery__caption--top_right,
+  .tdm-slide-gallery .tdm-slide-gallery__caption--top_center {
+    top: var(--sg-caption-inset);
+    transform: none;
+  }
+
+  .tdm-slide-gallery .tdm-slide-gallery__caption--bottom_left,
+  .tdm-slide-gallery .tdm-slide-gallery__caption--bottom_right,
+  .tdm-slide-gallery .tdm-slide-gallery__caption--bottom_center {
+    top: auto;
+    bottom: var(--sg-caption-inset);
+    transform: none;
+  }
+
+  .tdm-slide-gallery .tdm-slide-gallery__caption--top_center,
+  .tdm-slide-gallery .tdm-slide-gallery__caption--bottom_center {
+    left: 50%;
+    width: 56%;
+    transform: translateX(-50%);
   }
 
   .tdm-slide-gallery__quote-text {
-    font-size: var(--tdm-text-lead-desktop);
+    font-size: var(--tdm-text-quote-desktop);
   }
 
   .tdm-slide-gallery__quote-author {
@@ -207,17 +271,28 @@
     color: var(--sg-quote-color, rgb(var(--color-foreground)));
   }
 
+  .tdm-slide-gallery__caption {
+    --sg-mark-color: var(--sg-quote-color, rgb(var(--color-button)));
+  }
+
   .tdm-slide-gallery__caption .tdm-slide-gallery__stat {
     color: var(--sg-stats-color, rgb(var(--color-foreground)));
   }
 }
 
-/* "Adapt to image" height: reserve space via the first slide's aspect ratio */
-.tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider::before,
-.tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider .media::before {
-  content: '';
-  display: block;
-  padding-bottom: var(--sg-adapt-pb);
+/* "Adapt to image" height (desktop): the image track takes the first slide's
+   proportions (--sg-adapt-ratio), so that image shows uncropped. Below 1200px the
+   photo uses the mobile ratio and the caption sits underneath. */
+@media screen and (min-width: 1200px) {
+  .tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider .slideshow {
+    aspect-ratio: var(--sg-adapt-ratio);
+    height: auto;
+    min-height: 0;
+  }
+
+  .tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider .slideshow__slide {
+    height: 100%;
+  }
 }
 
 /* Controls: no border lines; arrows and dots match the hero slider (.hs__arrow / .hs__dot) */

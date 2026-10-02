@@ -53,6 +53,10 @@
   --tdm-text-lead: 1.7rem;
   --tdm-text-lead-desktop: 1.8rem;
 
+  /* Quote text — testimonials */
+  --tdm-text-quote: 1.8rem;
+  --tdm-text-quote-desktop: 2.2rem;
+
   /* Motion */
   --tdm-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --tdm-duration: 0.2s;

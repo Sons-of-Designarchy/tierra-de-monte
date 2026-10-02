@@ -1,7 +1,9 @@
 {%- comment -%}
-  Detalles con imagen — imagen al centro con puntos (título + párrafo) a los lados.
-  Escritorio: puntos a la izquierda | imagen | puntos a la derecha.
-  Móvil: título, imagen y debajo todos los puntos en orden.
+  Detalles con imagen — imagen con puntos (título + párrafo).
+  Diseño "A los lados": puntos a la izquierda | imagen | puntos a la derecha.
+    Móvil: título, imagen y debajo todos los puntos en orden.
+  Diseño "Apilado": imagen panorámica arriba, luego eyebrow + título + párrafo, y los
+    puntos en dos columnas dentro de un panel con su propio esquema de color.
   Cada punto es un bloque: se agregan, quitan y reordenan desde el editor.
   Styles: assets/section-tdm-detail-spotlight.css
 {%- endcomment -%}
@@ -23,11 +25,18 @@
       assign ratio = '4 / 3'
     when 'wide'
       assign ratio = '16 / 9'
+    when 'panorama'
+      assign ratio = '2 / 1'
     when 'adapt'
       assign ratio = 'auto'
     else
       assign ratio = '4 / 5'
   endcase
+
+  assign stacked = false
+  if s.layout == 'stacked'
+    assign stacked = true
+  endif
 
   assign ratio_m = ratio
   case s.image_ratio_mobile
@@ -41,6 +50,8 @@
       assign ratio_m = '4 / 3'
     when 'wide'
       assign ratio_m = '16 / 9'
+    when 'panorama'
+      assign ratio_m = '2 / 1'
     when 'adapt'
       assign ratio_m = 'auto'
   endcase
@@ -72,6 +83,7 @@
 
 {%- capture points_left -%}{%- endcapture -%}
 {%- capture points_right -%}{%- endcapture -%}
+{%- capture points_all -%}{%- endcapture -%}
 {%- for block in point_blocks -%}
   {%- liquid
     assign side = block.settings.side | default: 'auto'
@@ -96,13 +108,25 @@
         <span class="tdm-spotlight__accent" aria-hidden="true"></span>
       {%- endif -%}
       {%- if block.settings.title != blank -%}
-        <h3 class="tdm-spotlight__point-title {{ s.point_title_size }}">{{ block.settings.title }}</h3>
+        <h3 class="tdm-spotlight__point-title {{ s.point_title_size }}{% if s.point_title_upper %} tdm-upper{% endif %}">
+          {%- if block.settings.icon_image != blank -%}
+            {{
+              block.settings.icon_image
+              | image_url: width: 120
+              | image_tag: class: 'tdm-spotlight__point-icon tdm-spotlight__point-icon--image', loading: 'lazy', alt: ''
+            }}
+          {%- elsif block.settings.icon != blank -%}
+            <span class="tdm-spotlight__point-icon" aria-hidden="true">{{ block.settings.icon | escape }}</span>
+          {%- endif -%}
+          {{ block.settings.title }}
+        </h3>
       {%- endif -%}
       {%- if block.settings.text != blank -%}
         <div class="tdm-spotlight__point-text rte">{{ block.settings.text }}</div>
       {%- endif -%}
     </li>
   {%- endcapture -%}
+  {%- capture points_all -%}{{ points_all }}{{ point }}{%- endcapture -%}
   {%- if side == 'left' -%}
     {%- capture points_left -%}{{ points_left }}{{ point }}{%- endcapture -%}
   {%- else -%}
@@ -110,29 +134,14 @@
   {%- endif -%}
 {%- endfor -%}
 
-<section
-  class="tdm-spotlight color-{{ s.color_scheme }} gradient"
-  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }}; --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }};"
->
-  <div class="page-width section-{{ section.id }}-padding">
-    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}
-
-    {%- if s.title != blank or s.text != blank -%}
-      <div class="tdm-spotlight__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {%- if s.title != blank -%}
-          <h2 class="tdm-spotlight__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
-        {%- endif -%}
-        {%- if s.text != blank -%}
-          <div class="tdm-spotlight__text rte">{{ s.text }}</div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
-    <div class="tdm-spotlight__grid">
-      <ul class="tdm-spotlight__col tdm-spotlight__col--left" role="list">
-        {{- points_left -}}
-      </ul>
-
+{%- liquid
+  if stacked
+    assign media_sizes = '(min-width: 1200px) 1200px, 100vw'
+  else
+    assign media_sizes = '(min-width: 990px) 40vw, 100vw'
+  endif
+-%}
+{%- capture media -%}
       <tdm-spotlight-media class="tdm-spotlight__media{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}" data-interval="{{ s.rotate_speed | times: 1000 }}">
         {%- liquid
           assign slide_count = 0
@@ -151,7 +160,7 @@
                 | image_url: width: 1600
                 | image_tag:
                   widths: '400, 600, 800, 1000, 1200, 1600',
-                  sizes: '(min-width: 990px) 40vw, 100vw',
+                  sizes: media_sizes,
                   loading: 'lazy',
                   alt: s.image.alt
               }}
@@ -168,7 +177,7 @@
                   | image_url: width: 1600
                   | image_tag:
                     widths: '400, 600, 800, 1000, 1200, 1600',
-                    sizes: '(min-width: 990px) 40vw, 100vw',
+                    sizes: media_sizes,
                     loading: 'lazy',
                     alt: block.settings.image.alt
                 }}
@@ -179,11 +188,49 @@
           {%- endfor -%}
         {%- endif -%}
       </tdm-spotlight-media>
+{%- endcapture -%}
 
-      <ul class="tdm-spotlight__col tdm-spotlight__col--right" role="list">
-        {{- points_right -}}
-      </ul>
-    </div>
+<section
+  class="tdm-spotlight{% if stacked %} tdm-spotlight--stacked{% endif %} color-{{ s.color_scheme }} gradient"
+  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }}; --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }}; --sp-icon: {{ s.icon_size | default: 24 }}px;"
+>
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if stacked -%}
+      {{- media -}}
+    {%- endif -%}
+
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}
+
+    {%- if s.title != blank or s.text != blank -%}
+      <div class="tdm-spotlight__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- if s.title != blank -%}
+          <h2 class="tdm-spotlight__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+        {%- endif -%}
+        {%- if s.text != blank -%}
+          <div class="tdm-spotlight__text rte">{{ s.text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if stacked -%}
+      {%- if points_all != blank -%}
+        <ul class="tdm-spotlight__panel color-{{ s.points_color_scheme }}" role="list" style="--sp-rows: {{ half }};">
+          {{- points_all -}}
+        </ul>
+      {%- endif -%}
+    {%- else -%}
+      <div class="tdm-spotlight__grid">
+        <ul class="tdm-spotlight__col tdm-spotlight__col--left" role="list">
+          {{- points_left -}}
+        </ul>
+
+        {{- media -}}
+
+        <ul class="tdm-spotlight__col tdm-spotlight__col--right" role="list">
+          {{- points_right -}}
+        </ul>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -204,6 +251,17 @@
       "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Diseño",
+      "info": "Apilado: imagen panorámica arriba, título y los puntos en dos columnas dentro de un panel.",
+      "options": [
+        { "value": "sides", "label": "Puntos a los lados de la imagen" },
+        { "value": "stacked", "label": "Apilado" }
+      ],
+      "default": "sides"
+    },
     { "type": "header", "content": "Encabezado" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
     { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
@@ -245,6 +303,7 @@
         { "value": "square", "label": "Cuadrado 1:1" },
         { "value": "landscape", "label": "Horizontal 4:3" },
         { "value": "wide", "label": "Horizontal 16:9" },
+        { "value": "panorama", "label": "Panorámica 2:1" },
         { "value": "adapt", "label": "Original de la imagen" }
       ],
       "default": "portrait"
@@ -260,11 +319,12 @@
         { "value": "square", "label": "Cuadrado 1:1" },
         { "value": "landscape", "label": "Horizontal 4:3" },
         { "value": "wide", "label": "Horizontal 16:9" },
+        { "value": "panorama", "label": "Panorámica 2:1" },
         { "value": "adapt", "label": "Original de la imagen" }
       ],
       "default": "landscape"
     },
-    { "type": "range", "id": "image_width", "label": "Ancho de la imagen (escritorio)", "min": 26, "max": 50, "step": 2, "unit": "%", "default": 36 },
+    { "type": "range", "id": "image_width", "label": "Ancho de la imagen (escritorio)", "info": "Solo en el diseño A los lados.", "min": 26, "max": 50, "step": 2, "unit": "%", "default": 36 },
     { "type": "range", "id": "image_radius", "label": "Redondeo de la imagen", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
     { "type": "header", "content": "Puntos" },
     {
@@ -279,6 +339,9 @@
       "default": "h4"
     },
     { "type": "checkbox", "id": "show_accent", "label": "Mostrar línea de acento arriba de cada punto", "info": "Usa el color de botón del esquema.", "default": true },
+    { "type": "checkbox", "id": "point_title_upper", "label": "Títulos de los puntos en mayúsculas", "default": false },
+    { "type": "range", "id": "icon_size", "label": "Tamaño de los íconos", "min": 16, "max": 64, "step": 4, "unit": "px", "default": 24 },
+    { "type": "color_scheme", "id": "points_color_scheme", "label": "Esquema del panel de puntos", "info": "Solo en el diseño Apilado.", "default": "scheme-1" },
     { "type": "header", "content": "Espaciado" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado superior" },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." }
@@ -307,13 +370,15 @@
       "type": "point",
       "name": "Punto",
       "settings": [
+        { "type": "image_picker", "id": "icon_image", "label": "Ícono (opcional)", "info": "Imagen pequeña antes del título. PNG o SVG con fondo transparente, cuadrado." },
+        { "type": "text", "id": "icon", "label": "Símbolo (opcional)", "info": "Alternativa sin imagen: un carácter antes del título, ej. ↑ ↻ + ✦. Si hay ícono, se usa el ícono." },
         { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Aircraft-grade aluminum" },
         { "type": "richtext", "id": "text", "label": "Párrafo", "default": "<p>Anodized shell shrugs off scratches and stays cool to the touch.</p>" },
         {
           "type": "select",
           "id": "side",
           "label": "Lado en escritorio",
-          "info": "Automático: la primera mitad de los puntos va a la izquierda y el resto a la derecha. En móvil todos van debajo de la imagen.",
+          "info": "Solo en el diseño A los lados. Automático: la primera mitad de los puntos va a la izquierda y el resto a la derecha. En móvil todos van debajo de la imagen.",
           "options": [
             { "value": "auto", "label": "Automático" },
             { "value": "left", "label": "Izquierda" },

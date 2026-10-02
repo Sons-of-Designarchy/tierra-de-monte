@@ -43,7 +43,7 @@
             "overlay_color": "#000000",
             "overlay_opacity": 45,
             "subheading": "Programa de Aliados · Tierra de Monte",
-            "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla.</p>",
+            "heading": "<p>Recomiendas lo que funciona.</p><p>Gana con cada recomendación.</p>",
             "highlight": "",
             "text": "<p>Compra a precio de Aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
             "button_label": "¿Cómo funciona?",
@@ -440,16 +440,17 @@
         "slide_qNeMrf": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg",
-            "quote": "Texto de ejemplo para la cita del productor. Aquí va lo que cuenta de su experiencia con Tierra de Monte en una o dos frases.",
-            "quote_author": "Antonio Amezcua",
-            "stat_1": "300% de incremento en cosecha",
-            "stat_2": "30% en reducción de costos",
-            "stat_3": "12 tons de CO₂ mitigadas",
-            "caption_position": "right",
+            "image": "shopify://shop_images/Sr_Mayorga.png",
+            "quote": "Nos han enseñado a sembrar mejor y a producir más.",
+            "quote_author": "Fernando Mayorga",
+            "stat_1": "",
+            "stat_2": "",
+            "stat_3": "",
+            "caption_position": "top_right",
             "caption_color_scheme": "scheme-tdm-blanco",
             "quote_color": "#FFFFFF",
-            "stats_color": "#FFFFFF"
+            "stats_color": "#FFFFFF",
+            "quote_role": "Productor"
           }
         },
         "slide_EiNnYf": {
@@ -458,10 +459,10 @@
             "image": "shopify://shop_images/1.4.1_1.4.1.jpg",
             "quote": "Texto de ejemplo para el segundo testimonio. Aquí va cómo le ha ido a este Aliado con sus clientes desde que vende la línea biológica.",
             "quote_author": "Nombre del Aliado",
-            "stat_1": "XX% más ventas por cliente",
-            "stat_2": "XX clientes nuevos al año",
-            "stat_3": "XX hectáreas atendidas",
-            "caption_position": "right",
+            "stat_1": "",
+            "stat_2": "",
+            "stat_3": "",
+            "caption_position": "bottom_right",
             "caption_color_scheme": "scheme-tdm-blanco",
             "quote_color": "#FFFFFF",
             "stats_color": "#FFFFFF"
@@ -514,7 +515,7 @@
         "padding_x_mobile": 15,
         "padding_top": 0,
         "padding_bottom": 36,
-        "slide_height": "medium",
+        "slide_height": "ratio_16_9",
         "mobile_ratio": "3_2",
         "slider_visual": "dots",
         "auto_rotate": false,
@@ -971,7 +972,8 @@
           "settings": {
             "title": "Mayor rentabilidad",
             "text": "<p>Ayudan a mejorar la rentabilidad, más ingreso para tu negocio.</p>",
-            "side": "auto"
+            "side": "auto",
+            "icon": "↑"
           }
         },
         "point_2": {
@@ -979,7 +981,8 @@
           "settings": {
             "title": "Más oportunidades de venta",
             "text": "<p>Una sola línea para todos los cultivos, todas las etapas.</p>",
-            "side": "auto"
+            "side": "auto",
+            "icon": "+"
           }
         },
         "point_3": {
@@ -987,7 +990,8 @@
           "settings": {
             "title": "Más recompra",
             "text": "<p>Resultados que generan confianza y construyen relaciones comerciales de largo plazo.</p>",
-            "side": "auto"
+            "side": "auto",
+            "icon": "↻"
           }
         },
         "point_4": {
@@ -995,13 +999,14 @@
           "settings": {
             "title": "Una propuesta diferenciada",
             "text": "<p>Biotecnología de alto desempeño para diferenciarte y ofrecer más valor a tus clientes.</p>",
-            "side": "auto"
+            "side": "auto",
+            "icon": "✦"
           }
         },
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
+            "image": "shopify://shop_images/tdm-aliados-productos.jpg",
             "fit": "section"
           }
         },
@@ -1009,63 +1014,63 @@
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/AqAB_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_3": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/ReIntegra_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_4": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/FoliaCA_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_5": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/Refuerza_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_6": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/FloreC_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_7": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/ProTG_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_8": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/FoliaG_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_9": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/ReIntegra_der-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         },
         "image_10": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/AqA_front-web.png",
-            "fit": "section"
+            "fit": "contain"
           }
         }
       },
@@ -1086,24 +1091,27 @@
         "point_4"
       ],
       "settings": {
-        "color_scheme": "scheme-5bdfef27-0b57-408d-86dd-76eb32b10460",
+        "color_scheme": "scheme-tdm-blanco",
         "eyebrow": "Productos",
         "rule_color": "#003118",
         "title": "Una línea que genera valor en el campo y en tu negocio",
         "heading_size": "h1",
         "text": "<p>Soluciones biológicas que resuelven lo que los químicos no.</p><p>Fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
-        "image_ratio": "landscape",
+        "image_ratio": "panorama",
         "image_ratio_mobile": "landscape",
         "image_width": 36,
         "image_radius": 16,
         "point_title_size": "h4",
-        "show_accent": true,
+        "show_accent": false,
         "padding_top": 36,
         "padding_bottom": 36,
         "rotate_speed": 4,
         "image_fit": "cover",
         "contain_bg": "#F4F1F2",
-        "anchor_id": "productos"
+        "anchor_id": "productos",
+        "layout": "stacked",
+        "point_title_upper": true,
+        "points_color_scheme": "scheme-tdm-aliados-oscuro"
       }
     },
     "tdm_scroll_steps_aliados": {
@@ -1220,7 +1228,7 @@
             "cta_custom_scheme": false,
             "cta_scheme": "",
             "highlight": false,
-            "highlight_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9"
+            "highlight_scheme": "scheme-tdm-aliados-oscuro"
           }
         },
         "column_jg8fy8": {
@@ -1240,7 +1248,7 @@
             "cta_custom_scheme": false,
             "cta_scheme": "",
             "highlight": false,
-            "highlight_scheme": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9"
+            "highlight_scheme": "scheme-tdm-aliados-oscuro"
           }
         },
         "column_78mbPV": {
@@ -1453,8 +1461,8 @@
         "description": "<p>Avanza de nivel conforme aumenta tu volumen de compra y accede a nuevas herramientas, beneficios y oportunidades para hacer crecer tu negocio.</p>",
         "text_align": "center",
         "footnote": "",
-        "color_scheme": "scheme-696296f7-bee5-432a-8d7e-1c97193ea4dc",
-        "table_color_scheme": "scheme-tdm-crema",
+        "color_scheme": "scheme-tdm-aliados-oscuro",
+        "table_color_scheme": "scheme-tdm-aliados-claro",
         "check_color": "text",
         "first_column_width": 28,
         "first_column_label": "",
@@ -1475,7 +1483,7 @@
         "mobile_column_width": 120,
         "mobile_image_size": 64,
         "scroll_hint": "Desliza para ver todos los planes",
-        "cta_color_scheme": "scheme-tdm-crema",
+        "cta_color_scheme": "scheme-tdm-aliados-claro",
         "cta_placement": "bottom",
         "full_width_buttons": true,
         "show_bottom_ctas": false,
