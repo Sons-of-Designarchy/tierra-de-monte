@@ -45,12 +45,10 @@
           }
         },
         "text_9cence": {
-          "type": "text",
-          "name": "CONTACTO Y REDES",
+          "type": "social_icons",
+          "name": "REDES SOCIALES",
           "settings": {
-            "heading": "<strong>REDES SOCIALES</strong>",
-            "subtext": "",
-            "show_social_icons": true
+            "heading": "<strong>REDES SOCIALES</strong>"
           }
         }
       },

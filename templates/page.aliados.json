@@ -837,7 +837,7 @@
         "text_align": "center",
         "footnote": "",
         "color_scheme": "scheme-tdm-aliados-verde",
-        "table_color_scheme": "scheme-tdm-aliados-claro",
+        "table_color_scheme": "scheme-tdm-aliados-oscuro",
         "check_color": "text",
         "first_column_width": 28,
         "first_column_label": "",
@@ -1051,9 +1051,9 @@
         "color_scheme": "scheme-tdm-aliados-base",
         "eyebrow": "Productos",
         "rule_color": "#164120",
-        "title": "Una línea que genera valor en el campo y en tu negocio",
+        "title": "Soluciones biológicas que resuelven lo que los químicos no.",
         "heading_size": "h1",
-        "text": "<p>Soluciones biológicas que resuelven lo que los químicos no.</p><p>Fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
+        "text": "<p>Una línea que genera valor en el campo y en tu negocio, fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
         "image_ratio": "ultrawide",
         "image_ratio_mobile": "landscape",
         "image_width": 36,
@@ -1480,4 +1480,3 @@
     "collapsible_content_wp3zF8"
   ]
 }
-
