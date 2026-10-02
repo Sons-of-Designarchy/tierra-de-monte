@@ -18,10 +18,10 @@
             "alt": "",
             "overlay_color": "#000000",
             "overlay_opacity": 45,
-            "subheading": "Casos de éxito · Aliados Tierra de Monte",
-            "heading": "<p>Sus clientes vuelven.</p><p>Su negocio <em>crece.</em></p>",
+            "subheading": "Programa de Aliados · Tierra de Monte",
+            "heading": "<p>Un negocio que crece necesita un buen Aliado.</p>",
             "highlight": "",
-            "text": "<p>Aliados que ya venden nuestra línea biológica ofrecen algo que no se encuentra con nadie más, y lo ven en cada pedido.</p>",
+            "text": "<p>Forma parte de una red que pone a tu alcance productos, beneficios y herramientas para impulsar tu negocio.</p>",
             "button_label": "Ver resultados",
             "button_link": "/pages/aliados#resultados",
             "button_new_tab": false,
@@ -43,9 +43,9 @@
             "overlay_color": "#000000",
             "overlay_opacity": 45,
             "subheading": "Programa de Aliados · Tierra de Monte",
-            "heading": "<p>Recomiendas lo que funciona.</p><p>Gana con cada recomendación.</p>",
+            "heading": "<p>Un negocio que crece necesita un buen Aliado.</p>",
             "highlight": "",
-            "text": "<p>Compra a precio de Aliado y gana más en cada venta. Márgenes que hacen crecer tu negocio, beneficios que suben con tu nivel y una línea biológica que tus clientes no encontrarán con nadie más.</p>",
+            "text": "<p>Forma parte de una red que pone a tu alcance productos, beneficios y herramientas para impulsar tu negocio.</p>",
             "button_label": "¿Cómo funciona?",
             "button_link": "/pages/aliados#proceso",
             "button_new_tab": false,
@@ -131,7 +131,7 @@
           "type": "column",
           "settings": {
             "title": "Profesionales de campo|¡Tu recomendación vale!",
-            "text": "<ul><li>Cuentas con cartera de clientes o te interesa empezar tu propio negocio</li><li>Comparas productos por margen, rotación, demanda y facilidad de venta</li><li>Recomiendas</li></ul>",
+            "text": "<ul><li>Cuentas con cartera de clientes o te interesa empezar tu propio negocio</li><li>Comparas productos por margen, rotación, demanda y facilidad de venta</li><li>Recomiendas Productos</li></ul>",
             "desc_font": "body",
             "title_size": 0,
             "text_size": 0,
@@ -150,7 +150,7 @@
         "column_nHDKFW": {
           "type": "column",
           "settings": {
-            "title": "Asesores y Agrónomos independientes&nbsp;",
+            "title": "Asesores y agrónomos independientes",
             "text": "<ul><li>Influyes en decisiones técnicas.</li><li>Diseñas programas de manejo.</li><li>Te reconocen por tus resultados.</li></ul><p></p>",
             "desc_font": "body",
             "title_size": 0,
@@ -170,8 +170,8 @@
         "column_LDywrp": {
           "type": "column",
           "settings": {
-            "title": "Dueños de Punto de venta agrícola",
-            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados te interesa destacar tu negocio</li><li>Acompañamiento técnico y comercial</li></ul>",
+            "title": "Dueños de punto de venta agrícola",
+            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados.</li><li>Te interesa destacar tu negocio</li><li>acompañamiento técnico y comercial.</li></ul>",
             "desc_font": "body",
             "title_size": 0,
             "text_size": 0,
@@ -357,7 +357,7 @@
       "settings": {
         "pretitle": "",
         "rule_color": "#003118",
-        "title": "Como Aliado TDEM obtienes...",
+        "title": "Como Aliado Tierra de Monte obtienes...",
         "heading_size": "h1",
         "title_alignment": "center",
         "intro_paragraph": "<p>Como Aliado Tierra de Monte, tu negocio crece.</p><p>Te damos las herramientas, el conocimiento y el acompañamiento para que puedas ofrecer más valor a tus clientes y construir relaciones comerciales de largo plazo.</p>",
@@ -532,7 +532,6 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "Sube de nivel, crece tu negocio",
-        "icon": "shopify://shop_images/logo-stacked-full.png",
         "icon_height": 55,
         "bg_color": "#E7EACE",
         "text_color": "#003118",
@@ -636,7 +635,7 @@
         "row_JbxEJW": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Compra mínima cada 2 meses</p>",
+            "feature_content": "<p>Compra mínima bimestral</p>",
             "feature_note": "",
             "col1_content": "<p>si</p>",
             "col2_content": "<p>si</p>",
@@ -848,7 +847,7 @@
         "heading_yNFznP": {
           "type": "heading",
           "settings": {
-            "heading": "Da el paso, un Aliado te trajo hasta aquí",
+            "heading": "Registro",
             "heading_size": "h1"
           }
         }
@@ -858,7 +857,7 @@
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
-        "eyebrow": "Formulario de Registro",
+        "eyebrow": "",
         "rule_color": "#003118",
         "desktop_content_position": "center",
         "content_alignment": "center",
@@ -888,7 +887,7 @@
           "settings": {
             "heading": "¿Los $5,000 son cuota de inscripción?",
             "icon": "none",
-            "row_content": "<p>No. Son $5,000 en producto que te llega a tu bodega. No cobramos por entrar.</p>",
+            "row_content": "<p>No. Los $5,000 corresponden a la compra mínima de producto para registrarte como Aliado. No cobramos cuota de inscripción.</p>",
             "page": ""
           }
         },
@@ -897,7 +896,7 @@
           "settings": {
             "heading": "¿Tengo que dejar de vender lo que ya vendo?",
             "icon": "none",
-            "row_content": "<p>No. Sigues con tus marcas y le sumas la nuestra. Nadie te pide que cambies tu negocio.</p>",
+            "row_content": "<p>No. Puedes continuar comercializando tus marcas actuales e incorporar los productos de Tierra de Monte para ampliar tu oferta y brindar más alternativas a tus clientes.</p>",
             "page": ""
           }
         },
@@ -906,7 +905,7 @@
           "settings": {
             "heading": "¿Y si un bimestre no llego al mínimo?",
             "icon": "none",
-            "row_content": "<p>No pasa nada, sigues siendo Aliado. Ese bimestre operas con los beneficios del nivel que sí alcanzaste y luego vuelves a subir.</p>",
+            "row_content": "<p>Tu nivel depende de tu volumen de compra bimestral, por lo que puedes subir, mantenerte o cambiar de nivel. Cuenta con nuestro acompañamiento para alcanzar tus metas y seguir creciendo dentro del Programa de Aliados.</p>",
             "page": ""
           }
         },
@@ -915,7 +914,7 @@
           "settings": {
             "heading": "¿Cómo funciona lo de mis clientes?",
             "icon": "none",
-            "row_content": "<p>No le vendemos a tus clientes ni los buscamos por nuestra cuenta. Si alguno nos escribe, lo mandamos contigo.</p>",
+            "row_content": "<p>Protegemos tu cartera de clientes y respetamos las relaciones comerciales que construyes. Además, te brindamos apoyo en la atención de nuevos clientes potenciales de tu zona.</p>",
             "page": ""
           }
         },
@@ -924,7 +923,7 @@
           "settings": {
             "heading": "¿Para qué quieren mi identificación?",
             "icon": "none",
-            "row_content": "<p>Para saber con quién estamos trabajando. Es lo que nos permite proteger a tus clientes a tu nombre y que nadie más de la red te los toque.</p>",
+            "row_content": "<p>Nos ayuda a verificar tu identidad y mantener actualizada tu información como parte del Programa de Aliados.</p>",
             "page": ""
           }
         },
@@ -933,7 +932,7 @@
           "settings": {
             "heading": "¿Tengo que haber usado sus productos antes?",
             "icon": "none",
-            "row_content": "<p>No. Muchos Aliados llegan porque ya los probaron en su tierra, y es el mejor camino. Pero si vienes recomendado o ya tienes clientes que confían en ti, también entras.</p>",
+            "row_content": "<p>No. No necesitas experiencia previa con nuestros productos para formar parte del Programa de Aliados Tierra de Monte. Cuentas con nuestro acompañamiento para conocer la línea, desarrollar tus capacidades y hacer crecer tu negocio.</p>",
             "page": ""
           }
         }
@@ -950,7 +949,7 @@
       "settings": {
         "caption": "Antes de dar el paso",
         "rule_color": "#003118",
-        "heading": "Preguntas",
+        "heading": "Preguntas Frecuentes",
         "heading_size": "h1",
         "heading_alignment": "center",
         "layout": "none",
@@ -1048,7 +1047,7 @@
           "settings": {
             "number": "",
             "title": "Ponte en contacto con nosotros",
-            "text": "<p>Envíanos tu información a través de correo <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a>, <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">WhatsApp</a>, o llena el <a href=\"/pages/aliados#formulario\" title=\"Formulario\">formulario</a> que encontrarás al final de esta página.</p>",
+            "text": "<p>Envíanos tu información a través de:</p><p>Correo: <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a></p><p>WhatsApp: <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">442 374 1871</a></p><p>O llena el <a href=\"/pages/aliados#formulario\" title=\"Formulario\">formulario</a> al final de esta página.</p>",
             "image": "shopify://shop_images/hero-aliado.jpg",
             "button_label": "Realiza tu primera compra aquí",
             "button_link": "",
@@ -1120,7 +1119,6 @@
       "name": "Infinite Ticker",
       "settings": {
         "text": "Resultados que se ven en el campo",
-        "icon": "shopify://shop_images/logo-stacked-full.png",
         "icon_height": 55,
         "bg_color": "#FFFFFF",
         "text_color": "#003118",
@@ -1220,7 +1218,7 @@
         "row_JbxEJW": {
           "type": "row",
           "settings": {
-            "feature_content": "<p>Compra mínima cada 2 meses</p>",
+            "feature_content": "<p>Compra mínima bimestral</p>",
             "feature_note": "",
             "col1_content": "<p>si</p>",
             "col2_content": "<p>si</p>",
