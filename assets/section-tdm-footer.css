@@ -335,3 +335,19 @@
   height: 3rem;
   width: 3rem;
 }
+
+/* Aliados footer: the certifications row is centred in its row (scoped to the Aliados footer group) */
+.shopify-section-group-footer-aliados-group .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
+  justify-content: center;
+  align-items: center;
+}
+
+.shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only {
+  text-align: center;
+}
+
+.shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only .footer-newsletter__media {
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
