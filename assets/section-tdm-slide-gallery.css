@@ -110,7 +110,7 @@
   --sg-quote-mark: 5.2rem;
   display: flex;
   flex-direction: column;
-  gap: var(--tdm-space-8);
+  gap: var(--tdm-space-6);
   padding: var(--tdm-space-6);
   flex: 1 1 auto;
   color: rgb(var(--color-foreground));
@@ -176,9 +176,13 @@
   font-weight: var(--font-body-weight-bold);
 }
 
+.tdm-slide-gallery__quote-role {
+  font-style: italic;
+}
+
 .tdm-slide-gallery__stats {
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 var(--sg-quote-indent);
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -186,17 +190,30 @@
 }
 
 .tdm-slide-gallery__stat {
+  position: relative;
   margin: 0;
-  line-height: 1.15;
+  padding-left: 1.6rem;
+  font-size: var(--tdm-text-body);
+  line-height: var(--tdm-text-body-leading);
+}
+
+.tdm-slide-gallery__stat::before {
+  content: '';
+  position: absolute;
+  top: 0.7em;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sg-mark-color, rgb(var(--color-button)));
 }
 
 @media screen and (min-width: 1200px) {
   .tdm-slide-gallery .tdm-slide-gallery__caption {
     --sg-quote-indent: 4.8rem;
     --sg-quote-mark: 7.2rem;
-    /* Glass card, same treatment as the hero's secondary button (.hs__btns
-       .button--secondary): 8% tint of the text colour, blur, 1px border, rounded.
-       Blur is a touch stronger than the button's so text stays legible on busy photos. */
+    /* Glass card: tinted with the slide's overlay colour, blur, 1px border, rounded.
+       Blur is a touch stronger than the hero button's so text stays legible on busy photos. */
     --sg-glass-ink: var(--sg-quote-color, rgb(var(--color-foreground)));
     --sg-caption-inset: var(--tdm-space-6);
     position: absolute;
@@ -208,9 +225,19 @@
     justify-content: center;
     border: 1px solid color-mix(in srgb, var(--sg-glass-ink) 55%, transparent);
     border-radius: var(--tdm-radius-lg);
-    background: color-mix(in srgb, var(--sg-glass-ink) 8%, transparent);
+    background: color-mix(in srgb, var(--sg-overlay-color, rgb(0 0 0)) calc(var(--sg-overlay-opacity, 0.3) * 100%), transparent);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
+  }
+
+  /* Overlay on the photo (per slide colour + opacity): the text sits on the photo from here up */
+  .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--sg-overlay-color, rgb(0 0 0));
+    opacity: var(--sg-overlay-opacity, 0.3);
+    pointer-events: none;
   }
 
   /* Position: middle left/right, the four corners, or top/bottom centre — always

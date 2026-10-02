@@ -181,6 +181,7 @@
         class="slideshow__slide grid__item grid--1-col slider__slide"
         id="Slide-{{ section.id }}-{{ forloop.index }}"
         {{ block.shopify_attributes }}
+        style="--sg-overlay-color: {{ block.settings.overlay_color | default: '#000000' }}; --sg-overlay-opacity: {{ block.settings.overlay_opacity | default: 30 | divided_by: 100.0 }};"
         role="group"
         aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
         aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
@@ -227,7 +228,7 @@
         {%- liquid
           assign bs = block.settings
           assign has_stats = false
-          if bs.stat_1 != blank or bs.stat_2 != blank or bs.stat_3 != blank
+          if bs.stat_1 != blank or bs.stat_2 != blank or bs.stat_3 != blank or bs.stat_4 != blank or bs.stat_5 != blank or bs.stat_6 != blank
             assign has_stats = true
           endif
         -%}
@@ -255,10 +256,10 @@
             {%- endif -%}
             {%- if has_stats -%}
               <ul class="tdm-slide-gallery__stats" role="list">
-                {%- for key in (1..3) -%}
+                {%- for key in (1..6) -%}
                   {%- assign stat_key = 'stat_' | append: key -%}
                   {%- if bs[stat_key] != blank -%}
-                    <li class="tdm-slide-gallery__stat h3">{{ bs[stat_key] | escape }}</li>
+                    <li class="tdm-slide-gallery__stat">{{ bs[stat_key] | escape }}</li>
                   {%- endif -%}
                 {%- endfor -%}
               </ul>
@@ -576,6 +577,23 @@
           "info": "Solo foto, sin texto. Recomendado: 2400 × 1200 px, con la persona en el 60% izquierdo y el lado del texto despejado."
         },
         {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Color del overlay",
+          "info": "Oscurece la foto y tiñe el bloque de texto para que se lea. Solo en escritorio (1200px o más), donde el texto va sobre la foto.",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Opacidad del overlay",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "default": 30
+        },
+        {
           "type": "header",
           "content": "Testimonio"
         },
@@ -594,7 +612,7 @@
           "type": "text",
           "id": "quote_role",
           "label": "Ocupación o cultivo",
-          "info": "Ej: Productor de berries. Va debajo del nombre."
+          "info": "Va debajo del nombre, en cursiva. Ej: Productor - Aliado destacado."
         },
         {
           "type": "header",
@@ -604,7 +622,7 @@
           "type": "text",
           "id": "stat_1",
           "label": "Dato 1",
-          "info": "Ej: 300% de incremento en cosecha"
+          "info": "Cada dato sale como viñeta. Ej: 300% de incremento en cosecha"
         },
         {
           "type": "text",
@@ -618,6 +636,25 @@
           "label": "Dato 3",
           "info": "Ej: 12 tons de CO₂ mitigadas"
         },
+        {
+          "type": "text",
+          "id": "stat_4",
+          "label": "Dato 4",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_5",
+          "label": "Dato 5",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_6",
+          "label": "Dato 6",
+          "info": "Opcional."
+        },
+
         {
           "type": "header",
           "content": "Texto sobre la imagen"

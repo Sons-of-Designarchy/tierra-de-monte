@@ -442,52 +442,64 @@
         "slide_qNeMrf": {
           "type": "slide",
           "settings": {
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
             "image": "shopify://shop_images/Sr_Mayorga.png",
             "quote": "Nos han enseñado a sembrar mejor y a producir más.",
             "quote_author": "Fernando Mayorga",
-            "stat_1": "",
-            "stat_2": "",
-            "stat_3": "",
+            "stat_1": "300% de incremento en producción",
+            "stat_2": "30% de reducción de costos",
+            "stat_3": "12 toneladas de CO₂ mitigadas",
             "caption_position": "top_right",
             "caption_color_scheme": "scheme-tdm-aliados-base",
             "quote_color": "#FFFFFF",
             "stats_color": "#FFFFFF",
-            "quote_role": "Productor"
+            "quote_role": "Productor - Aliado destacado"
           }
         },
         "slide_EiNnYf": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1.4.1_1.4.1.jpg",
-            "quote": "Texto de ejemplo para el segundo testimonio. Aquí va cómo le ha ido a este Aliado con sus clientes desde que vende la línea biológica.",
-            "quote_author": "Nombre del Aliado",
-            "stat_1": "",
-            "stat_2": "",
-            "stat_3": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "image": "shopify://shop_images/fresa_regenerativo_Michoacan.jpg",
+            "quote": "RESULTADOS QUE HABLAN POR SÍ MISMOS",
+            "quote_author": "",
+            "stat_1": "+13.6% rendimiento",
+            "stat_2": "23% fertilizante sintético",
+            "stat_3": "59% plaguicidas sintéticos",
+            "stat_4": "88% fungicidas sintéticos",
+            "stat_5": "32.2% huella de carbono",
             "caption_position": "bottom_right",
             "caption_color_scheme": "scheme-tdm-aliados-base",
             "quote_color": "#FFFFFF",
-            "stats_color": "#FFFFFF"
+            "stats_color": "#FFFFFF",
+            "quote_role": "Datos correspondientes a Año 3 en proyecto de fresa regenerativo, Michoacán."
           }
         },
         "slide_ULFabq": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1.7.1_1.7.1.jpg"
-          }
-        },
-        "slide_qhnhGp": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg"
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "image": "shopify://shop_images/chema-depredador.jpg",
+            "quote": "Soy representante de una forma de hacer las cosas distinta, porque creo en esto, y voy para adelante.",
+            "quote_author": "José Manuel Ibarra “Chema”",
+            "quote_role": "Aliado destacado",
+            "stat_1": "+11,000 ha atendidas actualmente",
+            "stat_2": "Naranja · Papaya · Nogal · Limón",
+            "stat_3": "Manejo biológico integral con microorganismos e insectos.",
+            "caption_position": "top_right",
+            "caption_color_scheme": "scheme-tdm-aliados-base",
+            "quote_color": "#FFFFFF",
+            "stats_color": "#FFFFFF"
           }
         }
       },
       "block_order": [
         "slide_qNeMrf",
         "slide_EiNnYf",
-        "slide_ULFabq",
-        "slide_qhnhGp"
+        "slide_ULFabq"
       ],
       "name": "Slide gallery",
       "settings": {
@@ -1447,3 +1459,4 @@
     "collapsible_content_wp3zF8"
   ]
 }
+
