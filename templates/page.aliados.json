@@ -89,6 +89,8 @@
       ],
       "name": "Hero slider",
       "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36,
         "height_desktop": 700,
         "height_mobile": 620,
         "heading_size": 60,
@@ -370,7 +372,7 @@
         "use_theme_spacing": true,
         "gap_horizontal": 24,
         "gap_vertical": 32,
-        "image_alignment": "center",
+        "image_alignment": "left",
         "column_alignment": "left",
         "text_valign": "top",
         "card_background": true,
@@ -1002,89 +1004,9 @@
             "side": "auto",
             "icon": "✦"
           }
-        },
-        "image_1": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/tdm-aliados-productos.jpg",
-            "fit": "section"
-          }
-        },
-        "image_2": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/AqAB_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_3": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/ReIntegra_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_4": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/FoliaCA_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_5": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Refuerza_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_6": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/FloreC_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_7": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/ProTG_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_8": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/FoliaG_front-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_9": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/ReIntegra_der-web.png",
-            "fit": "contain"
-          }
-        },
-        "image_10": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/AqA_front-web.png",
-            "fit": "contain"
-          }
         }
       },
       "block_order": [
-        "image_1",
-        "image_2",
-        "image_3",
-        "image_4",
-        "image_5",
-        "image_6",
-        "image_7",
-        "image_8",
-        "image_9",
-        "image_10",
         "point_1",
         "point_2",
         "point_3",
@@ -1097,7 +1019,7 @@
         "title": "Una línea que genera valor en el campo y en tu negocio",
         "heading_size": "h1",
         "text": "<p>Soluciones biológicas que resuelven lo que los químicos no.</p><p>Fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
-        "image_ratio": "panorama",
+        "image_ratio": "ultrawide",
         "image_ratio_mobile": "landscape",
         "image_width": 36,
         "image_radius": 16,
@@ -1108,8 +1030,12 @@
         "rotate_speed": 4,
         "image_fit": "cover",
         "contain_bg": "#F4F1F2",
+        "image": "shopify://shop_images/tdm-aliados-productos.jpg",
         "anchor_id": "productos",
         "layout": "stacked",
+        "panel_columns": 4,
+        "image_height": 700,
+        "points_overlay": true,
         "point_title_upper": true,
         "points_color_scheme": "scheme-tdm-aliados-oscuro"
       }

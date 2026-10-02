@@ -2,7 +2,7 @@
   Detalles con imagen — imagen con puntos (título + párrafo).
   Diseño "A los lados": puntos a la izquierda | imagen | puntos a la derecha.
     Móvil: título, imagen y debajo todos los puntos en orden.
-  Diseño "Apilado": imagen panorámica arriba, luego eyebrow + título + párrafo, y los
+  Diseño "Apilado": eyebrow + título + párrafo, luego la imagen panorámica y los
     puntos en dos columnas dentro de un panel con su propio esquema de color.
   Cada punto es un bloque: se agregan, quitan y reordenan desde el editor.
   Styles: assets/section-tdm-detail-spotlight.css
@@ -27,6 +27,10 @@
       assign ratio = '16 / 9'
     when 'panorama'
       assign ratio = '2 / 1'
+    when 'ultrawide'
+      assign ratio = '3 / 1'
+    when 'strip'
+      assign ratio = '4 / 1'
     when 'adapt'
       assign ratio = 'auto'
     else
@@ -52,6 +56,10 @@
       assign ratio_m = '16 / 9'
     when 'panorama'
       assign ratio_m = '2 / 1'
+    when 'ultrawide'
+      assign ratio_m = '3 / 1'
+    when 'strip'
+      assign ratio_m = '4 / 1'
     when 'adapt'
       assign ratio_m = 'auto'
   endcase
@@ -59,6 +67,9 @@
   # Puntos: "Automático" reparte la primera mitad a la izquierda y el resto a la derecha
   assign point_blocks = section.blocks | where: 'type', 'point'
   assign half = point_blocks.size | plus: 1 | divided_by: 2
+
+  assign panel_cols = s.panel_columns | default: 2
+  assign panel_rows = point_blocks.size | divided_by: panel_cols | ceil
 
   # Imágenes que rotan: imagen principal + bloques "Imagen"
   assign image_blocks = section.blocks | where: 'type', 'image'
@@ -192,13 +203,9 @@
 
 <section
   class="tdm-spotlight{% if stacked %} tdm-spotlight--stacked{% endif %} color-{{ s.color_scheme }} gradient"
-  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }}; --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }}; --sp-icon: {{ s.icon_size | default: 24 }}px;"
+  style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }};{% if s.image_height > 0 %} --sp-height: {{ s.image_height }}px;{% endif %} --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }}; --sp-icon: {{ s.icon_size | default: 24 }}px;"
 >
   <div class="page-width section-{{ section.id }}-padding">
-    {%- if stacked -%}
-      {{- media -}}
-    {%- endif -%}
-
     {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}
 
     {%- if s.title != blank or s.text != blank -%}
@@ -213,11 +220,14 @@
     {%- endif -%}
 
     {%- if stacked -%}
-      {%- if points_all != blank -%}
-        <ul class="tdm-spotlight__panel color-{{ s.points_color_scheme }}" role="list" style="--sp-rows: {{ half }};">
-          {{- points_all -}}
-        </ul>
-      {%- endif -%}
+      <div class="tdm-spotlight__stage{% if s.points_overlay %} tdm-spotlight__stage--overlay{% endif %}">
+        {{- media -}}
+        {%- if points_all != blank -%}
+          <ul class="tdm-spotlight__panel color-{{ s.points_color_scheme }}" role="list" style="--sp-rows: {{ panel_rows }}; --sp-rows-narrow: {{ half }}; --sp-cols: {{ panel_cols }};">
+            {{- points_all -}}
+          </ul>
+        {%- endif -%}
+      </div>
     {%- else -%}
       <div class="tdm-spotlight__grid">
         <ul class="tdm-spotlight__col tdm-spotlight__col--left" role="list">
@@ -255,7 +265,7 @@
       "type": "select",
       "id": "layout",
       "label": "Diseño",
-      "info": "Apilado: imagen panorámica arriba, título y los puntos en dos columnas dentro de un panel.",
+      "info": "Apilado: título, imagen panorámica y los puntos en dos columnas dentro de un panel.",
       "options": [
         { "value": "sides", "label": "Puntos a los lados de la imagen" },
         { "value": "stacked", "label": "Apilado" }
@@ -304,6 +314,8 @@
         { "value": "landscape", "label": "Horizontal 4:3" },
         { "value": "wide", "label": "Horizontal 16:9" },
         { "value": "panorama", "label": "Panorámica 2:1" },
+        { "value": "ultrawide", "label": "Panorámica 3:1" },
+        { "value": "strip", "label": "Franja 4:1" },
         { "value": "adapt", "label": "Original de la imagen" }
       ],
       "default": "portrait"
@@ -324,6 +336,7 @@
       ],
       "default": "landscape"
     },
+    { "type": "range", "id": "image_height", "label": "Alto de la imagen (tableta y escritorio)", "info": "Solo en el diseño Apilado. 0 usa el aspecto de arriba. 700 iguala al hero.", "min": 0, "max": 900, "step": 20, "unit": "px", "default": 0 },
     { "type": "range", "id": "image_width", "label": "Ancho de la imagen (escritorio)", "info": "Solo en el diseño A los lados.", "min": 26, "max": 50, "step": 2, "unit": "%", "default": 36 },
     { "type": "range", "id": "image_radius", "label": "Redondeo de la imagen", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
     { "type": "header", "content": "Puntos" },
@@ -341,6 +354,8 @@
     { "type": "checkbox", "id": "show_accent", "label": "Mostrar línea de acento arriba de cada punto", "info": "Usa el color de botón del esquema.", "default": true },
     { "type": "checkbox", "id": "point_title_upper", "label": "Títulos de los puntos en mayúsculas", "default": false },
     { "type": "range", "id": "icon_size", "label": "Tamaño de los íconos", "min": 16, "max": 64, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "panel_columns", "label": "Columnas del panel (escritorio)", "info": "Solo en el diseño Apilado.", "min": 2, "max": 4, "step": 1, "default": 2 },
+    { "type": "checkbox", "id": "points_overlay", "label": "Panel de cristal sobre la imagen (escritorio)", "info": "Solo en el diseño Apilado. Los puntos van encima de la parte baja de la imagen en un panel translúcido. En móvil quedan debajo.", "default": false },
     { "type": "color_scheme", "id": "points_color_scheme", "label": "Esquema del panel de puntos", "info": "Solo en el diseño Apilado.", "default": "scheme-1" },
     { "type": "header", "content": "Espaciado" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado superior" },

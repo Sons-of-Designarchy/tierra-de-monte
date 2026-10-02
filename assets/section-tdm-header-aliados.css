@@ -9,6 +9,20 @@
   z-index: 3;
 }
 
+/* Fixed 80px bar (border included): vertical padding comes from centring, not Dawn's padding setting */
+.shopify-section-group-header-aliados-group .header-wrapper {
+  box-sizing: border-box;
+  height: 8rem;
+}
+
+.shopify-section-group-header-aliados-group .header {
+  box-sizing: border-box;
+  height: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+  align-items: center;
+}
+
 /* Same side gutter as the page sections: 1.5rem mobile, 5rem from 750px */
 .shopify-section-group-header-aliados-group .header.page-width {
   padding-left: 1.5rem;

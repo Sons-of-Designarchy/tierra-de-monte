@@ -223,7 +223,7 @@ tdm-spotlight-media {
 @media screen and (min-width: 750px) {
   .tdm-spotlight__panel {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(var(--sp-rows, 2), auto);
+    grid-template-rows: repeat(var(--sp-rows-narrow, 2), auto);
     grid-auto-flow: column;
     gap: var(--tdm-space-8) var(--tdm-space-12);
     padding: var(--tdm-space-12);
@@ -233,10 +233,62 @@ tdm-spotlight-media {
 @media screen and (min-width: 990px) {
   .tdm-spotlight--stacked .tdm-spotlight__media {
     aspect-ratio: var(--sp-ratio, 2 / 1);
+    margin-bottom: var(--tdm-space-6);
+  }
+
+  .tdm-spotlight--stacked .tdm-spotlight__header {
+    max-width: none;
+    margin-bottom: var(--tdm-space-4);
+  }
+
+  .tdm-spotlight--stacked .tdm-spotlight__text p {
+    margin: var(--tdm-space-1) 0 0;
   }
 
   .tdm-spotlight__panel {
-    padding: 5.6rem 6.4rem;
-    gap: var(--tdm-space-12) 9.6rem;
+    grid-template-columns: repeat(var(--sp-cols, 2), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--sp-rows, 2), auto);
+    padding: var(--tdm-space-6) var(--tdm-space-12);
+    gap: var(--tdm-space-8) var(--tdm-space-12);
+  }
+}
+
+/* Stacked: fixed image height (tablet and up) and, on phones, a 16px gap above the panel */
+@media screen and (min-width: 750px) {
+  .tdm-spotlight--stacked[style*='--sp-height'] .tdm-spotlight__media {
+    aspect-ratio: auto;
+    height: var(--sp-height);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .tdm-spotlight--stacked .tdm-spotlight__media {
+    margin-bottom: var(--tdm-space-4);
+  }
+}
+
+/* Stacked + glass overlay (tablet and desktop): the points panel floats over the bottom
+   of the image — scheme-tinted, blurred, 1px border — same recipe as the testimonial card */
+@media screen and (min-width: 750px) {
+  .tdm-spotlight__stage--overlay {
+    --sp-overlay-inset: var(--tdm-space-6);
+    position: relative;
+  }
+
+  .tdm-spotlight__stage--overlay .tdm-spotlight__media {
+    margin-bottom: 0;
+  }
+
+  .tdm-spotlight__stage--overlay .tdm-spotlight__panel {
+    position: absolute;
+    right: var(--sp-overlay-inset);
+    bottom: var(--sp-overlay-inset);
+    left: var(--sp-overlay-inset);
+    gap: var(--tdm-space-6);
+    padding: var(--tdm-space-6);
+    border: 1px solid color-mix(in srgb, rgb(var(--color-foreground)) 55%, transparent);
+    background: color-mix(in srgb, rgb(var(--color-background)) 72%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
 }
