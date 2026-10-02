@@ -1,0 +1,18 @@
+/* Aliados landing — headings in capitals (setting "Títulos en mayúsculas", theme settings →
+   Aliados). Loaded only on Aliados pages from layout/theme.liquid; paragraphs, buttons and
+   eyebrows keep their own case. */
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body .h0,
+body .h1,
+body .h2,
+body .h3,
+body .h4,
+body .h5 {
+  text-transform: uppercase;
+}

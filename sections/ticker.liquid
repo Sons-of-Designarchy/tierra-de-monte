@@ -34,7 +34,7 @@
 <div class="section-{{ section.id }}-padding">
 <section
   class="{{ root_classes }}"
-  style="--ticker-speed: {{ speed }}s; --ticker-h: {{ section.settings.height | default: 100 }}px; --ticker-fs: {{ section.settings.font_size | default: 22 }}px; --ticker-icon-h: {{ section.settings.icon_height | default: 32 }}px; --ticker-ink: {{ section.settings.text_color | default: '#F3EFCF' }}; --ticker-bg: {{ section.settings.bg_color | default: 'transparent' }};"
+  style="--ticker-speed: {{ speed }}s; --ticker-h: {{ section.settings.height | default: 100 }}px; --ticker-fs: {{ section.settings.font_size | default: 22 }}px; --ticker-icon-h: {{ section.settings.icon_height | default: 32 }}px; --ticker-ink: {{ section.settings.text_color | default: '#F3EFCF' }}; --ticker-bg: {{ section.settings.bg_color | default: 'transparent' }};{% if section.settings.letter_spacing > 0 %} --ticker-tracking: {{ section.settings.letter_spacing | divided_by: 100.0 }}em;{% endif %}"
 >
   {% if section.settings.bg_image != blank %}
     <img
@@ -136,6 +136,17 @@
         { "value": "none", "label": "None" }
       ],
       "default": "uppercase"
+    },
+
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "info": "0 keeps each font style's default. Above 0 sets the spacing in hundredths of an em.",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 0
     },
 
     {

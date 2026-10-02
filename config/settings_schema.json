@@ -1499,6 +1499,13 @@
         "default": true
       },
       {
+        "type": "checkbox",
+        "id": "aliados_uppercase_headings",
+        "label": "Títulos en mayúsculas",
+        "info": "Todos los títulos (h1–h6) de la página. Párrafos y botones no cambian.",
+        "default": true
+      },
+      {
         "type": "font_picker",
         "id": "aliados_heading_font",
         "label": "Tipografía de títulos",

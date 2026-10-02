@@ -71,18 +71,18 @@
 .tdm-ticker .typo-primary {
   font-family: var(--font-heading-family);
   font-weight: lighter;
-  letter-spacing: -0.5rem; /* tighter for heading style */
+  letter-spacing: var(--ticker-tracking, -0.5rem); /* default tighter for heading style */
 }
 
 .tdm-ticker .typo-secondary {
   font-family: var(--font-body-family);
   font-weight: 400;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--ticker-tracking, 0.08em);
 }
 
 .tdm-ticker .tdm-mono {
   font-size: calc(var(--ticker-fs, 22px) * var(--font-mono-scale, 1));
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ticker-tracking, 0.06em);
 }
 
 .tdm-ticker__marquee {

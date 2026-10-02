@@ -1,6 +1,9 @@
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
 {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
 {{ 'collapsible-content.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.faq_editorial -%}
+  {{ 'section-tdm-faq.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -18,7 +21,7 @@
 
 <div class="color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
   {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
-  <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}">
+  <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.faq_editorial %} tdm-faq{% endif %}{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}"{% if section.settings.faq_editorial and section.settings.open_row_color_scheme != blank %}{% assign open_scheme = section.settings.open_row_color_scheme.settings %} style="--tdm-faq-open-bg: {{ open_scheme.background | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', '' }}; --tdm-faq-open-fg: {{ open_scheme.text | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', '' }};"{% endif %}">
     <div class="collapsible-content__wrapper section-{{ section.id }}-padding{% if section.settings.layout == 'section' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}">
       {%- comment -%} Eyebrow sits outside the narrow column so its rule spans the full page width {%- endcomment -%}
       {%- if section.settings.caption != blank -%}
@@ -95,7 +98,7 @@
                 >
                   <summary id="Summary-{{ block.id }}-{{ section.id }}">
                     {% render 'icon-accordion', icon: block.settings.icon %}
-                    <h3 class="accordion__title inline-richtext h4">
+                    <h3 class="accordion__title inline-richtext {% if section.settings.faq_editorial %}h3{% else %}h4{% endif %}">
                       {{ block.settings.heading | default: block.settings.page.title | escape }}
                     </h3>
                     {{- 'icon-caret.svg' | inline_asset_content -}}
@@ -231,6 +234,19 @@
     {
       "type": "header",
       "content": "Contenedor de cada pregunta"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_editorial",
+      "label": "Estilo editorial",
+      "info": "Contenido más ancho, preguntas más grandes, esquinas casi rectas y la pregunta abierta invertida. Pensado para usarse con los contenedores de pregunta.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "open_row_color_scheme",
+      "label": "Esquema de la pregunta abierta",
+      "info": "Solo con Estilo editorial. La pregunta abierta cambia a este esquema; vacío la deja igual."
     },
     {
       "type": "checkbox",
@@ -580,3 +596,4 @@
   ]
 }
 {% endschema %}
+

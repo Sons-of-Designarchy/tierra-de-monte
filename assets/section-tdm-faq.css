@@ -1,0 +1,91 @@
+/* FAQ — editorial style (sections/collapsible-content.liquid, setting "Estilo editorial").
+   Loaded only when the setting is on, so other pages using the section are untouched.
+   Wider column, bigger questions, near-square corners; the open row inverts the card's
+   open-row scheme with a hairline above the answer. */
+
+.tdm-faq .collapsible-content-wrapper-narrow {
+  max-width: 100rem;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-faq .collapsible-content-wrapper-narrow {
+    max-width: 110rem;
+  }
+}
+
+.tdm-faq .accordion.accordion--card {
+  padding: 0 2.4rem;
+  border-radius: var(--tdm-radius-xs);
+  transition:
+    background-color var(--duration-short) ease,
+    color var(--duration-short) ease;
+}
+
+.tdm-faq .accordion + .accordion--card,
+.tdm-faq .accordion--card + .accordion {
+  margin-top: 0.8rem;
+}
+
+.tdm-faq .accordion summary {
+  padding: 2.4rem 0;
+}
+
+/* Closed rows keep their scheme with a 1px outline; the open row switches to the section's
+   "open row" scheme (variables set in sections/collapsible-content.liquid) */
+.tdm-faq .accordion.accordion--card {
+  border: 1px solid color-mix(in srgb, rgb(var(--color-foreground)) 25%, transparent);
+}
+
+.tdm-faq .accordion.accordion--card:has(details[open]) {
+  background: rgb(var(--tdm-faq-open-bg, var(--color-background)));
+  color: rgb(var(--tdm-faq-open-fg, var(--color-foreground)));
+  border-color: transparent;
+}
+
+.tdm-faq .accordion--card details[open] > summary {
+  border-bottom: 1px solid color-mix(in srgb, rgb(var(--tdm-faq-open-fg, var(--color-foreground))) 25%, transparent);
+}
+
+.tdm-faq .accordion--card details[open] .accordion__title,
+.tdm-faq .accordion--card details[open] .accordion__content,
+.tdm-faq .accordion--card details[open] .accordion__content p,
+.tdm-faq .accordion--card details[open] .icon-caret {
+  color: rgb(var(--tdm-faq-open-fg, var(--color-foreground)));
+}
+
+/* Dawn's hover (4% box behind the summary + underlined title) floats inside the padded
+   card and reads as a glitch. Hover is signalled on the card's outline instead. */
+.tdm-faq .accordion summary:hover {
+  background: none;
+}
+
+.tdm-faq .accordion summary:hover .accordion__title {
+  text-decoration: none;
+}
+
+.tdm-faq .accordion.accordion--card:hover {
+  border-color: rgb(var(--color-foreground));
+}
+
+.tdm-faq .accordion.accordion--card:has(details[open]) {
+  border-color: transparent;
+}
+
+.tdm-faq .accordion--card .accordion__content {
+  max-width: 72rem;
+  padding: 2.4rem 0 3.2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .tdm-faq .accordion.accordion--card {
+    padding: 0 1.6rem;
+  }
+
+  .tdm-faq .accordion summary {
+    padding: 1.8rem 0;
+  }
+
+  .tdm-faq .accordion--card .accordion__content {
+    padding: 1.6rem 0 2.4rem;
+  }
+}

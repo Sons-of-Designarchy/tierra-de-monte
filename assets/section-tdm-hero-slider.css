@@ -175,7 +175,7 @@
 /* ---- Text ------------------------------------------------------------------- */
 .hs__sub {
   margin: 0 0 14px;
-  font-size: 1.3rem;
+  font-size: var(--tdm-eyebrow-size, 1.3rem);
   letter-spacing: 0.16em;
   color: rgb(var(--color-button));
   font-weight: 500;

@@ -265,6 +265,12 @@
         background-color: rgb(var(--color-background));
       }
 
+      {%- if is_aliados -%}
+        :root {
+          --tdm-eyebrow-size: 1.4rem;
+        }
+      {%- endif -%}
+
       {%- if is_aliados and settings.aliados_full_opacity_text -%}
         {{ scheme_classes | prepend: 'body' }} {
           color: rgb(var(--color-foreground));
@@ -560,6 +566,9 @@
 
     {%- if is_aliados -%}
       {{ 'section-tdm-header-aliados.css' | asset_url | stylesheet_tag }}
+      {%- if settings.aliados_uppercase_headings -%}
+        {{ 'tdm-aliados-caps.css' | asset_url | stylesheet_tag }}
+      {%- endif -%}
       {% sections 'header-aliados-group' %}
     {%- else -%}
       {% sections 'header-group' %}

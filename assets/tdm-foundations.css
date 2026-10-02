@@ -26,6 +26,7 @@
   --tdm-dot: 47 182 115; /* #2FB673  tab status dot */
 
   /* Shape */
+  --tdm-radius-xs: 2px;
   --tdm-radius-sm: 8px;
   --tdm-radius-md: 12px;
   --tdm-radius-lg: 16px;
@@ -127,7 +128,7 @@
 
 .tdm-section-eyebrow__text {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: var(--tdm-eyebrow-size, 1.2rem);
   line-height: 1.4;
   letter-spacing: 0.1em;
   text-transform: uppercase;

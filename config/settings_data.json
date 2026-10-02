@@ -350,11 +350,45 @@
           "secondary_button_label": "#164120",
           "shadow": "#482b28"
         }
+      },
+      "scheme-tdm-aliados-base": {
+        "settings": {
+          "background": "#FCF9F9",
+          "background_gradient": "",
+          "text": "#164120",
+          "button": "#3E8335",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#164120",
+          "shadow": "#482b28"
+        }
+      },
+      "scheme-tdm-aliados-medio": {
+        "settings": {
+          "background": "#3E8335",
+          "background_gradient": "",
+          "text": "#FFFFFF",
+          "button": "#C3D890",
+          "button_label": "#164120",
+          "secondary_button_label": "#FFFFFF",
+          "shadow": "#482b28"
+        }
+      },
+      "scheme-tdm-aliados-verde": {
+        "settings": {
+          "background": "#C3D890",
+          "background_gradient": "",
+          "text": "#164120",
+          "button": "#3E8335",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#164120",
+          "shadow": "#482b28"
+        }
       }
     },
-    "aliados_color_scheme": "scheme-tdm-blanco",
+    "aliados_color_scheme": "scheme-tdm-aliados-base",
     "aliados_favicon": "shopify://shop_images/logo-stacked-white.png",
-    "aliados_full_opacity_text": true
+    "aliados_full_opacity_text": true,
+    "aliados_uppercase_headings": true
   },
   "presets": {
     "Dawn": {
