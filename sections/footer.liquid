@@ -89,6 +89,9 @@
                     <div class="footer-block__details-content rte">
                       {{ block.settings.subtext }}
                     </div>
+                    {%- if block.settings.show_social_icons and has_social_icons -%}
+                      {%- render 'social-icons', class: 'footer__list-social footer__list-social--start' -%}
+                    {%- endif -%}
                   {%- when 'link_list' -%}
                     {%- if block.settings.menu != blank -%}
                       <ul class="footer-block__details-content list-unstyled">
@@ -383,6 +386,13 @@
           "id": "subtext",
           "default": "t:sections.footer.blocks.text.settings.subtext.default",
           "label": "t:sections.footer.blocks.text.settings.subtext.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "label": "Mostrar redes sociales como íconos",
+          "info": "Usa los enlaces de Redes sociales de la configuración del tema.",
+          "default": false
         }
       ]
     },

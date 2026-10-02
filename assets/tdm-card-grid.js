@@ -1,8 +1,8 @@
 if (!customElements.get('tdm-card-grid-titles')) {
   /**
    * Iguala la altura de los títulos de las cards que quedan en la misma fila
-   * para que los párrafos empiecen a la misma altura, en cualquier ancho de
-   * pantalla. Wraps sections/tdm-card-grid.liquid's grid; no-ops unless
+   * para que los párrafos empiecen a la misma altura, y la de los paneles de
+   * vidrio de las cards con foto de fondo, en cualquier ancho de pantalla. Wraps sections/tdm-card-grid.liquid's grid; no-ops unless
    * data-active="true" (the section's "align_titles" setting).
    */
   class TdmCardGridTitles extends HTMLElement {
@@ -76,6 +76,31 @@ if (!customElements.get('tdm-card-grid-titles')) {
         });
         group.forEach((title) => {
           title.style.minHeight = Math.ceil(max) + 'px';
+        });
+      });
+
+      const panels = Array.prototype.slice.call(this.list.querySelectorAll('.mc-card--glass .multicolumn-card__info'));
+      panels.forEach((panel) => {
+        panel.style.minHeight = '';
+      });
+
+      const panelRows = {};
+      panels.forEach((panel) => {
+        const item = panel.closest('.grid__item');
+        if (!item) return;
+        const key = String(Math.round(item.offsetTop));
+        (panelRows[key] = panelRows[key] || []).push(panel);
+      });
+
+      Object.keys(panelRows).forEach((key) => {
+        const group = panelRows[key];
+        if (group.length < 2) return;
+        let max = 0;
+        group.forEach((panel) => {
+          max = Math.max(max, panel.getBoundingClientRect().height);
+        });
+        group.forEach((panel) => {
+          panel.style.minHeight = Math.ceil(max) + 'px';
         });
       });
     }

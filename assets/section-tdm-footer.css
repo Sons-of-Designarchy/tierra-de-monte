@@ -322,3 +322,16 @@
   margin-left: 0;
   margin-right: auto;
 }
+
+/* Social links as icons inside a footer column: start-aligned, icon edge flush with the column text
+   (the link's own padding is pulled back) */
+.footer .footer__list-social--start {
+  justify-content: flex-start;
+  margin-left: -1.1rem;
+}
+
+.footer .footer__list-social--start .list-social__item .svg-wrapper,
+.footer .footer__list-social--start .list-social__item .icon {
+  height: 3rem;
+  width: 3rem;
+}
