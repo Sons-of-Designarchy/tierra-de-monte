@@ -584,6 +584,27 @@
     "slide_gallery_aK44mg": {
       "type": "slide-gallery",
       "blocks": {
+        "slide_ULFabq": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Cosecha_de_cebollas_ante_las_montanas.png",
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "quote": "Soy representante de una forma de hacer las cosas distinta, porque creo en esto, y voy para adelante.",
+            "quote_author": "José Manuel Ibarra “Chema”",
+            "quote_role": "Aliado destacado",
+            "stat_1": "+11,000 ha atendidas actualmente",
+            "stat_2": "Naranja · Papaya · Nogal · Limón",
+            "stat_3": "Manejo biológico integral con microorganismos e insectos.",
+            "stat_4": "",
+            "stat_5": "",
+            "stat_6": "",
+            "caption_position": "top_right",
+            "caption_color_scheme": "scheme-tdm-aliados-base",
+            "quote_color": "#ffffff",
+            "stats_color": "#ffffff"
+          }
+        },
         "slide_qNeMrf": {
           "type": "slide",
           "settings": {
@@ -625,33 +646,12 @@
             "quote_color": "#ffffff",
             "stats_color": "#ffffff"
           }
-        },
-        "slide_ULFabq": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/chema-depredador.jpg",
-            "overlay_color": "#000000",
-            "overlay_opacity": 35,
-            "quote": "Soy representante de una forma de hacer las cosas distinta, porque creo en esto, y voy para adelante.",
-            "quote_author": "José Manuel Ibarra “Chema”",
-            "quote_role": "Aliado destacado",
-            "stat_1": "+11,000 ha atendidas actualmente",
-            "stat_2": "Naranja · Papaya · Nogal · Limón",
-            "stat_3": "Manejo biológico integral con microorganismos e insectos.",
-            "stat_4": "",
-            "stat_5": "",
-            "stat_6": "",
-            "caption_position": "top_right",
-            "caption_color_scheme": "scheme-tdm-aliados-base",
-            "quote_color": "#ffffff",
-            "stats_color": "#ffffff"
-          }
         }
       },
       "block_order": [
+        "slide_ULFabq",
         "slide_qNeMrf",
-        "slide_EiNnYf",
-        "slide_ULFabq"
+        "slide_EiNnYf"
       ],
       "name": "Slide gallery",
       "settings": {
