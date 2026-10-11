@@ -161,6 +161,9 @@
   --pr-width-xl: calc(64 * var(--pr-rem));
 
   --pr-container: calc(75 * var(--pr-rem));
+  /* TDM layout (Dan, 11-oct): the page runs edge to edge. One gutter for every container. */
+  --pr-page-max: 100%;
+  --pr-page-gutter: var(--pr-space-4);
   --pr-gutter: var(--pr-space-4);
   /* Space between grid columns. One global setting (editable in Sanity); Grid's sm and lg are half and double. */
   --pr-grid-gap: var(--pr-space-6);
@@ -723,4 +726,14 @@
   .tdm-bg__img--mobile + .tdm-bg__img {
     display: none;
   }
+}
+
+/* ---------- Page container: full width, one gutter ---------- */
+:root {
+  --pr-container: var(--pr-page-max);
+}
+
+.page-width {
+  max-width: var(--pr-page-max);
+  padding-inline: var(--pr-page-gutter);
 }

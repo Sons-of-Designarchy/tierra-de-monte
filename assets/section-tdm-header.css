@@ -16,6 +16,18 @@
   top: 0;
 }
 
+/* Over a hero: when the page opens with a full hero, the floating bar sits on top of the
+   image (it takes no height) so the photo loads full size behind it. */
+body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-header:has(.tdm-nav--floating) {
+  margin-bottom: calc(-1 * (var(--pr-nav-height-compact) + 2 * var(--pr-space-3)));
+}
+
+@media screen and (min-width: 990px) {
+  body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-header:has(.tdm-nav--floating) {
+    margin-bottom: calc(-1 * (var(--pr-nav-height) + 2 * var(--pr-space-3)));
+  }
+}
+
 .tdm-nav {
   display: block;
 }

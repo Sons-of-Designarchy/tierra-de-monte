@@ -27,7 +27,7 @@
 
 /* ===== Full width: inset frame, margin on each side; card aligned to the frame gutter ===== */
 .tdm-hero--full .tdm-hero__wrap {
-  margin-inline: var(--pr-space-16);
+  margin-inline: var(--pr-page-gutter);
 }
 
 .tdm-hero--full .tdm-hero__frame {
@@ -36,7 +36,7 @@
 
 @media (max-width: 749.98px) {
   .tdm-hero--full .tdm-hero__wrap {
-    margin-inline: var(--pr-space-4);
+    margin-inline: var(--pr-page-gutter);
   }
 }
 
@@ -179,4 +179,9 @@
     background-clip: padding-box;
     isolation: isolate;
   }
+}
+
+/* First on the page: the hero starts at the very top, under the floating navbar, and fills the screen */
+#MainContent > .shopify-section:first-child .tdm-hero--full .tdm-hero__frame {
+  min-height: 100svh;
 }
