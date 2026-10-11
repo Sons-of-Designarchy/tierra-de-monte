@@ -1,8 +1,10 @@
 /* =============================================================================
    Reviews section (sections/reviews.liquid)
    A centered, scroll-snapping carousel of testimonials with side peeks.
+   Text is rendered by typography, the avatar by the avatar atom, the stars by
+   the rating atom and the arrows by icon-button.
    Per-instance values arrive as custom properties on .tdm-reviews:
-     --tdm-radius --reviews-gap --avatar-size --tdm-divider-color
+     --reviews-radius --reviews-gap --avatar-size --reviews-divider
    Dividers between slides are a modifier class (.tdm-reviews--dividers).
    Behaviour (active slide, click/keyboard centring, prev/next) lives in the
    <tdm-reviews> custom element, assets/tdm-reviews.js.
@@ -15,16 +17,15 @@
 /* ---- Card ------------------------------------------------------------------ */
 .tdm-reviews .reviews__card {
   width: 100%;
-  background: rgb(var(--color-background));
-  border-radius: var(--tdm-radius, 16px);
-  padding: clamp(20px, 4vw, 36px);
+  background: var(--pr-surface);
+  border-radius: var(--reviews-radius, var(--pr-radius-surface));
+  padding: clamp(var(--pr-space-4), 4vw, calc(var(--pr-space-8) + var(--pr-space-2)));
   overflow: hidden;
 }
 
 /* ---- Title ------------------------------------------------------------------ */
 .tdm-reviews .reviews__title {
-  text-align: center;
-  margin: 0 0 20px;
+  margin: 0 0 var(--pr-space-6);
 }
 
 /* ---- Centered carousel with side peeks -------------------------------------- */
@@ -42,8 +43,9 @@
   padding-inline: calc(var(--peek) + var(--reviews-gap, 24px));
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  list-style: none; /* ensure no list bullets */
-  padding-left: 0; /* kill UA default left padding */
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
 .tdm-reviews .reviews__track::-webkit-scrollbar {
@@ -57,14 +59,13 @@
   max-width: calc(100% - (var(--peek) * 2));
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  transition: transform var(--tdm-duration) var(--tdm-ease), opacity var(--tdm-duration) var(--tdm-ease);
+  transition: transform var(--pr-motion-base) var(--pr-motion-ease), opacity var(--pr-motion-base) var(--pr-motion-ease);
   opacity: 0.35;
   transform: scale(0.98);
   cursor: pointer;
-  position: relative; /* for any inner positioning, no pseudo dots */
+  position: relative;
 }
 
-/* No competing Dawn rule sets content/display on these; kept as plain resets */
 .tdm-reviews .review::before,
 .tdm-reviews .review__quote::before {
   content: none;
@@ -88,42 +89,19 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--tdm-space-4);
-  padding-inline: 8px;
+  gap: var(--pr-space-4);
+  padding-inline: var(--pr-space-2);
 }
 
-.tdm-reviews .review__avatar {
+.tdm-reviews .review__inner .review__avatar {
   width: var(--avatar-size, 96px);
   height: var(--avatar-size, 96px);
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.tdm-reviews .review__quote {
-  font-family: var(--font-heading-family);
-  line-height: 1.25;
-  font-size: clamp(18px, 2.1vw, 30px);
-}
-
-.tdm-reviews .review__author {
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.tdm-reviews .review__company {
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 12px;
-  opacity: 0.75;
 }
 
 /* Subtle dividers between non-active slides on very wide screens */
 @media (min-width: 1200px) {
   .tdm-reviews--dividers .review:not(.is-active) {
-    border-left: 1px solid var(--tdm-divider-color, currentColor);
+    border-left: 1px solid var(--reviews-divider, currentcolor);
   }
 }
 
@@ -137,50 +115,17 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .tdm-reviews .reviews__btn {
-    pointer-events: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
+    justify-content: space-between;
   }
 
-  .tdm-reviews .reviews__btn svg {
-    width: 28px;
-    height: 28px;
-    opacity: 0.6;
+  .tdm-reviews .reviews__nav .reviews__btn {
+    pointer-events: auto;
   }
-
-  .tdm-reviews .reviews__btn:hover svg {
-    opacity: 1;
-  }
-
-  .tdm-reviews .reviews__btn--prev {
-    justify-content: flex-start;
-    padding-left: 10px;
-  }
-
-  .tdm-reviews .reviews__btn--next {
-    justify-content: flex-end;
-    padding-right: 10px;
-  }
-}
-
-/* Keyboard focus visibility for a11y */
-.tdm-reviews .reviews__btn:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
 }
 
 .tdm-reviews .review:focus-visible {
-  outline: 2px solid currentColor;
+  outline: 1px solid currentcolor;
   outline-offset: 4px;
 }
