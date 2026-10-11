@@ -35,7 +35,7 @@
               {%- endif -%}
             {%- endcapture -%}
             {%- capture tab_attrs -%}data-target="tc-panel-{{ section.id }}-{{ i }}" aria-controls="tc-panel-{{ section.id }}-{{ i }}"{%- endcapture -%}
-            {% render 'chip', label: tab_label, lead: tab_lead, selected: first_rendered, size: 'md', attrs: tab_attrs, class: 'tdm-tabs__tab' %}
+            {% render 'chip', label: tab_label, lead: tab_lead, selected: first_rendered, size: 'md', text: 'body-lg', attrs: tab_attrs, class: 'tdm-tabs__tab' %}
             {%- assign first_rendered = false -%}
           {%- endif -%}
         {%- endfor -%}

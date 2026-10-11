@@ -13,6 +13,7 @@
   - size      xs | sm | md   (default: sm → 28 / 36 / 44px; xs for values, sm filters, md touch-first)
   - variant   outline (1px border) | elevated (white, soft shadow, no border)   (default: outline)
   - static    true → not pressable, a label (span). Also automatic when there is no href, attrs and not selected
+  - text      label text variant: xs | body-sm | body | body-lg   (default: by size: xs → xs, else body-sm). Tabs use body-lg
   - mono      monospace label, for codes and values
   - href      renders <a> (e.g. a facet link)
   - class, attrs   attrs carries data-/aria- hooks that make it a control (e.g. 'data-filter="x"')
@@ -25,6 +26,9 @@
   assign c_type = 'body-sm'
   if c_size == 'xs'
     assign c_type = 'xs'
+  endif
+  if text != blank
+    assign c_type = text
   endif
   assign c_font = 'body'
   if mono

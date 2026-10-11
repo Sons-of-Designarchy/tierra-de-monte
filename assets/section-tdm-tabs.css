@@ -36,15 +36,26 @@
   }
 }
 
+/* Tabs: no border, white when inactive (the active tab keeps the action fill), content left-aligned.
+   Grid items stretch, so one- and two-line labels share the same height. */
 .tdm-tabs .tdm-tabs__tab {
   width: 100%;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
   height: auto;
-  min-height: var(--pr-control-md);
-  padding-block: var(--pr-space-2);
-  text-align: center;
+  min-height: var(--pr-control-lg);
+  padding-block: var(--pr-space-3);
+  border: 0;
+  text-align: left;
   white-space: normal;
+}
+
+.tdm-tabs .tdm-tabs__tab:not(.is-selected, [aria-pressed='true']) {
+  background: var(--pr-white);
+}
+
+.tdm-tabs .tdm-tabs__tab:not(.is-selected, [aria-pressed='true']):hover {
+  background: var(--pr-surface-subtle);
 }
 
 .tdm-tabs .tdm-tabs__icon {
