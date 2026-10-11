@@ -1,7 +1,7 @@
 /* =============================================================================
    <tdm-tabs> — sections/tabbed-collections.liquid
-   Delegated click on .tabs__tab toggles is-active/aria-selected and shows
-   the matching .tabs__panel by its data-target id.
+   Chip buttons (.tdm-tabs__tab, aria-controls = panel id) show one panel
+   (.tdm-tabs__panel) at a time.
    ========================================================================== */
 
 if (!customElements.get('tdm-tabs')) {
@@ -15,24 +15,19 @@ if (!customElements.get('tdm-tabs')) {
     }
 
     handleClick(event) {
-      const tab = event.target.closest('.tabs__tab');
+      const tab = event.target.closest('.tdm-tabs__tab');
       if (!tab || !this.contains(tab)) return;
 
-      this.querySelectorAll('.tabs__tab').forEach((t) => {
+      this.querySelectorAll('.tdm-tabs__tab').forEach((t) => {
         const active = t === tab;
-        t.classList.toggle('is-active', active);
-        t.setAttribute('aria-selected', active ? 'true' : 'false');
+        t.classList.toggle('is-selected', active);
+        t.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
 
-      this.querySelectorAll('.tabs__panel').forEach((panel) => {
-        panel.classList.add('is-hidden');
+      const panelId = tab.getAttribute('aria-controls');
+      this.querySelectorAll('.tdm-tabs__panel').forEach((panel) => {
+        panel.hidden = panel.id !== panelId;
       });
-
-      const panelId = tab.getAttribute('data-target');
-      if (!panelId) return;
-
-      const panel = this.querySelector('#' + panelId);
-      if (panel) panel.classList.remove('is-hidden');
     }
   }
 

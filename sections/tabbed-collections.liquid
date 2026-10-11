@@ -5,12 +5,7 @@
 
 <section class="tdm-tabs page-width section-{{ section.id }}-padding">
   {% render 'tdm-section-eyebrow', text: section.settings.kicker, rule_color: section.settings.rule_color, align: 'center' %}
-  {% if section.settings.heading != blank %}
-    <h1 class="h1">{{ section.settings.heading }}</h1>
-  {% endif %}
-  {% if section.settings.subheading != blank %}
-    <p class="subtitle">{{ section.settings.subheading }}</p>
-  {% endif %}
+  {% render 'heading', title: section.settings.heading, as: 'h1', size: 'h1', subtitle: section.settings.subheading, align: 'center', class: 'tdm-tabs__heading' %}
 
   {%- assign has_any = false -%}
   {%- for i in (1..6) -%}
@@ -20,8 +15,8 @@
   {%- endfor -%}
 
   {% if has_any %}
-    <tdm-tabs class="tabs">
-      <div class="tabs__list" role="tablist">
+    <tdm-tabs class="tdm-tabs__root">
+      <div class="tdm-tabs__list" role="group" aria-label="{{ section.settings.heading | escape }}">
         {%- assign first_rendered = true -%}
         {%- for i in (1..6) -%}
           {%- capture ckey %}collection_{{ i }}{% endcapture -%}
@@ -30,28 +25,23 @@
           {%- capture ikey %}icon_{{ i }}{% endcapture -%}
           {%- assign c = section.settings[ckey] -%}
           {%- if c != blank -%}
-            {%- assign label = section.settings[lkey] | default: c.title -%}
+            {%- assign tab_label = section.settings[lkey] | default: c.title -%}
             {%- assign icon = section.settings[ikey] -%}
-            <button
-              class="tabs__tab{% if first_rendered %} is-active{% endif %}"
-              type="button"
-              role="tab"
-              aria-selected="{% if first_rendered %}true{% else %}false{% endif %}"
-              data-target="tc-panel-{{ section.id }}-{{ i }}"
-            >
+            {%- capture tab_lead -%}
               {%- if icon != blank -%}
-                {{ icon | image_url: width: 28 | image_tag: class: 'tabs__icon-img', alt: '' }}
+                {{ icon | image_url: width: 36 | image_tag: class: 'tdm-tabs__icon', alt: '' }}
               {%- elsif section.settings[dkey] -%}
-                <span class="tabs__dot"></span>
+                <span class="tdm-tabs__dot"></span>
               {%- endif -%}
-              <span class="tabs__label">{{ label }}</span>
-            </button>
+            {%- endcapture -%}
+            {%- capture tab_attrs -%}data-target="tc-panel-{{ section.id }}-{{ i }}" aria-controls="tc-panel-{{ section.id }}-{{ i }}"{%- endcapture -%}
+            {% render 'chip', label: tab_label, lead: tab_lead, selected: first_rendered, size: 'md', attrs: tab_attrs, class: 'tdm-tabs__tab' %}
             {%- assign first_rendered = false -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
 
-      <div class="tabs__panels">
+      <div class="tdm-tabs__panels">
         {%- assign first_panel = true -%}
         {%- for i in (1..6) -%}
           {%- capture ckey %}collection_{{ i }}{% endcapture -%}
@@ -59,8 +49,8 @@
           {%- if c != blank -%}
             <div
               id="tc-panel-{{ section.id }}-{{ i }}"
-              class="tabs__panel{% unless first_panel %} is-hidden{% endunless %}"
-              role="tabpanel"
+              class="tdm-tabs__panel"
+              {% unless first_panel %}hidden{% endunless %}
             >
               {% liquid
                 assign prod_limit = section.settings.products_limit | plus: 0
@@ -74,10 +64,9 @@
               </div>
 
               {% if section.settings.show_view_all and c.url %}
-                <div class="center">
-                  <a href="{{ c.url }}" class="button tc__cta">
-                    {{ section.settings.view_all_label | default: 'Ver más productos' }}
-                  </a>
+                {%- assign view_all = section.settings.view_all_label | default: 'Ver más productos' -%}
+                <div class="tdm-tabs__more">
+                  {% render 'button', label: view_all, href: c.url, variant: 'primary', size: 'md' %}
                 </div>
               {% endif %}
             </div>
@@ -87,7 +76,7 @@
       </div>
     </tdm-tabs>
   {% else %}
-    <p class="tdm-tabs__empty">Set “Collection 1…6” in the section settings.</p>
+    {% render 'typography', text: 'Set “Collection 1…6” in the section settings.', variant: 'body', color: 'secondary', align: 'center' %}
   {% endif %}
 </section>
 

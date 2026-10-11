@@ -1,12 +1,13 @@
 {%- comment -%}
   Chip — filter chip, or with static a small pill that shows a value. One shape for both. Ports PerfectlyRad Chip.
 
-  {% render 'chip', label: 'Orgánico', selected: false, icon: '', count: 12, disabled: false, size: 'sm', variant: 'outline', static: false, mono: false, href: '', class: '', attrs: '' %}
+  {% render 'chip', label: 'Orgánico', selected: false, icon: '', lead: '', count: 12, disabled: false, size: 'sm', variant: 'outline', static: false, mono: false, href: '', class: '', attrs: '' %}
 
   Params
   - label     text
   - selected  pressed state for filters (aria-pressed)
   - icon      icon name
+  - lead      html before the label, instead of icon (a brand image, a colour dot)
   - count     number shown after the label
   - disabled  true → aria-disabled
   - size      xs | sm | md   (default: sm → 28 / 36 / 44px; xs for values, sm filters, md touch-first)
@@ -46,7 +47,9 @@
     assign c_class = c_class | append: ' ' | append: class
   endif
   capture c_inner
-    if icon != blank
+    if lead != blank
+      echo lead
+    elsif icon != blank
       render 'icon', name: icon, size: 'sm'
     endif
     render 'typography', text: label, as: 'span', variant: c_type, weight: 'medium', font: c_font, color: 'inherit'
