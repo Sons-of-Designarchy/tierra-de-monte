@@ -175,20 +175,20 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 
 ### 5. Blog, colecciones de plagas/enfermedades, búsqueda, 404, contraseña, cuenta
 
-- [ ] ⬜ **`blog-nav`** (Navegación del blog, 3 usos). 4 declaraciones de texto → `chip` o `link`. ~1 h
-- [ ] ⬜ **`main-blog`** (Listado del blog, 2 usos). Tarjetas con `card` (artículo); quitar 40 `!important` de `component-article-card.css`. ~3 h
-- [ ] ⬜ **`main-article`** (Artículo, 1 usos). Cuerpo y títulos con `typography` / `.rte`; compartir con `icon-button`. ~2 h
-- [ ] ⬜ **`custom-breadcrumb-blog`** (Breadcrumb del blog, 1 usos). Usar el átomo `breadcrumb`; borrar `section-tdm-breadcrumb.css`. ~1 h
-- [ ] ⬜ **`featured-blog`** (Blog destacado, 5 usos). Tarjetas con `card`; quitar 40 `!important`. ~2.5 h
-- [ ] ⬜ **`grid-gallery`** (Galería de plagas/enfermedades, 2 usos). 12 declaraciones de texto y 7 `<h*>/<p>`; usar `card`/`image`. ~2.5 h
-- [ ] ⬜ **`main-collection-banner`** (Banner de colección, 3 usos). Título/descripción con `typography`. ~1 h
-- [ ] ⬜ **`main-list-collections`** (Lista de colecciones, 1 usos). Tarjetas con `card`. ~1.5 h
-- [ ] ⬜ **`main-search`** (Búsqueda, 1 usos). Campo con `input`, resultados con `card`. Es página comercial: solo tokens si hay riesgo. ~2 h
-- [ ] ⬜ **`main-404`** (Página 404, 1 usos). Texto con `typography`, botón con `button`, quitar `<style>` inline. ~0.5 h
-- [ ] ⬜ **`main-password-header`** (Contraseña (cabecera), 0 usos). Quitar `<style>` inline; campo con `input`. ~1 h
-- [ ] ⬜ **`main-password-footer`** (Contraseña (pie), 0 usos). Sin estilos propios. ~0.5 h
-- [ ] ⬜ **`email-signup-banner`** (Banner de suscripción (contraseña), 1 usos). Campo con `input`, botón con `button`. ~1 h
-- [ ] ⬜ **`main-account`** (Cuenta, 1 usos). Todo `customer.css`: 34 declaraciones de texto; títulos con `typography`, campos con `input`. ~3 h para las 7 plantillas de cliente
+- [x] ✅ **`blog-nav`** (Navegación del blog, 3 usos). 4 declaraciones de texto → `chip` o `link`. ~1 h Hecho: `chip` atom (md) en fila; etiqueta con `typography` label. Cambio visual: ya no es control segmentado.
+- [x] ✅ **`main-blog`** (Listado del blog, 2 usos). Tarjetas con `card` (artículo); quitar 40 `!important` de `component-article-card.css`. ~3 h Hecho: tarjetas con `snippets/article-card` sobre el átomo `card`; `component-article-card.css` ya no se carga (sin uso, borrable).
+- [x] ✅ **`main-article`** (Artículo, 1 usos). Cuerpo y títulos con `typography` / `.rte`; compartir con `icon-button`. ~2 h Hecho: títulos, meta, comentarios (input/textarea/alert/button atoms). Sin script inline (solo el JSON-LD). `share-button` con `typography`.
+- [x] ✅ **`custom-breadcrumb-blog`** (Breadcrumb del blog, 1 usos). Usar el átomo `breadcrumb`; borrar `section-tdm-breadcrumb.css`. ~1 h Hecho: `button` outline + átomo `breadcrumb` (títulos reales en vez de slugs).
+- [x] ✅ **`featured-blog`** (Blog destacado, 5 usos). Tarjetas con `card`; quitar 40 `!important`. ~2.5 h Hecho: article-card, `link`/`button`/`icon-button` (flechas del slider conservan `.slider-button` y `name` para el JS).
+- [x] ✅ **`grid-gallery`** (Galería de plagas/enfermedades, 2 usos). 12 declaraciones de texto y 7 `<h*>/<p>`; usar `card`/`image`. ~2.5 h Hecho: átomo `card` + `button` outline sm para el producto recomendado.
+- [x] ✅ **`main-collection-banner`** (Banner de colección, 3 usos). Título/descripción con `typography`. ~1 h Hecho: `typography` h1 + descripción body-lg; el `<style>` pasó a la variable `--collection-hero-shadow-y`.
+- [x] ✅ **`main-list-collections`** (Lista de colecciones, 1 usos). Tarjetas con `card`. ~1.5 h Hecho: `card` atom directo (no usa `card-collection`, que sigue en cart-drawer).
+- [ ] 🟡 **`main-search`** (Búsqueda, 1 usos). Campo con `input`, resultados con `card`. Es página comercial: solo tokens si hay riesgo. ~2 h Hecho: formulario (`input` + `icon-button`), títulos, estado vacío, resultados de página con `card`, sin `<style>`. Falta (comercio): bloque de orden/conteo vertical y filtros (`facets`) con marcado Dawn, y tarjetas de producto.
+- [x] ✅ **`main-404`** (Página 404, 1 usos). Texto con `typography`, botón con `button`, quitar `<style>` inline. ~0.5 h Hecho.
+- [ ] 🟡 **`main-password-header`** (Contraseña (cabecera), 0 usos). Quitar `<style>` inline; campo con `input`. ~1 h Hecho en código (typography, `input`, `button`, `icon-button`; layout/password.liquid carga ahora los CSS pr-*). 🟡 No verificado a la vista: `/password` redirige si la tienda no tiene contraseña. Tarea: activar contraseña en una tienda de prueba y revisar modal, error y logo.
+- [ ] 🟡 **`main-password-footer`** (Contraseña (pie), 0 usos). Sin estilos propios. ~0.5 h Hecho en código (`typography` xs). Mismo pendiente de verificación visual que la cabecera.
+- [ ] 🟡 **`email-signup-banner`** (Banner de suscripción (contraseña), 1 usos). Campo con `input`, botón con `button`. ~1 h Hecho en código (`input` + `button`, `alert` de éxito, `typography`; `<style>` a variables). Verificar en `/password`; el CSS de `section-image-banner.css` (compartido) no se tocó.
+- [ ] 🟡 **`main-account`** (Cuenta, 1 usos). Todo `customer.css`: 34 declaraciones de texto; títulos con `typography`, campos con `input`. ~3 h para las 7 plantillas de cliente Hecho en código para las 7 plantillas (login, registro, cuenta, pedido, direcciones, activar, restablecer) con `input`/`select`/`button`/`link`/`alert`/`typography`; `customer.css` sin texto ni !important; script de direcciones movido a `customer.js`. 🟡 No verificado a la vista (requieren sesión; la tienda usa cuentas nuevas y redirige). Tarea: probar con cuentas clásicas: login/recover, registro con errores, dirección nueva/editar/borrar (país/provincia), pedido. En la tabla de pedido las celdas de datos heredan el cuerpo sin `typography`.
 
 ### 6. Producto, colección, carrito (solo tokens, sin reescribir la estructura)
 
@@ -209,7 +209,7 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 - [ ] ⬜ **`snippets/tdm-section-background`**. Colores por roles. ~0.5 h
 - [ ] ⬜ **`snippets/social-icons`**. Iconos con `icon-button`. ~1 h
 - [ ] ⬜ **`snippets/pagination`**. Botones con `button`/`icon-button`. ~1 h
-- [ ] ⬜ **`snippets/article-card`**. Reemplazar por el átomo `card`. ~1 h
+- [x] ✅ **`snippets/article-card`**. Reemplazar por el átomo `card`. ~1 h Hecho: ahora usa el átomo `card`; la fecha no se imprime (el CSS antiguo la ocultaba).
 - [ ] ⬜ **`snippets/header-drawer, header-search, header-dropdown-menu, header-mega-menu`**. Con el grupo del header. ~2 h
 
 ## 6. Bugs de contenido conocidos (NO se arreglan en esta migración)
@@ -226,5 +226,6 @@ Contenido del editor (JSON), de Karla/Dan; se listan para que alguien con permis
 Una línea por cambio: `fecha · rama · qué se migró · números antes → después`. Lo más nuevo arriba.
 
 ```
+2026-10-11 · perfectlyrad/site · Grupo 5 (blog, plagas/enfermedades, búsqueda, 404, contraseña, cuenta): article-card y 14 secciones sobre átomos; `!important` 90→0 (article-card 40+40, list 4, search 4, signup 2), hex 3→0, `<style>` 6→0, `<script>` inline 1→0, texto CSS en customer.css 34→0, grid-gallery 12→0, blog-nav 4→0, breadcrumb 5→0, h/p a mano ~55→0. Nuevos: snippets customer-form-errors y customer-address-fields; select acepta options_html.
 2026-10-11 · perfectlyrad/site · Inventario inicial (este documento). Ninguna sección migrada todavía.
 ```
