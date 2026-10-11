@@ -131,6 +131,17 @@
       assign content_justify = 'flex-start'
   endcase
 
+  # Tamaños de título: el ajuste del editor -> variante de typography
+  case s.heading_size
+    when 'h2'
+      assign cg_title_variant = 'h2'
+    when 'h1'
+      assign cg_title_variant = 'h1'
+    else
+      assign cg_title_variant = 'display'
+  endcase
+  assign cg_card_variant = s.card_heading_size | default: 'h3'
+
   # Ícono de las viñetas de la descripción
   assign list_icon = s.list_icon | default: 'none'
 
@@ -174,7 +185,7 @@
     --tdm-cg-icon-size: {{ s.icon_size }}px;
     --tdm-cg-media-max-width: {% if s.image_mode == 'icon' %}{{ s.icon_size }}px{% else %}{{ s.image_width_percent | default: 100 }}%{% endif %};
     --tdm-cg-cols-tablet: {{ cols_tablet }};
-    --tdm-cg-list-icon-fill: {% if s.list_icon_color == 'text' %}rgb(var(--color-foreground)){% else %}rgb(var(--color-button)){% endif %};
+    --tdm-cg-list-icon-fill: {% if s.list_icon_color == 'text' %}var(--pr-text-primary){% else %}var(--pr-action){% endif %};
     --tdm-cg-shape-ratio: {{ shape_ratio }};
     --tdm-cg-title-lines: {{ s.title_lines }};
   "
@@ -190,16 +201,12 @@
 
     {%- unless s.title == blank -%}
       <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
-        <h2 class="title inline-richtext {{ s.heading_size }}">
-          {{ s.title }}
-        </h2>
+        {%- render 'typography', text: s.title, as: 'h2', variant: cg_title_variant, font: 'display', weight: 'medium', class: 'title tdm-card-grid__title' -%}
       </div>
     {%- endunless -%}
 
     {%- if s.intro_paragraph != blank -%}
-      <div class="multicolumn__intro rte">
-        {{ s.intro_paragraph }}
-      </div>
+      {%- render 'typography', text: s.intro_paragraph, as: 'div', variant: 'body', class: 'multicolumn__intro rte' -%}
     {%- endif -%}
 
     <tdm-card-grid-titles data-active="{{ align_titles }}">
@@ -250,22 +257,7 @@
               assign txt_valign = text_valign_default
             endif
 
-            # Tamaños de texto: card > sección (0 = no forzar)
-            assign t_size = block.settings.title_size | default: 0
-            if t_size == 0 and s.custom_text_sizes
-              assign t_size = s.card_title_size
-            endif
-            assign p_size = block.settings.text_size | default: 0
-            if p_size == 0 and s.custom_text_sizes
-              assign p_size = s.card_text_size
-            endif
             assign card_style = ''
-            if t_size > 0
-              assign card_style = card_style | append: '--mc-ts: ' | append: t_size | append: ';'
-            endif
-            if p_size > 0
-              assign card_style = card_style | append: '--mc-ps: ' | append: p_size | append: ';'
-            endif
 
             # Título sin espacios duros al inicio (evita que se vea desalineado)
             assign card_title = block.settings.title | strip
@@ -344,7 +336,7 @@
               (min-width: 990px) calc(100vw / {{ cols_desktop }}), (min-width: 750px) calc(100vw / {{ cols_tablet }}), 100vw
             {%- endcapture -%}
             <div
-              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% elsif card_bg != blank %} color-{{ card_scheme }}{% endif %}{% if card_bg != blank %} mc-card--bgimg{% endif %}{% if glass_on %} mc-card--glass{% endif %}"
+              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if s.card_background %} mc-card color-{{ card_scheme }}{% elsif card_bg != blank %} color-{{ card_scheme }}{% endif %}{% if card_bg != blank %} mc-card--bgimg{% endif %}{% if glass_on %} mc-card--glass{% endif %}"
               {% if card_style != '' %}
                 style="{{ card_style }}"
               {% endif %}
@@ -467,11 +459,12 @@
                   <div class="mc-media mc-media--{{ s.image_ratio }}">&nbsp;</div>
                 </div>
               {%- endif -%}
-              <div class="multicolumn-card__info">
+              <div class="multicolumn-card__info"{% if card_media_style == 'photo_bg' %} data-scheme="image"{% endif %}>
                 {%- if card_title != blank -%}
-                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}"><span class="mc-card__title-fit">{{ card_title }}</span></h3>
+                  {%- capture card_title_html -%}<span class="mc-card__title-fit">{{ card_title }}</span>{%- endcapture -%}
+                  {%- render 'typography', text: card_title_html, as: 'h3', variant: cg_card_variant, font: 'display', weight: 'medium', color: 'inherit', class: 'mc-card__title' -%}
                 {%- elsif reserve_title -%}
-                  <div class="mc-card__title mc-card__title--empty {{ s.card_heading_size | default: 'h3' }}" aria-hidden="true"></div>
+                  <div class="mc-card__title mc-card__title--empty pr-type pr-type--{{ cg_card_variant }}" aria-hidden="true"></div>
                 {%- endif -%}
                 {%- if block.settings.text != blank -%}
                   {%- liquid
@@ -482,24 +475,18 @@
                       assign card_text = card_text | replace: '<li>', li_open
                     endif
                   -%}
-                  <div class="rte{% if block.settings.desc_font == 'mono' %} mc-desc--mono tdm-mono tdm-upper{% endif %}">
-                    {{ card_text }}
-                  </div>
+                  {%- if block.settings.desc_font == 'mono' -%}
+                    {%- render 'typography', text: card_text, as: 'div', variant: 'body', font: 'mono', color: 'inherit', class: 'rte mc-desc--mono tdm-upper' -%}
+                  {%- else -%}
+                    {%- render 'typography', text: card_text, as: 'div', variant: 'body', color: 'inherit', class: 'rte' -%}
+                  {%- endif -%}
                 {%- endif -%}
                 {%- if block.settings.link_label != blank -%}
-                  <a
-                    class="link animate-arrow"
-                    {% if block.settings.link == blank %}
-                      role="link" aria-disabled="true"
-                    {% else %}
-                      href="{{ block.settings.link }}"
-                    {% endif %}
-                  >
-                    {{- block.settings.link_label | escape -}}
-                    <span class="svg-wrapper"
-                      ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
-                    >
-                  </a>
+                  {%- if block.settings.link == blank -%}
+                    {%- render 'typography', text: block.settings.link_label, as: 'span', variant: 'body', weight: 'medium', color: 'inherit', class: 'link' -%}
+                  {%- else -%}
+                    {%- render 'link', text: block.settings.link_label, href: block.settings.link, color: 'inherit', class: 'link' -%}
+                  {%- endif -%}
                 {%- endif -%}
               </div>
             </div>
@@ -517,12 +504,13 @@
           >
             <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
           </button>
-          <div class="slider-counter caption">
+          {%- capture cg_counter -%}
             <span class="slider-counter--current">1</span>
             <span aria-hidden="true"> / </span>
             <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
             <span class="slider-counter--total">{{ visible }}</span>
-          </div>
+          {%- endcapture -%}
+          {%- render 'typography', text: cg_counter, as: 'div', variant: 'xs', color: 'inherit', class: 'slider-counter' -%}
           <button
             type="button"
             class="slider-button slider-button--next"
@@ -538,17 +526,11 @@
 
     {%- if s.button_label != blank -%}
       <div class="mc-cta">
-        <a
-          class="button button--{{ s.button_style | default: 'primary' }} color-{{ s.button_color_scheme }}"
-          {% if s.button_link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ s.button_link }}"
-          {% endif %}
-          {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}
-        >
-          {{ s.button_label | escape }}
-        </a>
+        {%- capture cg_btn_class -%}color-{{ s.button_color_scheme }}{% if s.button_pill %} tdm-card-grid__btn--pill{% endif %}{%- endcapture -%}
+        {%- capture cg_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+        {%- assign cg_btn_href = s.button_link | default: '#' -%}
+        {%- if s.button_style == 'secondary' -%}{%- assign cg_btn_variant = 'outline' -%}{%- else -%}{%- assign cg_btn_variant = 'primary' -%}{%- endif -%}
+        {%- render 'button', label: s.button_label, href: cg_btn_href, variant: cg_btn_variant, size: 'lg', class: cg_btn_class, attrs: cg_btn_attrs -%}
       </div>
     {%- endif -%}
   </div>
@@ -784,9 +766,6 @@
       "label": "Reservar líneas para el título",
       "info": "Altura mínima de los títulos. Con \"Alinear párrafos automáticamente\" normalmente puedes dejarlo en 0."
     },
-    { "type": "checkbox", "id": "custom_text_sizes", "label": "Tamaños de texto personalizados", "default": false, "info": "Aplica a todas las cards. Cada card puede tener su propio tamaño." },
-    { "type": "range", "id": "card_title_size", "min": 16, "max": 64, "step": 2, "unit": "px", "default": 28, "label": "Tamaño del heading" },
-    { "type": "range", "id": "card_text_size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15, "label": "Tamaño del párrafo" },
     {
       "type": "select",
       "id": "list_icon",
@@ -1065,29 +1044,6 @@
             { "value": "mono", "label": "Monoespaciada (IBM Plex Mono)" }
           ],
           "default": "body"
-        },
-        { "type": "header", "content": "Tamaño de texto de esta card" },
-        {
-          "type": "range",
-          "id": "title_size",
-          "min": 0,
-          "max": 64,
-          "step": 2,
-          "unit": "px",
-          "default": 0,
-          "label": "Tamaño del heading",
-          "info": "0 = igual que la sección. En pantallas chicas se reduce solo para que no se desborde."
-        },
-        {
-          "type": "range",
-          "id": "text_size",
-          "min": 0,
-          "max": 24,
-          "step": 1,
-          "unit": "px",
-          "default": 0,
-          "label": "Tamaño del párrafo",
-          "info": "0 = igual que la sección."
         },
         {
           "type": "select",
