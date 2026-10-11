@@ -144,13 +144,13 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 
 ### 2. Home (`templates/index.json`)
 
-- [ ] ⬜ **`hero-overlay-card`** (Hero overlay card, 1 usos). Eyebrow/título/cuerpo con `typography` (`eyebrow`, `display`, `body-lg`), botón con `button`, quitar los 2 hex y las variables `--tdm-*`. ~1.5 h
-- [ ] ⬜ **`tabbed-collections`** (Colecciones con pestañas, 1 usos). Pestañas con el átomo `tabs` o `chip`; mover script inline a `assets/tdm-tabs.js` (custom element); quitar el `!important`. ~3 h
-- [ ] ⬜ **`ticker`** (Ticker (cinta de texto), 18 usos). Es la sección más usada (18 usos). Texto con `typography`; quitar declaraciones de texto del CSS. ~1 h
-- [ ] ⬜ **`tdm-feature`** (Feature (stats / tarjetas / filas), 11 usos). Números y textos con `typography`; tarjetas con el átomo `card`; botón con `button`. 11 usos: probar en Home, Impacto, product. ~2 h
-- [ ] ⬜ **`multicolumn`** (Multicolumn, 5 usos). Títulos/textos con `typography`; tarjetas con `card`; fusionar `section-multicolumn.css` (Dawn) con `section-tdm-multicolumn.css`; quitar 4 `!important`. ~2.5 h
-- [ ] ⬜ **`logo-bar`** (Barra de logos, 1 usos). Título con `typography`; borrar 8 declaraciones de texto del CSS. ~1 h
-- [ ] ⬜ **`reviews`** (Reseñas, 1 usos). 2 `font-size` en px → `typography`; estrellas con `rating`; script inline → `assets/tdm-reviews.js` (ya existe, revisar). ~1.5 h
+- [x] ✅ **`hero-overlay-card`** (Hero overlay card, 1 usos). Eyebrow/título/cuerpo con `typography` (`eyebrow`, `display`, `body-lg`), botón con `button`, quitar los 2 hex y las variables `--tdm-*`. ~1.5 h
+- [x] ✅ **`tabbed-collections`** (Colecciones con pestañas, 1 usos). Pestañas con el átomo `tabs` o `chip`; mover script inline a `assets/tdm-tabs.js` (custom element); quitar el `!important`. ~3 h Chips con `chip` (nuevo parámetro `lead`).
+- [x] ✅ **`ticker`** (Ticker (cinta de texto), 18 usos). Es la sección más usada (18 usos). Texto con `typography`; quitar declaraciones de texto del CSS. ~1 h Tamaño en px del editor se mapea a la escala (>=63px = display).
+- [x] ✅ **`tdm-feature`** (Feature (stats / tarjetas / filas), 11 usos). Números y textos con `typography`; tarjetas con el átomo `card`; botón con `button`. 11 usos: probar en Home, Impacto, product. ~2 h
+- [x] ✅ **`multicolumn`** (Multicolumn, 5 usos). Títulos/textos con `typography`; tarjetas con `card`; fusionar `section-multicolumn.css` (Dawn) con `section-tdm-multicolumn.css`; quitar 4 `!important`. ~2.5 h Hecho: un solo CSS (`section-tdm-multicolumn.css`). `section-multicolumn.css` sigue en disco porque `tdm-card-grid` lo carga; borrarlo al migrar esa sección.
+- [x] ✅ **`logo-bar`** (Barra de logos, 1 usos). Título con `typography`; borrar 8 declaraciones de texto del CSS. ~1 h
+- [x] ✅ **`reviews`** (Reseñas, 1 usos). 2 `font-size` en px → `typography`; estrellas con `rating`; script inline → `assets/tdm-reviews.js` (ya existe, revisar). ~1.5 h Nuevo ajuste de bloque `rating` (estrellas, 0 = ocultas).
 
 ### 3. Aliados (`page.aliados.json`, `page.aliados-propuesta.json`)
 
@@ -167,11 +167,11 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 
 ### 4. Páginas de contenido (Nosotros, Impacto y ciencia, Distribuidores, Declaratorias, Contact, Buzón, Vacante)
 
-- [ ] ⬜ **`image-with-text`** (Image with text, 12 usos). Título/texto con `typography`, botón con `button`. ~1.5 h
-- [ ] ⬜ **`rich-text-with-logo`** (Rich text con logo, 4 usos). 12 declaraciones de texto en `section-tdm-rich-text.css`; todo con `typography`; fusionar con `rich-text`. ~2 h
-- [ ] ⬜ **`main-page`** (Contenido de página, 9 usos). El título `h1` de página con `typography` (`h1`); el cuerpo del editor (`.rte`) hereda la escala. ~0.5 h
-- [ ] ⬜ **`contact-form`** (Formulario de contacto, 5 usos). Campos con `input`/`textarea`/`select`, botón con `button`, mensajes con `alert`. Probar que el envío funcione. ~2 h
-- [ ] ⬜ **`apps`** (Apps (bloques de aplicaciones), 5 usos). Contenedor de Shopify, sin estilos propios. Nada que migrar. ~0 h
+- [x] ✅ **`image-with-text`** (Image with text, 12 usos). Título/texto con `typography`, botón con `button`. ~1.5 h
+- [x] ✅ **`rich-text-with-logo`** (Rich text con logo, 4 usos). 12 declaraciones de texto en `section-tdm-rich-text.css`; todo con `typography`; fusionar con `rich-text`. ~2 h Hecho: fusionada en `rich-text` (ajustes logo/ancho/mono); sección y CSS viejos borrados, 4 usos migrados en los JSON.
+- [x] ✅ **`main-page`** (Contenido de página, 9 usos). El título `h1` de página con `typography` (`h1`); el cuerpo del editor (`.rte`) hereda la escala. ~0.5 h
+- [x] ✅ **`contact-form`** (Formulario de contacto, 5 usos). Campos con `input`/`textarea`/`select`, botón con `button`, mensajes con `alert`. Probar que el envío funcione. ~2 h
+- [x] ✅ **`apps`** (Apps (bloques de aplicaciones), 5 usos). Contenedor de Shopify, sin estilos propios. Nada que migrar. ~0 h
 
 ### 5. Blog, colecciones de plagas/enfermedades, búsqueda, 404, contraseña, cuenta
 
@@ -218,6 +218,9 @@ Contenido del editor (JSON), de Karla/Dan; se listan para que alguien con permis
 
 - Aliados: falta el título de la tarjeta/nivel **ORO** en la grilla de niveles.
 - Aliados: **T2** muestra precios duplicados.
+- Botones sin enlace (aparecen como botón normal que no hace nada): `multicolumn` en nosotros/impacto ("Encuentra tu Solución"), `rich-text` en nosotros ("Acerca de nosotros"). 
+- `multicolumn` de Nosotros trae el párrafo de relleno "Agrega aquí un párrafo introductorio para esta sección." en 2 bloques.
+- `contact-form`, `reviews` y `multicolumn` del Home están desactivados (`disabled`) en los JSON; `reviews` usa texto de ejemplo ("Nombre Apellido").
 - (Se agregan aquí los que aparezcan durante la migración.)
 
 ## 7. Bitácora
