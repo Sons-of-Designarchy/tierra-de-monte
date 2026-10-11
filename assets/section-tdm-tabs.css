@@ -26,9 +26,13 @@
   }
 }
 
+/* Desktop: however many tabs there are, they share the full width */
 @media (min-width: 990px) {
   .tdm-tabs .tdm-tabs__list {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    width: 100%;
   }
 }
 
@@ -154,4 +158,12 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
+}
+
+/* Product grid: more air between cards */
+.tdm-tabs .tdm-tabs__panel .grid {
+  --grid-desktop-horizontal-spacing: var(--pr-space-8);
+  --grid-desktop-vertical-spacing: var(--pr-space-12);
+  --grid-mobile-horizontal-spacing: var(--pr-space-4);
+  --grid-mobile-vertical-spacing: var(--pr-space-8);
 }

@@ -470,7 +470,7 @@
   color: var(--pr-success-500);
 }
 
-/* Excerpt (3 lines) */
+/* Excerpt (2 lines) */
 .product-card-wrapper .card__excerpt {
   margin: 0.5rem 0;
   font-family: var(--font-body-family, 'Inter', sans-serif);
@@ -479,7 +479,7 @@
   line-height: 1.35;
   color: rgba(var(--color-foreground), 0.75);
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

@@ -172,7 +172,7 @@
           -%}
           {%- if show_card_excerpt and p -%}
             {%- assign excerpt_source = p.metafields.custom.card_excerpt | default: p.description -%}
-            {%- assign excerpt_text = excerpt_source | strip_html | strip | truncatewords: 22 -%}
+            {%- assign excerpt_text = excerpt_source | strip_html | strip | truncatewords: 12 -%}
             {%- if excerpt_text != blank -%}
               <p class="card__excerpt">{{ excerpt_text }}</p>
             {%- endif -%}

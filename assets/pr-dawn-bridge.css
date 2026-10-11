@@ -139,3 +139,13 @@
   outline: 2px solid var(--pr-border-focus);
   outline-offset: 2px;
 }
+
+/* Product cards are flat: no shadow on the card, its media or its hover state */
+.product-card-wrapper .card,
+.product-card-wrapper .card__inner,
+.product-card-wrapper .card::after,
+.product-card-wrapper .card__inner::after,
+.product-card-wrapper:hover .card,
+.product-card-wrapper:hover .card__inner {
+  box-shadow: none;
+}
