@@ -33,7 +33,7 @@ Qué queda: los 235 `!important` y los 47 hex están sobre todo en CSS de Dawn (
 - **Botones y campos de Dawn**: altura 44 px, texto 14 px medium; campos a 16 px.
 - **Peso de títulos**: se quitó un `!important` que forzaba `lighter` en h1–h3; ahora usan el peso del tema (300).
 - **Esquemas**: los colores de estado y `text-brand` se calculan por esquema; revisar secciones sobre fondos medios.
-- Desbordamiento horizontal de 58 px a 768 px: viene del cajón del menú de Dawn (fuera de pantalla), ya existía.
+- Desbordamiento horizontal de 58 px a 768 px: venía del footer (grid de 5 columnas con líneas de contacto largas), no del cajón del menú; corregido en la rama `perfectlyrad/site`.
 - Verificado: `shopify theme check` sin ofensas nuevas (26 antes, 26 después), plantillas JSON válidas, estados HTTP 200 en inicio, Aliados (y propuesta), nosotros, impacto, producto, colección, carrito y catálogo.
 
 ## Cómo se publica

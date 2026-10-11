@@ -242,3 +242,22 @@ Una línea por cambio: `fecha · rama · qué se migró · números antes → de
 2026-10-11 · perfectlyrad/site · Grupo 5 (blog, plagas/enfermedades, búsqueda, 404, contraseña, cuenta): article-card y 14 secciones sobre átomos; `!important` 90→0 (article-card 40+40, list 4, search 4, signup 2), hex 3→0, `<style>` 6→0, `<script>` inline 1→0, texto CSS en customer.css 34→0, grid-gallery 12→0, blog-nav 4→0, breadcrumb 5→0, h/p a mano ~55→0. Nuevos: snippets customer-form-errors y customer-address-fields; select acepta options_html.
 2026-10-11 · perfectlyrad/site · Inventario inicial (este documento). Ninguna sección migrada todavía.
 ```
+
+## 8. Resultado de la migración (medido el 2026-10-11)
+
+Mismo método que `docs/refactor-2026-10.md` (grep sobre `assets/*.css`, `sections`, `snippets`, `blocks`, `layout`). "Después" excluye los archivos sin uso listados en la sección 4 (no se borraron). Los hex que quedan son valores por defecto de los esquemas (`"default": "#..."`) de ajustes del editor, y 1 en CSS.
+
+| Métrica | Antes (foundations) | Después (site, solo archivos en uso) |
+|---|---|---|
+| `!important` | 235 | 20 (14 en utilidades de `base.css`) |
+| Bloques `<style>` | 8 | 1 |
+| `<script>` inline | 9 | 5 (JSON de rutas/strings con Liquid, `{% javascript %}` de Shopify) |
+| `font-size` en px | 6 | 2 |
+| Hex (CSS + liquid) | 47 | 17 (1 en CSS) |
+| `<h*>/<p>` a mano en secciones | 222 | 99 (casi todos defaults de richtext en schemas, comercio y Dawn) |
+| Declaraciones de texto en CSS de secciones | 339 | 108 (casi todo comercio y CSS de Dawn compartido) |
+| Renders de `typography`/`heading` | 306 | 502 |
+| Desborde horizontal a 768 | 58 px | 0 (causa: grid del footer, no el cajón) |
+
+`shopify theme check`: 3 errores y 23 advertencias, igual que en `perfectlyrad/foundations` (26).
+
