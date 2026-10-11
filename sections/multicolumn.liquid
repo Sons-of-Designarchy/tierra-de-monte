@@ -174,7 +174,11 @@
               style="--animation-order: {{ forloop.index }};"
             {% endif %}
           >
-            {% render 'card', media: media_html, content: info_html, padding: 'md', class: 'multicolumn-card' %}
+            {%- if section.settings.remove_card_bg -%}
+              <div class="multicolumn-card multicolumn-card--flat">{{ media_html }}<div class="tdm-multicolumn__flat-body">{{ info_html }}</div></div>
+            {%- else -%}
+              {% render 'card', media: media_html, content: info_html, padding: 'md', class: 'multicolumn-card' %}
+            {%- endif -%}
           </li>
         {%- endfor -%}
       </ul>
