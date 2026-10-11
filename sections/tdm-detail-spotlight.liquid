@@ -64,6 +64,16 @@
       assign ratio_m = 'auto'
   endcase
 
+  case s.heading_size
+    when 'h2'
+      assign sp_title_variant = 'h2'
+    when 'h1'
+      assign sp_title_variant = 'h1'
+    else
+      assign sp_title_variant = 'display'
+  endcase
+  assign sp_point_variant = s.point_title_size | default: 'h4'
+
   # Puntos: "Automático" reparte la primera mitad a la izquierda y el resto a la derecha
   assign point_blocks = section.blocks | where: 'type', 'point'
   assign half = point_blocks.size | plus: 1 | divided_by: 2
@@ -119,7 +129,7 @@
         <span class="tdm-spotlight__accent" aria-hidden="true"></span>
       {%- endif -%}
       {%- if block.settings.title != blank -%}
-        <h3 class="tdm-spotlight__point-title {{ s.point_title_size }}{% if s.point_title_upper %} tdm-upper{% endif %}">
+        {%- capture sp_point_title -%}
           {%- if block.settings.icon_image != blank -%}
             {{
               block.settings.icon_image
@@ -130,10 +140,12 @@
             <span class="tdm-spotlight__point-icon" aria-hidden="true">{{ block.settings.icon | escape }}</span>
           {%- endif -%}
           {{ block.settings.title }}
-        </h3>
+        {%- endcapture -%}
+        {%- capture sp_point_class -%}tdm-spotlight__point-title{% if s.point_title_upper %} tdm-upper{% endif %}{%- endcapture -%}
+        {%- render 'typography', text: sp_point_title, as: 'h3', variant: sp_point_variant, font: 'display', weight: 'medium', class: sp_point_class -%}
       {%- endif -%}
       {%- if block.settings.text != blank -%}
-        <div class="tdm-spotlight__point-text rte">{{ block.settings.text }}</div>
+        {%- render 'typography', text: block.settings.text, as: 'div', variant: 'body', class: 'tdm-spotlight__point-text rte' -%}
       {%- endif -%}
     </li>
   {%- endcapture -%}
@@ -211,10 +223,10 @@
     {%- if s.title != blank or s.text != blank -%}
       <div class="tdm-spotlight__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {%- if s.title != blank -%}
-          <h2 class="tdm-spotlight__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+          {%- render 'typography', text: s.title, as: 'h2', variant: sp_title_variant, font: 'display', weight: 'medium', class: 'tdm-spotlight__title' -%}
         {%- endif -%}
         {%- if s.text != blank -%}
-          <div class="tdm-spotlight__text rte">{{ s.text }}</div>
+          {%- render 'typography', text: s.text, as: 'div', variant: 'body', class: 'tdm-spotlight__text rte' -%}
         {%- endif -%}
       </div>
     {%- endif -%}

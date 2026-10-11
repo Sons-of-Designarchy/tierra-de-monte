@@ -439,3 +439,8 @@ tdm-card-grid-titles {
 .tdm-card-grid .mc-cta .tdm-card-grid__btn--pill {
   --pr-radius-control: var(--pr-radius-full);
 }
+
+/* Opt-in capitals for the mono description; .pr-type resets text-transform, so the modifier is restated here */
+.tdm-card-grid .mc-desc--mono.tdm-upper {
+  text-transform: uppercase;
+}
