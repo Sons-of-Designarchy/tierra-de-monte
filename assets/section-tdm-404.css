@@ -1,0 +1,12 @@
+/* 404 page (sections/main-404.liquid) */
+.template-404 .template-404__title {
+  margin-top: var(--pr-space-4);
+  margin-bottom: var(--pr-space-4);
+}
+
+@media screen and (min-width: 750px) {
+  .template-404 .template-404__title {
+    margin-top: var(--pr-space-6);
+    margin-bottom: var(--pr-space-6);
+  }
+}
