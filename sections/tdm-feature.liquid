@@ -2,6 +2,7 @@
   Feature — lead copy on the left, one of three layouts on the right.
   Replaces multicolumn-feature (stats), multicol-custom-feature (cards)
   and multicol-row-list (rows). Styles: assets/section-tdm-feature.css.
+  Text goes through typography, the CTA through button, boxes through card.
 {%- endcomment -%}
 
 {{ 'section-tdm-feature.css' | asset_url | stylesheet_tag }}
@@ -14,11 +15,19 @@
   assign cols_mobile = section.settings.columns_mobile | default: '1'
   assign rule_color = section.settings.rule_color | default: 'currentColor'
   assign divider_color = section.settings.divider_color | default: rule_color
+
+  assign title_variant = 'h1'
+  case section.settings.heading_size
+    when 'h2'
+      assign title_variant = 'h2'
+    when 'h0' or 'hxl' or 'hxxl'
+      assign title_variant = 'display'
+  endcase
 -%}
 
 <div
   class="tdm-feature tdm-feature--{{ layout }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}"
-  style="--tdm-rule: {{ rule_color }}; --tdm-divider: {{ divider_color }}; --cols-mobile: {{ cols_mobile }}; --cols-tablet: {{ cols_tablet }}; --cols-desktop: {{ cols_desktop }}; --column-min-height: {{ section.settings.column_min_height | default: 0 }}vh; --row-title-size: {{ section.settings.row_title_size | default: 20 }}px;"
+  style="--feature-rule: {{ rule_color }}; --feature-divider: {{ divider_color }}; --cols-mobile: {{ cols_mobile }}; --cols-tablet: {{ cols_tablet }}; --cols-desktop: {{ cols_desktop }}; --column-min-height: {{ section.settings.column_min_height | default: 0 }}vh;"
 >
   {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
   <div
@@ -28,140 +37,134 @@
     {% endif %}
   >
     {%- if section.settings.pretitle != blank -%}
-      <div class="tdm-eyebrow">
-        {{ section.settings.pretitle }}
+      <div class="tdm-feature__eyebrow">
+        {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow', font: 'body', color: 'secondary' %}
         {%- if section.settings.show_rule -%}
-          <div class="tdm-eyebrow__rule" aria-hidden="true"></div>
+          <div class="tdm-feature__rule" aria-hidden="true"></div>
         {%- endif -%}
       </div>
     {%- endif -%}
 
-    <div class="tdm-split">
-      <div class="tdm-lead">
+    <div class="tdm-feature__split">
+      <div class="tdm-feature__lead">
         {%- if section.settings.title != blank -%}
-          <h2 class="tdm-lead__heading title inline-richtext {{ section.settings.heading_size }}">
-            {{ section.settings.title }}
-          </h2>
+          {% render 'typography', text: section.settings.title, variant: title_variant, as: 'h2', font: 'display', weight: 'medium' %}
         {%- endif -%}
 
         {%- if section.settings.description != blank -%}
-          <div class="tdm-lead__text rte">{{ section.settings.description }}</div>
+          {% render 'typography', text: section.settings.description, variant: 'body-lg', as: 'div', class: 'rte' %}
         {%- endif -%}
 
         {%- if section.settings.button_label != blank -%}
-          <div class="tdm-lead__cta">
-            <a
-              class="button button--primary"
-              {% if section.settings.button_link == blank %}
-                role="link" aria-disabled="true"
-              {% else %}
-                href="{{ section.settings.button_link }}"
-              {% endif %}
-            >
-              {{ section.settings.button_label | escape }}
-            </a>
+          <div class="tdm-feature__cta">
+            {% render 'button', label: section.settings.button_label, href: section.settings.button_link, variant: 'primary', size: 'md' %}
           </div>
         {%- endif -%}
       </div>
 
       {%- if layout == 'rows' -%}
+        {%- assign row_size = section.settings.row_title_size | default: 20 -%}
+        {%- capture row_px_raw -%}{% render 'tdm-type-from-px', px: row_size %}{%- endcapture -%}
+        {%- assign row_px = row_px_raw | strip -%}
         <ul class="tdm-feature__rows" role="list">
           {%- for block in section.blocks -%}
-            <li class="tdm-feature__row tdm-card" {{ block.shopify_attributes }}>
-              <a
-                class="tdm-feature__row-link"
-                {% if block.settings.link == blank %}
-                  role="link" aria-disabled="true"
-                {% else %}
-                  href="{{ block.settings.link }}"
-                {% endif %}
-                style="--icon-size: {{ block.settings.icon_size | default: 40 }}px;"
-              >
-                {%- if block.settings.image != blank -%}
-                  <span class="tdm-feature__icon">
-                    {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy' }}
-                  </span>
+            {%- capture row_inner -%}
+              {%- if block.settings.image != blank -%}
+                <span class="tdm-feature__icon" style="--icon-size: {{ block.settings.icon_size | default: 40 }}px;">
+                  {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}
+                </span>
+              {%- endif -%}
+              <span class="tdm-feature__row-texts">
+                {%- if block.settings.title != blank -%}
+                  {% render 'typography', text: block.settings.title, as: 'span', variant: row_px, font: 'display', weight: 'medium' %}
                 {%- endif -%}
-
-                <span class="tdm-feature__row-texts">
-                  {%- if block.settings.title != blank -%}
-                    <strong class="tdm-feature__row-title">{{ block.settings.title }}</strong>
-                  {%- endif -%}
-                  {%- if block.settings.text != blank -%}
-                    <span class="tdm-feature__row-desc{% if block.settings.desc_font == 'mono' %} tdm-mono{% else %} tdm-copy{% endif %}">
-                      {{ block.settings.text }}
-                    </span>
-                  {%- endif -%}
-                </span>
-
-                <span class="tdm-feature__row-arrow" aria-hidden="true">
-                  {{- 'icon-arrow.svg' | inline_asset_content -}}
-                </span>
-              </a>
+                {%- if block.settings.text != blank -%}
+                  {%- assign row_font = 'body' -%}
+                  {%- if block.settings.desc_font == 'mono' -%}{%- assign row_font = 'mono' -%}{%- endif -%}
+                  {% render 'typography', text: block.settings.text, as: 'div', variant: 'body-sm', font: row_font, color: 'secondary', class: 'rte' %}
+                {%- endif -%}
+              </span>
+              <span class="tdm-feature__row-arrow" aria-hidden="true">{% render 'icon', name: 'arrow-right', size: 'md' %}</span>
+            {%- endcapture -%}
+            <li class="tdm-feature__row" {{ block.shopify_attributes }}>
+              {% render 'card', href: block.settings.link, content: row_inner, padding: 'md', class: 'tdm-feature__row-card' %}
             </li>
           {%- endfor -%}
         </ul>
       {%- else -%}
         <ul class="tdm-feature__grid" role="list">
           {%- for block in section.blocks -%}
+            {%- assign stat_size = block.settings.stat_size_desktop | default: 72 -%}
+            {%- capture stat_raw -%}{% render 'tdm-type-from-px', px: stat_size %}{%- endcapture -%}
+            {%- assign stat_variant = stat_raw | strip -%}
+            {%- assign stat_font = block.settings.stat_font | default: 'heading' -%}
+            {%- assign stat_family = 'display' -%}
+            {%- assign stat_weight = 'regular' -%}
+            {%- if stat_font == 'mono' -%}
+              {%- assign stat_family = 'mono' -%}
+            {%- elsif stat_font == 'body' -%}
+              {%- assign stat_family = 'body' -%}
+              {%- assign stat_weight = 'bold' -%}
+            {%- endif -%}
+            {%- assign text_font = 'body' -%}
+            {%- assign text_class = 'rte' -%}
+            {%- if block.settings.desc_font == 'mono' -%}
+              {%- assign text_font = 'mono' -%}
+              {%- assign text_class = 'rte tdm-upper' -%}
+            {%- endif -%}
+
+            {%- capture info -%}
+              <div class="tdm-feature__info">
+                {%- if block.settings.title != blank -%}
+                  {% render 'typography', text: block.settings.title, as: 'h3', variant: stat_variant, font: stat_family, weight: stat_weight %}
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  {% render 'typography', text: block.settings.text, as: 'div', variant: 'body', font: text_font, class: text_class %}
+                {%- endif -%}
+                {%- if block.settings.link_label != blank -%}
+                  {%- if block.settings.link != blank -%}
+                    {% render 'link', text: block.settings.link_label, href: block.settings.link %}
+                  {%- else -%}
+                    {% render 'typography', text: block.settings.link_label, as: 'span', variant: 'body', weight: 'medium' %}
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {%- endcapture -%}
+
             <li
               class="tdm-feature__item{% if layout == 'stats' and section.settings.show_dividers %} tdm-feature__item--divided{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
               {{ block.shopify_attributes }}
-              style="--stat-size-m: {{ block.settings.stat_size_mobile | default: 48 }}px; --stat-size-d: {{ block.settings.stat_size_desktop | default: 72 }}px; --icon-size: {{ block.settings.icon_size | default: 40 }}px;{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}"
               {% if settings.animations_reveal_on_scroll %}
+                style="--animation-order: {{ forloop.index }};"
                 data-cascade
               {% endif %}
             >
-              <div class="tdm-feature__tile{% if layout == 'cards' %} tdm-card{% endif %}">
-                {%- if layout == 'cards' and block.settings.image != blank -%}
-                  <div class="tdm-feature__icon">
-                    {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy' }}
-                  </div>
-                {%- endif -%}
-
-                <div class="tdm-feature__info">
-                  {%- if block.settings.title != blank -%}
-                    {%- assign stat_font = block.settings.stat_font | default: 'heading' -%}
-                    <h3 class="tdm-stat inline-richtext{% if stat_font == 'mono' %} tdm-mono{% else %} tdm-stat--{{ stat_font }}{% endif %}">
-                      {{ block.settings.title }}
-                    </h3>
-                  {%- endif -%}
-
-                  {%- if block.settings.text != blank -%}
-                    <div class="tdm-feature__text rte{% if block.settings.desc_font == 'mono' %} tdm-mono tdm-upper{% else %} tdm-copy{% endif %}">
-                      {{ block.settings.text }}
+              {%- if layout == 'cards' -%}
+                {%- capture icon_html -%}
+                  {%- if block.settings.image != blank -%}
+                    <div class="tdm-feature__icon" style="--icon-size: {{ block.settings.icon_size | default: 40 }}px;">
+                      {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}
                     </div>
                   {%- endif -%}
-
-                  {%- if block.settings.link_label != blank -%}
-                    <a
-                      class="link animate-arrow"
-                      {% if block.settings.link == blank %}
-                        role="link" aria-disabled="true"
-                      {% else %}
-                        href="{{ block.settings.link }}"
-                      {% endif %}
-                    >
-                      {{- block.settings.link_label | escape -}}
-                      <span class="svg-wrapper"
-                        ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
-                      >
-                    </a>
+                {%- endcapture -%}
+                {% render 'card', media: icon_html, content: info, padding: 'md', class: 'tdm-feature__tile' %}
+              {%- else -%}
+                <div class="tdm-feature__tile">
+                  {{ info }}
+                  {%- if block.settings.image != blank -%}
+                    <div class="tdm-feature__media">
+                      {{
+                        block.settings.image
+                        | image_url: width: 1600
+                        | image_tag:
+                          loading: 'lazy',
+                          alt: '',
+                          sizes: '(min-width: 990px) calc((100vw - 116px) * 7 / 12 / 3), (min-width: 750px) calc((100vw - 100px) / 3), calc(100vw - 30px)'
+                      }}
+                    </div>
                   {%- endif -%}
                 </div>
-
-                {%- if layout == 'stats' and block.settings.image != blank -%}
-                  <div class="tdm-feature__media">
-                    {{
-                      block.settings.image
-                      | image_url: width: 1600
-                      | image_tag:
-                        loading: 'lazy',
-                        sizes: '(min-width: 990px) calc((100vw - 116px) * 7 / 12 / 3), (min-width: 750px) calc((100vw - 100px) / 3), calc(100vw - 30px)'
-                    }}
-                  </div>
-                {%- endif -%}
-              </div>
+              {%- endif -%}
             </li>
           {%- endfor -%}
         </ul>
