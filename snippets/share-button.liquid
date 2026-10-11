@@ -10,17 +10,18 @@
     share_link: share_url
   %}
 {% endcomment %}
+{%- assign sb_label = block.settings.share_label | escape -%}
 <script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
 
 <share-button id="Share-{{ section.id }}" class="share-button quick-add-hidden" {{ block.shopify_attributes }}>
   <button class="share-button__button hidden">
     <span class="svg-wrapper">{{ 'icon-share.svg' | inline_asset_content }}</span>
-    {{ block.settings.share_label | escape }}
+    {% render 'typography', text: sb_label, as: 'span', variant: 'body-sm', weight: 'medium', color: 'inherit' %}
   </button>
   <details id="Details-{{ block.id }}-{{ section.id }}">
     <summary class="share-button__button">
       <span class="svg-wrapper">{{ 'icon-share.svg' | inline_asset_content }}</span>
-      {{ block.settings.share_label | escape }}
+      {% render 'typography', text: sb_label, as: 'span', variant: 'body-sm', weight: 'medium', color: 'inherit' %}
     </summary>
     <div class="share-button__fallback motion-reduce">
       <div class="field">

@@ -1,59 +1,29 @@
-/* =============================================================================
-   Custom breadcrumb — blog (sections/custom-breadcrumb-blog.liquid)
-   Back link + mono uppercase crumb trail, rule top and bottom.
-   ========================================================================== */
+/* Custom breadcrumb, blog (sections/custom-breadcrumb-blog.liquid): back button + breadcrumb atom between two 1px rules. */
 
 .tdm-breadcrumb .cbb__bar {
-  border-top: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
+  border-top: 1px solid var(--pr-border);
+  border-bottom: 1px solid var(--pr-border);
 }
 
 .tdm-breadcrumb .cbb__inner {
   display: flex;
   align-items: center;
-  gap: var(--tdm-space-4);
-  min-height: 48px;
-  padding: 10px 0;
+  gap: var(--pr-space-4);
+  min-height: var(--pr-control-md);
+  padding: var(--pr-space-2) 0;
 }
 
 .tdm-breadcrumb .cbb__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font: inherit;
-  line-height: 1;
-  white-space: nowrap;
-  padding: var(--tdm-space-4) var(--tdm-space-8);
-  border: 1px solid currentColor;
-  border-radius: var(--tdm-radius-pill);
-  color: currentColor;
-  text-decoration: none;
-}
-
-.tdm-breadcrumb .cbb__back svg {
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
+  flex: 0 0 auto;
 }
 
 .tdm-breadcrumb .cbb__crumbs {
-  font-size: 0.8em;
-  letter-spacing: -0.04em;
-  line-height: 1.8rem;
+  min-width: 0;
 }
 
-.tdm-breadcrumb .cbb__crumbs a {
-  font-size: 1em;
-  text-decoration: none;
-}
-
-@media (max-width: 480px) {
-  .tdm-breadcrumb .cbb__inner {
-    gap: var(--tdm-space-3);
-  }
-
+@media (max-width: 749px) {
   .tdm-breadcrumb .cbb__crumbs {
-    overflow: auto;
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
