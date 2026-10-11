@@ -1,27 +1,30 @@
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
-{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
-{{ 'collapsible-content.css' | asset_url | stylesheet_tag }}
-{%- if section.settings.faq_editorial -%}
-  {{ 'section-tdm-faq.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
+{{ 'section-tdm-collapsible-content.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
+{%- liquid
+  case section.settings.heading_size
+    when 'h2'
+      assign cc_title_variant = 'h2'
+    when 'h1'
+      assign cc_title_variant = 'h1'
+    else
+      assign cc_title_variant = 'display'
+  endcase
+
+  assign cc_root_style = ''
+  if section.settings.faq_editorial and section.settings.open_row_color_scheme != blank
+    assign open_scheme = section.settings.open_row_color_scheme.settings
+    assign open_bg = open_scheme.background | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', ''
+    assign open_fg = open_scheme.text | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', ''
+    assign cc_root_style = '--tdm-faq-open-bg: ' | append: open_bg | append: '; --tdm-faq-open-fg: ' | append: open_fg | append: ';'
+  endif
+-%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
   {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
-  <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.faq_editorial %} tdm-faq{% endif %}{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}"{% if section.settings.faq_editorial and section.settings.open_row_color_scheme != blank %}{% assign open_scheme = section.settings.open_row_color_scheme.settings %} style="--tdm-faq-open-bg: {{ open_scheme.background | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', '' }}; --tdm-faq-open-fg: {{ open_scheme.text | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', '' }};"{% endif %}">
+  <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.faq_editorial %} tdm-faq{% endif %}{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}"{% if cc_root_style != blank %} style="{{ cc_root_style }}"{% endif %}>
     <div class="collapsible-content__wrapper section-{{ section.id }}-padding{% if section.settings.layout == 'section' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}">
       {%- comment -%} Eyebrow sits outside the narrow column so its rule spans the full page width {%- endcomment -%}
       {%- if section.settings.caption != blank -%}
@@ -31,14 +34,9 @@
         </div>
       {%- endif -%}
       <div class="{% if section.settings.image == blank %}collapsible-content-wrapper-narrow{% else %}page-width{% endif %}">
-        <div
-          class="collapsible-content__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          style="text-align: {{ section.settings.heading_alignment }};"
-        >
+        <div class="collapsible-content__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {%- if section.settings.heading != blank -%}
-            <h2 class="collapsible-content__heading inline-richtext {{ section.settings.heading_size }}">
-              {{ section.settings.heading }}
-            </h2>
+            {%- render 'typography', text: section.settings.heading, as: 'h2', variant: cc_title_variant, font: 'display', weight: 'medium', align: section.settings.heading_alignment, class: 'collapsible-content__heading' -%}
           {%- else -%}
             <h2 class="visually-hidden">{{ 'accessibility.collapsible_content_title' | t }}</h2>
           {% endif %}
@@ -49,7 +47,7 @@
               <div
                 class="collapsible-content__media collapsible-content__media--{{ section.settings.image_ratio }} media global-media-settings gradient"
                 {% if section.settings.image_ratio == 'adapt' %}
-                  style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
+                  style="--cc-adapt-pad: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
                 {% endif %}
               >
                 {%- liquid
@@ -85,34 +83,32 @@
                   assign row_card = true
                   assign row_scheme = block.settings.color_scheme
                 endif
+
+                assign cc_row_class = 'cc-row'
+                if row_card
+                  assign cc_row_class = cc_row_class | append: ' cc-row--card color-' | append: row_scheme | append: ' gradient'
+                elsif section.settings.layout == 'row'
+                  assign cc_row_class = cc_row_class | append: ' content-container color-' | append: section.settings.container_color_scheme | append: ' gradient'
+                endif
+
+                assign cc_open = 0
+                if section.settings.open_first_collapsible_row and forloop.first
+                  assign cc_open = 1
+                endif
+                assign cc_heading = block.settings.heading | default: block.settings.page.title | escape
               -%}
-              <div
-                class="accordion{% if row_card %} accordion--card color-{{ row_scheme }} gradient{% elsif section.settings.layout == 'row' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}"
-                {{ block.shopify_attributes }}
-              >
-                <details
-                  id="Details-{{ block.id }}-{{ section.id }}"
-                  {% if section.settings.open_first_collapsible_row and forloop.first %}
-                    open
-                  {% endif %}
-                >
-                  <summary id="Summary-{{ block.id }}-{{ section.id }}">
-                    {% render 'icon-accordion', icon: block.settings.icon %}
-                    <h3 class="accordion__title inline-richtext {% if section.settings.faq_editorial %}h3{% else %}h4{% endif %}">
-                      {{ block.settings.heading | default: block.settings.page.title | escape }}
-                    </h3>
-                    {{- 'icon-caret.svg' | inline_asset_content -}}
-                  </summary>
-                  <div
-                    class="accordion__content rte"
-                    id="CollapsibleAccordion-{{ block.id }}-{{ section.id }}"
-                    role="region"
-                    aria-labelledby="Summary-{{ block.id }}-{{ section.id }}"
-                  >
-                    {{ block.settings.row_content }}
-                    {{ block.settings.page.content }}
-                  </div>
-                </details>
+              {%- capture cc_title -%}
+                {%- render 'icon-accordion', icon: block.settings.icon -%}
+                {{ cc_heading }}
+              {%- endcapture -%}
+              {%- capture cc_body -%}
+                {{ block.settings.row_content }}{{ block.settings.page.content }}
+              {%- endcapture -%}
+              {%- capture cc_panel -%}
+                {%- render 'typography', text: cc_body, as: 'div', variant: 'body', color: 'inherit', class: 'rte accordion__content' -%}
+              {%- endcapture -%}
+              <div class="cc-row-wrap" {{ block.shopify_attributes }}>
+                {%- render 'accordion', titles: cc_title, panels: cc_panel, multiple: true, open: cc_open, title_font: 'display', class: cc_row_class -%}
               </div>
             {%- endfor -%}
           </div>

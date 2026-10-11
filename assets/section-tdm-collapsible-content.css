@@ -1,0 +1,268 @@
+/* =============================================================================
+   Collapsible content / FAQ (sections/collapsible-content.liquid)
+   Folds the old collapsible-content.css and section-tdm-faq.css. Each row is the
+   accordion atom (snippets/accordion.liquid, assets/pr-atoms.css) with a .cc-row
+   class; this file only places the rows. Colours come from the roles: a card row
+   carries a Dawn scheme class (color-scheme-*), which re-points them.
+   Per-instance values: --tdm-faq-open-bg / --tdm-faq-open-fg (rgb triplets of the
+   "open row" scheme, set on .collapsible-content) and --cc-adapt-pad (image).
+   Modifier classes: .tdm-faq (Estilo editorial), .cc-row--card (row container),
+   .collapsible-{none|row|section}-layout.
+   ========================================================================== */
+
+.collapsible-content {
+  position: relative;
+  z-index: 0;
+}
+
+.collapsible-section-layout {
+  padding-bottom: 5rem;
+  padding-top: 5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .collapsible-section-layout {
+    padding-bottom: 7rem;
+    padding-top: 7rem;
+  }
+}
+
+/* ---- Image -------------------------------------------------------------------- */
+/* Needed for gradient continuity with or without animation so that transparent PNG images come up as we would expect */
+.collapsible-content__media {
+  background: transparent;
+}
+
+.collapsible-content__media--adapt {
+  padding-bottom: var(--cc-adapt-pad);
+}
+
+.collapsible-content__media--small {
+  height: 19.4rem;
+}
+
+.collapsible-content__media--large {
+  height: 43.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .collapsible-content__media--small {
+    height: 31.4rem;
+  }
+
+  .collapsible-content__media--large {
+    height: 69.5rem;
+  }
+
+  .collapsible-content__grid--reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+/* ---- Column + header ------------------------------------------------------------ */
+.collapsible-content-wrapper-narrow {
+  margin: 0 auto;
+  padding-right: var(--pr-space-4);
+  padding-left: var(--pr-space-4);
+  max-width: 73.4rem;
+}
+
+/* Tablet+: page gutter (5rem) like every other section */
+@media screen and (min-width: 750px) {
+  .collapsible-content-wrapper-narrow {
+    padding-right: 5rem;
+    padding-left: 5rem;
+    max-width: 80.4rem;
+  }
+}
+
+.collapsible-content__header {
+  word-break: break-word;
+}
+
+.collapsible-content__heading {
+  margin: 0 0 var(--pr-space-6);
+}
+
+@media screen and (min-width: 750px) {
+  .collapsible-content__heading {
+    margin-bottom: var(--pr-space-8);
+  }
+}
+
+/* ---- Rows ------------------------------------------------------------------------ */
+.cc-row.pr-accordion {
+  word-break: break-word;
+}
+
+.cc-row .pr-accordion__trigger .svg-wrapper {
+  display: flex;
+  align-self: center;
+  flex-shrink: 0;
+  width: var(--pr-icon-lg);
+  height: var(--pr-icon-lg);
+  margin-right: var(--pr-space-3);
+  fill: currentcolor;
+}
+
+.cc-row .pr-accordion__trigger .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* The trigger's icon + question sit on the left, the chevron on the right */
+.cc-row .pr-accordion__trigger > .pr-type {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.cc-row .pr-accordion__panel {
+  max-width: none;
+  color: var(--pr-text-primary);
+}
+
+.cc-row .accordion__content {
+  overflow-x: auto;
+}
+
+.cc-row .accordion__content img {
+  max-width: 100%;
+}
+
+.cc-row .accordion__content p {
+  margin: 0;
+}
+
+.cc-row .accordion__content p + p {
+  margin-top: var(--pr-space-3);
+}
+
+/* Row layout (Dawn "Contenedor: fila"): hairline box per row */
+.collapsible-row-layout .cc-row-wrap + .cc-row-wrap {
+  margin-top: var(--pr-space-3);
+}
+
+.collapsible-row-layout .cc-row {
+  border: 1px solid var(--pr-border);
+}
+
+/* Card rows: each question + answer in its own colour-scheme container */
+.cc-row--card.pr-accordion--default {
+  padding: 0 var(--pr-space-6);
+  border: 0;
+  border-radius: var(--pr-radius-surface);
+  background: var(--pr-surface);
+  color: var(--pr-text-primary);
+}
+
+.cc-row--card .pr-accordion__item {
+  border-bottom: 0;
+}
+
+.cc-row--card .pr-accordion__trigger,
+.cc-row--card .pr-accordion__panel {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.cc-row-wrap + .cc-row-wrap {
+  margin-top: var(--pr-space-3);
+}
+
+.collapsible-none-layout .cc-row-wrap:not(:has(.cc-row--card)) + .cc-row-wrap {
+  margin-top: 0;
+}
+
+.cc-row:not(.cc-row--card) .pr-accordion__trigger:hover {
+  background: var(--pr-action-light);
+}
+
+@media screen and (max-width: 749px) {
+  .cc-row--card.pr-accordion--default {
+    padding: 0 var(--pr-space-4);
+  }
+}
+
+/* ---- Editorial style (setting "Estilo editorial") ---------------------------------
+   Wider column, bigger rows, near-square corners; closed rows keep their scheme with a
+   1px outline, the open row switches to the section's "open row" scheme. */
+.tdm-faq .collapsible-content-wrapper-narrow {
+  max-width: 100rem;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-faq .collapsible-content-wrapper-narrow {
+    max-width: 110rem;
+  }
+}
+
+.tdm-faq .collapsible-content__header {
+  margin-bottom: var(--pr-space-8);
+}
+
+.tdm-faq .collapsible-content__heading {
+  margin-bottom: 0;
+}
+
+.tdm-faq .cc-row--card.pr-accordion--default {
+  padding: 0 var(--pr-space-6);
+  border: 1px solid var(--pr-border-strong);
+  border-radius: var(--pr-radius-sm);
+  transition:
+    background-color var(--pr-motion-base) var(--pr-motion-ease),
+    color var(--pr-motion-base) var(--pr-motion-ease);
+}
+
+.tdm-faq .cc-row .pr-accordion__trigger {
+  padding-top: var(--pr-space-6);
+  padding-bottom: var(--pr-space-6);
+}
+
+/* Open row: the open-row scheme's colours replace the row's, so every role (text,
+   border, chevron) follows. The triplets come from the section setting. */
+.tdm-faq .cc-row--card.pr-accordion--default:has(details[open]) {
+  --color-background: var(--tdm-faq-open-bg, var(--color-background));
+  --color-foreground: var(--tdm-faq-open-fg, var(--color-foreground));
+  border-color: transparent;
+}
+
+.tdm-faq .cc-row--card details[open] > summary {
+  border-bottom: 1px solid var(--pr-border-strong);
+}
+
+/* Hover is signalled on the card's outline (no box behind the summary) */
+.tdm-faq .cc-row--card .pr-accordion__trigger:hover {
+  background: none;
+}
+
+.tdm-faq .cc-row--card.pr-accordion--default:hover {
+  border-color: var(--pr-text-primary);
+}
+
+.tdm-faq .cc-row--card.pr-accordion--default:has(details[open]),
+.tdm-faq .cc-row--card.pr-accordion--default:has(details[open]):hover {
+  border-color: transparent;
+}
+
+.tdm-faq .cc-row--card .pr-accordion__panel {
+  max-width: 72rem;
+  padding-top: var(--pr-space-6);
+  padding-bottom: var(--pr-space-8);
+}
+
+@media screen and (max-width: 749px) {
+  .tdm-faq .cc-row--card.pr-accordion--default {
+    padding: 0 var(--pr-space-4);
+  }
+
+  .tdm-faq .cc-row .pr-accordion__trigger {
+    padding-top: var(--pr-space-4);
+    padding-bottom: var(--pr-space-4);
+  }
+
+  .tdm-faq .cc-row--card .pr-accordion__panel {
+    padding-top: var(--pr-space-4);
+    padding-bottom: var(--pr-space-6);
+  }
+}
