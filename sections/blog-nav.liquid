@@ -14,7 +14,7 @@
       aria-label="{{ section.settings.label | default: 'Explora nuestro blog' }}"
     >
       {%- if section.settings.label != blank -%}
-        <span class="blog-nav__label tdm-mono tdm-upper">{{ section.settings.label }}</span>
+        {% render 'typography', text: section.settings.label, as: 'span', variant: 'label', weight: 'medium', class: 'blog-nav__label' %}
       {%- endif -%}
 
       <ul class="blog-nav__list" role="list">
@@ -23,17 +23,13 @@
           {%- if chosen_blog -%}
             {%- liquid
               assign is_active = false
+              assign chip_label = block.settings.title | default: chosen_blog.title
               if request.page_type == 'blog' and blog and blog.id == chosen_blog.id
                 assign is_active = true
               endif
             -%}
             <li class="blog-nav__item" {{ block.shopify_attributes }}>
-              <a
-                class="blog-nav__btn{% if is_active %} is-active{% endif %}"
-                href="{{ chosen_blog.url }}"
-              >
-                {{ block.settings.title | default: chosen_blog.title }}
-              </a>
+              {% render 'chip', label: chip_label, href: chosen_blog.url, selected: is_active, size: 'md', class: 'blog-nav__btn' %}
             </li>
           {%- endif -%}
         {%- endfor -%}
