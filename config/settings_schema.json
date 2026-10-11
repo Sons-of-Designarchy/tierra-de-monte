@@ -1488,5 +1488,20 @@
         "default": "barlow_condensed_n5"
       }
     ]
+  },
+  {
+    "name": "Analítica",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Eventos de lanzamiento (ver docs/tracking.md). Vacío = el tema no carga Google Analytics ni cambia nada."
+      },
+      {
+        "type": "text",
+        "id": "ga4_measurement_id",
+        "label": "ID de medición de GA4",
+        "info": "Formato G-XXXXXXXXXX. Déjalo vacío si la app Google & YouTube de Shopify ya instala GA4 (los eventos se mandan igual a ese gtag)."
+      }
+    ]
   }
 ]

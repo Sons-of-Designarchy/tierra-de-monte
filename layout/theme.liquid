@@ -501,6 +501,7 @@
 
     <script src="{{ 'tdm-design-mode.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'tdm-posthog.js' | asset_url }}" defer="defer"></script>
+    {% render 'tdm-analytics' %}
   </head>
 
   <body class="gradient{% if is_aliados and settings.aliados_color_scheme != blank %} color-{{ settings.aliados_color_scheme }}{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
