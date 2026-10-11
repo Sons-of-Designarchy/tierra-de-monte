@@ -155,7 +155,7 @@
         "column_DTtNfg": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
+            "desc_font": "display",
             "image": "shopify://shop_images/quienes-somos-1.png",
             "title": "",
             "stat_font": "mono",
@@ -169,7 +169,7 @@
         "column_EMyLQp": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
+            "desc_font": "display",
             "image": "shopify://shop_images/tdm-home-quienes-somos-3.jpg",
             "title": "",
             "stat_font": "heading",
@@ -216,7 +216,7 @@
         "color_scheme": "scheme-5",
         "padding_top": 80,
         "padding_bottom": 80,
-        "show_dividers": true,
+        "show_dividers": false,
         "divider_color": "#d8e35b",
         "column_min_height": 60
       }
