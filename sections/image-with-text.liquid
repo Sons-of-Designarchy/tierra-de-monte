@@ -1,62 +1,6 @@
 {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-{%- style -%}
-    /* === Rounded corners for the whole Image with Text section === */
-    #shopify-section-{{ section.id }} .image-with-text {
-      border-radius: 12px; /* adjust as needed */
-      overflow: hidden; /* ensure inner content respects the curve */
-      background-clip: padding-box; /* optional: keeps background tidy */
-    }
-
-    /* === Section logo (supports PNG/JPG/SVG) === */
-    #shopify-section-{{ section.id }} .section-logo {
-      display: inline-block;
-      line-height: 0;
-    }
-    #shopify-section-{{ section.id }} .section-logo img {
-      width: var(--logo-size, 80px);
-      height: auto;
-      max-width: 100%;
-      display: block;
-      object-fit: contain; /* no cropping */
-    }
-    /* ──────────────────────────────────────────────
-     IMAGE WITH TEXT — logo resize on mobile
-     Dawn 15.4.0 / cross-browser safe
-     ────────────────────────────────────────────── */
-  @media only screen and (max-width: 749px) {
-    .image-with-text__content .image-with-text__text + .button {
-      margin-top:20px;
-    }
-
-    /* Target the logo inside this section */
-    #shopify-section-{{ section.id }} .section-logo__img {
-      transform: scale(0.7);             /* 30% smaller (70% of original size) */
-      transform-origin: center center;   /* keeps it centered while scaling */
-    }
-
-    /* Optional: ensure layout stays clean */
-    #shopify-section-{{ section.id }} .section-logo {
-      display: flex;
-      justify-content: center;
-      overflow: visible;
-    }
-  }
-{%- endstyle -%}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 {%- liquid
   assign fetch_priority = 'auto'
@@ -123,36 +67,30 @@
             {%- for block in section.blocks -%}
               {% case block.type %}
                 {%- when 'heading' -%}
-                  <h2
-                    class="image-with-text__heading inline-richtext {{ block.settings.heading_size }}"
-                    {{ block.shopify_attributes }}
-                  >
-                    {{ block.settings.heading }}
-                  </h2>
+                  {%- assign heading_variant = 'h1' -%}
+                  {%- case block.settings.heading_size -%}
+                    {%- when 'h2' -%}{%- assign heading_variant = 'h2' -%}
+                    {%- when 'h0' or 'hxl' or 'hxxl' -%}{%- assign heading_variant = 'display' -%}
+                  {%- endcase -%}
+                  {% render 'typography', text: block.settings.heading, variant: heading_variant, as: 'h2', font: 'display', weight: 'medium', class: 'image-with-text__heading', attrs: block.shopify_attributes %}
                 {%- when 'caption' -%}
-                  <p
-                    class="image-with-text__text image-with-text__text--caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }} {{ block.settings.text_style }}"
-                    {{ block.shopify_attributes }}
-                  >
-                    {{ block.settings.caption | escape }}
-                  </p>
+                  {%- assign caption_text = block.settings.caption | escape -%}
+                  {%- if block.settings.text_style == 'subtitle' -%}
+                    {%- assign caption_variant = 'body' -%}
+                    {%- if block.settings.text_size == 'small' -%}{%- assign caption_variant = 'body-sm' -%}{%- elsif block.settings.text_size == 'large' -%}{%- assign caption_variant = 'body-lg' -%}{%- endif -%}
+                    {% render 'typography', text: caption_text, variant: caption_variant, color: 'secondary', class: 'image-with-text__text image-with-text__text--caption', attrs: block.shopify_attributes %}
+                  {%- else -%}
+                    {% render 'typography', text: caption_text, variant: 'eyebrow', font: 'body', color: 'secondary', class: 'image-with-text__text image-with-text__text--caption', attrs: block.shopify_attributes %}
+                  {%- endif -%}
                 {%- when 'text' -%}
-                  <div class="image-with-text__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
-                    {{ block.settings.text }}
-                  </div>
+                  {%- assign text_variant = 'body' -%}
+                  {%- if block.settings.text_style == 'subtitle' -%}{%- assign text_variant = 'body-lg' -%}{%- endif -%}
+                  {% render 'typography', text: block.settings.text, variant: text_variant, as: 'div', class: 'image-with-text__text rte', attrs: block.shopify_attributes %}
                 {%- when 'button' -%}
                   {%- if block.settings.button_label != blank -%}
-                    <a
-                      {% if block.settings.button_link == blank %}
-                        role="link" aria-disabled="true"
-                      {% else %}
-                        href="{{ block.settings.button_link }}"
-                      {% endif %}
-                      class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
-                      {{ block.shopify_attributes }}
-                    >
-                      {{ block.settings.button_label | escape }}
-                    </a>
+                    {%- assign button_variant = 'primary' -%}
+                    {%- if block.settings.button_style_secondary -%}{%- assign button_variant = 'outline' -%}{%- endif -%}
+                    {% render 'button', label: block.settings.button_label, href: block.settings.button_link, variant: button_variant, size: 'md', class: 'image-with-text__button', attrs: block.shopify_attributes %}
                   {%- endif -%}
               {%- endcase -%}
             {%- endfor -%}

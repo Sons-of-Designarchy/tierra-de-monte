@@ -122,7 +122,7 @@
 }
 
 .image-with-text .global-media-settings {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 .image-with-text .image-with-text__text-item > * {
@@ -160,7 +160,7 @@
   .image-with-text__content {
     padding: 2.7rem;
   }
-  .image-with-text__content .button {
+  .image-with-text__content .image-with-text__button {
     margin-top: 1px;
   }
 }
@@ -363,12 +363,12 @@
   margin-bottom: 0;
 }
 
-.image-with-text__content .button + .image-with-text__text {
-  margin-top: 2rem;
+.image-with-text__content .image-with-text__button + .image-with-text__text {
+  margin-top: var(--pr-space-4);
 }
 
-.image-with-text__content .image-with-text__text + .button {
-  margin-top: 3rem;
+.image-with-text__content .image-with-text__text + .image-with-text__button {
+  margin-top: var(--pr-space-6);
 }
 
 .image-with-text__heading {
@@ -422,5 +422,43 @@
 @media screen and (min-width: 750px) {
   .multirow__inner {
     row-gap: var(--grid-desktop-vertical-spacing);
+  }
+}
+
+/* Rounded corners for the whole section, logo, and the smaller logo on phones
+   (moved here from inline style blocks in the section). */
+.image-with-text {
+  border-radius: calc(var(--pr-radius-surface) + var(--pr-radius-md));
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
+.image-with-text .section-logo {
+  display: inline-block;
+  line-height: 0;
+}
+
+.image-with-text .section-logo img {
+  width: var(--logo-size, 80px);
+  height: auto;
+  max-width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 749px) {
+  .image-with-text__content .image-with-text__text + .image-with-text__button {
+    margin-top: var(--pr-space-4);
+  }
+
+  .image-with-text .section-logo {
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .image-with-text .section-logo__img {
+    transform: scale(0.7);
+    transform-origin: center center;
   }
 }
