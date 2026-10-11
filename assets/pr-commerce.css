@@ -335,7 +335,8 @@ html.pr-scroll-lock {
   background: var(--pr-border-strong);
 }
 
-.pr-progress__bar {
+.pr-progress__track .pr-progress__bar {
+  display: block;
   width: var(--progress, 0%);
   height: 100%;
   border-radius: var(--pr-radius-full);
@@ -937,4 +938,178 @@ html.pr-scroll-lock {
   display: flex;
   flex-wrap: wrap;
   gap: var(--pr-space-3);
+}
+
+/* ---------- pricing ---------- */
+.pr-pricing-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-8);
+}
+
+.pr-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-8);
+}
+
+.pr-pricing__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-4);
+}
+
+.pr-pricing__group > h3 {
+  margin: 0;
+}
+
+.pr-pricing__cards {
+  display: grid;
+  gap: var(--pr-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pr-pricing__plan {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-6);
+}
+
+.pr-pricing__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+}
+
+.pr-pricing__top > * {
+  margin: 0;
+}
+
+.pr-pricing__badge {
+  width: var(--pr-space-12);
+}
+
+.pr-pricing__name {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--pr-space-2);
+}
+
+.pr-pricing__name [hidden] {
+  display: none;
+}
+
+.pr-pricing__action {
+  width: 100%;
+}
+
+.pr-pricing__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+  max-width: var(--pr-width-md);
+}
+
+@media (min-width: 750px) {
+  .pr-pricing__cards {
+    grid-template-columns: repeat(auto-fill, minmax(var(--pr-width-sm), 1fr));
+  }
+}
+
+.pr-pricing__features {
+  flex: 1;
+}
+
+/* ---------- order (Aliados step 1) ---------- */
+.pr-order-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-8);
+}
+
+.pr-order {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-8);
+}
+
+.pr-order__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pr-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Below the desktop layout the summary rides the bottom edge, compact, so the subtotal is always in view */
+.pr-order__summary {
+  position: sticky;
+  bottom: calc(var(--pr-space-16) + var(--pr-space-4));
+  z-index: 2;
+  width: 100%;
+  max-width: var(--pr-width-md);
+  margin-inline: auto;
+}
+
+.pr-order__summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-3);
+}
+
+.pr-order__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pr-space-4);
+}
+
+.pr-order__total > * {
+  margin: 0;
+}
+
+.pr-order__action {
+  width: 100%;
+}
+
+.pr-order__extra {
+  display: none;
+}
+
+@media (min-width: 750px) {
+  .pr-order__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--pr-grid-gap);
+  }
+}
+
+@media (min-width: 990px) {
+  .pr-order {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--pr-width-sm);
+    align-items: start;
+    gap: var(--pr-space-8);
+  }
+
+  .pr-order__summary {
+    top: var(--pr-space-24);
+    bottom: auto;
+    max-width: none;
+  }
+
+  .pr-order__summary-body {
+    gap: var(--pr-space-4);
+  }
+
+  .pr-order__extra {
+    display: block;
+  }
+}
+
+.pr-order__extra[hidden] {
+  display: none;
 }

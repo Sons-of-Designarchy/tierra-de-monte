@@ -139,7 +139,7 @@
     {%- if s.button_label != blank -%}
       <div class="tdm-card-grid__cta">
         {%- if s.button_style == 'secondary' -%}{%- assign cg_btn_variant = 'outline' -%}{%- else -%}{%- assign cg_btn_variant = 'primary' -%}{%- endif -%}
-        {%- capture cg_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %}{% if s.button_new_tab %} target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+        {%- capture cg_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %}{% if s.button_new_tab %} target="_blank" rel="noopener"{% endif %}{% if btn_href contains '#pedido' %} data-track="quiero-ser-aliado"{% endif %}{%- endcapture -%}
         {%- render 'button', label: s.button_label, href: btn_href, variant: cg_btn_variant, size: 'lg', attrs: cg_btn_attrs -%}
       </div>
     {%- endif -%}

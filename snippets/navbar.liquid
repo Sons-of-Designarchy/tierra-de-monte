@@ -101,7 +101,9 @@
         {%- endif -%}
         {{ app_blocks }}
         {%- if nav_cta != blank -%}
-          {%- render 'button', label: nav_cta.title, href: nav_cta.url, size: 'sm', class: 'tdm-nav__cta' -%}
+          {%- assign nav_cta_attrs = '' -%}
+          {%- if nav_cta.url contains '#pedido' %}{% assign nav_cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
+          {%- render 'button', label: nav_cta.title, href: nav_cta.url, size: 'sm', class: 'tdm-nav__cta', attrs: nav_cta_attrs -%}
         {%- endif -%}
         {%- render 'icon-button', icon: 'bag', label: cart_label, href: routes.cart_url, id: cart_id, badge: cart_badge -%}
         {%- if has_links -%}

@@ -105,6 +105,7 @@
         const html = await (await fetch(`${url}&section_id=${this.dataset.sectionId}`)).text();
         if (token !== this.token) return;
         const next = new DOMParser().parseFromString(html, 'text/html').querySelector('pr-buy-box');
+      if (!next) return;
         const quantity = this.querySelector('.pr-qty__input')?.value;
         ['price', 'pickers', 'actions'].forEach((name) => {
           const live = this.querySelector(`[data-pr-target="${name}"]`);

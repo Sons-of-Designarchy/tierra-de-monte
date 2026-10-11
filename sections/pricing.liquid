@@ -1,0 +1,207 @@
+{%- comment -%}
+  Pricing — plans, tiers or levels as cards, with groups (Aliados: Nivel 1 / Nivel 2). Ports PerfectlyRad Pricing.
+  Selectable, it is a tier picker: choose a plan and see how far the cart is from its threshold (minimum-progress pattern),
+  and which plans are already reached. A plan with neither a threshold nor a price shows "Por definir" and can't be selected.
+  Cards are the card atom; text is typography; the bar is the minimum-progress look. Behaviour: <pr-pricing> in assets/pr-pricing.js.
+{%- endcomment -%}
+<script src="{{ 'pr-pricing.js' | asset_url }}" defer="defer"></script>
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign pr_selectable = section.settings.selectable
+  assign pr_total = cart.total_price
+  assign pr_groups = 't1|t2' | split: '|'
+-%}
+
+<div class="gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width section-{{ section.id }}-padding pr-pricing-section">
+    {% render 'section-header', eyebrow: section.settings.eyebrow, title: section.settings.title, intro: section.settings.intro, align: section.settings.align %}
+    <pr-pricing class="pr-pricing" data-total="{{ pr_total }}" data-goal="{{ section.settings.goal_label | escape }}" data-prompt="{{ section.settings.select_prompt | escape }}">
+      {%- for group in pr_groups -%}
+        {%- assign pr_group_label = section.settings.group_1_label -%}
+        {%- if group == 't2' %}{% assign pr_group_label = section.settings.group_2_label %}{% endif -%}
+        {%- capture pr_cards -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.group == group -%}
+              {%- liquid
+                assign pr_threshold = block.settings.threshold | times: 100
+                assign pr_has_threshold = false
+                if block.settings.threshold > 0
+                  assign pr_has_threshold = true
+                endif
+                assign pr_locked = false
+                if pr_selectable and pr_has_threshold == false and block.settings.price == blank
+                  assign pr_locked = true
+                endif
+                assign pr_reached = false
+                if pr_has_threshold and pr_total >= pr_threshold
+                  assign pr_reached = true
+                endif
+                assign pr_scheme = ''
+                if block.settings.featured
+                  assign pr_scheme = 'primary'
+                endif
+                assign pr_amount = block.settings.price
+                if pr_amount == blank and pr_has_threshold
+                  assign pr_amount = pr_threshold | money_without_trailing_zeros
+                endif
+                assign pr_features = block.settings.features | newline_to_br | strip_newlines | split: '<br />'
+              -%}
+              {%- capture pr_list -%}
+                {%- if pr_features.size > 0 -%}
+                  <div class="pr-card__text pr-pricing__features">
+                    <ul>
+                      {%- for feature in pr_features -%}
+                        {%- if feature != blank -%}<li><span class="pr-card__li-icon">{% render 'icon', name: 'check-circle', size: 'md' %}</span><span>{% render 'typography', text: feature, as: 'span', variant: 'body-sm' %}</span></li>{%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {%- endif -%}
+              {%- endcapture -%}
+              {%- capture pr_body -%}
+                <div class="pr-pricing__plan">
+                  <div class="pr-pricing__top">
+                    {%- if block.settings.badge_image != blank -%}
+                      <div class="pr-pricing__badge">{% render 'image', image: block.settings.badge_image, alt: '', ratio: '1/1', fit: 'contain', radius: 'none', sizes: '48px' %}</div>
+                    {%- endif -%}
+                    <div class="pr-pricing__name">
+                      {%- render 'typography', text: block.settings.name, as: 'h3', variant: 'label', weight: 'semibold' -%}
+                      {%- if pr_locked -%}
+                        {%- render 'chip', label: 'Por definir', size: 'xs', static: true -%}
+                      {%- endif -%}
+                      {%- if pr_has_threshold and pr_selectable -%}
+                        <span data-reached{% unless pr_reached %} hidden{% endunless %}>{% render 'chip', label: 'Alcanzado', size: 'xs', static: true %}</span>
+                      {%- endif -%}
+                    </div>
+                    {%- if pr_amount != blank -%}
+                      {%- render 'typography', text: pr_amount, as: 'p', variant: 'h3', font: 'display' -%}
+                    {%- endif -%}
+                    {%- if block.settings.period != blank -%}
+                      {%- render 'typography', text: block.settings.period, variant: 'body-sm', color: 'secondary' -%}
+                    {%- endif -%}
+                  </div>
+                  {{ pr_list }}
+                  {%- if pr_selectable -%}
+                    {%- capture pr_attrs -%}data-plan="{{ block.id }}" data-name="{{ block.settings.name | escape }}" data-threshold="{{ pr_threshold }}" aria-pressed="false"{%- endcapture -%}
+                    {%- assign pr_action = block.settings.action_label | default: 'Elegir' -%}
+                    {%- render 'button', label: pr_action, variant: 'outline', disabled: pr_locked, attrs: pr_attrs, class: 'pr-pricing__action' -%}
+                  {%- elsif block.settings.action_label != blank and block.settings.action_href != blank -%}
+                    {%- render 'button', label: block.settings.action_label, href: block.settings.action_href, variant: 'outline', class: 'pr-pricing__action' -%}
+                  {%- endif -%}
+                </div>
+              {%- endcapture -%}
+              {%- render 'card', tag: 'li', padding: 'lg', scheme: pr_scheme, content: pr_body, attrs: block.shopify_attributes, class: 'pr-pricing__card' -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if pr_cards contains '<li' -%}
+          <div class="pr-pricing__group">
+            {%- if pr_group_label != blank -%}
+              {%- render 'typography', text: pr_group_label, as: 'h3', variant: 'h4', font: 'display' -%}
+            {%- endif -%}
+            <ul class="pr-pricing__cards" role="list">{{ pr_cards }}</ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if pr_selectable -%}
+        <div class="pr-pricing__progress" data-progress>
+          {%- render 'typography', text: section.settings.select_prompt, variant: 'body-sm', weight: 'medium', attrs: 'aria-live="polite" data-progress-text' -%}
+          <div class="pr-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Avance hacia el nivel elegido" style="--progress: 0%" data-progress-bar>
+            <div class="pr-progress__bar"></div>
+          </div>
+          {%- render 'typography', text: '', variant: 'xs', color: 'secondary', attrs: 'data-progress-of' -%}
+        </div>
+      {%- endif -%}
+    </pr-pricing>
+    {%- if section.settings.note != blank -%}
+      {% render 'typography', text: section.settings.note, variant: 'body-sm', color: 'secondary' %}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Niveles (pricing)",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección. 1 o 2 palabras separadas por guion."
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Más beneficios a medida que creces" },
+    { "type": "richtext", "id": "intro", "label": "Introducción" },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alineación del encabezado",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Grupos" },
+    { "type": "text", "id": "group_1_label", "label": "Título del grupo 1 (T1)", "default": "Nivel 1" },
+    { "type": "text", "id": "group_2_label", "label": "Título del grupo 2 (T2)", "default": "Nivel 2" },
+    { "type": "header", "content": "Selección y avance" },
+    {
+      "type": "checkbox",
+      "id": "selectable",
+      "label": "Los niveles se pueden elegir",
+      "info": "Cada botón elige un nivel y una barra muestra cuánto le falta al carrito para alcanzar su compra mínima.",
+      "default": false
+    },
+    { "type": "text", "id": "select_prompt", "label": "Texto antes de elegir", "default": "Elige un nivel para ver cuánto te falta." },
+    { "type": "text", "id": "goal_label", "label": "Nombre de la meta", "info": "Se usa «el nivel {nombre}» si queda vacío.", "default": "el nivel" },
+    { "type": "textarea", "id": "note", "label": "Nota al pie" },
+    { "type": "header", "content": "Colores y espacio" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema", "default": "scheme-tdm-crema" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "plan",
+      "name": "Nivel",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Bronce" },
+        {
+          "type": "select",
+          "id": "group",
+          "label": "Grupo",
+          "options": [
+            { "value": "t1", "label": "T1" },
+            { "value": "t2", "label": "T2" }
+          ],
+          "default": "t1"
+        },
+        { "type": "number", "id": "threshold", "label": "Compra mínima (MXN)", "info": "Meta de la barra de avance. Sin monto ni precio, el nivel dice «Por definir» y no se puede elegir." },
+        { "type": "text", "id": "price", "label": "Precio o texto (opcional)", "info": "Reemplaza el monto: «Desde $5,000»." },
+        { "type": "text", "id": "period", "label": "Periodo o aclaración" },
+        { "type": "textarea", "id": "features", "label": "Beneficios", "info": "Uno por línea." },
+        { "type": "image_picker", "id": "badge_image", "label": "Insignia" },
+        { "type": "checkbox", "id": "featured", "label": "Destacado", "default": false },
+        { "type": "text", "id": "action_label", "label": "Texto del botón" },
+        { "type": "url", "id": "action_href", "label": "Enlace del botón", "info": "Solo cuando los niveles no se eligen." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Niveles (pricing)",
+      "blocks": [
+        { "type": "plan", "settings": { "name": "Bronce", "threshold": 5000, "features": "Precio preferente\nSoporte técnico" } },
+        { "type": "plan", "settings": { "name": "Plata", "threshold": 10000, "features": "Todo lo de Bronce\nCapacitación" } },
+        { "type": "plan", "settings": { "name": "Oro", "group": "t2", "features": "Por definir" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

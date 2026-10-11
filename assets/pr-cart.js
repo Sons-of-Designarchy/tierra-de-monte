@@ -190,7 +190,7 @@
       });
       this.dialog.addEventListener('close', () => document.documentElement.classList.remove('pr-scroll-lock'));
       document.addEventListener('click', (e) => {
-        const bubble = e.target.closest('#' + BUBBLE_ID);
+        const bubble = e.target.closest('#' + BUBBLE_ID + ', [data-cart-open]');
         if (!bubble || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
         e.preventDefault();
         this.open();

@@ -21,6 +21,7 @@
     {%- render 'link', text: 'Space, radius, elevation, motion', href: '#scales', quiet: true, variant: 'body-sm' -%}
     {%- render 'link', text: 'Atoms', href: '#atoms', quiet: true, variant: 'body-sm' -%}
     {%- render 'link', text: 'Navbar', href: '#navbar', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'Commerce', href: '#commerce', quiet: true, variant: 'body-sm' -%}
   </nav>
 </header>
 <section class="tdm-catalog__block" id="colour">
@@ -1011,6 +1012,256 @@ options: 'value|Label|count;value|Label'{% endraw %}</code></pre>
   </div>
   <pre class="tdm-catalog__code"><code>{% raw %}{% render 'navbar', nav_style: 'floating', menu: linklists['menu-aliados'], logo: settings.logo, logo_width: settings.logo_width, cta_last: true, sticky: false, uid: 'catalog-cta', demo: true %}{% endraw %}</code></pre>
 </div>
+</section>
+<div id="commerce"></div>
+<section class="tdm-catalog__block">
+  {%- render 'typography', text: 'Commerce', variant: 'h2', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'The store family, one component per job. Props carry Shopify names (product, cart, item, variant, price in cents), so each piece renders straight from Liquid. Cards are white with a 1px border and no shadow. Products here are the real ones of the store; sale and sold-out states pass overrides.', variant: 'body-lg', color: 'secondary' -%}
+  <nav class="tdm-catalog__nav" aria-label="Commerce">
+    {%- render 'link', text: 'PriceTag', href: '#price-tag', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'QuantityStepper', href: '#quantity-stepper', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'VariantPicker', href: '#variant-picker', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'ProductCard', href: '#product-card', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'CardGridProduct', href: '#card-grid-product', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'ProductGallery', href: '#product-gallery', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'BuyBox', href: '#buy-box', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'MinimumProgress', href: '#minimum-progress', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'CartLineItem', href: '#cart-line-item', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'CartSummary', href: '#cart-summary', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'CartDrawer', href: '#cart-drawer', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'Pricing', href: '#pricing', quiet: true, variant: 'body-sm' -%}
+  </nav>
+</section>
+{%- assign cat_multi = all_products['crecr'] -%}
+{%- assign cat_cart_item = cart.items | first -%}
+{%- assign empty = collections['all'].products | where: 'handle', 'none' -%}
+<section class="tdm-catalog__block" id="price-tag">
+  {%- render 'typography', text: 'PriceTag', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'The one way a price is written: regular, sale, from, unit price. A price of 0 means not published and renders nothing.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'price-tag', price, compare_at_price, unit_price, unit_price_measurement, from, show_savings, savings_label, size, show_zero, class %}
+{% render 'price-tag', product: product %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'sizes: sm, md, lg', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'price-tag', price: 129900, size: 'sm' %}
+{% render 'price-tag', price: 129900, size: 'md' %}
+{% render 'price-tag', price: 129900, size: 'lg' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'price-tag', price: 129900, size: 'sm' %}
+{% render 'price-tag', price: 129900, size: 'md' %}
+{% render 'price-tag', price: 129900, size: 'lg' %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'sale with savings', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'price-tag', price: 89900, compare_at_price: 129900, show_savings: true, size: 'lg' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'price-tag', price: 89900, compare_at_price: 129900, show_savings: true, size: 'lg' %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'from (variants with different prices); unit price comes from variant.unit_price', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'price-tag', price: 45000, from: true %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'price-tag', price: 45000, from: true %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="quantity-stepper">
+  {%- render 'typography', text: 'QuantityStepper', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'Minus, number, plus. Arrows and Home/End on the number; clamps to min and max.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'quantity-stepper', value, min, max, step, label, name, id, form, size, disabled, loading, attrs, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'sizes', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--row">
+{% render 'quantity-stepper', value: 1, size: 'md', name: 'cat-qty-1' %}
+{% render 'quantity-stepper', value: 2, size: 'sm', name: 'cat-qty-2' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'quantity-stepper', value: 1, size: 'md', name: 'cat-qty-1' %}
+{% render 'quantity-stepper', value: 2, size: 'sm', name: 'cat-qty-2' %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'limits and states', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--row">
+{% render 'quantity-stepper', value: 5, max: 5, name: 'cat-qty-3', label: 'Cantidad (máximo 5)' %}
+{% render 'quantity-stepper', value: 1, disabled: true, name: 'cat-qty-4' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'quantity-stepper', value: 5, max: 5, name: 'cat-qty-3', label: 'Cantidad (máximo 5)' %}
+{% render 'quantity-stepper', value: 1, disabled: true, name: 'cat-qty-4' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="variant-picker">
+  {%- render 'typography', text: 'VariantPicker', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'One product option as pills, swatches or a select. It picks values; the buy-box finds the variant.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'variant-picker', option, type, disabled, error, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'pills (the multi-variant product)', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% for option in cat_multi.options_with_values %}{% render 'variant-picker', option: option, type: 'pills' %}{% endfor %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% for option in cat_multi.options_with_values %}{% render 'variant-picker', option: option, type: 'pills' %}{% endfor %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'select', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% for option in cat_multi.options_with_values %}{% render 'variant-picker', option: option, type: 'select' %}{% endfor %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% for option in cat_multi.options_with_values %}{% render 'variant-picker', option: option, type: 'select' %}{% endfor %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="product-card">
+  {%- render 'typography', text: 'ProductCard', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'The one product card: grids (vertical), cart lines and lists (horizontal). White, 1px border, no shadow. Badges nuevo, oferta, agotado from the product.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'product-card', product, layout, href, tag, badges, variant_title, savings_label, show_vendor, show_excerpt, hover_image, image_ratio, image_fit, quantity, show_quick_add, actions, loading, error, content, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'vertical with quick add', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+<ul class="pr-product-grid" style="--pr-cols: 3">{% render 'product-card', product: cat_product, show_quick_add: true, show_excerpt: true %}{% render 'product-card', product: cat_multi, show_quick_add: true, show_vendor: true %}{% render 'product-card', product: cat_product, price: 89900, compare_at_price: 129900, badges: 'Solo MX', show_quick_add: true %}</ul>
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}<ul class="pr-product-grid" style="--pr-cols: 3">{% render 'product-card', product: cat_product, show_quick_add: true, show_excerpt: true %}{% render 'product-card', product: cat_multi, show_quick_add: true, show_vendor: true %}{% render 'product-card', product: cat_product, price: 89900, compare_at_price: 129900, badges: 'Solo MX', show_quick_add: true %}</ul>{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'sold out', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+<ul class="pr-product-grid" style="--pr-cols: 3">{% render 'product-card', product: cat_product, available: false, show_quick_add: true %}</ul>
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}<ul class="pr-product-grid" style="--pr-cols: 3">{% render 'product-card', product: cat_product, available: false, show_quick_add: true %}</ul>{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'horizontal (cart, lists) with actions', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+<ul class="pr-cart-lines">{% capture cat_actions %}{% render 'quantity-stepper', value: 2, size: 'sm', name: 'cat-pc-qty', min: 1 %}{% render 'button', label: 'Quitar', variant: 'text', size: 'xs' %}{% endcapture %}{% render 'product-card', product: cat_multi, layout: 'horizontal', variant_title: '500 gr', price: 90000, quantity: 2, actions: cat_actions, error: 'Solo quedan 3 en existencia' %}</ul>
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}<ul class="pr-cart-lines">{% capture cat_actions %}{% render 'quantity-stepper', value: 2, size: 'sm', name: 'cat-pc-qty', min: 1 %}{% render 'button', label: 'Quitar', variant: 'text', size: 'xs' %}{% endcapture %}{% render 'product-card', product: cat_multi, layout: 'horizontal', variant_title: '500 gr', price: 90000, quantity: 2, actions: cat_actions, error: 'Solo quedan 3 en existencia' %}</ul>{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="card-grid-product">
+  {%- render 'typography', text: 'CardGridProduct', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'The one product grid: product-cards with Shopify filters and sort, availability switch, loading and empty states. Collections, search, featured collections, tabs and related products all use it. Live on /collections/all.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'card-grid-product', products, results, paginate, section_id, limit, columns, show_filters, show_availability, sort_options, search_terms, show_vendor, show_quick_add, show_excerpt, image_ratio, image_fit, empty_title, empty_text, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'four products, two columns on phones', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+{% render 'card-grid-product', products: collections['all'].products, limit: 4, columns: 4, show_quick_add: true, image_ratio: '1/1' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'card-grid-product', products: collections['all'].products, limit: 4, columns: 4, show_quick_add: true, image_ratio: '1/1' %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'empty state', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+{% render 'card-grid-product', products: empty, columns: 4, empty_title: 'Sin productos', empty_text: 'Esta colección aún no tiene productos.' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'card-grid-product', products: empty, columns: 4, empty_title: 'Sin productos', empty_text: 'Esta colección aún no tiene productos.' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="product-gallery">
+  {%- render 'typography', text: 'ProductGallery', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'Scroll-snap track: phones swipe it, tablets and up get arrows and thumbnails.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'product-gallery', product, ratio, fit, show_thumbnails, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'many photos', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+{% render 'product-gallery', product: cat_multi, ratio: '1/1', fit: 'cover' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'product-gallery', product: cat_multi, ratio: '1/1', fit: 'cover' %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'one photo, no controls', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+{% render 'product-gallery', product: all_products['foliag'], ratio: '4/5' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'product-gallery', product: all_products['foliag'], ratio: '4/5' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="buy-box">
+  {%- render 'typography', text: 'BuyBox', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'Title, price, options, quantity, add to cart, dynamic checkout, benefits and details. One place where a product is bought.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'buy-box', product, section_id, show_vendor, rating_value, rating_count, summary, option_type, benefits, details_titles, details_panels, show_dynamic_checkout, max_quantity, add_label, children, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'with options, benefits and details', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+{% render 'buy-box', product: cat_multi, section_id: section.id, rating_value: 4.8, rating_count: 12, summary: 'Inoculante para gramíneas.', benefits: 'Reduce enfermedades fúngicas<!--pr-->Mayor aprovechamiento de nutrientes', details_titles: 'Modo de uso|Ficha', details_panels: '<p>Aplicar al suelo.</p><!--pr--><p>Ver ficha técnica.</p>' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'buy-box', product: cat_multi, section_id: section.id, rating_value: 4.8, rating_count: 12, summary: 'Inoculante para gramíneas.', benefits: 'Reduce enfermedades fúngicas<!--pr-->Mayor aprovechamiento de nutrientes', details_titles: 'Modo de uso|Ficha', details_panels: '<p>Aplicar al suelo.</p><!--pr--><p>Ver ficha técnica.</p>' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="minimum-progress">
+  {%- render 'typography', text: 'MinimumProgress', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'A bar toward a minimum purchase, with what is still missing in words.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'minimum-progress', total, minimum, goal_label, reached_label, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'below the goal', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'minimum-progress', total: 150000, minimum: 500000, goal_label: 'el mínimo de Bronce' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'minimum-progress', total: 150000, minimum: 500000, goal_label: 'el mínimo de Bronce' %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'reached', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'minimum-progress', total: 520000, minimum: 500000, goal_label: 'el mínimo de Bronce' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'minimum-progress', total: 520000, minimum: 500000, goal_label: 'el mínimo de Bronce' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="cart-line-item">
+  {%- render 'typography', text: 'CartLineItem', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'A cart line: product-card horizontal with the stepper and Quitar as actions. Shown with the first line of your cart (add a product to see it).', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'cart-line-item', item, line, error, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'first line of the cart', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block">
+<ul class="pr-cart-lines">{% if cat_cart_item %}{% render 'cart-line-item', item: cat_cart_item, line: 1 %}{% endif %}</ul>
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}<ul class="pr-cart-lines">{% if cat_cart_item %}{% render 'cart-line-item', item: cat_cart_item, line: 1 %}{% endif %}</ul>{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="cart-summary">
+  {%- render 'typography', text: 'CartSummary', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'Totals and checkout, one block for the cart page and the drawer. Uses your real cart.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'cart-summary', cart, show_checkout, checkout_label, note, minimum, minimum_label, class %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'your cart', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'cart-summary', cart: cart %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'cart-summary', cart: cart %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'held below a minimum', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--stack">
+{% render 'cart-summary', cart: cart, minimum: 50000000, minimum_label: 'el mínimo de Bronce' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'cart-summary', cart: cart, minimum: 50000000, minimum_label: 'el mínimo de Bronce' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="cart-drawer">
+  {%- render 'typography', text: 'CartDrawer', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'The one cart drawer. Opens from the header bag and after every add. Lines, minimum bar, summary, empty state. The minimum comes from theme settings, Carrito, and is off by default.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'cart-drawer' %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'open it', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--row">
+{% render 'button', label: 'Abrir carrito', variant: 'outline', attrs: 'data-cart-open' %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'button', label: 'Abrir carrito', variant: 'outline', attrs: 'data-cart-open' %}{% endraw %}</code></pre>
+</div>
+</section>
+
+<section class="tdm-catalog__block" id="pricing">
+  {%- render 'typography', text: 'Pricing (section)', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'Plans, tiers or levels as cards with groups (T1, T2). Add it from the theme editor: sections/pricing.liquid, one Nivel block per tier (name, minimum purchase, benefits, badge, group). A tier with no minimum and no price reads Por definir and cannot be chosen. Selectable, each button points a progress bar at the tier minimum using the cart total. Sections cannot be rendered inside a section, so there is no live demo here.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}section pricing: eyebrow, title, intro, align, group_1_label, group_2_label, selectable, select_prompt, goal_label, note, color_scheme
+block plan: name, group (t1|t2), threshold (MXN), price, period, features (one per line), badge_image, featured, action_label, action_href{% endraw %}</code></pre>
 </section>
 </div>
 </div>

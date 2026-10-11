@@ -26,13 +26,13 @@
             "highlight": "",
             "text": "<p>Forma parte de una red que pone a tu alcance productos, beneficios y herramientas para impulsar tu negocio.</p>",
             "button_label": "¿Cómo funciona?",
-            "button_link": "/pages/aliados#proceso",
+            "button_link": "#proceso",
             "button_new_tab": false,
             "button_label_2": "Beneficios del Programa",
-            "button_link_2": "/pages/aliados#beneficios",
+            "button_link_2": "#beneficios",
             "button_new_tab_2": false,
             "credit_name": "Francisco González",
-            "credit_detail": "Productor de Berries y Aliado TDEM",
+            "credit_detail": "Productor de Berries y Aliado Tierra de Monte",
             "align_h": "left",
             "align_v": "middle"
           }
@@ -51,10 +51,10 @@
             "highlight": "",
             "text": "<p>Forma parte de una red que pone a tu alcance productos, beneficios y herramientas para impulsar tu negocio.</p>",
             "button_label": "Ver resultados",
-            "button_link": "/pages/aliados#resultados",
+            "button_link": "#resultados",
             "button_new_tab": false,
             "button_label_2": "Quiero ser Aliado",
-            "button_link_2": "/pages/aliados#registro",
+            "button_link_2": "#pedido",
             "button_new_tab_2": false,
             "credit_name": "",
             "credit_detail": "",
@@ -76,10 +76,10 @@
             "highlight": "",
             "text": "<p>Bronce, Plata, Oro y Platino. Tu nivel sube con tu volumen de compra y cada uno desbloquea más beneficios.</p>",
             "button_label": "Ver niveles",
-            "button_link": "/pages/aliados#niveles",
+            "button_link": "#niveles",
             "button_new_tab": false,
             "button_label_2": "Quiero ser Aliado",
-            "button_link_2": "/pages/aliados#registro",
+            "button_link_2": "#pedido",
             "button_new_tab_2": false,
             "credit_name": "",
             "credit_detail": "",
@@ -140,7 +140,7 @@
           "type": "column",
           "settings": {
             "title": "Dueños de punto de venta agrícola",
-            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados.</li><li>Te interesa destacar tu negocio</li><li>acompañamiento técnico y comercial.</li></ul>",
+            "text": "<ul><li>Tienes tu local y vendes agroinsumos.</li><li>Buscas productos diferenciados.</li><li>Te interesa destacar tu negocio con acompañamiento técnico y comercial.</li></ul>",
             "link_label": "",
             "link": "",
             "photo": "shopify://shop_images/sandia.jpg"
@@ -156,7 +156,7 @@
       "settings": {
         "anchor_id": "para-quien",
         "pretitle": "A quién va dirigido",
-        "title": "Para ti que recomiendas, asesoras o vendes; Amplía tu portafolio.",
+        "title": "Para ti que recomiendas, asesoras o vendes; amplía tu portafolio.",
         "heading_size": "h1",
         "title_alignment": "center",
         "intro_paragraph": "",
@@ -345,7 +345,7 @@
         "card_media_style": "icon",
         "photo_ratio": "4_3",
         "button_label": "Quiero ser Aliado",
-        "button_link": "/pages/aliados#registro",
+        "button_link": "#pedido",
         "button_new_tab": false,
         "button_style": "primary",
         "columns_mobile": "1",
@@ -487,10 +487,10 @@
           "settings": {
             "number": "",
             "title": "Ponte en contacto con nosotros",
-            "text": "<p>Envíanos tu información a través de:</p><p>Correo: <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a></p><p>WhatsApp: <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">442 374 1871</a></p><p>O llena el <a href=\"/pages/aliados#formulario\" title=\"Formulario\">formulario</a> al final de esta página.</p>",
+            "text": "<p>Envíanos tu información a través de:</p><p>Correo: <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a></p><p>WhatsApp: <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">442 374 1871</a></p><p>O llena el <a href=\"#registro\" title=\"Formulario\">formulario</a> al final de esta página.</p>",
             "image": "shopify://shop_images/hero-aliado.jpg",
             "button_label": "Realiza tu primera compra aquí",
-            "button_link": "https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0",
+            "button_link": "#pedido",
             "button_new_tab": false,
             "button_style": "primary"
           }
@@ -503,7 +503,7 @@
             "text": "<p>Una vez que recibamos tu información, la revisamos y uno de nuestros especialistas se pondrá en contacto contigo para concretar tu proceso de registro.</p>",
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
             "button_label": "Completa tu proceso de afiliación",
-            "button_link": "/pages/aliados#registro",
+            "button_link": "#registro",
             "button_new_tab": false,
             "button_style": "primary"
           }
@@ -864,300 +864,7 @@
         "full_width_buttons": true,
         "show_bottom_ctas": false,
         "button_label": "Conviértete en un Aliado",
-        "button_link": "/pages/aliados#registro",
-        "button_new_tab": false,
-        "button_style": "solid",
-        "button_scheme_source": "cta",
-        "button_color_scheme": "",
-        "button_align": "center",
-        "container_width": "page-width",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
-    "comparison_table_oscuro": {
-      "type": "comparison-table",
-      "blocks": {
-        "column_mwfihX": {
-          "type": "column",
-          "settings": {
-            "title": "ESMERALDA",
-            "subtitle": "",
-            "badge": "",
-            "link": "",
-            "header_icon": "none",
-            "price": "Desde <strong>$10,000</strong>",
-            "price_note": "",
-            "cta_label": "",
-            "cta_link": "",
-            "cta_new_tab": false,
-            "cta_style": "solid",
-            "cta_custom_scheme": false,
-            "cta_scheme": "",
-            "highlight": false,
-            "highlight_scheme": "scheme-tdm-aliados-oscuro"
-          }
-        },
-        "column_jg8fy8": {
-          "type": "column",
-          "settings": {
-            "title": "RUBÍ",
-            "subtitle": "",
-            "badge": "",
-            "link": "",
-            "header_icon": "none",
-            "price": "Desde <strong>$30,000</strong>",
-            "price_note": "",
-            "cta_label": "",
-            "cta_link": "",
-            "cta_new_tab": false,
-            "cta_style": "solid",
-            "cta_custom_scheme": false,
-            "cta_scheme": "",
-            "highlight": false,
-            "highlight_scheme": "scheme-tdm-aliados-oscuro"
-          }
-        },
-        "column_78mbPV": {
-          "type": "column",
-          "settings": {
-            "title": "ZAFIRO",
-            "subtitle": "",
-            "badge": "",
-            "link": "",
-            "header_icon": "none",
-            "price": "Desde <strong>$60,000</strong>",
-            "price_note": "",
-            "cta_label": "",
-            "cta_link": "",
-            "cta_new_tab": false,
-            "cta_style": "solid",
-            "cta_custom_scheme": false,
-            "cta_scheme": "",
-            "highlight": false,
-            "highlight_scheme": ""
-          }
-        },
-        "column_fiTbt6": {
-          "type": "column",
-          "settings": {
-            "title": "DIAMANTE",
-            "subtitle": "",
-            "badge": "",
-            "link": "",
-            "header_icon": "none",
-            "price": "Desde <strong>$100,000</strong>",
-            "price_note": "",
-            "cta_label": "",
-            "cta_link": "",
-            "cta_new_tab": false,
-            "cta_style": "solid",
-            "cta_custom_scheme": false,
-            "cta_scheme": "",
-            "highlight": false,
-            "highlight_scheme": ""
-          }
-        },
-        "row_JbxEJW": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Compra mínima bimestral</p>",
-            "feature_note": "",
-            "col1_content": "<p>si</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_qDArga": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Kit de bienvenida</p>",
-            "feature_note": "",
-            "col1_content": "<p>si</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_XncMzU": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Tus clientes protegidos</p>",
-            "feature_note": "",
-            "col1_content": "<p>si</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_9V7eHX": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Incluye todo lo del nivel anterior</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_QqeDVU": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Podcast técnicos exclusivos</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_aatLcd": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Cursos de marketing y ventas</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_BMBrzP": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Herramientas de diseño</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>si</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_xdrneX": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Grupo de WhatsApp con los ingenieros y con otros Aliados</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>-</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_gX8nxQ": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Producto a crédito, según cómo te haya ido</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>-</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_kbgJAG": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Tu lugar en el <strong>Encuentro Tierra de Monte</strong></p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>-</p>",
-            "col3_content": "<p>si</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        },
-        "row_RaXbnX": {
-          "type": "row",
-          "settings": {
-            "feature_content": "<p>Una videollamada al mes con un ingeniero, para ver tus casos</p>",
-            "feature_note": "",
-            "col1_content": "<p>-</p>",
-            "col2_content": "<p>-</p>",
-            "col3_content": "<p>-</p>",
-            "col4_content": "<p>si</p>",
-            "col5_content": "",
-            "col6_content": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_mwfihX",
-        "column_jg8fy8",
-        "column_78mbPV",
-        "column_fiTbt6",
-        "row_JbxEJW",
-        "row_qDArga",
-        "row_XncMzU",
-        "row_9V7eHX",
-        "row_QqeDVU",
-        "row_aatLcd",
-        "row_BMBrzP",
-        "row_xdrneX",
-        "row_gX8nxQ",
-        "row_kbgJAG",
-        "row_RaXbnX"
-      ],
-      "name": "Tabla comparativa",
-      "settings": {
-        "anchor_id": "",
-        "pretitle": "NIVELES",
-        "heading": "Más beneficios a medida que creces",
-        "heading_size": "h1",
-        "description": "<p>Avanza de nivel conforme aumenta tu volumen de compra y accede a nuevas herramientas, beneficios y oportunidades para hacer crecer tu negocio.</p>",
-        "text_align": "center",
-        "footnote": "",
-        "color_scheme": "scheme-tdm-blanco",
-        "table_color_scheme": "scheme-tdm-crema",
-        "check_color": "text",
-        "bg_overlay": 40,
-        "bg_position": "center",
-        "first_column_width": 28,
-        "first_column_label": "",
-        "feature_bold": false,
-        "feature_tint": false,
-        "cell_align": "center",
-        "image_size": 120,
-        "price_size": "h3",
-        "table_radius": 12,
-        "table_padding_x": 16,
-        "highlight_extra_width": 20,
-        "highlight_radius": 0,
-        "striped_rows": false,
-        "show_vertical_borders": false,
-        "border_opacity": 15,
-        "sticky_first_column": true,
-        "mobile_feature_width": 130,
-        "mobile_column_width": 120,
-        "mobile_image_size": 64,
-        "scroll_hint": "Desliza para ver todos los planes",
-        "cta_color_scheme": "scheme-tdm-aliados-claro",
-        "cta_placement": "bottom",
-        "full_width_buttons": true,
-        "show_bottom_ctas": false,
-        "button_label": "Conviértete en un Aliado",
-        "button_link": "/pages/aliados#registro",
+        "button_link": "#pedido",
         "button_new_tab": false,
         "button_style": "solid",
         "button_scheme_source": "cta",
@@ -1206,7 +913,7 @@
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "anchor_id": "registro",
-        "eyebrow": "",
+        "eyebrow": "Paso 2 de 2",
         "desktop_content_position": "center",
         "content_alignment": "center",
         "color_scheme": "scheme-tdm-crema",
@@ -1302,6 +1009,48 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
+    },
+    "aliados_pedido": {
+      "type": "aliados-pedido",
+      "blocks": {
+        "level_bronce": {
+          "type": "level",
+          "settings": {
+            "name": "Bronce",
+            "threshold": 5000
+          }
+        },
+        "level_plata": {
+          "type": "level",
+          "settings": {
+            "name": "Plata",
+            "threshold": 30000
+          }
+        },
+        "level_oro": {
+          "type": "level",
+          "settings": {
+            "name": "Oro",
+            "threshold": 60000
+          }
+        },
+        "level_platino": {
+          "type": "level",
+          "settings": {
+            "name": "Platino",
+            "threshold": 100000
+          }
+        }
+      },
+      "block_order": [
+        "level_bronce",
+        "level_plata",
+        "level_oro",
+        "level_platino"
+      ],
+      "settings": {
+        "anchor_id": "pedido"
+      }
     }
   },
   "order": [
@@ -1315,8 +1064,8 @@
     "tdm_scroll_steps_aliados",
     "ticker_fLHMnW",
     "comparison_table_CjRhQt",
-    "comparison_table_oscuro",
     "ticker_H9daYM",
+    "aliados_pedido",
     "rich_text_CXFLjY",
     "custom_liquid_mMUaMW",
     "collapsible_content_wp3zF8"

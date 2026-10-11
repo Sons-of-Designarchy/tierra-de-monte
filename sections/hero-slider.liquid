@@ -122,12 +122,12 @@
             <div class="hs__btns">
               {%- if block.settings.button_label != blank -%}
                 {%- assign hs_href = block.settings.button_link | default: '#' -%}
-                {%- capture hs_attrs -%}{% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+                {%- capture hs_attrs -%}{% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if hs_href contains '#pedido' %} data-track="quiero-ser-aliado-hero"{% endif %}{%- endcapture -%}
                 {%- render 'button', label: block.settings.button_label, href: hs_href, variant: 'primary', size: 'lg', attrs: hs_attrs -%}
               {%- endif -%}
               {%- if block.settings.button_label_2 != blank -%}
                 {%- assign hs_href_2 = block.settings.button_link_2 | default: '#' -%}
-                {%- capture hs_attrs_2 -%}{% if block.settings.button_new_tab_2 %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+                {%- capture hs_attrs_2 -%}{% if block.settings.button_new_tab_2 %}target="_blank" rel="noopener"{% endif %}{% if hs_href_2 contains '#pedido' %} data-track="quiero-ser-aliado-hero"{% endif %}{%- endcapture -%}
                 {%- render 'button', label: block.settings.button_label_2, href: hs_href_2, variant: 'secondary', size: 'lg', class: 'hs__btn-glass', attrs: hs_attrs_2 -%}
               {%- endif -%}
             </div>

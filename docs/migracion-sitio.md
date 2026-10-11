@@ -24,10 +24,10 @@ Conteo = veces que aparece la sección en esa plantilla. `*-group.json` son los 
 | `article.json` | `custom-breadcrumb-blog`, `main-article`, `featured-blog`, `featured-collection`, `image-with-text` |
 | `blog.blog-tdm-template.json` | `blog-nav`, `main-blog`, `featured-collection` |
 | `blog.json` | `blog-nav`, `main-blog`, `featured-collection` |
-| `cart.json` | `main-cart-items`, `main-cart-footer`, `featured-collection` |
-| `collection.enfermedades.json` | `main-collection-banner`, `grid-gallery`, `main-collection-product-grid` |
-| `collection.json` | `main-collection-banner`, `main-collection-product-grid` |
-| `collection.plagas.json` | `main-collection-banner`, `grid-gallery`, `main-collection-product-grid` |
+| `cart.json` | `main-cart`, `featured-collection` |
+| `collection.enfermedades.json` | `main-collection-banner`, `grid-gallery`, `card-grid-product` |
+| `collection.json` | `main-collection-banner`, `card-grid-product` |
+| `collection.plagas.json` | `main-collection-banner`, `grid-gallery`, `card-grid-product` |
 | `index.json` | `hero-overlay-card`, `tabbed-collections`, `ticker` ×4, `tdm-feature` ×2, `multicolumn`, `logo-bar`, `reviews` |
 | `list-collections.json` | `main-list-collections` |
 | `page.aliados-propuesta.json` | `hero-slider`, `tdm-detail-spotlight`, `ticker` ×3, `tdm-card-grid` ×2, `tdm-scroll-steps`, `tdm-impact`, `slide-gallery`, `comparison-table`, `rich-text`, `custom-liquid`, `collapsible-content` |
@@ -127,10 +127,10 @@ Secciones de cuenta de cliente (`main-account`, `main-activate-account`, `main-a
 
 ## 4. Sin uso: lista para borrar
 
-Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión de Dan). Las secciones de Dawn que Shopify pide por la API de secciones (`cart-drawer`, `cart-icon-bubble`, `cart-live-region-text`, `cart-notification-*`, `predictive-search`, `pickup-availability`, `main-password-*`) NO son basura aunque no estén en un JSON.
+Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión de Dan). Las secciones de Dawn que Shopify pide por la API de secciones (`cart-drawer`, `cart-icon-bubble`, `cart-live-region-text`, `predictive-search`, `pickup-availability`, `main-password-*`) NO son basura aunque no estén en un JSON.
 
-- `sections/multirow`, `sections/collage` (solo el CSS se usa), `sections/collection-list` (el CSS lo usa `main-list-collections`), `sections/multicolumn-feature`, `sections/multicol-custom-feature`, `sections/multicol-row-list`, `sections/robin-pro-image-gallery-app`, `sections/soluciones-tabs`, `sections/newsletter`, `sections/page`, `sections/custom-article-nav` (+ `assets/section-tdm-article-nav.css`).
-- Comercio sin uso, borrar al reemplazarlo: `sections/featured-product`, `sections/quick-order-list`, `sections/bulk-quick-order-list`.
+- `sections/multirow`, `sections/collage` (solo el CSS se usa), `sections/collection-list` (el CSS lo usa `main-list-collections`), `sections/multicolumn-feature`, `sections/multicol-custom-feature`, `sections/multicol-row-list`, `sections/robin-pro-image-gallery-app`, `sections/newsletter`, `sections/page`, `sections/custom-article-nav` (+ `assets/section-tdm-article-nav.css`).
+- Comercio sin uso: ya borrado en la migración Commerce (`featured-product`, `quick-order-list`, `bulk-quick-order-list`, `soluciones-tabs`).
 - `blocks/ai_gen_block_8f6d7f6.liquid` (reemplazado por `team-grid`/`team-member`).
 - `layout/aliados.liquid`, `snippets/mega-menu-plagas.liquid`, `snippets/quick-order-product-row.liquid`.
 
@@ -190,27 +190,21 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 - [ ] 🟡 **`email-signup-banner`** (Banner de suscripción (contraseña), 1 usos). Campo con `input`, botón con `button`. ~1 h Hecho en código (`input` + `button`, `alert` de éxito, `typography`; `<style>` a variables). Verificar en `/password`; el CSS de `section-image-banner.css` (compartido) no se tocó.
 - [ ] 🟡 **`main-account`** (Cuenta, 1 usos). Todo `customer.css`: 34 declaraciones de texto; títulos con `typography`, campos con `input`. ~3 h para las 7 plantillas de cliente Hecho en código para las 7 plantillas (login, registro, cuenta, pedido, direcciones, activar, restablecer) con `input`/`select`/`button`/`link`/`alert`/`typography`; `customer.css` sin texto ni !important; script de direcciones movido a `customer.js`. 🟡 No verificado a la vista (requieren sesión; la tienda usa cuentas nuevas y redirige). Tarea: probar con cuentas clásicas: login/recover, registro con errores, dirección nueva/editar/borrar (país/provincia), pedido. En la tabla de pedido las celdas de datos heredan el cuerpo sin `typography`.
 
-### 6. Producto, colección, carrito (solo tokens, sin reescribir la estructura)
+### 6. Producto, colección, carrito: familia Commerce (puerto de PerfectlyRad `tdm-commerce`)
 
-- [x] ✅ **`main-product`** (Producto, 2 usos). Solo apuntar CSS a tokens (`--pr-*`); 12 `!important`. NO tocar precio/variantes/botón de compra: se reemplaza por los componentes comerciales. ~2 h CSS en tokens, 0 !important. Pendiente (comercio): texto en markup sigue con clases Dawn; se reemplaza por componentes comerciales.
-- [x] ✅ **`featured-collection`** (Colección destacada, 5 usos). Solo tokens. ~1 h CSS en tokens. Markup comercial sin tocar.
-- [x] ✅ **`main-collection-product-grid`** (Grilla de colección, 3 usos). Solo tokens. ~1 h CSS en tokens (facets, card). Markup sin tocar.
-- [x] ✅ **`main-cart-items`** (Carrito (productos), 1 usos). Solo tokens. ~1 h CSS en tokens.
-- [x] ✅ **`main-cart-footer`** (Carrito (totales), 1 usos). Solo tokens. ~0.5 h CSS en tokens.
-- [x] ✅ **`related-products`** (Productos relacionados, 2 usos). Solo tokens. ~0.5 h CSS en tokens.
-- [ ] 🟡 **`image-banner`** (Image banner, 2 usos). Texto con `typography`, botón con `button`. ~1 h CSS en tokens, 0 hex/!important. Pendiente junior: texto con `typography`, botón con `button`.
-- [ ] 🟡 **`slideshow`** (Slideshow, 2 usos). Quitar `<style>` inline; texto con `typography`. ~1.5 h `<style>` inline movido a custom property + CSS. Pendiente junior: texto con `typography`.
-- [ ] ⬜ **`video`** (Video, 2 usos). Quitar hex. ~0.5 h
+Reglas y firmas en `docs/sistema-de-diseno.md` §7. CSS `assets/pr-commerce.css`; JS `assets/pr-cart.js`, `pr-product.js`, `pr-grid.js`, `pr-pricing.js` (custom elements).
 
-### Shared (se hacen con el grupo 1)
-
-- [ ] ⬜ **`snippets/section-padding`**. Ya es el único `<style>` permitido; revisar que use `--pr-section-y`. ~0.5 h
-- [ ] ⬜ **`snippets/tdm-section-eyebrow`**. Eyebrow con `typography` variant `eyebrow`. ~0.5 h
-- [ ] ⬜ **`snippets/tdm-section-background`**. Colores por roles. ~0.5 h
-- [ ] ⬜ **`snippets/social-icons`**. Iconos con `icon-button`. ~1 h
-- [x] 🟡 **`snippets/pagination`**. Hecho: números con `typography`; prev/next siguen de Dawn. Botones con `button`/`icon-button`. ~1 h
-- [x] ✅ **`snippets/article-card`**. Reemplazar por el átomo `card`. ~1 h Hecho: ahora usa el átomo `card`; la fecha no se imprime (el CSS antiguo la ocultaba).
-- [x] ✅ **`snippets/header-drawer, header-search, header-dropdown-menu, header-mega-menu`**. `header-drawer`, `header-dropdown-menu` y `header-mega-menu` se reemplazaron por `navbar-links` y `navbar-mobile`; `header-search` conserva el marcado Dawn (JS predictivo) con el botón como `icon-button`.
+- [x] ✅ **`price-tag`** (snippet). Reemplaza `price` y `unit-price` (también en predictive-search y main-order). Precio 0 = no publicado: no se dibuja.
+- [x] ✅ **`quantity-stepper`** (snippet). Reemplaza `quantity-input`, `quantity-popover` y el `QuantityInput` de global.js.
+- [x] ✅ **`variant-picker`** (snippet). Un solo selector: reemplaza `product-variant-picker`, `product-variant-options`, `swatch`, `swatch-input` y `VariantSelects`.
+- [x] ✅ **`product-card`** (snippet, `layout: vertical|horizontal`). Reemplaza `card-product` en el home (`tabbed-collections`), `featured-collection`, colecciones, búsqueda, `related-products` y `collage`; el cuerpo de producto del átomo `card` se borró. Tarjeta blanca, borde 1px, sin sombra; quick add abre el carrito.
+- [x] ✅ **`card-grid-product`** (snippet + sección). Reemplaza `main-collection-product-grid`, `facets`, `price-facet` y `facets.js`: filtros y orden de Shopify (Search & Discovery), disponibilidad, columnas, estado vacío. `templates/collection*.json` y `main-search` lo usan.
+- [x] ✅ **`featured-collection`** y **`related-products`** (secciones). Reescritas sobre `card-grid-product`; sin slider (ajustes `swipe_on_mobile`, `enable_desktop_slider`, `image_shape` y similares retirados y migrados en los JSON).
+- [x] ✅ **`product-gallery`** + **`buy-box`** + **`main-product`**. La sección de 2,277 líneas ahora son ~250: galería y cuadro de compra. Metafields de `product-extras` (hoja de seguridad, ficha técnica, beneficios 1–3, ingredientes) dentro del acordeón del buy-box; pago rápido con `{{ form | payment_button }}`. Bloques nuevos: `benefits`, `detail`, `cta` (el botón de WhatsApp pasó de HTML con estilos inline a `cta`). Se borraron `product-media*`, `product-thumbnail`, `buy-buttons`, `product-extras*`, `icon-with-text`, `gift-card-recipient-form`, `featured-product`, `pickup-availability`, `quick-order-*` y los JS de Dawn (`product-info`, `product-form`, `media-gallery`, `product-modal`, `magnify`, `quick-add*`, etc.). Sin lightbox ni zoom (la galería de PerfectlyRad no los tiene).
+- [x] ✅ **`minimum-progress`**, **`cart-line-item`**, **`cart-summary`**, **`cart-drawer`**, **`main-cart`**. Un solo cajón (reemplaza `cart-drawer` y `cart-notification` de Dawn; el ajuste `cart_type` desapareció) y una sola página de carrito (`main-cart` reemplaza `main-cart-items` y `main-cart-footer`). Ajax Cart API + Section Rendering. Compra mínima opcional: Configuración del tema → Carrito (`cart_minimum` MXN, apagada con 0).
+- [x] ✅ **`aliados-pedido`** (sección, `sections/aliados-pedido.liquid` + `assets/pr-order.js`). Paso 1 del flujo compra primero de Aliados: `product-card` (una por variante disponible) con `quantity-stepper`, subtotal y barra con el look de `minimum-progress` hacia el mínimo (5,000 MXN), botón de pago (átomo `button`) habilitado al llegar; pagar vacía el carrito, agrega el pedido y va a `/checkout`. Bloques `level` (Bronce/Plata/Oro/Platino) para decir «Con este pedido estás en nivel X». Se usa en `page.aliados.json` (`#pedido`). La barra de `minimum-progress` estaba invisible por el `div:empty{display:none}` de Dawn (base.css): arreglado en `pr-commerce.css` (también el carrito). La mínima es solo del lado del cliente: para forzarla en el checkout hace falta una Shopify Function de validación.
+- [x] ✅ **`pricing`** (sección, `sections/pricing.liquid`). Niveles con grupos T1/T2, umbral, beneficios, insignia; seleccionable con barra de avance. Disponible en el editor y en el catálogo; **no** se puso en Aliados porque la tabla comparativa de niveles es una matriz característica × nivel y las tarjetas de `pricing` no la reproducen sin perder contenido.
+- [x] ✅ **`main-search`**. Los resultados usan `card-grid-product` (productos con `product-card`, artículos con `article-card`, páginas con `card`), con filtros y orden.
 
 ## 6. Bugs de contenido conocidos (NO se arreglan en esta migración)
 
@@ -263,3 +257,5 @@ Mismo método que `docs/refactor-2026-10.md` (grep sobre `assets/*.css`, `sectio
 `shopify theme check`: 3 errores y 23 advertencias, igual que en `perfectlyrad/foundations` (26).
 
 2026-10-11 · perfectlyrad/site · Aliados 100% PerfectlyRad: `tdm-card-grid` reescrita sobre el átomo `card` (nuevos params: `icon_image`, `bg_image`, `text`, `list_icon`, `title_size`, `ratio`, `on_color`), nuevo snippet `section-header` (heading atom), `assets/pr-atoms-extra.css`. Eyebrow sin línea en todo el tema (snippet `tdm-section-eyebrow` borrado, ajuste `rule_color` retirado en las secciones de Aliados y `tabbed-collections`). Tickers: sin bordes (ajustes retirados) y los de Aliados con el estilo del ticker con foto. Regla verde-sobre-verde + ritmo blanco/crema documentados en `sistema-de-diseno.md`.
+
+2026-10-11 · perfectlyrad/site · Commerce: 12 piezas de PerfectlyRad en Liquid (price-tag, quantity-stepper, variant-picker, product-card, card-grid-product, product-gallery, buy-box, minimum-progress, cart-line-item, cart-summary, cart-drawer, pricing) sobre los átomos. Dawn: card-product, price, facets, quick-add, cart.js, cart-drawer.js, cart-notification, product-info, variant-selects, media gallery y ~40 archivos más, borrados.
