@@ -16,13 +16,9 @@
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
               >
-                <span
-                  {%- if link.child_active %}
-                    class="header__active-menu-item"
-                  {% endif %}
-                >
-                  {{- link.title | escape -}}
-                </span>
+                {%- assign item_title = link.title | escape -%}
+{%- assign item_class = "" -%}{%- if link.child_active -%}{%- assign item_class = "header__active-menu-item" -%}{%- endif -%}
+{%- render 'typography', text: item_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span', class: item_class -%}
                 {{- 'icon-caret.svg' | inline_asset_content -}}
               </summary>
               <div
@@ -44,7 +40,7 @@
                           aria-current="page"
                         {% endif %}
                       >
-                        {{ childlink.title | escape }}
+                        {%- assign child_title = childlink.title | escape -%}{%- render 'typography', text: child_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
                       </a>
                       {%- if childlink.links != blank -%}
                         <ul class="list-unstyled" role="list">
@@ -58,7 +54,7 @@
                                   aria-current="page"
                                 {% endif %}
                               >
-                                {{ grandchildlink.title | escape }}
+                                {%- assign grand_title = grandchildlink.title | escape -%}{%- render 'typography', text: grand_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
                               </a>
                             </li>
                           {%- endfor -%}
@@ -79,13 +75,9 @@
               aria-current="page"
             {% endif %}
           >
-            <span
-              {%- if link.current %}
-                class="header__active-menu-item"
-              {% endif %}
-            >
-              {{- link.title | escape -}}
-            </span>
+            {%- assign item_title = link.title | escape -%}
+{%- assign item_class = "" -%}{%- if link.current -%}{%- assign item_class = "header__active-menu-item" -%}{%- endif -%}
+{%- render 'typography', text: item_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span', class: item_class -%}
           </a>
         {%- endif -%}
       </li>

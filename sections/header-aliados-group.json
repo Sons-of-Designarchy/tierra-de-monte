@@ -38,10 +38,6 @@
     },
     "header": {
       "type": "header",
-      "custom_css": [
-        ".header__search {display: none !important;}",
-        ".header__icon--account {display: none !important;}"
-      ],
       "settings": {
         "logo_override": "shopify://shop_images/logo-h-full.svg",
         "logo_link": "shopify://pages/aliados",
@@ -51,6 +47,8 @@
         "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
+        "show_search": false,
+        "show_account": false,
         "color_scheme": "scheme-tdm-aliados-claro",
         "menu_color_scheme": "",
         "enable_country_selector": true,

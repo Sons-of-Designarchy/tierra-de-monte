@@ -1,0 +1,78 @@
+/* =============================================================================
+   Header (sections/header.liquid). Editor values arrive as custom properties on
+   .header-wrapper: --header-padding-*, --header-margin-bottom*.
+   ========================================================================== */
+
+header-drawer {
+  justify-self: start;
+  margin-left: -1.2rem;
+}
+
+.header-wrapper--reduce-logo.scrolled-past-header .header__heading-logo-wrapper,
+.scrolled-past-header .header-wrapper--reduce-logo .header__heading-logo-wrapper {
+  width: 75%;
+}
+
+@media screen and (min-width: 990px) {
+  .header--desktop-menu header-drawer {
+    display: none;
+  }
+}
+
+.menu-drawer-container {
+  display: flex;
+}
+
+.list-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-menu--inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+summary.list-menu__item {
+  padding-right: 2.7rem;
+}
+
+.list-menu__item {
+  display: flex;
+  align-items: center;
+}
+
+.list-menu__item--link {
+  text-decoration: none;
+  padding-bottom: var(--pr-space-3);
+  padding-top: var(--pr-space-3);
+}
+
+@media screen and (min-width: 750px) {
+  .list-menu__item--link {
+    padding-bottom: var(--pr-space-2);
+    padding-top: var(--pr-space-2);
+  }
+}
+
+.header-wrapper {
+  margin-bottom: var(--header-margin-bottom-mobile, 0);
+}
+
+.header {
+  padding: var(--header-padding-top-mobile, 0) 3rem var(--header-padding-bottom-mobile, 0) 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .header-wrapper {
+    margin-bottom: var(--header-margin-bottom, 0);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .header {
+    padding-top: var(--header-padding-top, 0);
+    padding-bottom: var(--header-padding-bottom, 0);
+  }
+}
