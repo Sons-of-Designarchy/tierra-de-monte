@@ -17,6 +17,16 @@
   assign align = s.content_align | default: 'left'
   assign rule_color = s.rule_color | default: 'currentColor'
 
+  case s.heading_size
+    when 'h2'
+      assign im_title_variant = 'h2'
+    when 'h1'
+      assign im_title_variant = 'h1'
+    else
+      assign im_title_variant = 'display'
+  endcase
+  assign im_stat_variant = s.stat_variant | default: 'display'
+
   assign stat_blocks = section.blocks | where: 'type', 'stat'
   assign stat_blocks = stat_blocks | slice: 0, 4
   assign stats_count = stat_blocks.size | at_most: 4
@@ -41,30 +51,20 @@
     <div class="tdm-impact__body">
       <div class="tdm-impact__lead">
         {%- if s.heading != blank -%}
-          <h2 class="tdm-impact__heading inline-richtext {{ s.heading_size | default: 'h1' }}">
-            {{ s.heading }}
-          </h2>
+          {%- render 'typography', text: s.heading, as: 'h2', variant: im_title_variant, font: 'display', weight: 'medium', class: 'tdm-impact__heading' -%}
         {%- endif -%}
 
         {%- if s.text != blank -%}
-          <div class="tdm-impact__text rte">{{ s.text }}</div>
+          {%- render 'typography', text: s.text, as: 'div', variant: 'body', class: 'tdm-impact__text rte' -%}
         {%- endif -%}
 
         {%- if s.button_label != blank -%}
           <div class="tdm-impact__cta">
-            <a
-              class="button button--{{ s.button_style | default: 'primary' }}"
-              {% if s.button_link == blank %}
-                role="link" aria-disabled="true"
-              {% else %}
-                href="{{ s.button_link }}"
-              {% endif %}
-              {% if s.button_new_tab %}
-                target="_blank" rel="noopener"
-              {% endif %}
-            >
-              {{ s.button_label | escape }}
-            </a>
+            {%- assign im_btn_href = s.button_link | default: '#' -%}
+            {%- capture im_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+            {%- assign im_btn_variant = 'primary' -%}
+            {%- if s.button_style == 'secondary' -%}{%- assign im_btn_variant = 'outline' -%}{%- endif -%}
+            {%- render 'button', label: s.button_label, href: im_btn_href, variant: im_btn_variant, size: 'lg', attrs: im_btn_attrs -%}
           </div>
         {%- endif -%}
       </div>
@@ -86,7 +86,7 @@
           <ul
             class="tdm-impact__stats"
             role="list"
-            style="--stats-count: {{ stats_count }}; --stat-size-m: {{ s.stat_size_mobile | default: 40 }}px; --stat-size-d: {{ s.stat_size_desktop | default: 64 }}px;"
+            style="--stats-count: {{ stats_count }};"
           >
             {%- for block in stat_blocks -%}
               <li
@@ -97,13 +97,13 @@
                 {% endif %}
               >
                 {%- if block.settings.value != blank -%}
-                  <p class="tdm-stat inline-richtext">{{ block.settings.value }}</p>
+                  {%- render 'typography', text: block.settings.value, as: 'p', variant: im_stat_variant, font: 'display', weight: 'medium', color: 'inherit', class: 'tdm-impact__stat-value' -%}
                 {%- endif -%}
                 {%- if block.settings.label != blank -%}
-                  <p class="tdm-impact__stat-label tdm-copy">{{ block.settings.label }}</p>
+                  {%- render 'typography', text: block.settings.label, as: 'p', variant: 'body', color: 'inherit', class: 'tdm-impact__stat-label' -%}
                 {%- endif -%}
                 {%- if block.settings.caption != blank -%}
-                  <p class="tdm-impact__stat-caption tdm-mono tdm-upper">{{ block.settings.caption }}</p>
+                  {%- render 'typography', text: block.settings.caption, as: 'p', variant: 'eyebrow', font: 'mono', color: 'inherit', class: 'tdm-impact__stat-caption' -%}
                 {%- endif -%}
               </li>
             {%- endfor -%}
@@ -201,8 +201,17 @@
     },
 
     { "type": "header", "content": "Estadísticas" },
-    { "type": "range", "id": "stat_size_mobile", "label": "Tamaño del número (móvil)", "min": 24, "max": 96, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "stat_size_desktop", "label": "Tamaño del número (escritorio)", "min": 24, "max": 140, "step": 2, "unit": "px", "default": 64 },
+    {
+      "type": "select",
+      "id": "stat_variant",
+      "label": "Tamaño del número",
+      "options": [
+        { "value": "display", "label": "Grande" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h2", "label": "Pequeño" }
+      ],
+      "default": "display"
+    },
 
     { "type": "header", "content": "Altura mínima" },
     { "type": "range", "id": "min_height_desktop", "label": "Altura mínima (escritorio, vh)", "min": 0, "max": 100, "step": 5, "unit": "vh", "default": 60 },
