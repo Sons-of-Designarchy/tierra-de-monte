@@ -1,0 +1,41 @@
+{%- comment -%}
+  Tabs — underlined tabs. Arrow keys / Home / End move between tabs; the list scrolls on narrow screens. Custom element in assets/pr-tabs.js.
+  Ports PerfectlyRad Tabs.
+
+  {% capture panels %}Panel uno<!--pr-->Panel dos{% endcapture %}
+  {% render 'tabs', id: 'demo', label: 'Secciones', tabs: 'Uno|Dos|Tres', counts: '||3', panels: panels, active: 1, class: '' %}
+
+  Params
+  - id      required, unique on the page (prefix of the tab and panel ids)
+  - label   accessible name of the tab list (required)
+  - tabs    'Label one|Label two'
+  - counts  optional counts in the same order, '|' separated, e.g. '4||12'
+  - panels  html panels in the same order, separated by <!--pr-->
+  - active  1-based index of the tab open on load (default: 1)
+  - class
+
+  States: hover, selected (1px underline in the action colour), focus-visible.
+{%- endcomment -%}
+{%- liquid
+  assign tb_labels = tabs | split: '|'
+  assign tb_counts = counts | split: '|'
+  assign tb_panels = panels | split: '<!--pr-->'
+  assign tb_active = active | default: 1
+-%}
+<pr-tabs class="pr-tabs{% if class != blank %} {{ class }}{% endif %}">
+  <div class="pr-tabs__list" role="tablist" aria-label="{{ label | escape }}">
+    {%- for t in tb_labels -%}
+      {%- assign tb_i = forloop.index -%}
+      {%- assign tb_x = forloop.index0 -%}
+      <button type="button" role="tab" class="pr-tabs__tab" id="{{ id }}-tab-{{ tb_i }}" aria-controls="{{ id }}-panel-{{ tb_i }}" aria-selected="{% if tb_i == tb_active %}true{% else %}false{% endif %}" tabindex="{% if tb_i == tb_active %}0{% else %}-1{% endif %}">
+        {%- render 'typography', text: t, as: 'span', variant: 'body-sm', weight: 'medium', color: 'inherit' -%}
+        {%- if tb_counts[tb_x] != blank -%}{%- render 'typography', text: tb_counts[tb_x], as: 'span', variant: 'xs', weight: 'medium', font: 'mono', color: 'inherit', class: 'pr-tabs__count' -%}{%- endif -%}
+      </button>
+    {%- endfor -%}
+  </div>
+  {%- for t in tb_labels -%}
+    {%- assign tb_i = forloop.index -%}
+    {%- assign tb_x = forloop.index0 -%}
+    <div role="tabpanel" class="pr-tabs__panel" id="{{ id }}-panel-{{ tb_i }}" aria-labelledby="{{ id }}-tab-{{ tb_i }}" tabindex="0"{% unless tb_i == tb_active %} hidden{% endunless %}>{{ tb_panels[tb_x] }}</div>
+  {%- endfor -%}
+</pr-tabs>

@@ -1,0 +1,40 @@
+{%- comment -%}
+  Select — native dropdown styled as a control, with its label, hint and error. Ports PerfectlyRad Select.
+
+  {% render 'select', label: 'País', name: 'country', options: 'mx|México;gt|Guatemala;ve|Venezuela', value: 'mx', placeholder: 'Elige uno', hint: '', error: '', variant: 'outline', size: 'md', hide_label: false, disabled: false, id: '', attrs: '', class: '' %}
+
+  Params
+  - options      'value|Label;value|Label'
+  - value        selected value
+  - placeholder  first, unselectable option shown while nothing is chosen
+  - size         sm | md   (default: md → 36 / 44px)
+  - variant, label, hide_label, hint, error, disabled, id, attrs, class: as input
+
+  States: hover, focus-visible, error, disabled.
+{%- endcomment -%}
+{%- liquid
+  assign se_id = id | default: name
+  assign se_variant = variant | default: 'outline'
+  assign se_size = size | default: 'md'
+  assign se_options = options | split: ';'
+  assign se_desc = ''
+  if hint != blank and error == blank
+    assign se_desc = se_id | append: '-hint'
+  endif
+  if error != blank
+    assign se_desc = se_id | append: '-error'
+  endif
+-%}
+{%- capture se_control -%}
+  <span class="pr-select pr-select--{{ se_size }}">
+    <select id="{{ se_id }}" class="pr-control pr-control--{{ se_variant }} pr-select__native"{% if name != blank %} name="{{ name }}"{% endif %}{% if disabled %} disabled{% endif %}{% if error != blank %} aria-invalid="true"{% endif %}{% if se_desc != blank %} aria-describedby="{{ se_desc }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>
+      {%- if placeholder != blank -%}<option value=""{% if value == blank %} selected{% endif %} disabled hidden>{{ placeholder }}</option>{%- endif -%}
+      {%- for o in se_options -%}
+        {%- assign se_o = o | split: '|' -%}
+        <option value="{{ se_o[0] }}"{% if se_o[0] == value %} selected{% endif %}>{{ se_o[1] | default: se_o[0] }}</option>
+      {%- endfor -%}
+    </select>
+    {%- render 'icon', name: 'chevron-down', size: 'sm', class: 'pr-select__chevron' -%}
+  </span>
+{%- endcapture -%}
+{%- render 'field', for_id: se_id, label: label, hint: hint, error: error, hide_label: hide_label, content: se_control, class: class -%}

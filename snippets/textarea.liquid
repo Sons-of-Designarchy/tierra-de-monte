@@ -1,0 +1,23 @@
+{%- comment -%}
+  Textarea — multi-line field with its label, hint and error. Ports PerfectlyRad Textarea.
+
+  {% render 'textarea', label: 'Mensaje', name: 'message', value: '', rows: 4, placeholder: '', hint: '', error: '', variant: 'outline', hide_label: false, disabled: false, required: false, id: '', attrs: '', class: '' %}
+
+  Params: same as input, plus rows (default 4). Min height 52px, resizes vertically.
+  States: hover, focus-visible, error, disabled.
+{%- endcomment -%}
+{%- liquid
+  assign ta_id = id | default: name
+  assign ta_variant = variant | default: 'outline'
+  assign ta_desc = ''
+  if hint != blank and error == blank
+    assign ta_desc = ta_id | append: '-hint'
+  endif
+  if error != blank
+    assign ta_desc = ta_id | append: '-error'
+  endif
+-%}
+{%- capture ta_control -%}
+  <textarea id="{{ ta_id }}" rows="{{ rows | default: 4 }}" class="pr-control pr-control--{{ ta_variant }} pr-textarea"{% if name != blank %} name="{{ name }}"{% endif %}{% if placeholder != blank %} placeholder="{{ placeholder | escape }}"{% endif %}{% if disabled %} disabled{% endif %}{% if required %} required{% endif %}{% if error != blank %} aria-invalid="true"{% endif %}{% if ta_desc != blank %} aria-describedby="{{ ta_desc }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ value }}</textarea>
+{%- endcapture -%}
+{%- render 'field', for_id: ta_id, label: label, hint: hint, error: error, hide_label: hide_label, content: ta_control, class: class -%}

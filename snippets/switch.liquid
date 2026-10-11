@@ -1,0 +1,26 @@
+{%- comment -%}
+  Switch — on/off control with its label. Use a checkbox when the change is saved later with a form. Ports PerfectlyRad Switch.
+
+  {% render 'switch', label: 'Recibir avisos', description: '', name: 'notify', checked: false, disabled: false, id: '', attrs: '', class: '' %}
+
+  Params
+  - label        required (typography body-sm, medium)
+  - description  second line
+  - name, id (default: name), checked, disabled, attrs, class
+
+  Native <input type="checkbox" role="switch">. States: hover, checked, focus-visible, disabled. Track 44x24, thumb 20px.
+{%- endcomment -%}
+{%- liquid
+  assign sw_id = id | default: name
+  assign sw_color = 'primary'
+  if disabled
+    assign sw_color = 'disabled'
+  endif
+-%}
+<div class="pr-switch{% if class != blank %} {{ class }}{% endif %}">
+  <input type="checkbox" role="switch" id="{{ sw_id }}" class="pr-switch__input"{% if name != blank %} name="{{ name }}"{% endif %}{% if checked %} checked{% endif %}{% if disabled %} disabled{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>
+  <label for="{{ sw_id }}" class="pr-switch__label">
+    {%- render 'typography', text: label, as: 'span', variant: 'body-sm', weight: 'medium', color: sw_color -%}
+    {%- if description != blank -%}{%- render 'typography', text: description, as: 'span', variant: 'label', color: 'secondary' -%}{%- endif -%}
+  </label>
+</div>

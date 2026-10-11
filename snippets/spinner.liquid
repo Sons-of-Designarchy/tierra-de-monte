@@ -1,0 +1,11 @@
+{%- comment -%}
+  Spinner — indeterminate progress. The only loading indicator; skeletons that reshape the layout are not allowed.
+
+  {% render 'spinner', size: 'md', label: 'Cargando', class: '' %}
+
+  Params
+  - size   sm | md | lg   (default: md → 16 / 24 / 32px)
+  - label  announced to assistive tech (default: Cargando)
+  - class  extra classes (layout only)
+{%- endcomment -%}
+<span class="pr-spinner pr-spinner--{{ size | default: 'md' }}{% if class != blank %} {{ class }}{% endif %}" role="status" aria-label="{{ label | default: 'Cargando' | escape }}"><span class="pr-spinner__ring"></span></span>

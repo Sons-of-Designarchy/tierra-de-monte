@@ -1,0 +1,34 @@
+{%- comment -%}
+  Alert — inline message that stays on the page: form results, availability notes, warnings. Ports PerfectlyRad Alert.
+
+  {% render 'alert', tone: 'info', title: 'Aviso', text: 'Mensaje', action: '', class: '' %}
+
+  Params
+  - tone    info | success | warning | error   (default: info). error → role="alert", the rest role="status"
+  - title   optional bold line
+  - text    the message (or content: html)
+  - action  html for an optional action, usually a button in the same tone
+  - class
+{%- endcomment -%}
+{%- liquid
+  assign a_tone = tone | default: 'info'
+  assign a_icon = 'info'
+  assign a_role = 'status'
+  case a_tone
+    when 'success'
+      assign a_icon = 'check-circle'
+    when 'warning'
+      assign a_icon = 'alert-triangle'
+    when 'error'
+      assign a_icon = 'x-circle'
+      assign a_role = 'alert'
+  endcase
+-%}
+<div class="pr-alert pr-alert--{{ a_tone }}{% if class != blank %} {{ class }}{% endif %}" role="{{ a_role }}">
+  {%- render 'icon', name: a_icon, size: 'md', class: 'pr-alert__icon' -%}
+  <div class="pr-alert__body">
+    {%- if title != blank -%}{%- render 'typography', text: title, variant: 'body', weight: 'semibold', color: 'inherit' -%}{%- endif -%}
+    {%- if content != blank -%}{{ content }}{%- else -%}{%- render 'typography', text: text, variant: 'body', weight: 'medium', color: 'inherit' -%}{%- endif -%}
+    {%- if action != blank -%}<div class="pr-alert__action">{{ action }}</div>{%- endif -%}
+  </div>
+</div>

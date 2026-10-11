@@ -1,0 +1,118 @@
+{%- comment -%}
+  Card — the one box. Subtle fill, no border, the global surface radius. Everything that is a card on the site is this
+  snippet: project, article, plan, testimonial, principle, product. Ports PerfectlyRad Card.
+
+  {% render 'card', eyebrow: '01', title: 'Título', description: 'Texto', image: image, image_ratio: '4/3', badge: 'Nuevo', cta_label: 'Ver', cta_href: '/x', href: '', scheme: '', padding: 'md', elevated: false, interactive: false, content: '' %}
+
+  Params
+  - eyebrow, title, description   marketing body (heading size h5; description body-sm style via heading)
+  - title_as          tag of the title (default: h3)
+  - image             Shopify image object, edge to edge above the body; image_alt, image_ratio (default 4/3, 4/5 for a product), image_fit (cover | contain)
+  - media             any html above the body (overrides image)
+  - badge             short label flush top-left of the media: "Disponible", "Nuevo"
+  - cta_label, cta_href   button at the end of the body (outline, sm). With href on the card it becomes plain text, the whole card is the link
+  - product_name      turns the body into a product body: product_brand, product_name, product_variant, product_price, product_old_price, product_discount
+  - quote             turns the body into a testimonial: quote, quote_name, quote_detail, quote_avatar (url), quote_rating (0-5)
+  - footer            html actions row at the bottom, separated by space
+  - href              makes the whole card a link; sets interactive
+  - tag               div | article | li | section   (default: div; ignored with href)
+  - scheme            light | dark | primary | secondary | tertiary | image: its own scheme, independent of the section around it
+  - padding           none | md | lg   (default: md → 16 / 24px)
+  - elevated          true → surface fill + shadow-lg. false → surface-subtle fill
+  - interactive       true → hover fill + shadow
+  - content           html below the body copy
+  - class
+
+  States: default, hover (interactive), focus-visible (link).
+{%- endcomment -%}
+{%- liquid
+  assign cd_padding = padding | default: 'md'
+  assign cd_title_as = title_as | default: 'h3'
+  assign cd_has_media = false
+  if media != blank or image != blank
+    assign cd_has_media = true
+  endif
+  assign cd_ratio = image_ratio
+  if cd_ratio == blank
+    if product_name != blank
+      assign cd_ratio = '4/5'
+    else
+      assign cd_ratio = '4/3'
+    endif
+  endif
+  assign cd_class = 'pr-card pr-card--pad-' | append: cd_padding
+  if cd_has_media
+    assign cd_class = 'pr-card pr-card--media pr-card--pad-' | append: cd_padding
+  endif
+  if elevated
+    assign cd_class = cd_class | append: ' pr-card--elevated'
+  endif
+  if interactive or href != blank
+    assign cd_class = cd_class | append: ' pr-card--interactive'
+  endif
+  if class != blank
+    assign cd_class = cd_class | append: ' ' | append: class
+  endif
+  assign cd_tag = tag | default: 'div'
+-%}
+{%- capture cd_inner -%}
+  {%- if cd_has_media -%}
+    <div class="pr-card__media">
+      {%- if media != blank -%}
+        {{ media }}
+      {%- else -%}
+        {%- render 'image', image: image, alt: image_alt, ratio: cd_ratio, fit: image_fit, radius: 'none', sizes: '(min-width: 750px) 33vw, 100vw', class: 'pr-card__img' -%}
+      {%- endif -%}
+      {%- if badge != blank -%}
+        <span data-scheme="light" class="pr-card__badge">{% render 'typography', text: badge, as: 'span', variant: 'xs', weight: 'medium', color: 'inherit' %}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  <div class="pr-card__body">
+    {%- if quote != blank -%}
+      <div class="pr-card__testimonial">
+        {%- if quote_rating != blank -%}{%- render 'rating', value: quote_rating -%}{%- endif -%}
+        {%- capture cd_quote -%}“{{ quote }}”{%- endcapture -%}
+        {%- render 'typography', text: cd_quote, as: 'blockquote', variant: 'body-lg', class: 'pr-card__quote' -%}
+        <div class="pr-card__author">
+          {%- render 'avatar', name: quote_name, src: quote_avatar, size: 'sm' -%}
+          <div class="pr-card__author-text">
+            {%- render 'typography', text: quote_name, variant: 'body-sm', weight: 'semibold' -%}
+            {%- if quote_detail != blank -%}{%- render 'typography', text: quote_detail, variant: 'body-sm' -%}{%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- elsif product_name != blank -%}
+      <div class="pr-card__product">
+        {%- if product_brand != blank -%}{%- render 'typography', text: product_brand, variant: 'body', weight: 'semibold' -%}{%- endif -%}
+        {%- capture cd_pname -%}{{ product_name }}{%- if product_variant != blank -%}<span class="pr-color--secondary"> · {{ product_variant }}</span>{%- endif -%}{%- endcapture -%}
+        {%- render 'typography', text: cd_pname, as: 'h3', variant: 'body' -%}
+        {%- if product_price != blank or product_old_price != blank -%}
+          <div class="pr-card__price">
+            {%- if product_price != blank -%}{%- render 'typography', text: product_price, as: 'span', variant: 'body', weight: 'semibold' -%}{%- endif -%}
+            {%- if product_old_price != blank -%}{%- render 'typography', text: product_old_price, as: 's', variant: 'body', color: 'secondary' -%}{%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if product_discount != blank -%}{%- render 'typography', text: product_discount, variant: 'body', weight: 'medium', color: 'success' -%}{%- endif -%}
+      </div>
+    {%- else -%}
+      {%- render 'heading', size: 'h5', as: cd_title_as, eyebrow: eyebrow, eyebrow_style: 'body', title: title, subtitle: description -%}
+    {%- endif -%}
+    {%- if content != blank -%}{{ content }}{%- endif -%}
+    {%- if cta_label != blank -%}
+      <div class="pr-card__cta">
+        {%- if href != blank -%}
+          {%- render 'typography', text: cta_label, variant: 'body-sm', weight: 'medium', class: 'pr-card__cta-text' -%}
+        {%- else -%}
+          {%- render 'button', label: cta_label, href: cta_href, variant: 'outline', size: 'sm' -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+  {%- if footer != blank -%}<div class="pr-card__footer">{{ footer }}</div>{%- endif -%}
+{%- endcapture -%}
+{%- if href != blank -%}
+  <a href="{{ href }}" class="{{ cd_class }}"{% if scheme != blank %} data-scheme="{{ scheme }}"{% endif %}>{{ cd_inner }}</a>
+{%- else -%}
+  <{{ cd_tag }} class="{{ cd_class }}"{% if scheme != blank %} data-scheme="{{ scheme }}"{% endif %}>{{ cd_inner }}</{{ cd_tag }}>
+{%- endif -%}

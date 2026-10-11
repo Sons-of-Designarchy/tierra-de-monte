@@ -1,0 +1,40 @@
+{%- comment -%}
+  IconButton — icon-only button. Ports PerfectlyRad IconButton. xs (28px) for dense spots, md (44px) is the touch default.
+
+  {% render 'icon-button', icon: 'close', label: 'Cerrar', variant: 'ghost', size: 'md', href: '', type: 'button', disabled: false, static: false, class: '', attrs: '' %}
+
+  Params
+  - icon      icon name (required)
+  - label     required: an icon-only control always announces what it does
+  - variant   ghost | outline | secondary | primary | dark   (default: ghost)
+  - size      xs | sm | md | lg   (default: md → 28 / 36 / 44 / 52px)
+  - href      renders <a> when given
+  - type      button | submit | reset
+  - disabled  true → aria-disabled, no pointer events
+  - static    true → not pressable: a decorative mark in a span
+  - class, id, attrs
+
+  States: hover, focus-visible, disabled.
+{%- endcomment -%}
+{%- liquid
+  assign ib_variant = variant | default: 'ghost'
+  assign ib_size = size | default: 'md'
+  assign ib_icon = 'md'
+  case ib_size
+    when 'xs'
+      assign ib_icon = 'sm'
+    when 'lg'
+      assign ib_icon = 'lg'
+  endcase
+  assign ib_class = 'pr-icon-btn pr-icon-btn--' | append: ib_variant | append: ' pr-icon-btn--' | append: ib_size
+  if class != blank
+    assign ib_class = ib_class | append: ' ' | append: class
+  endif
+-%}
+{%- if static -%}
+  <span class="{{ ib_class }} is-static"{% if label != blank %} role="img" aria-label="{{ label | escape }}"{% else %} aria-hidden="true"{% endif %}>{% render 'icon', name: icon, size: ib_icon %}</span>
+{%- elsif href != blank -%}
+  <a href="{{ href }}" class="{{ ib_class }}" aria-label="{{ label | escape }}"{% if id != blank %} id="{{ id }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{% render 'icon', name: icon, size: ib_icon %}</a>
+{%- else -%}
+  <button type="{{ type | default: 'button' }}" class="{{ ib_class }}" aria-label="{{ label | escape }}"{% if id != blank %} id="{{ id }}"{% endif %}{% if disabled %} disabled aria-disabled="true"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{% render 'icon', name: icon, size: ib_icon %}</button>
+{%- endif -%}

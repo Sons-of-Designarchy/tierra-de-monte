@@ -14,7 +14,7 @@
   - align    left | center | right | balance   (default: none)
   - class    extra classes (layout only, never type)
   - id       element id
-  - for      only with as: 'label'
+  - for_id   only with as: 'label' (the id of the control)
   - attrs    extra attributes string, e.g. 'aria-live="polite"'
 
   Eyebrow is the only uppercase variant. Uppercase and mono are never defaults elsewhere.
@@ -46,4 +46,4 @@
     endcase
   endif
 -%}
-<{{ t_tag }} class="pr-type pr-type--{{ t_variant }} pr-font--{{ t_font }} pr-weight--{{ t_weight }} pr-color--{{ t_color }}{% if align != blank %} pr-align--{{ align }}{% endif %}{% if class != blank %} {{ class }}{% endif %}"{% if id != blank %} id="{{ id }}"{% endif %}{% if for != blank %} for="{{ for }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ text }}</{{ t_tag }}>
+<{{ t_tag }} class="pr-type pr-type--{{ t_variant }} pr-font--{{ t_font }} pr-weight--{{ t_weight }} pr-color--{{ t_color }}{% if align != blank %} pr-align--{{ align }}{% endif %}{% if class != blank %} {{ class }}{% endif %}"{% if id != blank %} id="{{ id }}"{% endif %}{% if for_id != blank %} for="{{ for_id }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ text }}</{{ t_tag }}>

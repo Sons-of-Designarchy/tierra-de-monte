@@ -1,0 +1,38 @@
+{%- comment -%}
+  Avatar — person's photo or initials. Ports PerfectlyRad Avatar.
+
+  {% render 'avatar', name: 'Ana Ruiz', src: '', size: 'md', tone: 'color', class: '' %}
+
+  Params
+  - name   person's name: alt text and, without an image, the initials (required)
+  - src    image URL (e.g. {{ image | image_url: width: 128 }})
+  - size   sm | md | lg   (default: md → 32 / 44 / 64px)
+  - tone   color (a tint picked from the name's length, stable per person) | neutral (plain grey)   (default: color)
+  - class
+{%- endcomment -%}
+{%- liquid
+  assign av_size = size | default: 'md'
+  assign av_tone = tone | default: 'color'
+  assign av_type = 'body'
+  case av_size
+    when 'sm'
+      assign av_type = 'xs'
+    when 'md'
+      assign av_type = 'body-sm'
+  endcase
+  assign av_words = name | strip | split: ' '
+  assign av_initials = ''
+  for w in av_words limit: 2
+    assign av_first = w | slice: 0, 1 | upcase
+    assign av_initials = av_initials | append: av_first
+  endfor
+  assign av_tint = name | size | modulo: 4
+-%}
+<span class="pr-avatar pr-avatar--{{ av_size }}{% if src == blank and av_tone == 'color' %} pr-avatar--tint-{{ av_tint }}{% endif %}{% if class != blank %} {{ class }}{% endif %}">
+  {%- if src != blank -%}
+    <img src="{{ src }}" alt="{{ name | escape }}" width="64" height="64" loading="lazy" class="pr-avatar__img">
+  {%- else -%}
+    {%- render 'typography', text: av_initials, as: 'span', variant: av_type, weight: 'semibold', color: 'inherit', attrs: 'aria-hidden="true"' -%}
+    <span class="visually-hidden">{{ name }}</span>
+  {%- endif -%}
+</span>

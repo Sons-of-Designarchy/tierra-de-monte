@@ -1,0 +1,101 @@
+{%- comment -%}
+  Heading — the one heading block: what goes above the title, the title, what goes under it, and its actions.
+  Ports PerfectlyRad Heading. Section, hero and card headers use it, so the eyebrow-title-subtitle rhythm is written once.
+
+  {% render 'heading', eyebrow: 'Aliados', title: 'Crece con nosotros', size: 'h2', subtitle: '…', cta_label: 'Registrarme', cta_href: '/pages/contact', align: 'left' %}
+
+  Params
+  - eyebrow          small line above the title (category, number, section name)
+  - eyebrow_style    eyebrow (mono, uppercase) | body (plain body text)   (default: eyebrow)
+  - icon             beside the eyebrow: an icon name, or an image URL (brand mark, flag)
+  - top              html above the eyebrow row: avatar, logo, badge
+  - title            the title
+  - as               tag of the title. Default by size: display/h1 → h1, h2–h4 → h2, h5 → h3
+  - size             display | h1 | h2 | h3 | h4 | h5   (default: h2)
+  - subtitle         text under the title; its size follows body
+  - subtitle_size    md | sm   (default: md)
+  - cta_label, cta_href, cta_variant                 primary action (button snippet; variant default primary)
+  - secondary_label, secondary_href, secondary_variant   secondary action (variant default outline)
+  - content          html under the text: a form, a note, a row of chips
+  - align            left | center   (default: left)
+  - balance          true/false. On by default when centered
+  - class
+{%- endcomment -%}
+{%- liquid
+  assign h_empty = false
+  if eyebrow == blank and icon == blank and top == blank and title == blank and subtitle == blank and cta_label == blank and content == blank
+    assign h_empty = true
+  endif
+  assign h_size = size | default: 'h2'
+  assign h_align = align | default: 'left'
+  assign h_tag = as
+  if h_tag == blank
+    case h_size
+      when 'display' or 'h1'
+        assign h_tag = 'h1'
+      when 'h5'
+        assign h_tag = 'h3'
+      else
+        assign h_tag = 'h2'
+    endcase
+  endif
+  assign h_cta_size = 'md'
+  case h_size
+    when 'display' or 'h1'
+      assign h_cta_size = 'lg'
+    when 'h5'
+      assign h_cta_size = 'sm'
+  endcase
+  assign h_balance = balance
+  if h_balance == blank and h_align == 'center'
+    assign h_balance = true
+  endif
+  assign h_title_align = ''
+  if h_balance
+    assign h_title_align = 'balance'
+  endif
+  assign h_eyebrow_variant = 'eyebrow'
+  if eyebrow_style == 'body'
+    assign h_eyebrow_variant = 'body'
+  endif
+  assign h_sub_variant = 'body'
+  if subtitle_size == 'sm'
+    assign h_sub_variant = 'body-sm'
+  endif
+  assign h_cta_variant = cta_variant | default: 'primary'
+  assign h_sec_variant = secondary_variant | default: 'outline'
+  assign h_icon_is_url = false
+  if icon contains '/' or icon contains '.'
+    assign h_icon_is_url = true
+  endif
+-%}
+{%- unless h_empty -%}
+<div class="pr-heading pr-heading--{{ h_size }}{% if h_align == 'center' %} pr-heading--center{% endif %}{% if class != blank %} {{ class }}{% endif %}">
+  {%- if top != blank -%}{{ top }}{%- endif -%}
+  {%- if icon != blank or eyebrow != blank -%}
+    <div class="pr-heading__eyebrow">
+      {%- if icon != blank -%}
+        {%- if h_icon_is_url -%}
+          <img src="{{ icon }}" alt="" width="24" height="24" loading="lazy" class="pr-heading__mark">
+        {%- else -%}
+          {%- render 'icon-button', icon: icon, label: '', variant: 'secondary', size: 'sm', static: true -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if eyebrow != blank -%}{%- render 'typography', text: eyebrow, variant: h_eyebrow_variant -%}{%- endif -%}
+    </div>
+  {%- endif -%}
+  {%- if title != blank -%}
+    {%- render 'typography', text: title, as: h_tag, variant: h_size, font: 'display', align: h_title_align -%}
+  {%- endif -%}
+  {%- if subtitle != blank -%}
+    {%- render 'typography', text: subtitle, variant: h_sub_variant -%}
+  {%- endif -%}
+  {%- if cta_label != blank or secondary_label != blank -%}
+    <div class="pr-heading__actions">
+      {%- if cta_label != blank -%}{%- render 'button', label: cta_label, href: cta_href, variant: h_cta_variant, size: h_cta_size -%}{%- endif -%}
+      {%- if secondary_label != blank -%}{%- render 'button', label: secondary_label, href: secondary_href, variant: h_sec_variant, size: h_cta_size -%}{%- endif -%}
+    </div>
+  {%- endif -%}
+  {%- if content != blank -%}<div class="pr-heading__content">{{ content }}</div>{%- endif -%}
+</div>
+{%- endunless -%}
