@@ -5,7 +5,7 @@
 <div class="customer activate section-{{ section.id }}-padding">
   {%- assign aa_title = 'customer.activate_account.title' | t -%}
   {%- assign aa_sub = 'customer.activate_account.subtext' | t -%}
-  {% render 'typography', text: aa_title, as: 'h1', variant: 'h2', align: 'center', class: 'customer__title' %}
+  {% render 'typography', text: aa_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', align: 'center', class: 'customer__title' %}
   {% render 'typography', text: aa_sub, variant: 'body', color: 'secondary', align: 'center' %}
   {%- form 'activate_customer_password' -%}
     {% render 'customer-form-errors', errors: form.errors %}

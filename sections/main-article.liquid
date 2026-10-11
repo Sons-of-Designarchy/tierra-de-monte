@@ -43,10 +43,10 @@
 
       {%- when 'title' -%}
         <header
-          class="page-width page-width--narrow-head-soda{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+          class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
           {{ block.shopify_attributes }}
         >
-          {% render 'typography', text: article.title, as: 'h1', variant: 'h1', class: 'article-template__title' %}
+          {% render 'typography', text: article.title, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', class: 'article-template__title' %}
           {%- if block.settings.blog_show_date or block.settings.blog_show_author -%}
             <div class="article-template__meta">
               {%- if block.settings.blog_show_date -%}
@@ -70,7 +70,7 @@
 
       {%- when 'share' -%}
         <div
-          class="article-template__social-sharing page-width page-width--narrow-head-soda{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          class="article-template__social-sharing page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {{ block.shopify_attributes }}
         >
           {% assign share_url = request.origin | append: article.url %}

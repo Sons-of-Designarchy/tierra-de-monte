@@ -6,7 +6,7 @@
   <div>
     {%- assign or_title = 'customer.account.title' | t -%}
     {%- assign or_return = 'customer.account.return' | t -%}
-    {% render 'typography', text: or_title, as: 'h1', variant: 'h2', class: 'customer__title' %}
+    {% render 'typography', text: or_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', class: 'customer__title' %}
     {% render 'link', text: or_return, href: routes.account_url %}
   </div>
 

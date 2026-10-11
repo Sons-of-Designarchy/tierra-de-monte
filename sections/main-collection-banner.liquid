@@ -5,7 +5,7 @@
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
       {%- capture ch_title -%}<span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>{{- collection.title | escape -}}{%- endcapture -%}
-      {% render 'typography', text: ch_title, as: 'h1', variant: 'h1', class: 'collection-hero__title' %}
+      {% render 'typography', text: ch_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', class: 'collection-hero__title' %}
 
       {%- if section.settings.show_collection_description -%}
         {% render 'typography', text: collection.description, as: 'div', variant: 'body-lg', class: 'collection-hero__description rte' %}

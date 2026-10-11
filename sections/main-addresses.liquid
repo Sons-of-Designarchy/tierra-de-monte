@@ -17,7 +17,7 @@
     {%- assign ad_edit_address = 'customer.addresses.edit_address' | t -%}
     {%- assign ad_default = 'customer.addresses.default' | t -%}
     {%- assign ad_confirm = 'customer.addresses.delete_confirm' | t -%}
-    {% render 'typography', text: ad_title, as: 'h1', variant: 'h2', align: 'center', class: 'customer__title' %}
+    {% render 'typography', text: ad_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', align: 'center', class: 'customer__title' %}
     <div class="customer__link">{% render 'link', text: ad_return, href: routes.account_url %}</div>
 
     <div data-address>

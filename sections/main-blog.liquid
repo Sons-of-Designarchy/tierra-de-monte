@@ -4,7 +4,7 @@
 {%- paginate blog.articles by 6 -%}
   <div class="main-blog page-width section-{{ section.id }}-padding">
     {%- capture blog_title_class -%}main-blog__title{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}{%- endcapture -%}
-    {% render 'typography', text: blog.title, as: 'h1', variant: 'h1', class: blog_title_class %}
+    {% render 'typography', text: blog.title, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', class: blog_title_class %}
 
     <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
       {%- for article in blog.articles -%}

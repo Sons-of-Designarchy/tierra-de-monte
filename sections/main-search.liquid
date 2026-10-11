@@ -20,7 +20,7 @@
       {%- else -%}
         {%- assign ts_title = 'general.search.search' | t -%}
       {%- endif -%}
-      {% render 'typography', text: ts_title, as: 'h1', variant: 'h2', align: 'center' %}
+      {% render 'typography', text: ts_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', align: 'center' %}
       <div class="template-search__search">
         {%- if settings.predictive_search_enabled -%}
           <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">

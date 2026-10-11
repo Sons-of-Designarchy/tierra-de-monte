@@ -7,7 +7,7 @@
   {% endif %}
 
   {% if section.settings.heading != blank %}
-    {% render 'typography', text: section.settings.heading, as: 'h1', variant: 'h1', align: 'center', class: 'grid-gallery__heading' %}
+    {% render 'typography', text: section.settings.heading, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', align: 'center', class: 'grid-gallery__heading' %}
   {% endif %}
 
   {% if section.settings.subheading != blank %}

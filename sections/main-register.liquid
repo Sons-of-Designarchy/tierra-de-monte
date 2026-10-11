@@ -4,7 +4,7 @@
 
 <div class="customer register section-{{ section.id }}-padding">
   {%- assign reg_title = 'customer.register.title' | t -%}
-  {% render 'typography', text: reg_title, as: 'h1', variant: 'h2', align: 'center', class: 'customer__title' %}
+  {% render 'typography', text: reg_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', align: 'center', class: 'customer__title' %}
   {%- form 'create_customer', novalidate: 'novalidate' -%}
     {% render 'customer-form-errors', errors: form.errors, anchor_prefix: 'RegisterForm-' %}
     {%- assign reg_first = 'customer.register.first_name' | t -%}

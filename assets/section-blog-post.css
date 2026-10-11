@@ -143,3 +143,10 @@
 .article-template__back:last-child {
   margin-bottom: var(--pr-space-8);
 }
+
+/* Reading column: the fluid .page-width of the foundation overrides Dawn's narrow cap, so it is restored here */
+@media screen and (min-width: 990px) {
+  .article-template .page-width--narrow {
+    max-width: 72.6rem;
+  }
+}

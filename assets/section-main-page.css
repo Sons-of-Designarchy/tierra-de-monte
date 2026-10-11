@@ -21,3 +21,10 @@
   width: 52.5rem;
   height: 52.5rem;
 }
+
+/* The foundation's .page-width is fluid (--pr-page-max: 100%) and overrides Dawn's narrow cap: restore the reading width */
+@media screen and (min-width: 990px) {
+  .page-width.page-width--narrow {
+    max-width: 72.6rem;
+  }
+}

@@ -40,3 +40,9 @@
     margin-top: var(--pr-space-12);
   }
 }
+
+@media screen and (min-width: 990px) {
+  .contact.page-width--narrow {
+    max-width: 72.6rem;
+  }
+}

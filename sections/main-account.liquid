@@ -6,7 +6,7 @@
   <div>
     {%- assign ac_title = 'customer.account.title' | t -%}
     {%- assign ac_logout = 'customer.log_out' | t -%}
-    {% render 'typography', text: ac_title, as: 'h1', variant: 'h2', class: 'customer__title' %}
+    {% render 'typography', text: ac_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', class: 'customer__title' %}
     {% render 'link', text: ac_logout, href: routes.account_logout_url %}
   </div>
 

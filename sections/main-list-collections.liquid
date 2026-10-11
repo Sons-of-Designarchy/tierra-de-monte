@@ -2,7 +2,7 @@
 
 <div class="page-width">
   {%- capture mlc_title_class -%}collection-list-title inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}{%- endcapture -%}
-  {% render 'typography', text: section.settings.title, as: 'h1', variant: 'h1', class: mlc_title_class %}
+  {% render 'typography', text: section.settings.title, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', class: mlc_title_class %}
   {%- liquid
     case section.settings.sort
       when 'products_high', 'products_low'
