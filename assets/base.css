@@ -76,7 +76,7 @@
 }
 /* hidde-regresar-og */
 .article-template__back {
-  display: none !important;
+  display: none;
 }
 
 /* base */
@@ -120,7 +120,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
     padding: 0 9rem;
   }
   .page-width--narrow-head-soda {
-    padding: 0 5rem !important;
+    padding: 0 5rem;
   }
   .page-width-desktop {
     padding: 0;
@@ -265,9 +265,9 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 /* === Containerize every Dawn Image banner site-wide === */
 [id^='Banner-'][id$='__image_banner'] {
-  background: transparent !important;
-  --gradient-background: transparent !important;
-  --color-background: transparent !important;
+  background: transparent;
+  --gradient-background: transparent;
+  --color-background: transparent;
 }
 
 [id^='Banner-'][id$='__image_banner'] .banner__media {
@@ -289,13 +289,13 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 [id^='Banner-'][id$='__image_banner'] .gradient,
 [id^='Banner-'][id$='__image_banner'] [class^='color'],
 [id^='Banner-'][id$='__image_banner'] [class*=' color-'] {
-  background: transparent !important;
-  color: rgb(var(--color-secondary-button)) !important;
+  background: transparent;
+  color: rgb(var(--color-secondary-button));
 }
 
 [id^='Banner-'][id$='__image_banner'] .gradient::before {
-  content: none !important;
-  display: none !important;
+  content: none;
+  display: none;
 }
 
 /* === Center + box every Dawn Image banner (works with Option B) === */
@@ -380,7 +380,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 /* Kill Dawn gradient skin on inner */
 .product-card-wrapper .card__inner.gradient {
-  background: transparent !important;
+  background: transparent;
 }
 
 /* Keep Dawn ratio box; ensure transparent */
@@ -389,7 +389,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   content: '';
   display: block;
   padding-bottom: var(--ratio-percent, 100%);
-  background: transparent !important;
+  background: transparent;
 }
 
 /* Media container */
@@ -398,7 +398,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   inset: 0;
   border-radius: 2px;
   overflow: hidden;
-  background: #fff;
+  background: var(--pr-white);
 
   /* soft shadow + subtle border */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(111, 113, 112, 0.12);
@@ -441,7 +441,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 /* Variant hook: use 'product-card--contain' on card wrapper when you want packshots to sit on white and not crop */
 .product-card--contain .card__media img {
   object-fit: contain;
-  background: #fff;
+  background: var(--pr-white);
 }
 
 /* Content spacing */
@@ -480,7 +480,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   margin-top: 0.25rem;
 }
 .product-card-wrapper .price__sale .price-item--sale {
-  color: #2fb673;
+  color: var(--pr-success-500);
 }
 
 /* Excerpt (3 lines) */
@@ -545,18 +545,16 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   display: block;
   width: 160px; /* match your setting; change if needed */
   height: auto;
-  outline: 1px dashed #999; /* ← temporary: shows the box */
-  background: #f3f3f3; /* ← temporary: reveals white logos */
 }
 
 #shopify-section-template--25297297506606__rich_text_with_logo_3QUehq .rt__logo img {
   display: block;
-  width: 100% !important;
-  height: auto !important;
-  max-width: none !important;
+  width: 100%;
+  height: auto;
+  max-width: none;
   object-fit: contain;
-  opacity: 1 !important;
-  mix-blend-mode: normal !important;
+  opacity: 1;
+  mix-blend-mode: normal;
 }
 
 /* Text-link style for product cards */
@@ -635,7 +633,7 @@ figcaption {
 
 .text-body {
   font-size: 1.5rem;
-  letter-spacing: -0.02rem !important;
+  letter-spacing: -0.02rem;
   line-height: 143%;
   font-family: var(--font-body-family);
   font-style: var(--font-body-style);
@@ -3379,7 +3377,7 @@ details-disclosure > details {
   position: relative;
   border: var(--media-border-width) solid rgba(var(--color-foreground), var(--media-border-opacity));
   border-radius: var(--media-radius);
-  overflow: visible !important;
+  overflow: visible;
   background-color: rgb(var(--color-background));
 }
 
@@ -3398,7 +3396,7 @@ details-disclosure > details {
 }
 
 .global-media-settings--no-shadow {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 .global-media-settings--no-shadow:after {
@@ -4078,4 +4076,45 @@ h4,
 .card__view-link {
   position: relative;
   z-index: 2;
+}
+
+/* ==========================================================================
+   Global extras (moved out of layout/theme.liquid)
+   ========================================================================== */
+
+/* Floating WhatsApp button. Brand green is a third-party primitive, kept here. */
+:root {
+  --pr-brand-whatsapp: #25d366;
+}
+
+.tdm-whatsapp {
+  position: fixed;
+  right: var(--pr-space-4);
+  bottom: var(--pr-space-4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(3.75 * var(--pr-rem));
+  height: calc(3.75 * var(--pr-rem));
+  overflow: hidden;
+  border-radius: var(--pr-radius-full);
+  background: var(--pr-brand-whatsapp);
+  color: var(--pr-white);
+  box-shadow: var(--pr-elevation-base);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tdm-whatsapp__icon {
+  display: block;
+}
+
+/* Multicolumn lists: left rule on each item on mobile (was a resize script) */
+@media screen and (max-width: 749.98px) {
+  .multicolumn .mc-feature__cols ul.multicolumn-list > li.multicolumn-list__item,
+  .multicolumn slider-component ul.multicolumn-list > li.multicolumn-list__item {
+    padding-left: var(--pr-space-2);
+    border-left: 1px solid var(--pr-text-primary);
+  }
 }
