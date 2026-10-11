@@ -1,23 +1,28 @@
 /* =============================================================================
    Comparison table (sections/comparison-table.liquid)
-   All per-instance/setting values arrive as custom properties on the root
-   .tdm-comparison-table element (which is also .ct-section):
-     --ct-align --ct-table-bg --ct-table-fg
-     --ct-accent --ct-radius --ct-hl-radius --ct-pad --ct-pad-mobile
+   Per-instance values arrive as custom properties on the root .tdm-comparison-table
+   element (which is also .ct-section):
+     --ct-align --ct-radius --ct-hl-radius --ct-pad --ct-pad-mobile
      --ct-border-opacity --ct-min-w --ct-image-size --ct-image-size-mobile
-     --ct-cell-align --ct-feature-weight --ct-mobile-feat-w --ct-mobile-col-w
-     --ct-mobile-hl-w --ct-mobile-table-w --ct-btn-bg/-fg/-hover-bg/-hover-fg
-     --ct-cta-bg/-fg/-hover-bg/-hover-fg --ct-cta-align
-   and, per column 1-6 when that column exists: --ct-hl-bg-N --ct-hl-fg-N
-   --ct-hl-accent-N, plus --ct-btn-bg-N etc. when that column has a custom CTA
-   scheme. Each <col> in the colgroup carries its own --ct-col-w.
+     --ct-cell-align --ct-mobile-feat-w --ct-mobile-col-w --ct-mobile-hl-w
+     --ct-mobile-table-w --ct-cta-align
+   Each <col> in the colgroup carries its own --ct-col-w.
+   Colours: the table wrapper, each highlighted column and each button carry a
+   Dawn scheme class (color-scheme-*), which re-points the --pr-* roles on that
+   element. Nothing here reads a raw colour.
+   Text: every string is rendered with the typography snippet; this file only
+   places it (no font-size, weight, family, line-height or text colour).
    Boolean settings are root modifier classes: ct-vborders, ct-feature-tint,
-   ct-striped, ct-sticky-feature, ct-theme-btn, ct-full-btns, ct-check-accent.
+   ct-striped, ct-sticky-feature, ct-full-btns, ct-check-accent.
    ========================================================================== */
 
 .tdm-comparison-table .ct-intro {
   text-align: var(--ct-align);
-  margin-bottom: var(--tdm-space-8);
+  margin-bottom: var(--pr-space-8);
+}
+
+.tdm-comparison-table .ct-intro .ct-title {
+  margin: 0 0 var(--pr-space-3);
 }
 
 .tdm-comparison-table .ct-intro > *:last-child {
@@ -28,8 +33,6 @@
 
 /* ---- Table container (table colour scheme) --------------------------------- */
 .tdm-comparison-table .ct-wrapper {
-  background-color: var(--ct-table-bg);
-  color: var(--ct-table-fg);
   border-radius: var(--ct-radius);
   padding: 0 var(--ct-pad);
   position: relative; /* contains the screen-reader text and stops the page scrolling horizontally */
@@ -37,13 +40,12 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
-  --ct-border: color-mix(in srgb, var(--ct-table-fg) var(--ct-border-opacity), transparent);
-  --ct-soft: color-mix(in srgb, var(--ct-table-fg) 5%, transparent);
+  --ct-border: color-mix(in oklab, var(--pr-text-primary) var(--ct-border-opacity), transparent);
+  --ct-soft: color-mix(in oklab, var(--pr-text-primary) 5%, transparent);
 }
 
 .tdm-comparison-table .ct-block,
-.tdm-comparison-table .ct-block *,
-.tdm-comparison-table .ct-cta a.ct-btn {
+.tdm-comparison-table .ct-block * {
   box-sizing: border-box;
 }
 
@@ -64,12 +66,10 @@
 
 .tdm-comparison-table .ct-table th,
 .tdm-comparison-table .ct-table td {
-  padding: 1.6rem 1.4rem;
+  padding: var(--pr-space-4) var(--pr-space-3);
   border: 0;
   border-bottom: 1px solid var(--ct-border);
   vertical-align: middle;
-  font-size: 1.4rem;
-  line-height: 1.4;
 }
 
 .tdm-comparison-table .ct-table tr.ct-last > * {
@@ -86,32 +86,19 @@
 .tdm-comparison-table .ct-table th.ct-header {
   text-align: center;
   vertical-align: top;
-  padding-top: 2.4rem;
-  padding-bottom: 2rem;
+  padding-top: var(--pr-space-6);
+  padding-bottom: var(--pr-space-4);
 }
 
 .tdm-comparison-table .ct-header__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--pr-space-2);
 }
 
 .tdm-comparison-table .ct-header__title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: inherit;
   text-decoration: none;
-}
-
-.tdm-comparison-table a.ct-header__title:hover {
-  text-decoration: underline;
-}
-
-.tdm-comparison-table .ct-header__subtitle {
-  font-size: 1.3rem;
-  opacity: 0.75;
-  font-weight: 400;
 }
 
 .tdm-comparison-table .ct-header__image {
@@ -121,83 +108,25 @@
   object-fit: contain;
 }
 
-.tdm-comparison-table .ct-header__price {
-  font-size: 1.3rem;
-  font-weight: 400;
-}
-
-.tdm-comparison-table .ct-header__price strong {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-/* Price size: follows the theme heading scale (base.css .h1–.h4), body font kept.
-   The amount (bold) keeps the same size as the line so "Desde $10,000" reads as one. */
-.tdm-comparison-table[class*='ct-price--'] .ct-header__price {
-  line-height: 1.2;
-}
-
-.tdm-comparison-table[class*='ct-price--'] .ct-header__price strong {
-  font-size: 1em;
-}
-
-.tdm-comparison-table.ct-price--h4 .ct-header__price {
-  font-size: calc(var(--font-heading-scale) * 1.5rem);
-}
-
-.tdm-comparison-table.ct-price--h3 .ct-header__price {
-  font-size: calc(var(--font-heading-scale) * 1.7rem);
-}
-
-.tdm-comparison-table.ct-price--h2 .ct-header__price {
-  font-size: calc(var(--font-heading-scale) * 2rem);
-}
-
-.tdm-comparison-table.ct-price--h1 .ct-header__price {
-  font-size: calc(var(--font-heading-scale) * 3rem);
-}
-
-@media screen and (min-width: 750px) {
-  .tdm-comparison-table.ct-price--h3 .ct-header__price {
-    font-size: calc(var(--font-heading-scale) * 1.8rem);
-  }
-
-  .tdm-comparison-table.ct-price--h2 .ct-header__price {
-    font-size: calc(var(--font-heading-scale) * 2.4rem);
-  }
-
-  .tdm-comparison-table.ct-price--h1 .ct-header__price {
-    font-size: calc(var(--font-heading-scale) * 4rem);
-  }
-}
-
 .tdm-comparison-table .ct-header__note {
   display: block;
-  font-size: 1.15rem;
-  opacity: 0.75;
-  font-weight: 400;
-  margin-top: 0.2rem;
+  margin-top: var(--pr-space-1);
 }
 
 .tdm-comparison-table .ct-icon {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: var(--pr-icon-xl);
+  height: var(--pr-icon-xl);
 }
 
 .tdm-comparison-table .ct-badge {
-  font-size: 1.1rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 0.2rem 0.8rem;
-  border-radius: var(--tdm-radius-pill);
-  border: 1px solid currentColor;
+  padding: var(--pr-space-1) var(--pr-space-2);
+  border-radius: var(--pr-radius-full);
+  border: 1px solid currentcolor;
 }
 
 /* ---- Feature column ---------------------------------------------------------- */
 .tdm-comparison-table .ct-feature {
   text-align: left;
-  font-weight: var(--ct-feature-weight);
 }
 
 .tdm-comparison-table.ct-feature-tint .ct-feature {
@@ -209,14 +138,11 @@
 }
 
 .tdm-comparison-table .ct-feature > * + * {
-  margin-top: 0.4rem;
+  margin-top: var(--pr-space-1);
 }
 
-.tdm-comparison-table .ct-feature small {
+.tdm-comparison-table .ct-feature__note {
   display: block;
-  font-weight: 400;
-  opacity: 0.7;
-  margin-top: 0.3rem;
 }
 
 /* ---- Cells -------------------------------------------------------------------- */
@@ -229,54 +155,39 @@
 }
 
 .tdm-comparison-table .ct-cell > * + * {
-  margin-top: 0.4rem;
+  margin-top: var(--pr-space-1);
 }
 
 .tdm-comparison-table .ct-check {
-  width: 2rem;
-  height: 2rem;
+  width: var(--pr-icon-lg);
+  height: var(--pr-icon-lg);
   display: inline-block;
   vertical-align: middle;
-  color: currentColor;
+  color: currentcolor;
 }
 
 .tdm-comparison-table.ct-check-accent .ct-check {
-  color: var(--ct-accent);
-}
-
-.tdm-comparison-table.ct-check-accent .ct-hl .ct-check {
-  color: var(--ct-hl-accent, var(--ct-accent));
+  color: var(--pr-action);
 }
 
 .tdm-comparison-table .ct-dash {
   display: inline-block;
-  width: 1.4rem;
+  width: var(--pr-icon-md);
   height: 1px;
   vertical-align: middle;
-  background-color: currentColor;
+  background-color: currentcolor;
   opacity: 0.35;
-  border-radius: 1px;
 }
 
 .tdm-comparison-table.ct-striped .ct-table tbody tr:nth-child(even) > *:not(.ct-hl) {
   background-color: var(--ct-soft);
 }
 
-/* ---- Highlighted column (per-column scheme) ----------------------------------
-   --ct-hl-bg-1..6 / --ct-hl-fg-1..6 / --ct-hl-accent-1..6 are set on the root
-   element per column; these rules just map the positional variable onto the
-   semantic one that .ct-hl reads. */
-.tdm-comparison-table .ct-c1 { --ct-hl-bg: var(--ct-hl-bg-1); --ct-hl-fg: var(--ct-hl-fg-1); --ct-hl-accent: var(--ct-hl-accent-1); }
-.tdm-comparison-table .ct-c2 { --ct-hl-bg: var(--ct-hl-bg-2); --ct-hl-fg: var(--ct-hl-fg-2); --ct-hl-accent: var(--ct-hl-accent-2); }
-.tdm-comparison-table .ct-c3 { --ct-hl-bg: var(--ct-hl-bg-3); --ct-hl-fg: var(--ct-hl-fg-3); --ct-hl-accent: var(--ct-hl-accent-3); }
-.tdm-comparison-table .ct-c4 { --ct-hl-bg: var(--ct-hl-bg-4); --ct-hl-fg: var(--ct-hl-fg-4); --ct-hl-accent: var(--ct-hl-accent-4); }
-.tdm-comparison-table .ct-c5 { --ct-hl-bg: var(--ct-hl-bg-5); --ct-hl-fg: var(--ct-hl-fg-5); --ct-hl-accent: var(--ct-hl-accent-5); }
-.tdm-comparison-table .ct-c6 { --ct-hl-bg: var(--ct-hl-bg-6); --ct-hl-fg: var(--ct-hl-fg-6); --ct-hl-accent: var(--ct-hl-accent-6); }
-
+/* ---- Highlighted column --------------------------------------------------------
+   Each cell of the column carries its own scheme class, so the background, text and
+   accent follow that scheme's roles. Only the corners and the edge bleed are extra. */
 .tdm-comparison-table .ct-hl {
-  background-color: var(--ct-hl-bg);
-  color: var(--ct-hl-fg);
-  --ct-border: color-mix(in srgb, var(--ct-hl-fg) var(--ct-border-opacity), transparent);
+  --ct-border: color-mix(in oklab, var(--pr-text-primary) var(--ct-border-opacity), transparent);
 }
 
 .tdm-comparison-table thead .ct-hl {
@@ -292,7 +203,7 @@
 /* The highlighted column at either edge bleeds into the table's side padding,
    so its colour reaches the edge (with or without buttons, rows or images) */
 .tdm-comparison-table .ct-table tr > .ct-hl:last-child {
-  box-shadow: var(--ct-pad) 0 0 0 var(--ct-hl-bg);
+  box-shadow: var(--ct-pad) 0 0 0 var(--pr-surface);
 }
 
 /* If the highlighted column is last, its right corners follow the table radius */
@@ -303,16 +214,6 @@
 .tdm-comparison-table tr.ct-last > .ct-hl:last-child {
   border-bottom-right-radius: 0;
 }
-
-/* ---- Column buttons: independent scheme (section level) ----------------------
-   --ct-btn-bg/-fg/-hover-bg/-hover-fg are already set on the root element and
-   inherit into every a.ct-btn; these rules only apply per-column overrides. */
-.tdm-comparison-table a.ct-btn.ct-btn-c1 { --ct-btn-bg: var(--ct-btn-bg-1, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-1, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-1, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-1, var(--ct-btn-hover-fg)); }
-.tdm-comparison-table a.ct-btn.ct-btn-c2 { --ct-btn-bg: var(--ct-btn-bg-2, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-2, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-2, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-2, var(--ct-btn-hover-fg)); }
-.tdm-comparison-table a.ct-btn.ct-btn-c3 { --ct-btn-bg: var(--ct-btn-bg-3, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-3, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-3, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-3, var(--ct-btn-hover-fg)); }
-.tdm-comparison-table a.ct-btn.ct-btn-c4 { --ct-btn-bg: var(--ct-btn-bg-4, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-4, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-4, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-4, var(--ct-btn-hover-fg)); }
-.tdm-comparison-table a.ct-btn.ct-btn-c5 { --ct-btn-bg: var(--ct-btn-bg-5, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-5, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-5, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-5, var(--ct-btn-hover-fg)); }
-.tdm-comparison-table a.ct-btn.ct-btn-c6 { --ct-btn-bg: var(--ct-btn-bg-6, var(--ct-btn-bg)); --ct-btn-fg: var(--ct-btn-fg-6, var(--ct-btn-fg)); --ct-btn-hover-bg: var(--ct-btn-hover-bg-6, var(--ct-btn-hover-bg)); --ct-btn-hover-fg: var(--ct-btn-hover-fg-6, var(--ct-btn-hover-fg)); }
 
 /* ---- Scroll affordance (all screens, only when the table doesn't fit) -------- */
 .tdm-comparison-table .ct-scroll {
@@ -325,12 +226,12 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 3.2rem;
+  width: var(--pr-space-8);
   pointer-events: none;
   border-radius: 0 var(--ct-radius) var(--ct-radius) 0;
-  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--ct-table-fg) 18%, transparent));
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--pr-text-primary) 18%, transparent));
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--pr-motion-base) var(--pr-motion-ease);
 }
 
 .tdm-comparison-table .ct-scroll.is-scrollable:not(.is-end)::after {
@@ -341,15 +242,13 @@
   display: none;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  margin: 0 0 1rem;
-  font-size: 1.2rem;
-  opacity: 0.75;
+  gap: var(--pr-space-2);
+  margin: 0 0 var(--pr-space-3);
 }
 
 .tdm-comparison-table .ct-scroll-hint svg {
-  width: 1.4rem;
-  height: 1.4rem;
+  width: var(--pr-icon-sm);
+  height: var(--pr-icon-sm);
 }
 
 .tdm-comparison-table .ct-block.is-scrollable .ct-scroll-hint {
@@ -380,22 +279,15 @@
     width: var(--ct-mobile-hl-w);
   }
 
-  /* Compact type and spacing */
   .tdm-comparison-table .ct-table th,
   .tdm-comparison-table .ct-table td {
-    padding: 1.2rem 0.8rem;
-    font-size: 1.3rem;
-    line-height: 1.35;
+    padding: var(--pr-space-3) var(--pr-space-2);
   }
 
   .tdm-comparison-table .ct-table th.ct-feature {
-    padding-left: 0.4rem;
+    padding-left: var(--pr-space-1);
     overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
     hyphens: manual;
-  }
-
-  .tdm-comparison-table .ct-feature small {
-    font-size: 1.1rem;
   }
 
   .tdm-comparison-table .ct-cell {
@@ -403,12 +295,12 @@
   }
 
   .tdm-comparison-table .ct-table th.ct-header {
-    padding-top: 1.6rem;
-    padding-bottom: 1.4rem;
+    padding-top: var(--pr-space-4);
+    padding-bottom: var(--pr-space-3);
   }
 
   .tdm-comparison-table .ct-header__inner {
-    gap: 0.6rem;
+    gap: var(--pr-space-2);
   }
 
   .tdm-comparison-table .ct-header__image {
@@ -416,62 +308,41 @@
   }
 
   .tdm-comparison-table .ct-header__title {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
-  }
-
-  .tdm-comparison-table .ct-header__subtitle {
-    font-size: 1.15rem;
-  }
-
-  .tdm-comparison-table .ct-header__price {
-    font-size: 1.15rem;
-    line-height: 1.3;
-  }
-
-  .tdm-comparison-table .ct-header__price strong {
-    font-size: 1.3rem;
-  }
-
-  .tdm-comparison-table .ct-header__note {
-    font-size: 1.05rem;
+    overflow-wrap: break-word;
   }
 
   .tdm-comparison-table .ct-icon {
-    width: 2rem;
-    height: 2rem;
+    width: var(--pr-icon-lg);
+    height: var(--pr-icon-lg);
   }
 
   .tdm-comparison-table .ct-badge {
-    font-size: 0.9rem;
-    padding: 0.2rem 0.6rem;
-    letter-spacing: 0.03em;
     white-space: nowrap;
   }
 
   .tdm-comparison-table .ct-check {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: var(--pr-icon-md);
+    height: var(--pr-icon-md);
   }
 
-  /* Column buttons: theme button, only allowed to wrap inside narrow columns */
-  .tdm-comparison-table .ct-table a.ct-btn {
+  /* Column buttons: only allowed to wrap inside narrow columns */
+  .tdm-comparison-table .ct-table .ct-btn {
     min-width: 0;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: var(--pr-space-3);
+    padding-right: var(--pr-space-3);
     white-space: normal;
+    height: auto;
+    min-height: var(--pr-control-md);
   }
 
   .tdm-comparison-table .ct-foot td,
   .tdm-comparison-table .ct-foot th {
-    padding-top: 1.6rem;
-    padding-bottom: 2rem;
+    padding-top: var(--pr-space-4);
+    padding-bottom: var(--pr-space-4);
   }
 
-  /* General button */
   .tdm-comparison-table .ct-cta {
-    margin-top: 2.4rem;
+    margin-top: var(--pr-space-6);
   }
 
   /* Sticky feature column with a shadow to signal the rest scrolls */
@@ -479,8 +350,8 @@
     position: sticky;
     left: calc(-1 * var(--ct-pad));
     z-index: 2;
-    background-color: var(--ct-table-bg);
-    transition: box-shadow 0.2s ease;
+    background-color: var(--pr-surface);
+    transition: box-shadow var(--pr-motion-base) var(--pr-motion-ease);
   }
 
   .tdm-comparison-table.ct-sticky-feature.ct-feature-tint .ct-table .ct-feature {
@@ -488,20 +359,12 @@
   }
 
   .tdm-comparison-table.ct-sticky-feature .ct-scroll.is-scrolled .ct-table .ct-feature {
-    box-shadow: 6px 0 8px -6px color-mix(in srgb, var(--ct-table-fg) 35%, transparent);
+    box-shadow: var(--pr-elevation-sm);
   }
 }
 
 /* ---- Buttons (column and section) --------------------------------------------- */
-
-/* Always the theme's .button class (no section-specific variant): same height, padding,
-   font, radius, border and shadow as the rest of the site (Theme settings -> Buttons) */
-.tdm-comparison-table.ct-theme-btn a.ct-btn.button {
-  margin: 0;
-  text-decoration: none;
-}
-
-.tdm-comparison-table.ct-theme-btn .ct-table a.ct-btn.button {
+.tdm-comparison-table .ct-table .ct-btn {
   min-width: 0;
   max-width: 100%;
 }
@@ -519,68 +382,22 @@
 .tdm-comparison-table .ct-foot th {
   text-align: center;
   vertical-align: top;
-  padding-top: 2.4rem;
-  padding-bottom: 2.8rem;
+  padding-top: var(--pr-space-6);
+  padding-bottom: var(--pr-space-6);
 }
 
 .tdm-comparison-table .ct-footnote {
-  margin-top: 1.6rem;
-  font-size: 1.2rem;
-  opacity: 0.75;
+  margin-top: var(--pr-space-4);
   text-align: var(--ct-align);
 }
 
 .tdm-comparison-table .ct-footnote p {
-  margin: 0 0 0.4rem;
+  margin: 0 0 var(--pr-space-1);
 }
 
 /* ---- General button (own scheme) ----------------------------------------------- */
 .tdm-comparison-table .ct-cta {
   display: flex;
   justify-content: var(--ct-cta-align);
-  margin-top: 3.2rem;
-}
-
-.tdm-comparison-table .ct-cta a.ct-btn {
-  --ct-btn-bg: var(--ct-cta-bg);
-  --ct-btn-fg: var(--ct-cta-fg);
-  --ct-btn-hover-bg: var(--ct-cta-hover-bg);
-  --ct-btn-hover-fg: var(--ct-cta-hover-fg);
-}
-
-/* Reading text floor (tokens in tdm-foundations.css) */
-.tdm-comparison-table .ct-table .ct-feature,
-.tdm-comparison-table .ct-table th.ct-feature,
-.tdm-comparison-table .ct-header__subtitle,
-.tdm-comparison-table .ct-header__note,
-.tdm-comparison-table .ct-scroll-hint,
-.tdm-comparison-table .ct-footnote {
-  font-size: var(--tdm-text-body);
-  line-height: var(--tdm-text-body-leading);
-  color: rgb(var(--color-foreground));
-  opacity: 1;
-}
-
-/* Text inside the table follows the table scheme, not the section scheme */
-.tdm-comparison-table .ct-table .ct-feature,
-.tdm-comparison-table .ct-table th.ct-feature,
-.tdm-comparison-table .ct-header__subtitle,
-.tdm-comparison-table .ct-header__note,
-.tdm-comparison-table .ct-feature small {
-  color: var(--ct-table-fg);
-}
-
-@media screen and (min-width: 750px) {
-  .tdm-comparison-table .ct-table .ct-feature,
-  .tdm-comparison-table .ct-table th.ct-feature,
-  .tdm-comparison-table .ct-header__subtitle,
-  .tdm-comparison-table .ct-header__note,
-  .tdm-comparison-table .ct-scroll-hint,
-  .tdm-comparison-table .ct-footnote {
-    font-size: var(--tdm-text-body-desktop);
-  }
-}
-
-.tdm-comparison-table .ct-feature small {
-  opacity: 1;
+  margin-top: var(--pr-space-8);
 }
