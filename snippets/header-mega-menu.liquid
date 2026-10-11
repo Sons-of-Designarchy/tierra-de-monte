@@ -40,7 +40,7 @@
                           aria-current="page"
                         {% endif %}
                       >
-                        {%- assign child_title = childlink.title | escape -%}{%- render 'typography', text: child_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
+                        {%- assign child_title = childlink.title | escape -%}{%- assign child_weight = 'bold' -%}{%- if link.levels == 1 -%}{%- assign child_weight = 'regular' -%}{%- endif -%}{%- render 'typography', text: child_title, variant: 'body-sm', weight: child_weight, color: 'inherit', as: 'span' -%}
                       </a>
                       {%- if childlink.links != blank -%}
                         <ul class="list-unstyled" role="list">
@@ -54,7 +54,7 @@
                                   aria-current="page"
                                 {% endif %}
                               >
-                                {%- assign grand_title = grandchildlink.title | escape -%}{%- render 'typography', text: grand_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
+                                {%- assign grand_title = grandchildlink.title | escape -%}{%- render 'typography', text: grand_title, variant: 'body-sm', weight: 'regular', color: 'inherit', as: 'span' -%}
                               </a>
                             </li>
                           {%- endfor -%}

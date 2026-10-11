@@ -17,7 +17,7 @@ body .hs__credit span,
 .tdm-comparison-table .ct-scroll-hint,
 .tdm-comparison-table .ct-footnote {
   opacity: 1;
-  color: rgb(var(--color-foreground));
+  color: var(--pr-text-primary);
 }
 
 /* 2. Body size (Dawn body: 1.5rem, 1.6rem ≥750px).
@@ -32,8 +32,8 @@ body .tdm-comparison-table .ct-header__subtitle,
 body .tdm-comparison-table .ct-header__note,
 body .tdm-comparison-table .ct-scroll-hint,
 body .tdm-comparison-table .ct-footnote {
-  font-size: 1.5rem;
-  line-height: 1.46;
+  font-size: var(--pr-text-body);
+  line-height: var(--pr-leading-normal);
 }
 
 @media screen and (min-width: 750px) {
@@ -47,7 +47,7 @@ body .tdm-comparison-table .ct-footnote {
   body .tdm-comparison-table .ct-header__note,
   body .tdm-comparison-table .ct-scroll-hint,
   body .tdm-comparison-table .ct-footnote {
-    font-size: 1.6rem;
+    font-size: var(--pr-text-body);
   }
 }
 
@@ -84,14 +84,4 @@ body .shopify-section-group-footer-aliados-group .footer-block__newsletter .foot
 body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter__media {
   margin-left: 0;
   margin-right: auto;
-}
-
-/* Newsletter is off in this footer: its empty form wrapper still took the first column
-   and pushed the image right */
-body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter {
-  display: block !important;
-}
-
-body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter__form {
-  display: none;
 }
