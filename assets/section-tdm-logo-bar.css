@@ -1,8 +1,9 @@
 /* =============================================================================
    Logo bar section (sections/logo-bar.liquid)
-   A card of partner/ally logos in a responsive grid, with an optional title.
-   Per-instance values arrive as custom properties on .tdm-logo-bar:
-     --tdm-radius --logo-bar-gap --logo-h --cols-mobile --cols-desktop
+   A card (card atom) of partner/ally logos in a responsive grid, with an optional
+   title. Text is rendered by typography. Per-instance values arrive as custom
+   properties on .tdm-logo-bar:
+     --logo-radius --logo-bar-gap --logo-h --cols-mobile --cols-desktop
    Grayscale is a modifier class (.tdm-logo-bar--grayscale).
    ========================================================================== */
 
@@ -11,14 +12,12 @@
 }
 
 .tdm-logo-bar .logo-bar__card {
-  border-radius: var(--tdm-radius, 16px);
-  padding: 32px;
-  background-color: rgb(var(--color-background));
-  box-shadow: var(--tdm-shadow-card);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  border-radius: var(--logo-radius, var(--pr-radius-surface));
+}
+
+.tdm-logo-bar .logo-bar__card .pr-card__body {
   align-items: center;
+  flex: 0 1 auto;
 }
 
 /* ---- Header ---------------------------------------------------------------- */
@@ -26,44 +25,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-bottom: var(--tdm-space-6);
-}
-
-.tdm-logo-bar .logo-bar__title {
-  text-align: center;
-  margin: 0;
-}
-
-/* Font style options */
-.tdm-logo-bar .logo-bar__title--heading {
-  font-family: var(--font-heading-family);
-  font-weight: var(--font-heading-weight);
-}
-
-.tdm-logo-bar .logo-bar__title--body {
-  font-family: var(--font-body-family);
-  font-weight: 400;
-}
-
-.tdm-logo-bar .logo-bar__title--mono {
-  font-family: var(--font-mono-family);
-  font-style: var(--font-mono-style);
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  text-transform: none;
-  font-synthesis: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  gap: var(--pr-space-3);
+  margin-bottom: var(--pr-space-6);
 }
 
 /* Rule under heading */
 .tdm-logo-bar .logo-bar__rule {
   width: 64px;
-  height: 3px;
-  border-radius: 3px;
-  background: currentColor;
-  opacity: 0.25;
+  height: 1px;
+  background: var(--pr-border-strong);
 }
 
 /* ---- Grid ------------------------------------------------------------------ */
@@ -71,6 +41,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
   display: grid;
   gap: var(--logo-bar-gap, 24px);
   align-items: center;
@@ -113,7 +84,7 @@
   max-height: 100%;
   object-fit: contain;
   opacity: 0.9;
-  transition: opacity var(--tdm-duration) var(--tdm-ease), transform var(--tdm-duration) var(--tdm-ease);
+  transition: opacity var(--pr-motion-base) var(--pr-motion-ease), transform var(--pr-motion-base) var(--pr-motion-ease);
 }
 
 .tdm-logo-bar .logo-bar__item:hover .logo-bar__img {

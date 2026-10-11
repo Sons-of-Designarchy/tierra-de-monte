@@ -17,11 +17,60 @@
   if section.settings.grayscale
     assign root_classes = root_classes | append: ' tdm-logo-bar--grayscale'
   endif
+
+  assign title_variant = 'h2'
+  case section.settings.heading_size
+    when 'h1'
+      assign title_variant = 'h1'
+    when 'h0'
+      assign title_variant = 'display'
+    when 'h4'
+      assign title_variant = 'h4'
+  endcase
+  assign title_font = 'display'
+  case section.settings.title_font
+    when 'body'
+      assign title_font = 'body'
+    when 'mono'
+      assign title_font = 'mono'
+  endcase
+  assign card_class = 'logo-bar__card color-' | append: section.settings.color_scheme | append: ' gradient'
 -%}
+
+{%- capture card_inner -%}
+  {% if section.settings.title != blank %}
+    <div class="logo-bar__header">
+      {% render 'typography', text: section.settings.title, variant: title_variant, as: 'h2', font: title_font, align: 'center' %}
+      <div class="logo-bar__rule" aria-hidden="true"></div>
+    </div>
+  {% endif %}
+
+  <ul role="list" class="logo-bar__list">
+    {%- for block in section.blocks -%}
+      {%- if block.settings.image != blank -%}
+        <li class="logo-bar__item" {{ block.shopify_attributes }}>
+          <div class="logo-bar__box">
+            {%- assign img = block.settings.image -%}
+            {{
+              img
+              | image_url: width: 800
+              | image_tag:
+                widths: '160, 200, 240, 320, 480, 640, 800',
+                sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw',
+                class: 'logo-bar__img',
+                alt: block.settings.alt
+              | default: img.alt
+            }}
+          </div>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endcapture -%}
 
 <section
   class="{{ root_classes }}"
-  style="--tdm-radius: {{ section.settings.radius }}px; --logo-bar-gap: {{ section.settings.gap }}px; --logo-h: {{ section.settings.max_height }}px; --cols-mobile: {{ mobile_cols }}; --cols-desktop: {{ desktop_cols }};"
+  style="--logo-radius: {{ section.settings.radius }}px; --logo-bar-gap: {{ section.settings.gap }}px; --logo-h: {{ section.settings.max_height }}px; --cols-mobile: {{ mobile_cols }}; --cols-desktop: {{ desktop_cols }};"
 >
   <div
     class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -29,39 +78,7 @@
       data-cascade
     {% endif %}
   >
-    <div class="logo-bar__card content-container color-{{ section.settings.color_scheme }} gradient">
-      {% if section.settings.title != blank %}
-        {%- assign title_font = section.settings.title_font | default: 'heading' -%}
-        <div class="logo-bar__header">
-          <h2 class="logo-bar__title title inline-richtext {{ section.settings.heading_size }} logo-bar__title--{{ title_font }}">
-            {{ section.settings.title }}
-          </h2>
-          <div class="logo-bar__rule" aria-hidden="true"></div>
-        </div>
-      {% endif %}
-
-      <ul role="list" class="logo-bar__list">
-        {%- for block in section.blocks -%}
-          {%- if block.settings.image != blank -%}
-            <li class="logo-bar__item" {{ block.shopify_attributes }}>
-              <div class="logo-bar__box">
-                {%- assign img = block.settings.image -%}
-                {{
-                  img
-                  | image_url: width: 800
-                  | image_tag:
-                    widths: '160, 200, 240, 320, 480, 640, 800',
-                    sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw',
-                    class: 'logo-bar__img',
-                    alt: block.settings.alt
-                  | default: img.alt
-                }}
-              </div>
-            </li>
-          {%- endif -%}
-        {%- endfor -%}
-      </ul>
-    </div>
+    {% render 'card', elevated: true, padding: 'lg', content: card_inner, class: card_class %}
   </div>
 </section>
 
