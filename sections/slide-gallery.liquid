@@ -47,17 +47,32 @@
   endif
 -%}
 
+{%- liquid
+  case section.settings.intro_heading_size
+    when 'h2'
+      assign sg_title_variant = 'h2'
+    when 'h1'
+      assign sg_title_variant = 'h1'
+    else
+      assign sg_title_variant = 'display'
+  endcase
+  assign sg_cta_href = section.settings.button_link | default: '#'
+  assign sg_cta_variant = 'primary'
+  if section.settings.button_style_secondary
+    assign sg_cta_variant = 'outline'
+  endif
+  assign sg_prev_label = 'sections.slideshow.previous_slideshow' | t
+  assign sg_next_label = 'sections.slideshow.next_slideshow' | t
+  capture sg_prev_attrs
+    echo 'name="previous" aria-controls="Slider-' | append: section.id | append: '"'
+  endcapture
+  capture sg_next_attrs
+    echo 'name="next" aria-controls="Slider-' | append: section.id | append: '"'
+  endcapture
+-%}
+{%- capture sg_cta_attrs -%}{% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %}{%- endcapture -%}
 {%- capture cta -%}
-  <a
-    {% if section.settings.button_link != blank %}
-      href="{{ section.settings.button_link }}"
-    {% else %}
-      role="link" aria-disabled="true"
-    {% endif %}
-    class="button {% if section.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
-  >
-    {{- section.settings.button_label | escape -}}
-  </a>
+  {%- render 'button', label: section.settings.button_label, href: sg_cta_href, variant: sg_cta_variant, size: 'lg', attrs: sg_cta_attrs -%}
 {%- endcapture -%}
 
 {%- capture intro -%}
@@ -66,14 +81,10 @@
       <div class="slide-gallery-intro__inner page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color -%}
         {%- if section.settings.intro_title != blank -%}
-          <h2 class="slide-gallery-intro__heading inline-richtext {{ section.settings.intro_heading_size }}">
-            {{ section.settings.intro_title }}
-          </h2>
+          {%- render 'typography', text: section.settings.intro_title, as: 'h2', variant: sg_title_variant, font: 'display', weight: 'medium', class: 'slide-gallery-intro__heading' -%}
         {%- endif -%}
         {%- if section.settings.intro_text != blank -%}
-          <div class="slide-gallery-intro__text rte">
-            {{ section.settings.intro_text }}
-          </div>
+          {%- render 'typography', text: section.settings.intro_text, as: 'div', variant: 'body', class: 'slide-gallery-intro__text rte' -%}
         {%- endif -%}
         {%- if has_cta and cta_below == false -%}
           <div class="slide-gallery-intro__buttons">{{ cta }}</div>
@@ -84,23 +95,16 @@
 {%- endcapture -%}
 
 {%- capture slider_controls_inner -%}
-  <button
-    type="button"
-    class="slider-button slider-button--prev"
-    name="previous"
-    aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
-    aria-controls="Slider-{{ section.id }}"
-  >
-    <span class="svg-wrapper">
-      {{- 'icon-caret.svg' | inline_asset_content -}}
-    </span>
-  </button>
-  <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}{% if section.settings.slider_visual == 'counter' or section.settings.slider_visual == 'numbers' %} caption{% endif %}">
+  {%- render 'icon-button', icon: 'chevron-right', label: sg_prev_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--prev', attrs: sg_prev_attrs -%}
+  <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}">
     {%- if section.settings.slider_visual == 'counter' -%}
-      <span class="slider-counter--current">1</span>
-      <span aria-hidden="true"> / </span>
-      <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-      <span class="slider-counter--total">{{ section.blocks.size }}</span>
+      {%- capture sg_counter -%}
+        <span class="slider-counter--current">1</span>
+        <span aria-hidden="true"> / </span>
+        <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+        <span class="slider-counter--total">{{ section.blocks.size }}</span>
+      {%- endcapture -%}
+      {%- render 'typography', text: sg_counter, as: 'div', variant: 'xs', color: 'inherit' -%}
     {%- else -%}
       <div class="slideshow__control-wrapper">
         {%- for block in section.blocks -%}
@@ -110,7 +114,7 @@
             aria-controls="Slider-{{ section.id }}"
           >
             {%- if section.settings.slider_visual == 'numbers' -%}
-              {{ forloop.index -}}
+              {%- render 'typography', text: forloop.index, as: 'span', variant: 'xs', color: 'inherit' -%}
             {%- else -%}
               <span class="dot"></span>
             {%- endif -%}
@@ -119,17 +123,7 @@
       </div>
     {%- endif -%}
   </div>
-  <button
-    type="button"
-    class="slider-button slider-button--next"
-    name="next"
-    aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
-    aria-controls="Slider-{{ section.id }}"
-  >
-    <span class="svg-wrapper">
-      {{- 'icon-caret.svg' | inline_asset_content -}}
-    </span>
-  </button>
+  {%- render 'icon-button', icon: 'chevron-right', label: sg_next_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--next', attrs: sg_next_attrs -%}
 {%- endcapture -%}
 
 <div
@@ -241,14 +235,19 @@
           >
             {%- if bs.quote != blank -%}
               <figure class="tdm-slide-gallery__quote">
-                <blockquote class="tdm-slide-gallery__quote-text">{{ bs.quote | escape | newline_to_br }}</blockquote>
+                {%- capture sg_mark -%}<svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>{%- endcapture -%}
+                {%- capture sg_quote_html -%}{{ bs.quote | escape | newline_to_br }}{{ sg_mark }}{%- endcapture -%}
+                <svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>
+                {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h6', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
                 {%- if bs.quote_author != blank or bs.quote_role != blank -%}
                   <figcaption class="tdm-slide-gallery__quote-author">
                     {%- if bs.quote_author != blank -%}
-                      <span class="tdm-slide-gallery__quote-name">{{ bs.quote_author | escape }}</span>
+                      {%- assign sg_author = bs.quote_author | escape -%}
+                      {%- render 'typography', text: sg_author, as: 'span', variant: 'body', weight: 'bold', color: 'inherit', class: 'tdm-slide-gallery__quote-name' -%}
                     {%- endif -%}
                     {%- if bs.quote_role != blank -%}
-                      <span class="tdm-slide-gallery__quote-role">{{ bs.quote_role | escape }}</span>
+                      {%- assign sg_role = bs.quote_role | escape -%}
+                      {%- render 'typography', text: sg_role, as: 'span', variant: 'body', color: 'inherit', class: 'tdm-slide-gallery__quote-role' -%}
                     {%- endif -%}
                   </figcaption>
                 {%- endif -%}
@@ -259,7 +258,8 @@
                 {%- for key in (1..6) -%}
                   {%- assign stat_key = 'stat_' | append: key -%}
                   {%- if bs[stat_key] != blank -%}
-                    <li class="tdm-slide-gallery__stat">{{ bs[stat_key] | escape }}</li>
+                    {%- assign sg_stat = bs[stat_key] | escape -%}
+                    <li class="tdm-slide-gallery__stat">{%- render 'typography', text: sg_stat, as: 'span', variant: 'body', color: 'inherit' -%}</li>
                   {%- endif -%}
                 {%- endfor -%}
               </ul>

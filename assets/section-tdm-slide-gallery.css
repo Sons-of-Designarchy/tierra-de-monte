@@ -9,7 +9,7 @@
    ========================================================================== */
 
 .tdm-slide-gallery .slide-gallery-intro__inner > * + * {
-  margin-top: 1.5rem;
+  margin-top: var(--pr-space-4);
 }
 
 .tdm-slide-gallery .slide-gallery-intro__heading {
@@ -106,74 +106,58 @@
    trails the last line; both use the scheme's button colour (or the quote colour
    over the photo). */
 .tdm-slide-gallery__caption {
-  --sg-quote-indent: 3.6rem;
-  --sg-quote-mark: 5.2rem;
+  --sg-quote-indent: var(--pr-space-8);
   display: flex;
   flex-direction: column;
-  gap: var(--tdm-space-6);
-  padding: var(--tdm-space-6);
+  gap: var(--pr-space-6);
+  padding: var(--pr-space-6);
   flex: 1 1 auto;
-  color: rgb(var(--color-foreground));
+  color: var(--pr-text-primary);
 }
 
 .tdm-slide-gallery__quote {
+  position: relative;
   margin: 0;
 }
 
 .tdm-slide-gallery__quote-text {
-  position: relative;
   margin: 0;
   padding: 0 0 0 var(--sg-quote-indent);
   border: 0;
-  font-size: var(--tdm-text-quote);
-  line-height: 1.35;
   font-style: normal;
-  color: rgb(var(--color-foreground)); /* base.css fades blockquote to 75% */
+  opacity: 1; /* base.css fades blockquote to 75% */
 }
 
-/* Marks are decorative glyphs, not text: Inter draws them as slanted bars, so they
-   use a system face with curly 66/99 marks (no font file loaded) */
-.tdm-slide-gallery__quote-text::before,
-.tdm-slide-gallery__quote-text::after {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-weight: 700;
-  font-size: var(--sg-quote-mark);
-  color: var(--sg-mark-color, rgb(var(--color-button)));
+/* Quote marks are inline SVG shapes (a glyph from any text font draws slanted bars):
+   the opening one hangs top-left, the closing one trails the last line */
+.tdm-slide-gallery__mark {
+  width: var(--pr-space-6);
+  height: var(--pr-space-6);
+  color: var(--sg-mark-color, var(--pr-action));
+  pointer-events: none;
 }
 
-.tdm-slide-gallery__quote-text::before {
-  content: '\201C';
+.tdm-slide-gallery__mark--open {
   position: absolute;
   left: 0;
-  top: 0.08em;
-  line-height: 0.8;
+  top: var(--pr-space-1);
+  transform: rotate(180deg);
 }
 
-/* Closing mark: inline after the last word, hanging below the line without
-   adding height to it (line-height 0) */
-.tdm-slide-gallery__quote-text::after {
-  content: '\201D';
+.tdm-slide-gallery__mark--close {
   display: inline-block;
-  margin-left: 0.08em;
-  line-height: 0;
-  vertical-align: -0.42em;
+  margin-left: var(--pr-space-1);
+  vertical-align: text-bottom;
 }
 
 .tdm-slide-gallery__quote-author {
-  margin-top: var(--tdm-space-3);
-  font-family: var(--font-body-family); /* base.css sets figcaption to the caption font */
+  margin-top: var(--pr-space-3);
   padding-left: var(--sg-quote-indent);
-  font-size: var(--tdm-text-body);
-  line-height: var(--tdm-text-body-leading);
 }
 
 .tdm-slide-gallery__quote-name,
 .tdm-slide-gallery__quote-role {
   display: block;
-}
-
-.tdm-slide-gallery__quote-name {
-  font-weight: var(--font-body-weight-bold);
 }
 
 .tdm-slide-gallery__quote-role {
@@ -186,15 +170,13 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--tdm-space-2);
+  gap: var(--pr-space-2);
 }
 
 .tdm-slide-gallery__stat {
   position: relative;
   margin: 0;
-  padding-left: 1.6rem;
-  font-size: var(--tdm-text-body);
-  line-height: var(--tdm-text-body-leading);
+  padding-left: var(--pr-space-4);
 }
 
 .tdm-slide-gallery__stat::before {
@@ -202,20 +184,19 @@
   position: absolute;
   top: 0.7em;
   left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--sg-mark-color, rgb(var(--color-button)));
+  width: var(--pr-space-1);
+  height: var(--pr-space-1);
+  border-radius: var(--pr-radius-full);
+  background: var(--sg-mark-color, var(--pr-action));
 }
 
 @media screen and (min-width: 1200px) {
   .tdm-slide-gallery .tdm-slide-gallery__caption {
-    --sg-quote-indent: 4.8rem;
-    --sg-quote-mark: 7.2rem;
+    --sg-quote-indent: var(--pr-space-12);
     /* Glass card: tinted with the slide's overlay colour, blur, 1px border, rounded.
        Blur is a touch stronger than the hero button's so text stays legible on busy photos. */
-    --sg-glass-ink: var(--sg-quote-color, rgb(var(--color-foreground)));
-    --sg-caption-inset: var(--tdm-space-6);
+    --sg-glass-ink: var(--sg-quote-color, var(--pr-text-primary));
+    --sg-caption-inset: var(--pr-space-6);
     position: absolute;
     top: 50%;
     z-index: 1;
@@ -223,9 +204,9 @@
     max-height: calc(100% - 2 * var(--sg-caption-inset));
     transform: translateY(-50%);
     justify-content: center;
-    border: 1px solid color-mix(in srgb, var(--sg-glass-ink) 55%, transparent);
-    border-radius: var(--tdm-radius-lg);
-    background: color-mix(in srgb, var(--sg-overlay-color, rgb(0 0 0)) calc(var(--sg-overlay-opacity, 0.3) * 100%), transparent);
+    border: 1px solid color-mix(in oklab, var(--sg-glass-ink) 55%, transparent);
+    border-radius: var(--pr-radius-lg);
+    background: color-mix(in oklab, var(--sg-overlay-color, var(--pr-ink)) calc(var(--sg-overlay-opacity, 0.3) * 100%), transparent);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
   }
@@ -235,7 +216,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--sg-overlay-color, rgb(0 0 0));
+    background: var(--sg-overlay-color, var(--pr-ink));
     opacity: var(--sg-overlay-opacity, 0.3);
     pointer-events: none;
   }
@@ -276,26 +257,18 @@
     transform: translateX(-50%);
   }
 
-  .tdm-slide-gallery__quote-text {
-    font-size: var(--tdm-text-quote-desktop);
-  }
-
-  .tdm-slide-gallery__quote-author {
-    font-size: var(--tdm-text-body-desktop);
-  }
-
   /* Optional per-slide colours over the photo (--sg-quote-color / --sg-stats-color) */
   .tdm-slide-gallery__caption .tdm-slide-gallery__quote-text,
   .tdm-slide-gallery__caption .tdm-slide-gallery__quote-author {
-    color: var(--sg-quote-color, rgb(var(--color-foreground)));
+    color: var(--sg-quote-color, var(--pr-text-primary));
   }
 
   .tdm-slide-gallery__caption {
-    --sg-mark-color: var(--sg-quote-color, rgb(var(--color-button)));
+    --sg-mark-color: var(--sg-quote-color, var(--pr-action));
   }
 
   .tdm-slide-gallery__caption .tdm-slide-gallery__stat {
-    color: var(--sg-stats-color, rgb(var(--color-foreground)));
+    color: var(--sg-stats-color, var(--pr-text-primary));
   }
 }
 
@@ -322,7 +295,7 @@
 /* Button below the gallery: same alignment as the intro text */
 .tdm-slide-gallery .slide-gallery-cta {
   display: flex;
-  padding-top: 1.6rem;
+  padding-top: var(--pr-space-4);
 }
 
 .tdm-slide-gallery .slide-gallery-cta.slide-gallery-intro--center {
@@ -334,34 +307,33 @@
 }
 
 .tdm-slide-gallery .slider-buttons {
-  gap: 16px;
-  padding: 1.6rem 0;
+  gap: var(--pr-space-4);
+  padding: var(--pr-space-4) 0;
 }
 
+/* Arrows are the icon-button atom; Dawn's slider.js drives them by .slider-button--prev/--next */
 .tdm-slide-gallery .slider-button {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(var(--color-foreground), 0.75);
-  background: rgba(var(--color-background), 0.2);
-  color: rgb(var(--color-foreground));
-  transition: background 0.2s;
+  width: var(--pr-control-md);
+  height: var(--pr-control-md);
+  border: 1px solid var(--pr-border-strong);
+  background: color-mix(in oklab, var(--pr-surface) 20%, transparent);
+  color: var(--pr-text-primary);
 }
 
 .tdm-slide-gallery .slider-button:not([disabled]):hover {
-  background: rgba(var(--color-foreground), 0.08);
+  background: var(--pr-action-light);
 }
 
 .tdm-slide-gallery .slider-button[disabled] {
   opacity: 0.4;
 }
 
-.tdm-slide-gallery .slider-button .icon {
-  height: 0.8rem;
+.tdm-slide-gallery .slider-button--prev .pr-icon {
+  transform: scaleX(-1);
 }
 
 .tdm-slide-gallery .slideshow__control-wrapper {
-  gap: 8px;
+  gap: var(--pr-space-2);
   align-items: center;
 }
 
@@ -370,26 +342,21 @@
 }
 
 .tdm-slide-gallery .slider-counter__link--dots .dot {
-  width: 8px;
-  height: 8px;
+  width: var(--pr-space-2);
+  height: var(--pr-space-2);
   border: 0;
-  border-radius: var(--tdm-radius-pill);
-  background: rgba(var(--color-foreground), 0.5);
-  transition: width 0.3s, background 0.3s;
+  border-radius: var(--pr-radius-full);
+  background: color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
+  transition:
+    width var(--pr-motion-base) var(--pr-motion-ease),
+    background var(--pr-motion-base) var(--pr-motion-ease);
 }
 
 .tdm-slide-gallery .slider-counter__link--active.slider-counter__link--dots .dot {
-  width: 24px;
-  background: rgb(var(--color-foreground));
+  width: var(--pr-space-6);
+  background: var(--pr-text-primary);
 }
 
 .tdm-slide-gallery .slider-counter__link--dots:hover .dot {
   transform: none;
-}
-
-@media screen and (max-width: 749px) {
-  .tdm-slide-gallery .slider-button {
-    width: 38px;
-    height: 38px;
-  }
 }
