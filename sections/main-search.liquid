@@ -13,35 +13,8 @@
 {%- endif -%}
 
 <script src="{{ 'main-search.js' | asset_url }}" defer="defer"></script>
+{{ 'section-tdm-search.css' | asset_url | stylesheet_tag }}
 
-<style>
-  .template-search__header {
-    margin-bottom: 3rem;
-  }
-
-  .template-search__search {
-    margin: 0 auto 3.5rem;
-    max-width: 74.1rem;
-  }
-
-  .template-search__search .search {
-    margin-top: 3rem;
-  }
-
-  .template-search--empty {
-    padding-bottom: 18rem;
-  }
-
-  @media screen and (min-width: 750px) {
-    .template-search__header {
-      margin-bottom: 5rem;
-    }
-  }
-
-  .search__button .icon {
-    height: 1.8rem;
-  }
-</style>
 
 {%- liquid
   assign sort_by = search.sort_by | default: search.default_sort_by
@@ -49,58 +22,33 @@
   assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
 -%}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 {% paginate search.results by 24 %}
   <div class="template-search{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }}-padding">
     <div class="template-search__header page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      <h1 class="h2 center">
-        {%- if search.performed -%}
-          {{- 'templates.search.title' | t -}}
-        {%- else -%}
-          {{- 'general.search.search' | t -}}
-        {%- endif -%}
-      </h1>
+      {%- if search.performed -%}
+        {%- assign ts_title = 'templates.search.title' | t -%}
+      {%- else -%}
+        {%- assign ts_title = 'general.search.search' | t -%}
+      {%- endif -%}
+      {% render 'typography', text: ts_title, as: 'h1', variant: 'h2', align: 'center' %}
       <div class="template-search__search">
         {%- if settings.predictive_search_enabled -%}
           <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
         {%- endif -%}
         <main-search>
-          <form action="{{ routes.search_url }}" method="get" role="search" class="search">
-            <div class="field">
-              <input
-                class="search__input field__input"
-                id="Search-In-Template"
-                type="search"
-                name="q"
-                value="{{ search.terms | escape }}"
-                placeholder="{{ 'general.search.search' | t }}"
+          <form action="{{ routes.search_url }}" method="get" role="search" class="search template-search__form">
+            <div class="template-search__field">
+              {%- assign ts_label = 'general.search.search' | t -%}
+              {%- capture ts_attrs -%}
                 {%- if settings.predictive_search_enabled -%}
-                  role="combobox"
-                  aria-expanded="false"
-                  aria-owns="predictive-search-results"
-                  aria-controls="predictive-search-results"
-                  aria-haspopup="listbox"
-                  aria-autocomplete="list"
-                  autocorrect="off"
-                  autocomplete="off"
-                  autocapitalize="off"
-                  spellcheck="false"
+                  role="combobox" aria-expanded="false" aria-owns="predictive-search-results" aria-controls="predictive-search-results" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocapitalize="off" spellcheck="false"
                 {%- endif -%}
-              >
-              <label class="field__label" for="Search-In-Template">{{ 'general.search.search' | t }}</label>
+              {%- endcapture -%}
+              {%- assign ts_autocomplete = '' -%}
+              {%- if settings.predictive_search_enabled -%}{%- assign ts_autocomplete = 'off' -%}{%- endif -%}
+              {% render 'input', id: 'Search-In-Template', name: 'q', type: 'search', label: ts_label, hide_label: true, value: search.terms, placeholder: ts_label, autocomplete: ts_autocomplete, attrs: ts_attrs, class: 'template-search__input' %}
               <input name="options[prefix]" type="hidden" value="last">
 
               {%- if settings.predictive_search_enabled -%}
@@ -110,22 +58,13 @@
 
                 <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
               {%- endif -%}
-
-              <button
-                type="reset"
-                class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
-                aria-label="{{ 'general.search.reset' | t }}"
-              >
-                <span class="svg-wrapper">
-                  {{- 'icon-reset.svg' | inline_asset_content -}}
-                </span>
-              </button>
-              <button type="submit" class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
-                <span class="svg-wrapper">
-                  {{- 'icon-search.svg' | inline_asset_content -}}
-                </span>
-              </button>
             </div>
+
+            {%- assign ts_reset_label = 'general.search.reset' | t -%}
+            {%- assign ts_reset_class = 'reset__button' -%}
+            {%- if search.terms == blank -%}{%- assign ts_reset_class = 'reset__button hidden' -%}{%- endif -%}
+            {% render 'icon-button', icon: 'close', label: ts_reset_label, type: 'reset', variant: 'ghost', class: ts_reset_class %}
+            {% render 'icon-button', icon: 'search', label: ts_label, type: 'submit', variant: 'primary', class: 'search__button' %}
           </form>
         </main-search>
         {%- if settings.predictive_search_enabled -%}
@@ -135,13 +74,13 @@
       {%- if search.performed -%}
         {%- unless section.settings.enable_filtering or section.settings.enable_sorting -%}
           {%- if search.results_count > 0 -%}
-            <p role="status">
-              {{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}
-            </p>
+            {%- assign ts_count = 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count -%}
+            {% render 'typography', text: ts_count, variant: 'body', align: 'center', attrs: 'role="status"' %}
           {%- endif -%}
         {%- endunless -%}
         {%- if search.results_count == 0 and search.filters == empty -%}
-          <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+          {%- assign ts_none = 'templates.search.no_results' | t: terms: search.terms -%}
+          {% render 'typography', text: ts_none, variant: 'body', align: 'center', attrs: 'role="status"' %}
         {%- endif -%}
       {%- endif -%}
     </div>
@@ -235,14 +174,15 @@
             >
               <div class="loading-overlay gradient"></div>
               <div class="title-wrapper center">
-                <h2 class="title title--primary">
+                {%- capture ts_empty -%}
                   {{ 'sections.collection_template.empty' | t -}}
                   <br>
                   {{
                     'sections.collection_template.use_fewer_filters_html'
                     | t: link: search_url, class: 'underlined-link link'
                   }}
-                </h2>
+                {%- endcapture -%}
+                {% render 'typography', text: ts_empty, as: 'h2', variant: 'h4', align: 'center' %}
               </div>
             </div>
           {%- else -%}
@@ -294,27 +234,9 @@
                           lazy_load: lazy_load
                         %}
                       {%- when 'page' -%}
-                        <div class="article-card-wrapper card-wrapper underline-links-hover">
-                          <div
-                            class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}"
-                            style="--ratio-percent: 100%;"
-                          >
-                            <div class="card__content">
-                              <div class="card__information">
-                                <h3 class="card__heading">
-                                  <a href="{{ item.url }}" class="full-unstyled-link">
-                                    {{ item.title | truncate: 50 | escape }}
-                                  </a>
-                                </h3>
-                              </div>
-                              <div class="card__badge {{ settings.badge_position }}">
-                                <span class="badge color-{{ settings.color_schemes | first }}">
-                                  {{- 'templates.search.page' | t -}}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        {%- assign ts_page_title = item.title | truncate: 50 -%}
+                        {%- assign ts_page_badge = 'templates.search.page' | t -%}
+                        {% render 'card', tag: 'div', href: item.url, title: ts_page_title, title_as: 'h3', eyebrow: ts_page_badge, class: 'template-search__page-card' %}
                     {%- endcase -%}
                   </li>
                 {%- endfor -%}

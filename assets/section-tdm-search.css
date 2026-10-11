@@ -1,0 +1,52 @@
+/* Search page (sections/main-search.liquid). Results use the commerce product cards; this file only styles the header and form. */
+.template-search__header {
+  margin-bottom: var(--pr-space-8);
+}
+
+@media screen and (min-width: 750px) {
+  .template-search__header {
+    margin-bottom: var(--pr-space-12);
+  }
+}
+
+.template-search__search {
+  margin: 0 auto var(--pr-space-8);
+  max-width: 74.1rem;
+}
+
+.template-search__search .search {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pr-space-2);
+  margin-top: var(--pr-space-8);
+}
+
+.template-search__field {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.template-search__search .search__button,
+.template-search__search .reset__button {
+  flex: 0 0 auto;
+}
+
+.template-search--empty {
+  padding-bottom: 18rem;
+}
+
+.template-search__page-card {
+  height: 100%;
+}
+
+/* component-search.css draws a divider on the reset button for the old in-field layout */
+.template-search__search .reset__button::after {
+  display: none;
+}
+
+/* component-search.css resets the old in-field buttons to the field background */
+.template-search__search .search__button.pr-icon-btn:not(:focus-visible):not(.focused) {
+  background-color: var(--pr-action);
+  box-shadow: none;
+}
