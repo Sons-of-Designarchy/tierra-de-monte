@@ -652,7 +652,8 @@ a.pr-chip {
   pointer-events: none;
 }
 
-/* ---------- checkbox, radio, switch ---------- */
+/* ---------- checkbox, radio, switch ----------
+   Input selectors are prefixed with the group class so they outrank Dawn's input[type='checkbox'|'radio'] rules. */
 .pr-check,
 .pr-radio {
   display: flex;
@@ -678,8 +679,8 @@ a.pr-chip {
   cursor: pointer;
 }
 
-.pr-check__input,
-.pr-radio__input {
+.pr-check .pr-check__input,
+.pr-radio .pr-radio__input {
   appearance: none;
   box-sizing: border-box;
   display: grid;
@@ -696,23 +697,23 @@ a.pr-chip {
     border-color var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
-.pr-check__input { border-radius: var(--pr-radius-surface); }
-.pr-radio__input { border-radius: var(--pr-radius-full); }
+.pr-check .pr-check__input { border-radius: var(--pr-radius-surface); }
+.pr-radio .pr-radio__input { border-radius: var(--pr-radius-full); }
 
-.pr-check__input:hover,
-.pr-radio__input:hover {
+.pr-check .pr-check__input:hover,
+.pr-radio .pr-radio__input:hover {
   border-color: var(--pr-border-strong);
 }
 
-.pr-check__input:focus-visible,
-.pr-radio__input:focus-visible,
-.pr-switch__input:focus-visible,
+.pr-check .pr-check__input:focus-visible,
+.pr-radio .pr-radio__input:focus-visible,
+.pr-switch .pr-switch__input:focus-visible,
 .pr-segmented__input:focus-visible + .pr-segmented__item {
   outline: 2px solid var(--pr-border-focus);
   outline-offset: 2px;
 }
 
-.pr-check__input::after {
+.pr-check .pr-check__input::after {
   content: '';
   width: var(--pr-icon-sm);
   height: var(--pr-icon-sm);
@@ -722,52 +723,47 @@ a.pr-chip {
   transition: transform var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
-.pr-check__input:checked {
+.pr-check .pr-check__input:checked {
   border-color: var(--pr-action);
   background: var(--pr-action);
 }
 
-.pr-check__input:checked::after {
+.pr-check .pr-check__input:checked::after {
   transform: scale(1);
 }
 
-.pr-radio__input::after {
+/* 12px dot inside the 24px circle */
+.pr-radio .pr-radio__input::after {
   content: '';
-  width: var(--pr-icon-md);
-  height: var(--pr-icon-md);
+  width: var(--pr-icon-xs);
+  height: var(--pr-icon-xs);
   border-radius: var(--pr-radius-full);
   background: var(--pr-action);
   transform: scale(0);
   transition: transform var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
-/* 12px dot inside the 24px circle */
-.pr-radio__input::after {
-  width: var(--pr-icon-xs);
-  height: var(--pr-icon-xs);
-}
-
-.pr-radio__input:checked {
+.pr-radio .pr-radio__input:checked {
   border-color: var(--pr-action);
 }
 
-.pr-radio__input:checked::after {
+.pr-radio .pr-radio__input:checked::after {
   transform: scale(1);
 }
 
-.pr-check__input[aria-invalid='true'],
+.pr-check .pr-check__input[aria-invalid='true'],
 .pr-radio.has-error .pr-radio__input {
   border-color: var(--pr-feedback-error-text);
 }
 
-.pr-check__input:disabled,
-.pr-radio__input:disabled {
+.pr-check .pr-check__input:disabled,
+.pr-radio .pr-radio__input:disabled {
   background: var(--pr-surface-subtle);
   cursor: not-allowed;
 }
 
-.pr-check__input:disabled + .pr-check__label,
-.pr-radio__input:disabled + .pr-radio__label {
+.pr-check .pr-check__input:disabled + .pr-check__label,
+.pr-radio .pr-radio__input:disabled + .pr-radio__label {
   cursor: not-allowed;
 }
 
@@ -788,7 +784,7 @@ a.pr-chip {
   flex-flow: row wrap;
 }
 
-.pr-switch__input {
+.pr-switch .pr-switch__input {
   appearance: none;
   box-sizing: border-box;
   position: relative;
@@ -803,7 +799,7 @@ a.pr-chip {
   transition: background-color var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
-.pr-switch__input::after {
+.pr-switch .pr-switch__input::after {
   content: '';
   position: absolute;
   top: 0;
@@ -816,20 +812,20 @@ a.pr-chip {
   transition: transform var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
-.pr-switch__input:checked {
+.pr-switch .pr-switch__input:checked {
   background: var(--pr-action);
 }
 
-.pr-switch__input:checked::after {
+.pr-switch .pr-switch__input:checked::after {
   transform: translateX(var(--pr-icon-lg));
 }
 
-.pr-switch__input:disabled {
+.pr-switch .pr-switch__input:disabled {
   background: var(--pr-border);
   cursor: not-allowed;
 }
 
-.pr-switch__input:disabled + .pr-switch__label {
+.pr-switch .pr-switch__input:disabled + .pr-switch__label {
   cursor: not-allowed;
 }
 

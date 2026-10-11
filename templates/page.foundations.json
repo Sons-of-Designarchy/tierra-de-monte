@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "catalog": {
+      "type": "tdm-catalog",
+      "settings": {
+        "color_scheme": "scheme-tdm-blanco"
+      }
+    }
+  },
+  "order": [
+    "catalog"
+  ]
+}
