@@ -68,7 +68,7 @@
         "anchor_id": "inicio",
         "height_desktop": 700,
         "height_mobile": 620,
-        "heading_size": 60,
+        "heading_variant": "display",
         "first_h1": true,
         "autoplay": true,
         "speed": 6,

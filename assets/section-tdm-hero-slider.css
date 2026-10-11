@@ -2,19 +2,19 @@
    Hero slider (sections/hero-slider.liquid)
    Layers per slide, back to front: image -> overlay -> content -> controls.
    Per-instance values arrive as custom properties on .tdm-hero-slider:
-     --hs-h --hs-h-m --hs-hsize
+     --hs-h --hs-h-m
    Colours come from Dawn colour schemes: the section scheme sits on
    .tdm-hero-slider (controls), each .hs__slide carries its own (or the
-   section's) scheme class. foreground = text, button = accent. Buttons use the
-   theme's .button classes with the slide's scheme.
+   section's) scheme class. foreground = text, button = accent. Text goes through the typography snippet and buttons through the button
+   atom, both read the slide's scheme roles.
    Per-slide overlay colour arrives as --hs-overlay on .hs__overlay.
    ========================================================================== */
 
 .tdm-hero-slider {
   /* Slide gutters shared by the content column and the credit corner */
-  --hs-pad-x: 48px;
-  --hs-pad-top: 48px;
-  --hs-credit-bottom: 36px;
+  --hs-pad-x: var(--pr-space-12);
+  --hs-pad-top: var(--pr-space-12);
+  --hs-credit-bottom: var(--pr-space-8);
   display: block;
   position: relative;
   /* Keep the layer z-indexes (up to 4) local so they never paint over the sticky header */
@@ -54,7 +54,7 @@
   z-index: 3;
   display: flex;
   width: 100%;
-  padding: 48px 48px 96px;
+  padding: var(--pr-space-12) var(--pr-space-12) 96px;
   box-sizing: border-box;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .tdm-hero-slider .hs__media svg {
-  background: rgb(var(--tdm-sand));
+  background: var(--pr-surface-elevated);
 }
 
 .tdm-hero-slider .hs__overlay {
@@ -161,7 +161,7 @@
 
 .hs__content {
   max-width: 760px;
-  color: rgb(var(--color-foreground));
+  color: var(--pr-text-primary);
 }
 
 .hs__h-center .hs__content {
@@ -174,33 +174,23 @@
 
 /* ---- Text ------------------------------------------------------------------- */
 .hs__sub {
-  margin: 0 0 14px;
-  font-size: var(--tdm-eyebrow-size, 1.3rem);
-  letter-spacing: 0.16em;
-  color: rgb(var(--color-button));
-  font-weight: 500;
+  margin: 0 0 var(--pr-space-3);
+  color: var(--pr-action);
 }
 
 .hs__title {
-  margin: 0 0 20px;
-  font-size: var(--hs-hsize);
-  line-height: 1.08;
-  color: inherit;
-  font-family: var(--font-heading-family, inherit);
-  letter-spacing: -0.01em;
+  margin: 0 0 var(--pr-space-6);
 }
 
 .hs__title em,
 .hs__title i,
 .hs__hl {
-  color: rgb(var(--color-button));
+  color: var(--pr-action);
   font-style: normal;
 }
 
 .hs__text {
-  margin: 0 0 28px;
-  font-size: 1.7rem;
-  line-height: 1.55;
+  margin: 0 0 var(--pr-space-8);
 }
 
 .hs__text p {
@@ -211,7 +201,7 @@
 .hs__btns {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--pr-space-3);
 }
 
 .hs__h-center .hs__btns {
@@ -222,11 +212,8 @@
   justify-content: flex-end;
 }
 
-/* Buttons are the theme's .button (primary / secondary): same size, padding, radius and
-   border as the rest of the site. Only the secondary gets a glass fill over the photo. */
-.hs__btns .button--secondary {
-  --color-button: var(--color-secondary-button-text);
-  --alpha-button-background: 0.08;
+/* The secondary button gets a glass fill over the photo. */
+.hs__btns .hs__btn-glass {
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
@@ -236,19 +223,8 @@
   position: absolute;
   left: var(--hs-pad-x);
   bottom: var(--hs-credit-bottom);
-  color: rgb(var(--color-foreground));
-  font-size: 1.5rem;
-  line-height: 1.35;
+  color: var(--pr-text-primary);
   margin: 0;
-}
-
-.hs__credit strong {
-  display: block;
-  font-weight: 700;
-}
-
-.hs__credit span {
-  opacity: 0.85;
 }
 
 /* Credit corner (section setting): right side and/or top */
@@ -267,57 +243,63 @@
 .hs__controls {
   position: absolute;
   left: 50%;
-  bottom: 28px;
+  bottom: var(--pr-space-6);
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--pr-space-4);
 }
 
 .hs__arrow {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 1.5px solid rgba(var(--color-foreground), 0.75);
-  background: rgba(var(--color-background), 0.2);
-  color: rgb(var(--color-foreground));
-  display: grid;
-  place-items: center;
-  transition: background 0.2s;
+  border-color: var(--pr-border-strong);
+  background: color-mix(in oklab, var(--pr-surface) 20%, transparent);
+  color: var(--pr-text-primary);
 }
 
 .hs__arrow:hover {
-  background: rgba(var(--color-background), 0.45);
+  background: color-mix(in oklab, var(--pr-surface) 45%, transparent);
+}
+
+.hs__prev .pr-icon {
+  transform: scaleX(-1);
 }
 
 .hs__dots {
   display: flex;
-  gap: 8px;
+  gap: var(--pr-space-2);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* 44px touch target around an 8px dot */
 .hs__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--tdm-radius-pill);
+  position: relative;
+  width: var(--pr-space-2);
+  height: var(--pr-space-2);
+  border-radius: var(--pr-radius-full);
   border: 0;
   padding: 0;
   cursor: pointer;
-  background: rgba(var(--color-foreground), 0.5);
-  transition: width 0.3s, background 0.3s;
+  background: color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
+  transition:
+    width var(--pr-motion-base) var(--pr-motion-ease),
+    background var(--pr-motion-base) var(--pr-motion-ease);
+}
+
+.hs__dot::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--pr-space-3)) calc(-0.5 * var(--pr-space-1));
 }
 
 .hs__dot[aria-current='true'] {
-  width: 24px;
-  background: rgb(var(--color-foreground));
+  width: var(--pr-space-6);
+  background: var(--pr-text-primary);
 }
 
-.hs__arrow:focus-visible,
 .hs__dot:focus-visible {
-  outline: 2px solid rgb(var(--color-foreground));
+  outline: 2px solid var(--pr-border-focus);
   outline-offset: 3px;
 }
 
@@ -327,36 +309,23 @@
   }
 
   .tdm-hero-slider .hs__container {
-    padding: 32px 20px 120px;
-  }
-
-  .hs__title {
-    font-size: calc(var(--hs-hsize) * 0.58);
+    padding: var(--pr-space-8) var(--pr-space-6) 120px;
   }
 
   .hs__text {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    margin-bottom: var(--pr-space-6);
   }
 
   .tdm-hero-slider {
-    --hs-pad-x: 20px;
-    --hs-pad-top: 32px;
+    --hs-pad-x: var(--pr-space-6);
+    --hs-pad-top: var(--pr-space-8);
     --hs-credit-bottom: 80px; /* clears the arrows/dots */
   }
 
-  .hs__credit {
-    font-size: 1.4rem;
-  }
-
   .hs__controls {
-    bottom: 20px;
+    bottom: var(--pr-space-6);
   }
 
-  .hs__arrow {
-    width: 38px;
-    height: 38px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -366,21 +335,5 @@
 
   .hs__dot {
     transition: none;
-  }
-}
-
-/* Reading text floor (tokens in tdm-foundations.css) */
-.tdm-hero-slider .hs__credit,
-.tdm-hero-slider .hs__credit span {
-  font-size: var(--tdm-text-body);
-  line-height: var(--tdm-text-body-leading);
-  color: rgb(var(--color-foreground));
-  opacity: 1;
-}
-
-@media screen and (min-width: 750px) {
-  .tdm-hero-slider .hs__credit,
-  .tdm-hero-slider .hs__credit span {
-    font-size: var(--tdm-text-body-desktop);
   }
 }
