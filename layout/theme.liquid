@@ -17,6 +17,10 @@
         assign favicon = settings.aliados_favicon
       endif
       assign heading_font = settings.type_header_font
+      assign display_font = settings.aliados_heading_font
+      if display_font == blank
+        assign display_font = settings.type_header_font
+      endif
       if is_aliados and settings.aliados_heading_font != blank
         assign heading_font = settings.aliados_heading_font
       endif
@@ -212,6 +216,9 @@
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ heading_font | font_face: font_display: 'swap' }}
+      {%- if display_font.family != heading_font.family or display_font.weight != heading_font.weight -%}
+        {{ display_font | font_face: font_display: 'swap' }}
+      {%- endif -%}
 
       {%- if settings.font_mono -%}
         {{ settings.font_mono | font_face: font_display: 'swap' }}
@@ -258,6 +265,25 @@
         --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
         --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
       }
+      {%- comment -%} PerfectlyRad tone roles: the dark tint of status colours on light backgrounds, the pale tint on dark ones. {%- endcomment -%}
+      {% if forloop.index == 1 -%}
+        :root,
+      {%- endif %}
+      .color-{{ scheme.id }} {
+        {%- if background_color_brightness <= 65 %}
+        --pr-scheme-brand: var(--pr-brand-secondary);
+        --pr-scheme-success: var(--pr-success-100);
+        --pr-scheme-warning: var(--pr-warning-100);
+        --pr-scheme-error: var(--pr-error-100);
+        --pr-scheme-info: var(--pr-info-100);
+        {%- else %}
+        --pr-scheme-brand: var(--pr-brand-primary);
+        --pr-scheme-success: var(--pr-success-700);
+        --pr-scheme-warning: var(--pr-warning-700);
+        --pr-scheme-error: var(--pr-error-700);
+        --pr-scheme-info: var(--pr-info-700);
+        {%- endif %}
+      }
       {% endfor %}
 
       {{ scheme_classes | prepend: 'body' }} {
@@ -286,6 +312,10 @@
         --font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
         --font-heading-style: {{ heading_font.style }};
         --font-heading-weight: {{ heading_font.weight }};
+
+        --font-display-family: {{ display_font.family }}, {{ display_font.fallback_families }};
+        --font-display-style: {{ display_font.style }};
+        --font-display-weight: {{ display_font.weight }};
 
         --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
