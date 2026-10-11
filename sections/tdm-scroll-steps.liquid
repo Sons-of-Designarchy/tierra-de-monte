@@ -36,7 +36,7 @@
       assign st_title_variant = 'display'
   endcase
   assign st_step_variant = s.step_title_size | default: 'h3'
-  assign st_num_variant = s.number_variant | default: 'display'
+  assign st_num_variant = s.number_variant | default: 'h4'
 -%}
 
 <section
@@ -44,19 +44,12 @@
   style="--st-ratio: {{ ratio }}; --st-radius: {{ s.image_radius }}px; "
 >
   <div class="page-width section-{{ section.id }}-padding">
-    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color -%}
-
     <tdm-scroll-steps class="tdm-steps__pin">
      <div class="tdm-steps__frame">
      <div class="tdm-steps__grid">
       <div class="tdm-steps__aside">
         <div class="tdm-steps__sticky">
-          {%- if s.title != blank -%}
-            {%- render 'typography', text: s.title, as: 'h2', variant: st_title_variant, font: 'display', weight: 'medium', class: 'tdm-steps__title' -%}
-          {%- endif -%}
-          {%- if s.text != blank -%}
-            {%- render 'typography', text: s.text, as: 'div', variant: 'body', class: 'tdm-steps__text rte' -%}
-          {%- endif -%}
+          {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: st_title_variant -%}
 
           <div class="tdm-steps__media">
             {%- for block in step_blocks -%}
@@ -150,8 +143,7 @@
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
     { "type": "header", "content": "Encabezado" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba. La línea aparece solo si hay texto." },
-    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. Sin línea." },
     { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Our Process" },
     {
       "type": "select",
@@ -187,11 +179,11 @@
       "id": "number_variant",
       "label": "Tamaño del número",
       "options": [
-        { "value": "display", "label": "Grande" },
-        { "value": "h1", "label": "Mediano" },
-        { "value": "h2", "label": "Pequeño" }
+        { "value": "h2", "label": "Grande" },
+        { "value": "h3", "label": "Mediano" },
+        { "value": "h4", "label": "Pequeño" }
       ],
-      "default": "display"
+      "default": "h4"
     },
     {
       "type": "select",

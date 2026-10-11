@@ -1,6 +1,10 @@
+{%- comment -%}
+  FAQ — PerfectlyRad's Faq, one to one: a Section (heading block through the Heading atom, the heading beside the list from tablet up or stacked above) with the Accordion atom.
+  The accordion is the atom's default variant: a divider per question, no boxes, question in the body font, chevron that turns.
+  Styles: assets/section-tdm-collapsible-content.css (layout only).
+{%- endcomment -%}
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
 {{ 'section-tdm-collapsible-content.css' | asset_url | stylesheet_tag }}
-
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 {%- liquid
@@ -12,108 +16,45 @@
     else
       assign cc_title_variant = 'display'
   endcase
+  assign cc_layout = section.settings.faq_layout | default: 'side'
 
-  assign cc_root_style = ''
-  if section.settings.faq_editorial and section.settings.open_row_color_scheme != blank
-    assign open_scheme = section.settings.open_row_color_scheme.settings
-    assign open_bg = open_scheme.background | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', ''
-    assign open_fg = open_scheme.text | color_to_rgb | remove: 'rgb(' | remove: ')' | replace: ',', ''
-    assign cc_root_style = '--tdm-faq-open-bg: ' | append: open_bg | append: '; --tdm-faq-open-fg: ' | append: open_fg | append: ';'
+  assign cc_titles = ''
+  assign cc_panels = ''
+  assign cc_open = 0
+  for block in section.blocks
+    assign cc_heading = block.settings.heading | default: block.settings.page.title | strip_html | replace: '|', '/'
+    capture cc_body
+      echo block.settings.row_content
+      echo block.settings.page.content
+    endcapture
+    capture cc_panel
+      render 'typography', text: cc_body, as: 'div', variant: 'body', color: 'secondary', class: 'rte'
+    endcapture
+    if forloop.first
+      assign cc_titles = cc_heading
+      assign cc_panels = cc_panel
+    else
+      assign cc_titles = cc_titles | append: '|' | append: cc_heading
+      assign cc_panels = cc_panels | append: '<!--pr-->' | append: cc_panel
+    endif
+  endfor
+  if section.settings.open_first_collapsible_row
+    assign cc_open = 1
   endif
 -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
+<div class="tdm-faq color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
   {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
-  <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.faq_editorial %} tdm-faq{% endif %}{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}"{% if cc_root_style != blank %} style="{{ cc_root_style }}"{% endif %}>
-    <div class="collapsible-content__wrapper section-{{ section.id }}-padding{% if section.settings.layout == 'section' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}">
-      {%- comment -%} Eyebrow sits outside the narrow column so its rule spans the full page width {%- endcomment -%}
-      {%- if section.settings.caption != blank -%}
-        {%- assign eyebrow_text = section.settings.caption | escape -%}
-        <div class="{% unless section.settings.layout == 'section' %}page-width{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          {%- render 'tdm-section-eyebrow', text: eyebrow_text, rule_color: section.settings.rule_color, align: section.settings.heading_alignment -%}
-        </div>
-      {%- endif -%}
-      <div class="{% if section.settings.image == blank %}collapsible-content-wrapper-narrow{% else %}page-width{% endif %}">
-        <div class="collapsible-content__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          {%- if section.settings.heading != blank -%}
-            {%- render 'typography', text: section.settings.heading, as: 'h2', variant: cc_title_variant, font: 'display', weight: 'medium', align: section.settings.heading_alignment, class: 'collapsible-content__heading' -%}
-          {%- else -%}
-            <h2 class="visually-hidden">{{ 'accessibility.collapsible_content_title' | t }}</h2>
-          {% endif %}
-        </div>
-        <div class="grid grid--1-col grid--2-col-tablet collapsible-content__grid{% if section.settings.desktop_layout == 'image_second' %} collapsible-content__grid--reverse{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          {%- if section.settings.image != blank -%}
-            <div class="grid__item collapsible-content__grid-item">
-              <div
-                class="collapsible-content__media collapsible-content__media--{{ section.settings.image_ratio }} media global-media-settings gradient"
-                {% if section.settings.image_ratio == 'adapt' %}
-                  style="--cc-adapt-pad: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
-                {% endif %}
-              >
-                {%- liquid
-                  assign padding_multiplier = 1
-                  if section.settings.layout == 'section'
-                    assign padding_multiplier = 2
-                  endif
-                  assign desktop_tablet_padding = 100 | times: padding_multiplier | append: 'px'
-                  assign mobile_padding = 30 | times: padding_multiplier | append: 'px'
-                -%}
-                {%- capture sizes -%}
-                  (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ desktop_tablet_padding }}) / 2),
-                  (min-width: 750px) calc((100vw - {{ desktop_tablet_padding }}) / 2),
-                  calc(100vw - {{ mobile_padding }})
-                {%- endcapture -%}
-                {{
-                  section.settings.image
-                  | image_url: width: 3200
-                  | image_tag:
-                    sizes: sizes,
-                    widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200'
-                }}
-              </div>
-            </div>
-          {% endif %}
-          <div class="grid__item">
-            {%- for block in section.blocks -%}
-              {%- liquid
-                # Row card: section-wide scheme, overridable per row
-                assign row_card = section.settings.row_container
-                assign row_scheme = section.settings.row_color_scheme
-                if block.settings.use_custom_scheme
-                  assign row_card = true
-                  assign row_scheme = block.settings.color_scheme
-                endif
-
-                assign cc_row_class = 'cc-row'
-                if row_card
-                  assign cc_row_class = cc_row_class | append: ' cc-row--card color-' | append: row_scheme | append: ' gradient'
-                elsif section.settings.layout == 'row'
-                  assign cc_row_class = cc_row_class | append: ' content-container color-' | append: section.settings.container_color_scheme | append: ' gradient'
-                endif
-
-                assign cc_open = 0
-                if section.settings.open_first_collapsible_row and forloop.first
-                  assign cc_open = 1
-                endif
-                assign cc_heading = block.settings.heading | default: block.settings.page.title | escape
-              -%}
-              {%- capture cc_title -%}
-                {%- render 'icon-accordion', icon: block.settings.icon -%}
-                {{ cc_heading }}
-              {%- endcapture -%}
-              {%- capture cc_body -%}
-                {{ block.settings.row_content }}{{ block.settings.page.content }}
-              {%- endcapture -%}
-              {%- capture cc_panel -%}
-                {%- render 'typography', text: cc_body, as: 'div', variant: 'body', color: 'inherit', class: 'rte accordion__content' -%}
-              {%- endcapture -%}
-              <div class="cc-row-wrap" {{ block.shopify_attributes }}>
-                {%- render 'accordion', titles: cc_title, panels: cc_panel, multiple: true, open: cc_open, title_font: 'display', class: cc_row_class -%}
-              </div>
-            {%- endfor -%}
-          </div>
-        </div>
+  <div class="tdm-faq__inner tdm-faq__inner--{{ cc_layout }} page-width section-{{ section.id }}-padding isolate">
+    {%- if section.settings.heading != blank or section.settings.caption != blank -%}
+      <div class="tdm-faq__header">
+        {%- render 'section-header', eyebrow: section.settings.caption, title: section.settings.heading, size: cc_title_variant -%}
       </div>
+    {%- else -%}
+      <h2 class="visually-hidden">{{ 'accessibility.collapsible_content_title' | t }}</h2>
+    {%- endif -%}
+    <div class="tdm-faq__list">
+      {%- render 'accordion', titles: cc_titles, panels: cc_panels, open: cc_open -%}
     </div>
   </div>
 </div>
@@ -123,9 +64,7 @@
   "name": "t:sections.collapsible_content.name",
   "tag": "section",
   "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     {
       "type": "text",
@@ -133,463 +72,63 @@
       "label": "ID de ancla",
       "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
     },
-    {
-      "type": "text",
-      "id": "caption",
-      "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto."
-    },
-    {
-      "type": "color",
-      "id": "rule_color",
-      "label": "Color de la línea del eyebrow"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "heading",
-      "label": "t:sections.collapsible_content.settings.heading.label",
-      "default": "t:sections.collapsible_content.settings.heading.default"
-    },
+    { "type": "text", "id": "caption", "label": "Eyebrow", "info": "Texto pequeño arriba del título. Sin línea." },
+    { "type": "inline_richtext", "id": "heading", "default": "Preguntas frecuentes", "label": "Título" },
     {
       "type": "select",
       "id": "heading_size",
+      "label": "Tamaño del título",
       "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
       ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
+      "default": "h1"
     },
     {
       "type": "select",
-      "id": "heading_alignment",
-      "label": "t:sections.collapsible_content.settings.heading_alignment.label",
+      "id": "faq_layout",
+      "label": "Distribución",
+      "info": "Al lado: el título a la izquierda y las preguntas a la derecha desde tablet. Apilado: el título arriba.",
       "options": [
-        {
-          "value": "left",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__2.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__3.label"
-        }
+        { "value": "side", "label": "Al lado" },
+        { "value": "stack", "label": "Apilado" }
       ],
-      "default": "center"
+      "default": "side"
     },
-    {
-      "type": "header",
-      "content": "t:sections.collapsible_content.settings.layout_header.content"
-    },    
-    {
-      "type": "select",
-      "id": "layout",
-      "label": "t:sections.collapsible_content.settings.layout.label",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:sections.collapsible_content.settings.layout.options__1.label"
-        },
-        {
-          "value": "row",
-          "label": "t:sections.collapsible_content.settings.layout.options__2.label"
-        },
-        {
-          "value": "section",
-          "label": "t:sections.collapsible_content.settings.layout.options__3.label"
-        }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "color_scheme",
-      "id": "container_color_scheme",
-      "label": "t:sections.collapsible_content.settings.container_color_scheme.label",
-      "default": "scheme-2"
-    },
-    {
-      "type": "header",
-      "content": "Contenedor de cada pregunta"
-    },
-    {
-      "type": "checkbox",
-      "id": "faq_editorial",
-      "label": "Estilo editorial",
-      "info": "Contenido más ancho, preguntas más grandes, esquinas casi rectas y la pregunta abierta invertida. Pensado para usarse con los contenedores de pregunta.",
-      "default": false
-    },
-    {
-      "type": "color_scheme",
-      "id": "open_row_color_scheme",
-      "label": "Esquema de la pregunta abierta",
-      "info": "Solo con Estilo editorial. La pregunta abierta cambia a este esquema; vacío la deja igual."
-    },
-    {
-      "type": "checkbox",
-      "id": "row_container",
-      "label": "Mostrar cada pregunta en un contenedor",
-      "info": "Cada pregunta y su respuesta van en una tarjeta con el esquema elegido. Cada pregunta puede usar su propio esquema.",
-      "default": false
-    },
-    {
-      "type": "color_scheme",
-      "id": "row_color_scheme",
-      "label": "Esquema de los contenedores",
-      "default": "scheme-1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.collapsible_content.settings.section_color_scheme.label",
-      "default": "scheme-1"
-    },
-    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "checkbox", "id": "open_first_collapsible_row", "label": "Primera pregunta abierta", "default": false },
+    { "type": "header", "content": "Color y fondo" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
     { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
     { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
     { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
-    { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
-      { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
-    ] },
-    {
-      "type": "checkbox",
-      "id": "open_first_collapsible_row",
-      "default": false,
-      "label": "t:sections.collapsible_content.settings.open_first_collapsible_row.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.collapsible_content.settings.header.content"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "t:sections.collapsible_content.settings.image.label"
-    },
     {
       "type": "select",
-      "id": "image_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.collapsible_content.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "small",
-          "label": "t:sections.collapsible_content.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "large",
-          "label": "t:sections.collapsible_content.settings.image_ratio.options__3.label"
-        }
-      ],
-      "default": "adapt",
-      "label": "t:sections.collapsible_content.settings.image_ratio.label"
+      "id": "bg_position",
+      "label": "Enfoque de la imagen",
+      "default": "center",
+      "options": [{ "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }]
     },
-    {
-      "type": "select",
-      "id": "desktop_layout",
-      "options": [
-        {
-          "value": "image_first",
-          "label": "t:sections.collapsible_content.settings.desktop_layout.options__1.label"
-        },
-        {
-          "value": "image_second",
-          "label": "t:sections.collapsible_content.settings.desktop_layout.options__2.label"
-        }
-      ],
-      "default": "image_second",
-      "label": "t:sections.collapsible_content.settings.desktop_layout.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
-    }
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 36 }
   ],
   "blocks": [
     {
       "type": "collapsible_row",
       "name": "t:sections.collapsible_content.blocks.collapsible_row.name",
       "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "default": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.default",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.label"
-        },
-        {
-          "type": "select",
-          "id": "icon",
-          "options": [
-            {
-              "value": "none",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__1.label"
-            },
-            {
-              "value": "apple",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__2.label"
-            },
-            {
-              "value": "banana",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__3.label"
-            },
-            {
-              "value": "bottle",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__4.label"
-            },
-            {
-              "value": "box",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__5.label"
-            },
-            {
-              "value": "carrot",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__6.label"
-            },
-            {
-              "value": "chat_bubble",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__7.label"
-            },
-            {
-              "value": "check_mark",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__8.label"
-            },
-            {
-              "value": "clipboard",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__9.label"
-            },
-            {
-              "value": "dairy",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__10.label"
-            },
-            {
-              "value": "dairy_free",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__11.label"
-            },
-            {
-              "value": "dryer",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__12.label"
-            },
-            {
-              "value": "eye",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__13.label"
-            },
-            {
-              "value": "fire",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__14.label"
-            },
-            {
-              "value": "gluten_free",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__15.label"
-            },
-            {
-              "value": "heart",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__16.label"
-            },
-            {
-              "value": "iron",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__17.label"
-            },
-            {
-              "value": "leaf",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__18.label"
-            },
-            {
-              "value": "leather",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__19.label"
-            },
-            {
-              "value": "lightning_bolt",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__20.label"
-            },
-            {
-              "value": "lipstick",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__21.label"
-            },
-            {
-              "value": "lock",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__22.label"
-            },
-            {
-              "value": "map_pin",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__23.label"
-            },
-            {
-              "value": "nut_free",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__24.label"
-            },
-            {
-              "value": "pants",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__25.label"
-            },
-            {
-              "value": "paw_print",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__26.label"
-            },
-            {
-              "value": "pepper",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__27.label"
-            },
-            {
-              "value": "perfume",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__28.label"
-            },
-            {
-              "value": "plane",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__29.label"
-            },
-            {
-              "value": "plant",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__30.label"
-            },
-            {
-              "value": "price_tag",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__31.label"
-            },
-            {
-              "value": "question_mark",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__32.label"
-            },
-            {
-              "value": "recycle",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__33.label"
-            },
-            {
-              "value": "return",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__34.label"
-            },
-            {
-              "value": "ruler",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__35.label"
-            },
-            {
-              "value": "serving_dish",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__36.label"
-            },
-            {
-              "value": "shirt",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__37.label"
-            },
-            {
-              "value": "shoe",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__38.label"
-            },
-            {
-              "value": "silhouette",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__39.label"
-            },
-            {
-              "value": "snowflake",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__40.label"
-            },
-            {
-              "value": "star",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__41.label"
-            },
-            {
-              "value": "stopwatch",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__42.label"
-            },
-            {
-              "value": "truck",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__43.label"
-            },
-            {
-              "value": "washing",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__44.label"
-            }
-          ],
-          "default": "check_mark",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.label"
-        },
-        {
-          "type": "richtext",
-          "id": "row_content",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.row_content.label"
-        },
-        {
-          "type": "page",
-          "id": "page",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.page.label"
-        },
-        {
-          "type": "header",
-          "content": "Contenedor"
-        },
-        {
-          "type": "checkbox",
-          "id": "use_custom_scheme",
-          "label": "Usar esquema propio",
-          "info": "Si está apagado, usa el esquema de contenedores de la sección.",
-          "default": false
-        },
-        {
-          "type": "color_scheme",
-          "id": "color_scheme",
-          "label": "Esquema del contenedor",
-          "default": "scheme-1"
-        }
+        { "type": "text", "id": "heading", "default": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.default", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.label" },
+        { "type": "richtext", "id": "row_content", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.row_content.label" },
+        { "type": "page", "id": "page", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.page.label" }
       ]
     }
   ],
   "presets": [
     {
       "name": "t:sections.collapsible_content.presets.name",
-      "blocks": [
-        {
-          "type": "collapsible_row"
-        },
-        {
-          "type": "collapsible_row"
-        },
-        {
-          "type": "collapsible_row"
-        },
-        {
-          "type": "collapsible_row"
-        }
-      ]
+      "blocks": [{ "type": "collapsible_row" }, { "type": "collapsible_row" }, { "type": "collapsible_row" }, { "type": "collapsible_row" }]
     }
   ]
 }
 {% endschema %}
-

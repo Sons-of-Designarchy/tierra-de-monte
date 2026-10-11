@@ -86,9 +86,10 @@ Cada snippet documenta sus parámetros en el comentario de su encabezado. CSS en
 | IconButton | `{% render 'icon-button', icon: 'close', label: 'Cerrar', variant: 'ghost' %}` |
 | Link | `{% render 'link', text: 'Ver más', href: '/pages/nosotros' %}` |
 | Heading | `{% render 'heading', eyebrow: 'Aliados', title: 'Título', size: 'h2', subtitle: '…' %}` |
+| SectionHeader | `{% render 'section-header', eyebrow: 'Aliados', title: 'Título', intro: richtext, size: 'h2', align: 'center' %}` (el bloque de encabezado de toda sección: eyebrow + título + intro + CTA a través de `heading`) |
 | Chip | `{% render 'chip', label: 'Orgánico', selected: true, attrs: 'data-x' %}` |
 | Alert | `{% render 'alert', tone: 'info', title: 'Aviso', text: 'Mensaje' %}` |
-| Card | `{% render 'card', title: 'Título', description: '…', image: img, href: '/x' %}` |
+| Card | `{% render 'card', title: 'Título', description: '…', image: img, href: '/x' %}` (variantes por parámetro, ver 5.1) |
 | Image | `{% render 'image', image: img, alt: '', ratio: '4/3', sizes: '50vw' %}` |
 | Input | `{% render 'input', label: 'Correo', name: 'email', type: 'email', error: '' %}` |
 | Textarea | `{% render 'textarea', label: 'Mensaje', name: 'message' %}` |
@@ -107,6 +108,28 @@ Cada snippet documenta sus parámetros en el comentario de su encabezado. CSS en
 | Icon | `{% render 'icon', name: 'check', size: 'md' %}` |
 
 Todos traen sus estados: hover, foco con teclado, deshabilitado, error y cargando donde aplica.
+
+### 5.1 Card: una sola caja, variantes por parámetro
+
+Todo lo que es tarjeta es `render 'card'`; no hay marcado paralelo. Parámetros además de los de la cabecera del snippet:
+
+| Parámetro | Resultado |
+|---|---|
+| `icon_image` | Tarjeta de ícono: imagen de 64px arriba del título |
+| `image` + `image_ratio` | Foto arriba, de borde a borde |
+| `bg_image` | Tarjeta de foto: la foto llena la tarjeta y el texto va en un panel de vidrio blanco (`data-scheme="light"`, siempre blanco con texto oscuro) |
+| `text` + `list_icon` | Texto enriquecido bajo la descripción; con `list_icon: 'check-circle'` cada `<li>` lleva el ícono |
+| `title_size` | `display`–`h5` (por defecto `h5`) |
+| `ratio` | Forma fija: `1/1`, `4/3`, `4/5`, `3/4` |
+| `on_color` | La sección de atrás tiene color: la tarjeta toma el esquema blanco |
+
+CSS: `assets/pr-atoms-extra.css` (los átomos nuevos de este tema van ahí, cargado después de `pr-atoms.css`).
+
+## 5.2 Reglas de color de página
+
+- **Nunca verde sobre verde.** Si la sección tiene color (fondo con luminosidad ≤ 92%, o foto), todo lo que va encima (tarjetas, paneles de vidrio, tablas) es blanco con texto oscuro. Está en el sistema, no por sección: `tdm-card-grid` pasa `on_color` al átomo `card` y `comparison-table` fuerza `scheme-tdm-blanco` en su tabla. En una sección blanca o crema las tarjetas quedan con el relleno sutil del átomo. Salida solo si Dan lo pide: pasar `scheme:` explícito a `card`.
+- **Ritmo de página.** Las secciones alternan blanco y crema, con a lo sumo UN verde a la vez; nunca dos secciones verdes seguidas. Los tickers entre secciones son una sola variante (foto de fondo, sin bordes).
+- **El eyebrow no lleva regla**, en ningún lugar del tema.
 
 ### Navbar (el header)
 

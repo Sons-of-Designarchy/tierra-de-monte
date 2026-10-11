@@ -24,12 +24,6 @@
   endif
 
   assign root_classes = 'tdm-ticker'
-  if section.settings.show_top_border
-    assign root_classes = root_classes | append: ' tdm-ticker--border-top'
-  endif
-  if section.settings.show_bottom_border
-    assign root_classes = root_classes | append: ' tdm-ticker--border-bottom'
-  endif
   if section.settings.text_transform == 'title'
     assign root_classes = root_classes | append: ' tdm-ticker--transform-title'
   endif
@@ -174,9 +168,6 @@
       "step": 1,
       "default": 36
     },
-
-    { "type": "checkbox", "id": "show_top_border", "label": "Show top border", "default": true },
-    { "type": "checkbox", "id": "show_bottom_border", "label": "Show bottom border", "default": true },
 
     {
       "type": "range",

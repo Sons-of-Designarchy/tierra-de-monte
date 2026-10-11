@@ -12,22 +12,6 @@
   margin-top: var(--pr-space-4);
 }
 
-.tdm-slide-gallery .slide-gallery-intro__heading {
-  margin: 0;
-}
-
-.tdm-slide-gallery .slide-gallery-intro__text {
-  max-width: 70rem;
-}
-
-.tdm-slide-gallery .slide-gallery-intro__text > *:first-child {
-  margin-top: 0;
-}
-
-.tdm-slide-gallery .slide-gallery-intro__text > *:last-child {
-  margin-bottom: 0;
-}
-
 .tdm-slide-gallery .slide-gallery-intro--left {
   text-align: left;
 }
@@ -36,17 +20,8 @@
   text-align: center;
 }
 
-.tdm-slide-gallery .slide-gallery-intro--center .slide-gallery-intro__text {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .tdm-slide-gallery .slide-gallery-intro--right {
   text-align: right;
-}
-
-.tdm-slide-gallery .slide-gallery-intro--right .slide-gallery-intro__text {
-  margin-left: auto;
 }
 
 /* ---- Gallery frame: "Con padding" gets side padding + rounded corners -------
@@ -207,8 +182,8 @@
     border: 1px solid color-mix(in oklab, var(--sg-glass-ink) 55%, transparent);
     border-radius: var(--pr-radius-lg);
     background: color-mix(in oklab, var(--sg-overlay-color, var(--pr-ink)) calc(var(--sg-overlay-opacity, 0.3) * 100%), transparent);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(var(--pr-blur-sm));
+    backdrop-filter: blur(var(--pr-blur-sm));
   }
 
   /* Overlay on the photo (per slide colour + opacity): the text sits on the photo from here up */

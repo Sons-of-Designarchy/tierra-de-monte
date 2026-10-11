@@ -25,15 +25,6 @@ tdm-scroll-steps {
   gap: var(--pr-space-12);
 }
 
-.tdm-steps__title {
-  margin: 0;
-}
-
-.tdm-steps__text {
-  margin-top: var(--pr-space-4);
-  max-width: 60rem;
-}
-
 /* ---- Image ------------------------------------------------------------------ */
 .tdm-steps__media {
   position: relative;

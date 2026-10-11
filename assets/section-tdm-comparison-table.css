@@ -17,19 +17,8 @@
    ========================================================================== */
 
 .tdm-comparison-table .ct-intro {
-  text-align: var(--ct-align);
   margin-bottom: var(--pr-space-8);
 }
-
-.tdm-comparison-table .ct-intro .ct-title {
-  margin: 0 0 var(--pr-space-3);
-}
-
-.tdm-comparison-table .ct-intro > *:last-child {
-  margin-bottom: 0;
-}
-
-/* Eyebrow: shared .tdm-section-eyebrow (assets/tdm-foundations.css) */
 
 /* ---- Table container (table colour scheme) --------------------------------- */
 .tdm-comparison-table .ct-wrapper {

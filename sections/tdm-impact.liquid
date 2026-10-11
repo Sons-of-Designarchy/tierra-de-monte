@@ -15,7 +15,6 @@
   assign s = section.settings
   assign layout = s.layout | default: 'stats_below'
   assign align = s.content_align | default: 'left'
-  assign rule_color = s.rule_color | default: 'currentColor'
 
   case s.heading_size
     when 'h2'
@@ -41,32 +40,23 @@
 
 <section
   class="tdm-impact tdm-impact--{{ layout }} tdm-impact--align-{{ align }} color-{{ s.color_scheme }} gradient{% if s.bg_image != blank %} tdm-has-bg{% endif %}"
-  style="--tdm-rule: {{ rule_color }}; --tdm-min-h-desktop: {{ s.min_height_desktop | default: 60 }}vh; --tdm-min-h-mobile-n: {{ s.min_height_mobile | default: 0 }};"
+  style="--tdm-min-h-desktop: {{ s.min_height_desktop | default: 60 }}vh; --tdm-min-h-mobile-n: {{ s.min_height_mobile | default: 0 }};"
 >
   {% render 'tdm-section-background', image: s.bg_image, image_mobile: s.bg_image_mobile, overlay: s.bg_overlay, position: s.bg_position %}
 
   <div class="page-width section-{{ section.id }}-padding tdm-impact__inner">
-    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: rule_color, align: align -%}
-
     <div class="tdm-impact__body">
       <div class="tdm-impact__lead">
-        {%- if s.heading != blank -%}
-          {%- render 'typography', text: s.heading, as: 'h2', variant: im_title_variant, font: 'display', weight: 'medium', class: 'tdm-impact__heading' -%}
-        {%- endif -%}
-
-        {%- if s.text != blank -%}
-          {%- render 'typography', text: s.text, as: 'div', variant: 'body', class: 'tdm-impact__text rte' -%}
-        {%- endif -%}
-
-        {%- if s.button_label != blank -%}
-          <div class="tdm-impact__cta">
-            {%- assign im_btn_href = s.button_link | default: '#' -%}
-            {%- capture im_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
-            {%- assign im_btn_variant = 'primary' -%}
-            {%- if s.button_style == 'secondary' -%}{%- assign im_btn_variant = 'outline' -%}{%- endif -%}
-            {%- render 'button', label: s.button_label, href: im_btn_href, variant: im_btn_variant, size: 'lg', attrs: im_btn_attrs -%}
-          </div>
-        {%- endif -%}
+        {%- assign im_btn_href = s.button_link | default: '#' -%}
+        {%- capture im_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+        {%- assign im_btn_variant = 'primary' -%}
+        {%- if s.button_style == 'secondary' -%}{%- assign im_btn_variant = 'outline' -%}{%- endif -%}
+        {%- capture im_cta -%}
+          {%- if s.button_label != blank -%}<div class="tdm-impact__cta">{%- render 'button', label: s.button_label, href: im_btn_href, variant: im_btn_variant, size: 'lg', attrs: im_btn_attrs -%}</div>{%- endif -%}
+        {%- endcapture -%}
+        {%- assign im_align = 'left' -%}
+        {%- if align == 'center' -%}{%- assign im_align = 'center' -%}{%- endif -%}
+        {%- render 'section-header', eyebrow: s.eyebrow, title: s.heading, intro: s.text, size: im_title_variant, align: im_align, extra: im_cta -%}
       </div>
 
       <div class="tdm-impact__content">
@@ -170,7 +160,6 @@
 
     { "type": "header", "content": "Encabezado" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
-    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "El impacto de ser Aliado" },
     {
       "type": "select",

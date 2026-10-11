@@ -26,6 +26,12 @@
 
   assign table_scheme_id = section.settings.table_color_scheme.id | default: section.settings.table_color_scheme
 
+  # Never green on green: a section with colour behind it gets a white table
+  assign ct_section_scheme = settings.color_schemes[section.settings.color_scheme]
+  if ct_section_scheme.settings.background.lightness <= 92 or section.settings.bg_image != blank
+    assign table_scheme_id = 'scheme-tdm-blanco'
+  endif
+
   # ---------- Esquema de los CTA (nivel sección) ----------
   assign cta_scheme_id = section.settings.cta_color_scheme.id | default: section.settings.cta_color_scheme
 
@@ -57,6 +63,10 @@
     else
       assign ct_price_variant = 'body-sm'
   endcase
+  assign ct_header_align = 'left'
+  if section.settings.text_align == 'center'
+    assign ct_header_align = 'center'
+  endif
   assign ct_feature_weight = 'regular'
   if section.settings.feature_bold
     assign ct_feature_weight = 'semibold'
@@ -160,13 +170,7 @@
   <div class="{{ section.settings.container_width }}">
     {%- if section.settings.pretitle != blank or section.settings.heading != blank or section.settings.description != blank -%}
       <div class="ct-intro">
-        {%- render 'tdm-section-eyebrow', text: section.settings.pretitle, rule_color: section.settings.rule_color, align: 'var(--ct-align)' -%}
-        {%- if section.settings.heading != blank -%}
-          {%- render 'typography', text: section.settings.heading, as: 'h2', variant: ct_title_variant, font: 'display', weight: 'medium', class: 'title ct-title' -%}
-        {%- endif -%}
-        {%- if section.settings.description != blank -%}
-          {%- render 'typography', text: section.settings.description, as: 'div', variant: 'body', class: 'rte' -%}
-        {%- endif -%}
+        {%- render 'section-header', eyebrow: section.settings.pretitle, title: section.settings.heading, intro: section.settings.description, size: ct_title_variant, align: ct_header_align -%}
       </div>
     {%- endif -%}
 
@@ -396,7 +400,6 @@
     },
     { "type": "header", "content": "Contenido" },
     { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Planes" },
-    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Compara nuestros planes" },
     {
       "type": "select",

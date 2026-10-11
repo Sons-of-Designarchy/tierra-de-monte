@@ -79,16 +79,12 @@
   {%- if section.settings.eyebrow != blank or section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta and cta_below == false -%}
     <div class="slide-gallery-intro section-{{ section.id }}-intro-padding">
       <div class="slide-gallery-intro__inner page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color -%}
-        {%- if section.settings.intro_title != blank -%}
-          {%- render 'typography', text: section.settings.intro_title, as: 'h2', variant: sg_title_variant, font: 'display', weight: 'medium', class: 'slide-gallery-intro__heading' -%}
-        {%- endif -%}
-        {%- if section.settings.intro_text != blank -%}
-          {%- render 'typography', text: section.settings.intro_text, as: 'div', variant: 'body', class: 'slide-gallery-intro__text rte' -%}
-        {%- endif -%}
-        {%- if has_cta and cta_below == false -%}
-          <div class="slide-gallery-intro__buttons">{{ cta }}</div>
-        {%- endif -%}
+        {%- capture sg_extra -%}
+          {%- if has_cta and cta_below == false -%}<div class="slide-gallery-intro__buttons">{{ cta }}</div>{%- endif -%}
+        {%- endcapture -%}
+        {%- assign sg_align = 'left' -%}
+        {%- if section.settings.intro_alignment == 'center' -%}{%- assign sg_align = 'center' -%}{%- endif -%}
+        {%- render 'section-header', eyebrow: section.settings.eyebrow, title: section.settings.intro_title, intro: section.settings.intro_text, size: sg_title_variant, align: sg_align, extra: sg_extra -%}
       </div>
     </div>
   {%- endif -%}
@@ -319,7 +315,6 @@
       "content": "Título y párrafo"
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
-    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     {
       "type": "inline_richtext",
       "id": "intro_title",

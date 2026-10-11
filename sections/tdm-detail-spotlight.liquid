@@ -218,18 +218,9 @@
   style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }};{% if s.image_height > 0 %} --sp-height: {{ s.image_height }}px;{% endif %} --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }}; --sp-icon: {{ s.icon_size | default: 24 }}px;"
 >
   <div class="page-width section-{{ section.id }}-padding">
-    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}
-
-    {%- if s.title != blank or s.text != blank -%}
-      <div class="tdm-spotlight__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {%- if s.title != blank -%}
-          {%- render 'typography', text: s.title, as: 'h2', variant: sp_title_variant, font: 'display', weight: 'medium', class: 'tdm-spotlight__title' -%}
-        {%- endif -%}
-        {%- if s.text != blank -%}
-          {%- render 'typography', text: s.text, as: 'div', variant: 'body', class: 'tdm-spotlight__text rte' -%}
-        {%- endif -%}
-      </div>
-    {%- endif -%}
+    <div class="tdm-spotlight__header">
+      {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: sp_title_variant, align: 'center' -%}
+    </div>
 
     {%- if stacked -%}
       <div class="tdm-spotlight__stage{% if s.points_overlay %} tdm-spotlight__stage--overlay{% endif %}">
@@ -286,7 +277,6 @@
     },
     { "type": "header", "content": "Encabezado" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
-    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Every Detail, Considered" },
     {
       "type": "select",

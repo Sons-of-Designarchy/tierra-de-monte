@@ -241,8 +241,6 @@
         "typography_variant": "primary",
         "font_variant": "mono",
         "speed": 77,
-        "show_top_border": true,
-        "show_bottom_border": true,
         "height": 125
       }
     },

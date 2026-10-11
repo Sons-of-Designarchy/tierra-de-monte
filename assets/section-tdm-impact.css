@@ -5,7 +5,7 @@
      --stats_below  heading/text on top, row underneath, full width
      --split        heading/text left, row/diagram right (5 / 7 desktop)
    Per-instance values arrive as custom properties on .tdm-impact:
-     --tdm-rule --tdm-min-h-desktop --tdm-min-h-mobile-n
+     --tdm-min-h-desktop --tdm-min-h-mobile-n
    and on .tdm-impact__stats: --stats-count
    ========================================================================== */
 
@@ -74,10 +74,6 @@
 
 .tdm-impact--align-center .tdm-impact__lead {
   max-width: 56rem;
-}
-
-.tdm-impact__heading {
-  margin: 0;
 }
 
 .tdm-impact__cta {

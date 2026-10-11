@@ -15,14 +15,6 @@
   color: var(--ticker-ink, var(--pr-brand-tertiary));
 }
 
-.tdm-ticker--border-top {
-  border-top: 1px solid var(--ticker-ink, var(--pr-brand-tertiary));
-}
-
-.tdm-ticker--border-bottom {
-  border-bottom: 1px solid var(--ticker-ink, var(--pr-brand-tertiary));
-}
-
 .tdm-ticker__img {
   position: absolute;
   inset: 0;

@@ -27,7 +27,7 @@
     {%- comment -%} Eyebrow spans the full page width, outside the narrow text column {%- endcomment -%}
     {%- if section.settings.eyebrow != blank -%}
       <div class="{% if section.settings.full_width %}page-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color, align: section.settings.content_alignment -%}
+        {%- render 'section-header', eyebrow: section.settings.eyebrow, align: section.settings.content_alignment -%}
       </div>
     {%- endif -%}
     <div class="rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
@@ -117,11 +117,6 @@
       "id": "eyebrow",
       "label": "Eyebrow",
       "info": "Texto pequeño arriba del contenido. La línea aparece solo si hay texto."
-    },
-    {
-      "type": "color",
-      "id": "rule_color",
-      "label": "Color de la línea del eyebrow"
     },
     {
       "type": "select",

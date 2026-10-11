@@ -54,7 +54,7 @@
   z-index: 3;
   display: flex;
   width: 100%;
-  padding: var(--pr-space-12) var(--pr-space-12) 96px;
+  padding: var(--pr-space-12) var(--pr-space-12) var(--pr-space-24);
   box-sizing: border-box;
 }
 
@@ -160,7 +160,7 @@
 }
 
 .hs__content {
-  max-width: 760px;
+  max-width: calc(47.5 * var(--pr-rem));
   color: var(--pr-text-primary);
 }
 
@@ -214,8 +214,8 @@
 
 /* The secondary button gets a glass fill over the photo. */
 .hs__btns .hs__btn-glass {
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(var(--pr-blur-sm));
+  backdrop-filter: blur(var(--pr-blur-sm));
 }
 
 /* ---- Credit (bottom corner) --------------------------------------------------- */
@@ -309,7 +309,7 @@
   }
 
   .tdm-hero-slider .hs__container {
-    padding: var(--pr-space-8) var(--pr-space-6) 120px;
+    padding: var(--pr-space-8) var(--pr-space-6) calc(var(--pr-space-24) + var(--pr-space-6));
   }
 
   .hs__text {
@@ -319,7 +319,7 @@
   .tdm-hero-slider {
     --hs-pad-x: var(--pr-space-6);
     --hs-pad-top: var(--pr-space-8);
-    --hs-credit-bottom: 80px; /* clears the arrows/dots */
+    --hs-credit-bottom: calc(var(--pr-space-16) + var(--pr-space-4)); /* clears the arrows/dots */
   }
 
   .hs__controls {

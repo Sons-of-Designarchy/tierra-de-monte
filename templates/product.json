@@ -222,8 +222,6 @@
         "typography_variant": "primary",
         "font_variant": "mono",
         "speed": 36,
-        "show_top_border": true,
-        "show_bottom_border": true,
         "height": 100
       }
     },
@@ -313,8 +311,6 @@
         "typography_variant": "secondary",
         "font_variant": "mono",
         "speed": 36,
-        "show_top_border": true,
-        "show_bottom_border": true,
         "height": 100
       }
     },
