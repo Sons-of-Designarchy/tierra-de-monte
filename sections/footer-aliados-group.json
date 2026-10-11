@@ -59,9 +59,6 @@
         "text_fVakYt",
         "text_9cence"
       ],
-      "custom_css": [
-        ".newsletter-form__field-wrapper {display: none !important;}"
-      ],
       "settings": {
         "color_scheme": "scheme-tdm-aliados-oscuro",
         "newsletter_enable": false,
