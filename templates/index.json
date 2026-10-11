@@ -17,7 +17,7 @@
         "image_alt": "campo agrícola trabajado",
         "min_height_desktop": 88,
         "min_height_mobile": 70,
-        "corner_radius": 0,
+        "corner_radius": 8,
         "card_position": "bottom-left",
         "card_max_width": 640,
         "card_padding": 24,
@@ -31,7 +31,7 @@
         "button_label": "Contáctanos",
         "button_link": "https://wa.me/524423741871",
         "button_pill": false,
-        "text_on_dark": true,
+        "text_on_dark": false,
         "width": "full",
         "scrim": true,
         "card_style": "none"

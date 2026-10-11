@@ -223,18 +223,18 @@
 /* Newsletter off: the image (certifications) takes its own row, left */
 .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
   grid-column: 1 / -1;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer .footer-newsletter--media-only {
   display: block;
   width: auto;
-  text-align: left;
+  text-align: center;
 }
 
 .footer .footer-newsletter--media-only .footer-newsletter__media {
-  margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
 }
 
@@ -509,20 +509,20 @@
     border-top: 0;
   }
 
-  /* Newsletter off (the live setup): the certifications sit under the last two columns, right-aligned */
+  /* Newsletter off (the live setup): the certifications sit centred in their own row */
   .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
-    grid-column: 4 / 6;
-    justify-content: flex-end;
+    grid-column: 1 / -1;
+    justify-content: center;
   }
 
   .footer .footer-newsletter--media-only {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     width: 100%;
   }
 
   .footer .footer-newsletter--media-only .footer-newsletter__media {
-    margin: 0;
+    margin: 0 auto;
   }
 
   .shopify-section-group-footer-aliados-group .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {

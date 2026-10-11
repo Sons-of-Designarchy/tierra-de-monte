@@ -23,10 +23,12 @@
     assign btn_class = 'tdm-hero__btn tdm-hero__btn--pill'
   endif
   assign opacity = sec.card_bg_opacity | default: 85
+  assign card_style = sec.card_style | default: 'solid'
+  assign width_mode = sec.width | default: 'full'
 -%}
 
-<section class="tdm-hero">
-  <div class="page-width">
+<section class="tdm-hero tdm-hero--{{ width_mode }}">
+  <div class="{% if width_mode == 'page' %}page-width{% else %}tdm-hero__wrap{% endif %}">
     <div
       class="tdm-hero__frame"
       style="
@@ -84,7 +86,7 @@
       "label": "Width",
       "default": "full",
       "options": [
-        { "value": "full", "label": "Full bleed (edge to edge)" },
+        { "value": "full", "label": "Full width (inset frame)" },
         { "value": "page", "label": "Page width" }
       ]
     },

@@ -1,6 +1,6 @@
 /* =============================================================================
    Hero overlay card (sections/hero-overlay-card.liquid)
-   Full-bleed frame with an overlay card pinned to one corner. Text is rendered by
+   Full-width inset frame with an overlay card pinned to one corner. Text is rendered by
    the typography snippet and the CTA by the button snippet; this file only lays
    them out. Per-instance values arrive as custom properties on .tdm-hero__frame:
      --hero-radius --hero-card-max --hero-card-pad --hero-card-opacity
@@ -25,10 +25,19 @@
   z-index: 1; /* sit above any stray scheme layer */
 }
 
-/* ===== Full bleed: edge to edge, card aligned to the page gutter ===== */
+/* ===== Full width: inset frame, margin on each side; card aligned to the frame gutter ===== */
+.tdm-hero--full .tdm-hero__wrap {
+  margin-inline: var(--pr-space-16);
+}
+
 .tdm-hero--full .tdm-hero__frame {
-  --hero-radius: 0px;
-  --hero-gutter: max(var(--pr-space-8), calc((100vw - var(--page-width, 120rem)) / 2 + var(--pr-space-8)));
+  --hero-gutter: var(--pr-space-8);
+}
+
+@media (max-width: 749.98px) {
+  .tdm-hero--full .tdm-hero__wrap {
+    margin-inline: var(--pr-space-4);
+  }
 }
 
 .tdm-hero .tdm-hero__scrim {
