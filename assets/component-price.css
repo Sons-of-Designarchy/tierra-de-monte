@@ -1,8 +1,7 @@
 .price {
-  font-size: 1.6rem;
-  letter-spacing: 0.1rem;
-  line-height: calc(1 + 0.5 / var(--font-body-scale));
-  color: rgb(var(--color-foreground));
+  font-size: var(--pr-text-body);
+  line-height: var(--pr-leading-normal);
+  color: var(--pr-text-primary);
 }
 
 .price > * {
@@ -38,14 +37,13 @@
 }
 
 .price--large {
-  font-size: 1.6rem;
-  line-height: calc(1 + 0.5 / var(--font-body-scale));
-  letter-spacing: 0.13rem;
+  font-size: var(--pr-text-body);
+  line-height: var(--pr-leading-normal);
 }
 
 @media screen and (min-width: 750px) {
   .price--large {
-    font-size: 1.8rem;
+    font-size: var(--pr-text-body-lg);
   }
 }
 
@@ -86,15 +84,14 @@
 
 .price--on-sale .price-item--regular {
   text-decoration: line-through;
-  color: rgba(var(--color-foreground), 0.75);
-  font-size: 1.3rem;
+  color: color-mix(in oklab, var(--pr-text-primary) 75%, transparent);
+  font-size: var(--pr-text-label);
 }
 
 .unit-price {
   display: block;
-  font-size: 1.1rem;
-  letter-spacing: 0.04rem;
-  line-height: calc(1 + 0.2 / var(--font-body-scale));
+  font-size: var(--pr-text-2xs);
+  line-height: var(--pr-leading-snug);
   margin-top: 0.2rem;
-  color: rgba(var(--color-foreground), 0.7);
+  color: color-mix(in oklab, var(--pr-text-primary) 70%, transparent);
 }

@@ -1,6 +1,6 @@
 .product__xr-button {
-  background: rgba(var(--color-foreground), 0.08);
-  color: rgb(var(--color-foreground));
+  background: color-mix(in oklab, var(--pr-text-primary) 8%, transparent);
+  color: var(--pr-text-primary);
   margin: 1rem auto;
   box-shadow: none;
   display: flex;

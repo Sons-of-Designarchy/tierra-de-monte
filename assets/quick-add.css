@@ -19,7 +19,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(var(--color-foreground), 0.2);
+  background: color-mix(in oklab, var(--pr-text-primary) 20%, transparent);
   height: 100%;
 }
 
@@ -51,7 +51,7 @@
   transform: translateX(-50%);
   margin: var(--modal-height-offset) auto 0;
   width: 100%;
-  background-color: rgb(var(--color-background));
+  background-color: var(--pr-surface);
   overflow: hidden;
   max-width: var(--page-width);
   width: calc(100% - 3rem);
@@ -125,7 +125,7 @@
     position: sticky;
     z-index: 3;
     top: 0;
-    background-color: rgb(var(--color-background));
+    background-color: var(--pr-surface);
   }
 }
 
@@ -250,10 +250,10 @@
 }
 
 .quick-add-modal__toggle {
-  background-color: rgb(var(--color-background));
-  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  background-color: var(--pr-surface);
+  border: 0.1rem solid color-mix(in oklab, var(--pr-text-primary) 10%, transparent);
   border-radius: 50%;
-  color: rgba(var(--color-foreground), 0.55);
+  color: color-mix(in oklab, var(--pr-text-primary) 55%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,7 +267,7 @@
 }
 
 .quick-add-modal__toggle:hover {
-  color: rgba(var(--color-foreground), 0.75);
+  color: color-mix(in oklab, var(--pr-text-primary) 75%, transparent);
 }
 
 .quick-add-modal__toggle .icon {
@@ -284,10 +284,10 @@ quick-add-modal .product:not(.featured-product) .product__view-details {
   margin-left: 1.2rem;
 }
 
-quick-add-modal .quick-add-hidden,
-quick-add-modal .product__modal-opener:not(.product__modal-opener--image),
-quick-add-modal .product__media-item:not(:first-child) {
-  display: none !important;
+quick-add-modal .quick-add-hidden.quick-add-hidden,
+quick-add-modal .product__modal-opener:not(.product__modal-opener--image).product__modal-opener,
+quick-add-modal .product__media-item.product__media-item:not(:first-child) {
+  display: none;
 }
 
 quick-add-modal .slider.slider--mobile {
@@ -345,7 +345,7 @@ quick-add-modal .product__title > a {
 }
 
 quick-add-modal .product__title > a:hover {
-  color: rgb(var(--color-foreground));
+  color: var(--pr-text-primary);
   text-decoration: underline;
   text-underline-offset: 0.2rem;
   text-decoration-thickness: 0.3rem;

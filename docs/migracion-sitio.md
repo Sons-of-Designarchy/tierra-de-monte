@@ -192,14 +192,14 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 
 ### 6. Producto, colección, carrito (solo tokens, sin reescribir la estructura)
 
-- [ ] ⬜ **`main-product`** (Producto, 2 usos). Solo apuntar CSS a tokens (`--pr-*`); 12 `!important`. NO tocar precio/variantes/botón de compra: se reemplaza por los componentes comerciales. ~2 h
-- [ ] ⬜ **`featured-collection`** (Colección destacada, 5 usos). Solo tokens. ~1 h
-- [ ] ⬜ **`main-collection-product-grid`** (Grilla de colección, 3 usos). Solo tokens. ~1 h
-- [ ] ⬜ **`main-cart-items`** (Carrito (productos), 1 usos). Solo tokens. ~1 h
-- [ ] ⬜ **`main-cart-footer`** (Carrito (totales), 1 usos). Solo tokens. ~0.5 h
-- [ ] ⬜ **`related-products`** (Productos relacionados, 2 usos). Solo tokens. ~0.5 h
-- [ ] ⬜ **`image-banner`** (Image banner, 2 usos). Texto con `typography`, botón con `button`. ~1 h
-- [ ] ⬜ **`slideshow`** (Slideshow, 2 usos). Quitar `<style>` inline; texto con `typography`. ~1.5 h
+- [x] ✅ **`main-product`** (Producto, 2 usos). Solo apuntar CSS a tokens (`--pr-*`); 12 `!important`. NO tocar precio/variantes/botón de compra: se reemplaza por los componentes comerciales. ~2 h CSS en tokens, 0 !important. Pendiente (comercio): texto en markup sigue con clases Dawn; se reemplaza por componentes comerciales.
+- [x] ✅ **`featured-collection`** (Colección destacada, 5 usos). Solo tokens. ~1 h CSS en tokens. Markup comercial sin tocar.
+- [x] ✅ **`main-collection-product-grid`** (Grilla de colección, 3 usos). Solo tokens. ~1 h CSS en tokens (facets, card). Markup sin tocar.
+- [x] ✅ **`main-cart-items`** (Carrito (productos), 1 usos). Solo tokens. ~1 h CSS en tokens.
+- [x] ✅ **`main-cart-footer`** (Carrito (totales), 1 usos). Solo tokens. ~0.5 h CSS en tokens.
+- [x] ✅ **`related-products`** (Productos relacionados, 2 usos). Solo tokens. ~0.5 h CSS en tokens.
+- [ ] 🟡 **`image-banner`** (Image banner, 2 usos). Texto con `typography`, botón con `button`. ~1 h CSS en tokens, 0 hex/!important. Pendiente junior: texto con `typography`, botón con `button`.
+- [ ] 🟡 **`slideshow`** (Slideshow, 2 usos). Quitar `<style>` inline; texto con `typography`. ~1.5 h `<style>` inline movido a custom property + CSS. Pendiente junior: texto con `typography`.
 - [ ] ⬜ **`video`** (Video, 2 usos). Quitar hex. ~0.5 h
 
 ### Shared (se hacen con el grupo 1)
@@ -222,6 +222,7 @@ Contenido del editor (JSON), de Karla/Dan; se listan para que alguien con permis
 
 ## 7. Bitácora
 
+- 2026-10-11 grupo 6 (producto/colección/carrito, solo tokens): todo rgb/rgba -> roles `--pr-*` con color-mix, hex 2->0, `!important` 12+ -> 0 (especificidad), font-size/weight/line-height -> `--pr-text-*`/`--pr-weight-*`/`--pr-leading-*`, letter-spacing y mayúsculas por defecto (cabecera carrito, caption de producto) eliminados, `<style>` de slideshow -> custom property.
 Una línea por cambio: `fecha · rama · qué se migró · números antes → después`. Lo más nuevo arriba.
 
 ```

@@ -58,16 +58,15 @@ variant-selects {
 
 /* Custom styles for Pill display type */
 .product-form__input--pill input[type='radio'] + label {
-  border: var(--variant-pills-border-width) solid rgba(var(--color-foreground), var(--variant-pills-border-opacity));
-  background-color: rgb(var(--color-background));
-  color: rgba(var(--color-foreground));
+  border: var(--variant-pills-border-width) solid color-mix(in oklab, var(--pr-text-primary) calc(var(--variant-pills-border-opacity) * 100%), transparent);
+  background-color: var(--pr-surface);
+  color: var(--pr-text-primary);
   border-radius: var(--variant-pills-radius);
-  color: rgb(var(--color-foreground));
+  color: var(--pr-text-primary);
   display: inline-block;
   margin: 0.7rem 0.5rem 0.2rem 0;
   padding: 1rem 2rem;
-  font-size: 1.4rem;
-  letter-spacing: 0.1rem;
+  font-size: var(--pr-text-body-sm);
   line-height: 1;
   text-align: center;
   transition: border var(--duration-short) ease;
@@ -85,16 +84,16 @@ variant-selects {
   z-index: -1;
   border-radius: var(--variant-pills-radius);
   box-shadow: var(--variant-pills-shadow-horizontal-offset) var(--variant-pills-shadow-vertical-offset)
-    var(--variant-pills-shadow-blur-radius) rgba(var(--color-shadow), var(--variant-pills-shadow-opacity));
+    var(--variant-pills-shadow-blur-radius) color-mix(in oklab, var(--pr-ink) calc(var(--variant-pills-shadow-opacity) * 100%), transparent);
 }
 
 .product-form__input--pill input[type='radio'] + label:hover {
-  border-color: rgb(var(--color-foreground));
+  border-color: var(--pr-text-primary);
 }
 
 .product-form__input--pill input[type='radio']:checked + label {
-  background-color: rgb(var(--color-foreground));
-  color: rgb(var(--color-background));
+  background-color: var(--pr-text-primary);
+  color: var(--pr-surface);
 }
 
 @media screen and (forced-colors: active) {
@@ -109,27 +108,27 @@ variant-selects {
 }
 
 .product-form__input--pill input[type='radio']:checked + label::selection {
-  background-color: rgba(var(--color-background), 0.3);
+  background-color: color-mix(in oklab, var(--pr-surface) 30%, transparent);
 }
 
 .product-form__input--pill input[type='radio']:disabled + label,
 .product-form__input--pill input[type='radio'].disabled + label {
-  border-color: rgba(var(--color-foreground), 0.1);
-  color: rgba(var(--color-foreground), 0.6);
+  border-color: color-mix(in oklab, var(--pr-text-primary) 10%, transparent);
+  color: color-mix(in oklab, var(--pr-text-primary) 60%, transparent);
   text-decoration: line-through;
 }
 
 .product-form__input--pill input[type='radio'].disabled:checked + label,
 .product-form__input--pill input[type='radio']:disabled:checked + label {
-  color: rgba(var(--color-background), 0.6);
+  color: color-mix(in oklab, var(--pr-surface) 60%, transparent);
 }
 .product-form__input--pill input[type='radio']:focus-visible + label {
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
+  box-shadow: 0 0 0 0.3rem var(--pr-surface), 0 0 0 0.5rem color-mix(in oklab, var(--pr-text-primary) 55%, transparent);
 }
 
 /* Fallback */
 .product-form__input--pill input[type='radio'].focused + label {
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
+  box-shadow: 0 0 0 0.3rem var(--pr-surface), 0 0 0 0.5rem color-mix(in oklab, var(--pr-text-primary) 55%, transparent);
 }
 
 /* Custom styles for Swatch display type */

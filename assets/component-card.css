@@ -46,7 +46,7 @@
   position: relative;
   box-sizing: border-box;
   border-radius: var(--border-radius);
-  border: var(--border-width) solid rgba(var(--color-foreground), var(--border-opacity));
+  border: var(--border-width) solid color-mix(in oklab, var(--pr-text-primary) calc(var(--border-opacity) * 100%), transparent);
 }
 
 .card--card:after,
@@ -60,7 +60,7 @@
   left: calc(var(--border-width) * -1);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
-    rgba(var(--color-shadow), var(--shadow-opacity));
+    color-mix(in oklab, var(--pr-ink) calc(var(--shadow-opacity) * 100%), transparent);
 }
 
 /* Needed for gradient continuity with or without animation, the transform scopes the gradient to its container which happens already when animation are turned on */
@@ -147,7 +147,7 @@
 .card-information .card__information-volume-pricing-note {
   margin-top: 0.6rem;
   line-height: calc(0.5 + 0.4 / var(--font-body-scale));
-  color: rgba(var(--color-foreground), 0.75);
+  color: color-mix(in oklab, var(--pr-text-primary) 75%, transparent);
 }
 
 .card__information-volume-pricing-note--button,
@@ -313,7 +313,7 @@
 .card--horizontal .card__heading,
 .card--horizontal .price__container .price-item,
 .card--horizontal__quick-add {
-  font-size: calc(var(--font-heading-scale) * 1.2rem);
+  font-size: var(--pr-text-xs);
 }
 
 .card--horizontal
@@ -331,7 +331,7 @@
   .card--horizontal .card__heading,
   .card--horizontal .price__container .price-item,
   .card--horizontal__quick-add {
-    font-size: calc(var(--font-heading-scale) * 1.3rem);
+    font-size: var(--pr-text-label);
   }
 }
 
@@ -362,13 +362,13 @@
 }
 
 .card__heading a:focus:after {
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  box-shadow: 0 0 0 0.3rem var(--pr-surface), 0 0 0.5rem 0.4rem color-mix(in oklab, var(--pr-text-primary) 30%, transparent);
+  outline: 0.2rem solid color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
 }
 
 .card__heading a:focus-visible:after {
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  box-shadow: 0 0 0 0.3rem var(--pr-surface), 0 0 0.5rem 0.4rem color-mix(in oklab, var(--pr-text-primary) 30%, transparent);
+  outline: 0.2rem solid color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
 }
 
 .card__heading a:focus:not(:focus-visible):after {
@@ -471,16 +471,16 @@
 }
 
 .card-information > * {
-  line-height: calc(1 + 0.4 / var(--font-body-scale));
-  color: rgb(var(--color-foreground));
+  line-height: var(--pr-leading-normal);
+  color: var(--pr-text-primary);
 }
 
 .card-information > .price {
-  color: rgb(var(--color-foreground));
+  color: var(--pr-text-primary);
 }
 
 .card--horizontal .card-information > .price {
-  color: rgba(var(--color-foreground), 0.75);
+  color: color-mix(in oklab, var(--pr-text-primary) 75%, transparent);
 }
 
 .card-information > .rating {
@@ -500,7 +500,6 @@
 }
 
 .card-information .caption {
-  letter-spacing: 0.07rem;
 }
 
 .card-article-info {
@@ -519,7 +518,7 @@
   background-color: transparent;
   filter: drop-shadow(
     var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
-      rgba(var(--color-shadow), var(--shadow-opacity))
+      color-mix(in oklab, var(--pr-ink) calc(var(--shadow-opacity) * 100%), transparent)
   );
 }
 
@@ -598,40 +597,40 @@
 @media (max-width: 749.98px){
 
   /* Scope to any tabbed-collections section */
-  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio{
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .card__inner.ratio{
     position: relative;              /* anchor absolute children */
   }
   /* Create the aspect box (uses Dawn’s --ratio-percent) */
-  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio::before{
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .card__inner.ratio::before{
     content:"";
     display:block;
     padding-bottom: var(--ratio-percent, 100%);
   }
 
   /* Pin media to the box edges (two-level wrapper in Dawn) */
-  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media,
-  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media > .media{
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media,
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media > .media{
     position:absolute;
     inset:0;
   }
 
   /* Make the <img> actually cover the area */
-  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio .media > img{
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .card__inner.ratio .media > img{
     display:block;                   /* kill baseline gap (Safari) */
-    width:100% !important;
-    height:100% !important;
-    object-fit:cover !important;
+    width:100%;
+    height:100%;
+    object-fit:cover;
     object-position:center;
     -webkit-transform: translateZ(0); /* iOS paint stability */
   }
 
   /* Neutralize Dawn’s hover zoom so layout doesn’t shift on iOS */
-  [id$="__tabs-collections"] .tabs__panel .media.media--hover-effect > img{
-    transform:none !important;
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .media.media--hover-effect > img{
+    transform:none;
   }
 
   /* Extra WebKit stability */
-  [id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media{
+  [id$="__tabs-collections"][id$="__tabs-collections"] .tabs__panel .card__inner.ratio > .card__media{
     contain: paint;
     -webkit-backface-visibility:hidden;
   }

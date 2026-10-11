@@ -256,8 +256,8 @@
     position: relative;
   }
 
-  .banner::before {
-    display: none !important;
+  .banner.banner::before {
+    display: none;
   }
 
   .banner--stacked .banner__media-image-half {
@@ -387,7 +387,7 @@
   content: '';
   position: absolute;
   top: 0;
-  background: #000000;
+  background: var(--pr-ink);
   opacity: 0;
   z-index: 1;
   width: 100%;
@@ -408,9 +408,9 @@
   margin-top: 1rem;
 }
 
-.banner__box > *:first-child {
+.banner .banner__box > *:first-child {
   margin-top: 0;
-  color: rgb(var(--color-secondary-button))!important;
+  color: var(--pr-action);
 }
 
 @media screen and (max-width: 749px) {
@@ -489,4 +489,8 @@
   .banner--desktop-transparent .rte a:hover {
     color: currentColor;
   }
+}
+
+.slideshow__slide .banner__media::after {
+  opacity: var(--slide-overlay-opacity, 0);
 }

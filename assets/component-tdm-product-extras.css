@@ -21,8 +21,8 @@
 
 .product-extras__heading {
   margin-bottom: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: var(--pr-text-body-sm);
+  font-weight: var(--pr-weight-bold);
 }
 
 .product-extras__list {
@@ -45,5 +45,5 @@
 }
 
 .product-extras__text {
-  font-size: 1.5rem;
+  font-size: var(--pr-text-body-sm);
 }

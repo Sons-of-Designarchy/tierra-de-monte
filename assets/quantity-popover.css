@@ -4,12 +4,11 @@ quantity-popover {
 }
 
 quantity-popover volume-pricing li:nth-child(odd) {
-  background: rgba(var(--color-foreground), 0.03);
+  background: color-mix(in oklab, var(--pr-text-primary) 3%, transparent);
 }
 
 quantity-popover volume-pricing li {
-  font-size: 1.2rem;
-  letter-spacing: 0.06rem;
+  font-size: var(--pr-text-xs);
   padding: 0.6rem 0.8rem;
   display: flex;
   justify-content: space-between;
@@ -19,7 +18,7 @@ quantity-popover volume-pricing li {
   width: 100%;
   z-index: 3;
   position: absolute;
-  background-color: rgb(var(--color-background));
+  background-color: var(--pr-surface);
   max-width: 36rem;
 }
 
@@ -89,7 +88,7 @@ quantity-popover .quick-order-list-remove-button .button {
   display: block;
   margin-left: 1.2rem;
   margin-top: 1.2rem;
-  font-size: 1.2rem;
+  font-size: var(--pr-text-xs);
 }
 
 .quantity-popover__info .button {
@@ -151,7 +150,7 @@ quantity-popover .quantity__rules span:first-of-type {
 }
 
 quantity-popover .quantity {
-  background: rgb(var(--color-background));
+  background: var(--pr-surface);
 }
 
 quantity-popover .quantity__rules {
