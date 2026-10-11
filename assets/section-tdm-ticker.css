@@ -1,10 +1,9 @@
 /* =============================================================================
    Ticker section (sections/ticker.liquid)
    Infinite marquee of a repeated line of text, optional background image and
-   icon. Per-instance values arrive as custom properties on .tdm-ticker:
-     --ticker-speed --ticker-h --ticker-fs --ticker-icon-h --ticker-ink --ticker-bg
-   Text transform, borders and the mono swap are modifier classes; see
-   tdm-foundations.css for the shared .tdm-mono utility.
+   icon. Text is rendered by the typography snippet; this file only lays it out.
+   Per-instance values arrive as custom properties on .tdm-ticker:
+     --ticker-speed --ticker-h --ticker-icon-h --ticker-ink --ticker-bg --ticker-tracking
    ========================================================================== */
 
 .tdm-ticker {
@@ -13,14 +12,15 @@
   overflow: hidden;
   isolation: isolate;
   background: var(--ticker-bg, transparent);
+  color: var(--ticker-ink, var(--pr-brand-tertiary));
 }
 
 .tdm-ticker--border-top {
-  border-top: 1px solid var(--ticker-ink, rgb(var(--tdm-cream)));
+  border-top: 1px solid var(--ticker-ink, var(--pr-brand-tertiary));
 }
 
 .tdm-ticker--border-bottom {
-  border-bottom: 1px solid var(--ticker-ink, rgb(var(--tdm-cream)));
+  border-bottom: 1px solid var(--ticker-ink, var(--pr-brand-tertiary));
 }
 
 .tdm-ticker__img {
@@ -40,49 +40,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  border: 0;
-  background: transparent;
   z-index: 2;
 }
 
-.tdm-ticker .typo-primary,
-.tdm-ticker .typo-secondary,
-.tdm-ticker .tdm-mono {
-  line-height: 1.25; /* room for descenders (g, p, y) inside the clipped marquee */
+.tdm-ticker .tdm-ticker__text {
   white-space: nowrap;
-  color: var(--ticker-ink, rgb(var(--tdm-cream)));
-  font-size: var(--ticker-fs, 22px);
-  text-transform: uppercase;
 }
 
-.tdm-ticker--transform-title .typo-primary,
-.tdm-ticker--transform-title .typo-secondary,
-.tdm-ticker--transform-title .tdm-mono {
+/* Editor settings that the type scale does not cover */
+.tdm-ticker.tdm-ticker--transform-title .tdm-ticker__text {
   text-transform: capitalize;
 }
 
-.tdm-ticker--transform-none .typo-primary,
-.tdm-ticker--transform-none .typo-secondary,
-.tdm-ticker--transform-none .tdm-mono {
-  text-transform: none;
-}
-
-.tdm-ticker .typo-primary {
-  font-family: var(--font-heading-family);
-  font-weight: lighter;
-  letter-spacing: var(--ticker-tracking, -0.5rem); /* default tighter for heading style */
-}
-
-.tdm-ticker .typo-secondary {
-  font-family: var(--font-body-family);
-  font-weight: 400;
-  letter-spacing: var(--ticker-tracking, 0.08em);
-}
-
-.tdm-ticker .tdm-mono {
-  font-size: calc(var(--ticker-fs, 22px) * var(--font-mono-scale, 1));
-  letter-spacing: var(--ticker-tracking, 0.06em);
+.tdm-ticker.tdm-ticker--tracked .tdm-ticker__text {
+  letter-spacing: var(--ticker-tracking);
 }
 
 .tdm-ticker__marquee {
@@ -93,7 +64,7 @@
 .tdm-ticker__track {
   display: inline-flex;
   align-items: center;
-  gap: 2.2rem;
+  gap: var(--pr-space-6);
   will-change: transform;
   animation: tdm-ticker var(--ticker-speed, 36s) linear infinite;
 }
@@ -101,13 +72,13 @@
 .tdm-ticker__chunk {
   display: inline-flex;
   align-items: center;
-  gap: 2.2rem;
+  gap: var(--pr-space-6);
 }
 
 .tdm-ticker__item {
   display: inline-flex;
   align-items: center;
-  gap: 2rem;
+  gap: var(--pr-space-4);
 }
 
 .tdm-ticker__icon {
@@ -116,6 +87,12 @@
   max-height: 55px;
   object-fit: contain;
   flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tdm-ticker__track {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes tdm-ticker {

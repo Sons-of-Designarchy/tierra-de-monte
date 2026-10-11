@@ -4,15 +4,23 @@
 {%- liquid
   assign base_speed = section.settings.speed | default: 36
   assign speed = base_speed
+  assign t_font = 'body'
   if section.settings.font_variant == 'mono'
     assign speed = base_speed | plus: 8
+    assign t_font = 'mono'
+  elsif section.settings.typography_variant == 'primary'
+    assign t_font = 'display'
   endif
 
-  assign track_class = 'typo-secondary'
-  if section.settings.font_variant == 'mono'
-    assign track_class = 'tdm-mono'
-  elsif section.settings.typography_variant == 'primary'
-    assign track_class = 'typo-primary'
+  assign fs = section.settings.font_size | default: 22
+  capture t_variant_raw
+    render 'tdm-type-from-px', px: fs
+  endcapture
+  assign t_variant = t_variant_raw | strip
+
+  assign t_class = 'tdm-ticker__text'
+  if section.settings.text_transform == 'uppercase' or section.settings.text_transform == blank
+    assign t_class = t_class | append: ' tdm-upper'
   endif
 
   assign root_classes = 'tdm-ticker'
@@ -24,9 +32,12 @@
   endif
   if section.settings.text_transform == 'title'
     assign root_classes = root_classes | append: ' tdm-ticker--transform-title'
-  elsif section.settings.text_transform == 'none'
-    assign root_classes = root_classes | append: ' tdm-ticker--transform-none'
   endif
+  if section.settings.letter_spacing > 0
+    assign root_classes = root_classes | append: ' tdm-ticker--tracked'
+  endif
+
+  assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA'
 -%}
 
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
@@ -34,7 +45,7 @@
 <div class="section-{{ section.id }}-padding">
 <section
   class="{{ root_classes }}"
-  style="--ticker-speed: {{ speed }}s; --ticker-h: {{ section.settings.height | default: 100 }}px; --ticker-fs: {{ section.settings.font_size | default: 22 }}px; --ticker-icon-h: {{ section.settings.icon_height | default: 32 }}px; --ticker-ink: {{ section.settings.text_color | default: '#F3EFCF' }}; --ticker-bg: {{ section.settings.bg_color | default: 'transparent' }};{% if section.settings.letter_spacing > 0 %} --ticker-tracking: {{ section.settings.letter_spacing | divided_by: 100.0 }}em;{% endif %}"
+  style="--ticker-speed: {{ speed }}s; --ticker-h: {{ section.settings.height | default: 100 }}px; --ticker-icon-h: {{ section.settings.icon_height | default: 32 }}px; --ticker-ink: {{ section.settings.text_color | default: '#F3EFCF' }}; --ticker-bg: {{ section.settings.bg_color | default: 'transparent' }};{% if section.settings.letter_spacing > 0 %} --ticker-tracking: {{ section.settings.letter_spacing | divided_by: 100.0 }}em;{% endif %}"
 >
   {% if section.settings.bg_image != blank %}
     <img
@@ -49,43 +60,27 @@
   {% endif %}
 
   <div class="tdm-ticker__layer">
-    {% assign copy = section.settings.text | strip | default: 'VIDA QUE GENERA VIDA' %}
     <div class="tdm-ticker__marquee">
-      <div class="tdm-ticker__track {{ track_class }}">
-        <span class="tdm-ticker__chunk">
-          {% for i in (1..10) %}
-            <span class="tdm-ticker__item">
-              {% if section.settings.icon != blank %}
-                <img
-                  alt=""
-                  class="tdm-ticker__icon"
-                  src="{{ section.settings.icon | image_url }}"
-                  width="{{ section.settings.icon.width }}"
-                  height="{{ section.settings.icon.height }}"
-                  loading="lazy"
-                >
-              {% endif %}
-              <span>{{ copy }}</span>
-            </span>
-          {% endfor %}
-        </span>
-        <span class="tdm-ticker__chunk" aria-hidden="true">
-          {% for i in (1..10) %}
-            <span class="tdm-ticker__item">
-              {% if section.settings.icon != blank %}
-                <img
-                  alt=""
-                  class="tdm-ticker__icon"
-                  src="{{ section.settings.icon | image_url }}"
-                  width="{{ section.settings.icon.width }}"
-                  height="{{ section.settings.icon.height }}"
-                  loading="lazy"
-                >
-              {% endif %}
-              <span>{{ copy }}</span>
-            </span>
-          {% endfor %}
-        </span>
+      <div class="tdm-ticker__track">
+        {%- for chunk in (1..2) -%}
+          <span class="tdm-ticker__chunk"{% if chunk == 2 %} aria-hidden="true"{% endif %}>
+            {%- for i in (1..10) -%}
+              <span class="tdm-ticker__item">
+                {%- if section.settings.icon != blank -%}
+                  <img
+                    alt=""
+                    class="tdm-ticker__icon"
+                    src="{{ section.settings.icon | image_url }}"
+                    width="{{ section.settings.icon.width }}"
+                    height="{{ section.settings.icon.height }}"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                {%- render 'typography', text: copy, as: 'span', variant: t_variant, font: t_font, color: 'inherit', class: t_class -%}
+              </span>
+            {%- endfor -%}
+          </span>
+        {%- endfor -%}
       </div>
     </div>
   </div>
