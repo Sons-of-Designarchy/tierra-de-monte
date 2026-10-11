@@ -28,7 +28,7 @@
             assign fb_attrs = 'data-cascade'
           endif
         -%}
-        {% render 'typography', text: section.settings.heading, as: 'h2', variant: fb_variant, font: 'display', id: heading_id, class: fb_title_class, attrs: fb_attrs %}
+        {% render 'typography', text: section.settings.heading, as: 'h2', variant: fb_variant, id: heading_id, class: fb_title_class, attrs: fb_attrs %}
 
         {%- if section.settings.blog != blank
           and section.settings.show_view_all
