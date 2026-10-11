@@ -79,6 +79,10 @@
   /* ---------- 3. Scales ---------- */
   /* Families. Editable in Sanity (Theme → Tipografía) from a list of fonts already loaded. */
   --pr-font-display: var(--font-display-family);
+  /* Display face (Barlow Condensed): a touch smaller, tighter and lighter than the scale */
+  --pr-display-scale: 0.9;
+  --pr-display-leading: 0.95;
+  --pr-display-weight: var(--pr-weight-regular);
   --pr-font-body: var(--font-body-family);
   --pr-font-mono: var(--font-mono-family);
 

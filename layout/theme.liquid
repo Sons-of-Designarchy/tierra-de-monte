@@ -219,6 +219,8 @@
       {{ heading_font | font_face: font_display: 'swap' }}
       {%- if display_font.family != heading_font.family or display_font.weight != heading_font.weight -%}
         {{ display_font | font_face: font_display: 'swap' }}
+        {%- assign display_font_regular = display_font | font_modify: 'weight', '400' -%}
+        {%- if display_font_regular -%}{{ display_font_regular | font_face: font_display: 'swap' }}{%- endif -%}
       {%- endif -%}
 
       {%- if settings.font_mono -%}

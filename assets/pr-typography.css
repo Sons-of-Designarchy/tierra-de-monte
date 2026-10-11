@@ -17,13 +17,13 @@
   text-transform: none;
 }
 
-.pr-type--display { font-size: var(--pr-text-display); line-height: var(--pr-leading-tight); letter-spacing: var(--pr-tracking-tight); }
-.pr-type--h1 { font-size: var(--pr-text-h1); line-height: var(--pr-leading-tight); letter-spacing: var(--pr-tracking-tight); }
-.pr-type--h2 { font-size: var(--pr-text-h2); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-tight); }
-.pr-type--h3 { font-size: var(--pr-text-h3); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
-.pr-type--h4 { font-size: var(--pr-text-h4); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
-.pr-type--h5 { font-size: var(--pr-text-h5); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
-.pr-type--h6 { font-size: var(--pr-text-h6); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--display { font-size: calc(var(--pr-text-display) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-tight); letter-spacing: var(--pr-tracking-tight); }
+.pr-type--h1 { font-size: calc(var(--pr-text-h1) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-tight); letter-spacing: var(--pr-tracking-tight); }
+.pr-type--h2 { font-size: calc(var(--pr-text-h2) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-tight); }
+.pr-type--h3 { font-size: calc(var(--pr-text-h3) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--h4 { font-size: calc(var(--pr-text-h4) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--h5 { font-size: calc(var(--pr-text-h5) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--h6 { font-size: calc(var(--pr-text-h6) * var(--pr-type-scale, 1)); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
 .pr-type--body-lg { font-size: var(--pr-text-body-lg); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
 .pr-type--body { font-size: var(--pr-text-body); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
 .pr-type--body-sm { font-size: var(--pr-text-body-sm); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
@@ -41,7 +41,8 @@
 }
 
 /* ---------- font ---------- */
-.pr-font--display { font-family: var(--pr-font-display); }
+.pr-font--display { font-family: var(--pr-font-display); --pr-type-scale: var(--pr-display-scale, 1); }
+.pr-type.pr-font--display { line-height: var(--pr-display-leading, var(--pr-leading-tight)); }
 .pr-font--body { font-family: var(--pr-font-body); }
 .pr-font--mono { font-family: var(--pr-font-mono); }
 
@@ -50,6 +51,9 @@
 .pr-weight--medium { font-weight: var(--pr-weight-medium); }
 .pr-weight--semibold { font-weight: var(--pr-weight-semibold); }
 .pr-weight--bold { font-weight: var(--pr-weight-bold); }
+
+/* Display face carries one weight everywhere: no faux bold */
+.pr-type.pr-font--display[class*="pr-weight--"] { font-weight: var(--pr-display-weight, var(--pr-weight-regular)); }
 
 /* ---------- colour ---------- */
 .pr-color--primary { color: var(--pr-text-primary); }
