@@ -1,0 +1,49 @@
+{%- comment -%}
+  Typography — every visible string goes through this snippet. Mirrors PerfectlyRad's Typography atom.
+  Never write a text size, weight, family or colour by hand.
+
+  {% render 'typography', text: 'Título', variant: 'h2', as: 'h2', font: 'display', weight: 'bold', color: 'brand', align: 'balance', class: '', id: '' %}
+
+  Params
+  - text     string or html (required unless you use capture + text: captured)
+  - variant  display | h1 | h2 | h3 | h4 | h5 | h6 | body-lg | body | body-sm | label | eyebrow | xs | 2xs | 3xs   (default: body)
+  - as       tag override. Default per variant: display,h1 → h1; h2–h6 → same; body-lg,body,body-sm → p; label,eyebrow,xs,2xs,3xs → span
+  - font     display | body | mono   (default: body; eyebrow defaults to mono)
+  - weight   regular | medium | semibold | bold   (default: regular)
+  - color    primary | secondary | disabled | brand | inverse | on-action | success | warning | danger | info | inherit   (default: primary)
+  - align    left | center | right | balance   (default: none)
+  - class    extra classes (layout only, never type)
+  - id       element id
+  - for      only with as: 'label'
+  - attrs    extra attributes string, e.g. 'aria-live="polite"'
+
+  Eyebrow is the only uppercase variant. Uppercase and mono are never defaults elsewhere.
+  Classes: .pr-type--{variant} .pr-font--{font} .pr-weight--{weight} .pr-color--{color} .pr-align--{align} (assets/pr-typography.css)
+{%- endcomment -%}
+{%- liquid
+  assign t_variant = variant | default: 'body'
+  assign t_font = font
+  if t_font == blank
+    if t_variant == 'eyebrow'
+      assign t_font = 'mono'
+    else
+      assign t_font = 'body'
+    endif
+  endif
+  assign t_weight = weight | default: 'regular'
+  assign t_color = color | default: 'primary'
+  assign t_tag = as
+  if t_tag == blank
+    case t_variant
+      when 'display'
+        assign t_tag = 'h1'
+      when 'h1' or 'h2' or 'h3' or 'h4' or 'h5' or 'h6'
+        assign t_tag = t_variant
+      when 'body-lg' or 'body' or 'body-sm'
+        assign t_tag = 'p'
+      else
+        assign t_tag = 'span'
+    endcase
+  endif
+-%}
+<{{ t_tag }} class="pr-type pr-type--{{ t_variant }} pr-font--{{ t_font }} pr-weight--{{ t_weight }} pr-color--{{ t_color }}{% if align != blank %} pr-align--{{ align }}{% endif %}{% if class != blank %} {{ class }}{% endif %}"{% if id != blank %} id="{{ id }}"{% endif %}{% if for != blank %} for="{{ for }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ text }}</{{ t_tag }}>

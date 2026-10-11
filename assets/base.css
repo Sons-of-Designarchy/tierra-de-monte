@@ -605,7 +605,6 @@ h2,
 h3 {
   font-family: var(--font-heading-family);
   line-height: 112%;
-  font-weight: lighter !important;
 }
 
 /* Body text */

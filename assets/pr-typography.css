@@ -1,0 +1,143 @@
+/* =============================================================================
+   PerfectlyRad Typography — classes behind snippets/typography.liquid.
+   Mirrors the cva in perfectlyrad/src/components/atoms/Typography.tsx, value for
+   value. Sizes, leading, tracking and weights are --pr-* tokens, never numbers.
+
+   Use the snippet:  {% render 'typography', text: '…', variant: 'h2', font: 'display' %}
+   Never write font-size / font-weight / font-family by hand in a section.
+   Loaded after base.css and tdm-foundations.css.
+   ========================================================================== */
+
+/* ---------- variant (size, leading, tracking) ---------- */
+.pr-type {
+  margin: 0;
+  font-style: normal;
+  text-transform: none;
+}
+
+.pr-type--display { font-size: var(--pr-text-display); line-height: var(--pr-leading-tight); letter-spacing: var(--pr-tracking-tight); }
+.pr-type--h1 { font-size: var(--pr-text-h1); line-height: var(--pr-leading-tight); letter-spacing: var(--pr-tracking-tight); }
+.pr-type--h2 { font-size: var(--pr-text-h2); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-tight); }
+.pr-type--h3 { font-size: var(--pr-text-h3); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--h4 { font-size: var(--pr-text-h4); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--h5 { font-size: var(--pr-text-h5); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--h6 { font-size: var(--pr-text-h6); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--body-lg { font-size: var(--pr-text-body-lg); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--body { font-size: var(--pr-text-body); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--body-sm { font-size: var(--pr-text-body-sm); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--label { font-size: var(--pr-text-label); line-height: var(--pr-leading-normal); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--xs { font-size: var(--pr-text-xs); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--2xs { font-size: var(--pr-text-2xs); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+.pr-type--3xs { font-size: var(--pr-text-3xs); line-height: var(--pr-leading-snug); letter-spacing: var(--pr-tracking-normal); }
+
+/* The one variant with opinions: wide tracking, uppercase, mono by default (set in the snippet). */
+.pr-type--eyebrow {
+  font-size: var(--pr-text-xs);
+  line-height: var(--pr-leading-snug);
+  letter-spacing: var(--pr-tracking-wide);
+  text-transform: uppercase;
+}
+
+/* ---------- font ---------- */
+.pr-font--display { font-family: var(--pr-font-display); }
+.pr-font--body { font-family: var(--pr-font-body); }
+.pr-font--mono { font-family: var(--pr-font-mono); }
+
+/* ---------- weight ---------- */
+.pr-weight--regular { font-weight: var(--pr-weight-regular); }
+.pr-weight--medium { font-weight: var(--pr-weight-medium); }
+.pr-weight--semibold { font-weight: var(--pr-weight-semibold); }
+.pr-weight--bold { font-weight: var(--pr-weight-bold); }
+
+/* ---------- colour ---------- */
+.pr-color--primary { color: var(--pr-text-primary); }
+.pr-color--secondary { color: var(--pr-text-secondary); }
+.pr-color--disabled { color: var(--pr-text-disabled); }
+.pr-color--brand { color: var(--pr-text-brand); }
+.pr-color--inverse { color: var(--pr-text-inverse); }
+.pr-color--on-action { color: var(--pr-text-on-action); }
+.pr-color--success { color: var(--pr-text-success); }
+.pr-color--warning { color: var(--pr-text-warning); }
+.pr-color--danger { color: var(--pr-text-error); }
+.pr-color--info { color: var(--pr-text-info); }
+.pr-color--inherit { color: currentcolor; }
+
+/* ---------- align ---------- */
+.pr-align--left { text-align: left; }
+.pr-align--center { text-align: center; }
+.pr-align--right { text-align: right; }
+.pr-align--balance { text-wrap: balance; }
+
+/* =============================================================================
+   Legacy Dawn markup inherits the scale: h1–h6, .h0–.h5, .hxl, .hxxl, body,
+   .caption, .subtitle. Size, leading and tracking only; family and weight stay
+   with Dawn's heading/body settings until the section is rebuilt on the snippet.
+   ========================================================================== */
+body {
+  font-size: var(--pr-text-body);
+  line-height: var(--pr-leading-normal);
+}
+
+.h0,
+.hxl,
+.hxxl {
+  font-size: var(--pr-text-display);
+  line-height: var(--pr-leading-tight);
+  letter-spacing: var(--pr-tracking-tight);
+}
+
+h1,
+.h1 {
+  font-size: var(--pr-text-h1);
+  line-height: var(--pr-leading-tight);
+  letter-spacing: var(--pr-tracking-tight);
+}
+
+h2,
+.h2 {
+  font-size: var(--pr-text-h2);
+  line-height: var(--pr-leading-snug);
+  letter-spacing: var(--pr-tracking-tight);
+}
+
+h3,
+.h3 {
+  font-size: var(--pr-text-h3);
+  line-height: var(--pr-leading-snug);
+  letter-spacing: var(--pr-tracking-normal);
+}
+
+h4,
+.h4 {
+  font-size: var(--pr-text-h4);
+  line-height: var(--pr-leading-snug);
+  letter-spacing: var(--pr-tracking-normal);
+}
+
+h5,
+.h5 {
+  font-size: var(--pr-text-h5);
+  line-height: var(--pr-leading-snug);
+  letter-spacing: var(--pr-tracking-normal);
+}
+
+h6 {
+  font-size: var(--pr-text-h6);
+  line-height: var(--pr-leading-snug);
+}
+
+.subtitle,
+.text-body {
+  font-size: var(--pr-text-body-lg);
+  line-height: var(--pr-leading-normal);
+}
+
+.caption-large {
+  font-size: var(--pr-text-label);
+}
+
+.caption,
+.subtitle--small {
+  font-size: var(--pr-text-xs);
+  line-height: var(--pr-leading-snug);
+}
