@@ -135,8 +135,8 @@
 }
 
 .tdm-multicolumn .multicolumn-card .pr-card__media {
-  display: flex;
-  justify-content: center;
+  display: block;
+  width: 100%;
 }
 
 .tdm-multicolumn .tdm-multicolumn__info {
@@ -155,7 +155,8 @@
 
 /* ---- Image ---------------------------------------------------------------- */
 .tdm-multicolumn .tdm-multicolumn__image {
-  width: min(var(--image-w, 100%), var(--image-max-width, 33%));
+  width: 100%;
+  max-width: min(var(--image-w, 100%), var(--image-max-width, 100%));
   margin-inline: auto;
 }
 
