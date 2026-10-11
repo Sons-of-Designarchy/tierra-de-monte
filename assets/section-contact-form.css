@@ -1,39 +1,42 @@
+/* =============================================================================
+   Contact form (sections/contact-form.liquid)
+   Fields come from the input / textarea atoms, the result from alert, the
+   submit from button. This file only lays them out.
+   ========================================================================== */
+
 .contact img {
   max-width: 100%;
 }
 
-.contact .form__message {
-  align-items: flex-start;
+.contact .contact__title {
+  margin-bottom: var(--pr-space-6);
 }
 
-.contact .icon-success {
-  margin-top: 0.2rem;
+.contact .contact__status {
+  margin-bottom: var(--pr-space-6);
 }
 
-.contact .field {
-  margin-bottom: 1.5rem;
+.contact .contact__fields {
+  display: grid;
+  gap: var(--pr-space-4);
+  margin-bottom: var(--pr-space-4);
 }
 
-@media screen and (min-width: 750px) {
-  .contact .field {
-    margin-bottom: 2rem;
-  }
+.contact .contact__field {
+  margin-bottom: var(--pr-space-4);
 }
 
-.contact__button {
-  margin-top: 3rem;
-}
-
-@media screen and (min-width: 750px) {
-  .contact__button {
-    margin-top: 4rem;
-  }
+.contact .contact__button {
+  margin-top: var(--pr-space-8);
 }
 
 @media screen and (min-width: 750px) {
-  .contact__fields {
-    display: grid;
+  .contact .contact__fields {
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 2rem;
+    column-gap: var(--pr-space-8);
+  }
+
+  .contact .contact__button {
+    margin-top: var(--pr-space-12);
   }
 }
