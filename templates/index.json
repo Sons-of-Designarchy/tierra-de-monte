@@ -15,11 +15,11 @@
       "settings": {
         "image": "shopify://shop_images/IMG-20200928-WA0024.jpg",
         "image_alt": "campo agrícola trabajado",
-        "min_height_desktop": 80,
-        "min_height_mobile": 55,
-        "corner_radius": 8,
+        "min_height_desktop": 88,
+        "min_height_mobile": 70,
+        "corner_radius": 0,
         "card_position": "bottom-left",
-        "card_max_width": 560,
+        "card_max_width": 640,
         "card_padding": 24,
         "card_bg_opacity": 100,
         "card_glass": false,
@@ -31,7 +31,10 @@
         "button_label": "Contáctanos",
         "button_link": "https://wa.me/524423741871",
         "button_pill": false,
-        "text_on_dark": true
+        "text_on_dark": true,
+        "width": "full",
+        "scrim": true,
+        "card_style": "none"
       }
     },
     "tabs-collections": {

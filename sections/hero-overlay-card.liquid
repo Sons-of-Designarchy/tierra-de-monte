@@ -39,13 +39,14 @@
         {% if img != blank %}background-image:url({{ img | image_url: width: 2880 }});{% endif %}
       "
     >
+      {% if sec.scrim and img != blank %}<div class="tdm-hero__scrim tdm-hero__scrim--{{ card_pos }}" aria-hidden="true"></div>{% endif %}
       {% if img == blank %}
         <div class="tdm-hero__placeholder">
           {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
         </div>
       {% endif %}
 
-      <div class="tdm-hero__card tdm-hero__card--{{ card_pos }}{% if sec.card_shadow %} tdm-hero__card--shadow{% endif %}">
+      <div class="tdm-hero__card tdm-hero__card--{{ card_pos }} tdm-hero__card--{{ card_style }}{% if sec.card_shadow and card_style != 'none' %} tdm-hero__card--shadow{% endif %}">
         <div
           class="tdm-hero__card-inner{% if sec.card_glass %} tdm-hero__card-inner--glass{% endif %}"
           {% if card_scheme != blank %}data-scheme="{{ card_scheme }}"{% endif %}
@@ -77,6 +78,17 @@
   "name": "Hero overlay card",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Background image" },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "full",
+      "options": [
+        { "value": "full", "label": "Full bleed (edge to edge)" },
+        { "value": "page", "label": "Page width" }
+      ]
+    },
+    { "type": "checkbox", "id": "scrim", "label": "Darken the image behind the text", "default": true },
     { "type": "text", "id": "image_alt", "label": "Image alt text" },
 
     {
@@ -111,6 +123,16 @@
     },
 
     { "type": "header", "content": "Card" },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card style",
+      "default": "solid",
+      "options": [
+        { "value": "solid", "label": "Solid card" },
+        { "value": "none", "label": "No card (text on the image)" }
+      ]
+    },
     {
       "type": "select",
       "id": "card_position",

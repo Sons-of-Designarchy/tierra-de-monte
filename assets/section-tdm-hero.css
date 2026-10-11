@@ -25,6 +25,25 @@
   z-index: 1; /* sit above any stray scheme layer */
 }
 
+/* ===== Full bleed: edge to edge, card aligned to the page gutter ===== */
+.tdm-hero--full .tdm-hero__frame {
+  --hero-radius: 0px;
+  --hero-gutter: max(var(--pr-space-8), calc((100vw - var(--page-width, 120rem)) / 2 + var(--pr-space-8)));
+}
+
+.tdm-hero .tdm-hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--pr-ink-50), transparent 60%);
+}
+
+.tdm-hero .tdm-hero__scrim--top-left,
+.tdm-hero .tdm-hero__scrim--top-right {
+  background: linear-gradient(to bottom, var(--pr-ink-50), transparent 60%);
+}
+
 .tdm-hero .tdm-hero__placeholder {
   position: absolute;
   inset: 0;
@@ -38,31 +57,32 @@
 @media (min-width: 750px) {
   .tdm-hero .tdm-hero__card {
     position: absolute;
-    inset: auto auto var(--pr-space-8) var(--pr-space-8);
+    inset: auto auto var(--pr-space-8) var(--hero-gutter, var(--pr-space-8));
     max-width: var(--hero-card-max);
+    z-index: 1;
   }
 
   .tdm-hero .tdm-hero__card--top-left {
-    inset: var(--pr-space-8) auto auto var(--pr-space-8);
+    inset: var(--pr-space-8) auto auto var(--hero-gutter, var(--pr-space-8));
   }
 
   .tdm-hero .tdm-hero__card--top-right {
-    inset: var(--pr-space-8) var(--pr-space-8) auto auto;
+    inset: var(--pr-space-8) var(--hero-gutter, var(--pr-space-8)) auto auto;
   }
 
   .tdm-hero .tdm-hero__card--bottom-right {
-    inset: auto var(--pr-space-8) var(--pr-space-8) auto;
+    inset: auto var(--hero-gutter, var(--pr-space-8)) var(--pr-space-8) auto;
   }
 
   .tdm-hero .tdm-hero__card--center-left {
     top: 50%;
-    left: var(--pr-space-8);
+    left: var(--hero-gutter, var(--pr-space-8));
     transform: translateY(-50%);
   }
 
   .tdm-hero .tdm-hero__card--center-right {
     top: 50%;
-    right: var(--pr-space-8);
+    right: var(--hero-gutter, var(--pr-space-8));
     left: auto;
     transform: translateY(-50%);
   }
@@ -87,6 +107,14 @@
 
 .tdm-hero .tdm-hero__card-inner--glass {
   background: color-mix(in oklab, var(--pr-white) var(--hero-card-opacity), transparent);
+}
+
+/* No card: text sits on the image over the scrim */
+.tdm-hero .tdm-hero__card--none .tdm-hero__card-inner {
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 .tdm-hero .tdm-hero__body {
