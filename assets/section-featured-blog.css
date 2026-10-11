@@ -1,19 +1,10 @@
-.blog-placeholder-svg {
-  height: 100%;
-}
-
-@media screen and (min-width: 990px) {
-  .grid--1-col-desktop .article-card .card__content {
-    text-align: center;
-  }
-}
-
-.blog__title {
+/* Featured blog (sections/featured-blog.liquid). Cards come from snippets/article-card (card atom). */
+.blog .blog__title {
   margin: 0;
 }
 
 .blog__posts.articles-wrapper {
-  margin-bottom: 1rem;
+  margin-bottom: var(--pr-space-4);
 }
 
 @media screen and (min-width: 990px) {
@@ -26,35 +17,30 @@
   scroll-snap-align: start;
 }
 
-@media screen and (max-width: 749px) {
-  .blog__post.article {
-    width: calc(100% - 3rem - var(--grid-mobile-horizontal-spacing));
-  }
-}
-
-.background-secondary .blog-placeholder__content {
-  background-color: rgb(var(--color-background));
+.blog__posts .article-card {
+  height: 100%;
 }
 
 .blog__posts .card-wrapper {
   width: 100%;
 }
 
+@media screen and (max-width: 749px) {
+  .blog__post.article {
+    width: calc(100% - 3rem - var(--grid-mobile-horizontal-spacing));
+  }
+}
+
+.blog-placeholder-svg {
+  height: 100%;
+}
+
 .blog__button {
-  margin-top: 3rem;
+  margin-top: var(--pr-space-12);
 }
 
 @media screen and (min-width: 750px) {
   .blog__button {
-    margin-top: 5rem;
-  }
-}
-
-/* check for flexbox gap in older Safari versions */
-@supports not (inset: 10px) {
-  @media screen and (min-width: 750px) {
-    .blog__posts .article + .article {
-      margin-left: var(--grid-desktop-horizontal-spacing);
-    }
+    margin-top: var(--pr-space-16);
   }
 }
