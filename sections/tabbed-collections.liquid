@@ -4,7 +4,7 @@
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 <section class="tdm-tabs page-width section-{{ section.id }}-padding">
-  {% render 'tdm-section-eyebrow', text: section.settings.kicker, rule_color: section.settings.rule_color, align: 'center' %}
+  {% render 'section-header', eyebrow: section.settings.kicker, align: 'center' %}
   {% render 'heading', title: section.settings.heading, as: 'h1', size: 'h1', subtitle: section.settings.subheading, align: 'center', class: 'tdm-tabs__heading' %}
 
   {%- assign has_any = false -%}
@@ -91,7 +91,6 @@
       "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
     },
     { "type": "text", "id": "kicker", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
-    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading" },
     { "type": "text", "id": "subheading", "label": "Subheading" },
     { "type": "checkbox", "id": "show_card_excerpt", "label": "Show product description", "default": true },

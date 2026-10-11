@@ -1,0 +1,33 @@
+{%- comment -%}
+  Section header — the heading block every section opens with: eyebrow, title, intro and an optional action, through the Heading atom.
+  Ports the header of PerfectlyRad's Section layout (layout/Section.tsx): the eyebrow never carries a rule, the block is capped at the md width, centered when asked.
+
+  {% render 'section-header', eyebrow: 'Aliados', title: 'Crece con nosotros', intro: '<p>Texto</p>', size: 'h2', align: 'center', cta_label: 'Registrarme', cta_href: '/x' %}
+
+  Params
+  - eyebrow, title      plain text (title may hold inline html)
+  - intro               rich text html (from a richtext setting) or plain text; rendered as body copy
+  - size                display | h1 | h2 | h3   (default: h2)
+  - align               left | center   (default: left)
+  - as                  tag of the title (default: h2)
+  - cta_label, cta_href primary action (button atom)
+  - extra               html under the intro: a button row, a note
+  - class
+  Renders nothing when everything is blank.
+{%- endcomment -%}
+{%- liquid
+  assign sh_empty = true
+  if eyebrow != blank or title != blank or intro != blank or cta_label != blank
+    assign sh_empty = false
+  endif
+  assign sh_align = align | default: 'left'
+-%}
+{%- unless sh_empty -%}
+  {%- capture sh_intro -%}
+    {%- if intro != blank -%}{%- render 'typography', text: intro, as: 'div', variant: 'body', class: 'pr-section-header__intro rte' -%}{%- endif -%}
+      {%- if extra != blank -%}{{ extra }}{%- endif -%}
+  {%- endcapture -%}
+  <div class="pr-section-header pr-section-header--{{ sh_align }}{% if class != blank %} {{ class }}{% endif %}">
+    {%- render 'heading', eyebrow: eyebrow, title: title, as: as, size: size, align: sh_align, content: sh_intro, cta_label: cta_label, cta_href: cta_href -%}
+  </div>
+{%- endunless -%}

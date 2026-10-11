@@ -21,6 +21,13 @@
   - elevated          true → surface fill + shadow-lg. false → surface-subtle fill
   - interactive       true → hover fill + shadow
   - content           html below the body copy
+  - text              rich-text html under the description (paragraphs or a <ul>); with list_icon each <li> gets that icon
+  - list_icon         icon name for the <li> of text, e.g. check-circle. Blank: plain bullets
+  - icon_image        Shopify image object: a small picture (64px) above the body: the "icon card"
+  - bg_image          Shopify image object: the photo fills the card and the body sits on a white glass panel: the "photo card". Alt text: image_alt
+  - title_size        display | h1 | h2 | h3 | h4 | h5   (default: h5)
+  - ratio             card shape: 1/1 | 4/3 | 4/5 | 3/4 (default: the content decides; photo cards use it as their height)
+  - on_color          true when the section behind has a colour: the card takes the white scheme (white surface, dark text). Never green on green. An explicit scheme wins
   - class
 
   States: default, hover (interactive), focus-visible (link).
@@ -54,8 +61,41 @@
     assign cd_class = cd_class | append: ' ' | append: class
   endif
   assign cd_tag = tag | default: 'div'
+  assign cd_scheme = scheme
+  if cd_scheme == blank and on_color
+    assign cd_scheme = 'light'
+  endif
+  assign cd_is_photo = false
+  if bg_image != blank
+    assign cd_is_photo = true
+    assign cd_class = cd_class | append: ' pr-card--photo'
+  endif
+  if icon_image != blank
+    assign cd_class = cd_class | append: ' pr-card--icon'
+  endif
+  if ratio != blank
+    assign cd_ratio_class = ratio | replace: '/', '-'
+    assign cd_class = cd_class | append: ' pr-card--r-' | append: cd_ratio_class
+  endif
+  assign cd_title_size = title_size | default: 'h5'
+  assign cd_text = text
+  if cd_text != blank and list_icon != blank
+    capture cd_li_icon
+      render 'icon', name: list_icon, size: 'md'
+    endcapture
+    assign cd_li_open = '<li><span class="pr-card__li-icon">' | append: cd_li_icon | append: '</span><span>'
+    assign cd_text = cd_text | replace: '<li>', cd_li_open | replace: '</li>', '</span></li>'
+  endif
 -%}
 {%- capture cd_inner -%}
+  {%- if cd_is_photo -%}
+    <div class="pr-card__bg" aria-hidden="true">
+      {%- render 'image', image: bg_image, alt: '', ratio: 'auto', radius: 'none', sizes: '(min-width: 990px) 33vw, 100vw', class: 'pr-card__bg-img' -%}
+    </div>
+  {%- endif -%}
+  {%- if icon_image != blank -%}
+    {%- render 'image', image: icon_image, alt: '', ratio: 'auto', fit: 'contain', radius: 'none', sizes: '128px', class: 'pr-card__icon' -%}
+  {%- endif -%}
   {%- if cd_has_media -%}
     <div class="pr-card__media">
       {%- if media != blank -%}
@@ -68,7 +108,7 @@
       {%- endif -%}
     </div>
   {%- endif -%}
-  <div class="pr-card__body">
+  <div class="pr-card__body{% if cd_is_photo %} pr-card__panel{% endif %}"{% if cd_is_photo %} data-scheme="light"{% endif %}>
     {%- if quote != blank -%}
       <div class="pr-card__testimonial">
         {%- if quote_rating != blank -%}{%- render 'rating', value: quote_rating -%}{%- endif -%}
@@ -96,7 +136,8 @@
         {%- if product_discount != blank -%}{%- render 'typography', text: product_discount, variant: 'body', weight: 'medium', color: 'success' -%}{%- endif -%}
       </div>
     {%- else -%}
-      {%- render 'heading', size: 'h5', as: cd_title_as, eyebrow: eyebrow, eyebrow_style: 'body', title: title, subtitle: description -%}
+      {%- render 'heading', size: cd_title_size, as: cd_title_as, eyebrow: eyebrow, eyebrow_style: 'body', title: title, subtitle: description -%}
+      {%- if cd_text != blank -%}{%- render 'typography', text: cd_text, as: 'div', variant: 'body-sm', class: 'pr-card__text rte' -%}{%- endif -%}
     {%- endif -%}
     {%- if content != blank -%}{{ content }}{%- endif -%}
     {%- if cta_label != blank -%}
@@ -112,7 +153,7 @@
   {%- if footer != blank -%}<div class="pr-card__footer">{{ footer }}</div>{%- endif -%}
 {%- endcapture -%}
 {%- if href != blank -%}
-  <a href="{{ href }}" class="{{ cd_class }}"{% if scheme != blank %} data-scheme="{{ scheme }}"{% endif %}>{{ cd_inner }}</a>
+  <a href="{{ href }}" class="{{ cd_class }}"{% if cd_scheme != blank %} data-scheme="{{ cd_scheme }}"{% endif %}>{{ cd_inner }}</a>
 {%- else -%}
-  <{{ cd_tag }} class="{{ cd_class }}"{% if scheme != blank %} data-scheme="{{ scheme }}"{% endif %}>{{ cd_inner }}</{{ cd_tag }}>
+  <{{ cd_tag }} class="{{ cd_class }}"{% if cd_scheme != blank %} data-scheme="{{ cd_scheme }}"{% endif %}>{{ cd_inner }}</{{ cd_tag }}>
 {%- endif -%}
