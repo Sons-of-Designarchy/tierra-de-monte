@@ -138,9 +138,9 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 
 ### 1. Global (en todas las páginas)
 
-- [ ] ⬜ **`announcement-bar`** (Barra de anuncios, 2 usos). Texto de anuncio con `typography` (variant `body-sm`, color según esquema), flechas con `icon-button`, quitar el `<style>` inline (mover a `assets/section-tdm-announcement.css`) y el script inline a custom element. Probar en `/`. ~1.5 h
-- [ ] ⬜ **`header`** (Header, 2 usos). Enlaces del menú con `typography` (`body-sm`, medium); iconos (buscar, cuenta, carrito) con `icon-button`; mover el `<style>` inline a `assets/section-tdm-header.css`; quitar `!important`; arreglar desborde horizontal de 58 px a 768 (cajón del menú fuera de pantalla). Probar en `/` a 390, 768, 1280. ~4 h
-- [ ] ⬜ **`footer`** (Footer, 2 usos). Encabezados de columna y enlaces con `typography`; campos del boletín con `input` + `button`; quitar el `!important`; unificar `section-footer.css`, `section-tdm-footer.css` y `footer-custom.css` en un solo `section-tdm-footer.css`. ~3 h
+- [x] 🟡 **`announcement-bar`** (Barra de anuncios, 2 usos). Hecho: mensaje con `typography`, `<style>` de modo editor a `section-tdm-announcement.css`. Falta (junior): flechas con `icon-button` (el JS del slideshow depende de `.slider-button`) y el `<script>` del editor. La barra está desactivada en ambos grupos (se probó activándola a mano). Pendiente original: Texto de anuncio con `typography` (variant `body-sm`, color según esquema), flechas con `icon-button`, quitar el `<style>` inline (mover a `assets/section-tdm-announcement.css`) y el script inline a custom element. Probar en `/`. ~1.5 h
+- [x] 🟡 **`header`** (Header, 2 usos). Hecho: títulos de menú (barra, desplegable, cajón) con `typography`, `<style>` a `section-tdm-header.css`, ajustes nuevos `show_search`/`show_account` reemplazan los `custom_css` con `!important`, desborde de 58px resuelto (NO era el cajón: era el footer). Falta (junior): iconos buscar/cuenta/carrito con `icon-button` (hoy son `summary`/`a` de Dawn con JS) y `{% javascript %}` StickyHeader a `assets/`. Pendiente original: Enlaces del menú con `typography` (`body-sm`, medium); iconos (buscar, cuenta, carrito) con `icon-button`; mover el `<style>` inline a `assets/section-tdm-header.css`; quitar `!important`; arreglar desborde horizontal de 58 px a 768 (cajón del menú fuera de pantalla). Probar en `/` a 390, 768, 1280. ~4 h
+- [x] ✅ **`footer`** (Footer, 2 usos). Hecho: `section-footer.css` eliminado, un solo `section-tdm-footer.css`; `footer-custom.css` NO se carga en el footer (solo lo usa `layout/aliados.liquid`, sin uso) y queda sin tocar. Original: Encabezados de columna y enlaces con `typography`; campos del boletín con `input` + `button`; quitar el `!important`; unificar `section-footer.css`, `section-tdm-footer.css` y `footer-custom.css` en un solo `section-tdm-footer.css`. ~3 h
 
 ### 2. Home (`templates/index.json`)
 
@@ -208,11 +208,13 @@ Secciones sin ninguna plantilla ni referencia. **No se han borrado** (decisión 
 - [ ] ⬜ **`snippets/tdm-section-eyebrow`**. Eyebrow con `typography` variant `eyebrow`. ~0.5 h
 - [ ] ⬜ **`snippets/tdm-section-background`**. Colores por roles. ~0.5 h
 - [ ] ⬜ **`snippets/social-icons`**. Iconos con `icon-button`. ~1 h
-- [ ] ⬜ **`snippets/pagination`**. Botones con `button`/`icon-button`. ~1 h
+- [x] 🟡 **`snippets/pagination`**. Hecho: números con `typography`; prev/next siguen de Dawn. Botones con `button`/`icon-button`. ~1 h
 - [x] ✅ **`snippets/article-card`**. Reemplazar por el átomo `card`. ~1 h Hecho: ahora usa el átomo `card`; la fecha no se imprime (el CSS antiguo la ocultaba).
-- [ ] ⬜ **`snippets/header-drawer, header-search, header-dropdown-menu, header-mega-menu`**. Con el grupo del header. ~2 h
+- [x] 🟡 **`snippets/header-drawer, header-search, header-dropdown-menu, header-mega-menu`**. Hecho: títulos con `typography`; `header-search` conserva marcado Dawn (JS predictivo). Con el grupo del header. ~2 h
 
 ## 6. Bugs de contenido conocidos (NO se arreglan en esta migración)
+
+- Grupo 1: `base.css` tenía contorno punteado y fondo gris "temporary" de depuración sobre el logo de `/nosotros-hero` (selector con ID de sección); se quitaron. `snippets/mega-menu-plagas.liquid` sin uso. `assets/tdm-aliados.css` no se carga en ningún layout. En `theme.liquid` el `<script>` de `window.routes` va entre `</head>` y `<body>` (HTML heredado).
 
 Contenido del editor (JSON), de Karla/Dan; se listan para que alguien con permiso de contenido los corrija:
 
@@ -231,6 +233,7 @@ Contenido del editor (JSON), de Karla/Dan; se listan para que alguien con permis
 
 ## 7. Bitácora
 
+- 2026-10-11 grupo 1 (global): desborde 768px 58 -> 0 en las 20 rutas (causa real: columnas `1fr` del footer en tablet con texto largo de contacto, arreglado con `minmax(0,1fr)`; el cajón del menú NO contribuía); footer 3 CSS -> 1 (`section-footer.css` borrado), boletín con átomos `input` + `icon-button`, hacks `custom_css` con `!important` del boletín y de search/cuenta del header eliminados (ajustes `show_search`/`show_account`); `theme.liquid` scripts inline 3 -> 1 (queda `window.routes`, necesita Liquid), botón WhatsApp inline -> `.tdm-whatsapp`; `base.css` hex 5 -> 0, `!important` 33 -> 14 (utilidades `.small-hide`, visually-hidden, autofill, `.focus-none`, `.card__link-overlay`); `component-menu-drawer/mega-menu/localization` rgba/hex -> roles, font-size/weight/line-height fuera.
 - 2026-10-11 grupo 6 (producto/colección/carrito, solo tokens): todo rgb/rgba -> roles `--pr-*` con color-mix, hex 2->0, `!important` 12+ -> 0 (especificidad), font-size/weight/line-height -> `--pr-text-*`/`--pr-weight-*`/`--pr-leading-*`, letter-spacing y mayúsculas por defecto (cabecera carrito, caption de producto) eliminados, `<style>` de slideshow -> custom property.
 Una línea por cambio: `fecha · rama · qué se migró · números antes → después`. Lo más nuevo arriba.
 
