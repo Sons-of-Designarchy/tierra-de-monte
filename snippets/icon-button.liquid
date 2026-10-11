@@ -12,6 +12,7 @@
   - type      button | submit | reset
   - disabled  true → aria-disabled, no pointer events
   - static    true → not pressable: a decorative mark in a span
+  - badge     number or text shown in a small pill on the corner (cart count). Empty → no pill
   - class, id, attrs
 
   States: hover, focus-visible, disabled.
@@ -34,7 +35,7 @@
 {%- if static -%}
   <span class="{{ ib_class }} is-static"{% if label != blank %} role="img" aria-label="{{ label | escape }}"{% else %} aria-hidden="true"{% endif %}>{% render 'icon', name: icon, size: ib_icon %}</span>
 {%- elsif href != blank -%}
-  <a href="{{ href }}" class="{{ ib_class }}" aria-label="{{ label | escape }}"{% if id != blank %} id="{{ id }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{% render 'icon', name: icon, size: ib_icon %}</a>
+  <a href="{{ href }}" class="{{ ib_class }}" aria-label="{{ label | escape }}"{% if id != blank %} id="{{ id }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{% render 'icon', name: icon, size: ib_icon %}{% if badge != blank %}<span class="pr-icon-btn__badge" aria-hidden="true">{{ badge }}</span>{% endif %}</a>
 {%- else -%}
   <button type="{{ type | default: 'button' }}" class="{{ ib_class }}" aria-label="{{ label | escape }}"{% if id != blank %} id="{{ id }}"{% endif %}{% if disabled %} disabled aria-disabled="true"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{% render 'icon', name: icon, size: ib_icon %}</button>
 {%- endif -%}

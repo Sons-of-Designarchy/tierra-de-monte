@@ -20,6 +20,7 @@
     {%- render 'link', text: 'Typography matrix', href: '#typography', quiet: true, variant: 'body-sm' -%}
     {%- render 'link', text: 'Space, radius, elevation, motion', href: '#scales', quiet: true, variant: 'body-sm' -%}
     {%- render 'link', text: 'Atoms', href: '#atoms', quiet: true, variant: 'body-sm' -%}
+    {%- render 'link', text: 'Navbar', href: '#navbar', quiet: true, variant: 'body-sm' -%}
   </nav>
 </header>
 <section class="tdm-catalog__block" id="colour">
@@ -983,6 +984,32 @@ options: 'value|Label|count;value|Label'{% endraw %}</code></pre>
 {% render 'segmented-control', label: 'Sobre foto', name: 'cat-sg-5', options: 'a|Uno;b|Dos' %}
   </div>
   <pre class="tdm-catalog__code"><code>{% raw %}{% render 'segmented-control', label: 'Sobre foto', name: 'cat-sg-5', options: 'a|Uno;b|Dos' %}{% endraw %}</code></pre>
+</div>
+</section>
+<section class="tdm-catalog__block" id="navbar">
+  {%- render 'typography', text: 'Navbar', variant: 'h3', font: 'display', as: 'h2' -%}
+  {%- render 'typography', text: 'The site header. One white bar, logo inside, no border, elevation from the tokens. Two styles: floating (inset from the edges, gap from the top) and full (edge to edge). Below 990px the links move into a panel under the bar.', variant: 'body', color: 'secondary' -%}
+  <pre class="tdm-catalog__code tdm-catalog__code--params"><code>{% raw %}{% render 'navbar', nav_style, menu, menu_type, logo, logo_url, logo_width, show_search, show_account, cta_last, sticky, country, language, color_scheme, app_blocks, uid, demo %}{% endraw %}</code></pre>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'floating', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block tdm-catalog__demo--navbar">
+{% render 'navbar', nav_style: 'floating', menu: linklists['main-menu'], menu_type: 'dropdown', logo: settings.logo, logo_width: settings.logo_width, show_search: true, show_account: true, sticky: false, uid: 'catalog-floating', demo: true %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'navbar', nav_style: 'floating', menu: linklists['main-menu'], menu_type: 'dropdown', logo: settings.logo, logo_width: settings.logo_width, show_search: true, show_account: true, sticky: false, uid: 'catalog-floating', demo: true %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'full', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block tdm-catalog__demo--navbar">
+{% render 'navbar', nav_style: 'full', menu: linklists['main-menu'], menu_type: 'dropdown', logo: settings.logo, logo_width: settings.logo_width, show_search: true, show_account: true, sticky: false, uid: 'catalog-full', demo: true %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'navbar', nav_style: 'full', menu: linklists['main-menu'], menu_type: 'dropdown', logo: settings.logo, logo_width: settings.logo_width, show_search: true, show_account: true, sticky: false, uid: 'catalog-full', demo: true %}{% endraw %}</code></pre>
+</div>
+<div class="tdm-catalog__example">
+  {%- render 'typography', text: 'last link as button (aliados)', variant: 'label', weight: 'medium', color: 'secondary' -%}
+  <div class="tdm-catalog__demo tdm-catalog__demo--block tdm-catalog__demo--navbar">
+{% render 'navbar', nav_style: 'floating', menu: linklists['menu-aliados'], logo: settings.logo, logo_width: settings.logo_width, cta_last: true, sticky: false, uid: 'catalog-cta', demo: true %}
+  </div>
+  <pre class="tdm-catalog__code"><code>{% raw %}{% render 'navbar', nav_style: 'floating', menu: linklists['menu-aliados'], logo: settings.logo, logo_width: settings.logo_width, cta_last: true, sticky: false, uid: 'catalog-cta', demo: true %}{% endraw %}</code></pre>
 </div>
 </section>
 </div>

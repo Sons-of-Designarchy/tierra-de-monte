@@ -242,3 +242,10 @@
     gap: var(--pr-space-1);
   }
 }
+
+/* Navbar demos sit on the page surface so the white bar and its elevation read */
+.tdm-catalog__demo--navbar {
+  min-height: calc(22 * var(--pr-rem));
+  padding: 0;
+  background: var(--pr-surface-subtle);
+}

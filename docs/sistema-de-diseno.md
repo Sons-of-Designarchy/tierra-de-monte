@@ -108,6 +108,18 @@ Cada snippet documenta sus parámetros en el comentario de su encabezado. CSS en
 
 Todos traen sus estados: hover, foco con teclado, deshabilitado, error y cargando donde aplica.
 
+### Navbar (el header)
+
+Organismo `snippets/navbar.liquid`, port de la Navbar de PerfectlyRad. Lo renderiza `sections/header.liquid` (`header-group.json` y `header-aliados-group.json`) y el catálogo (`/pages/distribuidores?view=foundations#navbar`). Un solo componente, sin fork.
+
+- Una barra blanca (esquema `scheme-tdm-blanco`, rol `--pr-surface`), logo adentro a la izquierda, links al centro, iconos y CTA a la derecha. Sin borde. Elevación `--pr-elevation-base` (`--pr-elevation-lg` al hacer scroll). Radio `--pr-radius-surface`: hoy es 0 (radios cuadrados); si se redondea ese token, la barra se redondea sola.
+- Ajuste `nav_style`: `floating` (por defecto: inset con el gutter de página, 12px de separación arriba, pegada) o `full` (de borde a borde). Ajuste `sticky` la pega arriba.
+- Enlace actual con `aria-current`, fondo `--pr-action-light`. Submenús: `menu_type_desktop` `dropdown` (cuelga del link) o `mega` (ocupa el ancho de la barra).
+- Menos de 990px: logo + carrito + botón de menú; los links pasan a un panel dentro de la barra (grupos con `details`, sin cajón deslizante).
+- `cta_last_link`: el último link del menú se vuelve botón a la derecha (Aliados: «Quiero ser Aliado»). Si el menú solo tiene ese link, no hay botón de menú.
+- Logo: ajuste del tema `logo`; `logo_override` y `logo_link` en la sección para un logo propio (Aliados). Iconos: `show_search`, `show_account`, carrito siempre; selectores de país/idioma si la tienda tiene más de uno.
+- Piezas: `navbar-links` (escritorio), `navbar-mobile` (panel), `header-search`, `header-localization`, `icon-button` (con `badge` para el contador del carrito), `assets/section-tdm-header.css`, `assets/tdm-navbar.js`.
+
 ## 6. Cómo agregar una sección nueva
 
 1. Revisa el catálogo (`?view=foundations`). Si un átomo lo resuelve, úsalo; no copies una sección para cambiarle algo.

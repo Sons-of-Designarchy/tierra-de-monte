@@ -178,6 +178,27 @@
     color var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
+.pr-icon-btn { position: relative; }
+
+.pr-icon-btn__badge {
+  position: absolute;
+  top: var(--pr-space-1);
+  right: var(--pr-space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--pr-icon-sm);
+  height: var(--pr-icon-sm);
+  padding: 0 var(--pr-space-1);
+  border-radius: var(--pr-radius-full);
+  background: var(--pr-action);
+  color: var(--pr-text-on-action);
+  font-family: var(--pr-font-body);
+  font-size: var(--pr-text-3xs);
+  font-weight: var(--pr-weight-semibold);
+  line-height: 1;
+}
+
 .pr-icon-btn--xs { width: var(--pr-control-xs); height: var(--pr-control-xs); }
 .pr-icon-btn--sm { width: var(--pr-control-sm); height: var(--pr-control-sm); }
 .pr-icon-btn--md { width: var(--pr-control-md); height: var(--pr-control-md); }

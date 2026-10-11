@@ -41,22 +41,16 @@
       "settings": {
         "logo_override": "shopify://shop_images/logo-h-full.svg",
         "logo_link": "shopify://pages/aliados",
-        "logo_position": "middle-left",
-        "mobile_logo_position": "center",
+        "nav_style": "floating",
+        "sticky": true,
         "menu": "menu-aliados",
         "menu_type_desktop": "mega",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
+        "cta_last_link": true,
         "show_search": false,
         "show_account": false,
-        "color_scheme": "scheme-tdm-aliados-claro",
-        "menu_color_scheme": "",
+        "color_scheme": "scheme-tdm-blanco",
         "enable_country_selector": true,
-        "enable_language_selector": true,
-        "enable_customer_avatar": false,
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
+        "enable_language_selector": true
       }
     }
   },
