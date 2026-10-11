@@ -69,7 +69,11 @@
               {%- endif -%}
             {%- when 'text' -%}
               {%- capture text_attrs -%}{{ block.shopify_attributes }}{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}{%- endcapture -%}
-              {% render 'typography', text: block.settings.text, variant: 'body', as: 'div', font: body_font, class: 'rich-text__text rte', attrs: text_attrs %}
+              {%- if section.settings.display_text -%}
+                {% render 'typography', text: block.settings.text, variant: 'h3', as: 'div', font: 'display', class: 'rich-text__text rte', attrs: text_attrs %}
+              {%- else -%}
+                {% render 'typography', text: block.settings.text, variant: 'body', as: 'div', font: body_font, class: 'rich-text__text rte', attrs: text_attrs %}
+              {%- endif -%}
             {%- when 'button' -%}
               <div
                 class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{{ reveal }}"
@@ -185,6 +189,7 @@
     },
     { "type": "checkbox", "id": "mono_heading", "label": "Use monospaced font for headings", "default": false },
     { "type": "checkbox", "id": "mono_body", "label": "Use monospaced font for text", "default": false },
+    { "type": "checkbox", "id": "display_text", "label": "Text in the display font, large (h3)", "default": false },
     { "type": "header", "content": "Logo" },
     { "type": "image_picker", "id": "logo", "label": "Logo (top)" },
     { "type": "text", "id": "logo_alt", "label": "Logo alt text", "default": "Section logo" },

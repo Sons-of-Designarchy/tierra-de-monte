@@ -1,23 +1,16 @@
 /* =============================================================================
    Logo bar section (sections/logo-bar.liquid)
-   A card (card atom) of partner/ally logos in a responsive grid, with an optional
-   title. Text is rendered by typography. Per-instance values arrive as custom
+   Partner/ally logos in a responsive grid, with an optional title, on the
+   scheme background edge to edge (no card, no radius, no shadow). Text is rendered by typography. Per-instance values arrive as custom
    properties on .tdm-logo-bar:
-     --logo-radius --logo-bar-gap --logo-h --cols-mobile --cols-desktop
+     --logo-bar-gap --logo-h --cols-mobile --cols-desktop
    Grayscale is a modifier class (.tdm-logo-bar--grayscale).
    ========================================================================== */
 
-.tdm-logo-bar {
-  background: none;
-}
-
-.tdm-logo-bar .logo-bar__card {
-  border-radius: var(--logo-radius, var(--pr-radius-surface));
-}
-
-.tdm-logo-bar .logo-bar__card .pr-card__body {
+.tdm-logo-bar .logo-bar__inner {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  flex: 0 1 auto;
 }
 
 /* ---- Header ---------------------------------------------------------------- */

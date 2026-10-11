@@ -279,6 +279,12 @@
   display: flex;
   align-items: center;
   gap: var(--pr-space-2);
+  margin-bottom: calc(var(--pr-space-2) - var(--pr-space-3));
+}
+
+.pr-heading--display .pr-heading__eyebrow,
+.pr-heading--h1 .pr-heading__eyebrow {
+  margin-bottom: calc(var(--pr-space-3) - var(--pr-space-6));
 }
 
 .pr-heading__mark {

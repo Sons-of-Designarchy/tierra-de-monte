@@ -43,6 +43,8 @@
 /* ---------- font ---------- */
 .pr-font--display { font-family: var(--pr-font-display); --pr-type-scale: var(--pr-display-scale, 1); }
 .pr-type.pr-font--display { line-height: var(--pr-display-leading, var(--pr-leading-tight)); }
+.pr-type--display.pr-font--display,
+.pr-type--h1.pr-font--display { line-height: var(--pr-display-leading-large, var(--pr-leading-tight)); }
 .pr-font--body { font-family: var(--pr-font-body); }
 .pr-font--mono { font-family: var(--pr-font-mono); }
 

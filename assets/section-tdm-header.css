@@ -33,7 +33,13 @@ body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-h
 }
 
 .tdm-nav--floating {
-  padding: var(--pr-space-3) var(--pr-gutter);
+  padding: var(--pr-space-3) var(--pr-nav-inset);
+}
+
+@media screen and (min-width: 990px) {
+  .tdm-nav--floating {
+    --pr-nav-inset: var(--pr-space-8);
+  }
 }
 
 /* ---------- Bar ---------- */

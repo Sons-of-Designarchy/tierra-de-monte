@@ -41,16 +41,32 @@
 }
 
 .tdm-hero .tdm-hero__scrim {
+  display: block; /* Dawn hides div:empty */
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(to top, var(--pr-ink-50), transparent 60%);
+  background: radial-gradient(ellipse 90% 110% at 0% 100%, var(--pr-scrim-strong), transparent 75%);
 }
 
-.tdm-hero .tdm-hero__scrim--top-left,
+.tdm-hero .tdm-hero__scrim--bottom-right {
+  background: radial-gradient(ellipse 90% 110% at 100% 100%, var(--pr-scrim-strong), transparent 75%);
+}
+
+.tdm-hero .tdm-hero__scrim--top-left {
+  background: radial-gradient(ellipse 90% 110% at 0% 0%, var(--pr-scrim-strong), transparent 75%);
+}
+
 .tdm-hero .tdm-hero__scrim--top-right {
-  background: linear-gradient(to bottom, var(--pr-ink-50), transparent 60%);
+  background: radial-gradient(ellipse 90% 110% at 100% 0%, var(--pr-scrim-strong), transparent 75%);
+}
+
+.tdm-hero .tdm-hero__scrim--center-left {
+  background: linear-gradient(to right, var(--pr-scrim-strong), transparent 70%);
+}
+
+.tdm-hero .tdm-hero__scrim--center-right {
+  background: linear-gradient(to left, var(--pr-scrim-strong), transparent 70%);
 }
 
 .tdm-hero .tdm-hero__placeholder {

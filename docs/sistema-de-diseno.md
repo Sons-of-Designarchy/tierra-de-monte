@@ -121,22 +121,32 @@ Todo lo que es tarjeta es `render 'card'`; no hay marcado paralelo. Parámetros 
 | `text` + `list_icon` | Texto enriquecido bajo la descripción; con `list_icon: 'check-circle'` cada `<li>` lleva el ícono |
 | `title_size` | `display`–`h5` (por defecto `h5`) |
 | `ratio` | Forma fija: `1/1`, `4/3`, `4/5`, `3/4` |
-| `on_color` | La sección de atrás tiene color: la tarjeta toma el esquema blanco |
+| `scheme` | Por defecto `light`: toda tarjeta es blanca con texto oscuro, sobre crema, blanco y secciones oscuras. Solo un `scheme:` explícito la cambia |
+| `on_color` | Ya no hace falta: todas las tarjetas son blancas |
 
 CSS: `assets/pr-atoms-extra.css` (los átomos nuevos de este tema van ahí, cargado después de `pr-atoms.css`).
 
 ## 5.2 Reglas de color de página
 
-- **Nunca verde sobre verde.** Si la sección tiene color (fondo con luminosidad ≤ 92%, o foto), todo lo que va encima (tarjetas, paneles de vidrio, tablas) es blanco con texto oscuro. Está en el sistema, no por sección: `tdm-card-grid` pasa `on_color` al átomo `card` y `comparison-table` fuerza `scheme-tdm-blanco` en su tabla. En una sección blanca o crema las tarjetas quedan con el relleno sutil del átomo. Salida solo si Dan lo pide: pasar `scheme:` explícito a `card`.
+- **Nunca verde sobre verde.** Si la sección tiene color (fondo con luminosidad ≤ 92%, o foto), todo lo que va encima (tarjetas, paneles de vidrio, tablas) es blanco con texto oscuro. Está en el sistema, no por sección: `tdm-card-grid` pasa `on_color` al átomo `card` y `comparison-table` fuerza `scheme-tdm-blanco` en su tabla. Las tarjetas son SIEMPRE blancas (átomo `card`, esquema `light` por defecto), también sobre crema, blanco y secciones oscuras; nunca gris ni beige. Salida solo si Dan lo pide: pasar `scheme:` explícito a `card`.
 - **Ritmo de página.** Las secciones alternan blanco y crema, con a lo sumo UN verde a la vez; nunca dos secciones verdes seguidas. Los tickers entre secciones son una sola variante (foto de fondo, sin bordes).
 - **El eyebrow no lleva regla**, en ningún lugar del tema.
+- **El eyebrow puede ser un chip.** `eyebrow_style: 'chip'` en `heading` / `section-header` (y el ajuste «Eyebrow style» de `tdm-feature`) lo dibuja con el átomo `chip` (estático, sin mayúsculas). Por defecto sigue siendo el eyebrow de texto.
+- **Eyebrow → título: poco aire.** El espacio lo fija el átomo `heading` (`--pr-space-2` con títulos h2–h5, `--pr-space-3` con display/h1); las secciones no agregan margen propio entre eyebrow y título.
+- **Botón y copy del mismo tamaño.** El texto del botón sigue al párrafo que lo acompaña: `xs/sm/md` = body-sm, `lg/xl` = body-lg. Junto a un párrafo `body-lg` el botón es `size: 'lg'`.
+- **Interlineado de la fuente display:** `--pr-display-leading: 1.1` (varias líneas) y `--pr-display-leading-large: 1` para `display` y `h1` (títulos grandes de una o dos líneas).
+- **Texto grande de banda o columna** (certificación Empresa B, columnas «Unimos ciencia…»): display h3 por la tipografía (`display_text` en `rich-text`, «Display, large (h3)» en la columna de `tdm-feature`), nunca cuerpo.
+- **Bandas de ancho completo.** La barra de logos y la banda de certificación van de borde a borde, con el fondo del esquema y el contenido dentro del gutter de página; sin tarjeta, radio ni sombra.
+- **Hero con foto.** El scrim es `--pr-scrim-strong` (tinta 70%) que se desvanece desde la esquina del texto.
+- **Imagen + texto:** la sección recorta con un solo radio; las mitades no llevan borde ni radio propio.
+- **Colecciones (Productos):** esquema `scheme-tdm-blanco` en banner y grilla, para que las fotos de producto con fondo blanco se integren.
 
 ### Navbar (el header)
 
 Organismo `snippets/navbar.liquid`, port de la Navbar de PerfectlyRad. Lo renderiza `sections/header.liquid` (`header-group.json` y `header-aliados-group.json`) y el catálogo (`/pages/distribuidores?view=foundations#navbar`). Un solo componente, sin fork.
 
 - Una barra blanca (esquema `scheme-tdm-blanco`, rol `--pr-surface`), logo adentro a la izquierda, links al centro, iconos y CTA a la derecha. Sin borde. Elevación `--pr-elevation-base` (`--pr-elevation-lg` al hacer scroll). Radio `--pr-radius-surface`: hoy es 0 (radios cuadrados); si se redondea ese token, la barra se redondea sola.
-- Ajuste `nav_style`: `floating` (por defecto: inset con el gutter de página, 12px de separación arriba, pegada) o `full` (de borde a borde). Ajuste `sticky` la pega arriba.
+- Ajuste `nav_style`: `floating` (por defecto: inset `--pr-nav-inset`, 16px en móvil y `--pr-space-8` en escritorio, 12px de separación arriba, altura `--pr-nav-height` 80px / compacta 68px) o `full` (de borde a borde). Ajuste `sticky` la pega arriba.
 - Enlace actual con `aria-current`, fondo `--pr-action-light`. Submenús: `menu_type_desktop` `dropdown` (cuelga del link) o `mega` (ocupa el ancho de la barra).
 - Menos de 990px: logo + carrito + botón de menú; los links pasan a un panel dentro de la barra (grupos con `details`, sin cajón deslizante).
 - `cta_last_link`: el último link del menú se vuelve botón a la derecha (Aliados: «Quiero ser Aliado»). Si el menú solo tiene ese link, no hay botón de menú.

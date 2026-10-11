@@ -34,10 +34,9 @@
     when 'mono'
       assign title_font = 'mono'
   endcase
-  assign card_class = 'logo-bar__card color-' | append: section.settings.color_scheme | append: ' gradient'
 -%}
 
-{%- capture card_inner -%}
+{%- capture bar_inner -%}
   {% if section.settings.title != blank %}
     <div class="logo-bar__header">
       {% render 'typography', text: section.settings.title, variant: title_variant, as: 'h2', font: title_font, align: 'center' %}
@@ -69,8 +68,8 @@
 {%- endcapture -%}
 
 <section
-  class="{{ root_classes }}"
-  style="--logo-radius: {{ section.settings.radius }}px; --logo-bar-gap: {{ section.settings.gap }}px; --logo-h: {{ section.settings.max_height }}px; --cols-mobile: {{ mobile_cols }}; --cols-desktop: {{ desktop_cols }};"
+  class="{{ root_classes }} color-{{ section.settings.color_scheme }} gradient"
+  style="--logo-bar-gap: {{ section.settings.gap }}px; --logo-h: {{ section.settings.max_height }}px; --cols-mobile: {{ mobile_cols }}; --cols-desktop: {{ desktop_cols }};"
 >
   <div
     class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -78,7 +77,7 @@
       data-cascade
     {% endif %}
   >
-    {% render 'card', elevated: true, padding: 'lg', content: card_inner, class: card_class %}
+    <div class="logo-bar__inner">{{ bar_inner }}</div>
   </div>
 </section>
 
@@ -115,7 +114,6 @@
     },
 
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
-    { "type": "range", "id": "radius", "label": "Corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16 },
     { "type": "range", "id": "gap", "label": "Logo gap (px)", "min": 8, "max": 48, "step": 2, "default": 24 },
     { "type": "checkbox", "id": "grayscale", "label": "Grayscale logos", "default": true },
     {

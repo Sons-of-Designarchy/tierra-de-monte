@@ -6,6 +6,7 @@
 
   Params
   - eyebrow, title      plain text (title may hold inline html)
+  - eyebrow_style       eyebrow | body | chip (see heading)
   - intro               rich text html (from a richtext setting) or plain text; rendered as body copy
   - size                display | h1 | h2 | h3   (default: h2)
   - align               left | center   (default: left)
@@ -28,6 +29,6 @@
       {%- if extra != blank -%}{{ extra }}{%- endif -%}
   {%- endcapture -%}
   <div class="pr-section-header pr-section-header--{{ sh_align }}{% if class != blank %} {{ class }}{% endif %}">
-    {%- render 'heading', eyebrow: eyebrow, title: title, as: as, size: size, align: sh_align, content: sh_intro, cta_label: cta_label, cta_href: cta_href -%}
+    {%- render 'heading', eyebrow: eyebrow, eyebrow_style: eyebrow_style, title: title, as: as, size: size, align: sh_align, content: sh_intro, cta_label: cta_label, cta_href: cta_href -%}
   </div>
 {%- endunless -%}

@@ -6,7 +6,7 @@
 
   Params
   - eyebrow          small line above the title (category, number, section name)
-  - eyebrow_style    eyebrow (mono, uppercase) | body (plain body text)   (default: eyebrow)
+  - eyebrow_style    eyebrow (uppercase tracked) | body (plain body text) | chip (the chip atom, not uppercase)   (default: eyebrow)
   - icon             beside the eyebrow: an icon name, or an image URL (brand mark, flag)
   - top              html above the eyebrow row: avatar, logo, badge
   - title            the title
@@ -81,7 +81,13 @@
           {%- render 'icon-button', icon: icon, label: '', variant: 'secondary', size: 'sm', static: true -%}
         {%- endif -%}
       {%- endif -%}
-      {%- if eyebrow != blank -%}{%- render 'typography', text: eyebrow, variant: h_eyebrow_variant -%}{%- endif -%}
+      {%- if eyebrow != blank -%}
+        {%- if eyebrow_style == 'chip' -%}
+          {%- render 'chip', label: eyebrow, static: true -%}
+        {%- else -%}
+          {%- render 'typography', text: eyebrow, variant: h_eyebrow_variant -%}
+        {%- endif -%}
+      {%- endif -%}
     </div>
   {%- endif -%}
   {%- if title != blank -%}

@@ -194,7 +194,8 @@
         "content_width": "default",
         "mono_heading": false,
         "mono_body": false,
-        "full_width": false,
+        "full_width": true,
+        "display_text": true,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "padding_top": 60,
         "padding_bottom": 60

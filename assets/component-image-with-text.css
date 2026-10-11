@@ -462,3 +462,25 @@
     transform-origin: center center;
   }
 }
+
+/* One clean frame: the section clips media and text to one radius. No border on the halves
+   (Dawn's media border left a dark 1px edge that did not close), no per-half corners. */
+.image-with-text .image-with-text__media,
+.image-with-text .image-with-text__media img,
+.image-with-text .image-with-text__media-item > *,
+.image-with-text .image-with-text__content,
+.image-with-text .image-with-text__text-item > * {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.image-with-text .image-with-text__media-item:after,
+.image-with-text .image-with-text__text-item:after {
+  display: none;
+}
+
+.image-with-text .global-media-settings:after,
+.image-with-text .global-media-settings--no-shadow:after {
+  display: none;
+}

@@ -16,9 +16,9 @@
   - footer            html actions row at the bottom, separated by space
   - href              makes the whole card a link; sets interactive
   - tag               div | article | li | section   (default: div; ignored with href)
-  - scheme            light | dark | primary | secondary | tertiary | image: its own scheme, independent of the section around it
+  - scheme            light | dark | primary | secondary | tertiary | image: its own scheme, independent of the section around it. Default light: cards are ALWAYS white with dark text, on cream, white and dark sections alike
   - padding           none | md | lg   (default: md → 16 / 24px)
-  - elevated          true → surface fill + shadow-lg. false → surface-subtle fill
+  - elevated          true → shadow-lg. false → soft shadow-sm. The fill is always the white surface
   - interactive       true → hover fill + shadow
   - content           html below the body copy
   - text              rich-text html under the description (paragraphs or a <ul>); with list_icon each <li> gets that icon
@@ -27,7 +27,7 @@
   - bg_image          Shopify image object: the photo fills the card and the body sits on a white glass panel: the "photo card". Alt text: image_alt
   - title_size        display | h1 | h2 | h3 | h4 | h5   (default: h5)
   - ratio             card shape: 1/1 | 4/3 | 4/5 | 3/4 (default: the content decides; photo cards use it as their height)
-  - on_color          true when the section behind has a colour: the card takes the white scheme (white surface, dark text). Never green on green. An explicit scheme wins
+  - on_color          kept for readability; every card is already white (light scheme) unless a scheme is passed
   - class
 
   States: default, hover (interactive), focus-visible (link).
@@ -62,7 +62,7 @@
   endif
   assign cd_tag = tag | default: 'div'
   assign cd_scheme = scheme
-  if cd_scheme == blank and on_color
+  if cd_scheme == blank
     assign cd_scheme = 'light'
   endif
   assign cd_is_photo = false

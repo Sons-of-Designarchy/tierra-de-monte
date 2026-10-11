@@ -99,7 +99,7 @@
         "column_mnx3UR": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
+            "desc_font": "display",
             "image": "shopify://shop_images/tdm-quienes-somos-1.jpg",
             "title": "",
             "stat_font": "mono",
@@ -113,7 +113,7 @@
         "column_V8h7JY": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
+            "desc_font": "display",
             "image": "shopify://shop_images/tdm-home-quienes-somos-3.jpg",
             "title": "",
             "stat_font": "heading",
@@ -160,7 +160,7 @@
         "color_scheme": "scheme-5",
         "padding_top": 80,
         "padding_bottom": 80,
-        "show_dividers": true,
+        "show_dividers": false,
         "divider_color": "#d8e35b",
         "column_min_height": 60
       }
@@ -238,11 +238,12 @@
       "name": "Multicolumn — Feature",
       "settings": {
         "layout": "stats",
-        "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
+        "pretitle": "Soluciones estratégicas, resultados excepcionales",
+        "eyebrow_style": "chip",
         "rule_color": "#294e3f",
-        "show_rule": true,
+        "show_rule": false,
         "title": "Innovación que siembra futuro",
-        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad. Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y quienes trabajamos en él.</p>",
+        "description": "<p>Nuestros productos están respaldados por ciencia y diseñados para trabajar en equilibrio con la naturaleza. Regeneramos el suelo desde la raíz, fortalecemos la biodiversidad y damos vida a cultivos más sanos y alimentos de mayor calidad.</p><p>Con Tierra de Monte, la innovación científica se transforma en impacto real para el campo y quienes trabajamos en él.</p>",
         "button_label": "Habla con un especialista",
         "button_link": "https://wa.me/524423741871",
         "heading_size": "h1",

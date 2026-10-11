@@ -11,7 +11,7 @@
 
 /* ---- Eyebrow, title, intro ------------------------------------------------ */
 .tdm-multicolumn .tdm-multicolumn__eyebrow {
-  margin: 0 0 var(--pr-space-8);
+  margin: 0 0 var(--pr-space-3);
 }
 
 .tdm-multicolumn .tdm-multicolumn__rule {

@@ -7,7 +7,7 @@
   - label          text (all text goes through the typography snippet)
   - content        html instead of label (e.g. text plus a badge)
   - variant        primary | secondary | outline | inverse | success | warning | error | info | text   (default: primary)
-  - size           xs | sm | md | lg | xl   (default: md → 28 / 36 / 44 / 52 / 60px)
+  - size           xs | sm | md | lg | xl   (default: md → 28 / 36 / 44 / 52 / 60px). Text size matches the copy next to it: xs/sm/md = body-sm, lg/xl = body-lg. Use lg beside body-lg copy.
   - href           renders <a> when given, else <button>
   - type           button | submit | reset   (button only; default: button)
   - disabled       true → aria-disabled, no pointer events, tabindex -1 on links, native disabled on buttons
@@ -29,8 +29,6 @@
       assign b_type = 'xs'
     when 'sm' or 'md'
       assign b_type = 'body-sm'
-    when 'lg'
-      assign b_type = 'body'
     else
       assign b_type = 'body-lg'
   endcase

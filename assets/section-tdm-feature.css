@@ -12,7 +12,7 @@
 
 /* ---- Eyebrow + lead ------------------------------------------------------ */
 .tdm-feature .tdm-feature__eyebrow {
-  margin: 0 0 var(--pr-space-8);
+  margin: 0 0 var(--pr-space-3);
 }
 
 .tdm-feature .tdm-feature__rule {

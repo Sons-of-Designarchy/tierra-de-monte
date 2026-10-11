@@ -81,7 +81,8 @@
   --pr-font-display: var(--font-display-family);
   /* Display face (Barlow Condensed): a touch smaller, tighter and lighter than the scale */
   --pr-display-scale: 0.9;
-  --pr-display-leading: 0.95;
+  --pr-display-leading: 1.1;
+  --pr-display-leading-large: 1;
   --pr-display-weight: var(--pr-weight-regular);
   --pr-font-body: var(--font-body-family);
   --pr-font-mono: var(--font-mono-family);
@@ -169,8 +170,12 @@
   --pr-grid-gap: var(--pr-space-6);
   /* Vertical space of a section on desktop. Phones use 3/4; space="lg" uses 1.5×. Global setting. */
   --pr-section-y: var(--pr-space-16);
-  --pr-nav-height: calc(4 * var(--pr-rem));
-  --pr-nav-height-compact: calc(3.5 * var(--pr-rem));
+  --pr-nav-height: calc(5 * var(--pr-rem));
+  --pr-nav-height-compact: calc(4.25 * var(--pr-rem));
+  /* Floating navbar sits inside the page: inset beyond the page gutter (desktop), same as the gutter on phones */
+  --pr-nav-inset: var(--pr-gutter);
+  /* Hero scrim: ink fading to nothing from the text corner, so copy on a photo stays legible */
+  --pr-scrim-strong: color-mix(in oklab, var(--pr-ink) 70%, transparent);
 
   --pr-elevation-subtle: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --pr-elevation-sm: 0 1px 3px rgb(0 0 0 / 0.07);

@@ -38,7 +38,12 @@
   >
     {%- if section.settings.pretitle != blank -%}
       <div class="tdm-feature__eyebrow">
-        {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow', font: 'body', color: 'secondary' %}
+        {%- if section.settings.eyebrow_style == 'chip' -%}
+          {%- assign eyebrow_text = section.settings.pretitle | strip_html -%}
+          {% render 'chip', label: eyebrow_text, static: true %}
+        {%- else -%}
+          {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow', font: 'body', color: 'secondary' %}
+        {%- endif -%}
         {%- if section.settings.show_rule -%}
           <div class="tdm-feature__rule" aria-hidden="true"></div>
         {%- endif -%}
@@ -57,7 +62,7 @@
 
         {%- if section.settings.button_label != blank -%}
           <div class="tdm-feature__cta">
-            {% render 'button', label: section.settings.button_label, href: section.settings.button_link, variant: 'primary', size: 'md' %}
+            {% render 'button', label: section.settings.button_label, href: section.settings.button_link, variant: 'primary', size: 'lg' %}
           </div>
         {%- endif -%}
       </div>
@@ -108,6 +113,11 @@
             {%- endif -%}
             {%- assign text_font = 'body' -%}
             {%- assign text_class = 'rte' -%}
+            {%- assign text_variant = 'body' -%}
+            {%- if block.settings.desc_font == 'display' -%}
+              {%- assign text_font = 'display' -%}
+              {%- assign text_variant = 'h3' -%}
+            {%- endif -%}
             {%- if block.settings.desc_font == 'mono' -%}
               {%- assign text_font = 'mono' -%}
               {%- assign text_class = 'rte tdm-upper' -%}
@@ -119,7 +129,7 @@
                   {% render 'typography', text: block.settings.title, as: 'h3', variant: stat_variant, font: stat_family, weight: stat_weight %}
                 {%- endif -%}
                 {%- if block.settings.text != blank -%}
-                  {% render 'typography', text: block.settings.text, as: 'div', variant: 'body', font: text_font, class: text_class %}
+                  {% render 'typography', text: block.settings.text, as: 'div', variant: text_variant, font: text_font, class: text_class %}
                 {%- endif -%}
                 {%- if block.settings.link_label != blank -%}
                   {%- if block.settings.link != blank -%}
@@ -194,6 +204,16 @@
 
     { "type": "header", "content": "Eyebrow" },
     { "type": "inline_richtext", "id": "pretitle", "label": "Eyebrow" },
+    {
+      "type": "select",
+      "id": "eyebrow_style",
+      "label": "Eyebrow style",
+      "default": "text",
+      "options": [
+        { "value": "text", "label": "Text" },
+        { "value": "chip", "label": "Chip" }
+      ]
+    },
     { "type": "checkbox", "id": "show_rule", "label": "Show rule under eyebrow", "default": true },
     { "type": "color", "id": "rule_color", "label": "Rule color", "default": "#294E3F" },
 
@@ -347,7 +367,8 @@
           "label": "Text font",
           "options": [
             { "value": "body", "label": "Theme body" },
-            { "value": "mono", "label": "Monospace (uppercase)" }
+            { "value": "mono", "label": "Monospace (uppercase)" },
+            { "value": "display", "label": "Display, large (h3)" }
           ],
           "default": "body"
         },
