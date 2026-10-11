@@ -1,10 +1,8 @@
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
 
 <div class="page-width">
-  <h1 class="title title--primary inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    {{ section.settings.title }}
-  </h1>
+  {%- capture mlc_title_class -%}collection-list-title inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}{%- endcapture -%}
+  {% render 'typography', text: section.settings.title, as: 'h1', variant: 'h1', class: mlc_title_class %}
   {%- liquid
     case section.settings.sort
       when 'products_high', 'products_low'
@@ -36,11 +34,20 @@
             style="--animation-order: {{ forloop.index }};"
           {% endif %}
         >
-          {% render 'card-collection',
-            card_collection: collection,
-            media_aspect_ratio: section.settings.image_ratio,
-            columns: 3
-          %}
+          {%- liquid
+            assign mlc_ratio = '1/1'
+            if section.settings.image_ratio == 'portrait'
+              assign mlc_ratio = '4/5'
+            elsif section.settings.image_ratio == 'adapt'
+              assign mlc_ratio = 'auto'
+            endif
+            assign mlc_title = collection.title
+            if mlc_title == blank
+              assign mlc_title = 'onboarding.collection_title' | t
+            endif
+            assign mlc_desc = collection.description | strip_html | truncatewords: 12
+          -%}
+          {% render 'card', tag: 'div', href: collection.url, title: mlc_title, title_as: 'h3', description: mlc_desc, image: collection.featured_image, image_alt: collection.featured_image.alt, image_ratio: mlc_ratio, class: 'collection-card' %}
         </li>
       {%- endfor -%}
     </ul>
