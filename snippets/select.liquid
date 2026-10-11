@@ -5,6 +5,7 @@
 
   Params
   - options      'value|Label;value|Label'
+  - options_html raw <option> tags instead of options (e.g. all_country_option_tags)
   - value        selected value
   - placeholder  first, unselectable option shown while nothing is chosen
   - size         sm | md   (default: md → 36 / 44px)
@@ -29,6 +30,7 @@
   <span class="pr-select pr-select--{{ se_size }}">
     <select id="{{ se_id }}" class="pr-control pr-control--{{ se_variant }} pr-select__native"{% if name != blank %} name="{{ name }}"{% endif %}{% if disabled %} disabled{% endif %}{% if error != blank %} aria-invalid="true"{% endif %}{% if se_desc != blank %} aria-describedby="{{ se_desc }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>
       {%- if placeholder != blank -%}<option value=""{% if value == blank %} selected{% endif %} disabled hidden>{{ placeholder }}</option>{%- endif -%}
+      {%- if options_html != blank -%}{{ options_html }}{%- endif -%}
       {%- for o in se_options -%}
         {%- assign se_o = o | split: '|' -%}
         <option value="{{ se_o[0] }}"{% if se_o[0] == value %} selected{% endif %}>{{ se_o[1] | default: se_o[0] }}</option>

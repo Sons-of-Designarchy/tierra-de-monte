@@ -1,0 +1,31 @@
+{%- comment -%}
+  Customer form errors: an error alert with the heading and the list of field errors that link to their field.
+
+  {% render 'customer-form-errors', errors: form.errors, anchor_prefix: 'RegisterForm-' %}
+
+  Params
+  - errors         form.errors
+  - anchor_prefix  prefix of the id of each field the error links to (default: empty, so the link is #{{ field }})
+{%- endcomment -%}
+{%- if errors -%}
+  {%- assign cfe_title = 'templates.contact.form.error_heading' | t -%}
+  {%- capture cfe_list -%}
+    <ul class="customer__errors">
+      {%- for field in errors -%}
+        <li>
+          {%- if field == 'form' -%}
+            {{ errors.messages[field] }}
+          {%- else -%}
+            <a href="#{{ anchor_prefix }}{{ field }}" class="pr-link">
+              {{ errors.translated_fields[field] | capitalize }}
+              {{ errors.messages[field] }}
+            </a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endcapture -%}
+  <div class="customer__alert" tabindex="-1" autofocus>
+    {% render 'alert', tone: 'error', title: cfe_title, content: cfe_list %}
+  </div>
+{%- endif -%}
