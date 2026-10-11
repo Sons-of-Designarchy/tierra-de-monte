@@ -177,7 +177,7 @@
           {{ section.settings.scroll_hint | escape }}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         {%- endcapture -%}
-        {%- render 'typography', text: ct_hint, as: 'p', variant: 'body-sm', color: 'inherit', class: 'ct-scroll-hint', attrs: 'aria-hidden="true"' -%}
+        {%- render 'typography', text: ct_hint, as: 'p', variant: 'body', color: 'inherit', class: 'ct-scroll-hint', attrs: 'aria-hidden="true"' -%}
       {%- endif -%}
       <div class="ct-scroll">
       <div class="ct-wrapper color-{{ table_scheme_id }}" tabindex="0" role="region" aria-label="{{ section.settings.heading | strip_html | default: 'Tabla comparativa' | escape }}">
@@ -233,7 +233,7 @@
                         {%- render 'typography', text: block.settings.price, as: 'div', variant: ct_price_variant, color: 'inherit' -%}
                       {%- endif -%}
                       {%- if block.settings.price_note != blank -%}
-                        {%- render 'typography', text: block.settings.price_note, as: 'span', variant: 'body-sm', color: 'inherit', class: 'ct-header__note' -%}
+                        {%- render 'typography', text: block.settings.price_note, as: 'span', variant: 'body', color: 'inherit', class: 'ct-header__note' -%}
                       {%- endif -%}
                     </div>
                   {%- endif -%}
@@ -272,7 +272,7 @@
                     {%- endif -%}
 
                     {%- if block.settings.subtitle != blank -%}
-                      {%- render 'typography', text: block.settings.subtitle, as: 'span', variant: 'body-sm', color: 'inherit', class: 'ct-header__subtitle' -%}
+                      {%- render 'typography', text: block.settings.subtitle, as: 'span', variant: 'body', color: 'inherit', class: 'ct-header__subtitle' -%}
                     {%- endif -%}
 
                     {%- if ctas_in_header == false -%}
@@ -297,7 +297,7 @@
                 <th class="ct-feature" scope="row">
                   {%- render 'typography', text: block.settings.feature_content, as: 'div', variant: 'body', weight: ct_feature_weight, color: 'inherit', class: 'ct-feature__text' -%}
                   {%- if block.settings.feature_note != blank -%}
-                    {%- render 'typography', text: block.settings.feature_note, as: 'small', variant: 'body-sm', color: 'inherit', class: 'ct-feature__note' -%}
+                    {%- render 'typography', text: block.settings.feature_note, as: 'small', variant: 'body', color: 'inherit', class: 'ct-feature__note' -%}
                   {%- endif -%}
                 </th>
                 {%- for col in column_blocks limit: display_columns -%}
@@ -364,7 +364,7 @@
     {%- endif -%}
 
     {%- if section.settings.footnote != blank -%}
-      {%- render 'typography', text: section.settings.footnote, as: 'div', variant: 'body-sm', class: 'ct-footnote rte' -%}
+      {%- render 'typography', text: section.settings.footnote, as: 'div', variant: 'body', class: 'ct-footnote rte' -%}
     {%- endif -%}
 
     {%- if section.settings.button_label != blank -%}
