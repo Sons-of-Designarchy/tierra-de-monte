@@ -12,114 +12,47 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "caption": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
-          }
-        },
-        "price": {
-          "type": "price",
-          "disabled": true,
-          "settings": {}
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "disabled": true,
-          "settings": {}
-        },
-        "rating_HPRXrU": {
-          "type": "rating",
-          "settings": {}
-        },
-        "variant_picker_NNLKj9": {
-          "type": "variant_picker",
-          "disabled": true,
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "disabled": true,
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
         "custom_liquid_XXVPDt": {
-          "type": "custom_liquid",
+          "type": "cta",
           "settings": {
-            "custom_liquid": "<div style=\"margin-top: 24px; margin-bottom: 24px; text-align: center;\"><a href=\"https://wa.me/524423741871\n\" style=\" width: 100%; display: block; padding: 16px 48px; background-color: #d8e35b; color: #1f4d37; text-decoration: none; font-weight: 400; border-radius: 40px; font-size: 16px; transition: all 0.3s ease; border: 2px solid #d8e35b;\" onmouseover=\"this.style.backgroundColor='#1f4d37'; this.style.color='#d8e35b';\" onmouseout=\"this.style.backgroundColor='#d8e35b'; this.style.color='#1f4d37';\">Compra</a></div>"
+            "label": "Compra",
+            "link": "https://wa.me/524423741871",
+            "variant": "secondary"
           }
         },
         "collapsible_tab_dgJxpK": {
-          "type": "collapsible_tab",
-          "disabled": true,
+          "type": "detail",
           "settings": {
             "heading": "FAQ",
-            "icon": "clipboard",
             "content": "<p>¿Lorem ipsum domo amet it?</p>",
             "page": ""
           }
         },
         "icon_with_text_Ux9qV3": {
-          "type": "icon-with-text",
-          "disabled": true,
+          "type": "benefits",
           "settings": {
-            "layout": "vertical",
-            "icon_1": "truck",
-            "heading_1": "<strong>Free Shipping </strong>Recibe tus soluciones regenerativas directamente en tu campo o huerto, sin costo adicional en el envío.",
-            "icon_2": "box",
-            "heading_2": "<strong>Hassle-Free Exchanges </strong>Si necesitas hacer un cambio o devolución, el proceso es rápido y sin complicaciones para que sigas enfocado en tus cultivos.",
-            "icon_3": "truck",
-            "heading_3": "Encabezado"
+            "item_1": "<strong>Free Shipping </strong>Recibe tus soluciones regenerativas directamente en tu campo o huerto, sin costo adicional en el envío.",
+            "item_2": "<strong>Hassle-Free Exchanges </strong>Si necesitas hacer un cambio o devolución, el proceso es rápido y sin complicaciones para que sigas enfocado en tus cultivos.",
+            "item_3": "Encabezado"
           }
         }
       },
       "block_order": [
-        "vendor",
-        "title",
-        "caption",
-        "price",
-        "quantity_selector",
-        "rating_HPRXrU",
-        "variant_picker_NNLKj9",
-        "buy_buttons",
-        "description",
         "custom_liquid_XXVPDt",
         "collapsible_tab_dgJxpK",
         "icon_with_text_Ux9qV3"
       ],
       "settings": {
+        "show_vendor": true,
+        "summary": "{{ product.metafields.descriptors.subtitle.value }}",
+        "show_rating": true,
+        "option_type": "pills",
+        "show_dynamic_checkout": true,
+        "gallery_ratio": "4/5",
+        "gallery_fit": "cover",
+        "show_thumbnails": true,
         "enable_sticky_info": true,
         "color_scheme": "",
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "cover",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": true,
-        "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 12
       }
@@ -186,26 +119,17 @@
         "collection": "bio-estimulantes",
         "products_to_show": 4,
         "title": "También te podría interesar",
-        "heading_size": "h1",
         "description": "",
         "show_description": false,
-        "description_style": "body",
         "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
         "show_view_all": false,
-        "view_all_style": "solid",
+        "view_all_style": "primary",
         "color_scheme": "",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": false,
+        "image_ratio": "1/1",
         "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "show_quick_add": true
       }
     },
     "ticker_6tg7Qb": {
@@ -403,18 +327,14 @@
       "type": "related-products",
       "settings": {
         "heading": "You may also like",
-        "heading_size": "h2",
         "products_to_show": 4,
         "columns_desktop": 4,
-        "columns_mobile": "2",
         "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
+        "image_ratio": "1/1",
         "show_vendor": false,
-        "show_rating": false,
         "padding_top": 36,
-        "padding_bottom": 28
+        "padding_bottom": 28,
+        "show_quick_add": true
       }
     }
   },

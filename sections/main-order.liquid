@@ -161,7 +161,9 @@
                         <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
                       </dt>
                       <dd class="unit-price">
-                        {% render 'unit-price', price: line_item.unit_price, measurement: line_item.unit_price_measurement, hide_accessibility_label: true %}
+                        {%- assign mo_unit = line_item.unit_price_measurement -%}
+                        {%- capture mo_unit_text %}{{ line_item.unit_price | money }} / {% if mo_unit.reference_value != 1 %}{{ mo_unit.reference_value }} {% endif %}{{ mo_unit.reference_unit }}{% endcapture -%}
+                        {% render 'typography', text: mo_unit_text, variant: 'xs', color: 'secondary' %}
                       </dd>
                     {%- endif -%}
                   </dl>

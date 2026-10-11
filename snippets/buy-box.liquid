@@ -1,0 +1,172 @@
+{%- comment -%}
+  BuyBox — the right column of a product page: title, price, option pickers, quantity, add to cart, Shopify's dynamic checkout buttons,
+  benefits and the accordion of details. Ports PerfectlyRad BuyBox. It replaces Dawn's buy-buttons, price block, quantity block,
+  product-extras and collapsible tabs: there is one place where a product is bought.
+
+  {% render 'buy-box', product: product, section_id: section.id, benefits: benefits, details_titles: titles, details_panels: panels %}
+
+  Params
+  - product              the Shopify product (required)
+  - section_id           id of the section that holds it: the variant is re-rendered through that section
+  - show_vendor          vendor as the eyebrow above the title (default: true)
+  - rating_value, rating_count   reviews summary under the title (omit for none)
+  - summary              one or two sentences under the price
+  - option_type          pills | swatches | select   (default: pills)
+  - benefits             html items separated by <!--pr-->: reasons to buy, a short list with checks. Metafields beneficio_1..3 are added too
+  - details_titles       'Descripción|Ficha': accordion under the buy button
+  - details_panels       html panels in the same order, separated by <!--pr-->. The snippet adds "Ingredientes" (metafield ingredientes)
+                         and "Documentos" (metafields hoja_de_seguridad, ficha_tecnica) when the product has them
+  - show_dynamic_checkout true → `{{ form | payment_button }}` under the add button (default: true)
+  - max_quantity         most units per order
+  - add_label            default: Agregar al carrito
+  - children             html under the buttons (a WhatsApp link, an app block)
+  - class
+
+  Behaviour: <pr-buy-box> (assets/pr-product.js). Choosing an option finds the variant, re-renders price, pickers and buttons from the
+  server (?variant=…), moves the gallery to the variant photo and keeps the URL. Add to cart goes to /cart/add.js and opens the drawer.
+  States: available, sold out, combination not available, adding, added, error.
+{%- endcomment -%}
+{%- liquid
+  assign bb_variant = product.selected_or_first_available_variant
+  assign bb_form_id = 'BuyBoxForm-' | append: section_id
+  assign bb_label = add_label | default: 'Agregar al carrito'
+  assign bb_option_type = option_type | default: 'pills'
+  assign bb_dynamic = show_dynamic_checkout
+  if bb_dynamic == nil
+    assign bb_dynamic = true
+  endif
+  assign bb_vendor = show_vendor
+  if bb_vendor == nil
+    assign bb_vendor = true
+  endif
+  assign bb_eyebrow = ''
+  if bb_vendor
+    assign bb_eyebrow = product.vendor
+  endif
+  assign bb_max = max_quantity
+  if bb_variant.inventory_management != blank and bb_variant.inventory_policy == 'deny'
+    assign bb_max = bb_variant.inventory_quantity
+  endif
+  assign bb_available = bb_variant.available
+  assign bb_btn_label = bb_label
+  assign bb_off = false
+  if bb_available == false
+    assign bb_btn_label = 'Agotado'
+    assign bb_off = true
+  endif
+  assign bb_qty_id = bb_form_id | append: '-qty'
+
+  assign bb_titles = details_titles
+  assign bb_panels = details_panels
+  assign bb_ingredients = product.metafields.custom.ingredientes | metafield_tag
+  if bb_ingredients != blank
+    if bb_titles != blank
+      assign bb_titles = bb_titles | append: '|'
+      assign bb_panels = bb_panels | append: '<!--pr-->'
+    endif
+    assign bb_titles = bb_titles | append: 'Ingredientes'
+    assign bb_ingredients_panel = '<div class="rte">' | append: bb_ingredients | append: '</div>'
+    assign bb_panels = bb_panels | append: bb_ingredients_panel
+  endif
+
+  assign bb_hoja = product.metafields.custom.hoja_de_seguridad
+  assign bb_ficha = product.metafields.custom.ficha_tecnica
+  assign bb_hoja_url = bb_hoja | file_url
+  assign bb_ficha_url = bb_ficha | file_url
+  assign bb_benefits = benefits
+  for i in (1..3)
+    assign bb_key = 'beneficio_' | append: i
+    assign bb_item = product.metafields.custom[bb_key]
+    if bb_item != blank
+      if bb_benefits != blank
+        assign bb_benefits = bb_benefits | append: '<!--pr-->'
+      endif
+      assign bb_benefits = bb_benefits | append: bb_item
+    endif
+  endfor
+  assign bb_benefit_list = bb_benefits | split: '<!--pr-->'
+-%}
+{%- capture bb_documents -%}
+  {%- if bb_hoja != blank or bb_ficha != blank -%}
+    <div class="pr-buy-box__documents">
+      {%- if bb_hoja != blank -%}{%- render 'button', label: 'Hoja de seguridad', variant: 'outline', size: 'sm', href: bb_hoja_url, attrs: 'target="_blank" rel="noopener"' -%}{%- endif -%}
+      {%- if bb_ficha != blank -%}{%- render 'button', label: 'Ficha técnica', variant: 'outline', size: 'sm', href: bb_ficha_url, attrs: 'target="_blank" rel="noopener"' -%}{%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+{%- if bb_documents contains 'pr-buy-box__documents' -%}
+  {%- if bb_titles != blank -%}
+    {%- assign bb_titles = bb_titles | append: '|' -%}
+    {%- assign bb_panels = bb_panels | append: '<!--pr-->' -%}
+  {%- endif -%}
+  {%- assign bb_titles = bb_titles | append: 'Documentos' -%}
+  {%- assign bb_panels = bb_panels | append: bb_documents -%}
+{%- endif -%}
+
+<pr-buy-box class="pr-buy-box{% if class != blank %} {{ class }}{% endif %}" data-section-id="{{ section_id }}" data-url="{{ product.url }}" data-product-id="{{ product.id }}">
+  <div class="pr-buy-box__head">
+    {%- render 'heading', as: 'h1', size: 'h3', eyebrow: bb_eyebrow, title: product.title -%}
+    {%- if rating_value != blank -%}
+      <div class="pr-buy-box__rating">
+        {%- render 'rating', value: rating_value -%}
+        {%- capture bb_rating_text %}{{ rating_value }} · {{ rating_count }} reseñas{% endcapture -%}
+        {%- render 'typography', text: bb_rating_text, variant: 'body-sm', color: 'secondary' -%}
+      </div>
+    {%- endif -%}
+    <div data-pr-target="price">
+      {%- render 'price-tag', price: bb_variant.price, compare_at_price: bb_variant.compare_at_price, unit_price: bb_variant.unit_price, unit_price_measurement: bb_variant.unit_price_measurement, size: 'lg', show_savings: true -%}
+    </div>
+    {%- if summary != blank -%}
+      {%- render 'typography', text: summary, color: 'secondary' -%}
+    {%- endif -%}
+  </div>
+
+  <script type="application/json" data-pr-variants>{{ product.variants | json }}</script>
+  {%- form 'product', product, id: bb_form_id, class: 'pr-buy-box__form', novalidate: 'novalidate', data-pr-form: '' -%}
+    <input type="hidden" name="id" value="{{ bb_variant.id }}" data-pr-variant-id>
+    {%- unless product.has_only_default_variant -%}
+      <div class="pr-buy-box__options" data-pr-target="pickers">
+        {%- for option in product.options_with_values -%}
+          {%- render 'variant-picker', option: option, type: bb_option_type -%}
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+    <div class="pr-buy-box__actions" data-pr-target="actions">
+      <div class="pr-buy-box__buy">
+        {%- render 'quantity-stepper', name: 'quantity', id: bb_qty_id, value: 1, min: 1, max: bb_max, disabled: bb_off, form: bb_form_id -%}
+        {%- render 'button', label: bb_btn_label, type: 'submit', size: 'lg', disabled: bb_off, class: 'pr-buy-box__add', attrs: 'data-pr-add' -%}
+      </div>
+      {%- if bb_available == false and product.variants.size > 1 -%}
+        {%- render 'typography', text: 'Esta combinación está agotada. Prueba con otra presentación.', variant: 'body-sm', color: 'secondary' -%}
+      {%- endif -%}
+      {%- if bb_dynamic and bb_available -%}
+        <div class="pr-buy-box__dynamic">{{ form | payment_button }}</div>
+      {%- endif -%}
+    </div>
+    <div class="pr-buy-box__error" data-pr-error hidden>
+      {%- capture bb_retry -%}{%- render 'button', label: 'Reintentar', variant: 'error', size: 'sm', type: 'submit' -%}{%- endcapture -%}
+      {%- render 'alert', tone: 'error', title: 'No se pudo agregar', text: 'Revisa tu conexión e intenta de nuevo.', action: bb_retry -%}
+    </div>
+  {%- endform -%}
+  <template data-pr-spinner>{% render 'spinner', size: 'sm', label: 'Agregando' %}</template>
+  <template data-pr-added>{% render 'icon', name: 'check', size: 'sm' %}</template>
+
+  {%- if children != blank -%}
+    <div class="pr-buy-box__children">{{ children }}</div>
+  {%- endif -%}
+
+  {%- if bb_benefit_list.size > 0 -%}
+    <ul class="pr-buy-box__benefits" role="list">
+      {%- for item in bb_benefit_list -%}
+        <li>
+          {%- render 'icon', name: 'check', size: 'sm' -%}
+          {%- render 'typography', text: item, as: 'span', variant: 'body-sm' -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if bb_titles != blank -%}
+    {%- render 'accordion', titles: bb_titles, panels: bb_panels, multiple: true, open: 1 -%}
+  {%- endif -%}
+</pr-buy-box>

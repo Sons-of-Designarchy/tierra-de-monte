@@ -533,18 +533,6 @@ a.pr-chip {
 .pr-card--media.pr-card--pad-md .pr-card__footer { padding: 0 var(--pr-space-4) var(--pr-space-4); }
 .pr-card--media.pr-card--pad-lg .pr-card__footer { padding: 0 var(--pr-space-6) var(--pr-space-6); }
 
-.pr-card__product {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pr-space-1);
-}
-
-.pr-card__price {
-  display: flex;
-  align-items: baseline;
-  gap: var(--pr-space-2);
-}
-
 .pr-card__testimonial {
   display: flex;
   flex: 1;

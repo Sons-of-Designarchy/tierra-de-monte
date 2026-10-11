@@ -1,0 +1,71 @@
+{%- comment -%}
+  ProductGallery — main photo and thumbnails. One scroll-snap track serves every width: phones swipe it (with a counter), tablets and up
+  also get arrows and thumbnails that move it. One photo means no controls at all. Ports PerfectlyRad ProductGallery.
+  Replaces Dawn's product-media-gallery, product-media, product-thumbnail and product-media-modal (no lightbox, no zoom).
+
+  {% render 'product-gallery', product: product, ratio: '4/5', fit: 'cover', show_thumbnails: true %}
+
+  Params
+  - product          the Shopify product (required). Uses `product.media`: photos, videos and 3D models
+  - ratio            4/5 | 1/1 | 3/4 | 4/3   (default: 4/5)
+  - fit              cover | contain   (default: cover)
+  - show_thumbnails  thumbnails under the main photo from tablet up (default: true)
+  - class
+
+  Behaviour: <pr-gallery> (assets/pr-product.js). goTo(mediaId) moves it to a variant's photo.
+  States: one photo, many photos, first/last (arrow disabled), focus-visible.
+{%- endcomment -%}
+{%- liquid
+  assign pg_ratio = ratio | default: '4/5'
+  assign pg_many = false
+  if product.media.size > 1
+    assign pg_many = true
+  endif
+  assign pg_thumbs = show_thumbnails
+  if pg_thumbs == nil
+    assign pg_thumbs = true
+  endif
+  assign pg_selected = product.selected_or_first_available_variant.featured_media.id
+-%}
+<pr-gallery class="pr-gallery{% if class != blank %} {{ class }}{% endif %}" role="group" aria-roledescription="carrusel" aria-label="Fotos de {{ product.title | escape }}"{% if pg_selected %} data-initial="{{ pg_selected }}"{% endif %}>
+  <div class="pr-gallery__stage">
+    <ul class="pr-gallery__track" data-track>
+      {%- for media in product.media -%}
+        <li class="pr-gallery__slide" data-media-id="{{ media.id }}" aria-label="Foto {{ forloop.index }} de {{ product.media.size }}">
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              {%- assign pg_loading = 'lazy' -%}
+              {%- if forloop.first %}{% assign pg_loading = 'eager' %}{% endif -%}
+              {%- assign pg_alt = media.alt | default: product.title -%}
+              {%- render 'image', image: media.preview_image, alt: pg_alt, ratio: pg_ratio, fit: fit, sizes: '(min-width: 750px) 40vw, 100vw', loading: pg_loading -%}
+            {%- when 'video' -%}
+              <div class="pr-gallery__media pr-gallery__media--r-{{ pg_ratio | replace: '/', '-' }}">{{ media | video_tag: image_size: '1100x', controls: true, loop: false, preload: 'none' }}</div>
+            {%- when 'external_video' -%}
+              <div class="pr-gallery__media pr-gallery__media--r-{{ pg_ratio | replace: '/', '-' }}">{{ media | external_video_tag }}</div>
+            {%- else -%}
+              <div class="pr-gallery__media pr-gallery__media--r-{{ pg_ratio | replace: '/', '-' }}">{{ media | media_tag: image_size: '1100x' }}</div>
+          {%- endcase -%}
+        </li>
+      {%- else -%}
+        <li class="pr-gallery__slide">{% render 'image', image: nil, alt: product.title, ratio: pg_ratio %}</li>
+      {%- endfor -%}
+    </ul>
+    {%- if pg_many -%}
+      {%- render 'icon-button', icon: 'arrow-left', label: 'Foto anterior', variant: 'dark', size: 'sm', class: 'pr-gallery__arrow pr-gallery__arrow--prev', attrs: 'data-go="prev"' -%}
+      {%- render 'icon-button', icon: 'arrow-right', label: 'Foto siguiente', variant: 'dark', size: 'sm', class: 'pr-gallery__arrow pr-gallery__arrow--next', attrs: 'data-go="next"' -%}
+      {%- capture pg_counter %}<span data-current>1</span> / {{ product.media.size }}{% endcapture -%}
+      {%- render 'typography', text: pg_counter, as: 'span', variant: 'xs', weight: 'medium', class: 'pr-gallery__counter', attrs: 'aria-hidden="true"' -%}
+    {%- endif -%}
+  </div>
+  {%- if pg_many and pg_thumbs -%}
+    <ul class="pr-gallery__thumbs" aria-label="Miniaturas">
+      {%- for media in product.media -%}
+        <li>
+          <button type="button" class="pr-gallery__thumb" data-thumb="{{ forloop.index0 }}" aria-label="Ver foto {{ forloop.index }} de {{ product.media.size }}"{% if forloop.first %} aria-current="true"{% endif %}>
+            {%- render 'image', image: media.preview_image, alt: '', ratio: '1/1', fit: fit, radius: 'none', sizes: '96px' -%}
+          </button>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</pr-gallery>

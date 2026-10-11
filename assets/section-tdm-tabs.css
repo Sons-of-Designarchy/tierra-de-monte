@@ -81,20 +81,10 @@
   display: none;
 }
 
-.tdm-tabs .grid__item {
-  margin-bottom: var(--pr-space-6);
-}
-
 .tdm-tabs .tdm-tabs__more {
   display: flex;
   justify-content: center;
   margin-top: var(--pr-space-8);
-}
-
-/* Scoped to this section: Dawn's .product-card-wrapper .card has no cursor
-   set by default when it isn't a real link. */
-.tdm-tabs .product-card-wrapper .card {
-  cursor: pointer;
 }
 
 @media (max-width: 749.98px) {
@@ -118,63 +108,4 @@
     white-space: nowrap;
     scroll-snap-align: start;
   }
-
-  .tdm-tabs .tdm-tabs__panel .grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--pr-space-6);
-    row-gap: var(--pr-space-6);
-  }
-
-  .tdm-tabs .tdm-tabs__panel .grid__item {
-    width: auto;
-    max-width: none;
-    margin: 0;
-  }
-
-  .tdm-tabs .tdm-tabs__panel .card__inner.ratio {
-    position: relative;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-  }
-
-  /* Beats component-card.css `.product-card-wrapper .card__inner(.gradient).ratio::before`
-     by one extra class, no !important needed. */
-  .tdm-tabs .tdm-tabs__panel .product-card-wrapper .card__inner.ratio::before {
-    display: none;
-  }
-
-  .tdm-tabs .tdm-tabs__panel .card__inner.ratio > .card__media,
-  .tdm-tabs .tdm-tabs__panel .card__inner.ratio > .card__media > .media {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    contain: paint;
-    -webkit-backface-visibility: hidden;
-  }
-
-  .tdm-tabs .tdm-tabs__panel .card__inner.ratio .media > img {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    object-fit: cover;
-    object-position: center;
-    transform: none;
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-}
-
-/* Product grid: more air between cards */
-.tdm-tabs .tdm-tabs__panel .grid {
-  --grid-desktop-horizontal-spacing: var(--pr-space-8);
-  --grid-desktop-vertical-spacing: var(--pr-space-12);
-  --grid-mobile-horizontal-spacing: var(--pr-space-4);
-  --grid-mobile-vertical-spacing: var(--pr-space-8);
 }

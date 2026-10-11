@@ -1,0 +1,52 @@
+{%- comment -%}
+  CartLineItem — a line of the cart: product-card in its horizontal layout, with the quantity stepper and "Quitar" as its actions.
+  Same markup in the drawer and on the cart page. Render it inside a `ul`. Ports PerfectlyRad CartLineItem.
+
+  {% for item in cart.items %}{% render 'cart-line-item', item: item, line: forloop.index %}{% endfor %}
+
+  Params
+  - item   one entry of `cart.items` (required)
+  - line   its 1-based position (`forloop.index`), what /cart/change.js needs
+  - error  why the line can't change ("Solo quedan 3 en existencia")
+  - class
+
+  Behaviour: <pr-cart-lines> (assets/pr-cart.js) listens for the stepper and the remove button and calls /cart/change.js.
+  States: default, updating (stepper spins), error.
+{%- endcomment -%}
+{%- liquid
+  assign cl_variant = ''
+  unless item.product.has_only_default_variant
+    assign cl_variant = item.variant.title
+  endunless
+  assign cl_max = nil
+  if item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny'
+    assign cl_max = item.variant.inventory_quantity
+  endif
+  assign cl_compare = 0
+  if item.original_line_price > item.final_line_price
+    assign cl_compare = item.original_line_price
+  endif
+-%}
+{%- capture cl_attrs -%}data-line="{{ line }}" data-key="{{ item.key }}"{%- endcapture -%}
+{%- capture cl_remove_attrs -%}data-line="{{ line }}" data-key="{{ item.key }}" data-remove aria-label="Quitar {{ item.product.title | escape }}"{%- endcapture -%}
+{%- capture cl_actions -%}
+  {%- render 'quantity-stepper', size: 'sm', min: 1, max: cl_max, value: item.quantity, name: 'updates[]', id: item.key, label: item.product.title, attrs: cl_attrs -%}
+  {%- render 'button', label: 'Quitar', variant: 'text', size: 'xs', attrs: cl_remove_attrs, class: 'pr-cart-line__remove' -%}
+{%- endcapture -%}
+{%- render 'product-card',
+  product: item.product,
+  layout: 'horizontal',
+  tag: 'li',
+  title: item.product.title,
+  href: item.url,
+  image: item.image,
+  price: item.final_line_price,
+  compare_at_price: cl_compare,
+  from: false,
+  available: true,
+  variant_title: cl_variant,
+  quantity: item.quantity,
+  error: error,
+  actions: cl_actions,
+  class: class
+-%}

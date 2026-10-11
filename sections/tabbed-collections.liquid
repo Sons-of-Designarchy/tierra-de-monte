@@ -52,16 +52,8 @@
               class="tdm-tabs__panel"
               {% unless first_panel %}hidden{% endunless %}
             >
-              {% liquid
-                assign prod_limit = section.settings.products_limit | plus: 0
-              %}
-              <div class="grid grid--2-col-tablet grid--4-col-desktop">
-                {% for product in c.products limit: prod_limit %}
-                  <div class="grid__item">
-                    {% render 'card-product', card_product: product, section_id: section.id, show_excerpt: true %}
-                  </div>
-                {% endfor %}
-              </div>
+              {%- assign prod_limit = section.settings.products_limit | plus: 0 -%}
+              {% render 'card-grid-product', products: c.products, limit: prod_limit, columns: 4, show_quick_add: true, show_excerpt: section.settings.show_card_excerpt, image_ratio: '1/1' %}
 
               {% if section.settings.show_view_all and c.url %}
                 {%- assign view_all = section.settings.view_all_label | default: 'Ver más productos' -%}

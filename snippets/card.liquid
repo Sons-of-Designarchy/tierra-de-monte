@@ -1,17 +1,17 @@
 {%- comment -%}
   Card — the one box. Subtle fill, no border, the global surface radius. Everything that is a card on the site is this
-  snippet: project, article, plan, testimonial, principle, product. Ports PerfectlyRad Card.
+  snippet: project, article, plan, testimonial, principle (and the product-card). Ports PerfectlyRad Card.
 
   {% render 'card', eyebrow: '01', title: 'Título', description: 'Texto', image: image, image_ratio: '4/3', badge: 'Nuevo', cta_label: 'Ver', cta_href: '/x', href: '', scheme: '', padding: 'md', elevated: false, interactive: false, content: '' %}
+  A product is not a card variant: it is the product-card snippet, which composes this one.
 
   Params
   - eyebrow, title, description   marketing body (heading size h5; description body-sm style via heading)
   - title_as          tag of the title (default: h3)
-  - image             Shopify image object, edge to edge above the body; image_alt, image_ratio (default 4/3, 4/5 for a product), image_fit (cover | contain)
+  - image             Shopify image object, edge to edge above the body; image_alt, image_ratio (default 4/3), image_fit (cover | contain)
   - media             any html above the body (overrides image)
   - badge             short label flush top-left of the media: "Disponible", "Nuevo"
   - cta_label, cta_href   button at the end of the body (outline, sm). With href on the card it becomes plain text, the whole card is the link
-  - product_name      turns the body into a product body: product_brand, product_name, product_variant, product_price, product_old_price, product_discount
   - quote             turns the body into a testimonial: quote, quote_name, quote_detail, quote_avatar (url), quote_rating (0-5)
   - footer            html actions row at the bottom, separated by space
   - href              makes the whole card a link; sets interactive
@@ -28,6 +28,7 @@
   - title_size        display | h1 | h2 | h3 | h4 | h5   (default: h5)
   - ratio             card shape: 1/1 | 4/3 | 4/5 | 3/4 (default: the content decides; photo cards use it as their height)
   - on_color          kept for readability; every card is already white (light scheme) unless a scheme is passed
+  - attrs             extra attributes on the card element, e.g. 'aria-busy="true"'
   - class
 
   States: default, hover (interactive), focus-visible (link).
@@ -41,11 +42,7 @@
   endif
   assign cd_ratio = image_ratio
   if cd_ratio == blank
-    if product_name != blank
-      assign cd_ratio = '4/5'
-    else
-      assign cd_ratio = '4/3'
-    endif
+    assign cd_ratio = '4/3'
   endif
   assign cd_class = 'pr-card pr-card--pad-' | append: cd_padding
   if cd_has_media
@@ -122,19 +119,6 @@
           </div>
         </div>
       </div>
-    {%- elsif product_name != blank -%}
-      <div class="pr-card__product">
-        {%- if product_brand != blank -%}{%- render 'typography', text: product_brand, variant: 'body', weight: 'semibold' -%}{%- endif -%}
-        {%- capture cd_pname -%}{{ product_name }}{%- if product_variant != blank -%}<span class="pr-color--secondary"> · {{ product_variant }}</span>{%- endif -%}{%- endcapture -%}
-        {%- render 'typography', text: cd_pname, as: 'h3', variant: 'body' -%}
-        {%- if product_price != blank or product_old_price != blank -%}
-          <div class="pr-card__price">
-            {%- if product_price != blank -%}{%- render 'typography', text: product_price, as: 'span', variant: 'body', weight: 'semibold' -%}{%- endif -%}
-            {%- if product_old_price != blank -%}{%- render 'typography', text: product_old_price, as: 's', variant: 'body', color: 'secondary' -%}{%- endif -%}
-          </div>
-        {%- endif -%}
-        {%- if product_discount != blank -%}{%- render 'typography', text: product_discount, variant: 'body', weight: 'medium', color: 'success' -%}{%- endif -%}
-      </div>
     {%- else -%}
       {%- render 'heading', size: cd_title_size, as: cd_title_as, eyebrow: eyebrow, eyebrow_style: 'body', title: title, subtitle: description -%}
       {%- if cd_text != blank -%}{%- render 'typography', text: cd_text, as: 'div', variant: 'body-sm', class: 'pr-card__text rte' -%}{%- endif -%}
@@ -153,7 +137,7 @@
   {%- if footer != blank -%}<div class="pr-card__footer">{{ footer }}</div>{%- endif -%}
 {%- endcapture -%}
 {%- if href != blank -%}
-  <a href="{{ href }}" class="{{ cd_class }}"{% if cd_scheme != blank %} data-scheme="{{ cd_scheme }}"{% endif %}>{{ cd_inner }}</a>
+  <a href="{{ href }}" class="{{ cd_class }}"{% if cd_scheme != blank %} data-scheme="{{ cd_scheme }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ cd_inner }}</a>
 {%- else -%}
-  <{{ cd_tag }} class="{{ cd_class }}"{% if cd_scheme != blank %} data-scheme="{{ cd_scheme }}"{% endif %}>{{ cd_inner }}</{{ cd_tag }}>
+  <{{ cd_tag }} class="{{ cd_class }}"{% if cd_scheme != blank %} data-scheme="{{ cd_scheme }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ cd_inner }}</{{ cd_tag }}>
 {%- endif -%}

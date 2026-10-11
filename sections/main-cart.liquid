@@ -1,0 +1,86 @@
+{%- comment -%}
+  Cart page — the same pieces as the drawer: minimum-progress, cart-line-item (product-card horizontal) and cart-summary.
+  <pr-cart-lines> (assets/pr-cart.js) updates it through /cart/change.js and re-renders it by section id (data-cart-section).
+{%- endcomment -%}
+{%- liquid
+  assign minimum = settings.cart_minimum | times: 100
+  assign goal = settings.cart_minimum_label | default: 'el mínimo de compra'
+-%}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+<div class="pr-cart-page gradient color-{{ section.settings.color_scheme }}" data-cart-section="{{ section.id }}">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="pr-cart-page__head">
+      {%- render 'typography', text: 'Tu carrito', as: 'h1', variant: 'h2', font: 'display' -%}
+      {%- render 'link', text: 'Seguir comprando', href: routes.all_products_collection_url -%}
+    </div>
+    {%- if cart.item_count == 0 -%}
+      <div class="pr-cart-page__empty">
+        {%- render 'icon', name: 'bag', size: 'xl' -%}
+        {%- render 'typography', text: 'Tu carrito está vacío', as: 'h2', variant: 'h5', font: 'display' -%}
+        {%- render 'typography', text: 'Agrega productos para ver aquí tu pedido.', color: 'secondary' -%}
+        {%- render 'button', label: 'Ver productos', href: routes.all_products_collection_url -%}
+      </div>
+    {%- else -%}
+      <div class="pr-cart-page__grid">
+        <div class="pr-cart-page__lines">
+          {%- if minimum > 0 -%}
+            {%- render 'minimum-progress', total: cart.total_price, minimum: minimum, goal_label: goal -%}
+          {%- endif -%}
+          <pr-cart-lines>
+            <ul class="pr-cart-lines" role="list">
+              {%- for item in cart.items -%}
+                {%- render 'cart-line-item', item: item, line: forloop.index -%}
+              {%- endfor -%}
+            </ul>
+          </pr-cart-lines>
+        </div>
+        <aside class="pr-cart-page__summary" aria-label="Resumen del pedido">
+          {%- if settings.cart_minimum_hold -%}
+            {%- render 'cart-summary', cart: cart, minimum: minimum, minimum_label: goal -%}
+          {%- else -%}
+            {%- render 'cart-summary', cart: cart -%}
+          {%- endif -%}
+        </aside>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Carrito",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-tdm-blanco"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}
