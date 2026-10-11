@@ -1,110 +1,147 @@
 /* =============================================================================
-   Rich text + logo (sections/rich-text-with-logo.liquid)
-   Optional logo, heading, text and CTA, centred or left, three widths.
-   Per-instance: --rt-logo-w (px) set on .tdm-rich-text from the editor.
+   Rich text (sections/rich-text.liquid)
+   One section for the centred/left text column: optional logo, eyebrow, heading,
+   caption, text and up to two buttons per button block. Text is rendered by
+   typography, buttons by the button atom.
+   Per-instance: --rt-logo-w (px) set on .rich-text from the editor.
+   Width modifiers on .rich-text__blocks: --narrow --default --wide
    ========================================================================== */
 
-.tdm-rich-text .rt {
-  display: grid;
-  gap: var(--tdm-space-4);
-  justify-items: var(--rt-align, start);
-  text-align: var(--rt-text-align, left);
-  max-width: var(--rt-maxw, 780px);
-  margin-inline: auto;
+.rich-text {
+  z-index: 1;
 }
 
-.tdm-rich-text .rt.rt--align-center {
-  --rt-align: center;
-  --rt-text-align: center;
+.rich-text .rich-text__wrapper {
+  display: flex;
+  justify-content: center;
+  width: calc(100% - 4rem / var(--font-body-scale));
 }
 
-.tdm-rich-text .rt.rt--align-left {
-  --rt-align: start;
-  --rt-text-align: left;
+.rich-text:not(.rich-text--full-width) .rich-text__wrapper {
+  margin: auto;
+  width: calc(100% - 8rem / var(--font-body-scale));
 }
 
-.tdm-rich-text .rt.rt--narrow {
-  --rt-maxw: 680px;
+.rich-text .rich-text__blocks {
+  width: 100%;
 }
 
-.tdm-rich-text .rt.rt--default {
-  --rt-maxw: 780px;
-}
+@media screen and (min-width: 750px) {
+  .rich-text .rich-text__wrapper {
+    width: 100%;
+  }
 
-.tdm-rich-text .rt.rt--wide {
-  --rt-maxw: 980px;
-}
+  .rich-text .rich-text__wrapper--left {
+    justify-content: flex-start;
+  }
 
-.tdm-rich-text .rt__heading {
-  margin: 0;
-  line-height: 1.08;
-  font-weight: 300;
-  font-size: 2rem;
-  font-size: clamp(1.75rem, 4.2vw + 0.5rem, 3.6875rem);
-  overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
-  word-break: normal;
-  hyphens: manual;
-}
+  .rich-text .rich-text__wrapper--right {
+    justify-content: flex-end;
+  }
 
-.tdm-rich-text .rt__text {
-  color: rgb(var(--color-foreground), 0.85);
-}
-
-.tdm-rich-text .rt__cta {
-  margin-top: var(--tdm-space-1);
-}
-
-/* ---- Monospace toggles: use the theme mono tokens directly -------------- */
-.tdm-rich-text .rt--mono-heading .rt__heading,
-.tdm-rich-text .rt--mono-heading .rt__heading * {
-  font-family: var(--font-mono-family);
-  font-style: var(--font-mono-style);
-  font-weight: var(--font-mono-weight);
-  letter-spacing: 0.01em;
-}
-
-.tdm-rich-text .rt--mono-body .rt__text,
-.tdm-rich-text .rt--mono-body .rt__text * {
-  font-family: var(--font-mono-family);
-  font-style: var(--font-mono-style);
-  font-weight: var(--font-mono-weight);
-  letter-spacing: 0.01em;
-}
-
-/* If the editor picks HXL, cap it on mobile so it stays readable */
-@media (max-width: 749px) {
-  .tdm-rich-text .rt__heading.hxl {
-    font-size: clamp(2rem, 6vw + 0.25rem, 3rem);
+  .rich-text .rich-text__blocks {
+    max-width: 50rem;
   }
 }
 
-/* ---- Logo: exact editor width everywhere, never overflowing ------------- */
-.tdm-rich-text .rt__logo-img {
+@media screen and (min-width: 990px) {
+  .rich-text .rich-text__blocks {
+    max-width: 78rem;
+  }
+}
+
+/* Editor width presets (replace the automatic widths above) */
+.rich-text .rich-text__blocks.rich-text__blocks--narrow {
+  max-width: calc(42.5 * var(--pr-rem));
+}
+
+.rich-text .rich-text__blocks.rich-text__blocks--default {
+  max-width: calc(48.75 * var(--pr-rem));
+}
+
+.rich-text .rich-text__blocks.rich-text__blocks--wide {
+  max-width: calc(61.25 * var(--pr-rem));
+}
+
+.rich-text .rich-text__blocks * {
+  overflow-wrap: break-word;
+}
+
+.rich-text .rich-text__blocks > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.rich-text .rich-text__blocks > * + * {
+  margin-top: calc(var(--pr-space-4) + var(--pr-space-1));
+}
+
+.rich-text .rich-text__blocks > * + .rich-text__buttons {
+  margin-top: var(--pr-space-6);
+}
+
+/* ---- Logo ----------------------------------------------------------------- */
+.rich-text .rich-text__logo {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rich-text .rich-text__blocks.center .rich-text__logo {
+  justify-content: center;
+}
+
+.rich-text .rich-text__blocks.right .rich-text__logo {
+  justify-content: flex-end;
+}
+
+.rich-text .rich-text__logo-img {
   display: block;
-  width: clamp(100px, var(--rt-logo-w), 100%);
+  width: clamp(100px, var(--rt-logo-w, 120px), 100%);
   height: auto;
   max-width: 100%;
   object-fit: contain;
-  line-height: 0;
 }
 
 /* Mobile: cap the logo at 64px regardless of the editor width */
 @media (max-width: 749px) {
-  .tdm-rich-text .rt__logo {
-    display: flex;
+  .rich-text .rich-text__logo {
     justify-content: center;
     align-items: center;
-    padding: var(--tdm-space-4);
+    padding: var(--pr-space-4);
     box-sizing: border-box;
     overflow: hidden;
   }
 
-  .tdm-rich-text .rt__logo-img {
-    display: inline-block;
+  .rich-text .rich-text__logo-img {
     width: auto;
     max-width: 64px;
-    height: auto;
-    object-fit: contain;
-    margin-bottom: 20px;
   }
+}
+
+/* ---- Buttons -------------------------------------------------------------- */
+.rich-text .rich-text__buttons {
+  display: inline-flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--pr-space-3);
+  width: 100%;
+  max-width: 45rem;
+  word-break: break-word;
+}
+
+.rich-text .rich-text__buttons--multiple > * {
+  flex-grow: 1;
+  min-width: 22rem;
+}
+
+.rich-text .rich-text__buttons + .rich-text__buttons {
+  margin-top: var(--pr-space-3);
+}
+
+.rich-text .rich-text__blocks.left .rich-text__buttons {
+  justify-content: flex-start;
+}
+
+.rich-text .rich-text__blocks.right .rich-text__buttons {
+  justify-content: flex-end;
 }
