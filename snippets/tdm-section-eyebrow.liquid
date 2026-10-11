@@ -12,9 +12,11 @@
 {%- if text != blank -%}
   <div
     class="tdm-section-eyebrow"
-    style="{% if rule_color != blank %}--tdm-rule: {{ rule_color }};{% endif %}{% if align != blank %} text-align: {{ align }};{% endif %}"
+    {% if rule_color != blank %}style="--tdm-rule: {{ rule_color }};"{% endif %}
   >
-    <p class="tdm-section-eyebrow__text">{{ text }}</p>
+    {%- assign eyebrow_align = align -%}
+    {%- unless eyebrow_align == 'left' or eyebrow_align == 'center' or eyebrow_align == 'right' -%}{%- assign eyebrow_align = nil -%}{%- endunless -%}
+    {%- render 'typography', text: text, variant: 'eyebrow', font: 'body', as: 'p', align: eyebrow_align, class: 'tdm-section-eyebrow__text' -%}
     <div class="tdm-section-eyebrow__rule" aria-hidden="true"></div>
   </div>
 {%- endif -%}
