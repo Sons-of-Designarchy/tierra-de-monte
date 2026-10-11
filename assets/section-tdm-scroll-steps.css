@@ -5,7 +5,7 @@
    (assets/tdm-scroll-steps.js toggles .is-active).
    Mobile: aside first (image shows step 1), steps below.
    Per-instance values arrive as custom properties on .tdm-steps:
-     --st-ratio --st-radius --st-num (desktop number size, unitless px)
+     --st-ratio --st-radius
    --st-sticky-top and --st-mask-stop are constants, not per-instance.
    ========================================================================== */
 
@@ -15,15 +15,14 @@ tdm-scroll-steps {
 
 .tdm-steps {
   /* Space kept above the sticky column (clears the header when it slides back in) */
-  --st-sticky-top: 3.2rem;
-  /* Mask stops: only the alpha channel matters here (opaque = visible, transparent =
-     faded), so the colour itself is scheme-independent by design. */
-  --st-mask-stop: #000;
+  --st-sticky-top: var(--pr-space-8);
+  /* Mask stops: only the alpha channel matters here (opaque = visible, transparent = faded). */
+  --st-mask-stop: var(--pr-ink);
 }
 
 .tdm-steps__grid {
   display: grid;
-  gap: var(--tdm-space-12);
+  gap: var(--pr-space-12);
 }
 
 .tdm-steps__title {
@@ -31,7 +30,7 @@ tdm-scroll-steps {
 }
 
 .tdm-steps__text {
-  margin-top: var(--tdm-space-4);
+  margin-top: var(--pr-space-4);
   max-width: 60rem;
 }
 
@@ -39,17 +38,17 @@ tdm-scroll-steps {
 .tdm-steps__media {
   position: relative;
   overflow: hidden;
-  margin-top: var(--tdm-space-8);
+  margin-top: var(--pr-space-8);
   aspect-ratio: var(--st-ratio, 16 / 10);
   border-radius: var(--st-radius, 16px);
-  background: rgba(var(--color-foreground), 0.04);
+  background: var(--pr-surface-subtle);
 }
 
 .tdm-steps__slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 0.6s var(--tdm-ease);
+  transition: opacity calc(3 * var(--pr-motion-base)) var(--pr-motion-ease);
 }
 
 .tdm-steps__slide.is-active {
@@ -65,7 +64,7 @@ tdm-scroll-steps {
 }
 
 .tdm-steps__placeholder {
-  fill: rgba(var(--color-foreground), 0.5);
+  fill: var(--pr-text-secondary);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -82,7 +81,7 @@ tdm-scroll-steps {
 }
 
 .tdm-steps__step {
-  padding: var(--tdm-space-8) 0;
+  padding: var(--pr-space-8) 0;
 }
 
 .tdm-steps__step:first-child {
@@ -95,37 +94,21 @@ tdm-scroll-steps {
 }
 
 .tdm-steps--dividers .tdm-steps__step + .tdm-steps__step {
-  border-top: 1px solid var(--tdm-border-strong);
+  border-top: 1px solid var(--pr-border-strong);
 }
 
 .tdm-steps__num {
   display: block;
-  margin-bottom: var(--tdm-space-6);
-  font-family: var(--font-heading-family);
-  font-weight: var(--font-heading-weight);
-  font-size: calc(var(--st-num, 112) * 0.64px);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: rgb(var(--color-foreground));
+  margin-bottom: var(--pr-space-6);
 }
 
 .tdm-steps__step-title {
-  margin: 0 0 var(--tdm-space-3);
+  margin: 0 0 var(--pr-space-3);
 }
 
 .tdm-steps__step-text,
 .tdm-steps__step-text p {
   margin: 0;
-  font-size: var(--tdm-text-lead);
-  line-height: var(--tdm-text-body-leading);
-  color: rgb(var(--color-foreground));
-}
-
-@media screen and (min-width: 750px) {
-  .tdm-steps__step-text,
-  .tdm-steps__step-text p {
-    font-size: var(--tdm-text-lead-desktop);
-  }
 }
 
 .tdm-steps__step-text p + p {
@@ -133,7 +116,7 @@ tdm-scroll-steps {
 }
 
 .tdm-steps__btn {
-  margin-top: var(--tdm-space-6);
+  margin-top: var(--pr-space-6);
 }
 
 /* ---- Desktop: pinned frame --------------------------------------------------
@@ -213,7 +196,4 @@ tdm-scroll-steps {
     padding-bottom: 4rem;
   }
 
-  .tdm-steps__num {
-    font-size: calc(var(--st-num, 112) * 1px);
-  }
 }

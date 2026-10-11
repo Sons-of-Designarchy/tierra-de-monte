@@ -27,11 +27,21 @@
       assign ratio = '16 / 10'
   endcase
   assign step_blocks = section.blocks | where: 'type', 'step'
+  case s.heading_size
+    when 'h2'
+      assign st_title_variant = 'h2'
+    when 'h1'
+      assign st_title_variant = 'h1'
+    else
+      assign st_title_variant = 'display'
+  endcase
+  assign st_step_variant = s.step_title_size | default: 'h3'
+  assign st_num_variant = s.number_variant | default: 'display'
 -%}
 
 <section
   class="tdm-steps{% if s.show_dividers %} tdm-steps--dividers{% endif %} color-{{ s.color_scheme }} gradient"
-  style="--st-ratio: {{ ratio }}; --st-radius: {{ s.image_radius }}px; --st-num: {{ s.number_size }};"
+  style="--st-ratio: {{ ratio }}; --st-radius: {{ s.image_radius }}px; "
 >
   <div class="page-width section-{{ section.id }}-padding">
     {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color -%}
@@ -42,10 +52,10 @@
       <div class="tdm-steps__aside">
         <div class="tdm-steps__sticky">
           {%- if s.title != blank -%}
-            <h2 class="tdm-steps__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+            {%- render 'typography', text: s.title, as: 'h2', variant: st_title_variant, font: 'display', weight: 'medium', class: 'tdm-steps__title' -%}
           {%- endif -%}
           {%- if s.text != blank -%}
-            <div class="tdm-steps__text rte">{{ s.text }}</div>
+            {%- render 'typography', text: s.text, as: 'div', variant: 'body', class: 'tdm-steps__text rte' -%}
           {%- endif -%}
 
           <div class="tdm-steps__media">
@@ -99,21 +109,18 @@
             data-step="{{ forloop.index0 }}"
             {{ block.shopify_attributes }}
           >
-            <span class="tdm-steps__num" aria-hidden="true">{{ num }}</span>
+            {%- render 'typography', text: num, as: 'span', variant: st_num_variant, font: 'display', color: 'inherit', class: 'tdm-steps__num', attrs: 'aria-hidden="true"' -%}
             {%- if block.settings.title != blank -%}
-              <h3 class="tdm-steps__step-title {{ s.step_title_size }}">{{ block.settings.title }}</h3>
+              {%- render 'typography', text: block.settings.title, as: 'h3', variant: st_step_variant, font: 'display', weight: 'medium', class: 'tdm-steps__step-title' -%}
             {%- endif -%}
             {%- if block.settings.text != blank -%}
-              <div class="tdm-steps__step-text rte">{{ block.settings.text }}</div>
+              {%- render 'typography', text: block.settings.text, as: 'div', variant: 'body-lg', class: 'tdm-steps__step-text rte' -%}
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
-              <a
-                class="tdm-steps__btn button button--{{ block.settings.button_style | default: 'primary' }}"
-                {% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ block.settings.button_link }}"{% endif %}
-                {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
-              >
-                {{- block.settings.button_label | escape -}}
-              </a>
+              {%- assign st_btn_href = block.settings.button_link | default: '#' -%}
+              {%- capture st_btn_attrs -%}{% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+              {%- if block.settings.button_style == 'secondary' -%}{%- assign st_btn_variant = 'outline' -%}{%- else -%}{%- assign st_btn_variant = 'primary' -%}{%- endif -%}
+              {%- render 'button', label: block.settings.button_label, href: st_btn_href, variant: st_btn_variant, size: 'lg', class: 'tdm-steps__btn', attrs: st_btn_attrs -%}
             {%- endif -%}
           </li>
         {%- endfor -%}
@@ -175,7 +182,17 @@
     },
     { "type": "range", "id": "image_radius", "label": "Redondeo de la imagen", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
     { "type": "header", "content": "Pasos" },
-    { "type": "range", "id": "number_size", "label": "Tamaño del número (escritorio)", "min": 48, "max": 160, "step": 4, "unit": "px", "default": 112, "info": "En móvil se reduce proporcionalmente." },
+    {
+      "type": "select",
+      "id": "number_variant",
+      "label": "Tamaño del número",
+      "options": [
+        { "value": "display", "label": "Grande" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h2", "label": "Pequeño" }
+      ],
+      "default": "display"
+    },
     {
       "type": "select",
       "id": "step_title_size",

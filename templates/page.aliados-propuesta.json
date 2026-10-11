@@ -1120,7 +1120,7 @@
         "text": "",
         "image_ratio": "wide_1610",
         "image_radius": 16,
-        "number_size": 112,
+        "number_variant": "display",
         "step_title_size": "h3",
         "show_dividers": true,
         "padding_top": 36,
