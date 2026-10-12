@@ -8,21 +8,84 @@
 {%- assign cat_image = section.settings.image -%}
 {%- unless cat_image -%}{%- assign cat_image = cat_product.featured_image -%}{%- endunless -%}
 <div class="tdm-catalog color-{{ section.settings.color_scheme }} gradient">
+<div class="tdm-catalog__layout">
+<aside class="tdm-catalog__sidebar">
+  <details class="tdm-catalog__toc" open data-catalog-toc>
+    <summary class="tdm-catalog__toc-summary">{%- render 'typography', text: 'Índice', variant: 'label', weight: 'medium' -%}</summary>
+    <nav class="tdm-catalog__toc-nav" aria-label="Catálogo">
+      <div class="tdm-catalog__toc-group">
+        {%- render 'typography', text: 'Fundamentos', variant: 'eyebrow', color: 'secondary' -%}
+        <ul>
+          <li><a href="#colour" class="tdm-catalog__toc-link" data-toc-link>Colour</a></li>
+          <li><a href="#schemes" class="tdm-catalog__toc-link" data-toc-link>Schemes</a></li>
+          <li><a href="#type-scale" class="tdm-catalog__toc-link" data-toc-link>Type scale</a></li>
+          <li><a href="#typography" class="tdm-catalog__toc-link" data-toc-link>Typography matrix</a></li>
+          <li><a href="#scales" class="tdm-catalog__toc-link" data-toc-link>Space, radius, elevation, motion</a></li>
+        </ul>
+      </div>
+      <div class="tdm-catalog__toc-group">
+        {%- render 'typography', text: 'Atoms', variant: 'eyebrow', color: 'secondary' -%}
+        <ul>
+          <li><a href="#button" class="tdm-catalog__toc-link" data-toc-link>Button</a></li>
+          <li><a href="#icon-button" class="tdm-catalog__toc-link" data-toc-link>IconButton</a></li>
+          <li><a href="#link" class="tdm-catalog__toc-link" data-toc-link>Link</a></li>
+          <li><a href="#heading" class="tdm-catalog__toc-link" data-toc-link>Heading</a></li>
+          <li><a href="#chip" class="tdm-catalog__toc-link" data-toc-link>Chip</a></li>
+          <li><a href="#alert" class="tdm-catalog__toc-link" data-toc-link>Alert</a></li>
+          <li><a href="#card" class="tdm-catalog__toc-link" data-toc-link>Card</a></li>
+          <li><a href="#image" class="tdm-catalog__toc-link" data-toc-link>Image</a></li>
+          <li><a href="#accordion" class="tdm-catalog__toc-link" data-toc-link>Accordion</a></li>
+          <li><a href="#tabs" class="tdm-catalog__toc-link" data-toc-link>Tabs</a></li>
+          <li><a href="#breadcrumb" class="tdm-catalog__toc-link" data-toc-link>Breadcrumb</a></li>
+          <li><a href="#rating" class="tdm-catalog__toc-link" data-toc-link>Rating</a></li>
+          <li><a href="#avatar" class="tdm-catalog__toc-link" data-toc-link>Avatar</a></li>
+          <li><a href="#spinner" class="tdm-catalog__toc-link" data-toc-link>Spinner</a></li>
+        </ul>
+      </div>
+      <div class="tdm-catalog__toc-group">
+        {%- render 'typography', text: 'Forms', variant: 'eyebrow', color: 'secondary' -%}
+        <ul>
+          <li><a href="#input" class="tdm-catalog__toc-link" data-toc-link>Input</a></li>
+          <li><a href="#textarea" class="tdm-catalog__toc-link" data-toc-link>Textarea</a></li>
+          <li><a href="#select" class="tdm-catalog__toc-link" data-toc-link>Select</a></li>
+          <li><a href="#checkbox" class="tdm-catalog__toc-link" data-toc-link>Checkbox</a></li>
+          <li><a href="#radio" class="tdm-catalog__toc-link" data-toc-link>Radio</a></li>
+          <li><a href="#switch" class="tdm-catalog__toc-link" data-toc-link>Switch</a></li>
+          <li><a href="#field" class="tdm-catalog__toc-link" data-toc-link>Field</a></li>
+          <li><a href="#segmented-control" class="tdm-catalog__toc-link" data-toc-link>SegmentedControl</a></li>
+        </ul>
+      </div>
+      <div class="tdm-catalog__toc-group">
+        {%- render 'typography', text: 'Layout', variant: 'eyebrow', color: 'secondary' -%}
+        <ul>
+          <li><a href="#navbar" class="tdm-catalog__toc-link" data-toc-link>Navbar</a></li>
+        </ul>
+      </div>
+      <div class="tdm-catalog__toc-group">
+        {%- render 'typography', text: 'Commerce', variant: 'eyebrow', color: 'secondary' -%}
+        <ul>
+          <li><a href="#price-tag" class="tdm-catalog__toc-link" data-toc-link>PriceTag</a></li>
+          <li><a href="#quantity-stepper" class="tdm-catalog__toc-link" data-toc-link>QuantityStepper</a></li>
+          <li><a href="#variant-picker" class="tdm-catalog__toc-link" data-toc-link>VariantPicker</a></li>
+          <li><a href="#product-card" class="tdm-catalog__toc-link" data-toc-link>ProductCard</a></li>
+          <li><a href="#card-grid-product" class="tdm-catalog__toc-link" data-toc-link>CardGridProduct</a></li>
+          <li><a href="#product-gallery" class="tdm-catalog__toc-link" data-toc-link>ProductGallery</a></li>
+          <li><a href="#buy-box" class="tdm-catalog__toc-link" data-toc-link>BuyBox</a></li>
+          <li><a href="#minimum-progress" class="tdm-catalog__toc-link" data-toc-link>MinimumProgress</a></li>
+          <li><a href="#cart-line-item" class="tdm-catalog__toc-link" data-toc-link>CartLineItem</a></li>
+          <li><a href="#cart-summary" class="tdm-catalog__toc-link" data-toc-link>CartSummary</a></li>
+          <li><a href="#cart-drawer" class="tdm-catalog__toc-link" data-toc-link>CartDrawer</a></li>
+          <li><a href="#pricing" class="tdm-catalog__toc-link" data-toc-link>Pricing</a></li>
+        </ul>
+      </div>
+    </nav>
+  </details>
+</aside>
 <div class="tdm-catalog__wrap">
 <header class="tdm-catalog__header">
   {%- render 'typography', text: 'PerfectlyRad · foundations', variant: 'eyebrow' -%}
   {%- render 'typography', text: 'Tierra de Monte foundations', variant: 'display', font: 'display' -%}
   {%- render 'typography', text: 'Same tokens, same Typography props, same atoms as Casa Soda PerfectlyRad. Only the nine brand primitives and the three font families are TDM.', variant: 'body-lg', color: 'secondary' -%}
-  <nav class="tdm-catalog__nav" aria-label="Catálogo">
-    {%- render 'link', text: 'Colour', href: '#colour', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Schemes', href: '#schemes', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Type scale', href: '#type-scale', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Typography matrix', href: '#typography', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Space, radius, elevation, motion', href: '#scales', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Atoms', href: '#atoms', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Navbar', href: '#navbar', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Commerce', href: '#commerce', quiet: true, variant: 'body-sm' -%}
-  </nav>
 </header>
 <section class="tdm-catalog__block" id="colour">
   {%- render 'typography', text: 'Layer 1 · primitives', variant: 'h3', font: 'display', as: 'h2' -%}
@@ -1017,20 +1080,6 @@ options: 'value|Label|count;value|Label'{% endraw %}</code></pre>
 <section class="tdm-catalog__block">
   {%- render 'typography', text: 'Commerce', variant: 'h2', font: 'display', as: 'h2' -%}
   {%- render 'typography', text: 'The store family, one component per job. Props carry Shopify names (product, cart, item, variant, price in cents), so each piece renders straight from Liquid. Cards are white with a 1px border and no shadow. Products here are the real ones of the store; sale and sold-out states pass overrides.', variant: 'body-lg', color: 'secondary' -%}
-  <nav class="tdm-catalog__nav" aria-label="Commerce">
-    {%- render 'link', text: 'PriceTag', href: '#price-tag', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'QuantityStepper', href: '#quantity-stepper', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'VariantPicker', href: '#variant-picker', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'ProductCard', href: '#product-card', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'CardGridProduct', href: '#card-grid-product', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'ProductGallery', href: '#product-gallery', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'BuyBox', href: '#buy-box', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'MinimumProgress', href: '#minimum-progress', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'CartLineItem', href: '#cart-line-item', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'CartSummary', href: '#cart-summary', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'CartDrawer', href: '#cart-drawer', quiet: true, variant: 'body-sm' -%}
-    {%- render 'link', text: 'Pricing', href: '#pricing', quiet: true, variant: 'body-sm' -%}
-  </nav>
 </section>
 {%- assign cat_multi = all_products['crecr'] -%}
 {%- assign cat_cart_item = cart.items | first -%}
@@ -1265,6 +1314,29 @@ block plan: name, group (t1|t2), threshold (MXN), price, period, features (one p
 </section>
 </div>
 </div>
+</div>
+<script>
+  (() => {
+    const toc = document.querySelector('[data-catalog-toc]');
+    if (!toc) return;
+    if (window.matchMedia('(max-width: 989px)').matches) toc.open = false;
+    const links = new Map([...toc.querySelectorAll('[data-toc-link]')].map((a) => [a.hash.slice(1), a]));
+    toc.addEventListener('click', (e) => { if (e.target.closest('a') && window.matchMedia('(max-width: 989px)').matches) toc.open = false; });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        const link = links.get(entry.target.id);
+        if (!link) return;
+        link.setAttribute('aria-current', 'true');
+        const bar = link.closest('.tdm-catalog__sidebar');
+        const r = link.getBoundingClientRect(), b = bar.getBoundingClientRect();
+        if (r.top < b.top || r.bottom > b.bottom) bar.scrollTop += r.top - b.top - b.height / 2;
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    links.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  })();
+</script>
 {% schema %}
 {
   "name": "Catálogo foundations",

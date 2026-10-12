@@ -19,16 +19,112 @@
   min-width: 0;
 }
 
-.tdm-catalog__nav {
+/* Sidebar index: sticky column on desktop, a collapsed "Índice" above the content below 990px */
+.tdm-catalog__layout {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--pr-space-4);
+  flex-direction: column;
+  gap: var(--pr-space-8);
+  max-width: var(--pr-container);
+  margin: 0 auto;
+}
+
+.tdm-catalog__layout > .tdm-catalog__wrap {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.tdm-catalog__toc {
+  border: 1px solid var(--pr-border);
+  border-radius: var(--pr-radius-surface);
+  background: var(--pr-surface);
+}
+
+.tdm-catalog__toc-summary {
+  padding: var(--pr-space-3) var(--pr-space-4);
+  cursor: pointer;
+}
+
+.tdm-catalog__toc-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-6);
+  padding: var(--pr-space-2) var(--pr-space-4) var(--pr-space-4);
+}
+
+.tdm-catalog__toc-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+}
+
+.tdm-catalog__toc-group ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-catalog__toc-link {
+  display: block;
+  padding: var(--pr-space-1) var(--pr-space-2);
+  border-radius: var(--pr-radius-sm);
+  color: var(--pr-text-secondary);
+  font-family: var(--pr-font-body);
+  font-size: var(--pr-text-body-sm);
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background-color var(--pr-motion-fast) var(--pr-motion-ease), color var(--pr-motion-fast) var(--pr-motion-ease);
+}
+
+.tdm-catalog__toc-link:hover {
+  color: var(--pr-text-primary);
+  background: var(--pr-surface-subtle);
+}
+
+.tdm-catalog__toc-link[aria-current] {
+  color: var(--pr-text-primary);
+  font-weight: 500;
+  background: var(--pr-action-light);
+}
+
+@media (min-width: 990px) {
+  .tdm-catalog__layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--pr-space-12);
+  }
+
+  .tdm-catalog__sidebar {
+    position: sticky;
+    top: var(--pr-space-24);
+    flex: 0 0 15rem;
+    max-height: calc(100vh - var(--pr-space-24) - var(--pr-space-6));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .tdm-catalog__toc {
+    border: 0;
+    background: none;
+  }
+
+  .tdm-catalog__toc-summary {
+    display: none;
+  }
+
+  .tdm-catalog__toc-nav {
+    padding: 0;
+  }
 }
 
 .tdm-catalog__block {
   padding-top: var(--pr-space-8);
   border-top: 1px solid var(--pr-border);
-  scroll-margin-top: var(--pr-space-8);
+  /* Clears the floating site navbar when a sidebar link jumps here */
+  scroll-margin-top: var(--pr-space-24);
 }
 
 .tdm-catalog__example {
