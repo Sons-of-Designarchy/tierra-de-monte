@@ -2,7 +2,7 @@
    Hero slider (sections/hero-slider.liquid)
    Layers per slide, back to front: image -> overlay -> content -> controls.
    Per-instance values arrive as custom properties on .tdm-hero-slider:
-     --hs-h --hs-h-m
+     --pr-hero-min-h --hs-h-m
    Colours come from Dawn colour schemes: the section scheme sits on
    .tdm-hero-slider (controls), each .hs__slide carries its own (or the
    section's) scheme class. foreground = text, button = accent. Text goes through the typography snippet and buttons through the button
@@ -19,15 +19,14 @@
   position: relative;
   /* Keep the layer z-indexes (up to 4) local so they never paint over the sticky header */
   isolation: isolate;
-  /* Boxed inside .page-width like the home hero, with rounded frame */
+  /* Frame (pr-hero.css): square and edge to edge; with page width it keeps the editor's radius */
   border-radius: var(--hs-frame-radius, 0);
-  overflow: hidden;
 }
 
 .hs__track {
   display: flex;
   position: relative;
-  height: var(--hs-h);
+  height: var(--pr-hero-min-h);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -58,30 +57,31 @@
   box-sizing: border-box;
 }
 
-/* Full width: edge-to-edge frame, text column aligned to .page-width */
+/* Full width: edge-to-edge frame, text column aligned to .page-width. First on the page the content clears the floating navbar */
 .tdm-hero-slider.tdm-hero-slider--full {
   border-radius: 0;
+  --hs-pad-x: var(--pr-space-12);
 }
 
 .tdm-hero-slider.tdm-hero-slider--full .hs__container {
   max-width: var(--page-width);
   margin: 0 auto;
-  padding-left: 5rem;
-  padding-right: 5rem;
+  padding-left: var(--pr-space-12);
+  padding-right: var(--pr-space-12);
 }
 
-.tdm-hero-slider.tdm-hero-slider--full {
-  --hs-pad-x: 5rem;
+#MainContent > .shopify-section:first-child .tdm-hero-slider--full .hs__container {
+  padding-top: var(--pr-nav-clear);
 }
 
 @media (max-width: 749px) {
   .tdm-hero-slider.tdm-hero-slider--full .hs__container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: var(--pr-space-6);
+    padding-right: var(--pr-space-6);
   }
 
   .tdm-hero-slider.tdm-hero-slider--full {
-    --hs-pad-x: 1.5rem;
+    --hs-pad-x: var(--pr-space-6);
   }
 }
 
@@ -122,6 +122,10 @@
   display: block;
   background-color: var(--hs-overlay);
   pointer-events: none;
+}
+
+.tdm-hero-slider .pr-hero-scrim {
+  z-index: 2;
 }
 
 .hs__content,
@@ -210,12 +214,6 @@
 
 .hs__h-right .hs__btns {
   justify-content: flex-end;
-}
-
-/* The secondary button gets a glass fill over the photo. */
-.hs__btns .hs__btn-glass {
-  -webkit-backdrop-filter: blur(var(--pr-blur-sm));
-  backdrop-filter: blur(var(--pr-blur-sm));
 }
 
 /* ---- Credit (bottom corner) --------------------------------------------------- */

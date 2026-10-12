@@ -7,6 +7,7 @@
 
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
 
+{{ 'pr-hero.css' | asset_url | stylesheet_tag }}
 {{ 'section-tdm-hero-slider.css' | asset_url | stylesheet_tag }}
 
 {%- assign hs_full = false -%}
@@ -16,15 +17,15 @@
 
 <div class="section-{{ section.id }}-padding{% unless hs_full %} page-width{% endunless %}">
 <hero-slider
-  class="tdm-hero-slider{% if hs_full %} tdm-hero-slider--full{% endif %}{% if section.settings.credit_position contains 'right' %} hs--credit-right{% endif %}{% if section.settings.credit_position contains 'top' %} hs--credit-top{% endif %} color-{{ section.settings.color_scheme }}"
+  class="tdm-hero-slider pr-hero-frame{% if hs_full %} tdm-hero-slider--full{% endif %}{% if section.settings.credit_position contains 'right' %} hs--credit-right{% endif %}{% if section.settings.credit_position contains 'top' %} hs--credit-top{% endif %} color-{{ section.settings.color_scheme }}"
   id="HeroSlider-{{ section.id }}"
   data-autoplay="{{ section.settings.autoplay }}"
   data-speed="{{ section.settings.speed | times: 1000 }}"
   aria-roledescription="carrusel"
   aria-label="{{ section.settings.aria_label | escape }}"
   style="
-    --hs-h: {{ section.settings.height_desktop }}px;
-    --hs-h-m: {{ section.settings.height_mobile }}px;
+    --pr-hero-min-h: {{ section.settings.min_height_desktop }}svh;
+    --hs-h-m: {{ section.settings.min_height_mobile }}svh;
     --hs-frame-radius: {{ section.settings.corner_radius }}px;
   "
 >
@@ -90,6 +91,12 @@
           style="--hs-overlay: {{ overlay_rgba }};"
         ><span></span></div>
 
+        {%- liquid
+          assign hs_scrim_x = block.settings.align_h
+          assign hs_scrim_y = block.settings.align_v
+        -%}
+        <div class="pr-hero-scrim pr-hero-scrim--{{ hs_scrim_y }} pr-hero-scrim--{{ hs_scrim_x }}" aria-hidden="true"></div>
+
         {%- comment -%} CAPA 2 · TEXTOS Y BOTONES {%- endcomment -%}
         <div class="hs__container hs__h-{{ block.settings.align_h }} hs__v-{{ block.settings.align_v }}">
         <div class="hs__content">
@@ -128,7 +135,7 @@
               {%- if block.settings.button_label_2 != blank -%}
                 {%- assign hs_href_2 = block.settings.button_link_2 | default: '#' -%}
                 {%- capture hs_attrs_2 -%}{% if block.settings.button_new_tab_2 %}target="_blank" rel="noopener"{% endif %}{% if hs_href_2 contains '#pedido' %} data-track="quiero-ser-aliado-hero"{% endif %}{%- endcapture -%}
-                {%- render 'button', label: block.settings.button_label_2, href: hs_href_2, variant: 'secondary', size: 'lg', class: 'hs__btn-glass', attrs: hs_attrs_2 -%}
+                {%- render 'button', label: block.settings.button_label_2, href: hs_href_2, variant: 'inverse', size: 'lg', attrs: hs_attrs_2 -%}
               {%- endif -%}
             </div>
           {%- endif -%}
@@ -192,8 +199,8 @@
       "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
     },
     { "type": "header", "content": "Tamaño" },
-    { "type": "range", "id": "height_desktop", "label": "Altura en escritorio", "min": 400, "max": 900, "step": 20, "unit": "px", "default": 700 },
-    { "type": "range", "id": "height_mobile", "label": "Altura en móvil", "min": 300, "max": 800, "step": 20, "unit": "px", "default": 620 },
+    { "type": "range", "id": "min_height_desktop", "label": "Altura mínima en escritorio", "min": 40, "max": 100, "step": 1, "unit": "vh", "default": 75 },
+    { "type": "range", "id": "min_height_mobile", "label": "Altura mínima en móvil", "min": 40, "max": 100, "step": 1, "unit": "vh", "default": 75 },
     {
       "type": "select",
       "id": "width",
@@ -204,7 +211,7 @@
       ],
       "default": "page"
     },
-    { "type": "range", "id": "corner_radius", "label": "Redondeo del marco", "info": "Solo aplica con ancho de página.", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 8 },
+    { "type": "range", "id": "corner_radius", "label": "Redondeo del marco", "info": "Solo aplica con ancho de página. El ancho completo siempre va sin redondeo.", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 8 },
     {
       "type": "select",
       "id": "heading_variant",

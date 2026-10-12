@@ -18,7 +18,7 @@
             "image": "shopify://shop_images/hero-aliado.jpg",
             "alt": "",
             "overlay_color": "#000000",
-            "overlay_opacity": 45,
+            "overlay_opacity": 15,
             "use_custom_scheme": false,
             "color_scheme": "",
             "subheading": "Programa de Aliados · Tierra de Monte",
@@ -43,7 +43,7 @@
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
             "alt": "",
             "overlay_color": "#000000",
-            "overlay_opacity": 45,
+            "overlay_opacity": 15,
             "use_custom_scheme": false,
             "color_scheme": "",
             "subheading": "Programa de Aliados · Tierra de Monte",
@@ -68,7 +68,7 @@
             "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
             "alt": "",
             "overlay_color": "#000000",
-            "overlay_opacity": 45,
+            "overlay_opacity": 15,
             "use_custom_scheme": false,
             "color_scheme": "",
             "subheading": "Niveles de Aliado",
@@ -96,9 +96,7 @@
       "name": "Hero slider",
       "settings": {
         "anchor_id": "inicio",
-        "height_desktop": 700,
-        "height_mobile": 620,
-        "width": "page",
+        "width": "full",
         "corner_radius": 8,
         "heading_variant": "display",
         "first_h1": true,
@@ -108,9 +106,11 @@
         "show_dots": true,
         "color_scheme": "scheme-tdm-aliados-oscuro",
         "credit_position": "bottom_left",
-        "padding_top": 48,
-        "padding_bottom": 48,
-        "aria_label": "Programa de Aliados"
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "aria_label": "Programa de Aliados",
+        "min_height_desktop": 75,
+        "min_height_mobile": 75
       }
     },
     "multicolumn_sept2026_AwmWPk": {

@@ -18,7 +18,7 @@
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
             "alt": "",
             "overlay_color": "#000000",
-            "overlay_opacity": 45,
+            "overlay_opacity": 15,
             "subheading": "Programa de Aliados · Tierra de Monte",
             "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla</p>",
             "highlight": "",
@@ -41,7 +41,7 @@
             "image": "shopify://shop_images/hero-aliado.jpg",
             "alt": "",
             "overlay_color": "#000000",
-            "overlay_opacity": 45,
+            "overlay_opacity": 15,
             "subheading": "Programa de Aliados · Tierra de Monte",
             "heading": "<p>Tú pones la palabra.</p><p>Nosotros ponemos con qué cumplirla</p>",
             "highlight": "",
@@ -66,8 +66,6 @@
       "name": "Hero slider",
       "settings": {
         "anchor_id": "inicio",
-        "height_desktop": 700,
-        "height_mobile": 620,
         "heading_variant": "display",
         "first_h1": true,
         "autoplay": true,
@@ -76,7 +74,12 @@
         "show_dots": true,
         "color_scheme": "scheme-696296f7-bee5-432a-8d7e-1c97193ea4dc",
         "credit_position": "bottom_left",
-        "aria_label": "Programa de Aliados"
+        "aria_label": "Programa de Aliados",
+        "min_height_desktop": 75,
+        "min_height_mobile": 75,
+        "width": "full",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "ticker_q7YzML": {
