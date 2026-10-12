@@ -228,9 +228,14 @@
       <div class="tdm-spotlight__stage{% if s.points_overlay %} tdm-spotlight__stage--overlay{% endif %}">
         {{- media -}}
         {%- if points_all != blank -%}
+          <div class="tdm-spotlight__band">
+          {%- if s.band_eyebrow != blank -%}
+            {%- render 'typography', text: s.band_eyebrow, variant: 'eyebrow', color: 'inherit', class: 'tdm-spotlight__band-eyebrow' -%}
+          {%- endif -%}
           <ul class="tdm-spotlight__panel color-{{ s.points_color_scheme }}" role="list" style="--sp-rows: {{ panel_rows }}; --sp-rows-narrow: {{ half }}; --sp-cols: {{ panel_cols }};">
             {{- points_all -}}
           </ul>
+          </div>
         {%- endif -%}
       </div>
     {%- else -%}
@@ -292,6 +297,7 @@
       "default": "h1"
     },
     { "type": "richtext", "id": "text", "label": "Párrafo", "info": "Opcional. Va debajo del título." },
+    { "type": "text", "id": "band_eyebrow", "label": "Eyebrow sobre los puntos", "info": "Diseño apilado: línea pequeña dentro de la banda, justo arriba de los puntos (blanca sobre la foto en tablet y escritorio)." },
     { "type": "header", "content": "Imagen" },
     { "type": "image_picker", "id": "image", "label": "Imagen principal", "info": "Agrega bloques \"Imagen\" para que roten automáticamente con esta." },
     {

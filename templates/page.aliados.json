@@ -183,6 +183,46 @@
     },
     "tdm_bestsellers_aliados": {
       "type": "tdm-bestsellers",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "↑",
+            "title": "Mayor rentabilidad",
+            "text": "<p>Ayudan a mejorar la rentabilidad, más ingreso para tu negocio.</p>"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "+",
+            "title": "Más oportunidades de venta",
+            "text": "<p>Una sola línea para todos los cultivos, todas las etapas.</p>"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "↻",
+            "title": "Más recompra",
+            "text": "<p>Resultados que generan confianza y construyen relaciones comerciales de largo plazo.</p>"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "✦",
+            "title": "Una propuesta diferenciada",
+            "text": "<p>Biotecnología de alto desempeño para diferenciarte y ofrecer más valor a tus clientes.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ],
       "settings": {
         "anchor_id": "productos",
         "color_scheme": "scheme-tdm-crema",
@@ -198,81 +238,9 @@
         "button_label": "Agregar al pedido",
         "button_link": "#pedido",
         "padding_top": 48,
-        "padding_bottom": 0
-      }
-    },
-    "tdm_detail_spotlight_aliados": {
-      "type": "tdm-detail-spotlight",
-      "blocks": {
-        "point_1": {
-          "type": "point",
-          "settings": {
-            "icon": "↑",
-            "title": "Mayor rentabilidad",
-            "text": "<p>Ayudan a mejorar la rentabilidad, más ingreso para tu negocio.</p>",
-            "side": "auto"
-          }
-        },
-        "point_2": {
-          "type": "point",
-          "settings": {
-            "icon": "+",
-            "title": "Más oportunidades de venta",
-            "text": "<p>Una sola línea para todos los cultivos, todas las etapas.</p>",
-            "side": "auto"
-          }
-        },
-        "point_3": {
-          "type": "point",
-          "settings": {
-            "icon": "↻",
-            "title": "Más recompra",
-            "text": "<p>Resultados que generan confianza y construyen relaciones comerciales de largo plazo.</p>",
-            "side": "auto"
-          }
-        },
-        "point_4": {
-          "type": "point",
-          "settings": {
-            "icon": "✦",
-            "title": "Una propuesta diferenciada",
-            "text": "<p>Biotecnología de alto desempeño para diferenciarte y ofrecer más valor a tus clientes.</p>",
-            "side": "auto"
-          }
-        }
-      },
-      "block_order": [
-        "point_1",
-        "point_2",
-        "point_3",
-        "point_4"
-      ],
-      "settings": {
-        "anchor_id": "",
-        "color_scheme": "scheme-tdm-crema",
-        "layout": "stacked",
-        "eyebrow": "",
-        "title": "Lo que todos comparten",
-        "heading_size": "h1",
-        "text": "",
-        "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
-        "image_fit": "cover",
-        "contain_bg": "#f4f1f2",
-        "rotate_speed": 4,
-        "image_ratio": "ultrawide",
-        "image_ratio_mobile": "landscape",
-        "image_height": 700,
-        "image_width": 36,
-        "image_radius": 16,
-        "point_title_size": "h4",
-        "show_accent": false,
-        "point_title_upper": true,
-        "icon_size": 24,
-        "panel_columns": 4,
-        "points_overlay": true,
-        "points_color_scheme": "scheme-tdm-blanco",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "show_line_image": true,
+        "line_image": "shopify://shop_images/Agro_Familyshot_iso.jpg"
       }
     },
     "ticker_q7YzML": {
@@ -1073,7 +1041,6 @@
     "hero_slider_Q8CAkg",
     "multicolumn_sept2026_AwmWPk",
     "tdm_bestsellers_aliados",
-    "tdm_detail_spotlight_aliados",
     "ticker_q7YzML",
     "multicolumn_sept2026_cQktdB",
     "ticker_tdmResultados",

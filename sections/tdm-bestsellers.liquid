@@ -6,6 +6,7 @@
   y baja a esa sección. Sin la sección de pedido en la página el botón solo hace scroll al ancla.
   Es un carrusel horizontal (scroll-snap) con flechas en escritorio (assets/tdm-bestsellers.js).
   Fuente: la colección elegida (vacío = todos los productos). Para "Más vendidos" basta crear la colección y elegirla aquí.
+  Orden: encabezado → beneficios que comparten todos (bloques "Beneficio de la línea", sobre el fondo de la sección) → carrusel → foto de la línea (opcional).
   Beneficios de cada producto, en este orden: bloque "Beneficios de un producto" con ese producto → metafield
   (por defecto custom.beneficios, lista o texto con un beneficio por línea) → primeras palabras de la descripción.
   El precio sale solo cuando es mayor a $0 (átomo price-tag).
@@ -26,6 +27,7 @@
   assign bs_cols = s.columns_desktop | default: 4
   assign bs_mf = s.benefits_metafield | split: '.'
   assign bs_notes = section.blocks | where: 'type', 'benefits'
+  assign bs_features = section.blocks | where: 'type', 'feature'
   case s.heading_size
     when 'h2'
       assign bs_title_variant = 'h2'
@@ -41,6 +43,21 @@
     <div class="tdm-bestsellers__header">
       {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: bs_title_variant, align: 'center' -%}
     </div>
+
+    {%- if bs_features.size > 0 -%}
+      <ul class="tdm-bestsellers__features" role="list">
+        {%- for block in bs_features -%}
+          <li class="tdm-bestsellers__feature" {{ block.shopify_attributes }}>
+            {%- capture bs_feature_title -%}
+              {%- if block.settings.icon != blank -%}<span class="tdm-bestsellers__feature-icon" aria-hidden="true">{{ block.settings.icon | escape }}</span>{%- endif -%}
+              {{ block.settings.title }}
+            {%- endcapture -%}
+            {%- if block.settings.title != blank -%}{%- render 'typography', text: bs_feature_title, as: 'h3', variant: 'h4', font: 'display', class: 'tdm-bestsellers__feature-title' -%}{%- endif -%}
+            {%- if block.settings.text != blank -%}{%- render 'typography', text: block.settings.text, as: 'div', variant: 'body', color: 'secondary', class: 'rte' -%}{%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
 
     <tdm-scroller class="tdm-bestsellers__scroller">
     {%- capture bs_prev_attrs -%}data-scroller="prev"{%- endcapture -%}
@@ -112,6 +129,12 @@
       {%- render 'icon-button', icon: 'chevron-right', label: 'Siguientes', variant: 'outline', size: 'md', class: 'tdm-bestsellers__arrow', attrs: bs_next_attrs -%}
     </div>
     </tdm-scroller>
+
+    {%- if s.show_line_image and s.line_image != blank -%}
+      <div class="tdm-bestsellers__line-image">
+        {%- render 'image', image: s.line_image, alt: s.line_image.alt, ratio: 'auto', sizes: '(min-width: 1200px) 1200px, 100vw' -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -147,6 +170,9 @@
       "default": "h1"
     },
     { "type": "richtext", "id": "text", "label": "Párrafo", "info": "Opcional. Va debajo del título." },
+    { "type": "header", "content": "Foto de la línea" },
+    { "type": "checkbox", "id": "show_line_image", "label": "Foto de la línea abajo", "info": "Foto completa debajo de los productos, sin texto encima.", "default": true },
+    { "type": "image_picker", "id": "line_image", "label": "Foto de la línea" },
     { "type": "header", "content": "Productos" },
     { "type": "collection", "id": "collection", "label": "Colección", "info": "Vacío: todos los productos. Para los más vendidos: crea la colección \"Más vendidos\" en el admin y elígela aquí." },
     { "type": "range", "id": "max_products", "min": 2, "max": 24, "step": 1, "label": "Máximo de productos", "default": 12 },
@@ -182,6 +208,15 @@
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Espaciado inferior", "default": 48 }
   ],
   "blocks": [
+    {
+      "type": "feature",
+      "name": "Beneficio de la línea",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Ícono", "info": "Un símbolo corto, ej. ↑ + ↻ ✦" },
+        { "type": "inline_richtext", "id": "title", "label": "Título" },
+        { "type": "richtext", "id": "text", "label": "Texto" }
+      ]
+    },
     {
       "type": "benefits",
       "name": "Beneficios de un producto",

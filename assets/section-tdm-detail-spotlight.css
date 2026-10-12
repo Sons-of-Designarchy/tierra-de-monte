@@ -258,11 +258,25 @@ tdm-spotlight-media {
     margin-bottom: 0;
   }
 
-  .tdm-spotlight__stage--overlay .tdm-spotlight__panel {
+  /* The band holds the eyebrow (white, on an ink scrim) and the panel, as one block over the photo */
+  .tdm-spotlight__stage--overlay .tdm-spotlight__band {
     position: absolute;
-    right: var(--sp-overlay-inset);
-    bottom: var(--sp-overlay-inset);
-    left: var(--sp-overlay-inset);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pr-space-4);
+    padding: var(--pr-space-16) var(--sp-overlay-inset) var(--sp-overlay-inset);
+    border-radius: 0 0 var(--sp-radius, 16px) var(--sp-radius, 16px);
+    background: linear-gradient(to top, var(--pr-scrim-strong), transparent);
+  }
+
+  .tdm-spotlight__band-eyebrow {
+    color: var(--pr-white);
+  }
+
+  .tdm-spotlight__stage--overlay .tdm-spotlight__panel {
     gap: var(--pr-space-6);
     padding: var(--pr-space-6);
     border: 1px solid var(--pr-border-strong);
@@ -275,4 +289,15 @@ tdm-spotlight-media {
 /* Opt-in capitals (setting "Títulos de los puntos en mayúsculas"); .pr-type resets text-transform, so the modifier is restated here */
 .tdm-spotlight__point-title.tdm-upper {
   text-transform: uppercase;
+}
+
+/* Below tablet the band sits under the photo: the eyebrow keeps the section colours */
+.tdm-spotlight__band {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-3);
+}
+
+.tdm-spotlight__band-eyebrow.pr-type--eyebrow {
+  font-size: var(--pr-text-body-lg);
 }
