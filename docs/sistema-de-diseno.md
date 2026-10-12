@@ -133,11 +133,12 @@ CSS: `assets/pr-atoms-extra.css` (los átomos nuevos de este tema van ahí, carg
 - **El eyebrow no lleva regla**, en ningún lugar del tema.
 - **El eyebrow puede ser un chip.** `eyebrow_style: 'chip'` en `heading` / `section-header` (y el ajuste «Eyebrow style» de `tdm-feature`) lo dibuja con el átomo `chip` (estático, sin mayúsculas). Por defecto sigue siendo el eyebrow de texto.
 - **Eyebrow → título: poco aire.** El espacio lo fija el átomo `heading` (`--pr-space-2` con títulos h2–h5, `--pr-space-3` con display/h1); las secciones no agregan margen propio entre eyebrow y título.
-- **Botón y copy del mismo tamaño.** El texto del botón sigue al párrafo que lo acompaña: `xs/sm/md` = body-sm, `lg/xl` = body-lg. Junto a un párrafo `body-lg` el botón es `size: 'lg'`.
+- **Botón y copy del mismo tamaño.** El texto del botón sigue al párrafo que lo acompaña: `xs/sm/md` = body-sm, `lg/xl` = body-lg. Los CTA de sección junto a un párrafo (imagen+texto, rich-text, multicolumn, `heading`) son `size: 'lg'`; `md`/`sm` solo en UI compacta (tarjetas, tablas, barras).
+- **Compra solo en Aliados.** Ajuste del tema «Mostrar compra en el sitio» (apagado): sin carrito, cajón, «Agregar al carrito», precios en tarjetas ni buy-box en la PDP; `/cart` manda a Aliados. Las tarjetas de la landing pasan su propio `price` y su propio botón, por eso no dependen del ajuste.
 - **Interlineado de la fuente display:** `--pr-display-leading: 1.1` (varias líneas) y `--pr-display-leading-large: 1` para `display` y `h1` (títulos grandes de una o dos líneas).
 - **Texto grande de banda o columna** (certificación Empresa B, columnas «Unimos ciencia…»): display h3 por la tipografía (`display_text` en `rich-text`, «Display, large (h3)» en la columna de `tdm-feature`), nunca cuerpo.
 - **Bandas de ancho completo.** La barra de logos y la banda de certificación van de borde a borde, con el fondo del esquema y el contenido dentro del gutter de página; sin tarjeta, radio ni sombra.
-- **Hero con foto.** El scrim es `--pr-scrim-strong` (tinta 70%) que se desvanece desde la esquina del texto.
+- **Hero con foto.** Un solo marco para `hero-overlay-card` y `hero-slider` (`assets/pr-hero.css`): de orilla a orilla, sin radio ni borde, ~75svh, el navbar flotante encima de la foto (`--pr-nav-clear`). El scrim es `--pr-scrim-strong` (tinta 85%) desde la esquina del texto; el botón sobre foto es lima.
 - **Imagen + texto:** la sección recorta con un solo radio; las mitades no llevan borde ni radio propio.
 - **Chip con texto grande:** `chip` acepta `text: 'body-lg'` (las pestañas de categorías lo usan: sin borde, blancas, alineadas a la izquierda, la activa con el relleno de acción).
 - **Colecciones (Productos):** esquema `scheme-tdm-blanco` en banner y grilla, para que las fotos de producto con fondo blanco se integren.

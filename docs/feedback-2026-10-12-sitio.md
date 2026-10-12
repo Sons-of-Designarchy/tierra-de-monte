@@ -1,0 +1,81 @@
+# Feedback sitio Tierra de Monte — 12 oct 2026
+
+Feedback de Dan sobre todo el sitio (fuera de la landing de Aliados), para dejar `perfectlyrad/site` lista para mergear. Se aplica cuando termine el agente de la landing (no tocar los mismos archivos a la vez).
+
+## Home
+- [x] ✅ Hero ("Vida que genera vida"): imagen **full width, sin bordes** — orilla a orilla, sin el inset de 64px a los lados, sin radio ni borde. (Cambia lo pedido el 11-oct de "inset 60px".) El navbar flotante sigue encima de la foto.
+- [x] ✅ Hero: foto **menos alta**. Hoy ocupa toda la ventana (~100vh); bajarla a ~75vh en desktop (ajuste "Minimum height (desktop, vh)" del hero-overlay-card en index.json o su default), que se alcance a ver el inicio de la siguiente sección. Revisar móvil.
+- [x] ✅ Hero: el texto sigue sin leerse sobre la foto → scrim mucho más agresivo (degradado ink más oscuro y más amplio desde la esquina inferior izquierda, cubriendo todo el bloque de título + párrafo + botón; probar ~85% en la esquina). Revisar también en móvil. Aplica al scrim del token, no solo al home, para que todos los heroes con texto encima se lean.
+
+- [x] ✅ Categorías del home (Bio-estimulantes, Plagas y enfermedades, Tratamiento para semillas, Soluciones Acuícolas, Degradadores, `tabbed-collections`): dejar de ser botones/tarjetas y usar **las tabs de PerfectlyRad** (`src/components/atoms/Tabs.tsx`): fila con una línea de 1px abajo (border-b border), cada tab sin fondo ni caja, texto secondary → primary al hover/activa, activa marcada con un subrayado de 1px color action, ícono + label, scroll horizontal en móvil, flechas del teclado. Crear el átomo `tabs` en Liquid (snippet + CSS) y usarlo aquí, así queda reusable. Cambia lo pedido el 11-oct (tabs blancas con relleno lima en la activa).
+
+- [x] ✅ Sección de dos columnas sobre verde oscuro ("Unimos ciencia, tradición…" / "Nuestro propósito…"): el texto está en Inter, **debe ir en fuente display** (Barlow Condensed). Se pidió el 11-oct y quedó marcado hecho, pero no se aplicó en el render: revisar que el ajuste llegue a la sección (`tdm-feature`/`multicolumn`) y que no lo pise un setting del JSON.
+
+- [x] ✅ Mismo componente en versión de 3 columnas ("+80,000 Hectáreas…", "No sólo evitamos el daño ambiental…", "+100,000 agricultores…"): le falta el estilo que se le aplicó a la de 2 columnas. **El cambio va en el componente, para todas sus instancias del sitio** (home, impacto, nosotros, producto…): sin líneas verticales entre columnas, texto en fuente display y más grande. Hoy depende de settings por instancia → hacerlo el default del componente (o quitar la opción) para que no se vuelva a quedar una instancia con el estilo viejo. Revisar también el aire enorme entre el texto y la foto.
+
+- [x] ✅ Barra "Alianzas que nutren la tierra" (logo-bar: Hecho en México, OMRI, Empresa B): logos más centrados, agrupados al centro con un gap fijo (~64–96px) en vez de repartidos a las orillas con space-between. En móvil, en fila centrada o 2+1.
+
+## Nosotros
+- [x] ✅ Bloque de apertura ("En Tierra de Monte creemos que la ciencia cobra sentido…" + "Solicita información"): ponerle **foto de fondo** y que funcione como hero, igual que el del home: full width, navbar flotante encima, scrim ink fuerte, texto en blanco, botón lima. Hacerlo con el mismo componente del hero del home (no un rich-text con imagen aparte) para que tenga el mismo scrim y altura (~75vh). Foto: una de campo/equipo de las que ya están en Shopify (propuesta: foto de equipo en campo de Nosotros o "Agro_Familyshot"); **Dan elige** si tiene otra en mente. Ojo: el texto es largo (6 líneas en display) → con foto conviene acortarlo o bajar un paso de tamaño para que no tape toda la imagen. → Hecho: hero compartido (foto del equipo en campo `tdm-home-quienes-somos-3.jpg`, texto partido en título + párrafo, sin cambiar copy). Dan puede elegir otra foto.
+
+- [x] ✅ Imagen con texto ("Cultivar ● — ● Nutrir" + panel oscuro "La…"): el radio de la foto está roto del lado derecho — la foto tiene esquinas redondeadas justo donde se pega al panel oscuro, y el panel tiene esquinas rectas. Arreglo en el componente `image-with-text` (todas sus instancias): el radio va en el contenedor que agrupa foto + panel (overflow hidden), solo en las 4 esquinas exteriores; la unión foto/panel queda recta. Revisar también con la foto a la derecha y en móvil (apilado). Segundo caso confirmado: versión con panel verde a la izquierda y foto a la derecha (foto de flores de café, "Cultivar"), la foto tiene radio del lado izquierdo donde toca el panel verde → mismo arreglo, en ambas orientaciones.
+
+- [x] ✅ Banda oscura "Nuestra certificación como Empresa B no es un sello, es un compromiso…": texto en **fuente display** (hoy Inter). También estaba pedido el 11-oct y marcado hecho.
+- [x] ✅ **Patrón**: varios cambios "a display" del 11-oct quedaron marcados hechos pero no se ven (dos columnas del home, 3 columnas, Empresa B). Probable causa: se aplicaron en una instancia (o vía setting del JSON de una plantilla) y no en el componente, o las otras páginas (Nosotros, Impacto y Ciencia) tienen su propio setting. Auditar todas las instancias de `rich-text`, `rich-text-with-logo`, `multicolumn` y `tdm-feature` en todas las plantillas y dejar display como default del componente donde el texto es protagonista. Verificar con capturas de cada página, no solo del home.
+
+- [x] ✅ Bloque "Vacantes" ("Si te inspira construir un futuro más fértil…" + tarjeta "Envía tu CV"), en Nosotros/vacante: **que no sea full width**. Propuesta: la banda oscura pasa a ser un bloque con margen a los lados (mismo inset y radio que los bloques de imagen con texto), y el contenido adentro con padding lateral (hoy "VACANTES" y el título pegan a la orilla). La tarjeta "Envía tu CV" no se estira a todo el ancho de la columna (ancho de lectura). **Confirmar con Dan**: bloque con margen (propuesta) vs. fondo a todo lo ancho con contenido centrado y angosto. → Hecho: bloque con margen, radio e inset interior, tarjeta a ancho de lectura (propuesta). Falta confirmar con Dan vs. fondo a todo lo ancho.
+
+- [x] ✅ Grid del equipo (fotos + nombre + puesto): más espacio horizontal entre fotos (hoy ~12px → `--pr-space-6`/24px o `--pr-space-8`/32px) y más espacio vertical entre filas, debajo del puesto antes de la siguiente foto (hoy ~16px → `--pr-space-12`/48px). Revisar móvil (2 columnas).
+- [x] ✅ Nombre + puesto del equipo: el puesto **sin cambio de color** (mismo color primario que el nombre, no el gris/verde claro secondary) y **menos espacio** entre nombre y puesto (pegados, gap ~2–4px). La jerarquía la da el tamaño/peso, no el color.
+
+## Footer
+- [x] ✅ Le falta padding: el logo y las columnas pegan a la orilla izquierda y arriba/abajo no hay aire. Usar el gutter de página a los lados (`--pr-page-gutter`) y padding vertical de sección (~64px arriba, ~32px antes de los logos de certificación). (El 11-oct se le quitó padding de más.) → Hecho con inset lateral de 32px (tablet+) y 16px móvil, 64px arriba, 32px antes de logos.
+- [x] ✅ De paso, emparejar: el espacio entre links es distinto entre columnas (Mapa/Soluciones vs Declaratorias/Contacto), y "REDES SOCIALES" está en Inter bold mientras los otros títulos van en mono → mismo estilo de título y mismo gap en todas las columnas.
+
+## Colecciones (Productos, Plagas, Enfermedades, categorías)
+- [x] ✅ Banner de colección (título + descripción, ej. "Plagas"): tiene un bloque de **fondo blanco** distinto al crema de la página, como si fuera una tarjeta. Quitarlo: el banner va sobre el mismo fondo de la página (sin fondo propio), o toda la página en blanco como se pidió el 11-oct para colecciones; que no haya dos fondos. Componente `main-collection-banner` → todas las colecciones.
+- [x] ✅ Tarjetas de plaga/enfermedad (`grid-gallery`): "Producto recomendado" hoy es un botón gris con solo el nombre ("ProTG"). Mostrar la **imagen del producto**: mini tarjeta horizontal (foto chica ~56–64px + nombre, link a la PDP), usando `product-card` en variante horizontal/compacta. Si hay más de un producto recomendado, uno debajo del otro.
+- [x] ✅ Barra de "11 productos" + "Ordenar por" se ve rota: el conteo flota desalineado a la izquierda, el select es enorme (~900px) con label encima, y hay mucho aire bajo el título. Rehacer como una sola fila alineada al centro vertical: a la izquierda "11 productos" (body-sm, secondary), a la derecha el orden compacto ("Ordenar por: Alfabéticamente, A-Z ⌄" en una línea, ancho automático, átomo `input`/select sm sin label arriba). Pegarla más al título (gap ~24px) y con línea de 1px abajo opcional. En móvil, misma fila; si no cabe, el select a ancho completo debajo. Es el header de `card-grid-product` → aplica a todas las colecciones.
+
+## PDP (página de producto) — rota, debe mostrar lo mismo que producción
+Comparación live vs local de /products/crecr (capturas en scratchpad `pdp/live-hero.png`, `pdp/local-hero.png`, `pdp/live.png`, `pdp/local.png`). **Causa raíz**: el port de commerce reescribió `templates/product.json` y se perdió la configuración del live: los bloques `price`, `quantity_selector`, `variant_picker`, `buy_buttons`, `collapsible_tab` e `icon-with-text` estaban **disabled**, `hide_variants: true`, y el bloque `custom_liquid` (botones "Compra" / "Ficha técnica", lista de ingredientes) se reemplazó por bloques nuevos (`cta`, `detail`, `benefits`). Arreglo: partir del `product.json` de `origin/main` y solo cambiar tipos de sección/estilo; el contenido y lo que está apagado se respeta igual que en live.
+- [x] ✅ Orden y contenido igual al live: marca (eyebrow) → título → **descripción visible** (2 párrafos, nombre del producto en negritas; no en acordeón) → botones **"Compra"** y **"Ficha técnica"** (el de Ficha técnica hoy no aparece) → 3 beneficios con sus **íconos propios** (no checks) → **"Ingredientes:"** lista visible con ícono por ingrediente (Trichoderma virens… + microorganismos fijadores de Nitrógeno).
+- [x] ✅ Quitar lo que en live está apagado y hoy aparece: selector de peso (2 kg / 500 gr), cantidad, "Agregar al carrito", "Pagar con PayPal", "Más opciones de pago", y los textos de relleno en inglés **"Free Shipping"**, **"Hassle-Free Exchanges"** y **"Encabezado"**; acordeones FAQ / Documentos si en live no están.
+- [x] ✅ Galería: live es foto grande + grid de las demás fotos (stacked); local es slider con miniaturas. Usar el estilo PerfectlyRad pero mostrando las mismas 4 imágenes; confirmar con Dan si slider o stacked. → Hecho: apilada como el live (foto grande + cuadrícula), ajuste `Disposición` en la sección (apilada / carrusel). Recomendación aplicada, falta confirmar con Dan.
+- [x] ✅ "También te podría interesar": tarjetas con el extracto de descripción como en live, sin botón de compra.
+- [x] ✅ Aplica a todas las PDPs (mismo template): revisar 2–3 productos más contra live (ej. ReFuerza, AQA, LanZ).
+
+## Blog
+- [x] ✅ La navegación del blog (`blog-nav`, categorías/filtros) se rompió → revisar contra live y arreglar.
+- [x] ✅ Mostrar **8 entradas recientes**, en grid de **3 columnas** con más espacio entre tarjetas (gap horizontal y vertical ~32–48px). En móvil 1 columna.
+
+## Compra fuera de Aliados (primer launch)
+- [x] ✅ Ocultar "Agregar al carrito" en todo el sitio por ahora; la compra solo vive en la landing de Aliados para el primer launch. Hacerlo con un ajuste del tema ("Mostrar compra en el sitio", apagado por defecto) para prenderlo después sin código; en la landing de Aliados (`#pedido` y más vendidos) la compra sigue activa.
+  - **Decisión de Dan (12-oct): no se puede agregar al carrito desde ningún lado del sitio, solo en Aliados.**
+  - Product cards (home, colecciones, búsqueda, relacionados): sin "Agregar al carrito" ni "Elegir opciones"; toda la tarjeta lleva a la página del producto.
+  - Página de producto: sin buy-box de compra (cantidad + agregar + botones de pago dinámicos).
+  - Ícono del carrito y cajón del carrito: **solo se muestran en la landing de Aliados** (Dan, 12-oct; hoy aparece en el navbar del home). `/cart` directo: redirigir o mensaje "La compra está disponible en el Programa de Aliados" con link a la landing.
+- [x] ✅ **Regresión (nos la cargamos con el port de commerce)**. Así estaba oculto en el sitio live (`origin/main`):
+  - Página de producto: en `templates/product.json` los bloques `price`, `quantity_selector` y `buy_buttons` de `main-product` estaban **disabled**. El port a `buy-box` dejó de respetar eso y hoy se ven cantidad, "Agregar al carrito", "Pagar con PayPal" y "Más opciones de pago" (este último sin estilo, link azul).
+  - Ícono del carrito: se ocultaba con CSS personalizado de la plataforma (`config/settings_data.json` → `platform_customizations.custom_css`: `.header__icon--cart {display: none !important;}`). El navbar nuevo ya no usa esa clase, así que el ícono reapareció.
+  - Arreglo: que el `buy-box` respete los bloques disabled (o el ajuste "Mostrar compra en el sitio") y que el navbar nuevo oculte el carrito con ese mismo ajuste, sin depender de CSS de la plataforma. Comparar contra el live antes de mergear cualquier otra cosa de commerce.
+- [x] ✅ **Bug**: en colecciones (`/collections/all`) el navbar flotante tapa el título "Productos" (se asoma la "P" detrás del logo). En páginas sin hero, el contenido debe empezar debajo del navbar (padding-top = alto del navbar + aire). Revisar todas las plantillas sin hero: colecciones, producto, blog, artículo, búsqueda, páginas de contenido, cliente, 404.
+
+## Botones (global)
+- [x] ✅ Los botones se sienten chicos: el texto del botón debe ser **del mismo tamaño que el párrafo de descripción que acompaña** (ej. "Conoce sobre nuestra investigación" bajo un párrafo body-lg → botón con texto body-lg y alto lg). La regla ya existe desde el 11-oct (botón lg = body-lg) pero no se está aplicando en todas las secciones: revisar que cada sección que pinta botón junto a un párrafo use el tamaño que corresponde al párrafo (default lg en secciones con body-lg), en todo el sitio y en la landing.
+
+## Navbar
+- [x] ✅ Links del menú más grandes (Home, Nosotros, Productos, Categorías, Plagas, Enfermedades, Impacto y Ciencia, Blog): subir un paso en la escala (body → body-lg) vía typography.
+- [x] ✅ Navbar menos alta: bajar el padding vertical de la barra y de cada link (el 11-oct se le subió el padding; ahora se pasó). La barra debe quedar más compacta aunque el texto crezca.
+
+## Global
+- [x] ✅ **Cards sin borde, globalmente**: quitar el borde de 1px del átomo `card` y de `product-card` (y de cualquier variante que lo herede) en todo el sitio. Siguen blancas, sin sombra. Sobre fondo blanco, revisar que no se pierda la tarjeta (en ese caso el fondo de la sección va crema, no se regresa el borde).
+- [x] ✅ Agregar suavizado de fuentes en todo el sitio: `-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;` en el `body` (tdm-foundations.css). Hoy se ve sin suavizado (texto blanco sobre foto se ve grueso/borroso).
+
+
+## Notas de ejecución (12-oct)
+- **Causa raíz de los "display" que no se veían**: `base.css` fija `p, li { font-family: body }`, y el rich text de los ajustes llega en `<p>`; ganaba a la fuente display del contenedor. Arreglado en `pr-typography.css` (el rich text dentro de `.pr-type` hereda la familia). Aplica a todas las instancias del sitio.
+- Compra: ajuste del tema «Mostrar compra en el sitio» (apagado) + «Página de Aliados» (adónde manda `/cart`). El carrito del navbar lo controla el ajuste del header `Mostrar el carrito` (encendido solo en `header-aliados-group`). Las tarjetas de la landing pasan su propio `price` y botón, no dependen del ajuste.
+- PDP: `product.json` con el contenido y la visibilidad del live; bloques `price`/`quantity_selector`/`variant_picker`/`buy_buttons` solo se pintan con la compra encendida. Se quitó `related-products` (el live no lo muestra) y los bloques de relleno en inglés.
+- Hero: `assets/pr-hero.css` es el marco y el scrim compartidos por `hero-overlay-card` y `hero-slider` (Aliados y home, Nosotros).
+- Navbar: el menú de escritorio empieza en 1200px (con body-lg los 8 links no caben antes). Bloques `anchor` en el header (Aliados: Beneficios, Productos, Niveles, Resultados, Proceso, Preguntas) con resaltado al hacer scroll.
