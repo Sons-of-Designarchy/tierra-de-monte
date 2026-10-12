@@ -134,9 +134,23 @@
 }
 
 .tdm-bestsellers__line-image {
-  margin-top: var(--pr-space-12);
   overflow: hidden;
   border-radius: var(--pr-radius-surface);
+}
+
+/* Group photo above the scroller; the shared benefits float over it in a glass card (tablet and up).
+   Below tablet the card sits under the photo. */
+.tdm-bestsellers__stage {
+  position: relative;
+  margin: 0 0 var(--pr-space-12);
+}
+
+.tdm-bestsellers__float {
+  margin-top: var(--pr-space-4);
+}
+
+.tdm-bestsellers__float .tdm-bestsellers__features {
+  margin: 0;
 }
 
 @media (min-width: 750px) {
@@ -148,5 +162,25 @@
 @media (min-width: 990px) {
   .tdm-bestsellers__features {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 750px) {
+  .tdm-bestsellers__float {
+    position: absolute;
+    right: var(--pr-space-6);
+    bottom: var(--pr-space-6);
+    left: var(--pr-space-6);
+    margin: 0;
+    padding: var(--pr-space-6);
+    border: 1px solid var(--pr-border-strong);
+    border-radius: var(--pr-radius-surface);
+    background: color-mix(in oklab, var(--pr-surface) 72%, transparent);
+    -webkit-backdrop-filter: blur(var(--pr-blur-sm));
+    backdrop-filter: blur(var(--pr-blur-sm));
+  }
+
+  .tdm-bestsellers__line-image .pr-image {
+    min-height: calc(var(--pr-space-24) * 5);
   }
 }
