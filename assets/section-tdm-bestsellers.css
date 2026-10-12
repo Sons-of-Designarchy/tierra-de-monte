@@ -180,7 +180,8 @@
     backdrop-filter: blur(var(--pr-blur-sm));
   }
 
-  .tdm-bestsellers__line-image .pr-image {
-    min-height: calc(var(--pr-space-24) * 5);
+  .tdm-bestsellers__line-image .pr-image__img {
+    object-fit: cover;
+    min-height: calc(var(--pr-space-24) * 6);
   }
 }
