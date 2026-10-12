@@ -63,7 +63,7 @@
           "settings": {
             "label": "Compra",
             "link": "https://wa.me/524423741871",
-            "variant": "secondary"
+            "variant": "primary"
           }
         },
         "extras": {
