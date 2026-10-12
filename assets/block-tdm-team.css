@@ -1,11 +1,12 @@
 /* =============================================================================
    Team grid (blocks/team-grid.liquid + blocks/team-member.liquid)
-   Per-instance values on .tdm-team: --cols-mobile --cols-desktop --team-gap --tdm-rule
+   Per-instance values on .tdm-team: --cols-mobile --cols-desktop --team-gap (horizontal; rows use a fixed gap) --tdm-rule
    ========================================================================== */
 
 .tdm-team__grid {
   display: grid;
-  gap: var(--team-gap, 10px);
+  column-gap: var(--team-gap, 24px);
+  row-gap: var(--pr-space-12);
   grid-template-columns: repeat(var(--cols-mobile, 2), minmax(0, 1fr));
 }
 
@@ -49,24 +50,17 @@
 }
 
 .tdm-team__info {
-  padding-top: var(--tdm-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-1);
+  padding-top: var(--pr-space-3);
 }
 
 .tdm-team--align-center .tdm-team__info {
   text-align: center;
 }
 
-.tdm-team__name {
-  margin: 0 0 var(--tdm-space-1);
-  font-family: var(--font-body-family);
-  font-size: 2rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-}
-
+.tdm-team__name,
 .tdm-team__role {
   margin: 0;
-  font-size: 1.4rem;
-  opacity: 0.8;
 }

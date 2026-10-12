@@ -9,7 +9,7 @@
 
 <div
   class="tdm-team color-{{ block.settings.color_scheme }} gradient tdm-team--align-{{ block.settings.text_alignment | default: 'left' }}"
-  style="--tdm-rule: {{ block.settings.rule_color | default: 'currentColor' }}; --cols-mobile: {{ block.settings.columns_mobile | default: 2 }}; --cols-desktop: {{ block.settings.columns_desktop | default: 5 }}; --team-gap: {{ block.settings.gap | default: 10 }}px;"
+  style="--tdm-rule: {{ block.settings.rule_color | default: 'currentColor' }}; --cols-mobile: {{ block.settings.columns_mobile | default: 2 }}; --cols-desktop: {{ block.settings.columns_desktop | default: 5 }}; --team-gap: {{ block.settings.gap | default: 24 }}px;"
   {{ block.shopify_attributes }}
 >
   <div class="page-width section-{{ block.id }}-padding">
@@ -58,7 +58,7 @@
       "default": "2",
       "label": "Columns on mobile"
     },
-    { "type": "range", "id": "gap", "min": 4, "max": 48, "step": 2, "unit": "px", "default": 10, "label": "Gap" },
+    { "type": "range", "id": "gap", "min": 4, "max": 48, "step": 2, "unit": "px", "default": 24, "label": "Horizontal gap", "info": "Space between rows is fixed at 48px." },
     {
       "type": "select",
       "id": "text_alignment",

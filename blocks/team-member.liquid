@@ -24,10 +24,11 @@
   {%- if block.settings.name != blank or block.settings.role != blank -%}
     <div class="tdm-team__info">
       {%- if block.settings.name != blank -%}
-        <h3 class="tdm-team__name">{{ block.settings.name | escape }}</h3>
+        {%- assign tm_name = block.settings.name | escape -%}
+        {% render 'typography', text: tm_name, as: 'h3', variant: 'body-lg', weight: 'medium', class: 'tdm-team__name' %}
       {%- endif -%}
       {%- if block.settings.role != blank -%}
-        {% render 'typography', text: block.settings.role, variant: 'body-sm', color: 'secondary', class: 'tdm-team__role' %}
+        {% render 'typography', text: block.settings.role, variant: 'body-sm', class: 'tdm-team__role' %}
       {%- endif -%}
     </div>
   {%- endif -%}
