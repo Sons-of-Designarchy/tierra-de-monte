@@ -37,7 +37,7 @@
           {%- if product != blank -%}
             <div class="grid-gallery__product">
               {% render 'typography', text: gg_product_label, as: 'span', variant: 'xs', color: 'secondary' %}
-              {% render 'button', label: product.title, href: product.url, variant: 'outline', size: 'sm', class: 'grid-gallery__product-link' %}
+              {% render 'product-card', product: product, layout: 'horizontal', tag: 'div', class: 'grid-gallery__product-card' %}
             </div>
           {%- endif -%}
         {%- endcapture -%}

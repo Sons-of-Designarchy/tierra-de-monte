@@ -81,6 +81,10 @@
             {%- capture gp_toggle_attrs -%}aria-expanded="false" aria-controls="{{ gp_panel_id }}" data-pr-toggle{%- endcapture -%}
             {%- render 'button', label: gp_toggle_label, variant: 'outline', size: 'sm', icon: 'chevron-down', icon_position: 'end', attrs: gp_toggle_attrs -%}
           {%- endif -%}
+          {%- if paginate != blank -%}
+            {%- capture gp_count %}{{ paginate.items }} {% if paginate.items == 1 %}producto{% else %}productos{% endif %}{% endcapture -%}
+            {%- render 'typography', text: gp_count, variant: 'body-sm', color: 'secondary', attrs: 'aria-live="polite" data-pr-count' -%}
+          {%- endif -%}
           {%- if show_availability and gp_availability != blank -%}
             {%- assign gp_in_stock = gp_availability.values | where: 'value', '1' | first -%}
             {%- if gp_in_stock != blank -%}
@@ -88,20 +92,17 @@
             {%- endif -%}
           {%- endif -%}
         </div>
-        <div class="pr-grid__bar-end">
-          {%- if paginate != blank -%}
-            {%- capture gp_count %}{{ paginate.items }} {% if paginate.items == 1 %}producto{% else %}productos{% endif %}{% endcapture -%}
-            {%- render 'typography', text: gp_count, variant: 'body-sm', color: 'secondary', attrs: 'aria-live="polite" data-pr-count' -%}
-          {%- endif -%}
-          {%- if sort_options and results.sort_options.size > 0 -%}
+        {%- if sort_options and results.sort_options.size > 0 -%}
+          <div class="pr-grid__bar-end">
             {%- capture gp_sort -%}
               {%- for option in results.sort_options -%}
                 <option value="{{ option.value | escape }}"{% if option.value == gp_sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
               {%- endfor -%}
             {%- endcapture -%}
-            {%- render 'select', label: 'Ordenar por', name: 'sort_by', id: gp_sort_id, options_html: gp_sort, size: 'sm', class: 'pr-grid__sort' -%}
-          {%- endif -%}
-        </div>
+            {%- render 'typography', text: 'Ordenar por:', as: 'span', variant: 'body-sm', color: 'secondary', attrs: 'aria-hidden="true"' -%}
+            {%- render 'select', label: 'Ordenar por', hide_label: true, name: 'sort_by', id: gp_sort_id, options_html: gp_sort, size: 'sm', class: 'pr-grid__sort' -%}
+          </div>
+        {%- endif -%}
       </div>
       {%- if show_filters and results.filters.size > 0 -%}
         <div class="pr-grid__panel" id="{{ gp_panel_id }}" hidden>

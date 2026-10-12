@@ -63,3 +63,18 @@
 .tdm-grid-gallery .tdm-grid-gallery__empty {
   text-align: center;
 }
+
+/* Recommended product: compact horizontal product-card (photo + name, links to the product) */
+.tdm-grid-gallery .grid-gallery__product-card .pr-product-card__photo {
+  flex: 0 0 calc(4 * var(--pr-rem));
+  width: calc(4 * var(--pr-rem));
+}
+
+.tdm-grid-gallery .grid-gallery__product-card .pr-card__body {
+  padding: var(--pr-space-2) 0 0;
+}
+
+.tdm-grid-gallery .grid-gallery__product-card .pr-product-card__line {
+  align-items: center;
+  gap: var(--pr-space-3);
+}
