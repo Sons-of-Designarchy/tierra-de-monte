@@ -37,12 +37,7 @@
   >
     {%- if section.settings.pretitle != blank -%}
       <div class="tdm-feature__eyebrow">
-        {%- if section.settings.eyebrow_style == 'chip' -%}
-          {%- assign eyebrow_text = section.settings.pretitle | strip_html -%}
-          {% render 'chip', label: eyebrow_text, static: true %}
-        {%- else -%}
-          {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow', font: 'body', color: 'secondary' %}
-        {%- endif -%}
+        {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow' %}
         {%- if section.settings.show_rule -%}
           <div class="tdm-feature__rule" aria-hidden="true"></div>
         {%- endif -%}
@@ -203,16 +198,6 @@
 
     { "type": "header", "content": "Eyebrow" },
     { "type": "inline_richtext", "id": "pretitle", "label": "Eyebrow" },
-    {
-      "type": "select",
-      "id": "eyebrow_style",
-      "label": "Eyebrow style",
-      "default": "text",
-      "options": [
-        { "value": "text", "label": "Text" },
-        { "value": "chip", "label": "Chip" }
-      ]
-    },
     { "type": "checkbox", "id": "show_rule", "label": "Show rule under eyebrow", "default": true },
     { "type": "color", "id": "rule_color", "label": "Rule color", "default": "#294E3F" },
 

@@ -237,7 +237,6 @@
       "settings": {
         "layout": "stats",
         "pretitle": "Soluciones estratégicas, resultados excepcionales",
-        "eyebrow_style": "chip",
         "rule_color": "#294e3f",
         "show_rule": false,
         "title": "Innovación que siembra futuro",
@@ -379,9 +378,7 @@
       ],
       "name": "Logo bar",
       "settings": {
-        "title": "<strong>ALIANZAS QUE NUTREN LA TIERRA</strong>",
-        "heading_size": "h4",
-        "title_font": "mono",
+        "title": "ALIANZAS QUE NUTREN LA TIERRA",
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "radius": 16,
         "gap": 64,
