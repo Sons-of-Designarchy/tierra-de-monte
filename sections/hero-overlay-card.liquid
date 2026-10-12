@@ -32,6 +32,13 @@
     assign scrim_y = 'middle'
   endif
   assign scrim_x = scrim_parts[1]
+  assign hero_focal = ''
+  if img != blank
+    assign hero_focal = img.presentation.focal_point
+    if hero_focal == '50.0% 50.0%'
+      assign hero_focal = ''
+    endif
+  endif
 -%}
 
 <section class="tdm-hero tdm-hero--{{ width_mode }}">
@@ -45,6 +52,7 @@
         --hero-card-opacity: {{ opacity }}%;
         --hero-radius: {{ sec.corner_radius | default: 8 }}px;
         --hero-min-h-mobile: {{ sec.min_height_mobile | default: 70 }}svh;
+        {% if hero_focal != blank %}--pr-hero-focal: {{ hero_focal }};{% endif %}
         {% if img != blank %}background-image:url({{ img | image_url: width: 2880 }});{% endif %}
       "
     >

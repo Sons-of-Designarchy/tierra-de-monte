@@ -46,7 +46,16 @@
         {{ block.shopify_attributes }}
       >
         {%- comment -%} CAPA 0 · IMAGEN {%- endcomment -%}
-        <div class="hs__media">
+        {%- liquid
+          assign hs_focal = ''
+          if block.settings.image != blank
+            assign hs_focal = block.settings.image.presentation.focal_point
+            if hs_focal == '50.0% 50.0%'
+              assign hs_focal = ''
+            endif
+          endif
+        -%}
+        <div class="hs__media"{% if hs_focal != blank %} style="--pr-hero-focal: {{ hs_focal }};"{% endif %}>
           {%- if block.settings.image != blank -%}
             {%- liquid
               assign alt_text = block.settings.alt | default: block.settings.image.alt | escape

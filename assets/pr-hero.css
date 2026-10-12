@@ -14,6 +14,8 @@
   border: 0;
   border-radius: 0;
   overflow: hidden;
+  /* Photo alignment: the top is never cropped (heads, tractors), the crop happens at the bottom. A focal point set in Shopify overrides it through --pr-hero-focal on the frame or the media. */
+  --pr-hero-focal: 50% 0%;
 }
 
 .pr-hero-frame .pr-hero-scrim {

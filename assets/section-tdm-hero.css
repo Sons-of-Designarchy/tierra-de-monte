@@ -17,7 +17,7 @@
   width: 100%;
   border-radius: var(--hero-radius);
   background-color: var(--pr-surface-subtle);
-  background-position: center;
+  background-position: var(--pr-hero-focal, 50% 0%);
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 1; /* sit above any stray scheme layer */
