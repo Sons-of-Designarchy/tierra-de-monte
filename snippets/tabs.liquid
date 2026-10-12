@@ -13,6 +13,7 @@
   - panels  html panels in the same order, separated by <!--pr-->
   - leads   optional html before each label (an icon image, a dot), in the same order, separated by <!--pr-->
   - text    label typography variant: body-sm | body   (default: body-sm, medium)
+  - hrefs   optional links in the same order, '|' separated: the tabs become plain links (no panels, no script), for navigation between pages
   - active  1-based index of the tab open on load (default: 1)
   - class
 
@@ -26,6 +27,19 @@
   assign tb_text = text | default: 'body-sm'
   assign tb_active = active | default: 1
 -%}
+{%- if hrefs != blank -%}
+{%- assign tb_hrefs = hrefs | split: '|' -%}
+<nav class="pr-tabs pr-tabs--links{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ label | escape }}">
+  <div class="pr-tabs__list">
+    {%- for t in tb_labels -%}
+      {%- assign tb_x = forloop.index0 -%}
+      <a href="{{ tb_hrefs[tb_x] }}" class="pr-tabs__tab"{% if forloop.index == tb_active %} aria-current="page"{% endif %}>
+        {%- render 'typography', text: t, as: 'span', variant: tb_text, weight: 'medium', color: 'inherit' -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</nav>
+{%- else -%}
 <pr-tabs class="pr-tabs{% if class != blank %} {{ class }}{% endif %}">
   <div class="pr-tabs__list" role="tablist" aria-label="{{ label | escape }}">
     {%- for t in tb_labels -%}
@@ -44,3 +58,4 @@
     <div role="tabpanel" class="pr-tabs__panel" id="{{ id }}-panel-{{ tb_i }}" aria-labelledby="{{ id }}-tab-{{ tb_i }}" tabindex="0"{% unless tb_i == tb_active %} hidden{% endunless %}>{{ tb_panels[tb_x] }}</div>
   {%- endfor -%}
 </pr-tabs>
+{%- endif -%}

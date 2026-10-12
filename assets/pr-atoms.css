@@ -1022,7 +1022,12 @@ a.pr-chip {
   color: var(--pr-text-primary);
 }
 
-.pr-tabs__tab[aria-selected='true'] {
+a.pr-tabs__tab {
+  text-decoration: none;
+}
+
+.pr-tabs__tab[aria-selected='true'],
+.pr-tabs__tab[aria-current='page'] {
   background: var(--pr-brand-secondary);
   color: var(--pr-brand-on-secondary);
 }

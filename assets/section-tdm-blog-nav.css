@@ -1,77 +1,31 @@
 /* =============================================================================
    Blog nav (sections/blog-nav.liquid)
-   A segmented bar of chip links (chip atom): equal-width buttons joined by 1px lines from tablet up,
-   a horizontally scrolling row of chips on phones.
+   Page title (display) on top, the category links below as the tabs atom (link mode), centred.
    ========================================================================== */
 
 .tdm-blog-nav .blog-nav__bar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--pr-space-4);
+  gap: var(--pr-space-6);
 }
 
-.tdm-blog-nav .blog-nav__label {
-  white-space: nowrap;
+.tdm-blog-nav .blog-nav__tabs {
+  width: auto;
+  max-width: 100%;
 }
 
-.tdm-blog-nav .blog-nav__list {
-  display: grid;
-  flex: 1;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  width: 100%;
-}
-
-.tdm-blog-nav .blog-nav__item {
-  min-width: 0;
-}
-
-.tdm-blog-nav .blog-nav__btn {
+.tdm-blog-nav .blog-nav__tabs .pr-tabs__list {
   justify-content: center;
-  width: 100%;
-  border-radius: 0;
-}
-
-.tdm-blog-nav .blog-nav__item + .blog-nav__item .blog-nav__btn {
-  margin-left: -1px;
 }
 
 @media (max-width: 749px) {
-  .tdm-blog-nav .blog-nav__bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--pr-space-3);
-  }
-
-  .tdm-blog-nav .blog-nav__label {
-    align-self: flex-start;
-  }
-
-  .tdm-blog-nav .blog-nav__list {
-    display: flex;
-    gap: var(--pr-space-2);
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
+  .tdm-blog-nav .blog-nav__tabs .pr-tabs__list {
+    justify-content: flex-start;
     scrollbar-width: none;
   }
 
-  .tdm-blog-nav .blog-nav__item {
-    flex: 0 0 auto;
-  }
-
-  .tdm-blog-nav .blog-nav__item + .blog-nav__item .blog-nav__btn {
-    margin-left: 0;
-  }
-
-  .tdm-blog-nav .blog-nav__btn {
-    width: auto;
-  }
-
-  .tdm-blog-nav .blog-nav__list::-webkit-scrollbar {
+  .tdm-blog-nav .blog-nav__tabs .pr-tabs__list::-webkit-scrollbar {
     display: none;
   }
 }
