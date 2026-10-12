@@ -45,7 +45,8 @@
         "color_scheme": "scheme-2",
         "full_width": true,
         "padding_top": 40,
-        "padding_bottom": 52
+        "padding_bottom": 52,
+        "display_text": false
       }
     },
     "rich_text_43J6yk": {
@@ -76,7 +77,8 @@
         "color_scheme": "",
         "full_width": true,
         "padding_top": 40,
-        "padding_bottom": 52
+        "padding_bottom": 52,
+        "display_text": false
       }
     },
     "form": {

@@ -904,7 +904,8 @@
         "bg_position": "center",
         "full_width": true,
         "padding_top": 48,
-        "padding_bottom": 16
+        "padding_bottom": 16,
+        "display_text": false
       }
     },
     "custom_liquid_mMUaMW": {

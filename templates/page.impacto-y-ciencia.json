@@ -136,8 +136,7 @@
         "columns_mobile": "1",
         "color_scheme": "",
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_dividers": false
+        "padding_bottom": 36
       }
     },
     "multicolumn_7dgeDY": {
@@ -402,10 +401,7 @@
         "columns_mobile": "1",
         "color_scheme": "",
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_dividers": true,
-        "divider_color": "#294e3f",
-        "column_min_height": 60
+        "padding_bottom": 36
       }
     },
     "rich_text_with_logo_MbzGeT": {
@@ -423,7 +419,8 @@
         "full_width": true,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "padding_top": 80,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "display_text": true
       },
       "blocks": {
         "text": {

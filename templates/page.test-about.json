@@ -136,8 +136,7 @@
         "columns_mobile": "1",
         "color_scheme": "",
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_dividers": false
+        "padding_bottom": 36
       }
     },
     "multicolumn_feature_mCEQmN": {
@@ -219,12 +218,9 @@
         "heading_size": "h1",
         "columns_desktop": 4,
         "columns_mobile": "1",
-        "divider_color": "#1a1a1a",
         "color_scheme": "scheme-2",
         "padding_top": 80,
-        "padding_bottom": 80,
-        "show_dividers": true,
-        "column_min_height": 60
+        "padding_bottom": 80
       }
     },
     "ticker_TrU9VH": {
@@ -408,12 +404,9 @@
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "divider_color": "#1a1a1a",
         "color_scheme": "",
         "padding_top": 80,
-        "padding_bottom": 80,
-        "show_dividers": true,
-        "column_min_height": 60
+        "padding_bottom": 80
       }
     },
     "rich_text_with_logo_pxVFif": {
@@ -431,7 +424,8 @@
         "full_width": false,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "display_text": true
       },
       "blocks": {
         "text": {

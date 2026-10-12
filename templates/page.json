@@ -23,7 +23,8 @@
         "full_width": false,
         "color_scheme": "",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "display_text": true
       },
       "blocks": {
         "heading": {
@@ -123,7 +124,6 @@
         "button_link": "",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "show_dividers": false,
         "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36
@@ -331,7 +331,6 @@
         "description": "<p>En Tierra de Monte buscamos gente comprometida con regenerar los suelos y las sociedades, impulsar la vida y mejorar la agricultura desde la ciencia.</p>",
         "button_label": "",
         "button_link": "",
-        "show_dividers": false,
         "row_title_size": 24,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
         "padding_top": 80,

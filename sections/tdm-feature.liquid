@@ -14,7 +14,6 @@
   assign cols_tablet = cols_desktop | at_most: 3
   assign cols_mobile = section.settings.columns_mobile | default: '1'
   assign rule_color = section.settings.rule_color | default: 'currentColor'
-  assign divider_color = section.settings.divider_color | default: rule_color
 
   assign title_variant = 'h1'
   case section.settings.heading_size
@@ -27,7 +26,7 @@
 
 <div
   class="tdm-feature tdm-feature--{{ layout }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}"
-  style="--feature-rule: {{ rule_color }}; --feature-divider: {{ divider_color }}; --cols-mobile: {{ cols_mobile }}; --cols-tablet: {{ cols_tablet }}; --cols-desktop: {{ cols_desktop }}; --column-min-height: {{ section.settings.column_min_height | default: 0 }}vh;"
+  style="--feature-rule: {{ rule_color }}; --cols-mobile: {{ cols_mobile }}; --cols-tablet: {{ cols_tablet }}; --cols-desktop: {{ cols_desktop }};"
 >
   {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
   <div
@@ -114,11 +113,11 @@
             {%- assign text_font = 'body' -%}
             {%- assign text_class = 'rte' -%}
             {%- assign text_variant = 'body' -%}
-            {%- if block.settings.desc_font == 'display' -%}
+            {%- if layout == 'stats' or block.settings.desc_font == 'display' -%}
               {%- assign text_font = 'display' -%}
               {%- assign text_variant = 'h3' -%}
             {%- endif -%}
-            {%- if block.settings.desc_font == 'mono' -%}
+            {%- if layout != 'stats' and block.settings.desc_font == 'mono' -%}
               {%- assign text_font = 'mono' -%}
               {%- assign text_class = 'rte tdm-upper' -%}
             {%- endif -%}
@@ -142,7 +141,7 @@
             {%- endcapture -%}
 
             <li
-              class="tdm-feature__item{% if layout == 'stats' and section.settings.show_dividers %} tdm-feature__item--divided{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              class="tdm-feature__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
               {{ block.shopify_attributes }}
               {% if settings.animations_reveal_on_scroll %}
                 style="--animation-order: {{ forloop.index }};"
@@ -256,18 +255,6 @@
       "default": "1",
       "label": "Columns on mobile"
     },
-    { "type": "checkbox", "id": "show_dividers", "label": "Vertical dividers (stats)", "default": true },
-    { "type": "color", "id": "divider_color", "label": "Divider color" },
-    {
-      "type": "range",
-      "id": "column_min_height",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "vh",
-      "label": "Column min height on desktop (stats)",
-      "default": 60
-    },
 
     { "type": "header", "content": "Rows" },
     {
@@ -364,7 +351,8 @@
         {
           "type": "select",
           "id": "desc_font",
-          "label": "Text font",
+          "label": "Text font (cards)",
+          "info": "Stats columns always use the display font, large (h3).",
           "options": [
             { "value": "body", "label": "Theme body" },
             { "value": "mono", "label": "Monospace (uppercase)" },

@@ -1,13 +1,12 @@
 /* =============================================================================
    Feature section (sections/tdm-feature.liquid)
    Three layouts share one lead column and one schema:
-     --stats  big numbers, image pinned to the bottom, vertical dividers
+     --stats  big numbers or display text, image right under the text, no dividers
      --cards  icon tiles (card atom)
      --rows   clickable rows with icon, title, description, arrow (card atom)
    Text is rendered by typography; this file only lays it out.
    Per-instance values arrive as custom properties on .tdm-feature:
-     --cols-mobile --cols-tablet --cols-desktop --feature-rule --feature-divider
-     --column-min-height
+     --cols-mobile --cols-tablet --cols-desktop --feature-rule
    ========================================================================== */
 
 /* ---- Eyebrow + lead ------------------------------------------------------ */
@@ -89,17 +88,12 @@
 }
 
 /* ---- Stats ---------------------------------------------------------------- */
-.tdm-feature--stats .tdm-feature__item--divided {
-  border-left: 1px solid var(--feature-divider, var(--pr-border-strong));
-  padding-left: var(--pr-space-4);
-}
-
 .tdm-feature--stats .tdm-feature__info {
   margin-bottom: var(--pr-space-4);
 }
 
 .tdm-feature--stats .tdm-feature__media {
-  margin-top: auto;
+  margin-top: var(--pr-space-4);
   width: 100%;
   border-radius: var(--pr-radius-surface);
   overflow: hidden;
@@ -110,12 +104,6 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
-}
-
-@media (min-width: 990px) {
-  .tdm-feature--stats .tdm-feature__item {
-    min-height: var(--column-min-height, 0);
-  }
 }
 
 /* ---- Cards ---------------------------------------------------------------- */

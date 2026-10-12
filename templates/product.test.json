@@ -169,12 +169,9 @@
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "divider_color": "#ffffff",
         "color_scheme": "scheme-5",
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_dividers": true,
-        "column_min_height": 60
+        "padding_bottom": 36
       }
     },
     "ticker_Yh88L3": {

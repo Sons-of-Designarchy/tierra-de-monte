@@ -119,7 +119,8 @@
         "color_scheme": "",
         "full_width": true,
         "padding_top": 12,
-        "padding_bottom": 8
+        "padding_bottom": 8,
+        "display_text": false
       }
     },
     "image_banner_8hJfW9": {
@@ -257,10 +258,7 @@
         "columns_mobile": "2",
         "color_scheme": "scheme-5",
         "padding_top": 80,
-        "padding_bottom": 80,
-        "show_dividers": false,
-        "divider_color": "#d8e35b",
-        "column_min_height": 60
+        "padding_bottom": 80
       }
     },
     "ticker_Yh88L3": {
