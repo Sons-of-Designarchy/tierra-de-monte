@@ -4,6 +4,7 @@
   Cada producto es el átomo product-card (blanca): foto, nombre, 1–2 beneficios y "Agregar al pedido".
   El botón suma 1 unidad al pedido de #pedido (sección Pedido de Aliado, assets/pr-order.js, atributo data-order-add)
   y baja a esa sección. Sin la sección de pedido en la página el botón solo hace scroll al ancla.
+  Es un carrusel horizontal (scroll-snap) con flechas en escritorio (assets/tdm-bestsellers.js).
   Fuente: la colección elegida (vacío = todos los productos). Para "Más vendidos" basta crear la colección y elegirla aquí.
   Beneficios de cada producto, en este orden: bloque "Beneficios de un producto" con ese producto → metafield
   (por defecto custom.beneficios, lista o texto con un beneficio por línea) → primeras palabras de la descripción.
@@ -21,7 +22,7 @@
   if bs_collection == blank
     assign bs_collection = collections.all
   endif
-  assign bs_limit = s.max_products | default: 4
+  assign bs_limit = s.max_products | default: 12
   assign bs_cols = s.columns_desktop | default: 4
   assign bs_mf = s.benefits_metafield | split: '.'
   assign bs_notes = section.blocks | where: 'type', 'benefits'
@@ -41,7 +42,10 @@
       {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: bs_title_variant, align: 'center' -%}
     </div>
 
-    <ul class="tdm-bestsellers__track" role="list">
+    <tdm-scroller class="tdm-bestsellers__scroller">
+    {%- capture bs_prev_attrs -%}data-scroller="prev"{%- endcapture -%}
+    {%- capture bs_next_attrs -%}data-scroller="next"{%- endcapture -%}
+    <ul class="tdm-bestsellers__track" role="list" tabindex="0" aria-label="Productos" data-scroller-track>
       {%- for product in bs_collection.products limit: bs_limit -%}
         {%- liquid
           assign bs_variant = product.selected_or_first_available_variant
@@ -103,8 +107,15 @@
         -%}
       {%- endfor -%}
     </ul>
+    <div class="tdm-bestsellers__arrows">
+      {%- render 'icon-button', icon: 'chevron-right', label: 'Anteriores', variant: 'outline', size: 'md', class: 'tdm-bestsellers__arrow tdm-bestsellers__arrow--prev', attrs: bs_prev_attrs -%}
+      {%- render 'icon-button', icon: 'chevron-right', label: 'Siguientes', variant: 'outline', size: 'md', class: 'tdm-bestsellers__arrow', attrs: bs_next_attrs -%}
+    </div>
+    </tdm-scroller>
   </div>
 </section>
+
+<script src="{{ 'tdm-bestsellers.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
@@ -138,8 +149,8 @@
     { "type": "richtext", "id": "text", "label": "Párrafo", "info": "Opcional. Va debajo del título." },
     { "type": "header", "content": "Productos" },
     { "type": "collection", "id": "collection", "label": "Colección", "info": "Vacío: todos los productos. Para los más vendidos: crea la colección \"Más vendidos\" en el admin y elígela aquí." },
-    { "type": "range", "id": "max_products", "min": 2, "max": 8, "step": 1, "label": "Máximo de productos", "default": 4 },
-    { "type": "range", "id": "columns_desktop", "min": 2, "max": 4, "step": 1, "label": "Columnas en escritorio", "default": 4 },
+    { "type": "range", "id": "max_products", "min": 2, "max": 24, "step": 1, "label": "Máximo de productos", "default": 12 },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 4, "step": 1, "label": "Productos visibles en escritorio", "info": "Se ve además un pedazo del siguiente para invitar a deslizar", "default": 4 },
     {
       "type": "select",
       "id": "image_ratio",
