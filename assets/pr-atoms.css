@@ -1001,6 +1001,10 @@ a.pr-chip {
   overflow-x: auto;
 }
 
+.pr-tabs--center .pr-tabs__list {
+  justify-content: safe center;
+}
+
 .pr-tabs__tab {
   position: relative;
   display: flex;

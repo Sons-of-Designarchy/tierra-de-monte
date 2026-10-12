@@ -15,6 +15,7 @@
   - text    label typography variant: body-sm | body   (default: body-sm, medium)
   - hrefs   optional links in the same order, '|' separated: the tabs become plain links (no panels, no script), for navigation between pages
   - active  1-based index of the tab open on load (default: 1)
+  - align   left | center   (default: left; center keeps scrolling on narrow screens)
   - class
 
   States: hover, selected (brand lime fill, no underline, no boxes on the rest), focus-visible.
@@ -26,10 +27,11 @@
   assign tb_leads = leads | split: '<!--pr-->'
   assign tb_text = text | default: 'body-sm'
   assign tb_active = active | default: 1
+  assign tb_align = align | default: 'left'
 -%}
 {%- if hrefs != blank -%}
 {%- assign tb_hrefs = hrefs | split: '|' -%}
-<nav class="pr-tabs pr-tabs--links{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ label | escape }}">
+<nav class="pr-tabs pr-tabs--links pr-tabs--{{ tb_align }}{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ label | escape }}">
   <div class="pr-tabs__list">
     {%- for t in tb_labels -%}
       {%- assign tb_x = forloop.index0 -%}
@@ -40,7 +42,7 @@
   </div>
 </nav>
 {%- else -%}
-<pr-tabs class="pr-tabs{% if class != blank %} {{ class }}{% endif %}">
+<pr-tabs class="pr-tabs pr-tabs--{{ tb_align }}{% if class != blank %} {{ class }}{% endif %}">
   <div class="pr-tabs__list" role="tablist" aria-label="{{ label | escape }}">
     {%- for t in tb_labels -%}
       {%- assign tb_i = forloop.index -%}
