@@ -146,8 +146,13 @@
   background: linear-gradient(to top, var(--pr-scrim-strong), transparent 80%);
 }
 
-@media (min-width: 750px) {
-  .pr-card--photo {
-    padding: var(--pr-space-6);
+/* The panel sits 16px from the card edge at every size (wide panel); roomier inside from tablet up */
+.pr-card.pr-card--photo {
+  padding: var(--pr-space-4);
+}
+
+@media (max-width: 749px) {
+  .pr-card__panel {
+    padding: var(--pr-space-4);
   }
 }
