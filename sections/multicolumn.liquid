@@ -47,7 +47,7 @@
   >
     {% if section.settings.pretitle != blank %}
       <div class="tdm-multicolumn__eyebrow">
-        {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow', font: 'body', color: 'secondary' %}
+        {% render 'typography', text: section.settings.pretitle, variant: 'eyebrow' %}
         {% if section.settings.show_rule %}
           <div class="tdm-multicolumn__rule" aria-hidden="true"></div>
         {% endif %}

@@ -65,7 +65,7 @@
                 {%- if block.settings.text_size == 'small' -%}{%- assign caption_variant = 'body-sm' -%}{%- elsif block.settings.text_size == 'large' -%}{%- assign caption_variant = 'body-lg' -%}{%- endif -%}
                 {% render 'typography', text: caption_text, variant: caption_variant, color: 'secondary', class: 'rich-text__caption', attrs: caption_attrs %}
               {%- else -%}
-                {% render 'typography', text: caption_text, variant: 'eyebrow', font: 'body', color: 'secondary', class: 'rich-text__caption', attrs: caption_attrs %}
+                {% render 'typography', text: caption_text, variant: 'eyebrow', class: 'rich-text__caption', attrs: caption_attrs %}
               {%- endif -%}
             {%- when 'text' -%}
               {%- capture text_attrs -%}{{ block.shopify_attributes }}{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}{%- endcapture -%}

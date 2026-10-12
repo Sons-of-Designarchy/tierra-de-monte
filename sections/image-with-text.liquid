@@ -80,7 +80,7 @@
                     {%- if block.settings.text_size == 'small' -%}{%- assign caption_variant = 'body-sm' -%}{%- elsif block.settings.text_size == 'large' -%}{%- assign caption_variant = 'body-lg' -%}{%- endif -%}
                     {% render 'typography', text: caption_text, variant: caption_variant, color: 'secondary', class: 'image-with-text__text image-with-text__text--caption', attrs: block.shopify_attributes %}
                   {%- else -%}
-                    {% render 'typography', text: caption_text, variant: 'eyebrow', font: 'body', color: 'secondary', class: 'image-with-text__text image-with-text__text--caption', attrs: block.shopify_attributes %}
+                    {% render 'typography', text: caption_text, variant: 'eyebrow', class: 'image-with-text__text image-with-text__text--caption', attrs: block.shopify_attributes %}
                   {%- endif -%}
                 {%- when 'text' -%}
                   {%- assign text_variant = 'body' -%}
