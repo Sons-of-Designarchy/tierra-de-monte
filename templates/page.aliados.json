@@ -486,8 +486,8 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "Ponte en contacto con nosotros",
-            "text": "<p>Envíanos tu información a través de:</p><p>Correo: <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a></p><p>WhatsApp: <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">442 374 1871</a></p><p>O llena el <a href=\"#registro\" title=\"Formulario\">formulario</a> al final de esta página.</p>",
+            "title": "Arma tu primer pedido",
+            "text": "<p>Elige tus productos desde $5,000 y obtén tu precio de Aliado.</p><p>¿Dudas? Escríbenos.</p><p>Correo: <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a></p><p>WhatsApp: <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">442 374 1871</a></p>",
             "image": "shopify://shop_images/hero-aliado.jpg",
             "button_label": "Realiza tu primera compra aquí",
             "button_link": "#pedido",
@@ -499,10 +499,10 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "Conocemos tu negocio y te acompañamos",
-            "text": "<p>Una vez que recibamos tu información, la revisamos y uno de nuestros especialistas se pondrá en contacto contigo para concretar tu proceso de registro.</p>",
+            "title": "Completa tu registro",
+            "text": "<p>Después de tu compra, llena el formulario de registro <a href=\"#registro\" title=\"Formulario de registro\">aquí</a>.</p>",
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
-            "button_label": "Completa tu proceso de afiliación",
+            "button_label": "Llena tu registro",
             "button_link": "#registro",
             "button_new_tab": false,
             "button_style": "primary"
@@ -512,11 +512,11 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "Haz tu primer pedido",
-            "text": "<p>Tu registro como Aliado se concreta con tu primer pedido.</p><p>Uno de nuestros ejecutivos se pondrá en contacto contigo para acompañarte y explicarte todo lo que tiene el programa para ti.</p>",
+            "title": "Conocemos tu negocio y te acompañamos",
+            "text": "<p>Un especialista te contacta, confirma tu nivel y te explica el programa.</p>",
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg",
-            "button_label": "",
-            "button_link": "",
+            "button_label": "Completa tu registro",
+            "button_link": "#registro",
             "button_new_tab": false,
             "button_style": "primary"
           }
@@ -528,8 +528,8 @@
             "title": "¡Ya eres Aliado Tierra de Monte!",
             "text": "<p>Bienvenido a una comunidad que está transformando la agricultura.</p><p>Ahora podrás desarrollar tu negocio con nuestras soluciones biológicas y contar con Tierra de Monte.</p>",
             "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
-            "button_label": "",
-            "button_link": "",
+            "button_label": "Quiero ser Aliado",
+            "button_link": "#pedido",
             "button_new_tab": false,
             "button_style": "primary"
           }

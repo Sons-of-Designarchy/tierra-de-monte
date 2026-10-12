@@ -111,7 +111,7 @@
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
               {%- assign st_btn_href = block.settings.button_link | default: '#' -%}
-              {%- capture st_btn_attrs -%}{% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
+              {%- capture st_btn_attrs -%}{% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if st_btn_href contains '#pedido' %} data-track="quiero-ser-aliado-proceso"{% elsif st_btn_href contains '#registro' %} data-track="registro-proceso"{% endif %}{%- endcapture -%}
               {%- if block.settings.button_style == 'secondary' -%}{%- assign st_btn_variant = 'outline' -%}{%- else -%}{%- assign st_btn_variant = 'primary' -%}{%- endif -%}
               {%- render 'button', label: block.settings.button_label, href: st_btn_href, variant: st_btn_variant, size: 'lg', class: 'tdm-steps__btn', attrs: st_btn_attrs -%}
             {%- endif -%}
