@@ -58,7 +58,7 @@
 .pr-card__icon {
   align-self: flex-start;
   background: transparent;
-  width: var(--pr-space-16);
+  width: calc(var(--pr-space-16) * 2);
 }
 
 /* ---------- card: text with an icon list ---------- */
@@ -132,9 +132,18 @@
   flex: 0 0 auto;
   padding: var(--pr-space-6);
   border-radius: var(--pr-radius-surface);
-  background: color-mix(in oklab, var(--pr-white) 85%, transparent);
-  color: var(--pr-text-primary);
-  backdrop-filter: blur(var(--pr-blur-md));
+  background: var(--pr-white-10);
+  color: var(--pr-text-primary); /* white: the panel carries data-scheme="dark" */
+  -webkit-backdrop-filter: blur(var(--pr-blur-xl));
+  backdrop-filter: blur(var(--pr-blur-xl));
+}
+
+/* Ink scrim on the photo so the white text passes contrast under a 10% panel */
+.pr-card__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--pr-scrim-strong), transparent 80%);
 }
 
 @media (min-width: 750px) {

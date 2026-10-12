@@ -24,7 +24,7 @@
   - text              rich-text html under the description (paragraphs or a <ul>); with list_icon each <li> gets that icon
   - list_icon         icon name for the <li> of text, e.g. check-circle. Blank: plain bullets
   - icon_image        Shopify image object: a small picture (64px) above the body: the "icon card"
-  - bg_image          Shopify image object: the photo fills the card and the body sits on a white glass panel: the "photo card". Alt text: image_alt
+  - bg_image          Shopify image object: the photo fills the card and the body sits on a glass panel (white 10%, blur, white text) over an ink scrim: the "photo card". Alt text: image_alt
   - title_size        display | h1 | h2 | h3 | h4 | h5   (default: h5)
   - ratio             card shape: 1/1 | 4/3 | 4/5 | 3/4 (default: the content decides; photo cards use it as their height)
   - on_color          kept for readability; every card is already white (light scheme) unless a scheme is passed
@@ -75,6 +75,23 @@
     assign cd_class = cd_class | append: ' pr-card--r-' | append: cd_ratio_class
   endif
   assign cd_title_size = title_size | default: 'h5'
+  if cd_is_photo
+    comment
+      The photo card's panel sits one title step down (client feedback 12 oct): h3 -> h4, h4 -> h5.
+    endcomment
+    case cd_title_size
+      when 'display'
+        assign cd_title_size = 'h1'
+      when 'h1'
+        assign cd_title_size = 'h2'
+      when 'h2'
+        assign cd_title_size = 'h3'
+      when 'h3'
+        assign cd_title_size = 'h4'
+      when 'h4'
+        assign cd_title_size = 'h5'
+    endcase
+  endif
   assign cd_text = text
   if cd_text != blank and list_icon != blank
     capture cd_li_icon
@@ -105,7 +122,7 @@
       {%- endif -%}
     </div>
   {%- endif -%}
-  <div class="pr-card__body{% if cd_is_photo %} pr-card__panel{% endif %}"{% if cd_is_photo %} data-scheme="light"{% endif %}>
+  <div class="pr-card__body{% if cd_is_photo %} pr-card__panel{% endif %}"{% if cd_is_photo %} data-scheme="dark"{% endif %}>
     {%- if quote != blank -%}
       <div class="pr-card__testimonial">
         {%- if quote_rating != blank -%}{%- render 'rating', value: quote_rating -%}{%- endif -%}
