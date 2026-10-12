@@ -54,6 +54,10 @@
 .pr-weight--semibold { font-weight: var(--pr-weight-semibold); }
 .pr-weight--bold { font-weight: var(--pr-weight-bold); }
 
+/* Rich text inside a typography element (richtext settings arrive as <p>, <ul>…) takes the element's family.
+   Without this Dawn's `p, li { font-family: body }` wins and a display paragraph renders in the body face. */
+.pr-type :where(p, li, h1, h2, h3, h4, h5, h6) { font-family: inherit; }
+
 /* Display face carries one weight everywhere: no faux bold */
 .pr-type.pr-font--display[class*="pr-weight--"] { font-weight: var(--pr-display-weight, var(--pr-weight-regular)); }
 
