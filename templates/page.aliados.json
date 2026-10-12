@@ -380,7 +380,7 @@
             "stat_1_label": "atendidas actualmente",
             "crops": "Naranja · Papaya · Nogal · Limón",
             "note": "Manejo biológico integral con microorganismos e insectos.",
-            "caption_position": "top_right"
+            "caption_position": "right"
           }
         },
         "slide_qNeMrf": {
@@ -398,7 +398,7 @@
             "stat_2_label": "reducción de costos",
             "stat_3_value": "12",
             "stat_3_label": "toneladas de CO₂ mitigadas",
-            "caption_position": "top_right"
+            "caption_position": "right"
           }
         },
         "slide_EiNnYf": {

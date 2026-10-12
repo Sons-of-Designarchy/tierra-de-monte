@@ -183,7 +183,7 @@
 
 @media screen and (min-width: 1200px) {
   .tdm-slide-gallery .tdm-slide-gallery__caption {
-    --sg-caption-inset: var(--pr-space-8);
+    --sg-caption-inset: var(--pr-space-12);
     --sg-mark-color: var(--sg-quote-color, var(--pr-brand-secondary));
     position: absolute;
     top: 50%;
@@ -261,6 +261,13 @@
 
   .tdm-slide-gallery__stat-value {
     color: var(--sg-stats-color, var(--pr-brand-secondary));
+  }
+
+  /* Chips on the photo: on-dark look (white 10% fill, white text), so they do not read as buttons */
+  .tdm-slide-gallery__crops .pr-chip {
+    border-color: transparent;
+    background: var(--pr-white-10);
+    color: var(--pr-white);
   }
 
   .tdm-slide-gallery__stat-label,
@@ -360,4 +367,24 @@
 
 .tdm-slide-gallery .slider-counter__link--dots:hover .dot {
   transform: none;
+}
+
+/* Never taller than the viewport (tablet and desktop): the photo crops, centred */
+@media screen and (min-width: 750px) {
+  .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow__media {
+    max-height: 80vh;
+    max-height: 80svh;
+  }
+
+  .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow__media > img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .tdm-slide-gallery[data-adapt-image] .tdm-slide-gallery__slider .slideshow {
+    max-height: 80vh;
+    max-height: 80svh;
+  }
 }
