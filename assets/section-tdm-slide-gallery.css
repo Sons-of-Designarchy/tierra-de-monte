@@ -74,18 +74,18 @@
   }
 }
 
-/* ---- Slide caption: quote + author + stats ---------------------------------
-   Desktop (≥1200px): over the photo, on one side. Below that: a block under the photo, on its
-   own scheme background. Text colour = the caption's scheme foreground (desktop can
-   override quote and stats per slide). Opening mark hangs top-left, closing mark
-   trails the last line; both use the scheme's button colour (or the quote colour
-   over the photo). */
+/* ---- Slide caption: quote + author + big figures --------------------------
+   No box. Desktop (≥1200px): the text is written straight on the photo, from the corner or
+   side chosen per slide, over an ink scrim that fades out from that same corner (the hero
+   scrim: --pr-scrim-strong). Below that: the same text sits under the photo on the section's
+   own colours. Quote marks are the graphic; figures are display numbers with a short label. */
 .tdm-slide-gallery__caption {
-  --sg-quote-indent: var(--pr-space-8);
+  --sg-quote-indent: var(--pr-space-12);
+  --sg-mark-color: var(--pr-text-brand);
   display: flex;
   flex-direction: column;
   gap: var(--pr-space-6);
-  padding: var(--pr-space-6);
+  padding: var(--pr-space-6) var(--pr-space-2) 0;
   flex: 1 1 auto;
   color: var(--pr-text-primary);
 }
@@ -95,33 +95,36 @@
   margin: 0;
 }
 
-.tdm-slide-gallery__quote-text {
+.tdm-slide-gallery .tdm-slide-gallery__quote-text {
   margin: 0;
   padding: 0 0 0 var(--sg-quote-indent);
   border: 0;
   font-style: normal;
+  text-transform: none;
   opacity: 1; /* base.css fades blockquote to 75% */
 }
 
 /* Quote marks are inline SVG shapes (a glyph from any text font draws slanted bars):
-   the opening one hangs top-left, the closing one trails the last line */
+   the opening one hangs big at the top-left, the closing one trails the last line */
 .tdm-slide-gallery__mark {
-  width: var(--pr-space-6);
-  height: var(--pr-space-6);
-  color: var(--sg-mark-color, var(--pr-action));
+  color: var(--sg-mark-color);
   pointer-events: none;
 }
 
 .tdm-slide-gallery__mark--open {
   position: absolute;
   left: 0;
-  top: var(--pr-space-1);
+  top: 0;
+  width: var(--pr-space-12);
+  height: var(--pr-space-12);
   transform: rotate(180deg);
 }
 
 .tdm-slide-gallery__mark--close {
   display: inline-block;
-  margin-left: var(--pr-space-1);
+  width: var(--pr-space-6);
+  height: var(--pr-space-6);
+  margin-left: var(--pr-space-2);
   vertical-align: text-bottom;
 }
 
@@ -140,61 +143,81 @@
 }
 
 .tdm-slide-gallery__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pr-space-4) var(--pr-space-6);
   margin: 0;
-  padding: 0 0 0 var(--sg-quote-indent);
+  padding: 0;
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pr-space-2);
 }
 
 .tdm-slide-gallery__stat {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-1);
   margin: 0;
-  padding-left: var(--pr-space-4);
 }
 
-.tdm-slide-gallery__stat::before {
-  content: '';
-  position: absolute;
-  top: 0.7em;
-  left: 0;
-  width: var(--pr-space-1);
-  height: var(--pr-space-1);
-  border-radius: var(--pr-radius-full);
-  background: var(--sg-mark-color, var(--pr-action));
+.tdm-slide-gallery__stat-value {
+  color: var(--pr-text-brand);
+  line-height: var(--pr-leading-tight);
+}
+
+.tdm-slide-gallery__crops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pr-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-slide-gallery__crops li {
+  display: contents;
+}
+
+.tdm-slide-gallery__note {
+  margin: 0;
+  opacity: 0.8;
 }
 
 @media screen and (min-width: 1200px) {
   .tdm-slide-gallery .tdm-slide-gallery__caption {
-    --sg-quote-indent: var(--pr-space-12);
-    /* Glass card: tinted with the slide's overlay colour, blur, 1px border, rounded.
-       Blur is a touch stronger than the hero button's so text stays legible on busy photos. */
-    --sg-glass-ink: var(--sg-quote-color, var(--pr-text-primary));
-    --sg-caption-inset: var(--pr-space-6);
+    --sg-caption-inset: var(--pr-space-8);
+    --sg-mark-color: var(--sg-quote-color, var(--pr-brand-secondary));
     position: absolute;
     top: 50%;
     z-index: 1;
-    width: 42%;
+    width: 40%;
     max-height: calc(100% - 2 * var(--sg-caption-inset));
+    padding: 0;
     transform: translateY(-50%);
     justify-content: center;
-    border: 1px solid color-mix(in oklab, var(--sg-glass-ink) 55%, transparent);
-    border-radius: var(--pr-radius-lg);
-    background: color-mix(in oklab, var(--sg-overlay-color, var(--pr-ink)) calc(var(--sg-overlay-opacity, 0.3) * 100%), transparent);
-    -webkit-backdrop-filter: blur(var(--pr-blur-sm));
-    backdrop-filter: blur(var(--pr-blur-sm));
+    color: var(--sg-quote-color, var(--pr-white));
   }
 
-  /* Overlay on the photo (per slide colour + opacity): the text sits on the photo from here up */
+  /* Uniform tint (per-slide colour + opacity), then the directional ink scrim from the text side */
   .tdm-slide-gallery .tdm-slide-gallery__slider .slideshow__media::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--sg-overlay-color, var(--pr-ink));
-    opacity: var(--sg-overlay-opacity, 0.3);
+    z-index: 1;
+    opacity: 1;
+    background:
+      var(--sg-scrim, linear-gradient(to left, var(--pr-scrim-strong), transparent 90%)),
+      var(--sg-scrim, linear-gradient(to left, var(--pr-scrim-strong), transparent 90%)),
+      color-mix(in oklab, var(--sg-overlay-color, var(--pr-ink)) calc(var(--sg-overlay-opacity, 0.1) * 100%), transparent);
     pointer-events: none;
   }
+
+  .tdm-slide-gallery [data-caption='left'] { --sg-scrim: linear-gradient(to right, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='right'] { --sg-scrim: linear-gradient(to left, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='top_left'] { --sg-scrim: radial-gradient(ellipse 80% 120% at 0 0, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='top_right'] { --sg-scrim: radial-gradient(ellipse 80% 120% at 100% 0, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='bottom_left'] { --sg-scrim: radial-gradient(ellipse 80% 120% at 0 100%, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='bottom_right'] { --sg-scrim: radial-gradient(ellipse 80% 120% at 100% 100%, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='top_center'] { --sg-scrim: linear-gradient(to bottom, var(--pr-scrim-strong), transparent 90%); }
+  .tdm-slide-gallery [data-caption='bottom_center'] { --sg-scrim: linear-gradient(to top, var(--pr-scrim-strong), transparent 90%); }
 
   /* Position: middle left/right, the four corners, or top/bottom centre — always
      --sg-caption-inset away from the photo's edges */
@@ -232,18 +255,21 @@
     transform: translateX(-50%);
   }
 
-  /* Optional per-slide colours over the photo (--sg-quote-color / --sg-stats-color) */
-  .tdm-slide-gallery__caption .tdm-slide-gallery__quote-text,
-  .tdm-slide-gallery__caption .tdm-slide-gallery__quote-author {
-    color: var(--sg-quote-color, var(--pr-text-primary));
+  .tdm-slide-gallery__stats {
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   }
 
-  .tdm-slide-gallery__caption {
-    --sg-mark-color: var(--sg-quote-color, var(--pr-action));
+  .tdm-slide-gallery__stat-value {
+    color: var(--sg-stats-color, var(--pr-brand-secondary));
   }
 
-  .tdm-slide-gallery__caption .tdm-slide-gallery__stat {
-    color: var(--sg-stats-color, var(--pr-text-primary));
+  .tdm-slide-gallery__stat-label,
+  .tdm-slide-gallery__note {
+    color: var(--sg-stats-color, var(--pr-white));
+  }
+
+  .tdm-slide-gallery__quote-text {
+    color: var(--sg-quote-color, var(--pr-white));
   }
 }
 

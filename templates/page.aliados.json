@@ -404,20 +404,15 @@
           "settings": {
             "image": "shopify://shop_images/Cosecha_de_cebollas_ante_las_montanas.png",
             "overlay_color": "#000000",
-            "overlay_opacity": 35,
+            "overlay_opacity": 10,
             "quote": "Soy representante de una forma de hacer las cosas distinta, porque creo en esto, y voy para adelante.",
             "quote_author": "José Manuel Ibarra “Chema”",
             "quote_role": "Aliado destacado",
-            "stat_1": "+11,000 ha atendidas actualmente",
-            "stat_2": "Naranja · Papaya · Nogal · Limón",
-            "stat_3": "Manejo biológico integral con microorganismos e insectos.",
-            "stat_4": "",
-            "stat_5": "",
-            "stat_6": "",
-            "caption_position": "top_right",
-            "caption_color_scheme": "scheme-tdm-aliados-base",
-            "quote_color": "#ffffff",
-            "stats_color": "#ffffff"
+            "stat_1_value": "+11,000 ha",
+            "stat_1_label": "atendidas actualmente",
+            "crops": "Naranja · Papaya · Nogal · Limón",
+            "note": "Manejo biológico integral con microorganismos e insectos.",
+            "caption_position": "top_right"
           }
         },
         "slide_qNeMrf": {
@@ -425,20 +420,17 @@
           "settings": {
             "image": "shopify://shop_images/Sr_Mayorga.png",
             "overlay_color": "#000000",
-            "overlay_opacity": 35,
+            "overlay_opacity": 10,
             "quote": "Nos han enseñado a sembrar mejor y a producir más.",
             "quote_author": "Fernando Mayorga",
             "quote_role": "Productor - Aliado destacado",
-            "stat_1": "300% de incremento en producción",
-            "stat_2": "30% de reducción de costos",
-            "stat_3": "12 toneladas de CO₂ mitigadas",
-            "stat_4": "",
-            "stat_5": "",
-            "stat_6": "",
-            "caption_position": "top_right",
-            "caption_color_scheme": "scheme-tdm-aliados-base",
-            "quote_color": "#ffffff",
-            "stats_color": "#ffffff"
+            "stat_1_value": "300%",
+            "stat_1_label": "incremento en producción",
+            "stat_2_value": "30%",
+            "stat_2_label": "reducción de costos",
+            "stat_3_value": "12",
+            "stat_3_label": "toneladas de CO₂ mitigadas",
+            "caption_position": "top_right"
           }
         },
         "slide_EiNnYf": {
@@ -446,20 +438,23 @@
           "settings": {
             "image": "shopify://shop_images/fresa_regenerativo_Michoacan.jpg",
             "overlay_color": "#000000",
-            "overlay_opacity": 35,
+            "overlay_opacity": 10,
             "quote": "RESULTADOS QUE HABLAN POR SÍ MISMOS",
             "quote_author": "",
             "quote_role": "Datos correspondientes a Año 3 en proyecto de fresa regenerativo, Michoacán.",
-            "stat_1": "+13.6% rendimiento",
-            "stat_2": "23% fertilizante sintético",
-            "stat_3": "59% plaguicidas sintéticos",
-            "stat_4": "88% fungicidas sintéticos",
-            "stat_5": "32.2% huella de carbono",
-            "stat_6": "",
+            "stat_1_value": "+13.6%",
+            "stat_1_label": "rendimiento",
+            "stat_2_value": "23%",
+            "stat_2_label": "fertilizante sintético",
+            "stat_3_value": "59%",
+            "stat_3_label": "plaguicidas sintéticos",
+            "stat_4_value": "88%",
+            "stat_4_label": "fungicidas sintéticos",
+            "stat_5_value": "32.2%",
+            "stat_5_label": "huella de carbono",
             "caption_position": "bottom_right",
-            "caption_color_scheme": "scheme-tdm-aliados-base",
-            "quote_color": "#ffffff",
-            "stats_color": "#ffffff"
+            "quote_color": "",
+            "stats_color": ""
           }
         }
       },
