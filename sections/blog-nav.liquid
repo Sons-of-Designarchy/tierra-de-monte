@@ -14,7 +14,7 @@
       aria-label="{{ section.settings.label | default: 'Explora nuestro blog' }}"
     >
       {%- if section.settings.label != blank -%}
-        {% render 'typography', text: section.settings.label, as: 'span', variant: 'label', weight: 'medium', class: 'blog-nav__label' %}
+        {% render 'typography', text: section.settings.label, as: 'span', variant: 'eyebrow', color: 'secondary', class: 'blog-nav__label' %}
       {%- endif -%}
 
       <ul class="blog-nav__list" role="list">

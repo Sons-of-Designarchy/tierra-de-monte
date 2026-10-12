@@ -1,6 +1,7 @@
 /* =============================================================================
    Blog nav (sections/blog-nav.liquid)
-   A row of chip links (chip atom). On mobile the row scrolls horizontally.
+   A segmented bar of chip links (chip atom): equal-width buttons joined by 1px lines from tablet up,
+   a horizontally scrolling row of chips on phones.
    ========================================================================== */
 
 .tdm-blog-nav .blog-nav__bar {
@@ -14,10 +15,10 @@
 }
 
 .tdm-blog-nav .blog-nav__list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--pr-space-2);
+  display: grid;
+  flex: 1;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -25,8 +26,17 @@
 }
 
 .tdm-blog-nav .blog-nav__item {
-  flex: 0 0 auto;
   min-width: 0;
+}
+
+.tdm-blog-nav .blog-nav__btn {
+  justify-content: center;
+  width: 100%;
+  border-radius: 0;
+}
+
+.tdm-blog-nav .blog-nav__item + .blog-nav__item .blog-nav__btn {
+  margin-left: -1px;
 }
 
 @media (max-width: 749px) {
@@ -41,11 +51,24 @@
   }
 
   .tdm-blog-nav .blog-nav__list {
-    flex-wrap: nowrap;
+    display: flex;
+    gap: var(--pr-space-2);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+  }
+
+  .tdm-blog-nav .blog-nav__item {
+    flex: 0 0 auto;
+  }
+
+  .tdm-blog-nav .blog-nav__item + .blog-nav__item .blog-nav__btn {
+    margin-left: 0;
+  }
+
+  .tdm-blog-nav .blog-nav__btn {
+    width: auto;
   }
 
   .tdm-blog-nav .blog-nav__list::-webkit-scrollbar {

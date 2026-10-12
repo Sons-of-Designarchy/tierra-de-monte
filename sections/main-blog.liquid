@@ -1,12 +1,12 @@
 {{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
-{%- paginate blog.articles by 6 -%}
+{%- paginate blog.articles by section.settings.posts_per_page -%}
   <div class="main-blog page-width section-{{ section.id }}-padding">
     {%- capture blog_title_class -%}main-blog__title{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}{%- endcapture -%}
     {% render 'typography', text: blog.title, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', class: blog_title_class %}
 
-    <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
+    <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}" style="--blog-cols: {{ section.settings.columns_desktop }}">
       {%- for article in blog.articles -%}
         <div
           class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -56,6 +56,25 @@
       ],
       "default": "collage",
       "label": "t:sections.main-blog.settings.layout.label"
+    },
+    {
+      "type": "range",
+      "id": "posts_per_page",
+      "min": 3,
+      "max": 24,
+      "step": 1,
+      "default": 8,
+      "label": "Entradas por página"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Columnas en escritorio",
+      "info": "Solo con el diseño en cuadrícula. 1 columna en móvil, 2 en tablet."
     },
     {
       "type": "checkbox",
