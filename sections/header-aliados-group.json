@@ -38,6 +38,58 @@
     },
     "header": {
       "type": "header",
+      "blocks": {
+        "anchor_beneficios": {
+          "type": "anchor",
+          "settings": {
+            "label": "Beneficios",
+            "anchor": "beneficios"
+          }
+        },
+        "anchor_productos": {
+          "type": "anchor",
+          "settings": {
+            "label": "Productos",
+            "anchor": "productos"
+          }
+        },
+        "anchor_niveles": {
+          "type": "anchor",
+          "settings": {
+            "label": "Niveles",
+            "anchor": "niveles"
+          }
+        },
+        "anchor_resultados": {
+          "type": "anchor",
+          "settings": {
+            "label": "Resultados",
+            "anchor": "resultados"
+          }
+        },
+        "anchor_proceso": {
+          "type": "anchor",
+          "settings": {
+            "label": "Proceso",
+            "anchor": "proceso"
+          }
+        },
+        "anchor_preguntas": {
+          "type": "anchor",
+          "settings": {
+            "label": "Preguntas",
+            "anchor": "preguntas"
+          }
+        }
+      },
+      "block_order": [
+        "anchor_beneficios",
+        "anchor_productos",
+        "anchor_niveles",
+        "anchor_resultados",
+        "anchor_proceso",
+        "anchor_preguntas"
+      ],
       "settings": {
         "logo_override": "shopify://shop_images/logo-h-full.svg",
         "logo_link": "shopify://pages/aliados",

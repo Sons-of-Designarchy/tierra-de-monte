@@ -1,10 +1,10 @@
 {%- comment -%}
-  Navbar mobile panel — the menu that opens under the bar below 990px. Ports PerfectlyRad Navbar mobilePanel (link rows, CTA at the bottom).
+  Navbar mobile panel — the menu that opens under the bar below 1200px. Ports PerfectlyRad Navbar mobilePanel (link rows, CTA at the bottom).
   Links with children expand in place (native details), no sliding drawers.
 
   {% render 'navbar-mobile', menu: linklists['main-menu'], cta: link, skip_last: true, country: true, language: true, uid: section.id %}
 
-  Params: menu (required), cta (a link object or blank), skip_last, country, language, uid
+  Params: menu (required), cta (a link object or blank), skip_last, anchor_blocks (the header's `anchor` blocks), country, language, uid
 {%- endcomment -%}
 {%- liquid
   assign nm_count = menu.links.size
@@ -19,7 +19,7 @@
       {%- if link.links != blank -%}
         <details class="tdm-nav__mgroup"{% if link.child_active %} open{% endif %}>
           <summary class="tdm-nav__mlink"{% if link.child_active %} data-active="true"{% endif %}>
-            {%- render 'typography', text: item_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+            {%- render 'typography', text: item_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
             {%- render 'icon', name: 'chevron-down', size: 'md', class: 'tdm-nav__caret' -%}
           </summary>
           <ul class="tdm-nav__msub" role="list">
@@ -27,7 +27,7 @@
               {%- assign child_title = childlink.title | escape -%}
               <li>
                 <a href="{{ childlink.url }}" class="tdm-nav__mlink tdm-nav__mlink--sub"{% if childlink.current %} aria-current="page"{% endif %}>
-                  {%- render 'typography', text: child_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
+                  {%- render 'typography', text: child_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
                 </a>
                 {%- if childlink.links != blank -%}
                   <ul class="tdm-nav__msub tdm-nav__msub--deep" role="list">
@@ -47,10 +47,20 @@
         </details>
       {%- else -%}
         <a href="{{ link.url }}" class="tdm-nav__mlink"{% if link.current %} aria-current="page"{% endif %}>
-          {%- render 'typography', text: item_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+          {%- render 'typography', text: item_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
         </a>
       {%- endif -%}
     </li>
+  {%- endfor -%}
+  {%- for block in anchor_blocks -%}
+    {%- if block.type == 'anchor' and block.settings.label != blank -%}
+      {%- assign anchor_title = block.settings.label | escape -%}
+      <li {{ block.shopify_attributes }}>
+        <a href="#{{ block.settings.anchor | handleize }}" class="tdm-nav__mlink" data-nav-anchor>
+          {%- render 'typography', text: anchor_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
+        </a>
+      </li>
+    {%- endif -%}
   {%- endfor -%}
 </ul>
 {%- if cta != blank -%}

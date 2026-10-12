@@ -8,6 +8,7 @@
   - menu       linklist (required)
   - menu_type  dropdown | mega   (default: dropdown). mega spans the bar; dropdown hangs under its link
   - skip_last  true → the last link is the bar CTA and is not listed here
+  - anchor_blocks  the header's blocks: each `anchor` block (label + section id) is an in-page link listed after the menu links, highlighted while its section is on screen
   - uid        id prefix, unique per Navbar on the page
 {%- endcomment -%}
 {%- liquid
@@ -25,7 +26,7 @@
         <header-menu>
           <details id="Details-HeaderMenu-{{ uid }}-{{ forloop.index }}" class="tdm-nav__disclosure tdm-nav__disclosure--{{ nl_type }}">
             <summary id="HeaderMenu-{{ uid }}-{{ link.handle }}" class="tdm-nav__link"{% if link.child_active %} data-active="true"{% endif %}>
-              {%- render 'typography', text: item_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
+              {%- render 'typography', text: item_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
               {%- render 'icon', name: 'chevron-down', size: 'sm', class: 'tdm-nav__caret' -%}
             </summary>
             <div class="tdm-nav__panel" id="MegaMenu-Content-{{ uid }}-{{ forloop.index }}">
@@ -35,9 +36,9 @@
                   <li class="tdm-nav__group">
                     <a id="HeaderMenu-{{ uid }}-{{ link.handle }}-{{ childlink.handle }}" href="{{ childlink.url }}" class="tdm-nav__sublink{% if childlink.links != blank %} tdm-nav__sublink--title{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
                       {%- if childlink.links != blank -%}
-                        {%- render 'typography', text: child_title, variant: 'body-sm', weight: 'semibold', color: 'inherit', as: 'span' -%}
+                        {%- render 'typography', text: child_title, variant: 'body', weight: 'semibold', color: 'inherit', as: 'span' -%}
                       {%- else -%}
-                        {%- render 'typography', text: child_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
+                        {%- render 'typography', text: child_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
                       {%- endif -%}
                     </a>
                     {%- if childlink.links != blank -%}
@@ -60,9 +61,19 @@
         </header-menu>
       {%- else -%}
         <a id="HeaderMenu-{{ uid }}-{{ link.handle }}" href="{{ link.url }}" class="tdm-nav__link"{% if link.current %} aria-current="page"{% endif %}>
-          {%- render 'typography', text: item_title, variant: 'body-sm', weight: 'medium', color: 'inherit', as: 'span' -%}
+          {%- render 'typography', text: item_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
         </a>
       {%- endif -%}
     </li>
+  {%- endfor -%}
+  {%- for block in anchor_blocks -%}
+    {%- if block.type == 'anchor' and block.settings.label != blank -%}
+      {%- assign anchor_title = block.settings.label | escape -%}
+      <li class="tdm-nav__item" {{ block.shopify_attributes }}>
+        <a href="#{{ block.settings.anchor | handleize }}" class="tdm-nav__link" data-nav-anchor>
+          {%- render 'typography', text: anchor_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
+        </a>
+      </li>
+    {%- endif -%}
   {%- endfor -%}
 </ul>

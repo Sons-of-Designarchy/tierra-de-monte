@@ -2,7 +2,7 @@
    Navbar (snippets/navbar.liquid, rendered by sections/header.liquid and the foundations catalog).
    Ports PerfectlyRad Navbar: one white bar with the logo inside, no border, elevation from
    --pr-elevation-*, radius from --pr-radius-surface. Variants: floating (inset from the edges,
-   gap from the top) and full (edge to edge). Desktop menu from 990px, panel under the bar below.
+   gap from the top) and full (edge to edge). Desktop menu from 1200px, panel under the bar below.
    ========================================================================== */
 
 /* The Shopify section wrapper carries the stacking and the sticky position. */
@@ -16,16 +16,27 @@
   top: 0;
 }
 
-/* Over a hero: when the page opens with a full hero, the floating bar sits on top of the
-   image (it takes no height) so the photo loads full size behind it. */
-body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-header:has(.tdm-nav--floating) {
-  margin-bottom: calc(-1 * (var(--pr-nav-height-compact) + 2 * var(--pr-space-3)));
+/* Room the floating bar takes (its height plus the gap above and below it). Content that opens a page
+   under the bar (a hero) keeps this clear; every other page simply starts below the bar in the flow. */
+:root {
+  --pr-nav-clear: calc(var(--pr-nav-height-compact) + 2 * var(--pr-space-3));
 }
 
-@media screen and (min-width: 990px) {
-  body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-header:has(.tdm-nav--floating) {
-    margin-bottom: calc(-1 * (var(--pr-nav-height) + 2 * var(--pr-space-3)));
+@media screen and (min-width: 1200px) {
+  :root {
+    --pr-nav-clear: calc(var(--pr-nav-height) + 2 * var(--pr-space-3));
   }
+}
+
+/* Over a hero: when the page opens with a full-width hero (hero-overlay-card or hero-slider), the floating bar
+   sits on top of the image (it takes no height) so the photo loads full size behind it. */
+body:has(#MainContent > .shopify-section:first-child :is(.tdm-hero--full, .tdm-hero-slider--full)) .section-header:has(.tdm-nav--floating) {
+  margin-bottom: calc(-1 * var(--pr-nav-clear));
+}
+
+/* Pages without a hero: breathing room under the bar so a title never sits against it */
+body:not(:has(#MainContent > .shopify-section:first-child :is(.tdm-hero--full, .tdm-hero-slider--full))) #MainContent {
+  padding-top: var(--pr-space-6);
 }
 
 .tdm-nav {
@@ -36,7 +47,7 @@ body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-h
   padding: var(--pr-space-3) var(--pr-nav-inset);
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1200px) {
   .tdm-nav--floating {
     --pr-nav-inset: var(--pr-space-8);
   }
@@ -76,7 +87,7 @@ body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-h
   padding-inline: var(--pr-gutter);
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1200px) {
   .tdm-nav__inner {
     gap: var(--pr-space-6);
     height: var(--pr-nav-height);
@@ -119,7 +130,7 @@ body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-h
   list-style: none;
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1200px) {
   .tdm-nav__links {
     display: flex;
   }
@@ -143,8 +154,14 @@ body:has(#MainContent > .shopify-section:first-child .tdm-hero--full) .section-h
   display: inline-flex;
   gap: var(--pr-space-1);
   height: var(--pr-control-sm);
-  padding-inline: var(--pr-space-3);
+  padding-inline: var(--pr-space-2);
   white-space: nowrap;
+}
+
+@media screen and (min-width: 1200px) {
+  .tdm-nav__link {
+    padding-inline: var(--pr-space-3);
+  }
 }
 
 .tdm-nav__link:hover,
@@ -263,7 +280,7 @@ summary.tdm-nav__mlink::-webkit-details-marker {
   margin-left: auto;
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1200px) {
   .tdm-nav__actions {
     gap: var(--pr-space-3);
   }
@@ -283,7 +300,7 @@ summary.tdm-nav__mlink::-webkit-details-marker {
   display: inline-flex;
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1200px) {
   .tdm-nav__loc {
     display: flex;
   }
@@ -318,7 +335,7 @@ summary.tdm-nav__mlink::-webkit-details-marker {
   padding: var(--pr-space-2) var(--pr-space-2) var(--pr-space-4);
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1200px) {
   .tdm-nav .tdm-nav__mobile {
     display: none;
   }

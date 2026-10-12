@@ -15,6 +15,7 @@
   - cta_url       overrides the URL of the button made from the last link (the label still comes from the menu)
   - country, language   show the Shopify pickers when the store has more than one
   - color_scheme  scheme id for the bar surface (default: scheme-tdm-blanco → white)
+  - anchor_blocks the header section's blocks; `anchor` blocks (label + section id) become in-page links in the bar and the mobile panel
   - app_blocks    html of app blocks, rendered next to the icons
   - uid           unique id per Navbar on the page (section.id)
   - demo          true on the catalog: no cart id, unique search id, no h1
@@ -38,6 +39,11 @@
   if link_count > 0
     assign has_links = true
   endif
+  for block in anchor_blocks
+    if block.type == 'anchor'
+      assign has_links = true
+    endif
+  endfor
   assign nav_loc = false
   if country and localization.available_countries.size > 1
     assign nav_loc = true
@@ -86,7 +92,7 @@
       {%- if request.page_type == 'index' and demo != true -%}</h1>{%- else -%}</div>{%- endif -%}
 
       {%- if has_links -%}
-        {%- render 'navbar-links', menu: menu, menu_type: menu_type, skip_last: skip_last, uid: nav_uid -%}
+        {%- render 'navbar-links', menu: menu, menu_type: menu_type, skip_last: skip_last, anchor_blocks: anchor_blocks, uid: nav_uid -%}
       {%- endif -%}
 
       <div class="tdm-nav__actions">
@@ -119,7 +125,7 @@
     </nav>
     {%- if has_links -%}
       <div class="tdm-nav__mobile" id="NavbarPanel-{{ nav_uid }}" hidden>
-        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, cta_url: cta_url, skip_last: skip_last, country: country, language: language, uid: nav_uid -%}
+        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, cta_url: cta_url, skip_last: skip_last, anchor_blocks: anchor_blocks, country: country, language: language, uid: nav_uid -%}
       </div>
     {%- endif -%}
   </header>

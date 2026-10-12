@@ -46,6 +46,7 @@
   country: section.settings.enable_country_selector,
   language: section.settings.enable_language_selector,
   color_scheme: section.settings.color_scheme,
+  anchor_blocks: section.blocks,
   app_blocks: app_blocks,
   uid: section.id
 -%}
@@ -94,7 +95,7 @@
 {
   "name": "t:sections.header.name",
   "class": "section-header",
-  "max_blocks": 3,
+  "max_blocks": 12,
   "settings": [
     {
       "type": "select",
@@ -224,6 +225,14 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "anchor",
+      "name": "Enlace a una sección",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Texto", "default": "Sección" },
+        { "type": "text", "id": "anchor", "label": "ID de la sección", "info": "El mismo ID que tiene la sección en la página (ajuste «ID de ancla»), sin #. Aparece en el centro de la barra y en el menú móvil; se resalta mientras su sección está en pantalla." }
+      ]
     }
   ]
 }

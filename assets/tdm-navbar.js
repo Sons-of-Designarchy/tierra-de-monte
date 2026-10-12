@@ -6,9 +6,14 @@ class TdmNavbar extends HTMLElement {
     this.bar = this.querySelector('.tdm-nav__bar');
     this.panel = document.getElementById(this.dataset.panel);
     this.toggles = Array.from(this.querySelectorAll('[data-nav-toggle]'));
-    this.desktop = window.matchMedia('(min-width: 990px)');
+    this.desktop = window.matchMedia('(min-width: 1200px)');
 
-    this.onScroll = () => this.bar.toggleAttribute('data-scrolled', window.scrollY > 8);
+    this.anchors = this.collectAnchors();
+    this.frame = 0;
+    this.onScroll = () => {
+      this.bar.toggleAttribute('data-scrolled', window.scrollY > 8);
+      if (this.anchors.length && !this.frame) this.frame = requestAnimationFrame(() => this.markActive());
+    };
     this.onKeydown = (event) => event.key === 'Escape' && this.setOpen(false);
     this.onDocumentClick = (event) => {
       if (!this.contains(event.target)) {
@@ -29,6 +34,30 @@ class TdmNavbar extends HTMLElement {
       toggle.addEventListener('click', () => this.setOpen(this.panel.hidden));
     });
     this.panel?.addEventListener('click', (event) => event.target.closest('a') && this.setOpen(false));
+  }
+
+  /* In-page links (header `anchor` blocks): [link elements, target] pairs for ids that exist on the page */
+  collectAnchors() {
+    const found = [];
+    this.querySelectorAll('[data-nav-anchor]').forEach((link) => {
+      const target = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      if (target) found.push({ link, target });
+    });
+    return found;
+  }
+
+  /* The current section is the last one whose top has passed under the bar */
+  markActive() {
+    this.frame = 0;
+    const line = this.bar.getBoundingClientRect().bottom + 1;
+    let current = null;
+    this.anchors.forEach(({ link, target }) => {
+      if (target.getBoundingClientRect().top <= line) current = link;
+    });
+    this.querySelectorAll('[data-nav-anchor]').forEach((link) => {
+      if (link === current) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
   }
 
   disconnectedCallback() {
