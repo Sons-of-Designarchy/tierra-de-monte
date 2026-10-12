@@ -30,6 +30,7 @@
 {%- liquid
   assign gp_cols = columns | default: 4
   assign gp_limit = limit | default: 250
+  assign gp_excerpt = show_excerpt | default: true, allow_false: true
   assign gp_has_bar = false
   if results != blank
     if show_filters or sort_options or show_availability
@@ -176,7 +177,7 @@
               {%- assign gp_page_title = item.title | truncate: 50 -%}
               <li>{% render 'card', tag: 'div', href: item.url, title: gp_page_title, title_as: 'h3', eyebrow: 'Página' %}</li>
             {%- else -%}
-              {%- render 'product-card', product: item, tag: 'li', show_vendor: show_vendor, show_quick_add: show_quick_add, show_excerpt: show_excerpt, image_ratio: image_ratio, image_fit: image_fit -%}
+              {%- render 'product-card', product: item, tag: 'li', show_vendor: show_vendor, show_quick_add: show_quick_add, show_excerpt: gp_excerpt, image_ratio: image_ratio, image_fit: image_fit -%}
           {%- endcase -%}
         {%- endfor -%}
       </ul>
