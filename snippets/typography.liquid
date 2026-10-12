@@ -17,6 +17,7 @@
   - for_id   only with as: 'label' (the id of the control)
   - attrs    extra attributes string, e.g. 'aria-live="polite"'
 
+  The brand name "Tierra de Monte" is rendered with non-breaking spaces everywhere, so it never splits across two lines.
   Eyebrow is the only uppercase variant. Uppercase and mono are never defaults elsewhere.
   Classes: .pr-type--{variant} .pr-font--{font} .pr-weight--{weight} .pr-color--{color} .pr-align--{align} (assets/pr-typography.css)
 {%- endcomment -%}
@@ -30,6 +31,7 @@
       assign t_font = 'body'
     endif
   endif
+  assign t_text = text | replace: 'Tierra de Monte', 'Tierra&nbsp;de&nbsp;Monte'
   assign t_weight = weight | default: 'regular'
   assign t_color = color | default: 'primary'
   assign t_tag = as
@@ -46,4 +48,4 @@
     endcase
   endif
 -%}
-<{{ t_tag }} class="pr-type pr-type--{{ t_variant }} pr-font--{{ t_font }} pr-weight--{{ t_weight }} pr-color--{{ t_color }}{% if align != blank %} pr-align--{{ align }}{% endif %}{% if class != blank %} {{ class }}{% endif %}"{% if id != blank %} id="{{ id }}"{% endif %}{% if for_id != blank %} for="{{ for_id }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ text }}</{{ t_tag }}>
+<{{ t_tag }} class="pr-type pr-type--{{ t_variant }} pr-font--{{ t_font }} pr-weight--{{ t_weight }} pr-color--{{ t_color }}{% if align != blank %} pr-align--{{ align }}{% endif %}{% if class != blank %} {{ class }}{% endif %}"{% if id != blank %} id="{{ id }}"{% endif %}{% if for_id != blank %} for="{{ for_id }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ t_text }}</{{ t_tag }}>

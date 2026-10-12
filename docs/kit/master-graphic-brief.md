@@ -157,7 +157,7 @@ Tamaños para formatos de 1080 px (no están en los tokens, son propuesta de uso
 - 3 `Haz tu primer pedido` — `Tu registro como Aliado se concreta con tu primer pedido.` / `Uno de nuestros ejecutivos se pondrá en contacto contigo para acompañarte y explicarte todo lo que tiene el programa para ti.`
 - 4 `¡Ya eres Aliado Tierra de Monte!` — `Bienvenido a una comunidad que está transformando la agricultura.` / `Ahora podrás desarrollar tu negocio con nuestras soluciones biológicas y contar con Tierra de Monte.`
 
-**M7 Frases de ticker** (mono, mayúsculas, color `#FAF4EC`): `GANA MÁS EN CADA VENTA` · `Resultados que se ven en el campo` · `Sube de nivel, crece tu negocio` · `Únete al Programa de Aliados`
+**M7 Frases de ticker** (mono, mayúsculas, color `#FAF4EC`): `GANA MÁS EN CADA VENTA` · `Resultados que se ven en el campo` · `Crece tu negocio y sube de nivel` · `Únete al Programa de Aliados`
 
 **M8 CTA / Registro**: título `Registro` · botón `Quiero ser Aliado` → `/pages/aliados#registro` (en piezas impresas y de redes: URL corta o QR; `[DEPENDE DE APROBACIÓN]` URL final con UTM, ver `kpis.md`).
 

@@ -7,7 +7,7 @@
   Params
   - eyebrow, title      plain text (title may hold inline html)
   - eyebrow_style       eyebrow | body | chip (see heading)
-  - intro               rich text html (from a richtext setting) or plain text; rendered as body copy
+  - intro               rich text html (from a richtext setting) or plain text; rendered as body-lg copy
   - size                display | h1 | h2 | h3   (default: h2)
   - align               left | center   (default: left)
   - as                  tag of the title (default: h2)
@@ -25,7 +25,7 @@
 -%}
 {%- unless sh_empty -%}
   {%- capture sh_intro -%}
-    {%- if intro != blank -%}{%- render 'typography', text: intro, as: 'div', variant: 'body', class: 'pr-section-header__intro rte' -%}{%- endif -%}
+    {%- if intro != blank -%}{%- render 'typography', text: intro, as: 'div', variant: 'body-lg', class: 'pr-section-header__intro rte' -%}{%- endif -%}
       {%- if extra != blank -%}{{ extra }}{%- endif -%}
   {%- endcapture -%}
   <div class="pr-section-header pr-section-header--{{ sh_align }}{% if class != blank %} {{ class }}{% endif %}">
