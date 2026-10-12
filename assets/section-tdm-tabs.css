@@ -1,61 +1,13 @@
 /* =============================================================================
    Tabbed collections (sections/tabbed-collections.liquid)
-   Chip bar (up to 6 collections) + product grid panels, driven by the
-   <tdm-tabs> custom element in assets/tdm-tabs.js. Text comes from the
-   heading, chip, button and typography snippets.
+   The tabs are the tabs atom (underlined row, snippets/tabs.liquid); this file only lays out the
+   section heading, the tab icon and dot and the product panels.
    ========================================================================== */
 
 .tdm-tabs .tdm-tabs__heading {
   align-items: center;
   margin-inline: auto;
   margin-bottom: var(--pr-space-6);
-}
-
-.tdm-tabs .tdm-tabs__list {
-  display: grid;
-  gap: var(--pr-space-3);
-  margin: var(--pr-space-8) auto;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  width: auto;
-  justify-content: center;
-}
-
-@media (min-width: 750px) {
-  .tdm-tabs .tdm-tabs__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* Desktop: however many tabs there are, they share the full width */
-@media (min-width: 990px) {
-  .tdm-tabs .tdm-tabs__list {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-    width: 100%;
-  }
-}
-
-/* Tabs: no border, white when inactive (the active tab keeps the action fill), content left-aligned.
-   Grid items stretch, so one- and two-line labels share the same height. */
-.tdm-tabs .tdm-tabs__tab {
-  width: 100%;
-  justify-content: flex-start;
-  min-width: 0;
-  height: auto;
-  min-height: var(--pr-control-lg);
-  padding-block: var(--pr-space-3);
-  border: 0;
-  text-align: left;
-  white-space: normal;
-}
-
-.tdm-tabs .tdm-tabs__tab:not(.is-selected, [aria-pressed='true']) {
-  background: var(--pr-white);
-}
-
-.tdm-tabs .tdm-tabs__tab:not(.is-selected, [aria-pressed='true']):hover {
-  background: var(--pr-surface-subtle);
 }
 
 .tdm-tabs .tdm-tabs__icon {
@@ -73,39 +25,8 @@
   flex: 0 0 auto;
 }
 
-.tdm-tabs .tdm-tabs__panels {
-  margin-top: var(--pr-space-6);
-}
-
-.tdm-tabs .tdm-tabs__panel[hidden] {
-  display: none;
-}
-
 .tdm-tabs .tdm-tabs__more {
   display: flex;
   justify-content: center;
   margin-top: var(--pr-space-8);
-}
-
-@media (max-width: 749.98px) {
-  .tdm-tabs .tdm-tabs__list {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    gap: var(--pr-space-2);
-    padding: 0 var(--pr-space-3);
-    margin: var(--pr-space-4) 0 var(--pr-space-6);
-    scroll-snap-type: x proximity;
-    width: 100%;
-    scrollbar-width: none;
-  }
-
-  .tdm-tabs .tdm-tabs__tab {
-    flex: 0 0 auto;
-    width: auto;
-    white-space: nowrap;
-    scroll-snap-align: start;
-  }
 }
