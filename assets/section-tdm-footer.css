@@ -384,11 +384,6 @@
     padding-left: 0;
   }
 
-  .footer .footer-grid-custom .footer-block--menu .footer-block__details-content > li > a {
-    display: block;
-    padding: var(--pr-space-2) 0;
-  }
-
   .footer .footer-grid-custom .footer-block-image,
   .footer .footer-grid-custom .footer-block-image.left,
   .footer .footer-grid-custom .footer-block-image.center,
