@@ -9,45 +9,33 @@
  */
 {
   "sections": {
-    "rich_text_with_logo_3QUehq": {
-      "type": "rich-text",
-      "name": "Rich text + Logo (custom)",
+    "hero_overlay_card_nosotros": {
+      "type": "hero-overlay-card",
+      "name": "Hero Nosotros",
       "settings": {
-        "logo_alt": "Section logo",
-        "logo_width": 128,
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "content_width": "wide",
-        "mono_heading": false,
-        "mono_body": true,
-        "full_width": false,
-        "color_scheme": "",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "display_text": true
-      },
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida de las personas y los ecosistemas.  Creamos soluciones biológicas  para regenerar ecosistemas equilibrados y agricultores que prosperan con mayor rentabilidad, menor costo y la recuperación de sus áreas productivas.",
-            "heading_size": "h1",
-            "heading_tag": "h1"
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "button_label": "Solicita información",
-            "button_link": "https://wa.me/524423741871",
-            "button_style_secondary": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ]
+        "image": "shopify://shop_images/tdm-home-quienes-somos-3.jpg",
+        "image_alt": "Equipo de Tierra de Monte en campo",
+        "width": "full",
+        "scrim": true,
+        "min_height_desktop": 75,
+        "min_height_mobile": 70,
+        "corner_radius": 8,
+        "card_style": "none",
+        "card_position": "bottom-left",
+        "card_max_width": 720,
+        "card_padding": 24,
+        "card_bg_opacity": 100,
+        "card_glass": false,
+        "card_shadow": false,
+        "subtitle": "",
+        "heading": "En Tierra de Monte creemos que la ciencia cobra sentido cuando mejora la vida de las personas y los ecosistemas.",
+        "heading_size": "lg",
+        "body": "<p>Creamos soluciones biológicas para regenerar ecosistemas equilibrados y agricultores que prosperan con mayor rentabilidad, menor costo y la recuperación de sus áreas productivas.</p>",
+        "button_label": "Solicita información",
+        "button_link": "https://wa.me/524423741871",
+        "button_pill": false,
+        "text_on_dark": false
+      }
     },
     "main": {
       "type": "main-page",
@@ -348,7 +336,7 @@
             "rule_color": "#294e3f",
             "columns_desktop": 5,
             "columns_mobile": "2",
-            "gap": 10,
+            "gap": 24,
             "text_alignment": "left",
             "color_scheme": "scheme-1",
             "padding_top": 80,
@@ -502,7 +490,7 @@
     }
   },
   "order": [
-    "rich_text_with_logo_3QUehq",
+    "hero_overlay_card_nosotros",
     "main",
     "multicol_custom_feature_Vd6Rq7",
     "image_with_text_YqAQVK",
