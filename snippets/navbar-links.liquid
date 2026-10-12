@@ -71,7 +71,7 @@
       {%- assign anchor_title = block.settings.label | escape -%}
       <li class="tdm-nav__item" {{ block.shopify_attributes }}>
         <a href="#{{ block.settings.anchor | handleize }}" class="tdm-nav__link" data-nav-anchor>
-          {%- render 'typography', text: anchor_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
+          {%- render 'typography', text: anchor_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
         </a>
       </li>
     {%- endif -%}
