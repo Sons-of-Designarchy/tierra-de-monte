@@ -982,7 +982,7 @@
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
         "anchor_id": "preguntas",
-        "caption": "Antes de dar el paso",
+        "caption": "",
         "heading": "Preguntas Frecuentes",
         "heading_size": "h1",
         "color_scheme": "scheme-tdm-crema",
