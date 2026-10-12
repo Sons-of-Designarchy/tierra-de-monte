@@ -108,6 +108,9 @@
           {%- endif -%}
           {%- render 'button', label: section.settings.button_label, variant: 'primary', size: 'lg', disabled: true, attrs: 'data-checkout', class: 'pr-order__action' -%}
           {%- render 'typography', text: 'No se pudo preparar tu pedido. Intenta de nuevo.', variant: 'label', color: 'danger', attrs: 'role="alert" hidden data-order-error' -%}
+          {%- if section.settings.ethics_note != blank -%}
+            {%- render 'typography', text: section.settings.ethics_note, as: 'div', variant: 'xs', color: 'secondary', class: 'pr-order__ethics rte' -%}
+          {%- endif -%}
           {%- if section.settings.note != blank -%}
             {%- render 'typography', text: section.settings.note, variant: 'xs', color: 'secondary', class: 'pr-order__extra' -%}
           {%- endif -%}
@@ -175,6 +178,7 @@
     { "type": "text", "id": "goal_label", "label": "Nombre de la meta", "default": "el nivel Bronce" },
     { "type": "text", "id": "button_label", "label": "Texto del botón de pago", "default": "Pagar mi pedido" },
     { "type": "text", "id": "note", "label": "Nota al pie", "default": "Pagas en el checkout seguro de Shopify. Después completas tu registro en el paso 2." },
+    { "type": "richtext", "id": "ethics_note", "label": "Aviso del código de ética", "info": "Opcional. Va junto al botón de pago, con el enlace al código. El Aliado lo palomea en el registro (GoHighLevel)." },
     { "type": "header", "content": "Colores y espacio" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Esquema", "default": "scheme-tdm-blanco" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 48 },
