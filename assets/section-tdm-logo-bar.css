@@ -1,9 +1,9 @@
 /* =============================================================================
    Logo bar section (sections/logo-bar.liquid)
-   Partner/ally logos in a responsive grid, with an optional title, on the
+   Partner/ally logos grouped in the centre with a fixed gap, with an optional title, on the
    scheme background edge to edge (no card, no radius, no shadow). Text is rendered by typography. Per-instance values arrive as custom
    properties on .tdm-logo-bar:
-     --logo-bar-gap --logo-h --cols-mobile --cols-desktop
+     --logo-bar-gap --logo-h
    Grayscale is a modifier class (.tdm-logo-bar--grayscale).
    ========================================================================== */
 
@@ -35,37 +35,29 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  display: grid;
-  gap: var(--logo-bar-gap, 24px);
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-items: center;
   justify-content: center;
-}
-
-@media (max-width: 749px) {
-  .tdm-logo-bar .logo-bar__list {
-    grid-template-columns: repeat(var(--cols-mobile), 1fr);
-  }
-}
-
-@media (min-width: 750px) {
-  .tdm-logo-bar .logo-bar__list {
-    grid-template-columns: repeat(var(--cols-desktop), 1fr);
-  }
+  gap: var(--pr-space-8) var(--logo-bar-gap, 64px);
 }
 
 /* ---- Items ------------------------------------------------------------------ */
 .tdm-logo-bar .logo-bar__item {
   text-align: center;
-  width: 100%;
 }
 
 .tdm-logo-bar .logo-bar__box {
   height: var(--logo-h, 56px);
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 749px) {
+  .tdm-logo-bar .logo-bar__list {
+    gap: var(--pr-space-6) var(--pr-space-8);
+  }
 }
 
 /* ---- Images ------------------------------------------------------------------ */
@@ -74,7 +66,7 @@
   height: auto;
   width: auto;
   max-width: 100%;
-  max-height: 100%;
+  height: var(--logo-h, 56px);
   object-fit: contain;
   opacity: 0.9;
   transition: opacity var(--pr-motion-base) var(--pr-motion-ease), transform var(--pr-motion-base) var(--pr-motion-ease);
