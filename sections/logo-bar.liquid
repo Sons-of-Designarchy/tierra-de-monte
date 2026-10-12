@@ -8,29 +8,13 @@
     assign root_classes = root_classes | append: ' tdm-logo-bar--grayscale'
   endif
 
-  assign title_variant = 'h2'
-  case section.settings.heading_size
-    when 'h1'
-      assign title_variant = 'h1'
-    when 'h0'
-      assign title_variant = 'display'
-    when 'h4'
-      assign title_variant = 'h4'
-  endcase
-  assign title_font = 'display'
-  case section.settings.title_font
-    when 'body'
-      assign title_font = 'body'
-    when 'mono'
-      assign title_font = 'mono'
-  endcase
+  assign title_text = section.settings.title | strip_html
 -%}
 
 {%- capture bar_inner -%}
   {% if section.settings.title != blank %}
     <div class="logo-bar__header">
-      {% render 'typography', text: section.settings.title, variant: title_variant, as: 'h2', font: title_font, align: 'center' %}
-      <div class="logo-bar__rule" aria-hidden="true"></div>
+      {% render 'typography', text: title_text, variant: 'eyebrow', as: 'h2', align: 'center' %}
     </div>
   {% endif %}
 
@@ -78,30 +62,6 @@
   "class": "section",
   "settings": [
     { "type": "inline_richtext", "id": "title", "label": "Title", "default": "ALIANZAS QUE NUTREN LA TIERRA" },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "label": "Heading size",
-      "default": "h2",
-      "options": [
-        { "value": "h2", "label": "H2" },
-        { "value": "h1", "label": "H1" },
-        { "value": "h0", "label": "H0" },
-        { "value": "h4", "label": "H4" }
-      ]
-    },
-
-    {
-      "type": "select",
-      "id": "title_font",
-      "label": "Title font style",
-      "default": "heading",
-      "options": [
-        { "value": "heading", "label": "Theme heading" },
-        { "value": "body", "label": "Theme body (regular)" },
-        { "value": "mono", "label": "Monospace (regular)" }
-      ]
-    },
 
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
     { "type": "range", "id": "gap", "label": "Logo gap (px)", "info": "Logos sit together in the centre with this fixed gap.", "min": 16, "max": 128, "step": 8, "default": 64 },

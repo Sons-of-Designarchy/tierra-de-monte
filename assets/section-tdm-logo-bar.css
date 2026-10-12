@@ -22,13 +22,6 @@
   margin-bottom: var(--pr-space-6);
 }
 
-/* Rule under heading */
-.tdm-logo-bar .logo-bar__rule {
-  width: 64px;
-  height: 1px;
-  background: var(--pr-border-strong);
-}
-
 /* ---- Grid ------------------------------------------------------------------ */
 .tdm-logo-bar .logo-bar__list {
   list-style: none;
