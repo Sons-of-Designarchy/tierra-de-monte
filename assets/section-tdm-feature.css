@@ -162,3 +162,21 @@
   align-items: center;
   color: var(--pr-text-secondary);
 }
+
+/* ---- Rows (vacantes): a contained block, not a full-width band ------------------------------------- */
+.tdm-feature--rows {
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--pr-page-gutter));
+  max-width: calc(var(--page-width) - 2 * var(--pr-page-gutter));
+  margin-inline: auto;
+  border-radius: var(--pr-radius-surface);
+  overflow: hidden;
+}
+
+.tdm-feature--rows > .page-width {
+  padding-inline: var(--pr-space-8);
+}
+
+.tdm-feature--rows .tdm-feature__rows {
+  max-width: calc(36 * var(--pr-rem));
+}
