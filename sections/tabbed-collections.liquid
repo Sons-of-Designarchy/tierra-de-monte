@@ -56,7 +56,7 @@
       {%- endif -%}
     {%- endfor -%}
     {%- assign tc_heading = section.settings.heading | escape -%}
-    {% render 'tabs', id: section.id, label: tc_heading, tabs: tc_labels, leads: tc_leads, panels: tc_panels, text: 'body-lg', class: 'tdm-tabs__root' %}
+    {% render 'tabs', id: section.id, label: tc_heading, tabs: tc_labels, leads: tc_leads, panels: tc_panels, class: 'tdm-tabs__root' %}
   {% else %}
     {% render 'typography', text: 'Set “Collection 1…6” in the section settings.', variant: 'body', color: 'secondary', align: 'center' %}
   {% endif %}

@@ -999,7 +999,6 @@ a.pr-chip {
   display: flex;
   gap: var(--pr-space-1);
   overflow-x: auto;
-  border-bottom: 1px solid var(--pr-border);
 }
 
 .pr-tabs__tab {
@@ -1009,33 +1008,23 @@ a.pr-chip {
   align-items: center;
   gap: var(--pr-space-2);
   height: var(--pr-control-md);
-  padding: 0 var(--pr-space-3);
+  padding: 0 var(--pr-space-4);
   border: 0;
+  border-radius: var(--pr-radius-control);
   background: transparent;
   color: var(--pr-text-secondary);
   white-space: nowrap;
   cursor: pointer;
-  transition: color var(--pr-motion-fast) var(--pr-motion-ease);
+  transition: color var(--pr-motion-fast) var(--pr-motion-ease), background-color var(--pr-motion-fast) var(--pr-motion-ease);
 }
 
-.pr-tabs__tab::after {
-  content: '';
-  position: absolute;
-  right: var(--pr-space-3);
-  bottom: 0;
-  left: var(--pr-space-3);
-  height: 1px;
-  background: transparent;
-  transition: background-color var(--pr-motion-fast) var(--pr-motion-ease);
-}
-
-.pr-tabs__tab:hover,
-.pr-tabs__tab[aria-selected='true'] {
+.pr-tabs__tab:hover {
   color: var(--pr-text-primary);
 }
 
-.pr-tabs__tab[aria-selected='true']::after {
-  background: var(--pr-action);
+.pr-tabs__tab[aria-selected='true'] {
+  background: var(--pr-brand-secondary);
+  color: var(--pr-brand-on-secondary);
 }
 
 .pr-tabs__tab:focus-visible,

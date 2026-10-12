@@ -1,6 +1,6 @@
 /* =============================================================================
    Tabbed collections (sections/tabbed-collections.liquid)
-   The tabs are the tabs atom (underlined row, snippets/tabs.liquid); this file only lays out the
+   The tabs are the tabs atom (text tabs, selected one filled, snippets/tabs.liquid); this file only lays out the
    section heading, the tab icon and dot and the product panels.
    ========================================================================== */
 

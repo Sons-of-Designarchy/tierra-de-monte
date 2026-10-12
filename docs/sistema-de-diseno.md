@@ -140,7 +140,7 @@ CSS: `assets/pr-atoms-extra.css` (los átomos nuevos de este tema van ahí, carg
 - **Bandas de ancho completo.** La barra de logos y la banda de certificación van de borde a borde, con el fondo del esquema y el contenido dentro del gutter de página; sin tarjeta, radio ni sombra.
 - **Hero con foto.** Un solo marco para `hero-overlay-card` y `hero-slider` (`assets/pr-hero.css`): de orilla a orilla, sin radio ni borde, ~75svh, el navbar flotante encima de la foto (`--pr-nav-clear`). El scrim es `--pr-scrim-strong` (tinta 85%) desde la esquina del texto; el botón sobre foto es lima.
 - **Imagen + texto:** la sección recorta con un solo radio; las mitades no llevan borde ni radio propio.
-- **Chip con texto grande:** `chip` acepta `text: 'body-lg'` (las pestañas de categorías lo usan: sin borde, blancas, alineadas a la izquierda, la activa con el relleno de acción).
+- **Tabs:** el átomo `tabs` (body-sm medium, sin cajas ni subrayado); la pestaña seleccionada lleva el relleno lima de marca. Las pestañas de categorías del home y las categorías del blog lo usan.
 - **Colecciones (Productos):** esquema `scheme-tdm-blanco` en banner y grilla, para que las fotos de producto con fondo blanco se integren.
 
 ### Navbar (el header)

@@ -1,5 +1,5 @@
 {%- comment -%}
-  Tabs — underlined tabs. Arrow keys / Home / End move between tabs; the list scrolls on narrow screens. Custom element in assets/pr-tabs.js.
+  Tabs — text tabs, the selected one with a lime fill. Arrow keys / Home / End move between tabs; the list scrolls on narrow screens. Custom element in assets/pr-tabs.js.
   Ports PerfectlyRad Tabs.
 
   {% capture panels %}Panel uno<!--pr-->Panel dos{% endcapture %}
@@ -12,11 +12,11 @@
   - counts  optional counts in the same order, '|' separated, e.g. '4||12'
   - panels  html panels in the same order, separated by <!--pr-->
   - leads   optional html before each label (an icon image, a dot), in the same order, separated by <!--pr-->
-  - text    label typography variant: body-sm | body | body-lg   (default: body-sm)
+  - text    label typography variant: body-sm | body   (default: body-sm, medium)
   - active  1-based index of the tab open on load (default: 1)
   - class
 
-  States: hover, selected (1px underline in the action colour), focus-visible.
+  States: hover, selected (brand lime fill, no underline, no boxes on the rest), focus-visible.
 {%- endcomment -%}
 {%- liquid
   assign tb_labels = tabs | split: '|'
