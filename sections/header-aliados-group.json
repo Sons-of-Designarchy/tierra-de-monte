@@ -46,6 +46,7 @@
         "menu": "menu-aliados",
         "menu_type_desktop": "mega",
         "cta_last_link": true,
+        "cta_url": "#pedido",
         "show_search": false,
         "show_account": false,
         "color_scheme": "scheme-tdm-blanco",

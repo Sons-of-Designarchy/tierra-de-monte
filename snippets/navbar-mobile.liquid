@@ -55,9 +55,10 @@
 </ul>
 {%- if cta != blank -%}
   {%- assign cta_attrs = '' -%}
-  {%- if cta.url contains '#pedido' %}{% assign cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
+  {%- assign cta_href = cta_url | default: cta.url -%}
+  {%- if cta_href contains '#pedido' %}{% assign cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
   <div class="tdm-nav__mcta">
-    {%- render 'button', label: cta.title, href: cta.url, class: 'tdm-nav__mcta-btn', attrs: cta_attrs -%}
+    {%- render 'button', label: cta.title, href: cta_href, class: 'tdm-nav__mcta-btn', attrs: cta_attrs -%}
   </div>
 {%- endif -%}
 {%- if country or language -%}

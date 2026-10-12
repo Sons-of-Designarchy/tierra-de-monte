@@ -40,6 +40,7 @@
   show_search: section.settings.show_search,
   show_account: section.settings.show_account,
   cta_last: section.settings.cta_last_link,
+  cta_url: section.settings.cta_url,
   sticky: section.settings.sticky,
   country: section.settings.enable_country_selector,
   language: section.settings.enable_language_selector,
@@ -159,6 +160,12 @@
       "default": false,
       "label": "Último enlace como botón",
       "info": "El último enlace del menú se muestra como botón a la derecha (en móvil va dentro del menú)."
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Destino del botón",
+      "info": "Opcional. Reemplaza el enlace del menú en ese botón (el texto sigue siendo el del menú). En Aliados: #pedido."
     },
     {
       "type": "header",

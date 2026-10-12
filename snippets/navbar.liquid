@@ -11,6 +11,7 @@
   - logo          image (theme logo or a per-section override); blank shows the shop name
   - logo_url, logo_width (px)
   - show_search, show_account, cta_last, sticky
+  - cta_url       overrides the URL of the button made from the last link (the label still comes from the menu)
   - country, language   show the Shopify pickers when the store has more than one
   - color_scheme  scheme id for the bar surface (default: scheme-tdm-blanco → white)
   - app_blocks    html of app blocks, rendered next to the icons
@@ -102,8 +103,9 @@
         {{ app_blocks }}
         {%- if nav_cta != blank -%}
           {%- assign nav_cta_attrs = '' -%}
-          {%- if nav_cta.url contains '#pedido' %}{% assign nav_cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
-          {%- render 'button', label: nav_cta.title, href: nav_cta.url, size: 'sm', class: 'tdm-nav__cta', attrs: nav_cta_attrs -%}
+          {%- assign nav_cta_url = cta_url | default: nav_cta.url -%}
+          {%- if nav_cta_url contains '#pedido' %}{% assign nav_cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
+          {%- render 'button', label: nav_cta.title, href: nav_cta_url, size: 'sm', class: 'tdm-nav__cta', attrs: nav_cta_attrs -%}
         {%- endif -%}
         {%- render 'icon-button', icon: 'bag', label: cart_label, href: routes.cart_url, id: cart_id, badge: cart_badge -%}
         {%- if has_links -%}
@@ -114,7 +116,7 @@
     </nav>
     {%- if has_links -%}
       <div class="tdm-nav__mobile" id="NavbarPanel-{{ nav_uid }}" hidden>
-        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, skip_last: skip_last, country: country, language: language, uid: nav_uid -%}
+        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, cta_url: cta_url, skip_last: skip_last, country: country, language: language, uid: nav_uid -%}
       </div>
     {%- endif -%}
   </header>
