@@ -15,7 +15,7 @@
         "slide_kAWH4n": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
+            "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_43_1.jpg",
             "alt": "",
             "overlay_color": "#000000",
             "overlay_opacity": 15,
@@ -231,7 +231,7 @@
         "heading_size": "h1",
         "text": "<p>Una línea que genera valor en el campo y en tu negocio, fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
         "show_line_image": true,
-        "line_image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
+        "line_image": "shopify://shop_images/tdm-aliados-productos.jpg",
         "collection": "",
         "max_products": 12,
         "columns_desktop": 4,
