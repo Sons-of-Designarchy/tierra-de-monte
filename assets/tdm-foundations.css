@@ -716,3 +716,11 @@
   max-width: var(--pr-page-max);
   padding-inline: var(--pr-page-gutter);
 }
+
+/* -----------------------------------------------------------------------------
+   Font smoothing, site-wide: light text on a photo or a dark band no longer looks heavy.
+   -------------------------------------------------------------------------- */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

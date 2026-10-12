@@ -145,12 +145,12 @@ html.pr-scroll-lock {
   color: var(--pr-text-on-action);
 }
 
-/* ---------- product-card: white, 1px border, no shadow ---------- */
+/* ---------- product-card: white, no border, no shadow ---------- */
 .pr-card.pr-product-card[data-scheme],
 .pr-card.pr-product-card[data-scheme]:hover {
   position: relative;
   width: 100%;
-  border: 1px solid var(--pr-border-strong);
+  border: 0;
   box-shadow: none;
 }
 
