@@ -86,12 +86,12 @@
                 {%- if block.settings.button_label != blank -%}
                   {%- assign button_variant = 'primary' -%}
                   {%- if block.settings.button_style_secondary -%}{%- assign button_variant = 'outline' -%}{%- endif -%}
-                  {% render 'button', label: block.settings.button_label, href: block.settings.button_link, variant: button_variant, size: 'md' %}
+                  {% render 'button', label: block.settings.button_label, href: block.settings.button_link, variant: button_variant, size: 'lg' %}
                 {%- endif -%}
                 {%- if block.settings.button_label_2 != blank -%}
                   {%- assign button_variant_2 = 'primary' -%}
                   {%- if block.settings.button_style_secondary_2 -%}{%- assign button_variant_2 = 'outline' -%}{%- endif -%}
-                  {% render 'button', label: block.settings.button_label_2, href: block.settings.button_link_2, variant: button_variant_2, size: 'md' %}
+                  {% render 'button', label: block.settings.button_label_2, href: block.settings.button_link_2, variant: button_variant_2, size: 'lg' %}
                 {%- endif -%}
               </div>
           {%- endcase -%}

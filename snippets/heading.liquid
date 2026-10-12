@@ -39,10 +39,10 @@
         assign h_tag = 'h2'
     endcase
   endif
-  assign h_cta_size = 'md'
+  assign h_cta_size = 'lg'
   case h_size
-    when 'display' or 'h1'
-      assign h_cta_size = 'lg'
+    when 'h4'
+      assign h_cta_size = 'md'
     when 'h5'
       assign h_cta_size = 'sm'
   endcase

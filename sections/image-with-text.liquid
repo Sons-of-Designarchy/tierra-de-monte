@@ -90,7 +90,7 @@
                   {%- if block.settings.button_label != blank -%}
                     {%- assign button_variant = 'primary' -%}
                     {%- if block.settings.button_style_secondary -%}{%- assign button_variant = 'outline' -%}{%- endif -%}
-                    {% render 'button', label: block.settings.button_label, href: block.settings.button_link, variant: button_variant, size: 'md', class: 'image-with-text__button', attrs: block.shopify_attributes %}
+                    {% render 'button', label: block.settings.button_label, href: block.settings.button_link, variant: button_variant, size: 'lg', class: 'image-with-text__button', attrs: block.shopify_attributes %}
                   {%- endif -%}
               {%- endcase -%}
             {%- endfor -%}
