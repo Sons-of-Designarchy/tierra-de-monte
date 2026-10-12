@@ -40,6 +40,43 @@
   text-transform: uppercase; /* the one allowed mono-uppercase style: every ticker reads the same */
 }
 
+/* Icon between phrases on the photo ticker: white, same opacity as the dot separator, which it replaces */
+.tdm-ticker--has-icon .tdm-ticker__item::after {
+  content: none;
+}
+
+.tdm-ticker--has-icon .tdm-ticker__icon {
+  filter: brightness(0) invert(1);
+  opacity: 0.6;
+}
+
+/* Secondary style: large light text on a light band, 1px lines above and below, the logo is the separator.
+   Ink and band colour come from the section's own colour settings. */
+.tdm-ticker--light {
+  border-block: 1px solid var(--ticker-ink, var(--pr-border-strong));
+}
+
+.tdm-ticker--light .tdm-ticker__text {
+  text-transform: none;
+  line-height: var(--pr-display-leading, 1.1);
+  padding-block: var(--pr-space-2);
+}
+
+
+.tdm-ticker--light .tdm-ticker__item::after {
+  content: none;
+}
+
+.tdm-ticker--light .tdm-ticker__icon {
+  filter: none;
+  opacity: 1;
+}
+
+.tdm-ticker--light .tdm-ticker__item {
+  gap: var(--pr-space-8);
+  padding-inline-end: var(--pr-space-8);
+}
+
 /* Editor settings that the type scale does not cover */
 .tdm-ticker.tdm-ticker--transform-title .tdm-ticker__text {
   text-transform: capitalize;

@@ -49,6 +49,7 @@
 .pr-font--mono { font-family: var(--pr-font-mono); }
 
 /* ---------- weight ---------- */
+.pr-weight--light { font-weight: var(--pr-weight-light); }
 .pr-weight--regular { font-weight: var(--pr-weight-regular); }
 .pr-weight--medium { font-weight: var(--pr-weight-medium); }
 .pr-weight--semibold { font-weight: var(--pr-weight-semibold); }

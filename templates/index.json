@@ -168,18 +168,18 @@
       "settings": {
         "text": "Ciencia al servicio del campo",
         "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
-        "icon_height": 32,
-        "bg_image": "shopify://shop_images/ticker-1.jpg",
-        "bg_color": "rgba(0,0,0,0)",
-        "text_color": "#faf4ec",
-        "font_size": 22,
-        "text_transform": "uppercase",
-        "typography_variant": "secondary",
-        "font_variant": "mono",
-        "speed": 36,
-        "show_top_border": false,
-        "show_bottom_border": false,
-        "height": 100
+        "icon_height": 45,
+        "style": "light",
+        "bg_color": "#c8e7c3",
+        "text_color": "#373736",
+        "font_size": 100,
+        "text_transform": "none",
+        "typography_variant": "primary",
+        "font_variant": "normal",
+        "speed": 74,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 135
       }
     },
     "multicolumn_feature_mjeJtX": {
@@ -258,18 +258,18 @@
       "settings": {
         "text": "Colaboración en campo",
         "icon": "shopify://shop_images/Client-Logo_9fd7c2f2-f865-4cf5-b647-97cadc308520.png",
-        "icon_height": 32,
-        "bg_image": "shopify://shop_images/ticker-1.jpg",
+        "icon_height": 55,
+        "style": "light",
         "bg_color": "rgba(0,0,0,0)",
-        "text_color": "#faf4ec",
-        "font_size": 22,
-        "text_transform": "uppercase",
-        "typography_variant": "secondary",
-        "font_variant": "mono",
-        "speed": 36,
-        "show_top_border": false,
-        "show_bottom_border": false,
-        "height": 100
+        "text_color": "#373736",
+        "font_size": 100,
+        "text_transform": "none",
+        "typography_variant": "primary",
+        "font_variant": "normal",
+        "speed": 74,
+        "show_top_border": true,
+        "show_bottom_border": true,
+        "height": 135
       }
     },
     "multicolumn": {

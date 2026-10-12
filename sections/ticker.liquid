@@ -5,7 +5,13 @@
   assign base_speed = section.settings.speed | default: 36
   assign speed = base_speed
   assign t_font = 'body'
-  if section.settings.font_variant == 'mono'
+  assign is_light = false
+  if section.settings.style == 'light'
+    assign is_light = true
+  endif
+  if is_light
+    assign t_font = 'body'
+  elsif section.settings.font_variant == 'mono'
     assign speed = base_speed | plus: 8
     assign t_font = 'mono'
   elsif section.settings.typography_variant == 'primary'
@@ -19,11 +25,16 @@
   assign t_variant = t_variant_raw | strip
 
   assign t_class = 'tdm-ticker__text'
-  if section.settings.text_transform == 'uppercase' or section.settings.text_transform == blank
-    assign t_class = t_class | append: ' tdm-upper'
-  endif
-
+  assign t_weight = 'regular'
   assign root_classes = 'tdm-ticker'
+  if is_light
+    assign t_variant = 'display'
+    assign t_weight = 'light'
+    assign root_classes = root_classes | append: ' tdm-ticker--light'
+  endif
+  if section.settings.icon != blank
+    assign root_classes = root_classes | append: ' tdm-ticker--has-icon'
+  endif
   if section.settings.text_transform == 'title'
     assign root_classes = root_classes | append: ' tdm-ticker--transform-title'
   endif
@@ -70,7 +81,7 @@
                     loading="lazy"
                   >
                 {%- endif -%}
-                {%- render 'typography', text: copy, as: 'span', variant: t_variant, font: t_font, color: 'inherit', class: t_class -%}
+                {%- render 'typography', text: copy, as: 'span', variant: t_variant, font: t_font, weight: t_weight, color: 'inherit', class: t_class -%}
               </span>
             {%- endfor -%}
           </span>
@@ -90,6 +101,16 @@
       "id": "anchor_id",
       "label": "ID de ancla",
       "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Estilo",
+      "options": [
+        { "value": "photo", "label": "Con foto: mono en mayúsculas" },
+        { "value": "light", "label": "Secundario: texto grande, fondo claro, líneas" }
+      ],
+      "default": "photo"
     },
     { "type": "text", "id": "text", "label": "Text", "default": "VIDA QUE GENERA VIDA" },
     { "type": "image_picker", "id": "icon", "label": "Icon" },
