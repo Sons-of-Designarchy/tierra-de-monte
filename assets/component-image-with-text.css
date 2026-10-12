@@ -428,7 +428,7 @@
 /* Rounded corners for the whole section, logo, and the smaller logo on phones
    (moved here from inline style blocks in the section). */
 .image-with-text {
-  border-radius: calc(var(--pr-radius-surface) + var(--pr-radius-md));
+  border-radius: var(--pr-radius-container);
   overflow: hidden;
   background-clip: padding-box;
 }

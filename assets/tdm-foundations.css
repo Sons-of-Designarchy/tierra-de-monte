@@ -135,6 +135,7 @@
   --pr-radius-control: var(--pr-radius-none);
   /* Radius of every box: Card, Dialog, images, previews. Global setting, editable in Sanity. */
   --pr-radius-surface: var(--pr-radius-none);
+  --pr-radius-container: calc(var(--pr-radius-surface) + var(--pr-radius-md)); /* big boxes on the page: image + text, vacantes */
 
   --pr-control-xs: calc(1.75 * var(--pr-rem)); /* 28 */
   --pr-control-sm: calc(2.25 * var(--pr-rem)); /* 36 */
