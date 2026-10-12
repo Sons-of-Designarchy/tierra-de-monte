@@ -39,6 +39,7 @@
   logo_width: settings.logo_width,
   show_search: section.settings.show_search,
   show_account: section.settings.show_account,
+  show_cart: section.settings.show_cart,
   cta_last: section.settings.cta_last_link,
   cta_url: section.settings.cta_url,
   sticky: section.settings.sticky,
@@ -111,6 +112,13 @@
       "id": "sticky",
       "default": true,
       "label": "Fija arriba al hacer scroll"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "default": false,
+      "label": "Mostrar el carrito",
+      "info": "Solo la landing de Aliados vende. En el resto del sitio el carrito aparece únicamente con el ajuste del tema «Mostrar compra en el sitio»."
     },
     {
       "type": "header",

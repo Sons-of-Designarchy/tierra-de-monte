@@ -6,10 +6,19 @@
   assign minimum = settings.cart_minimum | times: 100
   assign goal = settings.cart_minimum_label | default: 'el mínimo de compra'
 -%}
+{%- assign aliados_href = settings.aliados_url | default: '/pages/aliados' | append: '#pedido' -%}
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 <div class="pr-cart-page gradient color-{{ section.settings.color_scheme }}" data-cart-section="{{ section.id }}">
   <div class="page-width section-{{ section.id }}-padding">
+    {%- unless settings.show_commerce -%}
+      <div class="pr-cart-page__empty">
+        {%- render 'icon', name: 'bag', size: 'xl' -%}
+        {%- render 'typography', text: 'La compra está disponible en el Programa de Aliados', as: 'h1', variant: 'h4', font: 'display', align: 'balance' -%}
+        {%- render 'typography', text: 'Por ahora los pedidos se hacen desde la página de Aliados.', color: 'secondary' -%}
+        {%- render 'button', label: 'Ir al Programa de Aliados', href: aliados_href, size: 'lg' -%}
+      </div>
+    {%- else -%}
     <div class="pr-cart-page__head">
       {%- render 'typography', text: 'Tu carrito', as: 'h1', variant: 'h2', font: 'display' -%}
       {%- render 'link', text: 'Seguir comprando', href: routes.all_products_collection_url -%}
@@ -44,6 +53,7 @@
         </aside>
       </div>
     {%- endif -%}
+    {%- endunless -%}
   </div>
 </div>
 

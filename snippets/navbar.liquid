@@ -2,7 +2,7 @@
   Navbar — the site header. Ports PerfectlyRad Navbar (components/sections/Navbar.tsx + navbarVariants.ts) to Shopify.
   Logo inside a white bar on the left, links in the middle, icons and CTA on the right. Below 990px the links move into a panel under the bar.
 
-  {% render 'navbar', nav_style: 'floating', menu: linklists['main-menu'], menu_type: 'mega', logo: settings.logo, logo_url: routes.root_url, logo_width: settings.logo_width, show_search: true, show_account: true, cta_last: false, sticky: true, country: false, language: false, color_scheme: 'scheme-tdm-blanco', app_blocks: '', uid: section.id %}
+  {% render 'navbar', nav_style: 'floating', menu: linklists['main-menu'], menu_type: 'mega', logo: settings.logo, logo_url: routes.root_url, logo_width: settings.logo_width, show_search: true, show_account: true, show_cart: false, cta_last: false, sticky: true, country: false, language: false, color_scheme: 'scheme-tdm-blanco', app_blocks: '', uid: section.id %}
 
   Params
   - nav_style     floating | full   (default: floating). floating is a bar inset from the edges with a gap from the top; full spans the viewport
@@ -11,6 +11,7 @@
   - logo          image (theme logo or a per-section override); blank shows the shop name
   - logo_url, logo_width (px)
   - show_search, show_account, cta_last, sticky
+  - show_cart     true on the Aliados landing, the only place that sells. Elsewhere the bag only shows with the theme setting "Mostrar compra en el sitio"
   - cta_url       overrides the URL of the button made from the last link (the label still comes from the menu)
   - country, language   show the Shopify pickers when the store has more than one
   - color_scheme  scheme id for the bar surface (default: scheme-tdm-blanco → white)
@@ -107,7 +108,9 @@
           {%- if nav_cta_url contains '#pedido' %}{% assign nav_cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
           {%- render 'button', label: nav_cta.title, href: nav_cta_url, size: 'sm', class: 'tdm-nav__cta', attrs: nav_cta_attrs -%}
         {%- endif -%}
-        {%- render 'icon-button', icon: 'bag', label: cart_label, href: routes.cart_url, id: cart_id, badge: cart_badge -%}
+        {%- if show_cart or settings.show_commerce -%}
+          {%- render 'icon-button', icon: 'bag', label: cart_label, href: routes.cart_url, id: cart_id, badge: cart_badge -%}
+        {%- endif -%}
         {%- if has_links -%}
           {%- render 'icon-button', icon: 'menu', label: menu_open_label, class: 'tdm-nav__toggle tdm-nav__toggle--open', attrs: 'data-nav-toggle aria-expanded="false"' -%}
           {%- render 'icon-button', icon: 'close', label: menu_close_label, class: 'tdm-nav__toggle tdm-nav__toggle--close', attrs: 'data-nav-toggle aria-expanded="true" hidden' -%}

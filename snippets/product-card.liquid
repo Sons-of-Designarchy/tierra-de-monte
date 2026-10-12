@@ -20,7 +20,9 @@
   - image_ratio    4/5 | 1/1 | 3/4 | 4/3   (default: 4/5)
   - image_fit      cover | contain   (default: cover)
   - quantity       units in a cart or an order: puts the count on the photo. Horizontal only
-  - show_quick_add true → button at the bottom: add to cart (opens the cart drawer), or "Elegir opciones" with several variants
+  - show_quick_add true → button at the bottom: add to cart (opens the cart drawer), or "Elegir opciones" with several variants.
+                   Only works while the theme setting "Mostrar compra en el sitio" is on; otherwise the card shows no price and no buy button
+                   and the whole card goes to the product page. A card that gets its own `price` (Aliados order cards) always shows it.
   - actions        html controls row under the info, above the card link (a quantity stepper, a remove button)
   - loading        this card is being updated: aria-busy
   - error          why the card can't change: "Solo quedan 3 en existencia"
@@ -39,6 +41,11 @@
   assign pc_tag = tag | default: 'li'
   assign pc_title = title | default: product.title
   assign pc_vendor = vendor | default: product.vendor
+  assign pc_buy = settings.show_commerce
+  assign pc_show_price = pc_buy
+  if price != nil
+    assign pc_show_price = true
+  endif
   assign pc_price = price
   if pc_price == nil
     assign pc_price = product.price
@@ -66,7 +73,7 @@
   endif
   assign pc_ratio = image_ratio | default: '4/5'
   assign pc_sale = false
-  if pc_compare != blank and pc_compare > pc_price
+  if pc_show_price and pc_compare != blank and pc_compare > pc_price
     assign pc_sale = true
   endif
   assign pc_badges = ''
@@ -132,23 +139,27 @@
         {%- render 'typography', text: pc_name, as: 'h3', variant: 'body-sm', weight: 'semibold' -%}
         {%- if variant_title != blank -%}{%- render 'typography', text: variant_title, variant: 'xs', color: 'secondary' -%}{%- endif -%}
       </div>
-      {%- render 'price-tag', price: pc_price, compare_at_price: pc_compare, from: pc_from, size: 'sm', class: 'pr-product-card__price' -%}
+      {%- if pc_show_price -%}
+        {%- render 'price-tag', price: pc_price, compare_at_price: pc_compare, from: pc_from, size: 'sm', class: 'pr-product-card__price' -%}
+      {%- endif -%}
     </div>
   {%- else -%}
     <div class="pr-product-card__text">
       {%- if show_vendor and pc_vendor != blank -%}{%- render 'typography', text: pc_vendor, variant: 'body', weight: 'semibold' -%}{%- endif -%}
       {%- render 'typography', text: pc_name, as: 'h3', variant: 'body' -%}
       {%- if show_excerpt and product.description != blank -%}
-        {%- assign pc_excerpt = product.description | strip_html | strip | truncatewords: 12 -%}
+        {%- assign pc_excerpt = product.description | strip_html | strip | truncatewords: 18 -%}
         {%- render 'typography', text: pc_excerpt, variant: 'body-sm', color: 'secondary', class: 'pr-product-card__excerpt' -%}
       {%- endif -%}
-      {%- render 'price-tag', price: pc_price, compare_at_price: pc_compare, from: pc_from, size: 'md', show_savings: true, savings_label: savings_label -%}
+      {%- if pc_show_price -%}
+        {%- render 'price-tag', price: pc_price, compare_at_price: pc_compare, from: pc_from, size: 'md', show_savings: true, savings_label: savings_label -%}
+      {%- endif -%}
     </div>
   {%- endif -%}
   {%- if content != blank -%}{{ content }}{%- endif -%}
   {%- if actions != blank -%}<div class="pr-product-card__actions">{{ actions }}</div>{%- endif -%}
   {%- if error != blank -%}{%- render 'typography', text: error, variant: 'label', color: 'danger', attrs: 'role="alert"' -%}{%- endif -%}
-  {%- if show_quick_add -%}
+  {%- if show_quick_add and pc_buy -%}
     <div class="pr-product-card__quick">
       {%- if pc_available == false -%}
         {%- render 'button', label: 'Agotado', variant: 'outline', size: 'sm', disabled: true, class: 'pr-product-card__btn' -%}

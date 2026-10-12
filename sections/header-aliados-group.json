@@ -49,6 +49,7 @@
         "cta_url": "#pedido",
         "show_search": false,
         "show_account": false,
+        "show_cart": true,
         "color_scheme": "scheme-tdm-blanco",
         "enable_country_selector": true,
         "enable_language_selector": true

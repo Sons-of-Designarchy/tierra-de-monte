@@ -465,6 +465,7 @@
     {{ 'pr-typography.css' | asset_url | stylesheet_tag }}
     {{ 'pr-atoms.css' | asset_url | stylesheet_tag }}
     {{ 'pr-atoms-extra.css' | asset_url | stylesheet_tag }}
+    {{ 'pr-icon-list.css' | asset_url | stylesheet_tag }}
     {{ 'pr-dawn-bridge.css' | asset_url | stylesheet_tag }}
     {{ 'pr-commerce.css' | asset_url | stylesheet_tag }}
 
@@ -509,9 +510,11 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- unless template.name == 'cart' -%}
-      {%- render 'cart-drawer' -%}
-    {%- endunless -%}
+    {%- if is_aliados or settings.show_commerce -%}
+      {%- unless template.name == 'cart' -%}
+        {%- render 'cart-drawer' -%}
+      {%- endunless -%}
+    {%- endif -%}
 
     {%- if is_aliados -%}
       {%- if settings.aliados_uppercase_headings -%}

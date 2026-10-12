@@ -1425,6 +1425,23 @@
     "settings": [
       {
         "type": "header",
+        "content": "Compra en el sitio"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_commerce",
+        "label": "Mostrar compra en el sitio",
+        "info": "Apagado: solo se compra en la landing de Aliados. Sin carrito, sin botones de agregar y sin precios en tarjetas ni en la página de producto. Encendido: vuelve la compra en todo el sitio.",
+        "default": false
+      },
+      {
+        "type": "url",
+        "id": "aliados_url",
+        "label": "Página de Aliados",
+        "info": "Adónde lleva el mensaje de /cart mientras la compra en el sitio está apagada. Termina en #pedido."
+      },
+      {
+        "type": "header",
         "content": "Compra mínima"
       },
       {
