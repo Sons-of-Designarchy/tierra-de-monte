@@ -142,7 +142,7 @@
       this.mark('Agregando', 'loading', 'spinner');
       try {
         const id = Number(this.querySelector('[data-pr-variant-id]').value);
-        const quantity = Number(this.querySelector('.pr-qty__input').value) || 1;
+        const quantity = Number(this.querySelector('.pr-qty__input')?.value) || 1;
         await PrCart.add([{ id, quantity }]);
         this.mark('Agregado', 'added', 'added');
         PrCart.open();

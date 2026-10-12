@@ -860,22 +860,6 @@ html.pr-scroll-lock {
   opacity: 0.6;
 }
 
-.pr-buy-box__head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pr-space-3);
-}
-
-.pr-buy-box__head > * {
-  margin: 0;
-}
-
-.pr-buy-box__rating {
-  display: flex;
-  align-items: center;
-  gap: var(--pr-space-2);
-}
-
 .pr-buy-box__form {
   display: flex;
   flex-direction: column;
@@ -902,42 +886,6 @@ html.pr-scroll-lock {
 
 .pr-buy-box__error[hidden] {
   display: none;
-}
-
-.pr-buy-box__children {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pr-space-3);
-}
-
-.pr-buy-box__cta {
-  width: 100%;
-}
-
-.pr-buy-box__benefits {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pr-space-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pr-buy-box__benefits li {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--pr-space-3);
-}
-
-.pr-buy-box__benefits .pr-icon {
-  flex-shrink: 0;
-  margin-top: var(--pr-space-1);
-}
-
-.pr-buy-box__documents {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pr-space-3);
 }
 
 /* ---------- pricing ---------- */

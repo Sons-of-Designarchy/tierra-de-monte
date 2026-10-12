@@ -1,92 +1,120 @@
 {%- comment -%}
-  Main product — the product page: product-gallery on the left, buy-box on the right. Blocks add to the buy-box:
-  benefits (check list), detail (accordion item), cta (a button link such as WhatsApp), app blocks.
-  Replaces Dawn's 2,000-line section. Behaviour lives in assets/pr-product.js.
+  Main product — the product page: gallery on the left, the info column on the right, built from blocks in the order the template sets
+  (brand, title, description, buttons, benefits, ingredients). The purchase pieces (price, quantity_selector, variant_picker, buy_buttons)
+  only render when the theme setting "Mostrar compra en el sitio" is on and the block is enabled; otherwise the page only informs.
+  Behaviour of the purchase form lives in assets/pr-product.js; layout in assets/section-tdm-product.css.
 {%- endcomment -%}
+{{ 'section-tdm-product.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'pr-product.js' | asset_url }}" defer="defer"></script>
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 {%- liquid
-  assign mp_benefits = ''
-  assign mp_titles = ''
-  assign mp_panels = ''
-  capture mp_children
-    for block in section.blocks
-      case block.type
-        when '@app'
-          render block
-        when 'cta'
-          if block.settings.label != blank
-            render 'button', label: block.settings.label, href: block.settings.link, variant: block.settings.variant, size: 'lg', class: 'pr-buy-box__cta', attrs: block.shopify_attributes
-          endif
-      endcase
-    endfor
-  endcapture
+  assign mp_commerce = settings.show_commerce
+  assign mp_has_price = false
+  assign mp_has_qty = false
+  assign mp_has_picker = false
+  assign mp_has_buy = false
   for block in section.blocks
     case block.type
-      when 'benefits'
-        for i in (1..3)
-          assign mp_key = 'item_' | append: i
-          assign mp_item = block.settings[mp_key]
-          if mp_item != blank
-            if mp_benefits != blank
-              assign mp_benefits = mp_benefits | append: '<!--pr-->'
-            endif
-            assign mp_benefits = mp_benefits | append: mp_item
-          endif
-        endfor
-      when 'detail'
-        if block.settings.heading != blank
-          if mp_titles != blank
-            assign mp_titles = mp_titles | append: '|'
-            assign mp_panels = mp_panels | append: '<!--pr-->'
-          endif
-          assign mp_titles = mp_titles | append: block.settings.heading
-          assign mp_panel = '<div class="rte">' | append: block.settings.content | append: block.settings.page.content | append: '</div>'
-          assign mp_panels = mp_panels | append: mp_panel
-        endif
+      when 'price'
+        assign mp_has_price = true
+      when 'quantity_selector'
+        assign mp_has_qty = true
+      when 'variant_picker'
+        assign mp_has_picker = true
+      when 'buy_buttons'
+        assign mp_has_buy = true
     endcase
   endfor
-  assign mp_description = product.description
-  if mp_description != blank
-    assign mp_desc_panel = '<div class="rte">' | append: mp_description | append: '</div>'
-    if mp_titles != blank
-      assign mp_titles = 'Descripción|' | append: mp_titles
-      assign mp_panels = mp_desc_panel | append: '<!--pr-->' | append: mp_panels
-    else
-      assign mp_titles = 'Descripción'
-      assign mp_panels = mp_desc_panel
+  if section.settings.hide_variants
+    assign mp_has_picker = false
+  endif
+  assign mp_form_done = false
+  assign mp_titles = ''
+  assign mp_panels = ''
+  for block in section.blocks
+    if block.type == 'detail' and block.settings.heading != blank
+      if mp_titles != blank
+        assign mp_titles = mp_titles | append: '|'
+        assign mp_panels = mp_panels | append: '<!--pr-->'
+      endif
+      assign mp_titles = mp_titles | append: block.settings.heading
+      assign mp_panel = '<div class="rte">' | append: block.settings.content | append: block.settings.page.content | append: '</div>'
+      assign mp_panels = mp_panels | append: mp_panel
     endif
-  endif
-  assign mp_rating = nil
-  assign mp_rating_count = nil
-  if section.settings.show_rating and product.metafields.reviews.rating.value != blank
-    assign mp_rating = product.metafields.reviews.rating.value.rating
-    assign mp_rating_count = product.metafields.reviews.rating_count
-  endif
+  endfor
+  assign mp_gallery_layout = section.settings.gallery_layout
 -%}
 
 <div class="pr-product gradient color-{{ section.settings.color_scheme }}" data-product-id="{{ product.id }}">
   <div class="page-width section-{{ section.id }}-padding">
     <div class="pr-product__layout{% if section.settings.enable_sticky_info %} pr-product__layout--sticky{% endif %}">
       <div class="pr-product__media">
-        {% render 'product-gallery', product: product, ratio: section.settings.gallery_ratio, fit: section.settings.gallery_fit, show_thumbnails: section.settings.show_thumbnails %}
+        {% render 'product-gallery', product: product, ratio: section.settings.gallery_ratio, fit: section.settings.gallery_fit, show_thumbnails: section.settings.show_thumbnails, layout: mp_gallery_layout %}
       </div>
       <div class="pr-product__info">
-        {% render 'buy-box',
-          product: product,
-          section_id: section.id,
-          show_vendor: section.settings.show_vendor,
-          rating_value: mp_rating,
-          rating_count: mp_rating_count,
-          summary: section.settings.summary,
-          option_type: section.settings.option_type,
-          benefits: mp_benefits,
-          details_titles: mp_titles,
-          details_panels: mp_panels,
-          show_dynamic_checkout: section.settings.show_dynamic_checkout,
-          children: mp_children
-        %}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'text' -%}
+              {%- if block.settings.text != blank -%}
+                {%- case block.settings.text_style -%}
+                  {%- when 'uppercase' -%}
+                    {%- render 'typography', text: block.settings.text, variant: 'eyebrow', color: 'secondary', attrs: block.shopify_attributes -%}
+                  {%- when 'subtitle' -%}
+                    {%- render 'typography', text: block.settings.text, variant: 'body-lg', color: 'secondary', attrs: block.shopify_attributes -%}
+                  {%- else -%}
+                    {%- render 'typography', text: block.settings.text, attrs: block.shopify_attributes -%}
+                {%- endcase -%}
+              {%- endif -%}
+            {%- when 'title' -%}
+              {%- render 'typography', text: product.title, as: 'h1', variant: 'h2', font: 'display', attrs: block.shopify_attributes -%}
+            {%- when 'rating' -%}
+              {%- if product.metafields.reviews.rating.value != blank -%}
+                <div class="pr-product__rating" {{ block.shopify_attributes }}>
+                  {%- render 'rating', value: product.metafields.reviews.rating.value.rating -%}
+                  {%- capture mp_rating_text %}{{ product.metafields.reviews.rating.value.rating }} · {{ product.metafields.reviews.rating_count }} reseñas{% endcapture -%}
+                  {%- render 'typography', text: mp_rating_text, variant: 'body-sm', color: 'secondary' -%}
+                </div>
+              {%- endif -%}
+            {%- when 'description' -%}
+              {%- if product.description != blank -%}
+                <div class="pr-product__description" {{ block.shopify_attributes }}>
+                  {%- render 'typography', text: product.description, as: 'div', variant: 'body', class: 'rte' -%}
+                </div>
+              {%- endif -%}
+            {%- when 'price' or 'quantity_selector' or 'variant_picker' or 'buy_buttons' -%}
+              {%- if mp_commerce and mp_form_done == false -%}
+                {%- assign mp_form_done = true -%}
+                {%- render 'buy-box', product: product, section_id: section.id, show_price: mp_has_price, show_options: mp_has_picker, show_quantity: mp_has_qty, show_buy: mp_has_buy, option_type: section.settings.option_type, show_dynamic_checkout: section.settings.show_dynamic_checkout -%}
+              {%- endif -%}
+            {%- when 'cta' -%}
+              {%- if block.settings.label != blank -%}
+                {%- render 'button', label: block.settings.label, href: block.settings.link, variant: block.settings.variant, size: 'lg', class: 'pr-product__cta', attrs: block.shopify_attributes -%}
+              {%- endif -%}
+            {%- when 'extras' -%}
+              {%- render 'product-extras' -%}
+            {%- when 'benefits' -%}
+              {%- assign mp_benefits = '' -%}
+              {%- for i in (1..3) -%}
+                {%- assign mp_key = 'item_' | append: i -%}
+                {%- assign mp_item = block.settings[mp_key] -%}
+                {%- if mp_item != blank -%}
+                  {%- if mp_benefits != blank %}{% assign mp_benefits = mp_benefits | append: '<!--pr-->' %}{% endif -%}
+                  {%- assign mp_benefits = mp_benefits | append: mp_item -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if mp_benefits != blank -%}
+                {%- render 'icon-list', items: mp_benefits -%}
+              {%- endif -%}
+            {%- when 'detail' -%}
+              {%- comment %}Collected above into one accordion{% endcomment -%}
+            {%- when '@app' -%}
+              {%- render block -%}
+          {%- endcase -%}
+        {%- endfor -%}
+        {%- if mp_titles != blank -%}
+          {%- render 'accordion', titles: mp_titles, panels: mp_panels, multiple: true -%}
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -106,43 +134,193 @@
       "type": "@app"
     },
     {
-      "type": "benefits",
-      "name": "Beneficios",
+      "type": "text",
+      "name": "Texto",
       "settings": [
         {
-          "type": "paragraph",
-          "content": "Hasta tres razones para comprar, con palomita. Los metafields beneficio_1 a beneficio_3 del producto se suman solos."
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "Texto",
+          "label": "Texto",
+          "info": "Admite un valor dinámico, por ejemplo la marca o el subtítulo del producto."
         },
-        { "type": "inline_richtext", "id": "item_1", "label": "Beneficio 1" },
-        { "type": "inline_richtext", "id": "item_2", "label": "Beneficio 2" },
-        { "type": "inline_richtext", "id": "item_3", "label": "Beneficio 3" }
+        {
+          "type": "select",
+          "id": "text_style",
+          "label": "Estilo",
+          "options": [
+            {
+              "value": "body",
+              "label": "Cuerpo"
+            },
+            {
+              "value": "subtitle",
+              "label": "Subtítulo"
+            },
+            {
+              "value": "uppercase",
+              "label": "Etiqueta (mayúsculas)"
+            }
+          ],
+          "default": "body"
+        }
       ]
     },
     {
-      "type": "detail",
-      "name": "Detalle desplegable",
+      "type": "title",
+      "name": "Título",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "rating",
+      "name": "Reseñas",
+      "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "default": "Detalle", "label": "Título" },
-        { "type": "richtext", "id": "content", "label": "Contenido" },
-        { "type": "page", "id": "page", "label": "Contenido de una página" }
+        {
+          "type": "paragraph",
+          "content": "Lee el metafield reviews.rating de Shopify. Sin reseñas no muestra nada."
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Descripción",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "price",
+      "name": "Precio",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Solo se ve con el ajuste del tema «Mostrar compra en el sitio»."
+        }
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Cantidad",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Solo se ve con el ajuste del tema «Mostrar compra en el sitio»."
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Selector de variantes",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Solo se ve con el ajuste del tema «Mostrar compra en el sitio» y con «Ocultar variantes» apagado."
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Botones de compra",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Agregar al carrito y pago rápido. Solo se ven con el ajuste del tema «Mostrar compra en el sitio»."
+        }
       ]
     },
     {
       "type": "cta",
       "name": "Botón (enlace)",
       "settings": [
-        { "type": "text", "id": "label", "default": "Comprar por WhatsApp", "label": "Texto" },
-        { "type": "url", "id": "link", "label": "Enlace" },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Compra",
+          "label": "Texto"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        },
         {
           "type": "select",
           "id": "variant",
           "label": "Estilo",
           "options": [
-            { "value": "primary", "label": "Sólido" },
-            { "value": "secondary", "label": "Secundario" },
-            { "value": "outline", "label": "Contorno" }
+            {
+              "value": "primary",
+              "label": "Sólido"
+            },
+            {
+              "value": "secondary",
+              "label": "Secundario"
+            },
+            {
+              "value": "outline",
+              "label": "Contorno"
+            }
           ],
           "default": "secondary"
+        }
+      ]
+    },
+    {
+      "type": "extras",
+      "name": "Ficha e ingredientes",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Lee los metafields del producto: ficha_tecnica, hoja_de_seguridad, beneficio_1 a beneficio_3 e ingredientes."
+        }
+      ]
+    },
+    {
+      "type": "benefits",
+      "name": "Beneficios",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "item_1",
+          "label": "Beneficio 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_2",
+          "label": "Beneficio 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_3",
+          "label": "Beneficio 3"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "name": "Detalle desplegable",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Detalle",
+          "label": "Título"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Contenido"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Contenido de una página"
         }
       ]
     }
@@ -150,31 +328,28 @@
   "settings": [
     {
       "type": "checkbox",
-      "id": "show_vendor",
-      "label": "Mostrar la marca sobre el título",
-      "default": true
-    },
-    {
-      "type": "inline_richtext",
-      "id": "summary",
-      "label": "Resumen bajo el precio",
-      "info": "Puede usar un metafield dinámico (por ejemplo el subtítulo)."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "label": "Mostrar reseñas",
-      "info": "Lee el metafield reviews.rating de Shopify.",
-      "default": true
+      "id": "hide_variants",
+      "label": "Ocultar variantes",
+      "default": true,
+      "info": "Con la compra en el sitio encendida, oculta el selector aunque exista el bloque."
     },
     {
       "type": "select",
       "id": "option_type",
       "label": "Selector de opciones",
       "options": [
-        { "value": "pills", "label": "Botones" },
-        { "value": "swatches", "label": "Muestras" },
-        { "value": "select", "label": "Menú desplegable" }
+        {
+          "value": "pills",
+          "label": "Botones"
+        },
+        {
+          "value": "swatches",
+          "label": "Muestras"
+        },
+        {
+          "value": "select",
+          "label": "Menú desplegable"
+        }
       ],
       "default": "pills"
     },
@@ -191,13 +366,41 @@
     },
     {
       "type": "select",
+      "id": "gallery_layout",
+      "label": "Disposición",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "Apilada: foto grande y las demás en cuadrícula"
+        },
+        {
+          "value": "slider",
+          "label": "Carrusel con miniaturas"
+        }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "select",
       "id": "gallery_ratio",
       "label": "Proporción de las fotos",
       "options": [
-        { "value": "4/5", "label": "Vertical 4:5" },
-        { "value": "1/1", "label": "Cuadrada" },
-        { "value": "3/4", "label": "Vertical 3:4" },
-        { "value": "4/3", "label": "Horizontal 4:3" }
+        {
+          "value": "4/5",
+          "label": "Vertical 4:5"
+        },
+        {
+          "value": "1/1",
+          "label": "Cuadrada"
+        },
+        {
+          "value": "3/4",
+          "label": "Vertical 3:4"
+        },
+        {
+          "value": "4/3",
+          "label": "Horizontal 4:3"
+        }
       ],
       "default": "4/5"
     },
@@ -206,8 +409,14 @@
       "id": "gallery_fit",
       "label": "Ajuste de las fotos",
       "options": [
-        { "value": "cover", "label": "Llenar" },
-        { "value": "contain", "label": "Contener" }
+        {
+          "value": "cover",
+          "label": "Llenar"
+        },
+        {
+          "value": "contain",
+          "label": "Contener"
+        }
       ],
       "default": "cover"
     },

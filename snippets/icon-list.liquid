@@ -1,0 +1,31 @@
+{%- comment -%}
+  IconList — rows with a small icon and a line of text, a hairline between them: product benefits, ingredients, features.
+
+  {% render 'icon-list', items: 'Reduce enfermedades<!--pr-->Mayor aprovechamiento', icons: 'icon-prod-1.svg|icon-prod-2.svg' %}
+
+  Params
+  - items   html rows separated by <!--pr-->
+  - icons   file names (theme Files) separated by |, one per row. When there are fewer, the last one repeats. Blank: no icon
+  - text    typography variant of the rows (default: body)
+  - class
+
+  The icon is an image from Files (own artwork per row), not an icon-set name. Rows are not links.
+{%- endcomment -%}
+{%- liquid
+  assign il_items = items | split: '<!--pr-->'
+  assign il_icons = icons | split: '|'
+  assign il_text = text | default: 'body'
+-%}
+<ul class="pr-icon-list{% if class != blank %} {{ class }}{% endif %}" role="list">
+  {%- for item in il_items -%}
+    {%- if item != blank -%}
+      {%- assign il_file = il_icons[forloop.index0] | default: il_icons.last -%}
+      <li class="pr-icon-list__item">
+        {%- if il_file != blank -%}
+          <img class="pr-icon-list__icon" src="{{ il_file | file_url }}" alt="" width="24" height="24" loading="lazy">
+        {%- endif -%}
+        {%- render 'typography', text: item, as: 'span', variant: il_text, class: 'pr-icon-list__text' -%}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

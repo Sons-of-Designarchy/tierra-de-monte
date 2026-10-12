@@ -1,0 +1,61 @@
+/* Product page (sections/main-product.liquid): info column built from blocks, stacked gallery */
+.pr-product__info {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--pr-space-4);
+}
+
+.pr-product__info > * {
+  margin: 0;
+}
+
+.pr-product__rating {
+  display: flex;
+  align-items: center;
+  gap: var(--pr-space-2);
+}
+
+.pr-product__description p {
+  margin: 0 0 var(--pr-space-4);
+}
+
+.pr-product__description p:last-child {
+  margin-bottom: 0;
+}
+
+.pr-product__cta,
+.pr-product__docs .pr-btn {
+  width: 100%;
+}
+
+.pr-product__docs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-3);
+}
+
+.pr-product__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+  margin-top: var(--pr-space-4);
+}
+
+/* Stacked gallery: first photo large, the rest in two columns */
+.pr-gallery-stack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pr-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pr-gallery-stack__item {
+  min-width: 0;
+}
+
+.pr-gallery-stack__item:first-child {
+  grid-column: 1 / -1;
+}

@@ -24,6 +24,7 @@
       columns: section.settings.columns_desktop,
       show_vendor: section.settings.show_vendor,
       show_quick_add: section.settings.show_quick_add,
+      show_excerpt: section.settings.show_excerpt,
       image_ratio: section.settings.image_ratio,
       empty_title: 'Elige una colección',
       empty_text: 'Agrega una colección en los ajustes de la sección.'
@@ -133,7 +134,14 @@
       "type": "checkbox",
       "id": "show_quick_add",
       "label": "Mostrar «Agregar al carrito»",
+      "info": "Solo funciona con el ajuste del tema «Mostrar compra en el sitio».",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Mostrar extracto de la descripción",
+      "default": false
     },
     {
       "type": "header",
