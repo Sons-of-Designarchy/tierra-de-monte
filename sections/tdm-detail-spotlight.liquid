@@ -218,9 +218,11 @@
   style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }};{% if s.image_height > 0 %} --sp-height: {{ s.image_height }}px;{% endif %} --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }}; --sp-icon: {{ s.icon_size | default: 24 }}px;"
 >
   <div class="page-width section-{{ section.id }}-padding">
-    <div class="tdm-spotlight__header">
-      {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: sp_title_variant, align: 'center' -%}
-    </div>
+    {%- if s.eyebrow != blank or s.title != blank or s.text != blank -%}
+      <div class="tdm-spotlight__header">
+        {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: sp_title_variant, align: 'center' -%}
+      </div>
+    {%- endif -%}
 
     {%- if stacked -%}
       <div class="tdm-spotlight__stage{% if s.points_overlay %} tdm-spotlight__stage--overlay{% endif %}">

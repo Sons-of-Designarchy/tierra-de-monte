@@ -1,0 +1,80 @@
+/* =============================================================================
+   Más vendidos (sections/tdm-bestsellers.liquid)
+   Product cards (the white product-card atom) with their own benefits and an "Agregar al pedido" button.
+   Phones: a swipeable track (scroll-snap). Tablet: two columns. Desktop: --bs-cols columns.
+   Per-instance value arrives as a custom property on .tdm-bestsellers: --bs-cols
+   ========================================================================== */
+
+.tdm-bestsellers__header {
+  margin: 0 0 var(--pr-space-8);
+}
+
+.tdm-bestsellers__track {
+  display: flex;
+  gap: var(--pr-space-4);
+  margin: 0;
+  padding: 0 0 var(--pr-space-2);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.tdm-bestsellers__track::-webkit-scrollbar {
+  display: none;
+}
+
+.tdm-bestsellers__card {
+  flex: 0 0 min(78%, var(--pr-width-sm));
+  scroll-snap-align: start;
+}
+
+.tdm-bestsellers__card .pr-product-card__actions {
+  margin-top: auto;
+  padding-top: var(--pr-space-2);
+}
+
+.tdm-bestsellers__btn {
+  width: 100%;
+}
+
+.tdm-bestsellers__benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-bestsellers__benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pr-space-2);
+}
+
+.tdm-bestsellers__benefit .pr-icon {
+  flex: none;
+  margin-top: var(--pr-space-1);
+  color: var(--pr-text-brand);
+}
+
+@media (min-width: 750px) {
+  .tdm-bestsellers__track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--pr-grid-gap);
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .tdm-bestsellers__card {
+    flex: none;
+  }
+}
+
+@media (min-width: 990px) {
+  .tdm-bestsellers__track {
+    grid-template-columns: repeat(var(--bs-cols, 4), minmax(0, 1fr));
+  }
+}

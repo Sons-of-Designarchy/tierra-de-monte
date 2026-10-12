@@ -181,6 +181,26 @@
         "padding_bottom": 48
       }
     },
+    "tdm_bestsellers_aliados": {
+      "type": "tdm-bestsellers",
+      "settings": {
+        "anchor_id": "productos",
+        "color_scheme": "scheme-tdm-crema",
+        "eyebrow": "Productos",
+        "title": "Soluciones biológicas que resuelven lo que los químicos no.",
+        "heading_size": "h1",
+        "text": "<p>Una línea que genera valor en el campo y en tu negocio, fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
+        "max_products": 4,
+        "columns_desktop": 4,
+        "image_ratio": "4/5",
+        "image_fit": "cover",
+        "benefits_metafield": "custom.beneficios",
+        "button_label": "Agregar al pedido",
+        "button_link": "#pedido",
+        "padding_top": 48,
+        "padding_bottom": 0
+      }
+    },
     "tdm_detail_spotlight_aliados": {
       "type": "tdm-detail-spotlight",
       "blocks": {
@@ -228,13 +248,13 @@
         "point_4"
       ],
       "settings": {
-        "anchor_id": "productos",
+        "anchor_id": "",
         "color_scheme": "scheme-tdm-crema",
         "layout": "stacked",
-        "eyebrow": "Productos",
-        "title": "Soluciones biológicas que resuelven lo que los químicos no.",
+        "eyebrow": "",
+        "title": "Lo que todos comparten",
         "heading_size": "h1",
-        "text": "<p>Una línea que genera valor en el campo y en tu negocio, fáciles de aplicar, larga vida de anaquel y con resultados que se notan.</p>",
+        "text": "",
         "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
         "image_fit": "cover",
         "contain_bg": "#f4f1f2",
@@ -1056,6 +1076,7 @@
   "order": [
     "hero_slider_Q8CAkg",
     "multicolumn_sept2026_AwmWPk",
+    "tdm_bestsellers_aliados",
     "tdm_detail_spotlight_aliados",
     "ticker_q7YzML",
     "multicolumn_sept2026_cQktdB",

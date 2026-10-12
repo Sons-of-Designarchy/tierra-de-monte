@@ -1,6 +1,6 @@
 /* =============================================================================
    PerfectlyRad commerce — <pr-order> (sections/aliados-pedido.liquid).
-   Step 1 of the Aliados purchase-first flow: quantities live on the page, the subtotal and the progress toward the
+   Step 1 of the Aliados purchase-first flow (also listens for [data-order-add] buttons: addVariant): quantities live on the page, the subtotal and the progress toward the
    minimum update on every change, the pay button wakes up at the minimum. Paying replaces the cart with the order
    (/cart/clear.js, /cart/add.js) and goes to checkout.
    ========================================================================== */
@@ -76,6 +76,16 @@
       if (level) label.textContent = `Con este pedido estás en nivel ${level.name}`;
     }
 
+    // Adds one unit of a variant, as if the shopper pressed + on its card. Returns false when that variant is not in the order.
+    addVariant(variantId) {
+      const input = this.querySelector(`.pr-qty__input[data-variant="${variantId}"]`);
+      const plus = input?.closest('pr-quantity')?.querySelector('[data-qty="plus"]');
+      if (!plus) return false;
+      if (!plus.disabled) plus.click();
+      this.dispatchEvent(new CustomEvent('pr-order:add', { bubbles: true, detail: { variant: variantId, quantity: Number(input.value) } }));
+      return true;
+    }
+
     async checkout() {
       const error = this.querySelector('[data-order-error]');
       error.hidden = true;
@@ -96,4 +106,12 @@
   }
 
   customElements.define('pr-order', PrOrder);
+
+  // Any [data-order-add="<variant id>"] on the page (the Más vendidos cards) adds that variant to the order.
+  // The link keeps its href (#pedido), so the browser still scrolls to the order section.
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-order-add]');
+    if (!trigger) return;
+    document.querySelector('pr-order')?.addVariant(Number(trigger.dataset.orderAdd));
+  });
 })();
