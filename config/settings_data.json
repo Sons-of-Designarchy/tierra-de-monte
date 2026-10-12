@@ -359,7 +359,7 @@
       },
       "scheme-tdm-aliados-verde": {
         "settings": {
-          "background": "#C3D890",
+          "background": "#E0E8C5",
           "background_gradient": "",
           "text": "#164120",
           "button": "#3E8335",
@@ -372,7 +372,7 @@
     "aliados_color_scheme": "scheme-tdm-aliados-base",
     "aliados_favicon": "shopify://shop_images/logo-stacked-white.png",
     "aliados_full_opacity_text": true,
-    "aliados_uppercase_headings": true
+    "aliados_uppercase_headings": false
   },
   "presets": {
     "Dawn": {

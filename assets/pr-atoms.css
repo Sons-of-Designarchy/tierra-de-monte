@@ -282,9 +282,9 @@
   margin-bottom: calc(var(--pr-space-2) - var(--pr-space-3));
 }
 
-/* Section eyebrows read at body size (client feedback 12 oct): one rule for every section header */
+/* Section eyebrows read at body-lg (client feedback 12 oct): one rule for every section header */
 .pr-heading__eyebrow .pr-type--eyebrow {
-  font-size: var(--pr-text-body);
+  font-size: var(--pr-text-body-lg);
 }
 
 .pr-heading--display .pr-heading__eyebrow,

@@ -8,7 +8,7 @@
   - eyebrow, title      plain text (title may hold inline html)
   - eyebrow_style       eyebrow | body | chip (see heading)
   - intro               rich text html (from a richtext setting) or plain text; rendered as body-lg copy
-  - size                display | h1 | h2 | h3   (default: h2)
+  - size                display | h1 | h2 | h3   (default: h2). display renders as h1; the others keep their size
   - align               left | center   (default: left)
   - as                  tag of the title (default: h2)
   - cta_label, cta_href primary action (button atom)
@@ -22,6 +22,13 @@
     assign sh_empty = false
   endif
   assign sh_align = align | default: 'left'
+  assign sh_size = size | default: 'h2'
+  comment
+    The largest title (display) sits one step down at h1 so a two-line title does not dominate (client feedback 12 oct); h1 and below keep their size.
+  endcomment
+  if sh_size == 'display'
+    assign sh_size = 'h1'
+  endif
 -%}
 {%- unless sh_empty -%}
   {%- capture sh_intro -%}
@@ -29,6 +36,6 @@
       {%- if extra != blank -%}{{ extra }}{%- endif -%}
   {%- endcapture -%}
   <div class="pr-section-header pr-section-header--{{ sh_align }}{% if class != blank %} {{ class }}{% endif %}">
-    {%- render 'heading', eyebrow: eyebrow, eyebrow_style: eyebrow_style, title: title, as: as, size: size, align: sh_align, content: sh_intro, cta_label: cta_label, cta_href: cta_href -%}
+    {%- render 'heading', eyebrow: eyebrow, eyebrow_style: eyebrow_style, title: title, as: as, size: sh_size, align: sh_align, content: sh_intro, cta_label: cta_label, cta_href: cta_href -%}
   </div>
 {%- endunless -%}
