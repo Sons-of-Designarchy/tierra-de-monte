@@ -484,3 +484,21 @@
 .image-with-text .global-media-settings--no-shadow:after {
   display: none;
 }
+
+/* One radius for the whole block: photo + panel share the container's outer corners (overflow hidden),
+   the seam between them stays straight, in both orientations and stacked on phones. */
+.image-with-text:not(.image-with-text--overlap) .image-with-text__grid {
+  border-radius: var(--pr-radius-surface);
+  overflow: hidden;
+}
+
+.image-with-text:not(.image-with-text--overlap) .image-with-text__media-item:after,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__text-item:after,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__media-item > *,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__text-item > *,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__media,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__media img,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__media .placeholder-svg,
+.image-with-text:not(.image-with-text--overlap) .image-with-text__content {
+  border-radius: 0;
+}

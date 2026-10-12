@@ -70,8 +70,10 @@
                   {%- when '@app' -%}
                     {% render block %}
                   {%- when 'text' -%}
+                    {%- assign footer_title_open = '<p class="pr-type pr-type--eyebrow pr-font--mono pr-weight--regular pr-color--secondary footer-block__subheading"><span>' -%}
+                    {%- assign footer_text = block.settings.subtext | replace: '<p><strong>', footer_title_open | replace: '</strong></p>', '</span></p>' -%}
                     {%- render 'typography',
-                      text: block.settings.subtext,
+                      text: footer_text,
                       variant: 'body-sm',
                       as: 'div',
                       color: 'secondary',

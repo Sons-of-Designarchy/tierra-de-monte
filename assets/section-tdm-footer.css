@@ -34,13 +34,14 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   row-gap: var(--pr-space-6);
-  padding-top: var(--pr-space-6);
+  padding-top: var(--pr-space-16);
   padding-bottom: var(--pr-space-6);
 }
 
 
-/* Vertical rhythm only; side gutters stay Dawn's .page-width (same as every section) */
+/* Breathing room: page gutter at the sides (32px from tablet up, like the floating navbar), 64px above the columns */
 .footer .page-width {
+  padding-inline: var(--pr-page-gutter);
   padding-top: var(--pr-space-6);
   padding-bottom: var(--pr-space-6);
 }
@@ -79,7 +80,7 @@
 
 .footer .footer-grid-custom .footer-block-image {
   grid-column: 1;
-  margin-top: var(--pr-space-6);
+  margin-top: var(--pr-space-8);
   align-self: end;
   display: flex;
 }
@@ -111,9 +112,22 @@
   padding: 0;
 }
 
+/* Same step between every line of every column (menu links and rich text) */
 .footer .footer-block__details-content > p,
 .footer .footer-block__details-content > li {
+  margin: 0;
+  padding: var(--pr-space-1) 0;
+}
+
+.footer .footer-block__details-content > p:empty {
+  display: none;
+}
+
+/* A bold line inside a rich text column becomes the same small title as the column headings (footer.liquid) */
+.footer .footer-block__details-content > .footer-block__subheading {
+  margin-top: var(--pr-space-6);
   padding: 0;
+  margin-bottom: var(--pr-space-3);
 }
 
 .footer .footer-block__details-content a {
@@ -128,7 +142,7 @@
 
 .footer .footer-block__details-content .footer-link {
   display: inline-block;
-  padding: var(--pr-space-1) 0;
+  padding: 0;
 }
 
 .footer .footer-block__details-content .footer-link:hover {
@@ -564,5 +578,11 @@
   .footer .footer-newsletter__row {
     width: 100%;
     min-width: 0;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .footer .page-width {
+    padding-inline: var(--pr-space-8);
   }
 }
