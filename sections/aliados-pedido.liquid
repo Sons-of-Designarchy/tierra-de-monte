@@ -34,8 +34,16 @@
     >
       <ul class="pr-order__grid" role="list">
         {%- for product in po_collection.products limit: po_limit -%}
+          {%- assign po_index = forloop.index0 -%}
           {%- for variant in product.variants -%}
             {%- if variant.available -%}
+              {%- assign po_price = variant.price -%}
+              {%- assign po_is_test = false -%}
+              {%- if section.settings.test_prices -%}
+                {%- capture po_test -%}{%- render 'test-price', index: po_index, variant: variant, base: section.settings.test_price -%}{%- endcapture -%}
+                {%- assign po_test = po_test | strip -%}
+                {%- if po_test != blank -%}{%- assign po_price = po_test | times: 1 -%}{%- assign po_is_test = true -%}{%- endif -%}
+              {%- endif -%}
               {%- liquid
                 assign po_variant_title = ''
                 if variant.title != 'Default Title'
@@ -53,7 +61,7 @@
                   endif
                 endcapture
                 capture po_attrs
-                  echo 'data-variant="' | append: variant.id | append: '" data-price="' | append: variant.price | append: '"'
+                  echo 'data-variant="' | append: variant.id | append: '" data-price="' | append: po_price | append: '"'
                 endcapture
                 capture po_label
                   echo 'Cantidad · ' | append: po_name
@@ -62,12 +70,14 @@
               {%- capture po_stepper -%}
                 {%- render 'quantity-stepper', value: 0, min: 0, max: po_max, name: po_qty_id, label: po_label, size: 'md', attrs: po_attrs -%}
               {%- endcapture -%}
+              {%- capture po_test_label -%}{%- if po_is_test -%}{%- render 'typography', text: 'Precio de prueba', variant: 'xs', color: 'warning' -%}{%- endif -%}{%- endcapture -%}
               {%- render 'product-card',
                 product: product,
                 href: '',
                 tag: 'li',
                 variant_title: po_variant_title,
-                price: variant.price,
+                price: po_price,
+                content: po_test_label,
                 compare_at_price: variant.compare_at_price,
                 from: false,
                 image: variant.featured_media.preview_image,
@@ -173,6 +183,9 @@
       ],
       "default": "cover"
     },
+    { "type": "header", "content": "Precios de prueba (solo para revisar)" },
+    { "type": "checkbox", "id": "test_prices", "label": "Precios de prueba (solo para revisar)", "info": "Si un producto cuesta $0 en Shopify, se muestra un precio inventado para probar el pedido, con la etiqueta \"Precio de prueba\". Un precio real (mayor a $0) siempre gana. No cambia nada en Shopify; el checkout lleva el precio real.", "default": true },
+    { "type": "number", "id": "test_price", "label": "Precio de prueba base (MXN)", "info": "Cada producto usa un múltiplo distinto (850 a 1,890 con 1,250); las presentaciones de 500 son ~45%.", "default": 1250 },
     { "type": "header", "content": "Compra mínima y pago" },
     { "type": "number", "id": "minimum", "label": "Compra mínima (MXN)", "info": "El botón de pago se activa al llegar a este subtotal.", "default": 5000 },
     { "type": "text", "id": "goal_label", "label": "Nombre de la meta", "default": "el nivel Bronce" },

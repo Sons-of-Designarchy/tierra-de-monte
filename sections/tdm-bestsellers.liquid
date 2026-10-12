@@ -64,8 +64,15 @@
     {%- capture bs_next_attrs -%}data-scroller="next"{%- endcapture -%}
     <ul class="tdm-bestsellers__track" role="list" tabindex="0" aria-label="Productos" data-scroller-track>
       {%- for product in bs_collection.products limit: bs_limit -%}
+        {%- assign bs_variant = product.selected_or_first_available_variant -%}
+        {%- assign bs_price = bs_variant.price -%}
+        {%- assign bs_is_test = false -%}
+        {%- if s.test_prices -%}
+          {%- capture bs_test -%}{%- render 'test-price', index: forloop.index0, variant: bs_variant, base: s.test_price -%}{%- endcapture -%}
+          {%- assign bs_test = bs_test | strip -%}
+          {%- if bs_test != blank -%}{%- assign bs_price = bs_test | times: 1 -%}{%- assign bs_is_test = true -%}{%- endif -%}
+        {%- endif -%}
         {%- liquid
-          assign bs_variant = product.selected_or_first_available_variant
           assign bs_b1 = ''
           assign bs_b2 = ''
           for note in bs_notes
@@ -85,6 +92,7 @@
           endif
         -%}
         {%- capture bs_content -%}
+          {%- if bs_is_test -%}{%- render 'typography', text: 'Precio de prueba', variant: 'xs', color: 'warning' -%}{%- endif -%}
           {%- if bs_list != blank -%}
             <ul class="tdm-bestsellers__benefits" role="list">
               {%- assign bs_shown = 0 -%}
@@ -113,7 +121,7 @@
           product: product,
           href: '',
           tag: 'li',
-          price: bs_variant.price,
+          price: bs_price,
           compare_at_price: bs_variant.compare_at_price,
           from: false,
           image_ratio: s.image_ratio,
@@ -200,6 +208,9 @@
       "default": "cover"
     },
     { "type": "text", "id": "benefits_metafield", "label": "Metafield de beneficios", "info": "espacio.clave del metafield del producto (lista de texto, o texto con un beneficio por línea). Se usa si el producto no tiene bloque propio. Si tampoco hay, sale el inicio de la descripción.", "default": "custom.beneficios" },
+    { "type": "header", "content": "Precios de prueba (solo para revisar)" },
+    { "type": "checkbox", "id": "test_prices", "label": "Precios de prueba (solo para revisar)", "info": "Si un producto cuesta $0 en Shopify, se muestra un precio inventado, con la etiqueta \"Precio de prueba\". Un precio real siempre gana.", "default": true },
+    { "type": "number", "id": "test_price", "label": "Precio de prueba base (MXN)", "default": 1250 },
     { "type": "header", "content": "Botón" },
     { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Agregar al pedido" },
     { "type": "url", "id": "button_link", "label": "Destino", "info": "Sección a la que baja después de agregar. Por defecto el pedido (#pedido)." },
