@@ -4,6 +4,7 @@
   Layout values arrive as custom properties on .tdm-hero__frame; CSS in assets/section-tdm-hero.css.
 {% endcomment %}
 
+{{ 'pr-hero.css' | asset_url | stylesheet_tag }}
 {{ 'section-tdm-hero.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
@@ -25,23 +26,29 @@
   assign opacity = sec.card_bg_opacity | default: 85
   assign card_style = sec.card_style | default: 'solid'
   assign width_mode = sec.width | default: 'full'
+  assign scrim_parts = card_pos | split: '-'
+  assign scrim_y = scrim_parts[0]
+  if scrim_y == 'center'
+    assign scrim_y = 'middle'
+  endif
+  assign scrim_x = scrim_parts[1]
 -%}
 
 <section class="tdm-hero tdm-hero--{{ width_mode }}">
   <div class="{% if width_mode == 'page' %}page-width{% else %}tdm-hero__wrap{% endif %}">
     <div
-      class="tdm-hero__frame"
+      class="tdm-hero__frame pr-hero-frame"
       style="
+        --pr-hero-min-h: {{ sec.min_height_desktop | default: 75 }}svh;
         --hero-card-max: {{ sec.card_max_width | default: 560 }}px;
         --hero-card-pad: {{ sec.card_padding | default: 24 }}px;
         --hero-card-opacity: {{ opacity }}%;
         --hero-radius: {{ sec.corner_radius | default: 8 }}px;
-        --hero-min-h-desktop: {{ sec.min_height_desktop | default: 70 }}vh;
-        --hero-min-h-mobile: {{ sec.min_height_mobile | default: 55 }}vh;
+        --hero-min-h-mobile: {{ sec.min_height_mobile | default: 70 }}svh;
         {% if img != blank %}background-image:url({{ img | image_url: width: 2880 }});{% endif %}
       "
     >
-      {% if sec.scrim and img != blank %}<div class="tdm-hero__scrim tdm-hero__scrim--{{ card_pos }}" aria-hidden="true"></div>{% endif %}
+      {% if sec.scrim and img != blank %}<div class="pr-hero-scrim pr-hero-scrim--{{ scrim_y }} pr-hero-scrim--{{ scrim_x }}" aria-hidden="true"></div>{% endif %}
       {% if img == blank %}
         <div class="tdm-hero__placeholder">
           {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -86,7 +93,7 @@
       "label": "Width",
       "default": "full",
       "options": [
-        { "value": "full", "label": "Full width (inset frame)" },
+        { "value": "full", "label": "Full width (edge to edge, no radius)" },
         { "value": "page", "label": "Page width" }
       ]
     },
@@ -98,26 +105,27 @@
       "id": "min_height_desktop",
       "label": "Minimum height (desktop, vh)",
       "min": 40,
-      "max": 90,
+      "max": 100,
       "step": 1,
       "unit": "vh",
-      "default": 70
+      "default": 75
     },
     {
       "type": "range",
       "id": "min_height_mobile",
       "label": "Minimum height (mobile, vh)",
       "min": 40,
-      "max": 90,
+      "max": 100,
       "step": 1,
       "unit": "vh",
-      "default": 55
+      "default": 70
     },
 
     {
       "type": "range",
       "id": "corner_radius",
       "label": "Frame corner radius (px)",
+      "info": "Only with page width. Full width is always square.",
       "min": 0,
       "max": 24,
       "step": 1,

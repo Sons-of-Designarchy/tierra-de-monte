@@ -15,7 +15,7 @@
       "settings": {
         "image": "shopify://shop_images/IMG-20200928-WA0024.jpg",
         "image_alt": "campo agrícola trabajado",
-        "min_height_desktop": 88,
+        "min_height_desktop": 75,
         "min_height_mobile": 70,
         "corner_radius": 8,
         "card_position": "bottom-left",

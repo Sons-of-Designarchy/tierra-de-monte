@@ -170,12 +170,12 @@
   --pr-grid-gap: var(--pr-space-6);
   /* Vertical space of a section on desktop. Phones use 3/4; space="lg" uses 1.5×. Global setting. */
   --pr-section-y: var(--pr-space-16);
-  --pr-nav-height: calc(5 * var(--pr-rem));
-  --pr-nav-height-compact: calc(4.25 * var(--pr-rem));
+  --pr-nav-height: calc(4 * var(--pr-rem));
+  --pr-nav-height-compact: calc(3.5 * var(--pr-rem));
   /* Floating navbar sits inside the page: inset beyond the page gutter (desktop), same as the gutter on phones */
   --pr-nav-inset: var(--pr-gutter);
   /* Hero scrim: ink fading to nothing from the text corner, so copy on a photo stays legible */
-  --pr-scrim-strong: color-mix(in oklab, var(--pr-ink) 70%, transparent);
+  --pr-scrim-strong: color-mix(in oklab, var(--pr-ink) 85%, transparent);
 
   --pr-elevation-subtle: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --pr-elevation-sm: 0 1px 3px rgb(0 0 0 / 0.07);
@@ -510,12 +510,12 @@
 
 /* -----------------------------------------------------------------------------
    Section anchor (snippets/tdm-anchor) — zero-height jump target at the top of a
-   section. scroll-margin keeps the sticky header from covering the section start.
+   section. scroll-margin keeps the sticky floating navbar (--pr-nav-clear) from covering the section start.
    -------------------------------------------------------------------------- */
 .tdm-anchor {
   display: block;
   height: 0;
-  scroll-margin-top: var(--header-height, 0px);
+  scroll-margin-top: var(--pr-nav-clear, 0px);
 }
 
 @media (prefers-reduced-motion: no-preference) {

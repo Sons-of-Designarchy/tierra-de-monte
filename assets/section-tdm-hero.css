@@ -1,10 +1,10 @@
 /* =============================================================================
    Hero overlay card (sections/hero-overlay-card.liquid)
-   Full-width inset frame with an overlay card pinned to one corner. Text is rendered by
+   Hero frame (shared pr-hero.css: edge to edge, no radius, 75svh, scrim) with an overlay card pinned to one corner. Text is rendered by
    the typography snippet and the CTA by the button snippet; this file only lays
    them out. Per-instance values arrive as custom properties on .tdm-hero__frame:
-     --hero-radius --hero-card-max --hero-card-pad --hero-card-opacity
-     --hero-min-h-desktop --hero-min-h-mobile
+     --hero-radius (page width only) --hero-card-max --hero-card-pad --hero-card-opacity
+     --pr-hero-min-h --hero-min-h-mobile
    ========================================================================== */
 
 .tdm-hero .page-width {
@@ -15,9 +15,7 @@
 .tdm-hero .tdm-hero__frame {
   position: relative;
   width: 100%;
-  min-height: var(--hero-min-h-desktop);
   border-radius: var(--hero-radius);
-  overflow: hidden;
   background-color: var(--pr-surface-subtle);
   background-position: center;
   background-repeat: no-repeat;
@@ -25,48 +23,16 @@
   z-index: 1; /* sit above any stray scheme layer */
 }
 
-/* ===== Full width: inset frame, margin on each side; card aligned to the frame gutter ===== */
-.tdm-hero--full .tdm-hero__wrap {
-  margin-inline: var(--pr-page-gutter);
-}
-
+/* ===== Full width: edge to edge, the card aligns to the page gutter ===== */
 .tdm-hero--full .tdm-hero__frame {
-  --hero-gutter: var(--pr-space-8);
+  --hero-gutter: var(--pr-page-gutter);
+  border-radius: 0;
 }
 
-@media (max-width: 749.98px) {
-  .tdm-hero--full .tdm-hero__wrap {
-    margin-inline: var(--pr-page-gutter);
+@media (min-width: 750px) {
+  .tdm-hero--full .tdm-hero__frame {
+    --hero-gutter: var(--pr-space-8);
   }
-}
-
-.tdm-hero .tdm-hero__scrim {
-  display: block; /* Dawn hides div:empty */
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 90% 110% at 0% 100%, var(--pr-scrim-strong), transparent 75%);
-}
-
-.tdm-hero .tdm-hero__scrim--bottom-right {
-  background: radial-gradient(ellipse 90% 110% at 100% 100%, var(--pr-scrim-strong), transparent 75%);
-}
-
-.tdm-hero .tdm-hero__scrim--top-left {
-  background: radial-gradient(ellipse 90% 110% at 0% 0%, var(--pr-scrim-strong), transparent 75%);
-}
-
-.tdm-hero .tdm-hero__scrim--top-right {
-  background: radial-gradient(ellipse 90% 110% at 100% 0%, var(--pr-scrim-strong), transparent 75%);
-}
-
-.tdm-hero .tdm-hero__scrim--center-left {
-  background: linear-gradient(to right, var(--pr-scrim-strong), transparent 70%);
-}
-
-.tdm-hero .tdm-hero__scrim--center-right {
-  background: linear-gradient(to left, var(--pr-scrim-strong), transparent 70%);
 }
 
 .tdm-hero .tdm-hero__placeholder {
@@ -142,6 +108,13 @@
   padding: 0;
 }
 
+/* The button on a photo is the brand lime with its green text, in every hero */
+.tdm-hero .tdm-hero__card-inner {
+  --pr-action: var(--pr-brand-secondary);
+  --pr-action-hover: var(--pr-brand-secondary-hover);
+  --pr-text-on-action: var(--pr-brand-on-secondary);
+}
+
 .tdm-hero .tdm-hero__body {
   margin: 0;
 }
@@ -197,7 +170,3 @@
   }
 }
 
-/* First on the page: the hero starts at the very top, under the floating navbar, and fills the screen */
-#MainContent > .shopify-section:first-child .tdm-hero--full .tdm-hero__frame {
-  min-height: 100svh;
-}
