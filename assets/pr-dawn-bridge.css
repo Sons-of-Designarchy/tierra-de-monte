@@ -119,16 +119,11 @@
   font-weight: var(--pr-weight-semibold);
 }
 
-/* Header and footer: nav links at label size, footer headings as eyebrow-weight labels */
+/* Header: nav links at label size */
 .header__menu-item,
 .header__menu-item span {
   font-size: var(--pr-text-body-sm);
   font-weight: var(--pr-weight-medium);
-}
-
-.footer-block__heading {
-  font-size: var(--pr-text-body);
-  font-weight: var(--pr-weight-semibold);
 }
 
 /* Focus: one ring for every control, old or new */

@@ -34,16 +34,20 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   row-gap: var(--pr-space-6);
-  padding-top: var(--pr-space-16);
+  padding-top: var(--pr-space-12);
   padding-bottom: var(--pr-space-6);
 }
 
+@media (min-width: 750px) {
+  .footer .footer__content-top {
+    padding-top: var(--pr-space-16);
+  }
+}
 
-/* Breathing room: page gutter at the sides (32px from tablet up, like the floating navbar), 64px above the columns */
+
+/* Breathing room: page gutter at the sides (32px from tablet up, like the floating navbar) */
 .footer .page-width {
   padding-inline: var(--pr-page-gutter);
-  padding-top: var(--pr-space-6);
-  padding-bottom: var(--pr-space-6);
 }
 
 /* ---- Column grid ---------------------------------------------------------- */
@@ -112,11 +116,13 @@
   padding: 0;
 }
 
-/* Same step between every line of every column (menu links and rich text) */
+/* Same step between every line of every column (menu links and rich text): same size and line height on the <li> and the <p> */
 .footer .footer-block__details-content > p,
 .footer .footer-block__details-content > li {
   margin: 0;
   padding: var(--pr-space-1) 0;
+  font-size: var(--pr-text-body-sm);
+  line-height: var(--pr-leading-normal);
 }
 
 .footer .footer-block__details-content > p:empty {
@@ -128,6 +134,8 @@
   margin-top: var(--pr-space-6);
   padding: 0;
   margin-bottom: var(--pr-space-3);
+  font-size: var(--pr-text-xs);
+  line-height: var(--pr-leading-snug);
 }
 
 .footer .footer-block__details-content a {
