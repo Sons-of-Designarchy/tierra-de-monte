@@ -956,7 +956,7 @@
         "title": "ELIGE TUS PRODUCTOS",
         "intro": "<p>Arma tu primer pedido. Cuando llegues a $5,000 pagas y pasas al registro.</p>",
         "align": "center",
-        "collection": "",
+        "collection": "aliados",
         "max_products": 12,
         "image_ratio": "3/4",
         "image_fit": "cover",
