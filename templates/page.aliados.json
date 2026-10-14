@@ -188,7 +188,7 @@
           "type": "feature",
           "settings": {
             "icon": "↑",
-            "title": "Mayor rentabilidad",
+            "title": "MAYOR RENTABILIDAD",
             "text": "<p>Ayudan a mejorar la rentabilidad, más ingreso para tu negocio.</p>"
           }
         },
@@ -196,7 +196,7 @@
           "type": "feature",
           "settings": {
             "icon": "+",
-            "title": "Más oportunidades de venta",
+            "title": "MÁS OPORTUNIDADES DE VENTA",
             "text": "<p>Una sola línea para todos los cultivos, todas las etapas.</p>"
           }
         },
@@ -204,7 +204,7 @@
           "type": "feature",
           "settings": {
             "icon": "↻",
-            "title": "Más recompra",
+            "title": "MÁS RECOMPRA",
             "text": "<p>Resultados que generan confianza y construyen relaciones comerciales de largo plazo.</p>"
           }
         },
@@ -212,7 +212,7 @@
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "title": "Una propuesta diferenciada",
+            "title": "UNA PROPUESTA DIFERENCIADA",
             "text": "<p>Biotecnología de alto desempeño para diferenciarte y ofrecer más valor a tus clientes.</p>"
           }
         }
