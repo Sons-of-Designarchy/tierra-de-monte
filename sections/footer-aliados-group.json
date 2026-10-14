@@ -48,7 +48,7 @@
           "type": "social_icons",
           "name": "REDES SOCIALES",
           "settings": {
-            "heading": "<strong>REDES SOCIALES</strong>"
+            "heading": "REDES SOCIALES"
           }
         }
       },
@@ -84,4 +84,3 @@
     "footer"
   ]
 }
-
