@@ -275,7 +275,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/aliados-icon-precio.png",
-            "title": "Nuestros productos ofrecen importantes márgenes de utilidad y retorno de inversión",
+            "title": "NUESTROS PRODUCTOS OFRECEN IMPORTANTES MÁRGENES DE UTILIDAD Y RETORNO DE INVERSIÓN",
             "text": "<p>Accede a condiciones comerciales exclusivas que mejoran tu margen y hacen más competitiva tu oferta frente a tus clientes.</p>",
             "link_label": "",
             "link": ""
@@ -285,7 +285,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/aliados-icon-acompanamiento.png",
-            "title": "Acompañamiento de expertos",
+            "title": "ACOMPAÑAMIENTO DE EXPERTOS",
             "text": "<p>Cuenta con un equipo científico que te acompaña para resolver dudas, fortalecer tus recomendaciones y dar seguimiento a las necesidades de tus clientes.</p>",
             "link_label": "",
             "link": ""
@@ -295,7 +295,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/aliados-icon-capacitacion.png",
-            "title": "&nbsp;Capacitación continua&nbsp;",
+            "title": "CAPACITACIÓN CONTINUA",
             "text": "<p>Fortalece tus conocimientos técnicos y comerciales con capacitaciones, contenidos y herramientas que te ayudan a vender con mayor confianza.</p>",
             "link_label": "",
             "link": ""
@@ -305,7 +305,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/aliados-icon-crecimiento.png",
-            "title": "Un programa que crece contigo",
+            "title": "UN PROGRAMA QUE CRECE CONTIGO",
             "text": "<p>Crece con herramientas pensadas para tu negocio: materiales comerciales, recursos de publicidad y comunicación, beneficios exclusivos y oportunidades para fortalecer la relación con tus clientes.</p>",
             "link_label": "",
             "link": ""
@@ -322,7 +322,7 @@
       "settings": {
         "anchor_id": "beneficios",
         "pretitle": "",
-        "title": "Como Aliado Tierra de Monte obtienes...",
+        "title": "COMO ALIADO TIERRA DE MONTE OBTIENES...",
         "heading_size": "h1",
         "title_alignment": "center",
         "intro_paragraph": "<p>Tu negocio crece con nosotros. Te damos las herramientas, el conocimiento y el acompañamiento para que puedas ofrecer más valor a tus clientes y construir relaciones comerciales de largo plazo.</p>",
@@ -467,7 +467,7 @@
         "anchor_id": "resultados",
         "intro_color_scheme": "scheme-tdm-aliados-claro",
         "eyebrow": "RESULTADOS",
-        "intro_title": "Gente que ya trabaja con nosotros",
+        "intro_title": "GENTE QUE YA TRABAJA CON NOSOTROS",
         "intro_heading_size": "h1",
         "intro_text": "",
         "button_label": "",
@@ -500,7 +500,7 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "Arma tu primer pedido",
+            "title": "ARMA TU PRIMER PEDIDO",
             "text": "<p>Elige tus productos desde $5,000 y obtén tu precio de Aliado.</p><p>¿Dudas? Escríbenos.</p><p>Correo: <a href=\"mailto:ventasmulticanal@tierrademonte.com\">ventasmulticanal@tierrademonte.com</a></p><p>WhatsApp: <a href=\"https://api.whatsapp.com/send/?phone=4423741871&text&type=phone_number&app_absent=0\" target=\"_blank\" title=\"WhatsApp\">442 374 1871</a></p>",
             "image": "shopify://shop_images/hero-aliado.jpg",
             "button_label": "Realiza tu primera compra aquí",
@@ -513,7 +513,7 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "Completa tu registro",
+            "title": "COMPLETA TU REGISTRO",
             "text": "<p>Después de tu compra, llena el formulario de registro <a href=\"#registro\" title=\"Formulario de registro\">aquí</a>.</p>",
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_84.jpg",
             "button_label": "Llena tu registro",
@@ -526,7 +526,7 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "Conocemos tu negocio y te acompañamos",
+            "title": "CONOCEMOS TU NEGOCIO Y TE ACOMPAÑAMOS",
             "text": "<p>Un especialista te contacta, confirma tu nivel y te explica el programa.</p>",
             "image": "shopify://shop_images/Fotografias_TierradeMonte_Visita02_37.jpg",
             "button_label": "Completa tu registro",
@@ -539,7 +539,7 @@
           "type": "step",
           "settings": {
             "number": "",
-            "title": "¡Ya eres Aliado Tierra de Monte!",
+            "title": "¡YA ERES ALIADO TIERRA DE MONTE!",
             "text": "<p>Bienvenido a una comunidad que está transformando la agricultura.</p><p>Ahora podrás desarrollar tu negocio con nuestras soluciones biológicas y contar con Tierra de Monte.</p>",
             "image": "shopify://shop_images/Agro_Familyshot_iso.jpg",
             "button_label": "Quiero ser Aliado",
@@ -559,7 +559,7 @@
         "anchor_id": "proceso",
         "color_scheme": "scheme-tdm-blanco",
         "eyebrow": "",
-        "title": "Proceso",
+        "title": "PROCESO",
         "heading_size": "h1",
         "text": "",
         "image_ratio": "wide_1610",
@@ -845,7 +845,7 @@
       "settings": {
         "anchor_id": "niveles",
         "pretitle": "NIVELES",
-        "heading": "Más beneficios a medida que creces",
+        "heading": "MÁS BENEFICIOS A MEDIDA QUE CRECES",
         "heading_size": "h1",
         "description": "<p>Avanza de nivel conforme aumenta tu volumen de compra y accede a nuevas herramientas, beneficios y oportunidades para hacer crecer tu negocio.</p>",
         "text_align": "center",
@@ -953,7 +953,7 @@
       "settings": {
         "anchor_id": "pedido",
         "eyebrow": "Paso 1 de 2",
-        "title": "Elige tus productos",
+        "title": "ELIGE TUS PRODUCTOS",
         "intro": "<p>Arma tu primer pedido. Cuando llegues a $5,000 pagas y pasas al registro.</p>",
         "align": "center",
         "collection": "",
@@ -978,7 +978,7 @@
         "heading_yNFznP": {
           "type": "heading",
           "settings": {
-            "heading": "Registro",
+            "heading": "REGISTRO",
             "heading_size": "h1",
             "heading_tag": "h2"
           }
@@ -1083,7 +1083,7 @@
       "settings": {
         "anchor_id": "preguntas",
         "caption": "",
-        "heading": "Preguntas Frecuentes",
+        "heading": "PREGUNTAS FRECUENTES",
         "heading_size": "h1",
         "faq_layout": "side",
         "open_first_collapsible_row": false,
