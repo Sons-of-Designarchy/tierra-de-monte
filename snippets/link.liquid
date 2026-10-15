@@ -1,0 +1,29 @@
+{%- comment -%}
+  Link — inline text link. For a button-shaped link use the button snippet with href. Ports PerfectlyRad Link.
+
+  {% render 'link', text: 'Ver más', href: '/pages/nosotros', variant: 'body', weight: 'medium', color: 'primary', quiet: false, current: false, class: '' %}
+
+  Params
+  - text     link text
+  - href     required. External http(s) links open in a new tab with rel="noopener noreferrer"
+  - variant  any typography variant   (default: body)
+  - weight   regular | medium | semibold | bold   (default: medium)
+  - color    any typography colour   (default: primary)
+  - quiet    true → underline only on hover
+  - current  true → aria-current="page"
+  - class, attrs
+
+  States: hover (underline colour), focus-visible.
+{%- endcomment -%}
+{%- liquid
+  assign l_external = false
+  assign l_variant = variant | default: 'body'
+  assign l_weight = weight | default: 'medium'
+  assign l_color = color | default: 'primary'
+  if href contains 'http://' or href contains 'https://'
+    assign l_external = true
+  endif
+-%}
+<a href="{{ href }}" class="pr-link{% if quiet %} pr-link--quiet{% endif %}{% if class != blank %} {{ class }}{% endif %}"{% if current %} aria-current="page"{% endif %}{% if l_external %} target="_blank" rel="noopener noreferrer"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>
+  {%- render 'typography', text: text, as: 'span', variant: l_variant, weight: l_weight, color: l_color -%}
+</a>

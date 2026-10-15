@@ -1,0 +1,220 @@
+{%- comment -%}
+  Pedido de Aliado — step 1 of the purchase-first flow: pick products and quantities, watch the subtotal climb toward the entry minimum
+  (Bronce, $5,000 MXN) and pay once it is reached. Step 2 is the registration form on the same page.
+  Every card is the product-card atom (white), quantities are the quantity-stepper, the progress is the minimum-progress look,
+  the buttons are the button atom. Behaviour: <pr-order> in assets/pr-order.js. The order replaces whatever was in the cart, then goes to checkout.
+  Which products: the collection picked in the settings; blank = every product. Each available variant is its own card.
+{%- endcomment -%}
+<script src="{{ 'pr-order.js' | asset_url }}" defer="defer"></script>
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign po_collection = section.settings.collection
+  if po_collection == blank
+    assign po_collection = collections.all
+  endif
+  assign po_minimum = section.settings.minimum | default: 5000 | times: 100
+  assign po_goal = section.settings.goal_label | default: 'el nivel Bronce'
+  assign po_limit = section.settings.max_products | default: 12
+  assign po_zero = 0 | money_without_trailing_zeros
+-%}
+
+<div class="gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width section-{{ section.id }}-padding pr-order-section">
+    {% render 'section-header', eyebrow: section.settings.eyebrow, title: section.settings.title, intro: section.settings.intro, align: section.settings.align %}
+
+    <pr-order
+      class="pr-order"
+      data-minimum="{{ po_minimum }}"
+      data-goal="{{ po_goal | escape }}"
+      data-clear-url="{{ routes.cart_clear_url }}.js"
+      data-add-url="{{ routes.cart_add_url }}.js"
+      data-checkout-url="{{ routes.cart_url | replace: '/cart', '/checkout' }}"
+    >
+      <ul class="pr-order__grid" role="list">
+        {%- for product in po_collection.products limit: po_limit -%}
+          {%- assign po_index = forloop.index0 -%}
+          {%- for variant in product.variants -%}
+            {%- if variant.available -%}
+              {%- assign po_price = variant.price -%}
+              {%- assign po_is_test = false -%}
+              {%- if section.settings.test_prices -%}
+                {%- capture po_test -%}{%- render 'test-price', index: po_index, variant: variant, base: section.settings.test_price -%}{%- endcapture -%}
+                {%- assign po_test = po_test | strip -%}
+                {%- if po_test != blank -%}{%- assign po_price = po_test | times: 1 -%}{%- assign po_is_test = true -%}{%- endif -%}
+              {%- endif -%}
+              {%- liquid
+                assign po_variant_title = ''
+                if variant.title != 'Default Title'
+                  assign po_variant_title = variant.title
+                endif
+                assign po_max = ''
+                if variant.inventory_management == 'shopify' and variant.inventory_policy == 'deny'
+                  assign po_max = variant.inventory_quantity
+                endif
+                assign po_qty_id = 'order-qty-' | append: variant.id
+                capture po_name
+                  echo product.title
+                  if po_variant_title != blank
+                    echo ' · ' | append: po_variant_title
+                  endif
+                endcapture
+                capture po_attrs
+                  echo 'data-variant="' | append: variant.id | append: '" data-price="' | append: po_price | append: '"'
+                endcapture
+                capture po_label
+                  echo 'Cantidad · ' | append: po_name
+                endcapture
+              -%}
+              {%- capture po_stepper -%}
+                {%- render 'quantity-stepper', value: 0, min: 0, max: po_max, name: po_qty_id, label: po_label, size: 'md', attrs: po_attrs -%}
+              {%- endcapture -%}
+              {%- capture po_test_label -%}{%- if po_is_test -%}{%- render 'typography', text: 'Precio de prueba', variant: 'xs', color: 'warning' -%}{%- endif -%}{%- endcapture -%}
+              {%- render 'product-card',
+                product: product,
+                href: '',
+                tag: 'li',
+                variant_title: po_variant_title,
+                price: po_price,
+                content: po_test_label,
+                compare_at_price: variant.compare_at_price,
+                from: false,
+                image: variant.featured_media.preview_image,
+                image_ratio: section.settings.image_ratio,
+                image_fit: section.settings.image_fit,
+                hover_image: false,
+                actions: po_stepper,
+                class: 'pr-order__card'
+              -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+
+      <ul class="pr-order__levels" hidden>
+        {%- for block in section.blocks -%}
+          <li data-level data-name="{{ block.settings.name | escape }}" data-threshold="{{ block.settings.threshold | times: 100 }}" {{ block.shopify_attributes }}></li>
+        {%- endfor -%}
+      </ul>
+
+      {%- capture po_summary -%}
+        <div class="pr-order__summary-body">
+          <div class="pr-order__total">
+            {%- render 'typography', text: 'Subtotal del pedido', variant: 'label', color: 'secondary' -%}
+            {%- render 'typography', text: po_zero, as: 'p', variant: 'h3', font: 'display', attrs: 'data-subtotal' -%}
+          </div>
+          <div class="pr-progress">
+            {%- capture po_prompt %}Te faltan {{ po_minimum | money_without_trailing_zeros }} para alcanzar {{ po_goal }}{% endcapture -%}
+            {%- render 'typography', text: po_prompt, variant: 'body-sm', weight: 'medium', attrs: 'aria-live="polite" data-progress-text' -%}
+            <div class="pr-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Avance hacia {{ po_goal | escape }}" style="--progress: 0%" data-progress-bar>
+              <div class="pr-progress__bar"></div>
+            </div>
+            {%- capture po_of %}{{ 0 | money_without_trailing_zeros }} de {{ po_minimum | money_without_trailing_zeros }}{% endcapture -%}
+            {%- render 'typography', text: po_of, variant: 'xs', color: 'secondary', attrs: 'data-progress-of', class: 'pr-order__extra' -%}
+          </div>
+          {%- if section.blocks.size > 0 -%}
+            {%- render 'typography', text: '', variant: 'body-sm', color: 'secondary', attrs: 'data-level-text hidden', class: 'pr-order__extra' -%}
+          {%- endif -%}
+          {%- render 'button', label: section.settings.button_label, variant: 'primary', size: 'lg', disabled: true, attrs: 'data-checkout', class: 'pr-order__action' -%}
+          {%- render 'typography', text: 'No se pudo preparar tu pedido. Intenta de nuevo.', variant: 'label', color: 'danger', attrs: 'role="alert" hidden data-order-error' -%}
+          {%- if section.settings.ethics_note != blank -%}
+            {%- render 'typography', text: section.settings.ethics_note, as: 'div', variant: 'xs', color: 'secondary', class: 'pr-order__ethics rte' -%}
+          {%- endif -%}
+          {%- if section.settings.note != blank -%}
+            {%- render 'typography', text: section.settings.note, variant: 'xs', color: 'secondary', class: 'pr-order__extra' -%}
+          {%- endif -%}
+        </div>
+      {%- endcapture -%}
+      {%- render 'card', tag: 'div', padding: 'lg', content: po_summary, class: 'pr-order__summary' -%}
+    </pr-order>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pedido de Aliado",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección. 1 o 2 palabras separadas por guion.",
+      "default": "pedido"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Paso 1 de 2" },
+    { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Elige tus productos" },
+    { "type": "richtext", "id": "intro", "label": "Introducción", "default": "<p>Arma tu primer pedido. Cuando llegues a $5,000 pagas y pasas al registro.</p>" },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alineación del encabezado",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Productos" },
+    { "type": "collection", "id": "collection", "label": "Colección", "info": "Vacío: todos los productos." },
+    { "type": "range", "id": "max_products", "min": 4, "max": 24, "step": 4, "label": "Máximo de productos", "default": 12 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Proporción de la foto",
+      "options": [
+        { "value": "1/1", "label": "Cuadrada" },
+        { "value": "4/5", "label": "Vertical 4:5" },
+        { "value": "3/4", "label": "Vertical 3:4" },
+        { "value": "4/3", "label": "Horizontal 4:3" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Ajuste de la foto",
+      "options": [
+        { "value": "cover", "label": "Llenar" },
+        { "value": "contain", "label": "Contener" }
+      ],
+      "default": "cover"
+    },
+    { "type": "header", "content": "Precios de prueba (solo para revisar)" },
+    { "type": "checkbox", "id": "test_prices", "label": "Precios de prueba (solo para revisar)", "info": "Si un producto cuesta $0 en Shopify, se muestra un precio inventado para probar el pedido, con la etiqueta \"Precio de prueba\". Un precio real (mayor a $0) siempre gana. No cambia nada en Shopify; el checkout lleva el precio real.", "default": false },
+    { "type": "number", "id": "test_price", "label": "Precio de prueba base (MXN)", "info": "Cada producto usa un múltiplo distinto (850 a 1,890 con 1,250); las presentaciones de 500 son ~45%.", "default": 1250 },
+    { "type": "header", "content": "Compra mínima y pago" },
+    { "type": "number", "id": "minimum", "label": "Compra mínima (MXN)", "info": "El botón de pago se activa al llegar a este subtotal.", "default": 5000 },
+    { "type": "text", "id": "goal_label", "label": "Nombre de la meta", "default": "el nivel Bronce" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón de pago", "default": "Pagar mi pedido" },
+    { "type": "text", "id": "note", "label": "Nota al pie", "default": "Pagas en el checkout seguro de Shopify. Después completas tu registro en el paso 2." },
+    { "type": "richtext", "id": "ethics_note", "label": "Aviso del código de ética", "info": "Opcional. Va junto al botón de pago, con el enlace al código. El Aliado lo palomea en el registro (GoHighLevel)." },
+    { "type": "header", "content": "Colores y espacio" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema", "default": "scheme-tdm-blanco" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "level",
+      "name": "Nivel",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Bronce" },
+        { "type": "number", "id": "threshold", "label": "Desde (MXN)", "default": 5000 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pedido de Aliado",
+      "blocks": [
+        { "type": "level", "settings": { "name": "Bronce", "threshold": 5000 } },
+        { "type": "level", "settings": { "name": "Plata", "threshold": 30000 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

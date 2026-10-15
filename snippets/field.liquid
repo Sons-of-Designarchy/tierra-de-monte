@@ -1,0 +1,29 @@
+{%- comment -%}
+  Field — label, control, hint and error in one vertical rhythm. Used by input, textarea and select. Ports PerfectlyRad Field.
+
+  {% capture control %}<input id="email" class="pr-control">{% endcapture %}
+  {% render 'field', for_id: 'email', label: 'Correo', hint: 'Lo usamos para responderte', error: '', hide_label: false, content: control %}
+
+  Params
+  - for_id      id of the control the label points to (required). Hint and error get ids `{for_id}-hint` and `{for_id}-error` for aria-describedby
+  - label       required
+  - hide_label  true → label is visually hidden but still announced
+  - hint        secondary line under the control (hidden when there is an error)
+  - error       error message under the control, in the danger colour
+  - content     html: the control
+  - class
+{%- endcomment -%}
+{%- liquid
+  assign f_label_class = ''
+  if hide_label
+    assign f_label_class = 'visually-hidden'
+  endif
+  assign f_hint_id = for_id | append: '-hint'
+  assign f_error_id = for_id | append: '-error'
+-%}
+<div class="pr-field{% if error != blank %} has-error{% endif %}{% if class != blank %} {{ class }}{% endif %}">
+  {%- render 'typography', text: label, as: 'label', for_id: for_id, variant: 'label', weight: 'medium', class: f_label_class -%}
+  {{ content }}
+  {%- if hint != blank and error == blank -%}{%- render 'typography', text: hint, variant: 'label', color: 'secondary', id: f_hint_id -%}{%- endif -%}
+  {%- if error != blank -%}{%- render 'typography', text: error, variant: 'label', color: 'danger', id: f_error_id -%}{%- endif -%}
+</div>

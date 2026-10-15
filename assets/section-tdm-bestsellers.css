@@ -1,0 +1,187 @@
+/* =============================================================================
+   Más vendidos (sections/tdm-bestsellers.liquid)
+   One row of white product cards (no border) that scrolls sideways with scroll-snap; the next card
+   is always partly visible. Arrows (icon-button atom) on desktop only; touch swipes.
+   Per-instance value arrives as a custom property on .tdm-bestsellers: --bs-cols (cards visible on desktop)
+   ========================================================================== */
+
+.tdm-bestsellers {
+  --bs-gap: var(--pr-space-4);
+  --bs-visible: 1.3;
+}
+
+.tdm-bestsellers__header {
+  margin: 0 0 var(--pr-space-8);
+}
+
+.tdm-bestsellers__scroller {
+  display: block;
+  position: relative;
+}
+
+.tdm-bestsellers__track {
+  display: flex;
+  gap: var(--bs-gap);
+  margin: 0;
+  padding: 0 0 var(--pr-space-2);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.tdm-bestsellers__track::-webkit-scrollbar {
+  display: none;
+}
+
+.tdm-bestsellers__track:focus-visible {
+  outline: 2px solid var(--pr-border-focus);
+  outline-offset: 2px;
+}
+
+.tdm-bestsellers__card {
+  flex: 0 0 calc((100% - (var(--bs-visible) - 1) * var(--bs-gap)) / var(--bs-visible));
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* White card, no border: the product-card atom draws a 1px one, this section opts out */
+.tdm-bestsellers .pr-card.pr-product-card.tdm-bestsellers__card {
+  border: 0;
+}
+
+.tdm-bestsellers__card .pr-product-card__actions {
+  margin-top: auto;
+  padding-top: var(--pr-space-2);
+}
+
+.tdm-bestsellers__btn {
+  width: 100%;
+}
+
+.tdm-bestsellers__benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-bestsellers__benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pr-space-2);
+}
+
+.tdm-bestsellers__benefit .pr-icon {
+  flex: none;
+  margin-top: var(--pr-space-1);
+  color: var(--pr-text-brand);
+}
+
+.tdm-bestsellers__arrows {
+  display: none;
+}
+
+@media (min-width: 750px) {
+  .tdm-bestsellers {
+    --bs-gap: var(--pr-grid-gap);
+    --bs-visible: 2.3;
+  }
+}
+
+@media (min-width: 990px) {
+  .tdm-bestsellers {
+    --bs-visible: calc(var(--bs-cols, 4) + 0.3);
+  }
+
+  .tdm-bestsellers__arrows {
+    display: flex;
+    justify-content: center;
+    gap: var(--pr-space-4);
+    padding-top: var(--pr-space-6);
+  }
+
+  .tdm-bestsellers__arrow--prev .pr-icon {
+    transform: scaleX(-1);
+  }
+}
+
+/* ---- Shared features: a plain row on the section background (no photo, no panel) ---- */
+.tdm-bestsellers__features {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--pr-space-8);
+  margin: 0 0 var(--pr-space-12);
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-bestsellers__feature {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+}
+
+.tdm-bestsellers__feature > * {
+  margin: 0;
+}
+
+.tdm-bestsellers__feature-icon {
+  margin-right: var(--pr-space-2);
+  color: var(--pr-text-brand);
+}
+
+.tdm-bestsellers__line-image {
+  overflow: hidden;
+  border-radius: var(--pr-radius-surface);
+}
+
+/* Group photo above the scroller; the shared benefits float over it in a glass card (tablet and up).
+   Below tablet the card sits under the photo. */
+.tdm-bestsellers__stage {
+  position: relative;
+  margin: 0 0 var(--pr-space-12);
+}
+
+.tdm-bestsellers__float {
+  margin-top: var(--pr-space-4);
+}
+
+.tdm-bestsellers__float .tdm-bestsellers__features {
+  margin: 0;
+}
+
+@media (min-width: 750px) {
+  .tdm-bestsellers__features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 990px) {
+  .tdm-bestsellers__features {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 750px) {
+  .tdm-bestsellers__float {
+    position: absolute;
+    right: var(--pr-space-6);
+    bottom: var(--pr-space-6);
+    left: var(--pr-space-6);
+    margin: 0;
+    padding: var(--pr-space-6);
+    border: 1px solid var(--pr-border-strong);
+    border-radius: var(--pr-radius-surface);
+    background: color-mix(in oklab, var(--pr-surface) 72%, transparent);
+    -webkit-backdrop-filter: blur(var(--pr-blur-sm));
+    backdrop-filter: blur(var(--pr-blur-sm));
+  }
+
+  .tdm-bestsellers__line-image .pr-image__img {
+    object-fit: cover;
+    min-height: calc(var(--pr-space-24) * 6);
+  }
+}

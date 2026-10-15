@@ -1,0 +1,78 @@
+{%- comment -%}
+  Navbar mobile panel — the menu that opens under the bar below 1200px. Ports PerfectlyRad Navbar mobilePanel (link rows, CTA at the bottom).
+  Links with children expand in place (native details), no sliding drawers.
+
+  {% render 'navbar-mobile', menu: linklists['main-menu'], cta: link, skip_last: true, country: true, language: true, uid: section.id %}
+
+  Params: menu (required), cta (a link object or blank), skip_last, anchor_blocks (the header's `anchor` blocks), country, language, uid
+{%- endcomment -%}
+{%- liquid
+  assign nm_count = menu.links.size
+  if skip_last
+    assign nm_count = nm_count | minus: 1
+  endif
+-%}
+<ul class="tdm-nav__mlinks" role="list">
+  {%- for link in menu.links limit: nm_count -%}
+    {%- assign item_title = link.title | escape -%}
+    <li>
+      {%- if link.links != blank -%}
+        <details class="tdm-nav__mgroup"{% if link.child_active %} open{% endif %}>
+          <summary class="tdm-nav__mlink"{% if link.child_active %} data-active="true"{% endif %}>
+            {%- render 'typography', text: item_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
+            {%- render 'icon', name: 'chevron-down', size: 'md', class: 'tdm-nav__caret' -%}
+          </summary>
+          <ul class="tdm-nav__msub" role="list">
+            {%- for childlink in link.links -%}
+              {%- assign child_title = childlink.title | escape -%}
+              <li>
+                <a href="{{ childlink.url }}" class="tdm-nav__mlink tdm-nav__mlink--sub"{% if childlink.current %} aria-current="page"{% endif %}>
+                  {%- render 'typography', text: child_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+                </a>
+                {%- if childlink.links != blank -%}
+                  <ul class="tdm-nav__msub tdm-nav__msub--deep" role="list">
+                    {%- for grandchildlink in childlink.links -%}
+                      {%- assign grand_title = grandchildlink.title | escape -%}
+                      <li>
+                        <a href="{{ grandchildlink.url }}" class="tdm-nav__mlink tdm-nav__mlink--sub"{% if grandchildlink.current %} aria-current="page"{% endif %}>
+                          {%- render 'typography', text: grand_title, variant: 'body-sm', color: 'secondary', as: 'span' -%}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      {%- else -%}
+        <a href="{{ link.url }}" class="tdm-nav__mlink"{% if link.current %} aria-current="page"{% endif %}>
+          {%- render 'typography', text: item_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
+        </a>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+  {%- for block in anchor_blocks -%}
+    {%- if block.type == 'anchor' and block.settings.label != blank -%}
+      {%- assign anchor_title = block.settings.label | escape -%}
+      <li {{ block.shopify_attributes }}>
+        <a href="#{{ block.settings.anchor | handleize }}" class="tdm-nav__mlink" data-nav-anchor>
+          {%- render 'typography', text: anchor_title, variant: 'body-lg', weight: 'medium', color: 'inherit', as: 'span' -%}
+        </a>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>
+{%- if cta != blank -%}
+  {%- assign cta_attrs = '' -%}
+  {%- assign cta_href = cta_url | default: cta.url -%}
+  {%- if cta_href contains '#pedido' %}{% assign cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
+  <div class="tdm-nav__mcta">
+    {%- render 'button', label: cta.title, href: cta_href, class: 'tdm-nav__mcta-btn', attrs: cta_attrs -%}
+  </div>
+{%- endif -%}
+{%- if country or language -%}
+  <div class="tdm-nav__mloc">
+    {%- render 'header-localization', country: country, language: language, suffix: 'Mobile', uid: uid -%}
+  </div>
+{%- endif -%}

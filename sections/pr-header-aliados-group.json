@@ -1,0 +1,115 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "pr-announcement-bar",
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0"
+      ],
+      "disabled": true,
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "pr-header",
+      "blocks": {
+        "anchor_beneficios": {
+          "type": "anchor",
+          "settings": {
+            "label": "Beneficios",
+            "anchor": "beneficios"
+          }
+        },
+        "anchor_productos": {
+          "type": "anchor",
+          "settings": {
+            "label": "Productos",
+            "anchor": "productos"
+          }
+        },
+        "anchor_niveles": {
+          "type": "anchor",
+          "settings": {
+            "label": "Niveles",
+            "anchor": "niveles"
+          }
+        },
+        "anchor_resultados": {
+          "type": "anchor",
+          "settings": {
+            "label": "Resultados",
+            "anchor": "resultados"
+          }
+        },
+        "anchor_proceso": {
+          "type": "anchor",
+          "settings": {
+            "label": "Proceso",
+            "anchor": "proceso"
+          }
+        },
+        "anchor_preguntas": {
+          "type": "anchor",
+          "settings": {
+            "label": "Preguntas",
+            "anchor": "preguntas"
+          }
+        }
+      },
+      "block_order": [
+        "anchor_beneficios",
+        "anchor_productos",
+        "anchor_niveles",
+        "anchor_resultados",
+        "anchor_proceso",
+        "anchor_preguntas"
+      ],
+      "settings": {
+        "logo_override": "shopify://shop_images/logo-h-full.svg",
+        "logo_link": "shopify://pages/aliados",
+        "nav_style": "floating",
+        "sticky": true,
+        "menu": "menu-aliados",
+        "menu_type_desktop": "mega",
+        "cta_last_link": true,
+        "cta_url": "#pedido",
+        "show_search": false,
+        "show_account": false,
+        "show_cart": true,
+        "color_scheme": "scheme-tdm-blanco",
+        "enable_country_selector": true,
+        "enable_language_selector": true
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

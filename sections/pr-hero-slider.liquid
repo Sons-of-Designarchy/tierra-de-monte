@@ -1,0 +1,323 @@
+{%- comment -%}
+  Hero Slider con CTA — sección independiente para temas 2.0 de Shopify.
+  Capas de cada slide (de abajo hacia arriba):
+    0 · imagen  →  1 · overlay (color + opacidad por slide)  →  2 · textos y botones  →  3 · controles
+  Styles: assets/section-tdm-hero-slider.css. Behaviour: assets/tdm-hero-slider.js.
+{%- endcomment -%}
+
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+
+{{ 'pr-hero.css' | asset_url | stylesheet_tag }}
+{{ 'pr-section-tdm-hero-slider.css' | asset_url | stylesheet_tag }}
+
+{%- assign hs_full = false -%}
+{%- if section.settings.width == 'full' -%}{%- assign hs_full = true -%}{%- endif -%}
+
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+<div class="section-{{ section.id }}-padding{% unless hs_full %} page-width{% endunless %}">
+<hero-slider
+  class="tdm-hero-slider pr-hero-frame{% if hs_full %} tdm-hero-slider--full{% endif %}{% if section.settings.credit_position contains 'right' %} hs--credit-right{% endif %}{% if section.settings.credit_position contains 'top' %} hs--credit-top{% endif %} color-{{ section.settings.color_scheme }}"
+  id="HeroSlider-{{ section.id }}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-speed="{{ section.settings.speed | times: 1000 }}"
+  aria-roledescription="carrusel"
+  aria-label="{{ section.settings.aria_label | escape }}"
+  style="
+    --pr-hero-min-h: {{ section.settings.min_height_desktop }}svh;
+    --hs-h-m: {{ section.settings.min_height_mobile }}svh;
+    --hs-frame-radius: {{ section.settings.corner_radius }}px;
+  "
+>
+  <div class="hs__track">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign overlay_alpha = block.settings.overlay_opacity | divided_by: 100.0
+        assign slide_scheme = section.settings.color_scheme
+        if block.settings.use_custom_scheme
+          assign slide_scheme = block.settings.color_scheme
+        endif
+      -%}
+      <div
+        class="hs__slide color-{{ slide_scheme }}"
+        role="group"
+        aria-roledescription="diapositiva"
+        aria-label="{{ forloop.index }} de {{ forloop.length }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- comment -%} CAPA 0 · IMAGEN {%- endcomment -%}
+        {%- liquid
+          assign hs_focal = ''
+          if block.settings.image != blank
+            assign hs_focal = block.settings.image.presentation.focal_point
+            if hs_focal == '50.0% 50.0%'
+              assign hs_focal = ''
+            endif
+          endif
+        -%}
+        <div class="hs__media"{% if hs_focal != blank %} style="--pr-hero-focal: {{ hs_focal }};"{% endif %}>
+          {%- if block.settings.image != blank -%}
+            {%- liquid
+              assign alt_text = block.settings.alt | default: block.settings.image.alt | escape
+              if forloop.first
+                assign loading = 'eager'
+                assign priority = 'high'
+              else
+                assign loading = 'lazy'
+                assign priority = 'auto'
+              endif
+            -%}
+            <picture>
+              {%- if block.settings.image_mobile != blank -%}
+                <source
+                  media="(max-width: 749px)"
+                  srcset="{{ block.settings.image_mobile | image_url: width: 750 }} 750w, {{ block.settings.image_mobile | image_url: width: 1100 }} 1100w, {{ block.settings.image_mobile | image_url: width: 1500 }} 1500w"
+                  sizes="100vw"
+                >
+              {%- endif -%}
+              {{
+                block.settings.image
+                | image_url: width: 3000
+                | image_tag:
+                  widths: '750, 1100, 1500, 2000, 2500, 3000',
+                  sizes: '100vw',
+                  alt: alt_text,
+                  loading: loading,
+                  fetchpriority: priority
+              }}
+            </picture>
+          {%- else -%}
+            {%- assign ph = forloop.index | modulo: 2 | plus: 1 -%}
+            {{ 'lifestyle-' | append: ph | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} CAPA 1 · OVERLAY (encima de la imagen) {%- endcomment -%}
+        {%- assign overlay_rgba = block.settings.overlay_color | color_modify: 'alpha', overlay_alpha -%}
+        <div
+          class="hs__overlay"
+          aria-hidden="true"
+          style="--hs-overlay: {{ overlay_rgba }};"
+        ><span></span></div>
+
+        {%- liquid
+          assign hs_scrim_x = block.settings.align_h
+          assign hs_scrim_y = block.settings.align_v
+        -%}
+        <div class="pr-hero-scrim pr-hero-scrim--{{ hs_scrim_y }} pr-hero-scrim--{{ hs_scrim_x }}" aria-hidden="true"></div>
+
+        {%- comment -%} CAPA 2 · TEXTOS Y BOTONES {%- endcomment -%}
+        <div class="hs__container hs__h-{{ block.settings.align_h }} hs__v-{{ block.settings.align_v }}">
+        <div class="hs__content">
+          {%- if block.settings.subheading != blank -%}
+            {%- assign hs_sub = block.settings.subheading | escape -%}
+            {%- render 'typography', text: hs_sub, variant: 'eyebrow', font: 'body', weight: 'medium', color: 'inherit', class: 'hs__sub' -%}
+          {%- endif -%}
+
+          {%- if block.settings.heading != blank -%}
+            {%- liquid
+              assign heading_html = block.settings.heading | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>'
+              if block.settings.highlight != blank
+                assign hl = block.settings.highlight
+                assign hl_html = '<em>' | append: hl | append: '</em>'
+                unless heading_html contains hl_html
+                  assign heading_html = heading_html | replace_first: hl, hl_html
+                endunless
+              endif
+            -%}
+            {%- assign hs_tag = 'h2' -%}
+            {%- if forloop.first and section.settings.first_h1 -%}{%- assign hs_tag = 'h1' -%}{%- endif -%}
+            {%- render 'typography', text: heading_html, as: hs_tag, variant: section.settings.heading_variant, font: 'display', color: 'inherit', class: 'hs__title' -%}
+          {%- endif -%}
+
+          {%- if block.settings.text != blank -%}
+            {%- render 'typography', text: block.settings.text, as: 'div', variant: 'body-lg', color: 'inherit', class: 'hs__text' -%}
+          {%- endif -%}
+
+          {%- if block.settings.button_label != blank or block.settings.button_label_2 != blank -%}
+            <div class="hs__btns">
+              {%- if block.settings.button_label != blank -%}
+                {%- assign hs_href = block.settings.button_link | default: '#' -%}
+                {%- capture hs_attrs -%}{% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if hs_href contains '#pedido' %} data-track="quiero-ser-aliado-hero"{% endif %}{%- endcapture -%}
+                {%- render 'button', label: block.settings.button_label, href: hs_href, variant: 'primary', size: 'lg', attrs: hs_attrs -%}
+              {%- endif -%}
+              {%- if block.settings.button_label_2 != blank -%}
+                {%- assign hs_href_2 = block.settings.button_link_2 | default: '#' -%}
+                {%- capture hs_attrs_2 -%}{% if block.settings.button_new_tab_2 %}target="_blank" rel="noopener"{% endif %}{% if hs_href_2 contains '#pedido' %} data-track="quiero-ser-aliado-hero"{% endif %}{%- endcapture -%}
+                {%- render 'button', label: block.settings.button_label_2, href: hs_href_2, variant: 'inverse', size: 'lg', attrs: hs_attrs_2 -%}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if block.settings.credit_name != blank or block.settings.credit_detail != blank -%}
+          <div class="hs__credit">
+            {%- if block.settings.credit_name != blank -%}{%- assign hs_cn = block.settings.credit_name | escape -%}{%- render 'typography', text: hs_cn, variant: 'body', weight: 'bold', color: 'inherit' -%}{%- endif -%}
+            {%- if block.settings.credit_detail != blank -%}{%- assign hs_cd = block.settings.credit_detail | escape -%}{%- render 'typography', text: hs_cd, variant: 'body', color: 'inherit' -%}{%- endif -%}
+          </div>
+        {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} CAPA 3 · CONTROLES {%- endcomment -%}
+  {%- if section.blocks.size > 1 -%}
+    {%- if section.settings.show_arrows or section.settings.show_dots -%}
+      <div class="hs__controls">
+        {%- if section.settings.show_arrows -%}
+          {%- render 'icon-button', icon: 'chevron-right', label: 'Diapositiva anterior', variant: 'outline', size: 'md', class: 'hs__arrow hs__prev' -%}
+        {%- endif -%}
+        {%- if section.settings.show_dots -%}
+          <ul class="hs__dots">
+            {%- for block in section.blocks -%}
+              <li>
+                <button
+                  type="button"
+                  class="hs__dot"
+                  aria-label="Ir a la diapositiva {{ forloop.index }}"
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                ></button>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- if section.settings.show_arrows -%}
+          {%- render 'icon-button', icon: 'chevron-right', label: 'Diapositiva siguiente', variant: 'outline', size: 'md', class: 'hs__arrow hs__next' -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</hero-slider>
+</div>
+
+<script src="{{ 'tdm-hero-slider.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "PR · Hero slider",
+  "tag": "section",
+  "class": "section-hero-slider",
+  "max_blocks": 8,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    { "type": "header", "content": "Tamaño" },
+    { "type": "range", "id": "min_height_desktop", "label": "Altura mínima en escritorio", "min": 40, "max": 100, "step": 1, "unit": "vh", "default": 75 },
+    { "type": "range", "id": "min_height_mobile", "label": "Altura mínima en móvil", "min": 40, "max": 100, "step": 1, "unit": "vh", "default": 75 },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Ancho",
+      "options": [
+        { "value": "page", "label": "Ancho de página (como el resto de secciones)" },
+        { "value": "full", "label": "Ancho completo" }
+      ],
+      "default": "page"
+    },
+    { "type": "range", "id": "corner_radius", "label": "Redondeo del marco", "info": "Solo aplica con ancho de página. El ancho completo siempre va sin redondeo.", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 8 },
+    {
+      "type": "select",
+      "id": "heading_variant",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "display", "label": "Portada (el más grande)" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ],
+      "default": "display"
+    },
+    { "type": "checkbox", "id": "first_h1", "label": "Usar H1 en el primer slide", "info": "Actívalo si este es el título principal de la página (bueno para SEO).", "default": true },
+    { "type": "header", "content": "Reproducción" },
+    { "type": "checkbox", "id": "autoplay", "label": "Avanzar automáticamente", "default": true },
+    { "type": "range", "id": "speed", "label": "Cambiar cada", "min": 3, "max": 10, "step": 1, "unit": "s", "default": 6 },
+    { "type": "checkbox", "id": "show_arrows", "label": "Mostrar flechas", "default": true },
+    { "type": "checkbox", "id": "show_dots", "label": "Mostrar puntos", "default": true },
+    { "type": "header", "content": "Colores" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "info": "Texto: color de texto del esquema. Antetítulo, palabra destacada y botón principal: color de botón. Botón secundario: etiqueta secundaria. Cada slide puede usar su propio esquema.", "default": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9" },
+    {
+      "type": "select",
+      "id": "credit_position",
+      "label": "Posición del crédito (nombre y cultivo)",
+      "info": "Esquina del slide donde va el nombre y el tipo de cultivo. Respeta los márgenes del slide.",
+      "options": [
+        { "value": "bottom_left", "label": "Abajo a la izquierda" },
+        { "value": "bottom_right", "label": "Abajo a la derecha" },
+        { "value": "top_left", "label": "Arriba a la izquierda" },
+        { "value": "top_right", "label": "Arriba a la derecha" }
+      ],
+      "default": "bottom_left"
+    },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0, "label": "Espaciado superior" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36, "label": "Espaciado inferior", "info": "En móvil se aplica al 75%, igual que el resto de secciones." },
+    { "type": "header", "content": "Accesibilidad" },
+    { "type": "text", "id": "aria_label", "label": "Nombre del carrusel (lectores de pantalla)", "default": "Programa de aliados" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "header", "content": "Imagen" },
+        { "type": "image_picker", "id": "image", "label": "Imagen (escritorio)", "info": "Recomendado: 2400 × 1200 px" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Imagen para móvil (opcional)", "info": "Recomendado: 750 × 1100 px" },
+        { "type": "text", "id": "alt", "label": "Texto alternativo", "info": "Describe la imagen. Si lo dejas vacío se usa el de la biblioteca de archivos." },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "overlay_color", "label": "Color del overlay", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "label": "Opacidad del overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 45 },
+        { "type": "header", "content": "Colores" },
+        { "type": "checkbox", "id": "use_custom_scheme", "label": "Usar esquema propio", "info": "Si está apagado, el slide usa el esquema de la sección.", "default": false },
+        { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-5c8c6201-342a-4d13-ba28-e986eb294bf9" },
+        { "type": "header", "content": "Textos" },
+        { "type": "text", "id": "subheading", "label": "Eyebrow", "info": "Va sobre la imagen, sin línea.", "default": "Programa de aliados · Tierra de Monte" },
+        { "type": "richtext", "id": "heading", "label": "Título", "info": "Cada párrafo es una línea. Pon en cursiva (I) la palabra que quieras en color de acento.", "default": "<p>Tú pones la <em>palabra.</em></p><p>Nosotros ponemos con qué cumplirla</p>" },
+        { "type": "text", "id": "highlight", "label": "Palabra destacada (opcional)", "info": "Alternativa a la cursiva: escribe la palabra exacta del título que quieres en color de acento." },
+        { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Somos una empresa mexicana de biotecnología agrícola.</p>" },
+        { "type": "header", "content": "Botones" },
+        { "type": "text", "id": "button_label", "label": "Botón principal: texto", "default": "Escríbenos por WhatsApp" },
+        { "type": "url", "id": "button_link", "label": "Botón principal: enlace", "info": "Para WhatsApp: https://wa.me/52XXXXXXXXXX" },
+        { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en pestaña nueva", "default": true },
+        { "type": "text", "id": "button_label_2", "label": "Botón secundario: texto", "default": "Cómo funciona" },
+        { "type": "url", "id": "button_link_2", "label": "Botón secundario: enlace" },
+        { "type": "checkbox", "id": "button_new_tab_2", "label": "Abrir en pestaña nueva", "default": false },
+        { "type": "header", "content": "Crédito (esquina inferior)" },
+        { "type": "text", "id": "credit_name", "label": "Nombre", "default": "Nombre" },
+        { "type": "text", "id": "credit_detail", "label": "Tipo de cultivo", "default": "Tipo de cultivo" },
+        { "type": "header", "content": "Posición" },
+        {
+          "type": "select", "id": "align_h", "label": "Posición horizontal del texto", "default": "left",
+          "options": [
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Derecha" }
+          ]
+        },
+        {
+          "type": "select", "id": "align_v", "label": "Posición vertical del texto", "default": "middle",
+          "options": [
+            { "value": "top", "label": "Arriba" },
+            { "value": "middle", "label": "En medio" },
+            { "value": "bottom", "label": "Abajo" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero slider",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

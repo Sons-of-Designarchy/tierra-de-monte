@@ -1,0 +1,64 @@
+{%- comment -%}
+  Image — every photo on the site. Fixed aspect ratio, fills its box, lazy by default, responsive srcset. Ports PerfectlyRad Image.
+
+  {% render 'image', image: section.settings.image, alt: 'Descripción', ratio: '4/3', fit: 'cover', position: 'center', radius: 'surface', bordered: false, caption: '', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy' %}
+
+  Params
+  - image     Shopify image object (required). Builds image_url + srcset (360 → 1600)
+  - alt       required; pass an empty string only for decorative images (defaults to image.alt)
+  - ratio     16/9 | 4/3 | 1/1 | 4/5 | 3/4 | auto   (default: 16/9)
+  - radius    surface (follows --pr-radius-surface) | none   (default: surface)
+  - fit       cover | contain   (default: cover)
+  - position  center | top | bottom | left | right   (default: center)
+  - bordered  1px border around the photo, for images on a background of the same tone
+  - caption   line under the photo (wraps it in a figure)
+  - sizes     required for responsive loading, e.g. "(min-width: 750px) 50vw, 100vw" (default: 100vw)
+  - loading   lazy | eager   (default: lazy)
+  - class
+{%- endcomment -%}
+{%- liquid
+  assign i_ratio = ratio | default: '16/9'
+  assign i_ratio_class = i_ratio | replace: '/', '-'
+  assign i_radius = radius | default: 'surface'
+  assign i_fit = fit | default: 'cover'
+  assign i_pos = position | default: 'center'
+  assign i_alt = alt
+  if alt == nil
+    assign i_alt = image.alt
+  endif
+  assign i_sizes = sizes | default: '100vw'
+  assign i_loading = loading | default: 'lazy'
+  assign i_class = 'pr-image pr-image--r-' | append: i_ratio_class | append: ' pr-image--' | append: i_radius | append: ' pr-image--' | append: i_fit | append: ' pr-image--pos-' | append: i_pos
+  if bordered
+    assign i_class = i_class | append: ' pr-image--bordered'
+  endif
+  if caption == blank and class != blank
+    assign i_class = i_class | append: ' ' | append: class
+  endif
+-%}
+{%- capture i_photo -%}
+  <span class="{{ i_class }}">
+    {%- if image != blank -%}
+      <img
+        src="{{ image | image_url: width: 800 }}"
+        srcset="{{ image | image_url: width: 360 }} 360w, {{ image | image_url: width: 540 }} 540w, {{ image | image_url: width: 720 }} 720w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1100 }} 1100w, {{ image | image_url: width: 1400 }} 1400w, {{ image | image_url: width: 1600 }} 1600w"
+        sizes="{{ i_sizes }}"
+        alt="{{ i_alt | escape }}"
+        width="{{ image.width }}"
+        height="{{ image.height }}"
+        loading="{{ i_loading }}"
+        class="pr-image__img"
+      >
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'pr-image__img pr-image__placeholder' }}
+    {%- endif -%}
+  </span>
+{%- endcapture -%}
+{%- if caption != blank -%}
+  <figure class="pr-image-figure{% if class != blank %} {{ class }}{% endif %}">
+    {{ i_photo }}
+    <figcaption class="pr-image-figure__caption">{% render 'typography', text: caption, as: 'span', variant: 'label', color: 'secondary' %}</figcaption>
+  </figure>
+{%- else -%}
+  {{ i_photo }}
+{%- endif -%}

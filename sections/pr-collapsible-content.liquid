@@ -1,0 +1,134 @@
+{%- comment -%}
+  FAQ — PerfectlyRad's Faq, one to one: a Section (heading block through the Heading atom, the heading beside the list from tablet up or stacked above) with the Accordion atom.
+  The accordion is the atom's default variant: a divider per question, no boxes, question in the body font, chevron that turns.
+  Styles: assets/section-tdm-collapsible-content.css (layout only).
+{%- endcomment -%}
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+{{ 'section-tdm-collapsible-content.css' | asset_url | stylesheet_tag }}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  case section.settings.heading_size
+    when 'h2'
+      assign cc_title_variant = 'h2'
+    when 'h1'
+      assign cc_title_variant = 'h1'
+    else
+      assign cc_title_variant = 'display'
+  endcase
+  assign cc_layout = section.settings.faq_layout | default: 'side'
+
+  assign cc_titles = ''
+  assign cc_panels = ''
+  assign cc_open = 0
+  for block in section.blocks
+    assign cc_heading = block.settings.heading | default: block.settings.page.title | strip_html | replace: '|', '/'
+    capture cc_body
+      echo block.settings.row_content
+      echo block.settings.page.content
+    endcapture
+    capture cc_panel
+      render 'typography', text: cc_body, as: 'div', variant: 'body', color: 'secondary', class: 'rte'
+    endcapture
+    if forloop.first
+      assign cc_titles = cc_heading
+      assign cc_panels = cc_panel
+    else
+      assign cc_titles = cc_titles | append: '|' | append: cc_heading
+      assign cc_panels = cc_panels | append: '<!--pr-->' | append: cc_panel
+    endif
+  endfor
+  if section.settings.open_first_collapsible_row
+    assign cc_open = 1
+  endif
+-%}
+
+<div class="tdm-faq color-{{ section.settings.color_scheme }} gradient{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
+  {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
+  <div class="tdm-faq__inner tdm-faq__inner--{{ cc_layout }} page-width section-{{ section.id }}-padding isolate">
+    {%- if section.settings.heading != blank or section.settings.caption != blank -%}
+      <div class="tdm-faq__header">
+        {%- render 'section-header', eyebrow: section.settings.caption, title: section.settings.heading, size: cc_title_variant -%}
+      </div>
+    {%- else -%}
+      <h2 class="visually-hidden">{{ 'accessibility.collapsible_content_title' | t }}</h2>
+    {%- endif -%}
+    <div class="tdm-faq__list">
+      {%- render 'accordion', titles: cc_titles, panels: cc_panels, open: cc_open -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.collapsible_content.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    { "type": "text", "id": "caption", "label": "Eyebrow", "info": "Texto pequeño arriba del título. Sin línea." },
+    { "type": "inline_richtext", "id": "heading", "default": "Preguntas frecuentes", "label": "Título" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "faq_layout",
+      "label": "Distribución",
+      "info": "Al lado: el título a la izquierda y las preguntas a la derecha desde tablet. Apilado: el título arriba.",
+      "options": [
+        { "value": "side", "label": "Al lado" },
+        { "value": "stack", "label": "Apilado" }
+      ],
+      "default": "side"
+    },
+    { "type": "checkbox", "id": "open_first_collapsible_row", "label": "Primera pregunta abierta", "default": false },
+    { "type": "header", "content": "Color y fondo" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
+    { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Enfoque de la imagen",
+      "default": "center",
+      "options": [{ "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }]
+    },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 36 }
+  ],
+  "blocks": [
+    {
+      "type": "collapsible_row",
+      "name": "t:sections.collapsible_content.blocks.collapsible_row.name",
+      "settings": [
+        { "type": "text", "id": "heading", "default": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.default", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.label" },
+        { "type": "richtext", "id": "row_content", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.row_content.label" },
+        { "type": "page", "id": "page", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.page.label" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.collapsible_content.presets.name",
+      "blocks": [{ "type": "collapsible_row" }, { "type": "collapsible_row" }, { "type": "collapsible_row" }, { "type": "collapsible_row" }]
+    }
+  ]
+}
+{% endschema %}

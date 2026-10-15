@@ -1,0 +1,10 @@
+{%- comment -%} Inner content of the Navbar cart icon-button (#cart-icon-bubble); the cart JS swaps it after every cart change. {%- endcomment -%}
+{%- render 'icon', name: 'bag', size: 'md' -%}
+{%- if cart != empty -%}
+  {%- if cart.item_count < 100 -%}
+    <span class="pr-icon-btn__badge" aria-hidden="true">{{ cart.item_count }}</span>
+  {%- else -%}
+    <span class="pr-icon-btn__badge" aria-hidden="true">99+</span>
+  {%- endif -%}
+{%- endif -%}
+<span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>

@@ -1,0 +1,35 @@
+{%- comment -%}
+  Maps an editor "size in px" setting to the nearest typography variant. Settings that were free pixel values
+  (ticker text size, stat size, row title size) keep working; the section renders the variant, never the number.
+
+  {% capture t_variant %}{% render 'tdm-type-from-px', px: block.settings.stat_size_desktop %}{% endcapture %}
+  {% render 'typography', text: x, variant: t_variant | strip %}   (assign first: render args take no filters)
+
+  Output: xs | body-sm | body | body-lg | h6 | h5 | h4 | h3 | h2 | h1 | display
+{%- endcomment -%}
+{%- liquid
+  assign px_n = px | plus: 0
+  if px_n <= 13
+    echo 'xs'
+  elsif px_n <= 15
+    echo 'body-sm'
+  elsif px_n <= 17
+    echo 'body'
+  elsif px_n <= 20
+    echo 'body-lg'
+  elsif px_n <= 23
+    echo 'h6'
+  elsif px_n <= 27
+    echo 'h5'
+  elsif px_n <= 34
+    echo 'h4'
+  elsif px_n <= 42
+    echo 'h3'
+  elsif px_n <= 50
+    echo 'h2'
+  elsif px_n <= 62
+    echo 'h1'
+  else
+    echo 'display'
+  endif
+-%}

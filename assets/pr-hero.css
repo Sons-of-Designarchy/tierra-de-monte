@@ -1,0 +1,48 @@
+/* =============================================================================
+   Hero frame + scrim, shared by hero-overlay-card and hero-slider.
+   Frame: edge to edge, no radius, no border, height from --pr-hero-min-h (each section sets it from its own
+   settings, default 75svh). Scrim: ink from the text corner (--pr-scrim-strong) so copy on a photo always reads.
+   First on the page, the floating navbar sits on top of the photo: --pr-nav-clear (section-tdm-header.css) is the
+   room the content leaves for it.
+   ========================================================================== */
+
+.pr-hero-frame {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--pr-hero-min-h, 75svh);
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  /* Photo alignment: the top is never cropped (heads, tractors), the crop happens at the bottom. A focal point set in Shopify overrides it through --pr-hero-focal on the frame or the media. */
+  --pr-hero-focal: 50% 0%;
+}
+
+.pr-hero-frame .pr-hero-scrim {
+  --pr-scrim-x: 0%;
+  --pr-scrim-y: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--pr-scrim-strong) 0%, var(--pr-scrim-strong) 45%, transparent 100%);
+}
+
+.pr-hero-scrim--left { --pr-scrim-x: 0%; }
+.pr-hero-scrim--center { --pr-scrim-x: 50%; }
+.pr-hero-scrim--right { --pr-scrim-x: 100%; }
+.pr-hero-scrim--top { --pr-scrim-y: 0%; }
+.pr-hero-scrim--middle { --pr-scrim-y: 50%; }
+.pr-hero-scrim--bottom { --pr-scrim-y: 100%; }
+
+@media (min-width: 750px) {
+  .pr-hero-frame .pr-hero-scrim {
+    background: radial-gradient(
+      ellipse 120% 150% at var(--pr-scrim-x) var(--pr-scrim-y),
+      var(--pr-scrim-strong) 0%,
+      var(--pr-scrim-strong) 38%,
+      transparent 85%
+    );
+  }
+}

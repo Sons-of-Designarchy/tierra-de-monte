@@ -1,0 +1,54 @@
+/* =============================================================================
+   Card grid section (sections/tdm-card-grid.liquid) — layout only.
+   The cards are the `card` atom (pr-atoms.css + pr-atoms-extra.css); the header is
+   `section-header`. Per-instance values arrive as custom properties on .tdm-card-grid:
+     --cg-cols --cg-cols-tablet --cg-cols-mobile
+   ========================================================================== */
+
+.tdm-card-grid {
+  position: relative;
+  background: var(--pr-surface);
+  color: var(--pr-text-primary);
+}
+
+.tdm-card-grid__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-8);
+}
+
+.tdm-card-grid__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cg-cols-mobile), minmax(0, 1fr));
+  gap: var(--pr-grid-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tdm-card-grid__item {
+  display: flex;
+  min-width: 0;
+  margin: 0;
+}
+
+.tdm-card-grid__card {
+  width: 100%;
+}
+
+.tdm-card-grid__cta {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-card-grid__grid {
+    grid-template-columns: repeat(var(--cg-cols-tablet), minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .tdm-card-grid__grid {
+    grid-template-columns: repeat(var(--cg-cols), minmax(0, 1fr));
+  }
+}

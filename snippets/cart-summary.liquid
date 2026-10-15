@@ -1,0 +1,69 @@
+{%- comment -%}
+  CartSummary — the totals of an order and the way to pay it: subtotal, discounts and the checkout button. One totals block for the cart page
+  and the drawer. Ports PerfectlyRad CartSummary.
+
+  {% render 'cart-summary', cart: cart, minimum: 500000, minimum_label: 'el mínimo de Bronce' %}
+
+  Params
+  - cart            the cart (required): total_price, item_count, total_discount, cart_level_discount_applications
+  - show_checkout   false → totals only (default: true)
+  - checkout_label  default: Finalizar compra
+  - note            small print under the button (default: Envío e impuestos se calculan al pagar.)
+  - minimum         minimum purchase in cents. Below it the button is held and says why
+  - minimum_label   what the minimum is called (default: el mínimo)
+  - id              prefix for ids when the block appears twice on a page
+  - class
+
+  Checkout goes through the cart form (`name="checkout"`) so Shopify keeps the note and attributes.
+  States: empty (button off), below the minimum (button off + reason), discounts, ready.
+{%- endcomment -%}
+{%- liquid
+  assign cs_min = minimum | default: 0
+  assign cs_missing = cs_min | minus: cart.total_price
+  assign cs_blocked = false
+  if cart.item_count > 0 and cs_missing > 0
+    assign cs_blocked = true
+  endif
+  assign cs_off = false
+  if cart.item_count == 0 or cs_blocked
+    assign cs_off = true
+  endif
+  assign cs_label = checkout_label | default: 'Finalizar compra'
+  assign cs_note = note | default: 'Envío e impuestos se calculan al pagar.'
+  assign cs_goal = minimum_label | default: 'el mínimo'
+-%}
+<div class="pr-cart-summary{% if class != blank %} {{ class }}{% endif %}">
+  <dl class="pr-cart-summary__totals" role="status">
+    {%- if cart.total_discount > 0 -%}
+      <div class="pr-cart-summary__row">
+        {%- render 'typography', text: 'Descuentos', as: 'dt', variant: 'body-sm', color: 'secondary' -%}
+        {%- capture cs_disc %}-{{ cart.total_discount | money }}{% endcapture -%}
+        {%- render 'typography', text: cs_disc, as: 'dd', variant: 'body-sm', color: 'success', align: 'right' -%}
+      </div>
+    {%- endif -%}
+    {%- for discount in cart.cart_level_discount_applications -%}
+      <div class="pr-cart-summary__row">
+        {%- capture cs_code %}Descuento · {{ discount.title | escape }}{% endcapture -%}
+        {%- render 'typography', text: cs_code, as: 'dt', variant: 'body-sm', color: 'secondary' -%}
+        {%- capture cs_amount %}-{{ discount.total_allocated_amount | money }}{% endcapture -%}
+        {%- render 'typography', text: cs_amount, as: 'dd', variant: 'body-sm', color: 'success', align: 'right' -%}
+      </div>
+    {%- endfor -%}
+    <div class="pr-cart-summary__row pr-cart-summary__row--total">
+      {%- capture cs_sub %}Subtotal · {{ cart.item_count }} {% if cart.item_count == 1 %}producto{% else %}productos{% endif %}{% endcapture -%}
+      {%- render 'typography', text: cs_sub, as: 'dt', variant: 'body', weight: 'semibold' -%}
+      {%- capture cs_total %}{{ cart.total_price | money_without_trailing_zeros }}{% endcapture -%}
+      {%- render 'typography', text: cs_total, as: 'dd', variant: 'h6', font: 'display' -%}
+    </div>
+  </dl>
+  {%- if show_checkout != false -%}
+    {%- if cs_blocked -%}
+      {%- capture cs_reason %}Agrega {{ cs_missing | money_without_trailing_zeros }} más para alcanzar {{ cs_goal }} y finalizar tu compra.{% endcapture -%}
+      {%- render 'typography', text: cs_reason, variant: 'body-sm', color: 'secondary', attrs: 'role="status"' -%}
+    {%- endif -%}
+    <form action="{{ routes.cart_url }}" method="post" class="pr-cart-summary__form">
+      {%- render 'button', label: cs_label, type: 'submit', name: 'checkout', size: 'lg', disabled: cs_off, class: 'pr-cart-summary__checkout' -%}
+    </form>
+    {%- render 'typography', text: cs_note, variant: 'xs', color: 'secondary' -%}
+  {%- endif -%}
+</div>

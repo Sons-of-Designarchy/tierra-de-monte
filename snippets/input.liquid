@@ -1,0 +1,36 @@
+{%- comment -%}
+  Input — text field with its label, hint and error. Ports PerfectlyRad Input.
+
+  {% render 'input', label: 'Correo', name: 'email', type: 'email', value: '', placeholder: '', hint: '', error: '', variant: 'outline', hide_label: false, disabled: false, required: false, autocomplete: 'email', id: '', attrs: '', class: '' %}
+
+  Params
+  - label        required
+  - name         field name; also the id unless id is given
+  - id           element id (default: name)
+  - type         text | email | tel | password | number | search | url   (default: text)
+  - value, placeholder, autocomplete, inputmode
+  - hint         secondary line; hidden while there is an error
+  - error        error message: red border (aria-invalid) + message
+  - variant      outline (bordered white box) | filled (no border, a tint of the background)   (default: outline)
+  - hide_label   visually hidden label
+  - disabled, required
+  - attrs        extra attributes
+  - class        on the field wrapper
+
+  States: hover, focus-visible, error, disabled. Height 44px.
+{%- endcomment -%}
+{%- liquid
+  assign in_id = id | default: name
+  assign in_variant = variant | default: 'outline'
+  assign in_desc = ''
+  if hint != blank and error == blank
+    assign in_desc = in_id | append: '-hint'
+  endif
+  if error != blank
+    assign in_desc = in_id | append: '-error'
+  endif
+-%}
+{%- capture in_control -%}
+  <input id="{{ in_id }}" type="{{ type | default: 'text' }}" class="pr-control pr-control--{{ in_variant }} pr-input"{% if name != blank %} name="{{ name }}"{% endif %}{% if value != blank %} value="{{ value | escape }}"{% endif %}{% if placeholder != blank %} placeholder="{{ placeholder | escape }}"{% endif %}{% if autocomplete != blank %} autocomplete="{{ autocomplete }}"{% endif %}{% if inputmode != blank %} inputmode="{{ inputmode }}"{% endif %}{% if disabled %} disabled{% endif %}{% if required %} required{% endif %}{% if error != blank %} aria-invalid="true"{% endif %}{% if in_desc != blank %} aria-describedby="{{ in_desc }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>
+{%- endcapture -%}
+{%- render 'field', for_id: in_id, label: label, hint: hint, error: error, hide_label: hide_label, content: in_control, class: class -%}

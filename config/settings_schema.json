@@ -1511,6 +1511,29 @@
         "label": "Tipografía de títulos",
         "info": "Párrafos y eyebrows no cambian.",
         "default": "barlow_condensed_n5"
+      },
+      {
+        "type": "header",
+        "content": "Compra mínima"
+      },
+      {
+        "type": "number",
+        "id": "cart_minimum",
+        "label": "Compra mínima (MXN)",
+        "info": "0 la apaga. Con un monto, el carrito muestra una barra de avance y, si está activado abajo, detiene el pago hasta llegar.",
+        "default": 0
+      },
+      {
+        "type": "text",
+        "id": "cart_minimum_label",
+        "label": "Nombre de la meta",
+        "default": "el mínimo de compra"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_minimum_hold",
+        "label": "Detener el pago por debajo del mínimo",
+        "default": true
       }
     ]
   }

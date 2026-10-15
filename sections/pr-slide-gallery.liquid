@@ -1,0 +1,774 @@
+{% render 'tdm-anchor', id: section.settings.anchor_id %}
+{{ 'pr-section-image-banner.css' | asset_url | stylesheet_tag }}
+{{ 'pr-component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'pr-component-slideshow.css' | asset_url | stylesheet_tag }}
+{{ 'pr-section-tdm-slide-gallery.css' | asset_url | stylesheet_tag }}
+
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+{%- liquid
+  assign intro_pad_id = section.id | append: '-intro'
+  assign cta_pad_id = section.id | append: '-cta'
+-%}
+{% render 'section-padding', id: intro_pad_id, top: section.settings.intro_padding_top, bottom: section.settings.intro_padding_bottom %}
+{% render 'section-padding', id: cta_pad_id, top: 0, bottom: section.settings.intro_padding_bottom %}
+
+{%- liquid
+  case section.settings.mobile_ratio
+    when '16_9'
+      assign mobile_ratio = '16 / 9'
+    when '4_3'
+      assign mobile_ratio = '4 / 3'
+    else
+      assign mobile_ratio = '3 / 2'
+  endcase
+
+  assign adapt_image = false
+  if section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank
+    assign adapt_image = true
+    assign adapt_ratio = section.blocks.first.settings.image.width | append: ' / ' | append: section.blocks.first.settings.image.height
+  endif
+  # Fixed desktop proportions: same mechanism as "adapt", image centred (cover)
+  case section.settings.slide_height
+    when 'ratio_16_9'
+      assign adapt_image = true
+      assign adapt_ratio = '16 / 9'
+    when 'ratio_2_1'
+      assign adapt_image = true
+      assign adapt_ratio = '2 / 1'
+  endcase
+
+  assign has_cta = false
+  if section.settings.button_label != blank
+    assign has_cta = true
+  endif
+  assign cta_below = false
+  if has_cta and section.settings.button_position == 'below_gallery'
+    assign cta_below = true
+  endif
+-%}
+
+{%- liquid
+  case section.settings.intro_heading_size
+    when 'h2'
+      assign sg_title_variant = 'h2'
+    when 'h1'
+      assign sg_title_variant = 'h1'
+    else
+      assign sg_title_variant = 'display'
+  endcase
+  assign sg_cta_href = section.settings.button_link | default: '#'
+  assign sg_cta_variant = 'primary'
+  if section.settings.button_style_secondary
+    assign sg_cta_variant = 'outline'
+  endif
+  assign sg_prev_label = 'sections.slideshow.previous_slideshow' | t
+  assign sg_next_label = 'sections.slideshow.next_slideshow' | t
+  capture sg_prev_attrs
+    echo 'name="previous" aria-controls="Slider-' | append: section.id | append: '"'
+  endcapture
+  capture sg_next_attrs
+    echo 'name="next" aria-controls="Slider-' | append: section.id | append: '"'
+  endcapture
+-%}
+{%- capture sg_cta_attrs -%}{% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %}{%- endcapture -%}
+{%- capture cta -%}
+  {%- render 'button', label: section.settings.button_label, href: sg_cta_href, variant: sg_cta_variant, size: 'lg', attrs: sg_cta_attrs -%}
+{%- endcapture -%}
+
+{%- capture intro -%}
+  {%- if section.settings.eyebrow != blank or section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta and cta_below == false -%}
+    <div class="slide-gallery-intro section-{{ section.id }}-intro-padding">
+      <div class="slide-gallery-intro__inner page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- capture sg_extra -%}
+          {%- if has_cta and cta_below == false -%}<div class="slide-gallery-intro__buttons">{{ cta }}</div>{%- endif -%}
+        {%- endcapture -%}
+        {%- assign sg_align = 'left' -%}
+        {%- if section.settings.intro_alignment == 'center' -%}{%- assign sg_align = 'center' -%}{%- endif -%}
+        {%- render 'section-header', eyebrow: section.settings.eyebrow, title: section.settings.intro_title, intro: section.settings.intro_text, size: sg_title_variant, align: sg_align, extra: sg_extra -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture slider_controls_inner -%}
+  {%- render 'icon-button', icon: 'chevron-right', label: sg_prev_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--prev', attrs: sg_prev_attrs -%}
+  <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}">
+    {%- if section.settings.slider_visual == 'counter' -%}
+      {%- capture sg_counter -%}
+        <span class="slider-counter--current">1</span>
+        <span aria-hidden="true"> / </span>
+        <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+        <span class="slider-counter--total">{{ section.blocks.size }}</span>
+      {%- endcapture -%}
+      {%- render 'typography', text: sg_counter, as: 'div', variant: 'xs', color: 'inherit' -%}
+    {%- else -%}
+      <div class="slideshow__control-wrapper">
+        {%- for block in section.blocks -%}
+          <button
+            class="slider-counter__link slider-counter__link--{{ section.settings.slider_visual }} link"
+            aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            {%- if section.settings.slider_visual == 'numbers' -%}
+              {%- render 'typography', text: forloop.index, as: 'span', variant: 'xs', color: 'inherit' -%}
+            {%- else -%}
+              <span class="dot"></span>
+            {%- endif -%}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+  {%- render 'icon-button', icon: 'chevron-right', label: sg_next_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--next', attrs: sg_next_attrs -%}
+{%- endcapture -%}
+
+<div
+  class="slide-gallery tdm-slide-gallery color-{{ section.settings.intro_color_scheme }} gradient"
+  data-layout="{{ section.settings.layout }}"
+  {% if adapt_image %}
+    data-adapt-image
+  {% endif %}
+  style="--sg-mobile-ratio: {{ mobile_ratio }}; --sg-radius: {{ section.settings.corner_radius }}px; --sg-pad-x-mobile: {{ section.settings.padding_x_mobile }}px; --sg-pad-x-desktop: {{ section.settings.padding_x_desktop }}px;{% if adapt_image %} --sg-adapt-ratio: {{ adapt_ratio }};{% endif %}"
+>
+{%- if section.settings.intro_position == 'top' -%}
+  {{ intro }}
+{%- endif -%}
+
+<slideshow-component
+  class="tdm-slide-gallery__slider slider-mobile-gutter section-{{ section.id }}-padding{% if section.settings.layout == 'grid' %} page-width{% endif %}"
+  role="region"
+  aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
+  aria-label="{{ section.settings.accessibility_info | escape }}"
+>
+  {%- if section.settings.auto_rotate and section.blocks.size > 1 -%}
+    <div class="slideshow__controls slideshow__controls--top slider-buttons">
+      {{ slider_controls_inner }}
+      <button
+        type="button"
+        class="slideshow__autoplay slider-button"
+        aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-pause.svg' | inline_asset_content -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-play.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  <div
+    class="slideshow banner banner--{{ section.settings.slide_height }} grid grid--1-col slider slider--everywhere{% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+    id="Slider-{{ section.id }}"
+    aria-live="polite"
+    aria-atomic="true"
+    data-autoplay="{{ section.settings.auto_rotate }}"
+    data-speed="{{ section.settings.change_slides_speed }}"
+  >
+    {%- for block in section.blocks -%}
+      <div
+        class="slideshow__slide grid__item grid--1-col slider__slide"
+        id="Slide-{{ section.id }}-{{ forloop.index }}"
+        data-caption="{{ block.settings.caption_position | default: 'right' }}"
+        {{ block.shopify_attributes }}
+        style="--sg-overlay-color: {{ block.settings.overlay_color | default: '#000000' }}; --sg-overlay-opacity: {{ block.settings.overlay_opacity | default: 30 | divided_by: 100.0 }};"
+        role="group"
+        aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+        aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+        tabindex="-1"
+      >
+        <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
+          {%- if block.settings.image -%}
+            {%- liquid
+              assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
+              if section.settings.image_behavior == 'ambient'
+                assign sizes = '120vw'
+                assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
+              else
+                assign sizes = '100vw'
+                assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+              endif
+              assign fetch_priority = 'auto'
+              if section.index == 1
+                assign fetch_priority = 'high'
+              endif
+            -%}
+            {%- if forloop.first %}
+              {{
+                block.settings.image
+                | image_url: width: 3840
+                | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+              }}
+            {%- else -%}
+              {{
+                block.settings.image
+                | image_url: width: 3840
+                | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+              }}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign placeholder_slide = forloop.index | modulo: 2 -%}
+            {%- if placeholder_slide == 1 -%}
+              {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- else -%}
+              {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+        {%- liquid
+          assign bs = block.settings
+          assign has_stats = false
+          for key in (1..6)
+            assign stat_value_key = 'stat_' | append: key | append: '_value'
+            if bs[stat_value_key] != blank
+              assign has_stats = true
+            endif
+          endfor
+          assign has_extra = false
+          if bs.crops != blank or bs.note != blank
+            assign has_extra = true
+          endif
+        -%}
+        {%- if bs.quote != blank or has_stats or has_extra -%}
+          <div
+            class="tdm-slide-gallery__caption tdm-slide-gallery__caption--{{ bs.caption_position | default: 'right' }}"
+            {% if bs.quote_color != blank or bs.stats_color != blank %}
+              style="{% if bs.quote_color != blank %}--sg-quote-color: {{ bs.quote_color }};{% endif %}{% if bs.stats_color != blank %} --sg-stats-color: {{ bs.stats_color }};{% endif %}"
+            {% endif %}
+          >
+            {%- if bs.quote != blank -%}
+              <figure class="tdm-slide-gallery__quote">
+                {%- capture sg_mark -%}<svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>{%- endcapture -%}
+                {%- capture sg_quote_html -%}{{ bs.quote | escape | newline_to_br }}{{ sg_mark }}{%- endcapture -%}
+                <svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>
+                {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h5', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- if bs.quote_author != blank or bs.quote_role != blank -%}
+                  <figcaption class="tdm-slide-gallery__quote-author">
+                    {%- if bs.quote_author != blank -%}
+                      {%- assign sg_author = bs.quote_author | escape -%}
+                      {%- render 'typography', text: sg_author, as: 'span', variant: 'body', weight: 'bold', color: 'inherit', class: 'tdm-slide-gallery__quote-name' -%}
+                    {%- endif -%}
+                    {%- if bs.quote_role != blank -%}
+                      {%- assign sg_role = bs.quote_role | escape -%}
+                      {%- render 'typography', text: sg_role, as: 'span', variant: 'body', color: 'inherit', class: 'tdm-slide-gallery__quote-role' -%}
+                    {%- endif -%}
+                  </figcaption>
+                {%- endif -%}
+              </figure>
+            {%- endif -%}
+            {%- if has_stats -%}
+              <ul class="tdm-slide-gallery__stats" role="list">
+                {%- for key in (1..6) -%}
+                  {%- assign stat_value_key = 'stat_' | append: key | append: '_value' -%}
+                  {%- assign stat_label_key = 'stat_' | append: key | append: '_label' -%}
+                  {%- if bs[stat_value_key] != blank -%}
+                    {%- assign sg_stat_value = bs[stat_value_key] | escape -%}
+                    {%- assign sg_stat_label = bs[stat_label_key] | escape -%}
+                    <li class="tdm-slide-gallery__stat">
+                      {%- render 'typography', text: sg_stat_value, as: 'span', variant: 'h3', font: 'display', color: 'inherit', class: 'tdm-slide-gallery__stat-value' -%}
+                      {%- if sg_stat_label != blank -%}{%- render 'typography', text: sg_stat_label, as: 'span', variant: 'body-sm', color: 'inherit', class: 'tdm-slide-gallery__stat-label' -%}{%- endif -%}
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if bs.crops != blank -%}
+              {%- assign sg_crops = bs.crops | replace: ',', '·' | split: '·' -%}
+              <ul class="tdm-slide-gallery__crops" role="list">
+                {%- for crop in sg_crops -%}
+                  {%- assign sg_crop = crop | strip -%}
+                  {%- if sg_crop != blank -%}<li>{%- render 'chip', label: sg_crop, size: 'xs', static: true -%}</li>{%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if bs.note != blank -%}
+              {%- assign sg_note = bs.note | escape -%}
+              {%- render 'typography', text: sg_note, as: 'p', variant: 'body-sm', color: 'inherit', class: 'tdm-slide-gallery__note' -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.blocks.size > 1 and section.settings.auto_rotate == false -%}
+    <div class="slideshow__controls slider-buttons">
+      {{ slider_controls_inner }}
+    </div>
+  {%- endif -%}
+</slideshow-component>
+
+{%- if cta_below -%}
+  <div class="slide-gallery-cta section-{{ section.id }}-cta-padding page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {{ cta }}
+  </div>
+{%- endif -%}
+
+{%- if section.settings.intro_position == 'bottom' -%}
+  {{ intro }}
+{%- endif -%}
+</div>
+
+{%- if request.design_mode -%}
+  <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "PR · Slide gallery",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "ID de ancla",
+      "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
+    },
+    {
+      "type": "color_scheme",
+      "id": "intro_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "Aplica a toda la sección: texto, galería y controles.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Título y párrafo"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
+    {
+      "type": "inline_richtext",
+      "id": "intro_title",
+      "label": "Título",
+      "default": "Título de la sección"
+    },
+    {
+      "type": "select",
+      "id": "intro_heading_size",
+      "options": [
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" },
+        { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
+        { "value": "hxxl", "label": "t:sections.all.heading_size.options__5.label" }
+      ],
+      "default": "h1",
+      "label": "Tamaño del título"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Párrafo",
+      "default": "<p>Escribe aquí una descripción breve que acompañe a la galería.</p>"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Ver más",
+      "info": "Deja vacío para ocultar el botón."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "select",
+      "id": "button_position",
+      "label": "Posición del botón",
+      "options": [
+        { "value": "with_text", "label": "Con el texto" },
+        { "value": "below_gallery", "label": "Debajo de la galería" }
+      ],
+      "default": "with_text"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "label": "Usar estilo secundario",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Diseño del texto"
+    },
+    {
+      "type": "select",
+      "id": "intro_alignment",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "center",
+      "label": "Alineación"
+    },
+    {
+      "type": "select",
+      "id": "intro_position",
+      "options": [
+        { "value": "top", "label": "Arriba de la galería" },
+        { "value": "bottom", "label": "Abajo de la galería" }
+      ],
+      "default": "top",
+      "label": "Posición"
+    },
+    {
+      "type": "range",
+      "id": "intro_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "intro_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Galería"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        { "value": "full_bleed", "label": "Ancho completo" },
+        { "value": "grid", "label": "Con padding" }
+      ],
+      "default": "grid",
+      "label": "Diseño"
+    },
+    {
+      "type": "paragraph",
+      "content": "El radio y los paddings solo aplican con el diseño \"Con padding\"."
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Radio de las esquinas",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_x_desktop",
+      "label": "Padding lateral (escritorio)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_x_mobile",
+      "label": "Padding lateral (móvil)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding superior",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding inferior",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "slide_height",
+      "options": [
+        { "value": "adapt_image", "label": "t:sections.slideshow.settings.slide_height.options__1.label" },
+        { "value": "small", "label": "t:sections.slideshow.settings.slide_height.options__2.label" },
+        { "value": "medium", "label": "t:sections.slideshow.settings.slide_height.options__3.label" },
+        { "value": "large", "label": "t:sections.slideshow.settings.slide_height.options__4.label" },
+        { "value": "ratio_2_1", "label": "Proporción 2:1" },
+        { "value": "ratio_16_9", "label": "Proporción 16:9" }
+      ],
+      "default": "medium",
+      "label": "t:sections.slideshow.settings.slide_height.label"
+    },
+    {
+      "type": "select",
+      "id": "mobile_ratio",
+      "options": [
+        { "value": "16_9", "label": "Rectángulo 16:9" },
+        { "value": "3_2", "label": "Rectángulo 3:2" },
+        { "value": "4_3", "label": "Rectángulo 4:3" }
+      ],
+      "default": "3_2",
+      "label": "Proporción en móvil"
+    },
+    {
+      "type": "select",
+      "id": "slider_visual",
+      "options": [
+        { "value": "dots", "label": "t:sections.slideshow.settings.slider_visual.options__2.label" },
+        { "value": "counter", "label": "t:sections.slideshow.settings.slider_visual.options__1.label" },
+        { "value": "numbers", "label": "t:sections.slideshow.settings.slider_visual.options__3.label" }
+      ],
+      "default": "counter",
+      "label": "t:sections.slideshow.settings.slider_visual.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "t:sections.slideshow.settings.auto_rotate.label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 3,
+      "max": 9,
+      "step": 2,
+      "unit": "s",
+      "label": "t:sections.slideshow.settings.change_slides_speed.label",
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "image_behavior",
+      "options": [
+        { "value": "none", "label": "t:sections.all.animation.image_behavior.options__1.label" },
+        { "value": "ambient", "label": "t:sections.all.animation.image_behavior.options__2.label" }
+      ],
+      "default": "none",
+      "label": "t:sections.all.animation.image_behavior.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.slideshow.settings.accessibility.content"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_info",
+      "label": "t:sections.slideshow.settings.accessibility.label",
+      "info": "t:sections.slideshow.settings.accessibility.info",
+      "default": "t:sections.slideshow.settings.accessibility.default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen",
+          "info": "Solo foto, sin texto. Recomendado: 2400 × 1200 px, con la persona en el 60% izquierdo y el lado del texto despejado."
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Color del overlay",
+          "info": "Tinte parejo sobre toda la foto, además del degradado de tinta desde el lado del texto. Solo en escritorio (1200px o más).",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Opacidad del overlay",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Testimonio"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Cita",
+          "info": "Sin comillas: se agregan solas."
+        },
+        {
+          "type": "text",
+          "id": "quote_author",
+          "label": "Quién lo dice"
+        },
+        {
+          "type": "text",
+          "id": "quote_role",
+          "label": "Ocupación o cultivo",
+          "info": "Va debajo del nombre, en cursiva. Ej: Productor - Aliado destacado."
+        },
+        {
+          "type": "header",
+          "content": "Datos (cifra grande + etiqueta corta)"
+        },
+        {
+          "type": "text",
+          "id": "stat_1_value",
+          "label": "Cifra 1",
+          "info": "Ej: +11,000 ha. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_1_label",
+          "label": "Etiqueta de la cifra 1",
+          "info": "Ej: atendidas actualmente"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_value",
+          "label": "Cifra 2",
+          "info": "Ej: 300%. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_2_label",
+          "label": "Etiqueta de la cifra 2",
+          "info": "Ej: incremento en producción"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_value",
+          "label": "Cifra 3",
+          "info": "Ej: 30%. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_3_label",
+          "label": "Etiqueta de la cifra 3",
+          "info": "Ej: reducción de costos"
+        },
+        {
+          "type": "text",
+          "id": "stat_4_value",
+          "label": "Cifra 4",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_4_label",
+          "label": "Etiqueta de la cifra 4",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_5_value",
+          "label": "Cifra 5",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_5_label",
+          "label": "Etiqueta de la cifra 5",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_6_value",
+          "label": "Cifra 6",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_6_label",
+          "label": "Etiqueta de la cifra 6",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "crops",
+          "label": "Cultivos",
+          "info": "Separados por · o coma; salen como chips. Ej: Naranja · Papaya · Nogal · Limón"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Nota corta",
+          "info": "Línea chica debajo de las cifras. Ej: Manejo biológico integral con microorganismos e insectos."
+        },
+
+        {
+          "type": "header",
+          "content": "Texto sobre la imagen"
+        },
+        {
+          "type": "select",
+          "id": "caption_position",
+          "label": "Posición en escritorio",
+          "info": "Desde la esquina o lado elegido sale el degradado oscuro. En móvil y tablet el texto va debajo de la foto, sin caja.",
+          "options": [
+            { "value": "left", "label": "Izquierda al centro" },
+            { "value": "right", "label": "Derecha al centro" },
+            { "value": "top_left", "label": "Arriba a la izquierda" },
+            { "value": "top_center", "label": "Arriba al centro" },
+            { "value": "top_right", "label": "Arriba a la derecha" },
+            { "value": "bottom_left", "label": "Abajo a la izquierda" },
+            { "value": "bottom_center", "label": "Abajo al centro" },
+            { "value": "bottom_right", "label": "Abajo a la derecha" }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "color",
+          "id": "quote_color",
+          "label": "Color de la cita sobre la foto",
+          "info": "Solo en escritorio (1200px o más), donde el texto va sobre la foto. Vacío = blanco."
+        },
+        {
+          "type": "color",
+          "id": "stats_color",
+          "label": "Color de los datos sobre la foto",
+          "info": "Solo en escritorio. Vacío = blanco."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slide gallery",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}
