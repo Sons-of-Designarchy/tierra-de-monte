@@ -36,7 +36,8 @@
         {%- for product in po_collection.products limit: po_limit -%}
           {%- assign po_index = forloop.index0 -%}
           {%- for variant in product.variants -%}
-            {%- if variant.available -%}
+            {%- assign po_sold_out = true -%}
+            {%- if variant.available %}{% assign po_sold_out = false %}{% endif -%}
               {%- assign po_price = variant.price -%}
               {%- assign po_is_test = false -%}
               {%- if section.settings.test_prices -%}
@@ -68,7 +69,7 @@
                 endcapture
               -%}
               {%- capture po_stepper -%}
-                {%- render 'quantity-stepper', value: 0, min: 0, max: po_max, name: po_qty_id, label: po_label, size: 'md', attrs: po_attrs -%}
+                {%- render 'quantity-stepper', value: 0, min: 0, max: po_max, name: po_qty_id, label: po_label, size: 'md', disabled: po_sold_out, attrs: po_attrs -%}
               {%- endcapture -%}
               {%- capture po_test_label -%}{%- if po_is_test -%}{%- render 'typography', text: 'Precio de prueba', variant: 'xs', color: 'warning' -%}{%- endif -%}{%- endcapture -%}
               {%- render 'product-card',
@@ -87,7 +88,6 @@
                 actions: po_stepper,
                 class: 'pr-order__card'
               -%}
-            {%- endif -%}
           {%- endfor -%}
         {%- endfor -%}
       </ul>
