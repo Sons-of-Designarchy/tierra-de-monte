@@ -1,6 +1,21 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-featured-blog.css' | asset_url | stylesheet_tag }}
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
 {%- liquid
   assign posts_displayed = section.settings.blog.articles_count
@@ -9,33 +24,30 @@
     assign posts_displayed = section.settings.post_limit
   endif
 -%}
-{%- assign heading_id = 'SectionHeading-' | append: section.id -%}
 <div class="blog color-{{ section.settings.color_scheme }} gradient{% if section.settings.heading == blank %} no-heading{% endif %}">
   <div class="page-width-desktop isolate{% if posts_displayed < 3 %} page-width-tablet{% endif %} section-{{ section.id }}-padding">
     {%- unless section.settings.heading == blank -%}
       <div class="title-wrapper-with-link{% if posts_displayed > 2 %} title-wrapper--self-padded-tablet-down{% else %} title-wrapper--self-padded-mobile{% endif %} title-wrapper--no-top-margin">
-        {%- liquid
-          assign fb_variant = section.settings.heading_size
-          if fb_variant == 'h0' or fb_variant == 'hxl' or fb_variant == 'hxxl'
-            assign fb_variant = 'display'
-          endif
-          assign fb_title_class = 'blog__title inline-richtext'
-          if settings.animations_reveal_on_scroll
-            assign fb_title_class = fb_title_class | append: ' scroll-trigger animate--slide-in'
-          endif
-          assign fb_attrs = ''
-          if settings.animations_reveal_on_scroll
-            assign fb_attrs = 'data-cascade'
-          endif
-        -%}
-        {% render 'typography', text: section.settings.heading, as: 'h2', font: 'display', weight: 'medium', variant: fb_variant, id: heading_id, class: fb_title_class, attrs: fb_attrs %}
+        <h2
+          id="SectionHeading-{{ section.id }}"
+          class="blog__title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+          {% endif %}
+        >
+          {{ section.settings.heading }}
+        </h2>
 
         {%- if section.settings.blog != blank
           and section.settings.show_view_all
           and section.settings.post_limit < section.settings.blog.articles_count
         -%}
-          {%- assign fb_view_all = 'sections.featured_blog.view_all' | t -%}
-          {% render 'link', text: fb_view_all, href: section.settings.blog.url, class: 'large-up-hide' %}
+          <a
+            href="{{ section.settings.blog.url }}"
+            class="link underlined-link large-up-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          >
+            {{ 'sections.featured_blog.view_all' | t }}
+          </a>
         {%- endif -%}
       </div>
     {%- endunless -%}
@@ -63,8 +75,7 @@
                 show_image: section.settings.show_image,
                 show_date: section.settings.show_date,
                 show_author: section.settings.show_author,
-                show_excerpt: true,
-                lazy_load: true
+                show_excerpt: true
               %}
             </li>
           {%- endfor -%}
@@ -80,39 +91,100 @@
                 style="--animation-order: {{ forloop.index }};"
               {% endif %}
             >
-              {%- assign fb_onboarding_title = 'sections.featured_blog.onboarding_title' | t -%}
-              {%- assign fb_onboarding_text = 'sections.featured_blog.onboarding_content' | t -%}
-              {%- capture fb_placeholder -%}{{ placeholder_image | placeholder_svg_tag: 'blog-placeholder-svg' }}{%- endcapture -%}
-              {% render 'card', tag: 'div', title: fb_onboarding_title, title_as: 'h3', description: fb_onboarding_text, media: fb_placeholder, class: 'article-card' %}
+              <div class="article-card-wrapper card-wrapper{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+                <div
+                  class="
+                    card article-card card--{{ settings.blog_card_style }}
+                    {% if settings.blog_card_style == 'card' %} color-{{ settings.blog_card_color_scheme }} gradient{% endif %}
+                    {% if section.settings.show_image %} card--media{% else %} card--text{% endif %}
+                  "
+                  style=" {% if settings.blog_card_style == 'standard' %} --ratio-percent: 100%;{% elsif settings.blog_card_style == 'card' %} --ratio-percent: 0%;{% endif %}"
+                >
+                  <div
+                    class="card__inner{% if settings.blog_card_style == 'standard' %} color-{{ settings.blog_card_color_scheme }} gradient{% endif %} ratio"
+                    style="--ratio-percent: 80%;"
+                  >
+                    {%- if section.settings.show_image == true -%}
+                      <div class="article-card__image-wrapper card__media">
+                        <div class="article-card__image media">
+                          {{ placeholder_image | placeholder_svg_tag: 'blog-placeholder-svg' }}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                    <div class="card__content">
+                      <div class="card__information">
+                        <h3 class="card__heading h2">
+                          {{ 'sections.featured_blog.onboarding_title' | t }}
+                        </h3>
+                        <p class="article-card__excerpt rte-width">
+                          {{ 'sections.featured_blog.onboarding_content' | t }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card__content">
+                    <div class="card__information">
+                      <h3 class="card__heading h2">
+                        {{ 'sections.featured_blog.onboarding_title' | t }}
+                      </h3>
+                      <p class="article-card__excerpt rte-width">
+                        {{ 'sections.featured_blog.onboarding_content' | t }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           {%- endfor -%}
         {%- endif -%}
       </ul>
       {%- if posts_exceed_limit -%}
         <div class="slider-buttons{% if section.settings.post_limit < 3 %} medium-hide{% endif %}{% if section.settings.post_limit < 2 %} small-hide{% endif %}">
-          {%- assign fb_prev = 'general.slider.previous_slide' | t -%}
-          {%- assign fb_next = 'general.slider.next_slide' | t -%}
-          {% render 'icon-button', icon: 'arrow-left', label: fb_prev, variant: 'outline', class: 'slider-button slider-button--prev', attrs: 'name="previous"' %}
-          {%- capture fb_counter -%}
-            <span class="slider-counter--current">1</span><span aria-hidden="true"> / </span><span class="visually-hidden">{{ 'general.slider.of' | t }}</span><span class="slider-counter--total">{{ section.settings.post_limit }}</span>
-          {%- endcapture -%}
-          {% render 'typography', text: fb_counter, as: 'div', variant: 'xs', color: 'secondary', class: 'slider-counter' %}
-          {% render 'icon-button', icon: 'arrow-right', label: fb_next, variant: 'outline', class: 'slider-button slider-button--next', attrs: 'name="next"' %}
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            <span class="svg-wrapper">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ section.settings.post_limit }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            <span class="svg-wrapper">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </button>
         </div>
       {%- endif -%}
     </slider-component>
 
     {%- if section.settings.show_view_all and section.settings.post_limit < section.settings.blog.articles_count -%}
-      {%- assign view_all_id = 'ViewAll-' | append: section.id -%}
-      {%- capture view_all_attrs -%}aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"{%- endcapture -%}
       <div
         class="blog__view-all center small-hide medium-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
           data-cascade
         {% endif %}
       >
-        {%- assign fb_view_all_btn = 'sections.featured_blog.view_all' | t -%}
-        {% render 'button', label: fb_view_all_btn, href: section.settings.blog.url, variant: 'primary', id: view_all_id, class: 'blog__button', attrs: view_all_attrs %}
+        <a
+          href="{{ section.settings.blog.url }}"
+          id="ViewAll-{{ section.id }}"
+          class="blog__button button"
+          aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
+        >
+          {{ 'sections.featured_blog.view_all' | t }}
+        </a>
       </div>
     {%- endif -%}
   </div>

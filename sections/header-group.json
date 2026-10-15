@@ -38,17 +38,25 @@
     },
     "header": {
       "type": "header",
+      "custom_css": [
+        ".header__search {display: none !important;}",
+        ".header__icon--account {display: none !important;}"
+      ],
       "settings": {
-        "nav_style": "floating",
-        "sticky": true,
+        "logo_position": "middle-left",
+        "mobile_logo_position": "center",
         "menu": "main-menu",
         "menu_type_desktop": "mega",
-        "cta_last_link": false,
-        "show_search": false,
-        "show_account": false,
-        "color_scheme": "scheme-tdm-blanco",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "",
         "enable_country_selector": true,
-        "enable_language_selector": true
+        "enable_language_selector": true,
+        "enable_customer_avatar": false,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     }
   },

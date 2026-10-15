@@ -1,16 +1,16 @@
 {%- comment -%}
-  Tabla comparativa editable (v9, PerfectlyRad)
+  Tabla comparativa editable (v8)
   - Columnas: bloques "Columna" (máx. 6) con precio, nota y botón (CTA) propios
   - Filas: bloques "Fila"
-  - Esquemas de color independientes (cada uno es una clase color-<esquema> que re-apunta los roles --pr-*):
+  - Esquemas de color independientes:
       · Sección (fondo general)
       · Tabla (fondo y texto del contenido)
       · Columna destacada (esquema propio por columna)
-      · Botones de columnas (esquema a nivel sección; cada columna puede sobrescribirlo)
+      · Botones de columnas (esquema propio a nivel sección, independiente de tabla y columna destacada)
+        └ Cada columna puede sobrescribirlo con su propio esquema
       · Botón general debajo de la tabla (esquema propio)
   - En las celdas escribe "si" / "✓" para palomita y "-" / "no" para guion
-  - Todo el texto pasa por el snippet typography; los botones por el átomo button.
-  Styles: assets/section-tdm-comparison-table.css. Behaviour: assets/tdm-comparison-table.js
+  - Compatible con Dawn, Horizon y temas OS 2.0 (lee directamente los colores del esquema)
 {%- endcomment -%}
 
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
@@ -24,52 +24,36 @@
   assign radius = section.settings.table_radius
   assign hl_radius = section.settings.highlight_radius
 
-  assign table_scheme_id = section.settings.table_color_scheme.id | default: section.settings.table_color_scheme
-
-  # Never green on green: a section with colour behind it gets a white table
-  assign ct_section_scheme = settings.color_schemes[section.settings.color_scheme]
-  if ct_section_scheme.settings.background.lightness <= 92 or section.settings.bg_image != blank
-    assign table_scheme_id = 'scheme-tdm-blanco'
-  endif
+  assign ts = section.settings.table_color_scheme.settings
+  assign t_bg = ts.background
+  assign t_fg = ts.text | default: ts.foreground
+  assign t_accent = ts.button | default: ts.primary_button_background | default: t_fg
 
   # ---------- Esquema de los CTA (nivel sección) ----------
+  # Se lee el color directo del esquema. Si el tema usa otros nombres,
+  # se cae a las variables CSS que el tema define en .color-scheme-X
   assign cta_scheme_id = section.settings.cta_color_scheme.id | default: section.settings.cta_color_scheme
+  assign gs = section.settings.cta_color_scheme.settings
+  assign g_bg = gs.button | default: gs.primary_button_background | default: 'var(--color-primary-button-background, rgb(var(--color-button)))'
+  assign g_fg = gs.button_label | default: gs.primary_button_text | default: 'var(--color-primary-button-text, rgb(var(--color-button-text)))'
+  assign g_hbg = gs.primary_button_hover_background | default: g_bg
+  assign g_hfg = gs.primary_button_hover_text | default: g_fg
 
-  # ---------- Botón general (debajo de la tabla): por defecto el esquema de los CTA ----------
+  # ---------- Botón general (debajo de la tabla) ----------
+  # Por defecto usa el mismo esquema de CTA; opcionalmente uno propio
   if section.settings.button_scheme_source == 'custom'
     assign btn_scheme_id = section.settings.button_color_scheme.id | default: section.settings.button_color_scheme
+    assign bs = section.settings.button_color_scheme.settings
+    assign b_bg = bs.button | default: bs.primary_button_background | default: 'var(--color-primary-button-background, rgb(var(--color-button)))'
+    assign b_fg = bs.button_label | default: bs.primary_button_text | default: 'var(--color-primary-button-text, rgb(var(--color-button-text)))'
+    assign b_hbg = bs.primary_button_hover_background | default: b_bg
+    assign b_hfg = bs.primary_button_hover_text | default: b_fg
   else
     assign btn_scheme_id = cta_scheme_id
-  endif
-
-  # ---------- Tamaños del editor -> variantes de typography ----------
-  case section.settings.heading_size
-    when 'h2'
-      assign ct_title_variant = 'h2'
-    when 'h1'
-      assign ct_title_variant = 'h1'
-    else
-      assign ct_title_variant = 'display'
-  endcase
-  case section.settings.price_size
-    when 'h4'
-      assign ct_price_variant = 'body'
-    when 'h3'
-      assign ct_price_variant = 'body-lg'
-    when 'h2'
-      assign ct_price_variant = 'h6'
-    when 'h1'
-      assign ct_price_variant = 'h4'
-    else
-      assign ct_price_variant = 'body-sm'
-  endcase
-  assign ct_header_align = 'left'
-  if section.settings.text_align == 'center'
-    assign ct_header_align = 'center'
-  endif
-  assign ct_feature_weight = 'regular'
-  if section.settings.feature_bold
-    assign ct_feature_weight = 'semibold'
+    assign b_bg = g_bg
+    assign b_fg = g_fg
+    assign b_hbg = g_hbg
+    assign b_hfg = g_hfg
   endif
 
   # ---------- Posición de los botones de columnas ----------
@@ -94,6 +78,9 @@
     endif
   endif
 
+  # ---------- Botones: siempre el estilo del tema (clase .button), sin variantes propias ----------
+  assign theme_btn = true
+
   # ---------- Anchos en móvil (px) ----------
   assign m_feat_w = section.settings.mobile_feature_width | default: 130
   assign m_col_w = section.settings.mobile_column_width | default: 120
@@ -116,6 +103,9 @@
   if section.settings.bg_image != blank
     assign root_class = root_class | append: ' tdm-has-bg'
   endif
+  if section.settings.price_size != 'default'
+    assign root_class = root_class | append: ' ct-price--' | append: section.settings.price_size
+  endif
   if section.settings.show_vertical_borders
     assign root_class = root_class | append: ' ct-vborders'
   endif
@@ -128,17 +118,53 @@
   if section.settings.sticky_first_column
     assign root_class = root_class | append: ' ct-sticky-feature'
   endif
+  if theme_btn
+    assign root_class = root_class | append: ' ct-theme-btn'
+  endif
   if section.settings.full_width_buttons
     assign root_class = root_class | append: ' ct-full-btns'
   endif
   if section.settings.check_color == 'accent'
     assign root_class = root_class | append: ' ct-check-accent'
   endif
+
+  # ---------- Values that used to be Liquid-conditional CSS become plain values ----------
+  assign feature_weight = 400
+  if section.settings.feature_bold
+    assign feature_weight = 600
+  endif
+
 -%}
 
-{%- comment -%} All per-instance/setting values, as custom properties on the root element. {%- endcomment -%}
+{%- comment -%} Per-column custom properties: highlight scheme + optional CTA scheme override {%- endcomment -%}
+{%- capture col_style -%}
+  {%- for col in column_blocks limit: display_columns -%}
+    {%- liquid
+      assign hs = col.settings.highlight_scheme.settings
+      assign h_bg = hs.background
+      assign h_fg = hs.text | default: hs.foreground
+      assign h_ac = hs.button | default: hs.primary_button_background | default: h_fg
+    -%}
+    --ct-hl-bg-{{ forloop.index }}: {{ h_bg }}; --ct-hl-fg-{{ forloop.index }}: {{ h_fg }}; --ct-hl-accent-{{ forloop.index }}: {{ h_ac }};
+    {%- if col.settings.cta_custom_scheme -%}
+      {%- liquid
+        assign cs = col.settings.cta_scheme.settings
+        assign c_bg = cs.button | default: cs.primary_button_background | default: 'var(--color-primary-button-background, rgb(var(--color-button)))'
+        assign c_fg = cs.button_label | default: cs.primary_button_text | default: 'var(--color-primary-button-text, rgb(var(--color-button-text)))'
+        assign c_hbg = cs.primary_button_hover_background | default: c_bg
+        assign c_hfg = cs.primary_button_hover_text | default: c_fg
+      -%}
+      --ct-btn-bg-{{ forloop.index }}: {{ c_bg }}; --ct-btn-fg-{{ forloop.index }}: {{ c_fg }}; --ct-btn-hover-bg-{{ forloop.index }}: {{ c_hbg }}; --ct-btn-hover-fg-{{ forloop.index }}: {{ c_hfg }};
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- comment -%} All per-instance/setting values, as custom properties on the root element. Styles: assets/section-tdm-comparison-table.css {%- endcomment -%}
 {%- capture root_style -%}
   --ct-align: {{ section.settings.text_align }};
+  --ct-table-bg: {{ t_bg }};
+  --ct-table-fg: {{ t_fg }};
+  --ct-accent: {{ t_accent }};
   --ct-radius: {{ radius }}px;
   --ct-hl-radius: {{ hl_radius }}px;
   --ct-pad: {{ section.settings.table_padding_x }}px;
@@ -148,11 +174,21 @@
   --ct-image-size: {{ section.settings.image_size }}px;
   --ct-image-size-mobile: {{ section.settings.mobile_image_size | default: 64 }}px;
   --ct-cell-align: {{ section.settings.cell_align }};
+  --ct-feature-weight: {{ feature_weight }};
   --ct-mobile-feat-w: {{ m_feat_w }}px;
   --ct-mobile-col-w: {{ m_col_w }}px;
   --ct-mobile-hl-w: {{ m_hl_w }}px;
   --ct-mobile-table-w: {{ m_table_w }}px;
+  --ct-btn-bg: {{ g_bg }};
+  --ct-btn-fg: {{ g_fg }};
+  --ct-btn-hover-bg: {{ g_hbg }};
+  --ct-btn-hover-fg: {{ g_hfg }};
+  --ct-cta-bg: {{ b_bg }};
+  --ct-cta-fg: {{ b_fg }};
+  --ct-cta-hover-bg: {{ b_hbg }};
+  --ct-cta-hover-fg: {{ b_hfg }};
   --ct-cta-align: {{ section.settings.button_align }};
+  {{ col_style }}
 {%- endcapture -%}
 
 {{ 'section-tdm-comparison-table.css' | asset_url | stylesheet_tag }}
@@ -170,21 +206,26 @@
   <div class="{{ section.settings.container_width }}">
     {%- if section.settings.pretitle != blank or section.settings.heading != blank or section.settings.description != blank -%}
       <div class="ct-intro">
-        {%- render 'section-header', eyebrow: section.settings.pretitle, title: section.settings.heading, intro: section.settings.description, size: ct_title_variant, align: ct_header_align -%}
+        {%- render 'tdm-section-eyebrow', text: section.settings.pretitle, rule_color: section.settings.rule_color, align: 'var(--ct-align)' -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="rte">{{ section.settings.description }}</div>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
     {%- if display_columns > 0 -%}
       <div class="ct-block" id="CtBlock-{{ sid }}">
       {%- if section.settings.scroll_hint != blank -%}
-        {%- capture ct_hint -%}
+        <p class="ct-scroll-hint" aria-hidden="true">
           {{ section.settings.scroll_hint | escape }}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        {%- endcapture -%}
-        {%- render 'typography', text: ct_hint, as: 'p', variant: 'body', color: 'inherit', class: 'ct-scroll-hint', attrs: 'aria-hidden="true"' -%}
+        </p>
       {%- endif -%}
       <div class="ct-scroll">
-      <div class="ct-wrapper color-{{ table_scheme_id }}" tabindex="0" role="region" aria-label="{{ section.settings.heading | strip_html | default: 'Tabla comparativa' | escape }}">
+      <div class="ct-wrapper" tabindex="0" role="region" aria-label="{{ section.settings.heading | strip_html | default: 'Tabla comparativa' | escape }}">
         <table class="ct-table">
           <colgroup>
             <col class="ct-col-feature" style="--ct-col-w: {{ section.settings.first_column_width }}%;">
@@ -202,55 +243,34 @@
 
           <thead>
             <tr{% if row_blocks.size == 0 and has_bottom_ctas == false %} class="ct-last"{% endif %}>
-              <th class="ct-feature ct-corner" scope="col">
-                {%- if section.settings.first_column_label != blank -%}
-                  {%- render 'typography', text: section.settings.first_column_label, as: 'span', variant: 'body', weight: 'semibold', color: 'inherit' -%}
-                {%- endif -%}
-              </th>
+              <th class="ct-feature ct-corner" scope="col">{{ section.settings.first_column_label }}</th>
               {%- for block in column_blocks limit: display_columns -%}
-                {%- liquid
-                  assign col_scheme = cta_scheme_id
-                  if block.settings.cta_custom_scheme
-                    assign col_scheme = block.settings.cta_scheme.id | default: block.settings.cta_scheme
-                  endif
-                  assign col_btn_variant = 'primary'
-                  if block.settings.cta_style == 'outline'
-                    assign col_btn_variant = 'outline'
-                  endif
-                  assign col_btn_href = block.settings.cta_link | default: '#'
-                  assign hl_scheme = ''
-                  if block.settings.highlight
-                    assign hl_scheme = block.settings.highlight_scheme.id | default: block.settings.highlight_scheme
-                  endif
-                -%}
-                {%- capture col_btn_attrs -%}{% if block.settings.cta_link == blank %}role="link" aria-disabled="true"{% endif %} {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
-                {%- capture col_btn_class -%}ct-btn color-{{ col_scheme }}{%- endcapture -%}
                 {%- capture col_cta -%}
                   {%- if block.settings.cta_label != blank -%}
-                    {%- render 'button', label: block.settings.cta_label, href: col_btn_href, variant: col_btn_variant, size: 'md', class: col_btn_class, attrs: col_btn_attrs -%}
+                    <a
+                      {% if block.settings.cta_link != blank %}href="{{ block.settings.cta_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+                      {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
+                      class="{% if theme_btn %}button button--{% if block.settings.cta_style == 'outline' %}secondary{% else %}primary{% endif %} {% endif %}ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
+                    >{{ block.settings.cta_label | escape }}</a>
                   {%- endif -%}
                 {%- endcapture -%}
                 {%- capture col_price -%}
                   {%- if block.settings.price != blank or block.settings.price_note != blank -%}
                     <div class="ct-header__price">
-                      {%- if block.settings.price != blank -%}
-                        {%- render 'typography', text: block.settings.price, as: 'div', variant: ct_price_variant, color: 'inherit' -%}
-                      {%- endif -%}
-                      {%- if block.settings.price_note != blank -%}
-                        {%- render 'typography', text: block.settings.price_note, as: 'span', variant: 'body', color: 'inherit', class: 'ct-header__note' -%}
-                      {%- endif -%}
+                      {%- if block.settings.price != blank -%}<span>{{ block.settings.price }}</span>{%- endif -%}
+                      {%- if block.settings.price_note != blank -%}<span class="ct-header__note">{{ block.settings.price_note }}</span>{%- endif -%}
                     </div>
                   {%- endif -%}
                 {%- endcapture -%}
 
                 <th
-                  class="ct-header ct-c{{ forloop.index }}{% if block.settings.highlight %} ct-hl color-{{ hl_scheme }}{% endif %}"
+                  class="ct-header ct-c{{ forloop.index }}{% if block.settings.highlight %} ct-hl{% endif %}"
                   scope="col"
                   {{ block.shopify_attributes }}
                 >
                   <div class="ct-header__inner">
                     {%- if block.settings.badge != blank -%}
-                      {%- render 'typography', text: block.settings.badge, as: 'span', variant: 'eyebrow', font: 'body', weight: 'semibold', color: 'inherit', class: 'ct-badge' -%}
+                      <span class="ct-badge">{{ block.settings.badge }}</span>
                     {%- endif -%}
 
                     {%- if block.settings.header_image != blank -%}
@@ -270,13 +290,13 @@
                     {%- endif -%}
 
                     {%- if block.settings.link != blank -%}
-                      {%- render 'link', text: block.settings.title, href: block.settings.link, variant: 'body-lg', weight: 'bold', color: 'inherit', class: 'ct-header__title' -%}
+                      <a href="{{ block.settings.link }}" class="ct-header__title">{{ block.settings.title }}</a>
                     {%- else -%}
-                      {%- render 'typography', text: block.settings.title, as: 'span', variant: 'body-lg', weight: 'bold', color: 'inherit', class: 'ct-header__title' -%}
+                      <span class="ct-header__title">{{ block.settings.title }}</span>
                     {%- endif -%}
 
                     {%- if block.settings.subtitle != blank -%}
-                      {%- render 'typography', text: block.settings.subtitle, as: 'span', variant: 'body', color: 'inherit', class: 'ct-header__subtitle' -%}
+                      <span class="ct-header__subtitle">{{ block.settings.subtitle }}</span>
                     {%- endif -%}
 
                     {%- if ctas_in_header == false -%}
@@ -299,29 +319,21 @@
                 {{ block.shopify_attributes }}
               >
                 <th class="ct-feature" scope="row">
-                  {%- render 'typography', text: block.settings.feature_content, as: 'div', variant: 'body', weight: ct_feature_weight, color: 'inherit', class: 'ct-feature__text' -%}
-                  {%- if block.settings.feature_note != blank -%}
-                    {%- render 'typography', text: block.settings.feature_note, as: 'small', variant: 'body', color: 'inherit', class: 'ct-feature__note' -%}
-                  {%- endif -%}
+                  {{- block.settings.feature_content -}}
+                  {%- if block.settings.feature_note != blank -%}<small>{{ block.settings.feature_note }}</small>{%- endif -%}
                 </th>
                 {%- for col in column_blocks limit: display_columns -%}
                   {%- capture col_key %}col{{ forloop.index }}_content{% endcapture -%}
                   {%- assign cell = block.settings[col_key] -%}
                   {%- assign cell_key = cell | strip_html | strip | downcase -%}
-                  {%- liquid
-                    assign cell_scheme = ''
-                    if col.settings.highlight
-                      assign cell_scheme = col.settings.highlight_scheme.id | default: col.settings.highlight_scheme
-                    endif
-                  -%}
-                  <td class="ct-cell ct-c{{ forloop.index }}{% if col.settings.highlight %} ct-hl color-{{ cell_scheme }}{% endif %}">
+                  <td class="ct-cell ct-c{{ forloop.index }}{% if col.settings.highlight %} ct-hl{% endif %}">
                     {%- case cell_key -%}
                       {%- when 'si', 'sí', 'yes', '✓', '✔', 'check' -%}
                         {{ ct_check_svg }}
                       {%- when '-', '—', '–', 'no' -%}
                         {{ ct_dash }}
                       {%- else -%}
-                        {%- render 'typography', text: cell, as: 'div', variant: 'body-sm', color: 'inherit' -%}
+                        {{ cell }}
                     {%- endcase -%}
                   </td>
                 {%- endfor -%}
@@ -334,26 +346,13 @@
               <tr class="ct-foot ct-last">
                 <th class="ct-feature" scope="row"></th>
                 {%- for block in column_blocks limit: display_columns -%}
-                  {%- liquid
-                    assign col_scheme = cta_scheme_id
-                    if block.settings.cta_custom_scheme
-                      assign col_scheme = block.settings.cta_scheme.id | default: block.settings.cta_scheme
-                    endif
-                    assign col_btn_variant = 'primary'
-                    if block.settings.cta_style == 'outline'
-                      assign col_btn_variant = 'outline'
-                    endif
-                    assign col_btn_href = block.settings.cta_link | default: '#'
-                    assign foot_scheme = ''
-                    if block.settings.highlight
-                      assign foot_scheme = block.settings.highlight_scheme.id | default: block.settings.highlight_scheme
-                    endif
-                  -%}
-                  {%- capture col_btn_attrs -%}{% if block.settings.cta_link == blank %}role="link" aria-disabled="true"{% endif %} {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
-                  {%- capture col_btn_class -%}ct-btn color-{{ col_scheme }}{%- endcapture -%}
-                  <td class="ct-c{{ forloop.index }}{% if block.settings.highlight %} ct-hl color-{{ foot_scheme }}{% endif %}">
+                  <td class="ct-c{{ forloop.index }}{% if block.settings.highlight %} ct-hl{% endif %}">
                     {%- if block.settings.cta_label != blank -%}
-                      {%- render 'button', label: block.settings.cta_label, href: col_btn_href, variant: col_btn_variant, size: 'md', class: col_btn_class, attrs: col_btn_attrs -%}
+                      <a
+                        {% if block.settings.cta_link != blank %}href="{{ block.settings.cta_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+                        {% if block.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
+                        class="{% if theme_btn %}button button--{% if block.settings.cta_style == 'outline' %}secondary{% else %}primary{% endif %} {% endif %}ct-btn ct-btn--{{ block.settings.cta_style }} ct-btn-c{{ forloop.index }} color-{% if block.settings.cta_custom_scheme %}{{ block.settings.cta_scheme.id | default: block.settings.cta_scheme }}{% else %}{{ cta_scheme_id }}{% endif %}"
+                      >{{ block.settings.cta_label | escape }}</a>
                     {%- endif -%}
                   </td>
                 {%- endfor -%}
@@ -368,17 +367,22 @@
     {%- endif -%}
 
     {%- if section.settings.footnote != blank -%}
-      {%- render 'typography', text: section.settings.footnote, as: 'div', variant: 'body', class: 'ct-footnote rte' -%}
+      <div class="ct-footnote rte">{{ section.settings.footnote }}</div>
     {%- endif -%}
 
     {%- if section.settings.button_label != blank -%}
-      {%- assign ct_btn_href = section.settings.button_link | default: '#' -%}
-      {%- capture ct_btn_attrs -%}{% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if section.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if ct_btn_href contains '#pedido' %} data-track="quiero-ser-aliado"{% endif %}{%- endcapture -%}
-      {%- capture ct_btn_class -%}ct-btn color-{{ btn_scheme_id }}{%- endcapture -%}
-      {%- assign ct_btn_variant = 'primary' -%}
-      {%- if section.settings.button_style == 'outline' -%}{%- assign ct_btn_variant = 'outline' -%}{%- endif -%}
       <div class="ct-cta">
-        {%- render 'button', label: section.settings.button_label, href: ct_btn_href, variant: ct_btn_variant, size: 'lg', class: ct_btn_class, attrs: ct_btn_attrs -%}
+        <a
+          {% if section.settings.button_link != blank %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          {% if section.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
+          class="{% if theme_btn %}button button--{% if section.settings.button_style == 'outline' %}secondary{% else %}primary{% endif %} {% endif %}ct-btn ct-btn--{{ section.settings.button_style }} color-{{ btn_scheme_id }}"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
       </div>
     {%- endif -%}
   </div>
@@ -400,6 +404,7 @@
     },
     { "type": "header", "content": "Contenido" },
     { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Planes" },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Compara nuestros planes" },
     {
       "type": "select",

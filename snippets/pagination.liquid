@@ -53,7 +53,7 @@
                   {{- part.title -}}
                 </a>
               {%- else -%}
-                <span class="pagination__item">{%- render 'typography', text: part.title, variant: 'body-sm', as: 'span', color: 'inherit' -%}</span>
+                <span class="pagination__item">{{ part.title }}</span>
               {%- endif -%}
             {%- endif -%}
           </li>

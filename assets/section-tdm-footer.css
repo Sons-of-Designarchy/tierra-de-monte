@@ -1,64 +1,57 @@
 /* =============================================================================
-   Footer (sections/footer.liquid). One file: it replaces section-footer.css
-   (Dawn's footer) and the old footer overrides. footer-custom.css is not loaded
-   by this section; it only belongs to the unused layout/aliados.liquid fork.
-   Layout:
+   Footer overrides (sections/footer.liquid), loaded after section-footer.css.
+   One source for what used to live in footer-custom.css AND in eight inline
+   style blocks. Layout:
      desktop  logo | sitemap | soluciones | redes | contacto   (5 columns)
-              newsletter on a second row under columns 4-5
+              newsletter on a second row under columns 4–5
      tablet   same 5 columns, narrower logo
      mobile   single column, left rule on each block
-   Text sizes, weights and colours come from the typography snippet; this file
-   only lays things out. Colours are the scheme roles (--pr-*).
+   Selectors carry `.footer` so they win over Dawn's .grid--*-col rules
+   without !important.
    ========================================================================== */
-
-.footer {
-  margin-top: var(--footer-margin-top-mobile, 0);
-}
-
-/* Footer text is white on the dark scheme: headings, links, contact, copyright (never the scheme's lime) */
-.footer.gradient {
-  --pr-text-primary: var(--pr-white);
-  --pr-text-secondary: var(--pr-white);
-  color: var(--pr-white);
-}
-
-@media screen and (min-width: 750px) {
-  .footer {
-    margin-top: var(--footer-margin-top, 0);
-  }
-}
 
 /* ---- Top area: rules above and below ------------------------------------ */
 .footer .footer__content-top {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  row-gap: var(--pr-space-6);
-  padding-top: var(--pr-space-12);
-  padding-bottom: var(--pr-space-6);
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+  padding-top: var(--tdm-space-6);
+  padding-bottom: var(--tdm-space-6);
 }
 
-@media (min-width: 750px) {
-  .footer .footer__content-top {
-    padding-top: var(--pr-space-16);
-  }
+.footer .footer__content-top::before,
+.footer .footer__content-top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgb(var(--color-foreground));
 }
 
+.footer .footer__content-top::before {
+  top: 0;
+}
 
-/* Breathing room: page gutter at the sides (32px from tablet up, like the floating navbar) */
+.footer .footer__content-top::after {
+  bottom: 0;
+}
+
+/* Vertical rhythm only; side gutters stay Dawn's .page-width (same as every section) */
 .footer .page-width {
-  padding-inline: var(--pr-page-gutter);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* ---- Column grid ---------------------------------------------------------- */
 .footer .footer__content-top .footer-grid-custom {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--pr-space-6);
+  grid-template-columns: 1fr;
+  gap: 20px;
   align-items: start;
   grid-column: 1;
   grid-row: 1;
-  margin: 0;
 }
 
 .footer .footer-grid-custom .footer-block {
@@ -66,132 +59,38 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  min-width: 0;
-  margin: 0;
-  padding: 0 0 0 var(--pr-space-2);
-  overflow-wrap: break-word;
-}
-
-.footer .footer-grid-custom .footer-block:empty {
-  display: none;
+  padding: 0 0 0 var(--tdm-space-2);
+  border-left: 1px solid rgb(var(--color-foreground));
 }
 
 .footer .footer-grid-custom .footer-block:nth-child(1),
 .footer .footer-grid-custom .footer-block-image {
-  border-left: 0;
+  border-left: none;
   padding-left: 0;
 }
 
 .footer .footer-grid-custom .footer-block-image {
   grid-column: 1;
-  margin-top: var(--pr-space-8);
+  margin-top: 20px;
   align-self: end;
-  display: flex;
-}
-
-.footer .footer-grid-custom .footer-block-image.left {
-  justify-content: flex-start;
-}
-
-.footer .footer-grid-custom .footer-block-image.center {
-  justify-content: center;
-}
-
-.footer .footer-grid-custom .footer-block-image.right {
-  justify-content: flex-end;
 }
 
 .footer .footer-grid-custom .footer-block-image .footer-block__image-wrapper {
-  max-width: var(--pr-space-24);
-  margin-top: var(--pr-space-3);
+  max-width: 130px;
+  margin-top: var(--tdm-space-3);
 }
 
-/* ---- Headings, links, rich text -------------------------------------------- */
-.footer .footer-block__heading {
-  margin: 0 0 var(--pr-space-3);
+/* ---- Headings & links ------------------------------------------------------ */
+.footer .footer-block__heading--mono {
+  margin: 0 0 var(--tdm-space-3);
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
 }
 
-.footer .footer-block__details-content {
-  margin: 0;
-  padding: 0;
-}
-
-/* Same step between every line of every column (menu links and rich text): same size and line height on the <li> and the <p> */
-.footer .footer-block__details-content > p,
-.footer .footer-block__details-content > li {
-  margin: 0;
-  padding: var(--pr-space-1) 0;
-  font-size: var(--pr-text-body-sm);
-  line-height: var(--pr-leading-normal);
-}
-
-.footer .footer-block__details-content > p:empty {
-  display: none;
-}
-
-/* A bold line inside a rich text column becomes the same small title as the column headings (footer.liquid) */
-.footer .footer-block__details-content > .footer-block__subheading {
-  margin-top: var(--pr-space-6);
-  padding: 0;
-  margin-bottom: var(--pr-space-3);
-  font-size: var(--pr-text-xs);
-  line-height: var(--pr-leading-snug);
-}
-
-.footer .footer-block__details-content a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.footer .footer-block__details-content a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.footer .footer-block__details-content .footer-link {
+.footer .footer-grid-custom .footer-block__details-content a {
   display: inline-block;
-  padding: 0;
-}
-
-.footer .footer-block__details-content .footer-link:hover {
-  text-decoration: underline;
-  text-decoration-color: currentcolor;
-}
-
-.footer .footer-block__details-content .placeholder-svg {
-  max-width: 20rem;
-}
-
-.footer .footer-block__brand-info {
-  text-align: left;
-}
-
-.footer .footer-block__image-wrapper {
-  max-width: min(100%, var(--footer-image-width, 100%));
-  margin-bottom: var(--pr-space-4);
-  overflow: hidden;
-}
-
-.footer .footer-block__image-wrapper img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* ---- Social icons ----------------------------------------------------------- */
-.footer .list-social {
-  justify-content: flex-start;
-}
-
-.footer .footer__list-social--start {
-  /* icon edge flush with the column text (the link's own padding is pulled back) */
-  margin-left: calc(-1 * var(--pr-space-3));
-}
-
-.footer .footer__list-social--start .list-social__item .svg-wrapper,
-.footer .footer__list-social--start .list-social__item .icon {
-  height: var(--pr-space-8);
-  width: var(--pr-space-8);
+  padding: 5px 0;
+  text-decoration: none;
 }
 
 /* ---- Newsletter ------------------------------------------------------------ */
@@ -199,41 +98,23 @@
   grid-column: 1;
   grid-row: 2;
   justify-self: stretch;
-  display: flex;
-  min-width: 0;
+  max-width: none;
   margin: 0;
-  padding-top: var(--pr-space-6);
+  padding-top: var(--tdm-space-6);
+  border-top: 1px solid rgb(var(--color-foreground));
 }
 
-.footer .footer-block--newsletter:empty {
-  display: none;
-}
-
-.footer .footer-block__newsletter {
-  flex-grow: 1;
-  min-width: 0;
+.footer .footer-block--newsletter .footer-block__heading {
+  margin-bottom: var(--tdm-space-3);
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: left;
 }
 
 .footer .footer-newsletter {
   display: grid;
-  gap: var(--pr-space-6);
+  gap: 20px;
   align-items: center;
-}
-
-.footer .footer-newsletter__row {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--pr-space-2);
-  max-width: 36rem;
-}
-
-.footer .footer-newsletter__field {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.footer .footer-newsletter__button {
-  flex: 0 0 auto;
 }
 
 .footer .footer-newsletter__img {
@@ -241,57 +122,24 @@
   width: 100%;
   max-width: var(--nl-media-w, 140px);
   height: auto;
-  border-radius: var(--pr-radius-surface);
+  border-radius: var(--tdm-radius-sm);
   object-fit: cover;
 }
 
 .footer .footer-newsletter__img--circle {
-  border-radius: var(--pr-radius-full);
+  border-radius: var(--tdm-radius-pill);
 }
 
-/* Newsletter off: the image (certifications) takes its own row, left */
-.footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
-  grid-column: 1 / -1;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer .footer-newsletter--media-only {
-  display: block;
-  width: auto;
-  text-align: center;
-}
-
-.footer .footer-newsletter--media-only .footer-newsletter__media {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Aliados footer: the certifications row is centred in its row */
-.shopify-section-group-footer-aliados-group .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
-  justify-content: center;
-  align-items: center;
-}
-
-.shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only {
-  text-align: center;
-}
-
-.shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only .footer-newsletter__media {
-  justify-self: center;
-  margin-left: auto;
-  margin-right: auto;
+.footer .footer-newsletter .field__input {
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
 }
 
 /* ---- Bottom bar ------------------------------------------------------------ */
 .footer .footer__content-bottom {
-  margin-top: var(--pr-space-6);
-  padding-top: var(--pr-space-4);
-}
-
-.footer .footer__content-bottom-wrapper {
-  display: flex;
-  width: 100%;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(var(--color-foreground), 0.25);
 }
 
 /* Hide the bottom wrapper when both of its columns are empty */
@@ -299,180 +147,33 @@
   display: none;
 }
 
-.footer .footer__content-bottom-wrapper--center {
-  justify-content: center;
-}
-
-.footer .footer__column {
-  width: 100%;
-  align-items: flex-end;
-}
-
-.footer .footer__column--info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-inline: var(--pr-space-4);
-}
-
-.footer .footer__localization {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-  padding: var(--pr-space-2) var(--pr-space-2) 0;
-}
-
-.footer .footer__localization:empty {
-  display: none;
-}
-
-.footer .footer__localization:empty + .footer__column--info {
-  align-items: center;
-}
-
-.footer .footer__localization h2 {
-  margin: var(--pr-space-2) var(--pr-space-2) var(--pr-space-1);
-}
-
-.footer .footer__copyright {
-  margin-top: var(--pr-space-4);
-  text-align: center;
-}
-
-.footer .copyright__content,
-.footer .copyright__content a {
-  color: var(--pr-white);
-  opacity: 1;
-  text-decoration: none;
-}
-
-.footer .copyright__content a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.footer .policies {
-  display: inline;
-}
-
-.footer .policies li {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer .policies li::before {
-  content: '\00B7';
-  padding: 0 var(--pr-space-2);
-}
-
-.footer .policies li a {
-  display: block;
-  padding: var(--pr-space-2) 0;
-}
-
-/* ---- Mobile (<=749.98px) ---------------------------------------------------- */
-@media (max-width: 749.98px) {
-  .footer .footer__content-top {
-    padding-left: var(--pr-space-4);
-    padding-right: var(--pr-space-4);
-  }
-
-  .footer .footer-grid-custom .footer-block {
-    min-height: auto;
-    padding-bottom: var(--pr-space-2);
-    padding-left: var(--pr-space-4);
-  }
-
-  .footer .footer-grid-custom .footer-block:nth-child(1),
-  .footer .footer-grid-custom .footer-block-image {
-    padding-left: 0;
-  }
-
-  .footer .footer-grid-custom .footer-block-image,
-  .footer .footer-grid-custom .footer-block-image.left,
-  .footer .footer-grid-custom .footer-block-image.center,
-  .footer .footer-grid-custom .footer-block-image.right {
-    justify-content: center;
-  }
-
-  .footer .footer-block__image-wrapper {
-    margin-bottom: var(--pr-space-2);
-  }
-
-  .footer .footer-newsletter__media {
-    justify-self: start;
-  }
-
-  .footer .footer__content-bottom {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .footer .footer__content-bottom-wrapper {
-    flex-wrap: wrap;
-    row-gap: var(--pr-space-4);
-    justify-content: center;
-  }
-
-  .footer .footer__content-bottom.scroll-trigger.animate--slide-in {
-    animation: none;
-    opacity: 1;
-    transform: inherit;
-  }
-}
-
-/* ---- Tablet and up (>=750px) ------------------------------------------------ */
-@media (min-width: 750px) {
-  .footer .footer__column--info {
-    padding-inline: 0;
-    align-items: flex-end;
-  }
-
-  .footer .footer__localization {
-    padding: var(--pr-space-1) 0;
-    justify-content: flex-start;
-  }
-
-  .footer .footer__localization h2 {
-    margin: var(--pr-space-2) 0 0;
-  }
-
-  .footer .footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center) .footer__copyright {
-    text-align: right;
-  }
-
-  .footer .policies li a {
-    padding: 0;
-  }
-}
-
-/* ---- Tablet (750-989px) ---------------------------------------------------- */
+/* ---- Tablet (750–989px) ---------------------------------------------------- */
 @media (min-width: 750px) and (max-width: 989.98px) {
-  /* minmax(0, 1fr): columns may shrink below their content, otherwise the long
-     contact lines push the grid past the viewport (the 58px overflow at 768) */
   .footer .footer__content-top .footer-grid-custom {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: clamp(var(--pr-space-4), 3vw, var(--pr-space-8));
-    row-gap: var(--pr-space-6);
-  }
-
-  /* Logo on its own row, the four menus 2 x 2 (four narrow columns broke headings mid-word) */
-  .footer .footer-grid-custom > :first-child {
-    grid-column: 1 / -1;
+    grid-template-columns: 100px 1fr 1fr 1fr 1fr;
+    column-gap: clamp(16px, 3vw, 32px);
   }
 
   .footer .footer-grid-custom .footer-block {
-    padding-inline: 0;
-    overflow-wrap: anywhere;
+    padding-left: var(--tdm-space-4);
+  }
+
+  .footer .footer-grid-custom .footer-block--menu {
+    padding-inline: var(--tdm-space-2);
+  }
+
+  .footer .footer-grid-custom .footer-block--menu .footer-block__heading {
+    margin-bottom: 0.75rem;
   }
 
   .footer .footer-block__brand-info,
   .footer .footer-block__image-wrapper {
-    max-width: var(--pr-space-24);
+    max-width: 75%;
+  }
+
+  .footer .footer-block__brand-info img {
+    width: 100%;
+    height: auto;
   }
 
   .footer .footer-newsletter {
@@ -480,7 +181,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(var(--pr-space-4), 3vw, var(--pr-space-8));
+    gap: clamp(16px, 3vw, 40px);
     width: 100%;
   }
 
@@ -500,31 +201,42 @@
     text-align: right;
   }
 
-  .footer .footer-newsletter__row {
+  .footer .footer-newsletter .footer-block__heading {
+    align-self: flex-end;
+    margin-bottom: var(--tdm-space-2);
+  }
+
+  .footer .footer-newsletter .newsletter-form__field-wrapper,
+  .footer .footer-newsletter .field {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .footer .footer-newsletter .field__input {
     width: 70%;
-    min-width: 22rem;
+    min-width: 220px;
   }
 }
 
-/* ---- Desktop (>=990px) ------------------------------------------------------ */
+/* ---- Desktop (≥990px) ------------------------------------------------------ */
 @media (min-width: 990px) {
   .footer .footer__content-top {
-    grid-template-columns: 16rem repeat(4, 1fr);
-    column-gap: var(--pr-space-8);
-    row-gap: var(--pr-space-6);
+    grid-template-columns: 160px 1fr 1fr 1fr 1fr;
+    column-gap: var(--tdm-space-8);
+    row-gap: var(--tdm-space-6);
     align-items: start;
   }
 
   .footer .footer__content-top .footer-grid-custom {
-    grid-template-columns: 16rem repeat(4, 1fr);
-    gap: var(--pr-space-6) var(--pr-space-8);
+    grid-template-columns: 160px 1fr 1fr 1fr 1fr;
+    gap: 24px 32px;
     grid-column: 1 / 6;
   }
 
   .footer .footer-grid-custom .footer-block {
-    min-width: auto;
-    min-height: 30rem;
-    padding-left: var(--pr-space-4);
+    min-height: 300px;
+    padding-left: var(--tdm-space-4);
   }
 
   .footer .footer-grid-custom .footer-block:nth-child(1) {
@@ -537,33 +249,8 @@
     border-top: 0;
   }
 
-  /* Newsletter off (the live setup): the certifications sit centred in their own row */
-  .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
-    grid-column: 1 / -1;
-    justify-content: center;
-  }
-
-  .footer .footer-newsletter--media-only {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .footer .footer-newsletter--media-only .footer-newsletter__media {
-    margin: 0 auto;
-  }
-
-  .shopify-section-group-footer-aliados-group .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
-    grid-column: 1 / -1;
-    justify-content: center;
-  }
-
-  .shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only {
-    justify-content: center;
-  }
-
   .footer .footer-newsletter {
-    grid-template-columns: minmax(10rem, var(--nl-media-w, 140px)) 1fr;
+    grid-template-columns: minmax(100px, var(--nl-media-w, 140px)) 1fr;
     gap: 0;
   }
 
@@ -574,18 +261,93 @@
   .footer .footer-newsletter__form {
     justify-self: end;
     width: 100%;
-    max-width: 30rem;
+    max-width: 300px;
     text-align: left;
   }
 
-  .footer .footer-newsletter__row {
+  .footer .footer-newsletter .newsletter-form__field-wrapper .field__input {
     width: 100%;
     min-width: 0;
   }
 }
 
-@media screen and (min-width: 750px) {
-  .footer .page-width {
-    padding-inline: var(--pr-space-8);
+/* ---- Mobile (≤749.98px) ---------------------------------------------------- */
+@media (max-width: 749.98px) {
+  .footer .footer-grid-custom .footer-block,
+  .footer .footer-grid-custom .footer-block-image {
+    min-height: auto;
+    padding-bottom: var(--tdm-space-2);
+    padding-left: var(--tdm-space-4);
   }
+
+  .footer .footer-grid-custom .footer-block:nth-child(1),
+  .footer .footer-grid-custom .footer-block-image {
+    padding-left: 0;
+  }
+
+  .footer .footer-grid-custom .footer-block--menu .footer-block__details-content {
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .footer .footer-grid-custom .footer-block--menu .footer-block__details-content > li > a {
+    display: block;
+    padding: var(--tdm-space-2) 0;
+    line-height: 1.3;
+  }
+
+  .footer .footer-block__image-wrapper {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer .footer-newsletter__media {
+    justify-self: start;
+  }
+}
+
+/* ---- Newsletter off: the image (certifications) takes its own row, left ---- */
+.footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.footer .footer-newsletter--media-only {
+  display: block;
+  width: auto;
+  text-align: left;
+}
+
+.footer .footer-newsletter--media-only .footer-newsletter__media {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Social links as icons inside a footer column: start-aligned, icon edge flush with the column text
+   (the link's own padding is pulled back) */
+.footer .footer__list-social--start {
+  justify-content: flex-start;
+  margin-left: -1.1rem;
+}
+
+.footer .footer__list-social--start .list-social__item .svg-wrapper,
+.footer .footer__list-social--start .list-social__item .icon {
+  height: 3rem;
+  width: 3rem;
+}
+
+/* Aliados footer: the certifications row is centred in its row (scoped to the Aliados footer group) */
+.shopify-section-group-footer-aliados-group .footer .footer__content-top .footer-block--newsletter:has(.footer-newsletter--media-only) {
+  justify-content: center;
+  align-items: center;
+}
+
+.shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only {
+  text-align: center;
+}
+
+.shopify-section-group-footer-aliados-group .footer .footer-newsletter--media-only .footer-newsletter__media {
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
 }

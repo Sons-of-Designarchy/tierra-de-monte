@@ -1,82 +1,69 @@
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
-{{ 'section-tdm-rich-text.css' | asset_url | stylesheet_tag }}
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
-  assign width_class = ''
-  if section.settings.content_width != blank and section.settings.content_width != 'auto'
-    assign width_class = ' rich-text__blocks--' | append: section.settings.content_width
-  endif
-  assign logo_alt = section.settings.logo_alt | default: 'Section logo'
-  assign body_font = 'body'
-  if section.settings.mono_body
-    assign body_font = 'mono'
-  endif
-  assign heading_font = 'display'
-  if section.settings.mono_heading
-    assign heading_font = 'mono'
-  endif
--%}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
 <div class="isolate{% unless section.settings.full_width %} page-width{% endunless %}">
-  <div
-    class="rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}"
-    {% if section.settings.logo != blank %}style="--rt-logo-w: {{ section.settings.logo_width | default: 120 }}px;"{% endif %}
-  >
+  <div class="rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding{% if section.settings.bg_image != blank %} tdm-has-bg{% endif %}">
     {% render 'tdm-section-background', image: section.settings.bg_image, image_mobile: section.settings.bg_image_mobile, overlay: section.settings.bg_overlay, position: section.settings.bg_position %}
     {%- comment -%} Eyebrow spans the full page width, outside the narrow text column {%- endcomment -%}
     {%- if section.settings.eyebrow != blank -%}
       <div class="{% if section.settings.full_width %}page-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {%- render 'section-header', eyebrow: section.settings.eyebrow, align: section.settings.content_alignment -%}
+        {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color, align: section.settings.content_alignment -%}
       </div>
     {%- endif -%}
     <div class="rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
-      <div class="rich-text__blocks {{ section.settings.content_alignment }}{{ width_class }}">
-        {%- if section.settings.logo != blank -%}
-          <div class="rich-text__logo">
-            {{-
-              section.settings.logo
-              | image_url: width: 1100
-              | image_tag: alt: logo_alt, loading: 'lazy', class: 'rich-text__logo-img'
-            -}}
-          </div>
-        {%- endif -%}
+      <div class="rich-text__blocks {{ section.settings.content_alignment }}">
         {%- for block in section.blocks -%}
-          {%- assign reveal = '' -%}
-          {%- if settings.animations_reveal_on_scroll -%}
-            {%- assign reveal = ' scroll-trigger animate--slide-in' -%}
-          {%- endif -%}
           {%- case block.type -%}
             {%- when 'heading' -%}
-              {%- assign heading_variant = 'h1' -%}
-              {%- case block.settings.heading_size -%}
-                {%- when 'h3' -%}{%- assign heading_variant = 'h3' -%}
-                {%- when 'h2' -%}{%- assign heading_variant = 'h2' -%}
-                {%- when 'h0' or 'hxl' or 'hxxl' -%}{%- assign heading_variant = 'display' -%}
-              {%- endcase -%}
-              {%- assign heading_tag = block.settings.heading_tag | default: 'h2' -%}
-              {%- capture heading_attrs -%}{{ block.shopify_attributes }}{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}{%- endcapture -%}
-              {% render 'typography', text: block.settings.heading, variant: heading_variant, as: heading_tag, font: heading_font, weight: 'medium', class: 'rich-text__heading rte inline-richtext', attrs: heading_attrs %}
+              <h2
+                class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.heading }}
+              </h2>
             {%- when 'caption' -%}
-              {%- assign caption_text = block.settings.caption | escape -%}
-              {%- capture caption_attrs -%}{{ block.shopify_attributes }}{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}{%- endcapture -%}
-              {%- if block.settings.text_style == 'subtitle' -%}
-                {%- assign caption_variant = 'body' -%}
-                {%- if block.settings.text_size == 'small' -%}{%- assign caption_variant = 'body-sm' -%}{%- elsif block.settings.text_size == 'large' -%}{%- assign caption_variant = 'body-lg' -%}{%- endif -%}
-                {% render 'typography', text: caption_text, variant: caption_variant, color: 'secondary', class: 'rich-text__caption', attrs: caption_attrs %}
-              {%- else -%}
-                {% render 'typography', text: caption_text, variant: 'eyebrow', class: 'rich-text__caption', attrs: caption_attrs %}
-              {%- endif -%}
+              <p
+                class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.caption | escape }}
+              </p>
             {%- when 'text' -%}
-              {%- capture text_attrs -%}{{ block.shopify_attributes }}{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}{%- endcapture -%}
-              {%- if section.settings.display_text -%}
-                {% render 'typography', text: block.settings.text, variant: 'h3', as: 'div', font: 'display', class: 'rich-text__text rte', attrs: text_attrs %}
-              {%- else -%}
-                {% render 'typography', text: block.settings.text, variant: 'body', as: 'div', font: body_font, class: 'rich-text__text rte', attrs: text_attrs %}
-              {%- endif -%}
+              <div
+                class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.text }}
+              </div>
             {%- when 'button' -%}
               <div
-                class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{{ reveal }}"
+                class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                 {{ block.shopify_attributes }}
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
@@ -84,14 +71,28 @@
                 {% endif %}
               >
                 {%- if block.settings.button_label != blank -%}
-                  {%- assign button_variant = 'primary' -%}
-                  {%- if block.settings.button_style_secondary -%}{%- assign button_variant = 'outline' -%}{%- endif -%}
-                  {% render 'button', label: block.settings.button_label, href: block.settings.button_link, variant: button_variant, size: 'lg' %}
+                  <a
+                    {% if block.settings.button_link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link }}"
+                    {% endif %}
+                    class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label | escape -}}
+                  </a>
                 {%- endif -%}
                 {%- if block.settings.button_label_2 != blank -%}
-                  {%- assign button_variant_2 = 'primary' -%}
-                  {%- if block.settings.button_style_secondary_2 -%}{%- assign button_variant_2 = 'outline' -%}{%- endif -%}
-                  {% render 'button', label: block.settings.button_label_2, href: block.settings.button_link_2, variant: button_variant_2, size: 'lg' %}
+                  <a
+                    {% if block.settings.button_link_2 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_2 }}"
+                    {% endif %}
+                    class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label_2 | escape -}}
+                  </a>
                 {%- endif -%}
               </div>
           {%- endcase -%}
@@ -121,6 +122,11 @@
       "id": "eyebrow",
       "label": "Eyebrow",
       "info": "Texto pequeño arriba del contenido. La línea aparece solo si hay texto."
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Color de la línea del eyebrow"
     },
     {
       "type": "select",
@@ -175,34 +181,6 @@
     { "type": "select", "id": "bg_position", "label": "Enfoque de la imagen", "default": "center", "options": [
       { "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }
     ] },
-    {
-      "type": "select",
-      "id": "content_width",
-      "label": "Content width",
-      "options": [
-        { "value": "auto", "label": "Automatic" },
-        { "value": "narrow", "label": "Narrow" },
-        { "value": "default", "label": "Default" },
-        { "value": "wide", "label": "Wide" }
-      ],
-      "default": "auto"
-    },
-    { "type": "checkbox", "id": "mono_heading", "label": "Use monospaced font for headings", "default": false },
-    { "type": "checkbox", "id": "mono_body", "label": "Use monospaced font for text", "default": false },
-    { "type": "checkbox", "id": "display_text", "label": "Text in the display font, large (h3)", "info": "On by default: the text of a band is the protagonist. Turn it off for long body copy.", "default": true },
-    { "type": "header", "content": "Logo" },
-    { "type": "image_picker", "id": "logo", "label": "Logo (top)" },
-    { "type": "text", "id": "logo_alt", "label": "Logo alt text", "default": "Section logo" },
-    {
-      "type": "range",
-      "id": "logo_width",
-      "min": 24,
-      "max": 320,
-      "step": 4,
-      "unit": "px",
-      "label": "Logo width",
-      "default": 120
-    },
     {
       "type": "checkbox",
       "id": "full_width",
@@ -273,17 +251,6 @@
           ],
           "default": "h1",
           "label": "t:sections.all.heading_size.label"
-        },
-        {
-          "type": "select",
-          "id": "heading_tag",
-          "label": "Heading HTML tag",
-          "options": [
-            { "value": "h1", "label": "H1" },
-            { "value": "h2", "label": "H2" },
-            { "value": "h3", "label": "H3" }
-          ],
-          "default": "h2"
         }
       ]
     },

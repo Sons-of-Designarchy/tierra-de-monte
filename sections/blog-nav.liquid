@@ -1,43 +1,44 @@
 {% comment %}
-  Blog Nav — page title (display) with the category links as the tabs atom below. Styles: assets/section-tdm-blog-nav.css.
+  Blog Nav — segmented control on desktop, horizontal-scroll pill rail on
+  mobile. Styles: assets/section-tdm-blog-nav.css.
 {% endcomment %}
 
 {{ 'section-tdm-blog-nav.css' | asset_url | stylesheet_tag }}
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
-{%- liquid
-  assign bn_labels = ''
-  assign bn_hrefs = ''
-  assign bn_active = 0
-  assign bn_n = 0
-  for block in section.blocks
-    assign chosen_blog = blogs[block.settings.blog]
-    if chosen_blog
-      assign bn_n = bn_n | plus: 1
-      assign bn_label = block.settings.title | default: chosen_blog.title
-      assign bn_labels = bn_labels | append: bn_label | append: '|'
-      assign bn_hrefs = bn_hrefs | append: chosen_blog.url | append: '|'
-      if request.page_type == 'blog' and blog and blog.id == chosen_blog.id
-        assign bn_active = bn_n
-      endif
-    endif
-  endfor
-  if bn_active == 0 and request.page_type == 'page'
-    assign bn_active = 1
-  endif
-  assign bn_labels = bn_labels | split: '|' | join: '|'
-  assign bn_hrefs = bn_hrefs | split: '|' | join: '|'
-  assign bn_aria = section.settings.label | strip_html | default: 'Explora nuestro blog'
--%}
-
 <section class="tdm-blog-nav color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width section-{{ section.id }}-padding">
-    <div class="blog-nav__bar">
+    <nav
+      class="blog-nav__bar"
+      role="navigation"
+      aria-label="{{ section.settings.label | default: 'Explora nuestro blog' }}"
+    >
       {%- if section.settings.label != blank -%}
-        {% render 'typography', text: section.settings.label, as: 'h1', variant: 'display', font: 'display', weight: 'medium', align: 'center', class: 'blog-nav__title' %}
+        <span class="blog-nav__label tdm-mono tdm-upper">{{ section.settings.label }}</span>
       {%- endif -%}
-      {% render 'tabs', label: bn_aria, tabs: bn_labels, hrefs: bn_hrefs, active: bn_active, class: 'blog-nav__tabs' %}
-    </div>
+
+      <ul class="blog-nav__list" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign chosen_blog = blogs[block.settings.blog] -%}
+          {%- if chosen_blog -%}
+            {%- liquid
+              assign is_active = false
+              if request.page_type == 'blog' and blog and blog.id == chosen_blog.id
+                assign is_active = true
+              endif
+            -%}
+            <li class="blog-nav__item" {{ block.shopify_attributes }}>
+              <a
+                class="blog-nav__btn{% if is_active %} is-active{% endif %}"
+                href="{{ chosen_blog.url }}"
+              >
+                {{ block.settings.title | default: chosen_blog.title }}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
   </div>
 </section>
 

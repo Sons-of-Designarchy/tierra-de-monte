@@ -15,16 +15,7 @@
   assign s = section.settings
   assign layout = s.layout | default: 'stats_below'
   assign align = s.content_align | default: 'left'
-
-  case s.heading_size
-    when 'h2'
-      assign im_title_variant = 'h2'
-    when 'h1'
-      assign im_title_variant = 'h1'
-    else
-      assign im_title_variant = 'display'
-  endcase
-  assign im_stat_variant = s.stat_variant | default: 'display'
+  assign rule_color = s.rule_color | default: 'currentColor'
 
   assign stat_blocks = section.blocks | where: 'type', 'stat'
   assign stat_blocks = stat_blocks | slice: 0, 4
@@ -40,23 +31,42 @@
 
 <section
   class="tdm-impact tdm-impact--{{ layout }} tdm-impact--align-{{ align }} color-{{ s.color_scheme }} gradient{% if s.bg_image != blank %} tdm-has-bg{% endif %}"
-  style="--tdm-min-h-desktop: {{ s.min_height_desktop | default: 60 }}vh; --tdm-min-h-mobile-n: {{ s.min_height_mobile | default: 0 }};"
+  style="--tdm-rule: {{ rule_color }}; --tdm-min-h-desktop: {{ s.min_height_desktop | default: 60 }}vh; --tdm-min-h-mobile-n: {{ s.min_height_mobile | default: 0 }};"
 >
   {% render 'tdm-section-background', image: s.bg_image, image_mobile: s.bg_image_mobile, overlay: s.bg_overlay, position: s.bg_position %}
 
   <div class="page-width section-{{ section.id }}-padding tdm-impact__inner">
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: rule_color, align: align -%}
+
     <div class="tdm-impact__body">
       <div class="tdm-impact__lead">
-        {%- assign im_btn_href = s.button_link | default: '#' -%}
-        {%- capture im_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}{%- endcapture -%}
-        {%- assign im_btn_variant = 'primary' -%}
-        {%- if s.button_style == 'secondary' -%}{%- assign im_btn_variant = 'outline' -%}{%- endif -%}
-        {%- capture im_cta -%}
-          {%- if s.button_label != blank -%}<div class="tdm-impact__cta">{%- render 'button', label: s.button_label, href: im_btn_href, variant: im_btn_variant, size: 'lg', attrs: im_btn_attrs -%}</div>{%- endif -%}
-        {%- endcapture -%}
-        {%- assign im_align = 'left' -%}
-        {%- if align == 'center' -%}{%- assign im_align = 'center' -%}{%- endif -%}
-        {%- render 'section-header', eyebrow: s.eyebrow, title: s.heading, intro: s.text, size: im_title_variant, align: im_align, extra: im_cta -%}
+        {%- if s.heading != blank -%}
+          <h2 class="tdm-impact__heading inline-richtext {{ s.heading_size | default: 'h1' }}">
+            {{ s.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if s.text != blank -%}
+          <div class="tdm-impact__text rte">{{ s.text }}</div>
+        {%- endif -%}
+
+        {%- if s.button_label != blank -%}
+          <div class="tdm-impact__cta">
+            <a
+              class="button button--{{ s.button_style | default: 'primary' }}"
+              {% if s.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ s.button_link }}"
+              {% endif %}
+              {% if s.button_new_tab %}
+                target="_blank" rel="noopener"
+              {% endif %}
+            >
+              {{ s.button_label | escape }}
+            </a>
+          </div>
+        {%- endif -%}
       </div>
 
       <div class="tdm-impact__content">
@@ -76,7 +86,7 @@
           <ul
             class="tdm-impact__stats"
             role="list"
-            style="--stats-count: {{ stats_count }};"
+            style="--stats-count: {{ stats_count }}; --stat-size-m: {{ s.stat_size_mobile | default: 40 }}px; --stat-size-d: {{ s.stat_size_desktop | default: 64 }}px;"
           >
             {%- for block in stat_blocks -%}
               <li
@@ -87,13 +97,13 @@
                 {% endif %}
               >
                 {%- if block.settings.value != blank -%}
-                  {%- render 'typography', text: block.settings.value, as: 'p', variant: im_stat_variant, font: 'display', weight: 'medium', color: 'inherit', class: 'tdm-impact__stat-value' -%}
+                  <p class="tdm-stat inline-richtext">{{ block.settings.value }}</p>
                 {%- endif -%}
                 {%- if block.settings.label != blank -%}
-                  {%- render 'typography', text: block.settings.label, as: 'p', variant: 'body', color: 'inherit', class: 'tdm-impact__stat-label' -%}
+                  <p class="tdm-impact__stat-label tdm-copy">{{ block.settings.label }}</p>
                 {%- endif -%}
                 {%- if block.settings.caption != blank -%}
-                  {%- render 'typography', text: block.settings.caption, as: 'p', variant: 'eyebrow', font: 'mono', color: 'inherit', class: 'tdm-impact__stat-caption' -%}
+                  <p class="tdm-impact__stat-caption tdm-mono tdm-upper">{{ block.settings.caption }}</p>
                 {%- endif -%}
               </li>
             {%- endfor -%}
@@ -160,6 +170,7 @@
 
     { "type": "header", "content": "Encabezado" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "El impacto de ser Aliado" },
     {
       "type": "select",
@@ -190,17 +201,8 @@
     },
 
     { "type": "header", "content": "Estadísticas" },
-    {
-      "type": "select",
-      "id": "stat_variant",
-      "label": "Tamaño del número",
-      "options": [
-        { "value": "display", "label": "Grande" },
-        { "value": "h1", "label": "Mediano" },
-        { "value": "h2", "label": "Pequeño" }
-      ],
-      "default": "display"
-    },
+    { "type": "range", "id": "stat_size_mobile", "label": "Tamaño del número (móvil)", "min": 24, "max": 96, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "stat_size_desktop", "label": "Tamaño del número (escritorio)", "min": 24, "max": 140, "step": 2, "unit": "px", "default": 64 },
 
     { "type": "header", "content": "Altura mínima" },
     { "type": "range", "id": "min_height_desktop", "label": "Altura mínima (escritorio, vh)", "min": 0, "max": 100, "step": 5, "unit": "vh", "default": 60 },

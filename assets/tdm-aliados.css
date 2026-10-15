@@ -7,25 +7,47 @@
    ========================================================================== */
 
 /* 1. Full opacity */
+body .hs__credit span,
 .tdm-tabs .subtitle,
 .tdm-tabs__empty,
-.product-card-wrapper .card__excerpt {
+.product-card-wrapper .card__excerpt,
+.tdm-comparison-table .ct-header__subtitle,
+.tdm-comparison-table .ct-header__note,
+.tdm-comparison-table .ct-feature small,
+.tdm-comparison-table .ct-scroll-hint,
+.tdm-comparison-table .ct-footnote {
   opacity: 1;
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
 }
 
 /* 2. Body size (Dawn body: 1.5rem, 1.6rem ≥750px).
    `body` prefix: section stylesheets load after this file, so equal specificity would lose. */
+body .hs__credit,
+body .hs__credit span,
 body .tdm-tabs .subtitle,
-body .product-card-wrapper .card__excerpt {
-  font-size: var(--pr-text-body);
-  line-height: var(--pr-leading-normal);
+body .product-card-wrapper .card__excerpt,
+body .tdm-comparison-table .ct-table .ct-feature,
+body .tdm-comparison-table .ct-table th.ct-feature,
+body .tdm-comparison-table .ct-header__subtitle,
+body .tdm-comparison-table .ct-header__note,
+body .tdm-comparison-table .ct-scroll-hint,
+body .tdm-comparison-table .ct-footnote {
+  font-size: 1.5rem;
+  line-height: 1.46;
 }
 
 @media screen and (min-width: 750px) {
+  body .hs__credit,
+  body .hs__credit span,
   body .tdm-tabs .subtitle,
-  body .product-card-wrapper .card__excerpt {
-    font-size: var(--pr-text-body);
+  body .product-card-wrapper .card__excerpt,
+  body .tdm-comparison-table .ct-table .ct-feature,
+  body .tdm-comparison-table .ct-table th.ct-feature,
+  body .tdm-comparison-table .ct-header__subtitle,
+  body .tdm-comparison-table .ct-header__note,
+  body .tdm-comparison-table .ct-scroll-hint,
+  body .tdm-comparison-table .ct-footnote {
+    font-size: 1.6rem;
   }
 }
 
@@ -62,4 +84,14 @@ body .shopify-section-group-footer-aliados-group .footer-block__newsletter .foot
 body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter__media {
   margin-left: 0;
   margin-right: auto;
+}
+
+/* Newsletter is off in this footer: its empty form wrapper still took the first column
+   and pushed the image right */
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter {
+  display: block !important;
+}
+
+body .shopify-section-group-footer-aliados-group .footer-block__newsletter .footer-newsletter__form {
+  display: none;
 }

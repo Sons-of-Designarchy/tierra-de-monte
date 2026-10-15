@@ -1,0 +1,167 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+{{ 'section-tdm-rich-text.css' | asset_url | stylesheet_tag }}
+{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+{%- liquid
+  assign align_class = section.settings.text_alignment | prepend: 'rt--align-'
+  assign width_class = 'rt--' | append: section.settings.content_width
+  assign mono_heading = section.settings.mono_heading | default: false
+  assign mono_body = section.settings.mono_body | default: false
+
+  assign rt_logo_alt = section.settings.logo_alt | default: section.settings.heading | default: 'Section logo'
+  assign rt_logo_alt = rt_logo_alt | escape
+-%}
+
+<div class="tdm-rich-text color-{{ section.settings.color_scheme }} gradient" style="--rt-logo-w: {{ section.settings.logo_width }}px;">
+  <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="rt {{ align_class }} {{ width_class }}{% if mono_heading %} rt--mono-heading{% endif %}{% if mono_body %} rt--mono-body{% endif %}">
+      {%- if section.settings.logo != blank -%}
+        <div class="rt__logo">
+          {{-
+            section.settings.logo
+            | image_url: width: 1100
+            | image_tag: alt: rt_logo_alt, loading: 'lazy', class: 'rt__logo-img'
+          -}}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        {%- assign heading_tag = section.settings.heading_tag | default: 'h2' -%}
+        <{{ heading_tag }} class="rt__heading title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </{{ heading_tag }}>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="rt__text rte">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="rt__cta">
+          <a
+            class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+            {% if section.settings.button_link == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link }}"
+            {% endif %}
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich text + Logo (custom)",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (top)" },
+    { "type": "text", "id": "logo_alt", "label": "Logo alt text", "default": "Section logo" },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 24,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Your headline" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "H3" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" },
+        { "value": "hxl", "label": "HXL" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ],
+      "default": "h2"
+    },
+
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add some compelling copy here.</p>" },
+
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "label": "Use outline button (theme secondary)",
+      "default": false
+    },
+
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "default", "label": "Default" },
+        { "value": "wide", "label": "Wide" }
+      ],
+      "default": "default"
+    },
+
+    { "type": "checkbox", "id": "mono_heading", "label": "Use monospaced font for heading", "default": false },
+    { "type": "checkbox", "id": "mono_body", "label": "Use monospaced font for text", "default": true },
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [{ "name": "Rich text + Logo (custom)" }]
+}
+{% endschema %}

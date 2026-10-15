@@ -19,7 +19,7 @@
   align-items: center;
   display: flex;
   padding: 1.1rem;
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
 }
 
 .utility-bar .list-social__link {

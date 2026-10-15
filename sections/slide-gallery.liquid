@@ -47,60 +47,60 @@
   endif
 -%}
 
-{%- liquid
-  case section.settings.intro_heading_size
-    when 'h2'
-      assign sg_title_variant = 'h2'
-    when 'h1'
-      assign sg_title_variant = 'h1'
-    else
-      assign sg_title_variant = 'display'
-  endcase
-  assign sg_cta_href = section.settings.button_link | default: '#'
-  assign sg_cta_variant = 'primary'
-  if section.settings.button_style_secondary
-    assign sg_cta_variant = 'outline'
-  endif
-  assign sg_prev_label = 'sections.slideshow.previous_slideshow' | t
-  assign sg_next_label = 'sections.slideshow.next_slideshow' | t
-  capture sg_prev_attrs
-    echo 'name="previous" aria-controls="Slider-' | append: section.id | append: '"'
-  endcapture
-  capture sg_next_attrs
-    echo 'name="next" aria-controls="Slider-' | append: section.id | append: '"'
-  endcapture
--%}
-{%- capture sg_cta_attrs -%}{% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %}{%- endcapture -%}
 {%- capture cta -%}
-  {%- render 'button', label: section.settings.button_label, href: sg_cta_href, variant: sg_cta_variant, size: 'lg', attrs: sg_cta_attrs -%}
+  <a
+    {% if section.settings.button_link != blank %}
+      href="{{ section.settings.button_link }}"
+    {% else %}
+      role="link" aria-disabled="true"
+    {% endif %}
+    class="button {% if section.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
+  >
+    {{- section.settings.button_label | escape -}}
+  </a>
 {%- endcapture -%}
 
 {%- capture intro -%}
   {%- if section.settings.eyebrow != blank or section.settings.intro_title != blank or section.settings.intro_text != blank or has_cta and cta_below == false -%}
     <div class="slide-gallery-intro section-{{ section.id }}-intro-padding">
       <div class="slide-gallery-intro__inner page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {%- capture sg_extra -%}
-          {%- if has_cta and cta_below == false -%}<div class="slide-gallery-intro__buttons">{{ cta }}</div>{%- endif -%}
-        {%- endcapture -%}
-        {%- assign sg_align = 'left' -%}
-        {%- if section.settings.intro_alignment == 'center' -%}{%- assign sg_align = 'center' -%}{%- endif -%}
-        {%- render 'section-header', eyebrow: section.settings.eyebrow, title: section.settings.intro_title, intro: section.settings.intro_text, size: sg_title_variant, align: sg_align, extra: sg_extra -%}
+        {%- render 'tdm-section-eyebrow', text: section.settings.eyebrow, rule_color: section.settings.rule_color -%}
+        {%- if section.settings.intro_title != blank -%}
+          <h2 class="slide-gallery-intro__heading inline-richtext {{ section.settings.intro_heading_size }}">
+            {{ section.settings.intro_title }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.intro_text != blank -%}
+          <div class="slide-gallery-intro__text rte">
+            {{ section.settings.intro_text }}
+          </div>
+        {%- endif -%}
+        {%- if has_cta and cta_below == false -%}
+          <div class="slide-gallery-intro__buttons">{{ cta }}</div>
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}
 {%- endcapture -%}
 
 {%- capture slider_controls_inner -%}
-  {%- render 'icon-button', icon: 'chevron-right', label: sg_prev_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--prev', attrs: sg_prev_attrs -%}
-  <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}">
+  <button
+    type="button"
+    class="slider-button slider-button--prev"
+    name="previous"
+    aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+    aria-controls="Slider-{{ section.id }}"
+  >
+    <span class="svg-wrapper">
+      {{- 'icon-caret.svg' | inline_asset_content -}}
+    </span>
+  </button>
+  <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}{% if section.settings.slider_visual == 'counter' or section.settings.slider_visual == 'numbers' %} caption{% endif %}">
     {%- if section.settings.slider_visual == 'counter' -%}
-      {%- capture sg_counter -%}
-        <span class="slider-counter--current">1</span>
-        <span aria-hidden="true"> / </span>
-        <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-        <span class="slider-counter--total">{{ section.blocks.size }}</span>
-      {%- endcapture -%}
-      {%- render 'typography', text: sg_counter, as: 'div', variant: 'xs', color: 'inherit' -%}
+      <span class="slider-counter--current">1</span>
+      <span aria-hidden="true"> / </span>
+      <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+      <span class="slider-counter--total">{{ section.blocks.size }}</span>
     {%- else -%}
       <div class="slideshow__control-wrapper">
         {%- for block in section.blocks -%}
@@ -110,7 +110,7 @@
             aria-controls="Slider-{{ section.id }}"
           >
             {%- if section.settings.slider_visual == 'numbers' -%}
-              {%- render 'typography', text: forloop.index, as: 'span', variant: 'xs', color: 'inherit' -%}
+              {{ forloop.index -}}
             {%- else -%}
               <span class="dot"></span>
             {%- endif -%}
@@ -119,7 +119,17 @@
       </div>
     {%- endif -%}
   </div>
-  {%- render 'icon-button', icon: 'chevron-right', label: sg_next_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--next', attrs: sg_next_attrs -%}
+  <button
+    type="button"
+    class="slider-button slider-button--next"
+    name="next"
+    aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+    aria-controls="Slider-{{ section.id }}"
+  >
+    <span class="svg-wrapper">
+      {{- 'icon-caret.svg' | inline_asset_content -}}
+    </span>
+  </button>
 {%- endcapture -%}
 
 <div
@@ -170,7 +180,6 @@
       <div
         class="slideshow__slide grid__item grid--1-col slider__slide"
         id="Slide-{{ section.id }}-{{ forloop.index }}"
-        data-caption="{{ block.settings.caption_position | default: 'right' }}"
         {{ block.shopify_attributes }}
         style="--sg-overlay-color: {{ block.settings.overlay_color | default: '#000000' }}; --sg-overlay-opacity: {{ block.settings.overlay_opacity | default: 30 | divided_by: 100.0 }};"
         role="group"
@@ -219,39 +228,27 @@
         {%- liquid
           assign bs = block.settings
           assign has_stats = false
-          for key in (1..6)
-            assign stat_value_key = 'stat_' | append: key | append: '_value'
-            if bs[stat_value_key] != blank
-              assign has_stats = true
-            endif
-          endfor
-          assign has_extra = false
-          if bs.crops != blank or bs.note != blank
-            assign has_extra = true
+          if bs.stat_1 != blank or bs.stat_2 != blank or bs.stat_3 != blank or bs.stat_4 != blank or bs.stat_5 != blank or bs.stat_6 != blank
+            assign has_stats = true
           endif
         -%}
-        {%- if bs.quote != blank or has_stats or has_extra -%}
+        {%- if bs.quote != blank or has_stats -%}
           <div
-            class="tdm-slide-gallery__caption tdm-slide-gallery__caption--{{ bs.caption_position | default: 'right' }}"
+            class="tdm-slide-gallery__caption tdm-slide-gallery__caption--{{ bs.caption_position | default: 'right' }} color-{{ bs.caption_color_scheme }}"
             {% if bs.quote_color != blank or bs.stats_color != blank %}
               style="{% if bs.quote_color != blank %}--sg-quote-color: {{ bs.quote_color }};{% endif %}{% if bs.stats_color != blank %} --sg-stats-color: {{ bs.stats_color }};{% endif %}"
             {% endif %}
           >
             {%- if bs.quote != blank -%}
               <figure class="tdm-slide-gallery__quote">
-                {%- capture sg_mark -%}<svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>{%- endcapture -%}
-                {%- capture sg_quote_html -%}{{ bs.quote | escape | newline_to_br }}{{ sg_mark }}{%- endcapture -%}
-                <svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>
-                {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h5', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                <blockquote class="tdm-slide-gallery__quote-text">{{ bs.quote | escape | newline_to_br }}</blockquote>
                 {%- if bs.quote_author != blank or bs.quote_role != blank -%}
                   <figcaption class="tdm-slide-gallery__quote-author">
                     {%- if bs.quote_author != blank -%}
-                      {%- assign sg_author = bs.quote_author | escape -%}
-                      {%- render 'typography', text: sg_author, as: 'span', variant: 'body', weight: 'bold', color: 'inherit', class: 'tdm-slide-gallery__quote-name' -%}
+                      <span class="tdm-slide-gallery__quote-name">{{ bs.quote_author | escape }}</span>
                     {%- endif -%}
                     {%- if bs.quote_role != blank -%}
-                      {%- assign sg_role = bs.quote_role | escape -%}
-                      {%- render 'typography', text: sg_role, as: 'span', variant: 'body', color: 'inherit', class: 'tdm-slide-gallery__quote-role' -%}
+                      <span class="tdm-slide-gallery__quote-role">{{ bs.quote_role | escape }}</span>
                     {%- endif -%}
                   </figcaption>
                 {%- endif -%}
@@ -260,31 +257,12 @@
             {%- if has_stats -%}
               <ul class="tdm-slide-gallery__stats" role="list">
                 {%- for key in (1..6) -%}
-                  {%- assign stat_value_key = 'stat_' | append: key | append: '_value' -%}
-                  {%- assign stat_label_key = 'stat_' | append: key | append: '_label' -%}
-                  {%- if bs[stat_value_key] != blank -%}
-                    {%- assign sg_stat_value = bs[stat_value_key] | escape -%}
-                    {%- assign sg_stat_label = bs[stat_label_key] | escape -%}
-                    <li class="tdm-slide-gallery__stat">
-                      {%- render 'typography', text: sg_stat_value, as: 'span', variant: 'h3', font: 'display', color: 'inherit', class: 'tdm-slide-gallery__stat-value' -%}
-                      {%- if sg_stat_label != blank -%}{%- render 'typography', text: sg_stat_label, as: 'span', variant: 'body-sm', color: 'inherit', class: 'tdm-slide-gallery__stat-label' -%}{%- endif -%}
-                    </li>
+                  {%- assign stat_key = 'stat_' | append: key -%}
+                  {%- if bs[stat_key] != blank -%}
+                    <li class="tdm-slide-gallery__stat">{{ bs[stat_key] | escape }}</li>
                   {%- endif -%}
                 {%- endfor -%}
               </ul>
-            {%- endif -%}
-            {%- if bs.crops != blank -%}
-              {%- assign sg_crops = bs.crops | replace: ',', '·' | split: '·' -%}
-              <ul class="tdm-slide-gallery__crops" role="list">
-                {%- for crop in sg_crops -%}
-                  {%- assign sg_crop = crop | strip -%}
-                  {%- if sg_crop != blank -%}<li>{%- render 'chip', label: sg_crop, size: 'xs', static: true -%}</li>{%- endif -%}
-                {%- endfor -%}
-              </ul>
-            {%- endif -%}
-            {%- if bs.note != blank -%}
-              {%- assign sg_note = bs.note | escape -%}
-              {%- render 'typography', text: sg_note, as: 'p', variant: 'body-sm', color: 'inherit', class: 'tdm-slide-gallery__note' -%}
             {%- endif -%}
           </div>
         {%- endif -%}
@@ -341,6 +319,7 @@
       "content": "Título y párrafo"
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
     {
       "type": "inline_richtext",
       "id": "intro_title",
@@ -601,7 +580,7 @@
           "type": "color",
           "id": "overlay_color",
           "label": "Color del overlay",
-          "info": "Tinte parejo sobre toda la foto, además del degradado de tinta desde el lado del texto. Solo en escritorio (1200px o más).",
+          "info": "Oscurece la foto y tiñe el bloque de texto para que se lea. Solo en escritorio (1200px o más), donde el texto va sobre la foto.",
           "default": "#000000"
         },
         {
@@ -612,7 +591,7 @@
           "max": 80,
           "step": 5,
           "unit": "%",
-          "default": 10
+          "default": 30
         },
         {
           "type": "header",
@@ -637,91 +616,43 @@
         },
         {
           "type": "header",
-          "content": "Datos (cifra grande + etiqueta corta)"
+          "content": "Datos"
         },
         {
           "type": "text",
-          "id": "stat_1_value",
-          "label": "Cifra 1",
-          "info": "Ej: +11,000 ha. Va grande, en tipografía display."
+          "id": "stat_1",
+          "label": "Dato 1",
+          "info": "Cada dato sale como viñeta. Ej: 300% de incremento en cosecha"
         },
         {
           "type": "text",
-          "id": "stat_1_label",
-          "label": "Etiqueta de la cifra 1",
-          "info": "Ej: atendidas actualmente"
+          "id": "stat_2",
+          "label": "Dato 2",
+          "info": "Ej: 30% en reducción de costos"
         },
         {
           "type": "text",
-          "id": "stat_2_value",
-          "label": "Cifra 2",
-          "info": "Ej: 300%. Va grande, en tipografía display."
+          "id": "stat_3",
+          "label": "Dato 3",
+          "info": "Ej: 12 tons de CO₂ mitigadas"
         },
         {
           "type": "text",
-          "id": "stat_2_label",
-          "label": "Etiqueta de la cifra 2",
-          "info": "Ej: incremento en producción"
-        },
-        {
-          "type": "text",
-          "id": "stat_3_value",
-          "label": "Cifra 3",
-          "info": "Ej: 30%. Va grande, en tipografía display."
-        },
-        {
-          "type": "text",
-          "id": "stat_3_label",
-          "label": "Etiqueta de la cifra 3",
-          "info": "Ej: reducción de costos"
-        },
-        {
-          "type": "text",
-          "id": "stat_4_value",
-          "label": "Cifra 4",
-          "info": "Opcional. Va grande, en tipografía display."
-        },
-        {
-          "type": "text",
-          "id": "stat_4_label",
-          "label": "Etiqueta de la cifra 4",
+          "id": "stat_4",
+          "label": "Dato 4",
           "info": "Opcional."
         },
         {
           "type": "text",
-          "id": "stat_5_value",
-          "label": "Cifra 5",
-          "info": "Opcional. Va grande, en tipografía display."
-        },
-        {
-          "type": "text",
-          "id": "stat_5_label",
-          "label": "Etiqueta de la cifra 5",
+          "id": "stat_5",
+          "label": "Dato 5",
           "info": "Opcional."
         },
         {
           "type": "text",
-          "id": "stat_6_value",
-          "label": "Cifra 6",
-          "info": "Opcional. Va grande, en tipografía display."
-        },
-        {
-          "type": "text",
-          "id": "stat_6_label",
-          "label": "Etiqueta de la cifra 6",
+          "id": "stat_6",
+          "label": "Dato 6",
           "info": "Opcional."
-        },
-        {
-          "type": "text",
-          "id": "crops",
-          "label": "Cultivos",
-          "info": "Separados por · o coma; salen como chips. Ej: Naranja · Papaya · Nogal · Limón"
-        },
-        {
-          "type": "text",
-          "id": "note",
-          "label": "Nota corta",
-          "info": "Línea chica debajo de las cifras. Ej: Manejo biológico integral con microorganismos e insectos."
         },
 
         {
@@ -732,7 +663,7 @@
           "type": "select",
           "id": "caption_position",
           "label": "Posición en escritorio",
-          "info": "Desde la esquina o lado elegido sale el degradado oscuro. En móvil y tablet el texto va debajo de la foto, sin caja.",
+          "info": "En móvil y tablet el texto va debajo de la foto.",
           "options": [
             { "value": "left", "label": "Izquierda al centro" },
             { "value": "right", "label": "Derecha al centro" },
@@ -746,16 +677,23 @@
           "default": "right"
         },
         {
+          "type": "color_scheme",
+          "id": "caption_color_scheme",
+          "label": "Esquema del texto",
+          "info": "Texto: color de texto del esquema. Comillas: color de botón. En móvil también da el fondo del bloque de texto.",
+          "default": "scheme-tdm-blanco"
+        },
+        {
           "type": "color",
           "id": "quote_color",
           "label": "Color de la cita sobre la foto",
-          "info": "Solo en escritorio (1200px o más), donde el texto va sobre la foto. Vacío = blanco."
+          "info": "Solo en escritorio (1200px o más), donde el texto va sobre la foto. Vacío = color del esquema."
         },
         {
           "type": "color",
           "id": "stats_color",
           "label": "Color de los datos sobre la foto",
-          "info": "Solo en escritorio. Vacío = blanco."
+          "info": "Solo en escritorio. Vacío = color del esquema."
         }
       ]
     }

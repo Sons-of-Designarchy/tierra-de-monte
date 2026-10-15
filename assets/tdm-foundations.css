@@ -1,469 +1,77 @@
 /* =============================================================================
-   Tierra de Monte — foundations (PerfectlyRad system)
+   Tierra de Monte — foundations
    Loaded once from layout/theme.liquid, after base.css.
 
-   Same three layers and the same names as PerfectlyRad's src/styles/tokens.css
-   (https://github.com/Sons-of-Designarchy — soda/perfectlyrad), --pr-* prefix:
-     1. Primitives  raw values. Components never read them.
-     2. Roles       what components read. Re-pointed per scheme.
-     3. Scales      type, space, radius, elevation, motion.
-   Only the nine brand primitives and the three font families carry TDM values.
-   Everything else is PerfectlyRad's, value for value.
-
-   Dawn compatibility
-   - Dawn's root font-size is 62.5% (1rem = 10px). PerfectlyRad's rem values are
-     written as calc(N * var(--pr-rem)) so N is PerfectlyRad's number and the
-     result is the same pixels.
-   - Dawn colour schemes (.color-scheme-*) re-point the roles (section 4).
-     Tone-dependent roles (brand text, status text) are emitted per scheme in
-     layout/theme.liquid.
-   - Old --tdm-* names stay as aliases (section 5) until the sections that read
-     them are rebuilt.
+   Dawn owns colour schemes (--color-foreground / --color-background /
+   --color-button …) and the heading scale (.h0 … .hxxl). This file adds only
+   what the custom sections share on top of Dawn:
+     1. brand tokens        (--tdm-*)
+     2. mono type utility   (.tdm-mono)
+     3. section primitives  (.tdm-eyebrow, .tdm-lead, .tdm-split, .tdm-stat, .tdm-card)
 
    Rules
+   - Colours are rgb triplets so they compose with alpha: rgba(var(--tdm-sand), .5)
    - No section-specific selectors here. Section CSS lives in section-tdm-*.css.
-   - No !important. If a Dawn rule wins, scope the section root class.
+   - No !important. If a Dawn rule wins, scope the section root class, don't shout.
    ========================================================================== */
 
 :root {
-  /* Dawn root is 62.5% (1rem = 10px). Every rem below is PerfectlyRad's value (16px root) times this. */
-  --pr-rem: 1.6rem;
-
-  /* ---------- 1. Primitives ---------- */
-  /* Neutrals: white, ink, and five grays between them. That is all. */
-  --pr-white: #ffffff;
-  --pr-gray-lightest: #f8f8f7;
-  --pr-gray-lighter: #f2f2f0;
-  --pr-gray-light: #e6e6e2;
-  --pr-gray-dark: #5a5a54;
-  --pr-gray-darker: #2a2a27;
-  --pr-ink: #161614;
-
-  /* Transparencies: white and ink at 5, 10, 25 and 50%. For overlays, glass, borders on photos. */
-  --pr-white-5: color-mix(in oklab, var(--pr-white) 5%, transparent);
-  --pr-white-10: color-mix(in oklab, var(--pr-white) 10%, transparent);
-  --pr-white-25: color-mix(in oklab, var(--pr-white) 25%, transparent);
-  --pr-white-50: color-mix(in oklab, var(--pr-white) 50%, transparent);
-  --pr-ink-5: color-mix(in oklab, var(--pr-ink) 5%, transparent);
-  --pr-ink-10: color-mix(in oklab, var(--pr-ink) 10%, transparent);
-  --pr-ink-25: color-mix(in oklab, var(--pr-ink) 25%, transparent);
-  --pr-ink-50: color-mix(in oklab, var(--pr-ink) 50%, transparent);
-
-  /*
-   * Brand primitives. Black is not the brand: ink is always there for text;
-   * primary and secondary are the two brand colours. TDM: green, lime, cream.
-   */
-  --pr-brand-primary: #294e3f;
-  --pr-brand-primary-hover: #1f4d37;
-  --pr-brand-on-primary: #f3efcf;
-  --pr-brand-secondary: #d8e35b;
-  --pr-brand-secondary-hover: #c9d54a;
-  --pr-brand-on-secondary: #1a4330;
-  --pr-brand-tertiary: #f3efcf;
-  --pr-brand-tertiary-hover: #e8e2bc;
-  --pr-brand-on-tertiary: #1a4330;
-
-  --pr-success-100: #dcebd9;
-  --pr-success-500: #4f7a45;
-  --pr-success-700: #35552e;
-  --pr-warning-100: #f3e6c4;
-  --pr-warning-500: #b58a2a;
-  --pr-warning-700: #7a5c17;
-  --pr-error-100: #f1dcdc;
-  --pr-error-500: #a84a4a;
-  --pr-error-700: #6f2f2f;
-  --pr-info-100: #dde8f3;
-  --pr-info-500: #3d6e9e;
-  --pr-info-700: #24486b;
-
-  /* ---------- 3. Scales ---------- */
-  /* Families. Editable in Sanity (Theme → Tipografía) from a list of fonts already loaded. */
-  --pr-font-display: var(--font-display-family);
-  /* Display face (Barlow Condensed): a touch smaller, tighter and lighter than the scale */
-  --pr-display-scale: 0.9;
-  --pr-display-leading: 1.1;
-  --pr-display-leading-large: 1;
-  --pr-display-weight: var(--pr-weight-regular);
-  --pr-font-body: var(--font-body-family);
-  --pr-font-mono: var(--font-mono-family);
-
-  --pr-text-display: clamp(calc(2.75 * var(--pr-rem)), calc(2 * var(--pr-rem)) + 4vw, calc(4.5 * var(--pr-rem)));
-  --pr-text-h1: clamp(calc(2.5 * var(--pr-rem)), calc(1.75 * var(--pr-rem)) + 3.25vw, calc(3.75 * var(--pr-rem)));
-  --pr-text-h2: clamp(calc(2 * var(--pr-rem)), calc(1.5 * var(--pr-rem)) + 2.5vw, calc(3 * var(--pr-rem)));
-  --pr-text-h3: clamp(calc(1.75 * var(--pr-rem)), calc(1.375 * var(--pr-rem)) + 1.75vw, calc(2.5 * var(--pr-rem)));
-  --pr-text-h4: calc(2 * var(--pr-rem));
-  --pr-text-h5: calc(1.5 * var(--pr-rem));
-  --pr-text-h6: calc(1.375 * var(--pr-rem));
-  --pr-text-body-lg: calc(1.125 * var(--pr-rem));
-  --pr-text-body: calc(1 * var(--pr-rem));
-  --pr-text-body-sm: calc(0.875 * var(--pr-rem));
-  --pr-text-label: calc(0.8125 * var(--pr-rem));
-  --pr-text-xs: calc(0.75 * var(--pr-rem));
-  --pr-text-2xs: calc(0.6875 * var(--pr-rem)); /* 11 */
-  --pr-text-3xs: calc(0.625 * var(--pr-rem)); /* 10 */
-
-  --pr-leading-tight: 1.1;
-  --pr-leading-snug: 1.2;
-  --pr-leading-normal: 1.4;
-  --pr-leading-relaxed: 1.6;
-  --pr-tracking-tight: -0.02em;
-  --pr-tracking-normal: 0em;
-  --pr-tracking-wide: 0.04em;
-
-  --pr-weight-light: 300;
-  --pr-weight-regular: 400;
-  --pr-weight-medium: 500;
-  --pr-weight-semibold: 600;
-  --pr-weight-bold: 700;
-
-  --pr-space-1: calc(0.25 * var(--pr-rem));
-  --pr-space-2: calc(0.5 * var(--pr-rem));
-  --pr-space-3: calc(0.75 * var(--pr-rem));
-  --pr-space-4: calc(1 * var(--pr-rem));
-  --pr-space-6: calc(1.5 * var(--pr-rem));
-  --pr-space-8: calc(2 * var(--pr-rem));
-  --pr-space-12: calc(3 * var(--pr-rem));
-  --pr-space-16: calc(4 * var(--pr-rem));
-  --pr-space-24: calc(6 * var(--pr-rem));
-
-  --pr-radius-none: 0px;
-  --pr-radius-sm: calc(0.25 * var(--pr-rem));
-  --pr-radius-md: calc(0.5 * var(--pr-rem));
-  --pr-radius-lg: calc(0.75 * var(--pr-rem));
-  --pr-radius-full: 9999px;
-  /* Radius of every control: Button, IconButton, Chip, Input, Select, Sidebar items. Global setting, editable in Sanity. */
-  --pr-radius-control: var(--pr-radius-none);
-  /* Radius of every box: Card, Dialog, images, previews. Global setting, editable in Sanity. */
-  --pr-radius-surface: var(--pr-radius-none);
-  --pr-radius-container: calc(var(--pr-radius-surface) + var(--pr-radius-md)); /* big boxes on the page: image + text, vacantes */
-
-  --pr-control-xs: calc(1.75 * var(--pr-rem)); /* 28 */
-  --pr-control-sm: calc(2.25 * var(--pr-rem)); /* 36 */
-  --pr-control-md: calc(2.75 * var(--pr-rem)); /* 44 */
-  --pr-control-lg: calc(3.25 * var(--pr-rem)); /* 52 */
-  --pr-control-xl: calc(3.75 * var(--pr-rem)); /* 60 */
-
-  /* Media sizes */
-  --pr-icon-xs: calc(0.75 * var(--pr-rem)); /* 12 */
-  --pr-icon-sm: calc(1 * var(--pr-rem)); /* 16 */
-  --pr-icon-md: calc(1.25 * var(--pr-rem)); /* 20 */
-  --pr-icon-lg: calc(1.5 * var(--pr-rem)); /* 24 */
-  --pr-icon-xl: calc(2 * var(--pr-rem)); /* 32 */
-  --pr-avatar-sm: calc(2 * var(--pr-rem)); /* 32 */
-  --pr-avatar-md: calc(2.75 * var(--pr-rem)); /* 44 */
-  --pr-avatar-lg: calc(4 * var(--pr-rem)); /* 64 */
-  --pr-logo-sm: calc(1.25 * var(--pr-rem)); /* 20 */
-  --pr-logo-md: calc(1.75 * var(--pr-rem)); /* 28 */
-
-  /* Widths: text measures in ch, blocks in rem */
-  --pr-measure-narrow: 44ch;
-  --pr-measure: 60ch;
-  --pr-width-sm: calc(28 * var(--pr-rem));
-  --pr-width-md: calc(40 * var(--pr-rem));
-  --pr-width-lg: calc(44 * var(--pr-rem));
-  --pr-width-xl: calc(64 * var(--pr-rem));
-
-  --pr-container: calc(75 * var(--pr-rem));
-  /* TDM layout (Dan, 11-oct): the page runs edge to edge. One gutter for every container. */
-  --pr-page-max: 100%;
-  --pr-page-gutter: var(--pr-space-4);
-  --pr-gutter: var(--pr-space-4);
-  /* Space between grid columns. One global setting (editable in Sanity); Grid's sm and lg are half and double. */
-  --pr-grid-gap: var(--pr-space-6);
-  /* Vertical space of a section on desktop. Phones use 3/4; space="lg" uses 1.5×. Global setting. */
-  --pr-section-y: var(--pr-space-16);
-  --pr-nav-height: calc(4 * var(--pr-rem));
-  --pr-nav-height-compact: calc(3.5 * var(--pr-rem));
-  /* Floating navbar sits inside the page: inset beyond the page gutter (desktop), same as the gutter on phones */
-  --pr-nav-inset: var(--pr-gutter);
-  /* Hero scrim: ink fading to nothing from the text corner, so copy on a photo stays legible */
-  --pr-scrim-strong: color-mix(in oklab, var(--pr-ink) 85%, transparent);
-
-  --pr-elevation-subtle: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --pr-elevation-sm: 0 1px 3px rgb(0 0 0 / 0.07);
-  --pr-elevation-base: 0 4px 20px rgb(0 0 0 / 0.07);
-  --pr-elevation-lg: 0 8px 32px rgb(0 0 0 / 0.1);
-  --pr-elevation-xl: 0 16px 48px rgb(0 0 0 / 0.14);
-
-  /* Backdrop blur for translucent surfaces: floating navbar, overlays, image captions. */
-  --pr-blur-sm: 8px;
-  --pr-blur-md: 16px;
-  --pr-blur-lg: 24px;
-  --pr-blur-xl: 40px;
-
-  --pr-motion-fast: 150ms;
-  --pr-motion-base: 220ms;
-  --pr-motion-ease: cubic-bezier(0.2, 0, 0, 1);
-
-  --pr-z-nav: 200;
-  --pr-z-overlay: 300;
-  --pr-z-modal: 400;
-}
-
-
-/* ---------- 2. Roles · scheme "light" (default) ---------- */
-:root,
-[data-scheme="light"] {
-  --pr-surface: var(--pr-white);
-  --pr-surface-subtle: var(--pr-gray-lightest);
-  --pr-surface-elevated: var(--pr-gray-lighter);
-  --pr-surface-inverse: var(--pr-ink);
-  --pr-surface-inverse-hover: var(--pr-gray-darker);
-  --pr-surface-overlay: var(--pr-ink-50);
-
-  --pr-text-primary: var(--pr-ink);
-  --pr-text-secondary: var(--pr-gray-dark);
-  --pr-text-disabled: color-mix(in oklab, var(--pr-gray-dark) 55%, var(--pr-white));
-  --pr-text-inverse: var(--pr-white);
-  --pr-text-on-action: var(--pr-brand-on-primary);
-  /* Opt-in brand colour for text. Never a default. */
-  --pr-text-brand: var(--pr-brand-primary);
-
-  --pr-action: var(--pr-brand-primary);
-  --pr-action-hover: var(--pr-brand-primary-hover);
-  --pr-action-light: var(--pr-gray-lightest);
-  --pr-action-disabled: var(--pr-gray-light);
-
-  --pr-border: var(--pr-gray-lighter);
-  --pr-border-strong: var(--pr-gray-light);
-  --pr-border-focus: var(--pr-brand-primary);
-
-  --pr-input-bg: var(--pr-white);
-  --pr-input-border: var(--pr-border-strong);
-  /* Fill of borderless (filled) fields: a tint of whatever is behind, so it reads on any background. */
-  --pr-input-fill: var(--pr-ink-5);
-  --pr-input-fill-hover: var(--pr-ink-10);
-
-  --pr-feedback-success-bg: var(--pr-success-100);
-  --pr-feedback-success-text: var(--pr-success-700);
-  --pr-feedback-success: var(--pr-success-500);
-  --pr-feedback-warning-bg: var(--pr-warning-100);
-  --pr-feedback-warning-text: var(--pr-warning-700);
-  --pr-feedback-warning: var(--pr-warning-500);
-  --pr-feedback-error-bg: var(--pr-error-100);
-  --pr-feedback-error-text: var(--pr-error-700);
-  --pr-feedback-error: var(--pr-error-500);
-  --pr-feedback-info-bg: var(--pr-info-100);
-  --pr-feedback-info-text: var(--pr-info-700);
-  --pr-feedback-info: var(--pr-info-500);
-}
-
-
-
-/* ---------- PerfectlyRad schemes via data-scheme (catalog, new sections) ---------- */
-[data-scheme="dark"] {
-  --pr-surface: var(--pr-ink);
-  --pr-surface-subtle: var(--pr-gray-darker);
-  --pr-surface-elevated: color-mix(in oklab, var(--pr-gray-dark) 40%, var(--pr-ink));
-  --pr-surface-inverse: var(--pr-white);
-  --pr-surface-inverse-hover: var(--pr-gray-light);
-  --pr-text-primary: var(--pr-white);
-  --pr-text-secondary: var(--pr-gray-light);
-  --pr-text-disabled: var(--pr-gray-dark);
-  --pr-text-inverse: var(--pr-ink);
-  --pr-text-on-action: var(--pr-ink);
-  --pr-text-brand: var(--pr-brand-secondary);
-  --pr-action: var(--pr-white);
-  --pr-action-hover: var(--pr-gray-light);
-  --pr-action-light: var(--pr-gray-darker);
-  --pr-action-disabled: var(--pr-gray-dark);
-  --pr-border: var(--pr-gray-darker);
-  --pr-border-strong: var(--pr-gray-dark);
-  --pr-border-focus: var(--pr-white);
-  --pr-input-bg: var(--pr-gray-darker);
-  --pr-input-border: var(--pr-gray-dark);
-  --pr-input-fill: var(--pr-white-10);
-  --pr-input-fill-hover: var(--pr-white-25);
-}
-
-[data-scheme="primary"] {
-  --pr-surface: var(--pr-brand-primary);
-  --pr-surface-subtle: var(--pr-brand-primary-hover);
-  --pr-surface-elevated: var(--pr-brand-primary-hover);
-  --pr-surface-inverse: var(--pr-brand-on-primary);
-  --pr-surface-inverse-hover: color-mix(in oklab, var(--pr-brand-on-primary) 85%, var(--pr-brand-primary));
-  --pr-text-primary: var(--pr-brand-on-primary);
-  --pr-text-secondary: color-mix(in oklab, var(--pr-brand-on-primary) 75%, transparent);
-  --pr-text-disabled: color-mix(in oklab, var(--pr-brand-on-primary) 40%, transparent);
-  --pr-text-inverse: var(--pr-brand-primary);
-  --pr-text-on-action: var(--pr-brand-primary);
-  --pr-text-brand: var(--pr-brand-on-primary);
-  --pr-action: var(--pr-brand-on-primary);
-  --pr-action-hover: color-mix(in oklab, var(--pr-brand-on-primary) 85%, var(--pr-brand-primary));
-  --pr-action-light: color-mix(in oklab, var(--pr-brand-on-primary) 12%, transparent);
-  --pr-action-disabled: color-mix(in oklab, var(--pr-brand-on-primary) 35%, transparent);
-  --pr-border: color-mix(in oklab, var(--pr-brand-on-primary) 20%, transparent);
-  --pr-border-strong: color-mix(in oklab, var(--pr-brand-on-primary) 40%, transparent);
-  --pr-border-focus: var(--pr-brand-on-primary);
-  --pr-input-bg: color-mix(in oklab, var(--pr-brand-on-primary) 8%, transparent);
-  --pr-input-border: color-mix(in oklab, var(--pr-brand-on-primary) 40%, transparent);
-  --pr-input-fill: color-mix(in oklab, var(--pr-brand-on-primary) 10%, transparent);
-  --pr-input-fill-hover: color-mix(in oklab, var(--pr-brand-on-primary) 20%, transparent);
-}
-
-[data-scheme="secondary"] {
-  --pr-surface: var(--pr-brand-secondary);
-  --pr-surface-subtle: var(--pr-brand-secondary-hover);
-  --pr-surface-elevated: var(--pr-brand-secondary-hover);
-  --pr-text-primary: var(--pr-brand-on-secondary);
-  --pr-text-secondary: color-mix(in oklab, var(--pr-brand-on-secondary) 70%, transparent);
-  --pr-text-disabled: color-mix(in oklab, var(--pr-brand-on-secondary) 40%, transparent);
-  --pr-border: color-mix(in oklab, var(--pr-brand-on-secondary) 12%, transparent);
-  --pr-border-strong: color-mix(in oklab, var(--pr-brand-on-secondary) 25%, transparent);
-  --pr-input-bg: var(--pr-white);
-}
-
-/* Over a photo or video: transparent surface, white text, glass fills. Pair with Section's `background`. */
-[data-scheme="image"] {
-  --pr-surface: transparent;
-  --pr-surface-subtle: var(--pr-white-10);
-  --pr-surface-elevated: var(--pr-white-25);
-  --pr-surface-inverse: var(--pr-white);
-  --pr-surface-inverse-hover: var(--pr-gray-light);
-  --pr-text-primary: var(--pr-white);
-  --pr-text-secondary: color-mix(in oklab, var(--pr-white) 75%, transparent);
-  --pr-text-disabled: var(--pr-white-50);
-  --pr-text-inverse: var(--pr-ink);
-  --pr-text-on-action: var(--pr-ink);
-  --pr-text-brand: var(--pr-white);
-  --pr-action: var(--pr-white);
-  --pr-action-hover: var(--pr-gray-light);
-  --pr-action-light: var(--pr-white-10);
-  --pr-action-disabled: var(--pr-white-25);
-  --pr-border: var(--pr-white-25);
-  --pr-border-strong: var(--pr-white-50);
-  --pr-border-focus: var(--pr-white);
-  --pr-input-bg: var(--pr-white-10);
-  --pr-input-border: var(--pr-white-50);
-  --pr-input-fill: var(--pr-white-10);
-  --pr-input-fill-hover: var(--pr-white-25);
-}
-
-[data-scheme="tertiary"] {
-  --pr-surface: var(--pr-brand-tertiary);
-  --pr-surface-subtle: var(--pr-brand-tertiary-hover);
-  --pr-surface-elevated: var(--pr-brand-tertiary-hover);
-  --pr-text-primary: var(--pr-brand-on-tertiary);
-  --pr-text-secondary: color-mix(in oklab, var(--pr-brand-on-tertiary) 70%, transparent);
-  --pr-text-disabled: color-mix(in oklab, var(--pr-brand-on-tertiary) 40%, transparent);
-  --pr-border: color-mix(in oklab, var(--pr-brand-on-tertiary) 10%, transparent);
-  --pr-border-strong: color-mix(in oklab, var(--pr-brand-on-tertiary) 22%, transparent);
-  --pr-input-bg: var(--pr-white);
-}
-
-/* Status colour as plain text on the surface (a discount, a field error). The dark tone on light schemes, the pale tint on dark ones and over photos, so it keeps its contrast. */
-:root,
-[data-scheme="light"],
-[data-scheme="secondary"],
-[data-scheme="tertiary"] {
-  --pr-text-success: var(--pr-success-700);
-  --pr-text-warning: var(--pr-warning-700);
-  --pr-text-error: var(--pr-error-700);
-  --pr-text-info: var(--pr-info-700);
-}
-
-[data-scheme="dark"],
-[data-scheme="primary"],
-[data-scheme="image"] {
-  --pr-text-success: var(--pr-success-100);
-  --pr-text-warning: var(--pr-warning-100);
-  --pr-text-error: var(--pr-error-100);
-  --pr-text-info: var(--pr-info-100);
-}
-
-/* ---------- 4. Roles · Dawn colour schemes ----------
-   Dawn emits :root and .color-scheme-<id> with --color-background / -foreground / -button /
-   -button-text triplets. These roles are derived from them, so every scheme in
-   Theme settings → Colors (and any the admin adds) is a PerfectlyRad scheme.
-   --pr-scheme-brand / -success / -warning / -error / -info are tone-dependent (dark or light
-   background) and are emitted per scheme by layout/theme.liquid. This block sits after the
-   data-scheme blocks so a Dawn scheme class wins on the element that carries it. */
-:root,
-[class*="color-scheme-"] {
-  --pr-surface: rgb(var(--color-background));
-  --pr-surface-subtle: color-mix(in oklab, rgb(var(--color-background)) 94%, rgb(var(--color-foreground)));
-  --pr-surface-elevated: color-mix(in oklab, rgb(var(--color-background)) 88%, rgb(var(--color-foreground)));
-  --pr-surface-inverse: rgb(var(--color-foreground));
-  --pr-surface-inverse-hover: color-mix(in oklab, rgb(var(--color-foreground)) 85%, rgb(var(--color-background)));
-  --pr-surface-overlay: var(--pr-ink-50);
-
-  --pr-text-primary: rgb(var(--color-foreground));
-  --pr-text-secondary: color-mix(in oklab, rgb(var(--color-foreground)) 72%, transparent);
-  --pr-text-disabled: color-mix(in oklab, rgb(var(--color-foreground)) 40%, transparent);
-  --pr-text-inverse: rgb(var(--color-background));
-  --pr-text-on-action: rgb(var(--color-button-text));
-  --pr-text-brand: var(--pr-scheme-brand, var(--pr-brand-primary));
-
-  --pr-action: rgb(var(--color-button));
-  --pr-action-hover: color-mix(in oklab, rgb(var(--color-button)) 85%, rgb(var(--color-foreground)));
-  --pr-action-light: color-mix(in oklab, rgb(var(--color-foreground)) 6%, transparent);
-  --pr-action-disabled: color-mix(in oklab, rgb(var(--color-foreground)) 15%, transparent);
-
-  --pr-border: color-mix(in oklab, rgb(var(--color-foreground)) 12%, transparent);
-  --pr-border-strong: color-mix(in oklab, rgb(var(--color-foreground)) 25%, transparent);
-  --pr-border-focus: rgb(var(--color-foreground));
-
-  --pr-text-success: var(--pr-scheme-success, var(--pr-success-700));
-  --pr-text-warning: var(--pr-scheme-warning, var(--pr-warning-700));
-  --pr-text-error: var(--pr-scheme-error, var(--pr-error-700));
-  --pr-text-info: var(--pr-scheme-info, var(--pr-info-700));
-
-  --pr-input-bg: rgb(var(--color-background));
-  --pr-input-border: color-mix(in oklab, rgb(var(--color-foreground)) 40%, transparent);
-  --pr-input-fill: color-mix(in oklab, rgb(var(--color-foreground)) 5%, transparent);
-  --pr-input-fill-hover: color-mix(in oklab, rgb(var(--color-foreground)) 10%, transparent);
-}
-
-/* ---------- 5. Legacy --tdm-* aliases ----------
-   Temporary. Each section that still reads one is rebuilt onto --pr-* and the alias deleted.
-   Colours stay as rgb triplets (CSS cannot turn a hex into a triplet); they equal the brand primitives. */
-:root {
-  --tdm-green: 41 78 63; /* --pr-brand-primary */
-  --tdm-green-deep: 31 77 55; /* --pr-brand-primary-hover */
-  --tdm-cream: 243 239 207; /* --pr-brand-tertiary */
+  /* Brand surfaces & accents (triplets) */
+  --tdm-green: 41 78 63; /* #294E3F  eyebrow rules, row text */
+  --tdm-green-deep: 31 77 55; /* #1F4D37  active tab text */
   --tdm-lime-soft: 228 231 195; /* #E4E7C3  active tab fill */
   --tdm-sand: 235 234 226; /* #EBEAE2  card surfaces */
   --tdm-paper: 247 243 238; /* #F7F3EE  gallery cards, tab pills */
+  --tdm-cream: 243 239 207; /* #F3EFCF  ticker default ink */
   --tdm-dot: 47 182 115; /* #2FB673  tab status dot */
 
+  /* Shape */
   --tdm-radius-xs: 2px;
-  --tdm-radius-sm: var(--pr-radius-md);
-  --tdm-radius-md: var(--pr-radius-lg);
+  --tdm-radius-sm: 8px;
+  --tdm-radius-md: 12px;
   --tdm-radius-lg: 16px;
-  --tdm-radius-pill: var(--pr-radius-full);
+  --tdm-radius-pill: 999px;
 
-  --tdm-shadow-card: var(--pr-elevation-sm);
-  --tdm-shadow-float: var(--pr-elevation-lg);
+  /* Elevation */
+  --tdm-shadow-card: 0 2px 10px rgba(0, 0, 0, 0.06);
+  --tdm-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.15);
 
-  --tdm-space-1: var(--pr-space-1);
-  --tdm-space-2: var(--pr-space-2);
-  --tdm-space-3: var(--pr-space-3);
-  --tdm-space-4: var(--pr-space-4);
-  --tdm-space-6: var(--pr-space-6);
-  --tdm-space-8: var(--pr-space-8);
-  --tdm-space-12: var(--pr-space-12);
+  /* Spacing scale (4-base) */
+  --tdm-space-1: 4px;
+  --tdm-space-2: 8px;
+  --tdm-space-3: 12px;
+  --tdm-space-4: 16px;
+  --tdm-space-6: 24px;
+  --tdm-space-8: 32px;
+  --tdm-space-12: 48px;
 
-  /* Reading text in Dawn rem (10px root) */
+  /* Reading text — the floor for any text meant to be read (Dawn body size) */
   --tdm-text-body: 1.5rem;
   --tdm-text-body-desktop: 1.6rem;
   --tdm-text-body-leading: 1.46;
+
+  /* Lead text — one step up from body, for short intro/step copy */
   --tdm-text-lead: 1.7rem;
   --tdm-text-lead-desktop: 1.8rem;
+
+  /* Quote text — testimonials */
   --tdm-text-quote: 1.8rem;
   --tdm-text-quote-desktop: 2.2rem;
 
-  --tdm-ease: var(--pr-motion-ease);
-  --tdm-duration: var(--pr-motion-base);
+  /* Motion */
+  --tdm-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --tdm-duration: 0.2s;
 }
 
-/* Scheme-aware aliases: resolve against each scheme's roles */
+/* Derived, scheme-aware. Declared on every scheme element (not only :root) so
+   they resolve against that section's --color-foreground, e.g. white on dark. */
 :root,
-[class*="color-scheme-"] {
-  --tdm-border: var(--pr-border);
-  --tdm-border-strong: var(--pr-border-strong);
-  --tdm-ink-muted: var(--pr-text-secondary);
-  --tdm-ink-soft: color-mix(in oklab, rgb(var(--color-foreground)) 85%, transparent);
-  --tdm-hover: var(--pr-action-light);
+[class*='color-scheme'] {
+  --tdm-border: rgba(var(--color-foreground), 0.12);
+  --tdm-border-strong: rgba(var(--color-foreground), 0.25);
+  --tdm-ink-muted: rgba(var(--color-foreground), 0.72);
+  --tdm-ink-soft: rgba(var(--color-foreground), 0.85);
+  --tdm-hover: rgba(var(--color-foreground), 0.05);
 }
 
 /* -----------------------------------------------------------------------------
@@ -511,13 +119,39 @@
 }
 
 /* -----------------------------------------------------------------------------
+   Section eyebrow — shared by the section headers (snippets/tdm-section-eyebrow).
+   One size everywhere; the rule is always full width and only renders with text.
+   -------------------------------------------------------------------------- */
+.tdm-section-eyebrow {
+  margin: 0 0 var(--tdm-space-8);
+}
+
+.tdm-section-eyebrow__text {
+  margin: 0;
+  font-size: var(--tdm-eyebrow-size, 1.2rem);
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+/* Parent class raises specificity above Dawn's div:empty { display: none } */
+.tdm-section-eyebrow .tdm-section-eyebrow__rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: var(--tdm-space-3);
+  background: var(--tdm-rule, rgba(var(--color-foreground), 0.15));
+}
+
+/* -----------------------------------------------------------------------------
    Section anchor (snippets/tdm-anchor) — zero-height jump target at the top of a
-   section. scroll-margin keeps the sticky floating navbar (--pr-nav-clear) from covering the section start.
+   section. scroll-margin keeps the sticky header from covering the section start.
    -------------------------------------------------------------------------- */
 .tdm-anchor {
   display: block;
   height: 0;
-  scroll-margin-top: var(--pr-nav-clear, 0px);
+  scroll-margin-top: var(--header-height, 0px);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -707,22 +341,4 @@
   .tdm-bg__img--mobile + .tdm-bg__img {
     display: none;
   }
-}
-
-/* ---------- Page container: full width, one gutter ---------- */
-:root {
-  --pr-container: var(--pr-page-max);
-}
-
-.page-width {
-  max-width: var(--pr-page-max);
-  padding-inline: var(--pr-page-gutter);
-}
-
-/* -----------------------------------------------------------------------------
-   Font smoothing, site-wide: light text on a photo or a dark band no longer looks heavy.
-   -------------------------------------------------------------------------- */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }

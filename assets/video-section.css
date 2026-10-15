@@ -15,7 +15,7 @@
 
 .video-section__media.deferred-media {
   box-shadow: var(--media-shadow-horizontal-offset) var(--media-shadow-vertical-offset) var(--media-shadow-blur-radius)
-    color-mix(in oklab, var(--pr-ink) calc(var(--media-shadow-opacity) * 100%), transparent);
+    rgba(var(--color-shadow), var(--media-shadow-opacity));
 }
 
 .video-section__media.deferred-media:after {
@@ -27,7 +27,7 @@
 }
 
 .video-section__media iframe {
-  background-color: color-mix(in oklab, var(--pr-text-primary) 3%, transparent);
+  background-color: rgba(var(--color-foreground), 0.03);
   border: 0;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .video-section__media video {
-  background: var(--pr-ink);
+  background: #000000;
 }
 
 .video-section__media.media-fit-cover video {

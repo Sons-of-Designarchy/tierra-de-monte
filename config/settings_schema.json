@@ -1424,44 +1424,52 @@
     "name": "t:settings_schema.cart.name",
     "settings": [
       {
-        "type": "header",
-        "content": "Compra en el sitio"
+        "type": "select",
+        "id": "cart_type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "t:settings_schema.cart.settings.cart_type.drawer.label"
+          },
+          {
+            "value": "page",
+            "label": "t:settings_schema.cart.settings.cart_type.page.label"
+          },
+          {
+            "value": "notification",
+            "label": "t:settings_schema.cart.settings.cart_type.notification.label"
+          }
+        ],
+        "default": "notification",
+        "label": "t:settings_schema.cart.settings.cart_type.label"
       },
       {
         "type": "checkbox",
-        "id": "show_commerce",
-        "label": "Mostrar compra en el sitio",
-        "info": "Apagado: solo se compra en la landing de Aliados. Sin carrito, sin botones de agregar y sin precios en tarjetas ni en la página de producto. Encendido: vuelve la compra en todo el sitio.",
+        "id": "show_vendor",
+        "label": "t:settings_schema.cart.settings.show_vendor.label",
         "default": false
       },
       {
-        "type": "url",
-        "id": "aliados_url",
-        "label": "Página de Aliados",
-        "info": "Adónde lleva el mensaje de /cart mientras la compra en el sitio está apagada. Termina en #pedido."
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "t:settings_schema.cart.settings.show_cart_note.label",
+        "default": false
       },
       {
         "type": "header",
-        "content": "Compra mínima"
+        "content": "t:settings_schema.cart.settings.cart_drawer.header"
       },
       {
-        "type": "number",
-        "id": "cart_minimum",
-        "label": "Compra mínima (MXN)",
-        "info": "0 la apaga. Con un monto, el carrito muestra una barra de avance y, si está activado abajo, detiene el pago hasta llegar.",
-        "default": 0
+        "type": "collection",
+        "id": "cart_drawer_collection",
+        "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
+        "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
       },
       {
-        "type": "text",
-        "id": "cart_minimum_label",
-        "label": "Nombre de la meta",
-        "default": "el mínimo de compra"
-      },
-      {
-        "type": "checkbox",
-        "id": "cart_minimum_hold",
-        "label": "Detener el pago por debajo del mínimo",
-        "default": true
+        "type": "color_scheme",
+        "id": "cart_color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
       }
     ]
   },
@@ -1503,21 +1511,6 @@
         "label": "Tipografía de títulos",
         "info": "Párrafos y eyebrows no cambian.",
         "default": "barlow_condensed_n5"
-      }
-    ]
-  },
-  {
-    "name": "Analítica",
-    "settings": [
-      {
-        "type": "paragraph",
-        "content": "Eventos de lanzamiento (ver docs/tracking.md). Vacío = el tema no carga Google Analytics ni cambia nada."
-      },
-      {
-        "type": "text",
-        "id": "ga4_measurement_id",
-        "label": "ID de medición de GA4",
-        "info": "Formato G-XXXXXXXXXX. Déjalo vacío si la app Google & YouTube de Shopify ya instala GA4 (los eventos se mandan igual a ese gtag)."
       }
     ]
   }

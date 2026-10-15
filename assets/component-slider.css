@@ -219,7 +219,7 @@ slider-component.slider-component-full-width {
 /* Scrollbar */
 
 .slider {
-  scrollbar-color: var(--pr-text-primary) color-mix(in oklab, var(--pr-text-primary) 4%, transparent);
+  scrollbar-color: rgb(var(--color-foreground)) rgba(var(--color-foreground), 0.04);
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -231,13 +231,13 @@ slider-component.slider-component-full-width {
 }
 
 .slider::-webkit-scrollbar-thumb {
-  background-color: var(--pr-text-primary);
+  background-color: rgb(var(--color-foreground));
   border-radius: 0.4rem;
   border: 0;
 }
 
 .slider::-webkit-scrollbar-track {
-  background: color-mix(in oklab, var(--pr-text-primary) 4%, transparent);
+  background: rgba(var(--color-foreground), 0.04);
   border-radius: 0.4rem;
 }
 
@@ -267,13 +267,13 @@ slider-component.slider-component-full-width {
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
-  border: 0.1rem solid color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
+  border: 0.1rem solid rgba(var(--color-foreground), 0.5);
   padding: 0;
   display: block;
 }
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
-  background-color: var(--pr-text-primary);
+  background-color: rgb(var(--color-foreground));
 }
 
 @media screen and (forced-colors: active) {
@@ -283,7 +283,7 @@ slider-component.slider-component-full-width {
 }
 
 .slider-counter__link--dots:not(.slider-counter__link--active):hover .dot {
-  border-color: var(--pr-text-primary);
+  border-color: rgb(var(--color-foreground));
 }
 
 .slider-counter__link--dots .dot,
@@ -298,17 +298,17 @@ slider-component.slider-component-full-width {
 }
 
 .slider-counter__link--numbers {
-  color: color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
+  color: rgba(var(--color-foreground), 0.5);
   text-decoration: none;
 }
 
 .slider-counter__link--numbers:hover {
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
 }
 
 .slider-counter__link--active.slider-counter__link--numbers {
   text-decoration: underline;
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
 }
 
 .slider-buttons {
@@ -336,7 +336,7 @@ slider-component.slider-component-full-width {
 }
 
 .slider-button {
-  color: color-mix(in oklab, var(--pr-text-primary) 75%, transparent);
+  color: rgba(var(--color-foreground), 0.75);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -348,7 +348,7 @@ slider-component.slider-component-full-width {
 }
 
 .slider-button:not([disabled]):hover {
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
 }
 
 .slider-button .icon {
@@ -356,7 +356,7 @@ slider-component.slider-component-full-width {
 }
 
 .slider-button[disabled] .icon {
-  color: color-mix(in oklab, var(--pr-text-primary) 30%, transparent);
+  color: rgba(var(--color-foreground), 0.3);
   cursor: not-allowed;
 }
 

@@ -38,73 +38,27 @@
     },
     "header": {
       "type": "header",
-      "blocks": {
-        "anchor_beneficios": {
-          "type": "anchor",
-          "settings": {
-            "label": "Beneficios",
-            "anchor": "beneficios"
-          }
-        },
-        "anchor_productos": {
-          "type": "anchor",
-          "settings": {
-            "label": "Productos",
-            "anchor": "productos"
-          }
-        },
-        "anchor_niveles": {
-          "type": "anchor",
-          "settings": {
-            "label": "Niveles",
-            "anchor": "niveles"
-          }
-        },
-        "anchor_resultados": {
-          "type": "anchor",
-          "settings": {
-            "label": "Resultados",
-            "anchor": "resultados"
-          }
-        },
-        "anchor_proceso": {
-          "type": "anchor",
-          "settings": {
-            "label": "Proceso",
-            "anchor": "proceso"
-          }
-        },
-        "anchor_preguntas": {
-          "type": "anchor",
-          "settings": {
-            "label": "Preguntas",
-            "anchor": "preguntas"
-          }
-        }
-      },
-      "block_order": [
-        "anchor_beneficios",
-        "anchor_productos",
-        "anchor_niveles",
-        "anchor_resultados",
-        "anchor_proceso",
-        "anchor_preguntas"
+      "custom_css": [
+        ".header__search {display: none !important;}",
+        ".header__icon--account {display: none !important;}"
       ],
       "settings": {
         "logo_override": "shopify://shop_images/logo-h-full.svg",
         "logo_link": "shopify://pages/aliados",
-        "nav_style": "floating",
-        "sticky": true,
+        "logo_position": "middle-left",
+        "mobile_logo_position": "center",
         "menu": "menu-aliados",
         "menu_type_desktop": "mega",
-        "cta_last_link": true,
-        "cta_url": "#pedido",
-        "show_search": false,
-        "show_account": false,
-        "show_cart": true,
-        "color_scheme": "scheme-tdm-blanco",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-tdm-aliados-claro",
+        "menu_color_scheme": "",
         "enable_country_selector": true,
-        "enable_language_selector": true
+        "enable_language_selector": true,
+        "enable_customer_avatar": false,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     }
   },

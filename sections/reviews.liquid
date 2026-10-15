@@ -7,25 +7,18 @@
   if section.settings.show_dividers
     assign root_classes = root_classes | append: ' tdm-reviews--dividers'
   endif
-
-  assign title_variant = 'h2'
-  case section.settings.heading_size
-    when 'h1'
-      assign title_variant = 'h1'
-    when 'h0' or 'hxl' or 'hxxl'
-      assign title_variant = 'display'
-  endcase
-  assign divider = section.settings.divider_color | default: '#000000'
 -%}
 
 <section
   class="{{ root_classes }}"
-  style="--reviews-radius: {{ section.settings.radius }}px; --reviews-gap: {{ section.settings.gap }}px; --avatar-size: {{ section.settings.avatar_size }}px; --reviews-divider: {{ divider }};"
+  style="--tdm-radius: {{ section.settings.radius }}px; --reviews-gap: {{ section.settings.gap }}px; --avatar-size: {{ section.settings.avatar_size }}px; --tdm-divider-color: {{ section.settings.divider_color | default: '#000000' }};"
 >
   <div class="section-{{ section.id }}-padding isolate">
     <div class="reviews__card color-{{ section.settings.color_scheme }} gradient">
       {% if section.settings.title != blank %}
-        {% render 'typography', text: section.settings.title, variant: title_variant, as: 'h2', font: 'display', weight: 'medium', align: 'center', class: 'reviews__title' %}
+        <h2 class="reviews__title title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
       {% endif %}
 
       <tdm-reviews class="reviews__viewport">
@@ -39,33 +32,40 @@
               aria-label="Testimonio {{ forloop.index }}"
             >
               <div class="review__inner">
-                {%- if block.settings.image != blank -%}
-                  {%- assign avatar_src = block.settings.image | image_url: width: 320 -%}
-                  {% render 'avatar', name: block.settings.name, src: avatar_src, size: 'lg', class: 'review__avatar' %}
-                {%- endif -%}
-                {%- if block.settings.rating > 0 -%}
-                  {% render 'rating', value: block.settings.rating, size: 'md' %}
-                {%- endif -%}
-                {%- if block.settings.quote != blank -%}
-                  {%- capture quote_text -%}“{{ block.settings.quote | escape }}”{%- endcapture -%}
-                  {% render 'typography', text: quote_text, as: 'blockquote', variant: 'h5', font: 'display', align: 'balance', class: 'review__quote' %}
-                {%- endif -%}
-                {%- if block.settings.name != blank -%}
-                  {%- assign review_name = block.settings.name | escape -%}
-                  {% render 'typography', text: review_name, variant: 'body-sm', weight: 'semibold', class: 'review__author' %}
-                {%- endif -%}
-                {%- if block.settings.company != blank -%}
-                  {%- assign review_company = block.settings.company | escape -%}
-                  {% render 'typography', text: review_company, variant: 'xs', color: 'secondary', class: 'review__company' %}
-                {%- endif -%}
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: 320
+                    | image_tag: widths: '160, 200, 240, 320', class: 'review__avatar', alt: block.settings.name
+                    | escape
+                  }}
+                {% endif %}
+                {% if block.settings.quote != blank %}
+                  <div class="review__quote">“{{ block.settings.quote | escape }}”</div>
+                {% endif %}
+                {% if block.settings.name != blank %}
+                  <div class="review__author">{{ block.settings.name | escape }}</div>
+                {% endif %}
+                {% if block.settings.company != blank %}
+                  <div class="review__company">{{ block.settings.company | escape }}</div>
+                {% endif %}
               </div>
             </li>
           {%- endfor -%}
         </ul>
 
-        <div class="reviews__nav">
-          {% render 'icon-button', icon: 'arrow-left', label: 'Anterior', variant: 'ghost', class: 'reviews__btn reviews__btn--prev' %}
-          {% render 'icon-button', icon: 'arrow-right', label: 'Siguiente', variant: 'ghost', class: 'reviews__btn reviews__btn--next' %}
+        <!-- Desktop nav buttons -->
+        <div class="reviews__nav" aria-hidden="true">
+          <button class="reviews__btn reviews__btn--prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M12.7 15.3a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 1 1 1.4 1.4L8.42 9H17a1 1 0 1 1 0 2H8.41l4.3 4.3a1 1 0 0 1 0 1.4z"/>
+            </svg>
+          </button>
+          <button class="reviews__btn reviews__btn--next" type="button" aria-label="Siguiente">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M7.3 4.7a1 1 0 0 1 1.4 0l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 1 1-1.4-1.4L11.58 11H3a1 1 0 1 1 0-2h8.59L7.3 6.1a1 1 0 0 1 0-1.4z"/>
+            </svg>
+          </button>
         </div>
       </tdm-reviews>
     </div>
@@ -156,8 +156,7 @@
           "default": "Tierra de monte logró que nuestra producción se salvara de la peor plaga que podíamos imaginar en esta temporada."
         },
         { "type": "text", "id": "name", "label": "Name", "default": "Silverio Pliego D." },
-        { "type": "text", "id": "company", "label": "Company", "default": "Huerta Cuauhtémoc" },
-        { "type": "range", "id": "rating", "label": "Stars", "info": "0 hides the stars.", "min": 0, "max": 5, "step": 1, "default": 0 }
+        { "type": "text", "id": "company", "label": "Company", "default": "Huerta Cuauhtémoc" }
       ]
     }
   ],

@@ -1,48 +1,39 @@
-/* =============================================================================
-   Contact form (sections/contact-form.liquid)
-   Fields come from the input / textarea atoms, the result from alert, the
-   submit from button. This file only lays them out.
-   ========================================================================== */
-
 .contact img {
   max-width: 100%;
 }
 
-.contact .contact__title {
-  margin-bottom: var(--pr-space-6);
+.contact .form__message {
+  align-items: flex-start;
 }
 
-.contact .contact__status {
-  margin-bottom: var(--pr-space-6);
+.contact .icon-success {
+  margin-top: 0.2rem;
 }
 
-.contact .contact__fields {
-  display: grid;
-  gap: var(--pr-space-4);
-  margin-bottom: var(--pr-space-4);
-}
-
-.contact .contact__field {
-  margin-bottom: var(--pr-space-4);
-}
-
-.contact .contact__button {
-  margin-top: var(--pr-space-8);
+.contact .field {
+  margin-bottom: 1.5rem;
 }
 
 @media screen and (min-width: 750px) {
-  .contact .contact__fields {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: var(--pr-space-8);
-  }
-
-  .contact .contact__button {
-    margin-top: var(--pr-space-12);
+  .contact .field {
+    margin-bottom: 2rem;
   }
 }
 
-@media screen and (min-width: 990px) {
-  .contact.page-width--narrow {
-    max-width: 72.6rem;
+.contact__button {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .contact__button {
+    margin-top: 4rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .contact__fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 2rem;
   }
 }

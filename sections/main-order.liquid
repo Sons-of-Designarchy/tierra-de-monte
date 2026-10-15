@@ -1,28 +1,34 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
 
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
 <div class="customer order section-{{ section.id }}-padding">
   <div>
-    {%- assign or_title = 'customer.account.title' | t -%}
-    {%- assign or_return = 'customer.account.return' | t -%}
-    {% render 'typography', text: or_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', class: 'customer__title' %}
-    {% render 'link', text: or_return, href: routes.account_url %}
+    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+    <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
   </div>
 
   <div>
     <div>
-      {%- assign or_order_title = 'customer.order.title' | t: name: order.name -%}
-      {% render 'typography', text: or_order_title, as: 'h2', variant: 'h4' %}
+      <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
       {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
-      {%- assign or_date_text = 'customer.order.date_html' | t: date: order_date -%}
-      {% render 'typography', text: or_date_text, variant: 'body', color: 'secondary' %}
+      <p>{{ 'customer.order.date_html' | t: date: order_date }}</p>
       {%- if order.cancelled -%}
         {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
-        {%- assign or_cancelled = 'customer.order.cancelled_html' | t: date: cancelled_at -%}
-        {%- assign or_cancel_reason = 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label -%}
-        {% render 'typography', text: or_cancelled, variant: 'body', color: 'secondary' %}
-        {% render 'typography', text: or_cancel_reason, variant: 'body', color: 'secondary' %}
+        <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
+        <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
       {%- endif -%}
 
       <table role="table" class="order-details">
@@ -31,11 +37,11 @@
         </caption>
         <thead role="rowgroup">
           <tr role="row">
-            <th id="ColumnProduct" scope="col" role="columnheader">{% assign or_th = 'customer.order.product' | t %}{% render 'typography', text: or_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
-            <th id="ColumnSku" scope="col" role="columnheader">{% assign or_th = 'customer.order.sku' | t %}{% render 'typography', text: or_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
-            <th id="ColumnPrice" scope="col" role="columnheader">{% assign or_th = 'customer.order.price' | t %}{% render 'typography', text: or_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
-            <th id="ColumnQuantity" scope="col" role="columnheader">{% assign or_th = 'customer.order.quantity' | t %}{% render 'typography', text: or_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
-            <th id="ColumnTotal" scope="col" role="columnheader">{% assign or_th = 'customer.order.total' | t %}{% render 'typography', text: or_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
+            <th id="ColumnProduct" scope="col" role="columnheader">{{ 'customer.order.product' | t }}</th>
+            <th id="ColumnSku" scope="col" role="columnheader">{{ 'customer.order.sku' | t }}</th>
+            <th id="ColumnPrice" scope="col" role="columnheader">{{ 'customer.order.price' | t }}</th>
+            <th id="ColumnQuantity" scope="col" role="columnheader">{{ 'customer.order.quantity' | t }}</th>
+            <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.order.total' | t }}</th>
           </tr>
         </thead>
         <tbody role="rowgroup">
@@ -52,8 +58,7 @@
                   {%- if line_item.url != blank -%}
                     <a href="{{ line_item.url }}">{{ line_item.title | escape }}</a>
                   {%- else -%}
-                    {%- assign or_line_title = line_item.title | escape -%}
-                    {% render 'typography', text: or_line_title, variant: 'body-sm', weight: 'medium' %}
+                    <p>{{ line_item.title | escape }}</p>
                   {%- endif -%}
                   {%- assign property_size = line_item.properties | size -%}
                   {%- unless line_item.selling_plan_allocation == null and property_size == 0 -%}
@@ -161,9 +166,7 @@
                         <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
                       </dt>
                       <dd class="unit-price">
-                        {%- assign mo_unit = line_item.unit_price_measurement -%}
-                        {%- capture mo_unit_text %}{{ line_item.unit_price | money }} / {% if mo_unit.reference_value != 1 %}{{ mo_unit.reference_value }} {% endif %}{{ mo_unit.reference_unit }}{% endcapture -%}
-                        {% render 'typography', text: mo_unit_text, variant: 'xs', color: 'secondary' %}
+                        {% render 'unit-price', price: line_item.unit_price, measurement: line_item.unit_price_measurement, hide_accessibility_label: true %}
                       </dd>
                     {%- endif -%}
                   </dl>
@@ -303,17 +306,19 @@
     </div>
     <div>
       <div>
-        {%- assign or_billing = 'customer.order.billing_address' | t -%}
-        {%- capture or_payment -%}{{ 'customer.order.payment_status' | t }}: {{ order.financial_status_label }}{%- endcapture -%}
-        {% render 'typography', text: or_billing, as: 'h2', variant: 'h4' %}
-        {% render 'typography', text: or_payment, variant: 'body-sm' %}
+        <h2>{{ 'customer.order.billing_address' | t }}</h2>
+        <p>
+          <strong>{{ 'customer.order.payment_status' | t }}:</strong>
+          {{ order.financial_status_label }}
+        </p>
         {{ order.billing_address | format_address }}
       </div>
       <div>
-        {%- assign or_shipping = 'customer.order.shipping_address' | t -%}
-        {%- capture or_fulfillment -%}{{ 'customer.order.fulfillment_status' | t }}: {{ order.fulfillment_status_label }}{%- endcapture -%}
-        {% render 'typography', text: or_shipping, as: 'h2', variant: 'h4' %}
-        {% render 'typography', text: or_fulfillment, variant: 'body-sm' %}
+        <h2>{{ 'customer.order.shipping_address' | t }}</h2>
+        <p>
+          <strong>{{ 'customer.order.fulfillment_status' | t }}:</strong>
+          {{ order.fulfillment_status_label }}
+        </p>
         {{ order.shipping_address | format_address }}
       </div>
     </div>

@@ -1,19 +1,14 @@
-{%- comment -%}
-  Card grid — a PerfectlyRad Section (heading block) + Grid of Cards. Nothing of its own: every card is the `card` atom.
-  Card kinds, all the same atom with params:
-    icon       card_media_style: icon       small picture above title and text (block "Imagen")
-    photo_top  card_media_style: photo_top  photo edge to edge above the body (block "Foto", or "Imagen")
-    photo_bg   card_media_style: photo_bg   photo fills the card, white glass panel (block "Foto", "Imagen" or "Imagen de fondo")
-  A block with "Imagen de fondo" is a photo card whatever the style. On a coloured section the cards are white (never green on green).
-  Styles: assets/section-tdm-card-grid.css (layout only) + the card atom in assets/pr-atoms.css and pr-atoms-extra.css.
-{%- endcomment -%}
 {% render 'tdm-anchor', id: section.settings.anchor_id %}
+{{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'section-tdm-card-grid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'tdm-card-grid.js' | asset_url }}" defer="defer"></script>
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
 {%- liquid
   assign s = section.settings
 
+  # Filas visibles: 0 = todas las cards; si no, columnas x filas
   assign cols_desktop = s.columns_desktop | default: 3
   assign rows = s.rows | default: 0
   if rows > 0
@@ -21,126 +16,539 @@
   else
     assign visible = section.blocks.size
   endif
+
+  # Columnas efectivas: si hay menos cards que columnas, el grid usa el número de cards
   if s.auto_fit_columns and visible > 0 and visible < cols_desktop
     assign cols_desktop = visible
   endif
   assign cols_tablet = s.columns_tablet | default: 2 | at_most: cols_desktop
-  assign cols_mobile = s.columns_mobile | default: 1
 
-  case s.heading_size
-    when 'h2'
-      assign cg_title_size = 'h2'
-    when 'h1'
-      assign cg_title_size = 'h1'
-    else
-      assign cg_title_size = 'display'
-  endcase
-  assign cg_align = s.title_alignment | default: 'left'
-  if cg_align != 'center'
-    assign cg_align = 'left'
+  # ¿Alguna card visible tiene imagen / título? (para reservar el espacio en las que no)
+  assign any_image = false
+  assign any_title = false
+  for b in section.blocks limit: visible
+    if b.settings.image != blank
+      assign any_image = true
+    endif
+    if b.settings.title != blank
+      assign any_title = true
+    endif
+  endfor
+  assign unify = s.unify_layout
+  assign align_titles = s.align_titles
+  assign reserve_title = false
+  if unify or align_titles
+    assign reserve_title = any_title
   endif
 
-  assign cg_style = s.card_media_style | default: 'icon'
-  case s.photo_ratio
-    when 'square'
-      assign cg_photo_ratio = '1/1'
-    when '3_4'
-      assign cg_photo_ratio = '3/4'
-    when '16_9'
-      assign cg_photo_ratio = '16/9'
+  # Posición vertical del párrafo (sección)
+  assign text_valign_default = s.text_valign | default: 'top'
+
+  # Posición del grid
+  case s.grid_justify
+    when 'center'
+      assign grid_justify = 'center'
+    when 'right'
+      assign grid_justify = 'flex-end'
     else
-      assign cg_photo_ratio = '4/3'
+      assign grid_justify = 'flex-start'
   endcase
+  assign grid_align = s.grid_align | default: 'stretch'
+
+  # Alineación de cards (sección)
+  assign img_align_default = s.image_alignment | default: 'center'
+
+  assign columns_mobile_int = s.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if s.swipe_on_mobile and visible > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+
+  # Márgenes para alinear encabezado / intro (izq, centro, der)
+  assign title_align = s.title_alignment | default: 'left'
+  assign intro_align = s.intro_alignment | default: 'left'
+  assign card_align = s.column_alignment | default: 'left'
+
+  case title_align
+    when 'center'
+      assign title_ml = 'auto'
+      assign title_mr = 'auto'
+      assign title_justify = 'center'
+    when 'right'
+      assign title_ml = 'auto'
+      assign title_mr = '0'
+      assign title_justify = 'flex-end'
+    else
+      assign title_ml = '0'
+      assign title_mr = 'auto'
+      assign title_justify = 'flex-start'
+  endcase
+
+  case intro_align
+    when 'center'
+      assign intro_ml = 'auto'
+      assign intro_mr = 'auto'
+    when 'right'
+      assign intro_ml = 'auto'
+      assign intro_mr = '0'
+    else
+      assign intro_ml = '0'
+      assign intro_mr = 'auto'
+  endcase
+
+  case s.button_alignment
+    when 'left'
+      assign btn_justify = 'flex-start'
+    when 'right'
+      assign btn_justify = 'flex-end'
+    else
+      assign btn_justify = 'center'
+  endcase
+
+  # Forma de las cards (rectángulo / cuadrado) y posición del contenido
   case s.card_shape
     when 'square'
-      assign cg_shape = '1/1'
-    when 'rect_h' or 'rect_43'
-      assign cg_shape = '4/3'
+      assign shape_ratio = '1 / 1'
+    when 'rect_h'
+      assign shape_ratio = '3 / 2'
+    when 'rect_43'
+      assign shape_ratio = '4 / 3'
     when 'rect_v'
-      assign cg_shape = '4/5'
+      assign shape_ratio = '4 / 5'
     else
-      assign cg_shape = ''
+      assign shape_ratio = ''
   endcase
-  assign btn_href = s.button_link | default: '#'
-  assign cg_list_icon = ''
-  if s.list_icon != 'none'
-    assign cg_list_icon = 'check-circle'
-  endif
+  assign ccp = s.card_content_position | default: 'spread'
+  assign shape_mobile = s.card_shape_mobile | default: 'auto'
+  case ccp
+    when 'center'
+      assign content_justify = 'center'
+    when 'bottom'
+      assign content_justify = 'flex-end'
+    when 'spread'
+      assign content_justify = 'space-between'
+    else
+      assign content_justify = 'flex-start'
+  endcase
 
-  # A section with colour behind the cards (anything but near-white) gets white cards
-  assign cg_scheme = settings.color_schemes[s.color_scheme]
-  assign cg_on_color = true
-  if cg_scheme.settings.background.lightness > 92 and s.bg_image == blank
-    assign cg_on_color = false
-  endif
-  if s.bg_image != blank
-    assign cg_on_color = true
-  endif
+  # Ícono de las viñetas de la descripción
+  assign list_icon = s.list_icon | default: 'none'
+
+  # Estilo de tarjeta: ícono (actual) o foto (arriba / de fondo)
+  assign card_media_style = s.card_media_style | default: 'icon'
+  case s.photo_ratio
+    when 'square'
+      assign photo_ratio_css = '1 / 1'
+    when '3_4'
+      assign photo_ratio_css = '3 / 4'
+    when '16_9'
+      assign photo_ratio_css = '16 / 9'
+    else
+      assign photo_ratio_css = '4 / 3'
+  endcase
 -%}
 
 <div
-  class="tdm-card-grid color-{{ s.color_scheme }} gradient{% if s.bg_image != blank %} tdm-has-bg{% endif %}"
-  style="--cg-cols: {{ cols_desktop }}; --cg-cols-tablet: {{ cols_tablet }}; --cg-cols-mobile: {{ cols_mobile }};"
+  class="multicolumn tdm-card-grid color-{{ s.color_scheme }} gradient{% unless s.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ s.background_style }}{% endunless %}{% if s.title == blank %} no-heading{% endif %}{% if s.card_background %} tdm-card-grid--has-bg{% endif %}{% if list_icon != 'none' %} tdm-card-grid--has-list-icon{% endif %}{% if s.image_mode == 'icon' %} tdm-card-grid--icon-mode{% endif %}{% if s.image_contain_bg %} tdm-card-grid--contain-bg{% endif %}{% if shape_ratio != '' %} tdm-card-grid--fixed-shape{% endif %}{% if shape_ratio != '' and shape_mobile == 'auto' %} tdm-card-grid--shape-mobile-auto{% endif %}{% if ccp != 'spread' %} tdm-card-grid--content-fixed{% endif %}{% if unify %} tdm-card-grid--unify{% endif %}{% if s.title_lines > 0 %} tdm-card-grid--title-lines{% endif %}{% if s.image_bleed and s.card_background and s.image_mode == 'image' %} tdm-card-grid--image-bleed{% endif %}{% if show_mobile_slider %} tdm-card-grid--mobile-slider{% endif %}{% if grid_align != 'stretch' %} tdm-card-grid--grid-align-auto{% endif %}{% if s.button_pill %} tdm-card-grid--btn-pill{% endif %}{% if card_media_style == 'photo_top' %} tdm-card-grid--photo-top{% endif %}{% if card_media_style == 'photo_bg' %} tdm-card-grid--photo-bg{% endif %}{% if s.bg_image != blank %} tdm-has-bg{% endif %}"
+  style="
+    --tdm-cg-photo-ratio: {{ photo_ratio_css }};
+    --tdm-cg-header-max-width: {{ s.header_max_width | default: 50 }}%;
+    --tdm-cg-title-ml: {{ title_ml }};
+    --tdm-cg-title-mr: {{ title_mr }};
+    --tdm-cg-title-justify: {{ title_justify }};
+    --tdm-cg-title-align: {{ title_align }};
+    --tdm-cg-intro-ml: {{ intro_ml }};
+    --tdm-cg-intro-mr: {{ intro_mr }};
+    --tdm-cg-intro-align: {{ intro_align }};
+    --tdm-cg-grid-justify: {{ grid_justify }};
+    --tdm-cg-grid-align: {{ grid_align }};
+    --tdm-cg-btn-justify: {{ btn_justify }};
+    --tdm-cg-content-justify: {{ content_justify }};
+    --tdm-cg-card-radius: {{ s.card_radius }}px;
+    --tdm-cg-card-pad-mobile: {{ s.card_padding | times: 0.75 | round: 0 }}px;
+    --tdm-cg-card-pad-desktop: {{ s.card_padding }}px;
+    --tdm-cg-image-gap: {{ s.image_gap | default: 16 }}px;
+    --tdm-cg-image-radius: {{ s.image_radius }}px;
+    --tdm-cg-image-height-mobile: {{ s.image_height | times: 0.75 | round: 0 }}px;
+    --tdm-cg-image-height-desktop: {{ s.image_height }}px;
+    --tdm-cg-icon-size: {{ s.icon_size }}px;
+    --tdm-cg-media-max-width: {% if s.image_mode == 'icon' %}{{ s.icon_size }}px{% else %}{{ s.image_width_percent | default: 100 }}%{% endif %};
+    --tdm-cg-cols-tablet: {{ cols_tablet }};
+    --tdm-cg-list-icon-fill: {% if s.list_icon_color == 'text' %}rgb(var(--color-foreground)){% else %}rgb(var(--color-button)){% endif %};
+    --tdm-cg-shape-ratio: {{ shape_ratio }};
+    --tdm-cg-title-lines: {{ s.title_lines }};
+  "
 >
   {% render 'tdm-section-background', image: s.bg_image, image_mobile: s.bg_image_mobile, overlay: s.bg_overlay, position: s.bg_position %}
-  <div class="tdm-card-grid__inner page-width section-{{ section.id }}-padding isolate">
-    {%- render 'section-header', eyebrow: s.pretitle, title: s.title, intro: s.intro_paragraph, size: cg_title_size, align: cg_align -%}
+  <div
+    class="tdm-card-grid__inner page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    {% render 'tdm-section-eyebrow', text: s.pretitle, rule_color: s.rule_color, align: title_align %}
 
-    <ul class="tdm-card-grid__grid" role="list">
-      {%- for block in section.blocks limit: visible -%}
+    {%- unless s.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
+        <h2 class="title inline-richtext {{ s.heading_size }}">
+          {{ s.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+
+    {%- if s.intro_paragraph != blank -%}
+      <div class="multicolumn__intro rte">
+        {{ s.intro_paragraph }}
+      </div>
+    {%- endif -%}
+
+    <tdm-card-grid-titles data-active="{{ align_titles }}">
+      <slider-component class="slider-mobile-gutter">
+        <ul
+          class="tdm-card-grid__grid multicolumn-list contains-content-container grid grid--{{ s.columns_mobile }}-col-tablet-down grid--{{ cols_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
+          id="Slider-{{ section.id }}"
+          role="list"
+          {%- unless s.use_theme_spacing %}
+          style="--grid-desktop-horizontal-spacing: {{ s.gap_horizontal }}px; --grid-desktop-vertical-spacing: {{ s.gap_vertical }}px; --grid-mobile-horizontal-spacing: {{ s.gap_horizontal | divided_by: 2 }}px; --grid-mobile-vertical-spacing: {{ s.gap_vertical | divided_by: 2 }}px;"
+          {%- endunless %}
+        >
         {%- liquid
-          assign b = block.settings
-          assign card_title = b.title | remove: '&nbsp;' | strip
-          if card_title contains '|'
-            assign card_title = card_title | split: '|' | join: '<br>'
-          endif
-
-          assign card_bg = b.bg_image
-          assign card_photo = b.photo | default: b.image
-          assign card_image = nil
-          assign card_icon = nil
-          assign card_media_ratio = nil
-          assign card_alt = b.title | strip_html | remove: '&nbsp;' | strip
-          if card_bg == blank and cg_style == 'photo_bg'
-            assign card_bg = card_photo
-          endif
-          if card_bg == blank
-            if cg_style == 'photo_top'
-              assign card_image = card_photo
-              assign card_media_ratio = cg_photo_ratio
-            else
-              assign card_icon = b.image
+          assign highest_ratio = 0
+          for block in section.blocks
+            if block.settings.image != blank and block.settings.image.aspect_ratio
+              if block.settings.image.aspect_ratio > highest_ratio
+                assign highest_ratio = block.settings.image.aspect_ratio
+              endif
             endif
+          endfor
+          if highest_ratio == 0
+            assign highest_ratio = 1
           endif
         -%}
-        <li class="tdm-card-grid__item" {{ block.shopify_attributes }}>
-          {%- render 'card',
-            title: card_title,
-            title_size: s.card_heading_size,
-            text: b.text,
-            list_icon: cg_list_icon,
-            image: card_image,
-            image_ratio: card_media_ratio,
-            image_alt: card_alt,
-            icon_image: card_icon,
-            bg_image: card_bg,
-            ratio: cg_shape,
-            cta_label: b.link_label,
-            cta_href: b.link,
-            on_color: cg_on_color,
-            padding: 'lg',
-            tag: 'div',
-            class: 'tdm-card-grid__card'
+        {%- liquid
+          if list_icon != 'none'
+            capture list_icon_html
+              render 'icon-accordion', icon: list_icon
+            endcapture
+          endif
+        -%}
+        {%- for block in section.blocks limit: visible -%}
+          {%- liquid
+            assign empty_column = ''
+            assign img_align = block.settings.image_alignment_override | default: 'section'
+            if img_align == 'section'
+              assign img_align = img_align_default
+            endif
+            assign txt_align = block.settings.text_alignment_override | default: 'section'
+            if txt_align == 'section'
+              assign txt_align = card_align
+            endif
+
+            # Posición vertical del párrafo: card > sección
+            assign txt_valign = block.settings.text_valign_override | default: 'section'
+            if txt_valign == 'section'
+              assign txt_valign = text_valign_default
+            endif
+
+            # Tamaños de texto: card > sección (0 = no forzar)
+            assign t_size = block.settings.title_size | default: 0
+            if t_size == 0 and s.custom_text_sizes
+              assign t_size = s.card_title_size
+            endif
+            assign p_size = block.settings.text_size | default: 0
+            if p_size == 0 and s.custom_text_sizes
+              assign p_size = s.card_text_size
+            endif
+            assign card_style = ''
+            if t_size > 0
+              assign card_style = card_style | append: '--mc-ts: ' | append: t_size | append: ';'
+            endif
+            if p_size > 0
+              assign card_style = card_style | append: '--mc-ps: ' | append: p_size | append: ';'
+            endif
+
+            # Título sin espacios duros al inicio (evita que se vea desalineado)
+            assign card_title = block.settings.title | strip
+            for i in (1..5)
+              assign head6 = card_title | slice: 0, 6
+              assign head1 = card_title | slice: 0
+              if head6 == '&nbsp;'
+                assign card_title = card_title | remove_first: '&nbsp;' | strip
+              elsif head1 == ' '
+                assign card_title = card_title | remove_first: ' ' | strip
+              else
+                break
+              endif
+            endfor
+
+            # "|" en el título = salto de línea (el campo no admite Enter)
+            if card_title contains '|'
+              assign card_title_lines = card_title | split: '|'
+              assign card_title = ''
+              for line in card_title_lines
+                assign line = line | strip | remove: '&nbsp;'
+                unless forloop.first
+                  assign card_title = card_title | append: '<br>'
+                endunless
+                assign card_title = card_title | append: line
+              endfor
+            endif
           -%}
-        </li>
-      {%- endfor -%}
-    </ul>
+          {%- if block.settings.image == blank
+            and block.settings.title == blank
+            and block.settings.text == blank
+            and block.settings.link_label == blank
+          -%}
+            {%- assign empty_column = ' multicolumn-list__item--empty' -%}
+          {%- endif -%}
+
+          <li
+            id="Slide-{{ section.id }}-{{ forloop.index }}"
+            class="{% if s.mobile_side_line %}multicolumn-list__item{% else %}mc-list__item{% endif %} grid__item mc-img--{{ img_align }} mc-txt--{{ txt_align }}{% if s.swipe_on_mobile %} slider__slide{% endif %}{{ empty_column }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+            {%- liquid
+              assign card_scheme = s.card_color_scheme
+              if block.settings.use_custom_scheme
+                assign card_scheme = block.settings.card_color_scheme
+              endif
+
+              # Imagen de fondo + overlay + texto en vidrio (por card)
+              assign card_bg = block.settings.bg_image
+              assign glass_on = false
+              if card_bg != blank
+                assign ov_alpha = block.settings.overlay_opacity | divided_by: 100.0
+                assign ov_rgba = block.settings.overlay_color | color_modify: 'alpha', ov_alpha
+                assign card_style = card_style | append: '--mc-ov: ' | append: ov_rgba | append: ';'
+                if block.settings.glass
+                  assign glass_on = true
+                  assign g_alpha = block.settings.glass_opacity | divided_by: 100.0
+                  assign g_rgba = block.settings.glass_color | color_modify: 'alpha', g_alpha
+                  assign card_style = card_style | append: '--mc-glass-bg: ' | append: g_rgba | append: '; --mc-glass-blur: ' | append: block.settings.glass_blur | append: 'px;'
+                endif
+              endif
+
+              # Foto de la card (estilos Foto arriba / Foto de fondo): la "Foto" dedicada,
+              # o la Imagen de siempre si esta card no tiene foto propia.
+              assign card_photo = block.settings.photo
+              if card_photo == blank
+                assign card_photo = block.settings.image
+              endif
+              assign card_photo_alt = block.settings.title | strip_html | escape
+            -%}
+            {%- capture sizes_photo -%}
+              (min-width: 990px) calc(100vw / {{ cols_desktop }}), (min-width: 750px) calc(100vw / {{ cols_tablet }}), 100vw
+            {%- endcapture -%}
+            <div
+              class="multicolumn-card content-container mc-tv--{{ txt_valign }}{% if t_size > 0 %} mc-card--ts{% endif %}{% if p_size > 0 %} mc-card--ps{% endif %}{% if s.card_background %} mc-card color-{{ card_scheme }}{% elsif card_bg != blank %} color-{{ card_scheme }}{% endif %}{% if card_bg != blank %} mc-card--bgimg{% endif %}{% if glass_on %} mc-card--glass{% endif %}"
+              {% if card_style != '' %}
+                style="{{ card_style }}"
+              {% endif %}
+            >
+              {%- if card_bg != blank -%}
+                <div class="mc-bg" aria-hidden="true">
+                  {{
+                    card_bg
+                    | image_url: width: 1600
+                    | image_tag:
+                      widths: '500, 750, 1000, 1300, 1600',
+                      sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                      loading: 'lazy',
+                      alt: ''
+                  }}
+                </div>
+                <div class="mc-bg__overlay" aria-hidden="true"></div>
+              {%- endif -%}
+              {%- if card_media_style == 'photo_bg' -%}
+                {%- if card_photo != blank -%}
+                  <div class="tdm-card-grid__photo-bg" aria-hidden="true">
+                    {{
+                      card_photo
+                      | image_url: width: 1600
+                      | image_tag:
+                        widths: '400, 600, 800, 1200, 1600',
+                        sizes: sizes_photo,
+                        loading: 'lazy',
+                        class: 'tdm-card-grid__photo-bg-img',
+                        alt: card_photo_alt
+                    }}
+                  </div>
+                {%- endif -%}
+              {%- elsif card_media_style == 'photo_top' -%}
+                {%- if card_photo != blank -%}
+                  <div class="tdm-card-grid__photo">
+                    {{
+                      card_photo
+                      | image_url: width: 1600
+                      | image_tag:
+                        widths: '400, 600, 800, 1200, 1600',
+                        sizes: sizes_photo,
+                        loading: 'lazy',
+                        class: 'tdm-card-grid__photo-img',
+                        alt: card_photo_alt
+                    }}
+                  </div>
+                {%- endif -%}
+              {%- elsif block.settings.image != blank -%}
+                {%- liquid
+                  assign number_of_columns = cols_desktop
+                  assign number_of_columns_mobile = s.columns_mobile
+                  if s.image_mode == 'icon'
+                    assign img_px = s.icon_size | times: 2
+                    capture sizes
+                      echo s.icon_size | append: 'px'
+                    endcapture
+                  else
+                    assign img_px = 1600
+                    assign pct = s.image_width_percent | divided_by: 100.0
+                    capture sizes
+                      echo '(min-width: 990px) calc(100vw * ' | append: pct | append: ' / ' | append: number_of_columns | append: '), '
+                      echo '(min-width: 750px) calc(100vw * ' | append: pct | append: ' / ' | append: cols_tablet | append: '), '
+                      echo 'calc(100vw * ' | append: pct | append: ' / ' | append: number_of_columns_mobile | append: ')'
+                    endcapture
+                  endif
+                -%}
+                {%- liquid
+                  # Ajuste (cubrir / contener) por card
+                  assign fit = block.settings.image_fit_override | default: 'section'
+                  if fit == 'section'
+                    if s.image_mode == 'icon'
+                      assign fit = 'contain'
+                    else
+                      assign fit = s.image_fit | default: 'cover'
+                    endif
+                  endif
+
+                  # Posición: punto focal de Shopify o vertical elegida + alineación horizontal
+                  assign pos_v = block.settings.image_position_override | default: 'section'
+                  if pos_v == 'section'
+                    assign pos_v = s.image_position | default: 'focal'
+                  endif
+                  case img_align
+                    when 'left'
+                      assign pos_h = 'left'
+                    when 'right'
+                      assign pos_h = 'right'
+                    else
+                      assign pos_h = 'center'
+                  endcase
+                  if pos_v == 'focal' and block.settings.image.presentation.focal_point != blank
+                    assign pos = block.settings.image.presentation.focal_point
+                  elsif pos_v == 'focal'
+                    assign pos = pos_h | append: ' center'
+                  else
+                    assign pos = pos_h | append: ' ' | append: pos_v
+                  endif
+
+                  assign has_bg = false
+                  if fit == 'contain' and s.image_mode == 'image'
+                    assign has_bg = true
+                  endif
+                -%}
+                <div class="mc-media-wrap"{% if block.settings.image_size > 0 %} style="--mc-img-size: {{ block.settings.image_size }}px;"{% endif %}>
+                  <div class="mc-media mc-media--{{ s.image_ratio }}{% if has_bg %} mc-media--has-bg{% endif %}" style="--mc-fit: {{ fit }}; --mc-pos: {{ pos }};">
+                    {{
+                      block.settings.image
+                      | image_url: width: img_px
+                      | image_tag:
+                        widths: '80, 160, 300, 500, 750, 1000, 1300, 1600',
+                        sizes: sizes,
+                        loading: 'lazy',
+                        class: 'multicolumn-card__image'
+                    }}
+                  </div>
+                </div>
+              {%- elsif unify and any_image -%}
+                <div class="mc-media-wrap mc-media-wrap--empty" aria-hidden="true">
+                  <div class="mc-media mc-media--{{ s.image_ratio }}">&nbsp;</div>
+                </div>
+              {%- endif -%}
+              <div class="multicolumn-card__info">
+                {%- if card_title != blank -%}
+                  <h3 class="inline-richtext mc-card__title {{ s.card_heading_size | default: 'h3' }}"><span class="mc-card__title-fit">{{ card_title }}</span></h3>
+                {%- elsif reserve_title -%}
+                  <div class="mc-card__title mc-card__title--empty {{ s.card_heading_size | default: 'h3' }}" aria-hidden="true"></div>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  {%- liquid
+                    # Ícono en cada viñeta (misma lista de íconos que el desplegable de Dawn)
+                    assign card_text = block.settings.text
+                    if list_icon != 'none'
+                      assign li_open = '<li><span class="mc-li-icon" aria-hidden="true">' | append: list_icon_html | append: '</span>'
+                      assign card_text = card_text | replace: '<li>', li_open
+                    endif
+                  -%}
+                  <div class="rte{% if block.settings.desc_font == 'mono' %} mc-desc--mono tdm-mono tdm-upper{% endif %}">
+                    {{ card_text }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.link_label != blank -%}
+                  <a
+                    class="link animate-arrow"
+                    {% if block.settings.link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.link }}"
+                    {% endif %}
+                  >
+                    {{- block.settings.link_label | escape -}}
+                    <span class="svg-wrapper"
+                      ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                    >
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if show_mobile_slider -%}
+        <div class="slider-buttons large-up-hide">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ visible }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+          </button>
+        </div>
+      {%- endif -%}
+      </slider-component>
+    </tdm-card-grid-titles>
 
     {%- if s.button_label != blank -%}
-      <div class="tdm-card-grid__cta">
-        {%- if s.button_style == 'secondary' -%}{%- assign cg_btn_variant = 'outline' -%}{%- else -%}{%- assign cg_btn_variant = 'primary' -%}{%- endif -%}
-        {%- capture cg_btn_attrs -%}{% if s.button_link == blank %}role="link" aria-disabled="true"{% endif %}{% if s.button_new_tab %} target="_blank" rel="noopener"{% endif %}{% if btn_href contains '#pedido' %} data-track="quiero-ser-aliado"{% endif %}{%- endcapture -%}
-        {%- render 'button', label: s.button_label, href: btn_href, variant: cg_btn_variant, size: 'lg', attrs: cg_btn_attrs -%}
+      <div class="mc-cta">
+        <a
+          class="button button--{{ s.button_style | default: 'primary' }} color-{{ s.button_color_scheme }}"
+          {% if s.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ s.button_link }}"
+          {% endif %}
+          {% if s.button_new_tab %}target="_blank" rel="noopener"{% endif %}
+        >
+          {{ s.button_label | escape }}
+        </a>
       </div>
     {%- endif -%}
   </div>
@@ -160,35 +568,369 @@
       "info": "Para enlazar a esta sección desde un botón. 1 o 2 palabras en español separadas por guion, ej. formulario o como-funciona. Enlace: /pages/aliados#formulario"
     },
     { "type": "header", "content": "Encabezado" },
-    { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. Sin línea.", "placeholder": "Ej. Explora", "default": "Explora" },
-    { "type": "inline_richtext", "id": "title", "default": "Beneficios de ser aliado", "label": "Título de la sección" },
+    { "type": "text", "id": "pretitle", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto.", "placeholder": "Ej. Explora", "default": "Explora" },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow", "default": "#294E3F" },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Beneficios de ser aliado",
+      "label": "Título de la sección",
+      "info": "Ej. Beneficios de ser aliado"
+    },
     {
       "type": "select",
       "id": "heading_size",
-      "label": "Tamaño del título",
       "options": [
-        { "value": "h2", "label": "Título 2" },
-        { "value": "h1", "label": "Título 1" },
-        { "value": "h0", "label": "Display" }
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" },
+        { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
+        { "value": "hxxl", "label": "t:sections.all.heading_size.options__5.label" }
       ],
-      "default": "h1"
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
     },
-    { "type": "text_alignment", "id": "title_alignment", "label": "Alineación del encabezado", "default": "left" },
+    {
+      "type": "text_alignment",
+      "id": "title_alignment",
+      "label": "Alineación del título y eyebrow",
+      "default": "left"
+    },
     {
       "type": "richtext",
       "id": "intro_paragraph",
       "label": "Párrafo introductorio",
+      "info": "Ej. Todo lo que recibes al distribuir Tierra de Monte en tu zona.",
       "default": "<p>Agrega aquí un párrafo introductorio para esta sección.</p>"
     },
+    {
+      "type": "text_alignment",
+      "id": "intro_alignment",
+      "label": "Alineación del párrafo",
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "label": "Ancho máximo del título y párrafo",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
 
-    { "type": "header", "content": "Tarjetas" },
+    { "type": "header", "content": "Cards" },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Columnas en escritorio"
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columnas en tablet"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_fit_columns",
+      "label": "Ajustar columnas al número de cards",
+      "info": "Si hay menos cards que columnas, las cards se estiran para llenar el ancho.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rows",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "default": 0,
+      "label": "Filas visibles",
+      "info": "0 = mostrar todas las cards. Si eliges un número, se muestran columnas × filas."
+    },
+
+    { "type": "header", "content": "Posición del grid" },
+    {
+      "type": "text_alignment",
+      "id": "grid_justify",
+      "label": "Alineación horizontal del grid",
+      "info": "Se nota cuando la última fila no está completa.",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "grid_align",
+      "label": "Alineación vertical de las cards",
+      "options": [
+        { "value": "stretch", "label": "Misma altura" },
+        { "value": "flex-start", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "flex-end", "label": "Abajo" }
+      ],
+      "default": "stretch"
+    },
+    { "type": "checkbox", "id": "use_theme_spacing", "label": "Usar espaciado del tema", "default": true },
+    { "type": "range", "id": "gap_horizontal", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24, "label": "Espacio entre columnas" },
+    { "type": "range", "id": "gap_vertical", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 32, "label": "Espacio entre filas" },
+
+    { "type": "header", "content": "Alineación dentro de las cards" },
+    {
+      "type": "text_alignment",
+      "id": "image_alignment",
+      "label": "Alineación de las imágenes",
+      "default": "center"
+    },
+    {
+      "type": "text_alignment",
+      "id": "column_alignment",
+      "label": "Alineación de los textos",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_valign",
+      "label": "Posición vertical del párrafo",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "En medio" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "top",
+      "info": "Acomoda el párrafo en el espacio libre de la card. Se nota cuando las cards tienen la misma altura y textos de distinto largo. Funciona con \"Posición del contenido\" en Repartido."
+    },
+    { "type": "header", "content": "Estilo de las cards" },
+    { "type": "checkbox", "id": "card_background", "label": "Cards con fondo", "default": true },
+    { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color de las cards", "default": "scheme-1", "info": "Define fondo, texto y enlaces de las cards. Cada card puede usar uno distinto." },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16, "label": "Radio de esquinas" },
+    { "type": "range", "id": "card_padding", "min": 0, "max": 64, "step": 4, "unit": "px", "default": 24, "label": "Espaciado interno" },
+    {
+      "type": "select",
+      "id": "card_shape",
+      "label": "Forma de las cards",
+      "options": [
+        { "value": "auto", "label": "Automática (según contenido)" },
+        { "value": "rect_h", "label": "Rectángulo horizontal 3:2" },
+        { "value": "rect_43", "label": "Rectángulo 4:3" },
+        { "value": "square", "label": "Cuadrado 1:1" },
+        { "value": "rect_v", "label": "Rectángulo vertical 4:5" }
+      ],
+      "default": "auto",
+      "info": "Todas las cards mantienen la misma proporción. Si un texto es más largo, la card crece sin cortarse."
+    },
+    {
+      "type": "select",
+      "id": "card_shape_mobile",
+      "label": "Forma en móvil",
+      "options": [
+        { "value": "same", "label": "Igual que en escritorio" },
+        { "value": "auto", "label": "Automática (según contenido, también en tablet)" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "card_content_position",
+      "label": "Posición del contenido en la card",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "spread", "label": "Repartido (título arriba, enlace abajo)" }
+      ],
+      "default": "spread"
+    },
+    { "type": "checkbox", "id": "mobile_side_line", "label": "Línea lateral en móvil", "default": false, "info": "La línea vertical a la izquierda de cada card que agrega el tema en móvil." },
+    {
+      "type": "select",
+      "id": "card_heading_size",
+      "label": "Tamaño del heading de las cards",
+      "options": [
+        { "value": "h4", "label": "Pequeño" },
+        { "value": "h3", "label": "Mediano" },
+        { "value": "h2", "label": "Grande" },
+        { "value": "h1", "label": "Extra grande" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "unify_layout",
+      "label": "Diseño unificado",
+      "info": "Todas las cards con la misma altura; títulos, textos y enlaces alineados aunque unas tengan imagen o enlace y otras no.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "align_titles",
+      "label": "Alinear párrafos automáticamente",
+      "info": "Iguala la altura de los títulos de cada fila para que los párrafos empiecen a la misma altura, en cualquier tamaño de pantalla.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "title_lines",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "label": "Reservar líneas para el título",
+      "info": "Altura mínima de los títulos. Con \"Alinear párrafos automáticamente\" normalmente puedes dejarlo en 0."
+    },
+    { "type": "checkbox", "id": "custom_text_sizes", "label": "Tamaños de texto personalizados", "default": false, "info": "Aplica a todas las cards. Cada card puede tener su propio tamaño." },
+    { "type": "range", "id": "card_title_size", "min": 16, "max": 64, "step": 2, "unit": "px", "default": 28, "label": "Tamaño del heading" },
+    { "type": "range", "id": "card_text_size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15, "label": "Tamaño del párrafo" },
+    {
+      "type": "select",
+      "id": "list_icon",
+      "label": "Ícono de las viñetas",
+      "info": "Reemplaza el punto de las listas en la descripción de cada card.",
+      "options": [
+        { "value": "none", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__1.label" },
+        { "value": "check_circle", "label": "Palomita en círculo" },
+        { "value": "apple", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__2.label" },
+        { "value": "banana", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__3.label" },
+        { "value": "bottle", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__4.label" },
+        { "value": "box", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__5.label" },
+        { "value": "carrot", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__6.label" },
+        { "value": "chat_bubble", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__7.label" },
+        { "value": "check_mark", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__8.label" },
+        { "value": "clipboard", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__9.label" },
+        { "value": "dairy", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__10.label" },
+        { "value": "dairy_free", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__11.label" },
+        { "value": "dryer", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__12.label" },
+        { "value": "eye", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__13.label" },
+        { "value": "fire", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__14.label" },
+        { "value": "gluten_free", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__15.label" },
+        { "value": "heart", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__16.label" },
+        { "value": "iron", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__17.label" },
+        { "value": "leaf", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__18.label" },
+        { "value": "leather", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__19.label" },
+        { "value": "lightning_bolt", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__20.label" },
+        { "value": "lipstick", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__21.label" },
+        { "value": "lock", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__22.label" },
+        { "value": "map_pin", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__23.label" },
+        { "value": "nut_free", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__24.label" },
+        { "value": "pants", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__25.label" },
+        { "value": "paw_print", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__26.label" },
+        { "value": "pepper", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__27.label" },
+        { "value": "perfume", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__28.label" },
+        { "value": "plane", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__29.label" },
+        { "value": "plant", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__30.label" },
+        { "value": "price_tag", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__31.label" },
+        { "value": "question_mark", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__32.label" },
+        { "value": "recycle", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__33.label" },
+        { "value": "return", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__34.label" },
+        { "value": "ruler", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__35.label" },
+        { "value": "serving_dish", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__36.label" },
+        { "value": "shirt", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__37.label" },
+        { "value": "shoe", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__38.label" },
+        { "value": "silhouette", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__39.label" },
+        { "value": "snowflake", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__40.label" },
+        { "value": "star", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__41.label" },
+        { "value": "stopwatch", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__42.label" },
+        { "value": "truck", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__43.label" },
+        { "value": "washing", "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__44.label" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "list_icon_color",
+      "label": "Color del ícono",
+      "options": [
+        { "value": "button", "label": "Color de botón del esquema (acento)" },
+        { "value": "text", "label": "Color de texto del esquema" }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "options": [
+        { "value": "none", "label": "t:sections.multicolumn.settings.background_style.options__1.label" },
+        { "value": "primary", "label": "t:sections.multicolumn.settings.background_style.options__2.label" }
+      ],
+      "default": "primary",
+      "label": "t:sections.multicolumn.settings.background_style.label"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+
+    { "type": "header", "content": "Imagen de las cards" },
+    {
+      "type": "select",
+      "id": "image_mode",
+      "label": "Tipo de imagen",
+      "options": [
+        { "value": "icon", "label": "Ícono (tamaño fijo en px)" },
+        { "value": "image", "label": "Imagen (ancho en %)" }
+      ],
+      "default": "icon"
+    },
+    { "type": "range", "id": "icon_size", "min": 16, "max": 240, "step": 4, "unit": "px", "default": 64, "label": "Tamaño del ícono" },
+    { "type": "range", "id": "image_gap", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 16, "label": "Espacio debajo de la imagen" },
+    { "type": "range", "id": "image_width_percent", "label": "Ancho de la imagen", "min": 10, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Proporción",
+      "options": [
+        { "value": "adapt", "label": "Original" },
+        { "value": "square", "label": "Cuadrada" },
+        { "value": "landscape", "label": "Horizontal 4:3" },
+        { "value": "classic", "label": "Horizontal 3:2" },
+        { "value": "wide", "label": "Panorámica 16:9" },
+        { "value": "portrait", "label": "Vertical 4:5" },
+        { "value": "circle", "label": "Círculo" },
+        { "value": "fixed", "label": "Altura fija (px)" }
+      ],
+      "default": "adapt",
+      "info": "Con \"Diseño unificado\", Original usa un cuadro 4:3 (o cuadrado en modo ícono) para que todas midan igual."
+    },
+    { "type": "range", "id": "image_height", "min": 80, "max": 600, "step": 10, "unit": "px", "default": 240, "label": "Altura fija", "info": "Solo con proporción \"Altura fija\"." },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Ajuste de la imagen",
+      "options": [
+        { "value": "cover", "label": "Cubrir (llena el espacio, puede recortar)" },
+        { "value": "contain", "label": "Contener (imagen completa, sin recortar)" }
+      ],
+      "default": "cover",
+      "info": "En modo ícono siempre se usa Contener."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Posición de la imagen",
+      "options": [
+        { "value": "focal", "label": "Punto focal de Shopify" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "focal",
+      "info": "Marca el punto focal al editar la imagen en Shopify (ej. la cara de la persona) para que no se corte."
+    },
+    { "type": "checkbox", "id": "image_bleed", "label": "Imagen de borde a borde en la card", "default": false, "info": "Solo en tipo Imagen con cards con fondo." },
+    { "type": "checkbox", "id": "image_contain_bg", "label": "Fondo suave detrás de imágenes contenidas", "default": true },
+    { "type": "range", "id": "image_radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0, "label": "Radio de esquinas de la imagen" },
+
+    { "type": "header", "content": "Estilo de tarjeta" },
     {
       "type": "select",
       "id": "card_media_style",
       "label": "Estilo de tarjeta",
-      "info": "Ícono: imagen pequeña arriba. Foto arriba: foto a lo ancho. Foto de fondo: la foto llena la tarjeta y el texto va en un panel blanco.",
+      "info": "Foto arriba / Foto de fondo usan la \"Foto\" de cada card (o la imagen de arriba si no hay foto).",
       "options": [
-        { "value": "icon", "label": "Ícono" },
+        { "value": "icon", "label": "Ícono (actual)" },
         { "value": "photo_top", "label": "Foto arriba" },
         { "value": "photo_bg", "label": "Foto de fondo" }
       ],
@@ -197,76 +939,65 @@
     {
       "type": "select",
       "id": "photo_ratio",
-      "label": "Proporción de la foto (Foto arriba)",
+      "label": "Proporción de la foto",
+      "info": "Aplica con Foto arriba o Foto de fondo.",
       "options": [
-        { "value": "square", "label": "Cuadrada" },
-        { "value": "4_3", "label": "4:3" },
-        { "value": "3_4", "label": "3:4" },
-        { "value": "16_9", "label": "16:9" }
+        { "value": "square", "label": "Cuadrada 1:1" },
+        { "value": "4_3", "label": "Horizontal 4:3" },
+        { "value": "3_4", "label": "Vertical 3:4" },
+        { "value": "16_9", "label": "Panorámica 16:9" }
       ],
       "default": "4_3"
     },
-    {
-      "type": "select",
-      "id": "card_shape",
-      "label": "Forma de la tarjeta",
-      "options": [
-        { "value": "auto", "label": "Según el contenido" },
-        { "value": "square", "label": "Cuadrada" },
-        { "value": "rect_43", "label": "Horizontal 4:3" },
-        { "value": "rect_h", "label": "Horizontal 4:3 (antes 3:2)" },
-        { "value": "rect_v", "label": "Vertical 4:5" }
-      ],
-      "default": "auto"
-    },
-    {
-      "type": "select",
-      "id": "card_heading_size",
-      "label": "Tamaño del título de la tarjeta",
-      "options": [
-        { "value": "h4", "label": "Título 4" },
-        { "value": "h3", "label": "Título 3" },
-        { "value": "h2", "label": "Título 2" },
-        { "value": "h1", "label": "Título 1" }
-      ],
-      "default": "h3"
-    },
-    {
-      "type": "select",
-      "id": "list_icon",
-      "label": "Viñetas de la descripción",
-      "options": [
-        { "value": "none", "label": "Viñetas normales" },
-        { "value": "check_circle", "label": "Palomita en círculo" }
-      ],
-      "default": "none"
-    },
-    { "type": "range", "id": "columns_desktop", "min": 1, "max": 6, "step": 1, "default": 3, "label": "Columnas en escritorio" },
-    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "default": 2, "label": "Columnas en tablet" },
-    { "type": "select", "id": "columns_mobile", "label": "Columnas en móvil", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }], "default": "1" },
-    { "type": "checkbox", "id": "auto_fit_columns", "label": "Ajustar columnas si hay menos tarjetas", "default": true },
-    { "type": "range", "id": "rows", "min": 0, "max": 6, "step": 1, "default": 0, "label": "Filas visibles", "info": "0 = todas las tarjetas." },
 
-    { "type": "header", "content": "Botón de la sección" },
-    { "type": "text", "id": "button_label", "label": "Texto del botón" },
-    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
-    { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en pestaña nueva", "default": false },
+    { "type": "header", "content": "Botón (CTA) de la sección" },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "placeholder": "Ej. Quiero ser aliado",
+      "info": "Déjalo vacío para ocultar el botón."
+    },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón", "info": "Ej. /pages/quiero-ser-aliado" },
+    { "type": "checkbox", "id": "button_new_tab", "label": "Abrir en otra pestaña", "default": false },
     {
       "type": "select",
       "id": "button_style",
       "label": "Estilo del botón",
-      "options": [{ "value": "primary", "label": "Principal" }, { "value": "secondary", "label": "Secundario" }],
+      "options": [
+        { "value": "primary", "label": "Principal (relleno)" },
+        { "value": "secondary", "label": "Secundario (contorno)" }
+      ],
       "default": "primary"
     },
-
-    { "type": "header", "content": "Color y fondo" },
+    { "type": "color_scheme", "id": "button_color_scheme", "label": "Esquema de color del botón", "default": "scheme-1" },
+    { "type": "checkbox", "id": "button_pill", "label": "Botón redondeado (pill)", "default": false },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Esquema de color de la sección",
-      "info": "Si la sección tiene color, las tarjetas van en blanco automáticamente.",
-      "default": "scheme-1"
+      "type": "text_alignment",
+      "id": "button_alignment",
+      "label": "Alineación del botón",
+      "default": "center"
     },
+
+    { "type": "header", "content": "t:sections.multicolumn.settings.header_mobile.content" },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label" },
+        { "value": "2", "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label" }
+      ],
+      "default": "1",
+      "label": "t:sections.multicolumn.settings.columns_mobile.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.multicolumn.settings.swipe_on_mobile.label"
+    },
+
+    { "type": "header", "content": "Imagen de fondo" },
     { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
     { "type": "image_picker", "id": "bg_image_mobile", "label": "Imagen de fondo (móvil)", "info": "Opcional. Si está vacía usa la de escritorio." },
     { "type": "range", "id": "bg_overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Oscurecer imagen", "default": 40 },
@@ -275,29 +1006,173 @@
       "id": "bg_position",
       "label": "Enfoque de la imagen",
       "default": "center",
-      "options": [{ "value": "top", "label": "Arriba" }, { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" }]
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ]
     },
 
     { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 36 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 36 }
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
   ],
   "blocks": [
     {
       "type": "column",
-      "name": "Tarjeta",
+      "name": "Card",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Estilo Ícono: la imagen pequeña de arriba. Foto arriba / Foto de fondo: la foto si no hay una en «Foto»." },
-        { "type": "image_picker", "id": "photo", "label": "Foto", "info": "Estilos Foto arriba y Foto de fondo." },
-        { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo", "info": "Convierte esta tarjeta en tarjeta de foto sea cual sea el estilo." },
-        { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Precio preferencial", "info": "«|» parte el título en dos líneas." },
-        { "type": "richtext", "id": "text", "label": "Descripción", "default": "<p>Compras entre 5 y 20% abajo del precio de lista, según tu volumen.</p>" },
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "image_picker", "id": "photo", "label": "Foto", "info": "Para los estilos de tarjeta Foto arriba / Foto de fondo. Si está vacía, se usa la Imagen de arriba." },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "Precio preferencial",
+          "label": "Heading",
+          "info": "Ej. Precio preferencial. Escribe | donde quieras un salto de línea: Profesionales de campo|¡Tu recomendación vale!"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Compras entre 5 y 20% abajo del precio de lista, según tu volumen.</p>",
+          "label": "Párrafo",
+          "info": "Ej. Compras entre 5 y 20% abajo del precio de lista."
+        },
+        {
+          "type": "select",
+          "id": "desc_font",
+          "label": "Fuente del párrafo",
+          "options": [
+            { "value": "body", "label": "Texto normal" },
+            { "value": "mono", "label": "Monoespaciada (IBM Plex Mono)" }
+          ],
+          "default": "body"
+        },
+        { "type": "header", "content": "Tamaño de texto de esta card" },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 0,
+          "max": 64,
+          "step": 2,
+          "unit": "px",
+          "default": 0,
+          "label": "Tamaño del heading",
+          "info": "0 = igual que la sección. En pantallas chicas se reduce solo para que no se desborde."
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 0,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 0,
+          "label": "Tamaño del párrafo",
+          "info": "0 = igual que la sección."
+        },
+        {
+          "type": "select",
+          "id": "text_valign_override",
+          "label": "Posición vertical del párrafo",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "top", "label": "Arriba" },
+            { "value": "center", "label": "En medio" },
+            { "value": "bottom", "label": "Abajo" }
+          ],
+          "default": "section"
+        },
+        { "type": "header", "content": "Imagen y color de esta card" },
+        {
+          "type": "select",
+          "id": "image_fit_override",
+          "label": "Ajuste de imagen de esta card",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "cover", "label": "Cubrir" },
+            { "value": "contain", "label": "Contener" }
+          ],
+          "default": "section"
+        },
+        {
+          "type": "select",
+          "id": "image_position_override",
+          "label": "Posición de imagen de esta card",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "focal", "label": "Punto focal" },
+            { "value": "top", "label": "Arriba" },
+            { "value": "center", "label": "Centro" },
+            { "value": "bottom", "label": "Abajo" }
+          ],
+          "default": "section"
+        },
+        { "type": "range", "id": "image_size", "min": 0, "max": 400, "step": 8, "unit": "px", "default": 0, "label": "Tamaño de imagen de esta card", "info": "0 = igual que la sección." },
+        { "type": "checkbox", "id": "use_custom_scheme", "label": "Usar esquema propio", "default": false },
+        { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de color", "default": "scheme-1", "info": "Con imagen de fondo, el color de texto de este esquema es el del texto sobre la foto." },
+        { "type": "header", "content": "Imagen de fondo" },
+        { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo de la card", "info": "La card se vuelve una foto a todo el tamaño con el texto encima." },
+        { "type": "color", "id": "overlay_color", "label": "Color del overlay", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "label": "Opacidad del overlay", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 30, "info": "Oscurece la foto para que el texto se lea." },
+        { "type": "checkbox", "id": "glass", "label": "Texto en efecto vidrio", "default": true },
+        { "type": "range", "id": "glass_blur", "label": "Intensidad del desenfoque", "min": 0, "max": 30, "step": 1, "unit": "px", "default": 12 },
+        { "type": "color", "id": "glass_color", "label": "Color del vidrio", "default": "#FFFFFF" },
+        { "type": "range", "id": "glass_opacity", "label": "Opacidad del vidrio", "min": 0, "max": 60, "step": 2, "unit": "%", "default": 14 },
+        { "type": "header", "content": "Alineación de esta card" },
+        {
+          "type": "select",
+          "id": "image_alignment_override",
+          "label": "Imagen",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "section"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment_override",
+          "label": "Texto",
+          "options": [
+            { "value": "section", "label": "Igual que la sección" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "section"
+        },
         { "type": "header", "content": "Enlace (opcional)" },
-        { "type": "text", "id": "link_label", "label": "Texto del enlace" },
-        { "type": "url", "id": "link", "label": "Enlace" }
+        { "type": "text", "id": "link_label", "label": "Texto del enlace", "placeholder": "Ej. Ver más" },
+        { "type": "url", "id": "link", "label": "Enlace", "info": "Ej. /pages/beneficios" }
       ]
     }
   ],
-  "presets": [{ "name": "Tarjetas", "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }] }]
+  "presets": [
+    {
+      "name": "Tarjetas",
+      "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }]
+    }
+  ]
 }
 {% endschema %}

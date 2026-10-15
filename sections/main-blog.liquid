@@ -1,12 +1,28 @@
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 
-{%- paginate blog.articles by section.settings.posts_per_page -%}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- paginate blog.articles by 6 -%}
   <div class="main-blog page-width section-{{ section.id }}-padding">
-    {%- capture blog_title_class -%}main-blog__title{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}{%- endcapture -%}
-    {% render 'typography', text: blog.title, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', class: blog_title_class %}
+    <h1 class="title--primary{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      {{ blog.title | escape }}
+    </h1>
 
-    <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}" style="--blog-cols: {{ section.settings.columns_desktop }}">
+    <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
       {%- for article in blog.articles -%}
         <div
           class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -22,8 +38,7 @@
             show_image: section.settings.show_image,
             show_date: section.settings.show_date,
             show_author: section.settings.show_author,
-            show_excerpt: true,
-            lazy_load: true
+            show_excerpt: true
           -%}
         </div>
       {%- endfor -%}
@@ -56,25 +71,6 @@
       ],
       "default": "collage",
       "label": "t:sections.main-blog.settings.layout.label"
-    },
-    {
-      "type": "range",
-      "id": "posts_per_page",
-      "min": 3,
-      "max": 24,
-      "step": 1,
-      "default": 8,
-      "label": "Entradas por página"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 2,
-      "max": 4,
-      "step": 1,
-      "default": 3,
-      "label": "Columnas en escritorio",
-      "info": "Solo con el diseño en cuadrícula. 1 columna en móvil, 2 en tablet."
     },
     {
       "type": "checkbox",

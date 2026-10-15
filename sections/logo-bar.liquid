@@ -3,47 +3,25 @@
 
 {%- liquid
   assign total = section.blocks.size
+  assign mobile_cols = section.settings.columns_mobile | plus: 0
+  if total < mobile_cols
+    assign mobile_cols = total
+  endif
+
+  assign desktop_cols = section.settings.columns_desktop | plus: 0
+  if total < desktop_cols
+    assign desktop_cols = total
+  endif
+
   assign root_classes = 'tdm-logo-bar'
   if section.settings.grayscale
     assign root_classes = root_classes | append: ' tdm-logo-bar--grayscale'
   endif
-
-  assign title_text = section.settings.title | strip_html
 -%}
 
-{%- capture bar_inner -%}
-  {% if section.settings.title != blank %}
-    <div class="logo-bar__header">
-      {% render 'typography', text: title_text, variant: 'eyebrow', as: 'h2', align: 'center' %}
-    </div>
-  {% endif %}
-
-  <ul role="list" class="logo-bar__list">
-    {%- for block in section.blocks -%}
-      {%- if block.settings.image != blank -%}
-        <li class="logo-bar__item" {{ block.shopify_attributes }}>
-          <div class="logo-bar__box">
-            {%- assign img = block.settings.image -%}
-            {{
-              img
-              | image_url: width: 800
-              | image_tag:
-                widths: '160, 200, 240, 320, 480, 640, 800',
-                sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw',
-                class: 'logo-bar__img',
-                alt: block.settings.alt
-              | default: img.alt
-            }}
-          </div>
-        </li>
-      {%- endif -%}
-    {%- endfor -%}
-  </ul>
-{%- endcapture -%}
-
 <section
-  class="{{ root_classes }} color-{{ section.settings.color_scheme }} gradient"
-  style="--logo-bar-gap: {{ section.settings.gap }}px; --logo-h: {{ section.settings.max_height }}px;"
+  class="{{ root_classes }}"
+  style="--tdm-radius: {{ section.settings.radius }}px; --logo-bar-gap: {{ section.settings.gap }}px; --logo-h: {{ section.settings.max_height }}px; --cols-mobile: {{ mobile_cols }}; --cols-desktop: {{ desktop_cols }};"
 >
   <div
     class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -51,7 +29,39 @@
       data-cascade
     {% endif %}
   >
-    <div class="logo-bar__inner">{{ bar_inner }}</div>
+    <div class="logo-bar__card content-container color-{{ section.settings.color_scheme }} gradient">
+      {% if section.settings.title != blank %}
+        {%- assign title_font = section.settings.title_font | default: 'heading' -%}
+        <div class="logo-bar__header">
+          <h2 class="logo-bar__title title inline-richtext {{ section.settings.heading_size }} logo-bar__title--{{ title_font }}">
+            {{ section.settings.title }}
+          </h2>
+          <div class="logo-bar__rule" aria-hidden="true"></div>
+        </div>
+      {% endif %}
+
+      <ul role="list" class="logo-bar__list">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank -%}
+            <li class="logo-bar__item" {{ block.shopify_attributes }}>
+              <div class="logo-bar__box">
+                {%- assign img = block.settings.image -%}
+                {{
+                  img
+                  | image_url: width: 800
+                  | image_tag:
+                    widths: '160, 200, 240, 320, 480, 640, 800',
+                    sizes: '(min-width: 990px) 180px, (min-width: 750px) 160px, 45vw',
+                    class: 'logo-bar__img',
+                    alt: block.settings.alt
+                  | default: img.alt
+                }}
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -62,9 +72,34 @@
   "class": "section",
   "settings": [
     { "type": "inline_richtext", "id": "title", "label": "Title", "default": "ALIANZAS QUE NUTREN LA TIERRA" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h2",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h0", "label": "H0" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+
+    {
+      "type": "select",
+      "id": "title_font",
+      "label": "Title font style",
+      "default": "heading",
+      "options": [
+        { "value": "heading", "label": "Theme heading" },
+        { "value": "body", "label": "Theme body (regular)" },
+        { "value": "mono", "label": "Monospace (regular)" }
+      ]
+    },
 
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
-    { "type": "range", "id": "gap", "label": "Logo gap (px)", "info": "Logos sit together in the centre with this fixed gap.", "min": 16, "max": 128, "step": 8, "default": 64 },
+    { "type": "range", "id": "radius", "label": "Corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 16 },
+    { "type": "range", "id": "gap", "label": "Logo gap (px)", "min": 8, "max": 48, "step": 2, "default": 24 },
     { "type": "checkbox", "id": "grayscale", "label": "Grayscale logos", "default": true },
     {
       "type": "range",
@@ -74,6 +109,25 @@
       "max": 160,
       "step": 2,
       "default": 56
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
     },
     {
       "type": "range",

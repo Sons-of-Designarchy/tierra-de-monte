@@ -1,19 +1,33 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
 
-{% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
 <div class="customer account section-{{ section.id }}-padding">
   <div>
-    {%- assign ac_title = 'customer.account.title' | t -%}
-    {%- assign ac_logout = 'customer.log_out' | t -%}
-    {% render 'typography', text: ac_title, as: 'h1', font: 'display', weight: 'medium', variant: 'h2', class: 'customer__title' %}
-    {% render 'link', text: ac_logout, href: routes.account_logout_url %}
+    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+    <a href="{{ routes.account_logout_url }}">
+      <span class="svg-wrapper">
+        {{- 'icon-account.svg' | inline_asset_content -}}
+      </span>
+      {{ 'customer.log_out' | t }}
+    </a>
   </div>
 
   <div>
     <div>
-      {%- assign ac_orders_title = 'customer.orders.title' | t -%}
-      {% render 'typography', text: ac_orders_title, as: 'h2', variant: 'h4' %}
+      <h2>{{ 'customer.orders.title' | t }}</h2>
 
       {% paginate customer.orders by 20 %}
         {%- if customer.orders.size > 0 -%}
@@ -23,14 +37,13 @@
             </caption>
             <thead role="rowgroup">
               <tr role="row">
-                <th id="ColumnOrder" scope="col" role="columnheader">{% assign ac_th = 'customer.orders.order_number' | t %}{% render 'typography', text: ac_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
-                <th id="ColumnDate" scope="col" role="columnheader">{% assign ac_th = 'customer.orders.date' | t %}{% render 'typography', text: ac_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
-                <th id="ColumnPayment" scope="col" role="columnheader">{% assign ac_th = 'customer.orders.payment_status' | t %}{% render 'typography', text: ac_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
+                <th id="ColumnOrder" scope="col" role="columnheader">{{ 'customer.orders.order_number' | t }}</th>
+                <th id="ColumnDate" scope="col" role="columnheader">{{ 'customer.orders.date' | t }}</th>
+                <th id="ColumnPayment" scope="col" role="columnheader">{{ 'customer.orders.payment_status' | t }}</th>
                 <th id="ColumnFulfillment" scope="col" role="columnheader">
-                  {%- assign ac_th = 'customer.orders.fulfillment_status' | t -%}
-                  {% render 'typography', text: ac_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}
+                  {{ 'customer.orders.fulfillment_status' | t }}
                 </th>
-                <th id="ColumnTotal" scope="col" role="columnheader">{% assign ac_th = 'customer.orders.total' | t %}{% render 'typography', text: ac_th, as: 'span', variant: 'label', weight: 'medium', color: 'secondary' %}</th>
+                <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.orders.total' | t }}</th>
               </tr>
             </thead>
             <tbody role="rowgroup">
@@ -42,9 +55,12 @@
                     headers="ColumnOrder"
                     data-label="{{ 'customer.orders.order_number' | t }}"
                   >
-                    {%- assign ac_order_label = 'customer.orders.order_number_link' | t: number: order.name -%}
-                    {%- capture ac_order_attrs -%}aria-label="{{ ac_order_label | escape }}"{%- endcapture -%}
-                    {% render 'button', label: order.name, href: order.customer_url, variant: 'outline', size: 'sm', attrs: ac_order_attrs %}
+                    <a
+                      href="{{ order.customer_url }}"
+                      aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}"
+                    >
+                      {{ order.name }}
+                    </a>
                   </td>
                   <td headers="RowOrder ColumnDate" role="cell" data-label="{{ 'customer.orders.date' | t }}">
                     {{ order.created_at | time_tag: format: 'date' }}
@@ -71,8 +87,7 @@
             </tbody>
           </table>
         {%- else -%}
-          {%- assign ac_none = 'customer.orders.none' | t -%}
-          {% render 'typography', text: ac_none, variant: 'body' %}
+          <p>{{ 'customer.orders.none' | t }}</p>
         {%- endif -%}
 
         {%- if paginate.pages > 1 -%}
@@ -124,13 +139,13 @@
     </div>
 
     <div>
-      {%- assign ac_details = 'customer.account.details' | t -%}
-      {%- capture ac_view -%}{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }}){%- endcapture -%}
-      {% render 'typography', text: ac_details, as: 'h2', variant: 'h4' %}
+      <h2>{{ 'customer.account.details' | t }}</h2>
 
-      <div class="customer__address">{{ customer.default_address | format_address }}</div>
+      {{ customer.default_address | format_address }}
 
-      {% render 'link', text: ac_view, href: routes.account_addresses_url %}
+      <a href="{{ routes.account_addresses_url }}">
+        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+      </a>
     </div>
   </div>
 </div>

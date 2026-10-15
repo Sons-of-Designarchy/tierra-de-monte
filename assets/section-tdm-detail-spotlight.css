@@ -12,12 +12,23 @@
    ========================================================================== */
 
 .tdm-spotlight {
-  /* Letterbox behind "contain"-fit images when the editor colour is empty. */
-  --sp-contain-bg-default: var(--pr-surface-subtle);
+  /* Letterbox behind "contain"-fit images. Scheme-independent by design: it sits
+     under a photo, not on a text surface, so it doesn't follow --color-background. */
+  --sp-contain-bg-default: #f4f1f2;
 }
 
 .tdm-spotlight__header {
-  margin: 0 0 var(--pr-space-8);
+  max-width: 72rem;
+  margin: 0 auto var(--tdm-space-8);
+  text-align: center;
+}
+
+.tdm-spotlight__title {
+  margin: 0;
+}
+
+.tdm-spotlight__text {
+  margin-top: var(--tdm-space-3);
 }
 
 .tdm-spotlight__grid {
@@ -26,7 +37,7 @@
     'media'
     'left'
     'right';
-  gap: var(--pr-space-8);
+  gap: var(--tdm-space-8);
 }
 
 .tdm-spotlight__col--left {
@@ -43,7 +54,7 @@
   overflow: hidden;
   aspect-ratio: var(--sp-ratio-m, 4 / 3);
   border-radius: var(--sp-radius, 16px);
-  background: var(--pr-surface-subtle);
+  background: rgba(var(--color-foreground), 0.04);
 }
 
 tdm-spotlight-media {
@@ -81,7 +92,7 @@ tdm-spotlight-media {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity calc(4 * var(--pr-motion-base)) var(--pr-motion-ease);
+  transition: opacity 0.8s var(--tdm-ease);
 }
 
 .tdm-spotlight__slide.is-active {
@@ -95,14 +106,14 @@ tdm-spotlight-media {
 }
 
 .tdm-spotlight__media .tdm-spotlight__placeholder {
-  fill: var(--pr-text-secondary);
+  fill: rgba(var(--color-foreground), 0.5);
 }
 
 /* ---- Points ---------------------------------------------------------------- */
 .tdm-spotlight__col {
   display: flex;
   flex-direction: column;
-  gap: var(--pr-space-8);
+  gap: var(--tdm-space-8);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -118,20 +129,21 @@ tdm-spotlight-media {
 
 .tdm-spotlight__accent {
   display: block;
-  width: var(--pr-space-8);
-  height: var(--pr-space-1);
-  margin-bottom: var(--pr-space-3);
-  border-radius: var(--pr-radius-full);
-  background: var(--pr-action);
+  width: 28px;
+  height: 3px;
+  margin-bottom: var(--tdm-space-3);
+  border-radius: var(--tdm-radius-pill);
+  background: rgb(var(--color-button));
 }
 
 .tdm-spotlight__point-title {
-  margin: 0 0 var(--pr-space-2);
+  margin: 0 0 var(--tdm-space-2);
 }
 
 .tdm-spotlight__point-text,
 .tdm-spotlight__point-text p {
   margin: 0;
+  color: rgb(var(--color-foreground));
 }
 
 /* ---- Desktop --------------------------------------------------------------- */
@@ -140,7 +152,7 @@ tdm-spotlight-media {
     grid-template-areas: 'left media right';
     grid-template-columns: 1fr minmax(0, var(--sp-media-w, 36%)) 1fr;
     align-items: center;
-    gap: var(--pr-space-12);
+    gap: var(--tdm-space-12);
   }
 
   .tdm-spotlight__media {
@@ -148,7 +160,7 @@ tdm-spotlight-media {
   }
 
   .tdm-spotlight__col {
-    gap: var(--pr-space-12);
+    gap: var(--tdm-space-12);
   }
 
   /* Left column reads towards the image */
@@ -171,12 +183,12 @@ tdm-spotlight-media {
 
 /* ---- Layout: stacked --------------------------------------------------------- */
 .tdm-spotlight--stacked .tdm-spotlight__media {
-  margin-bottom: var(--pr-space-12);
+  margin-bottom: var(--tdm-space-12);
 }
 
 .tdm-spotlight__point-icon {
   margin-right: 0.5em;
-  color: var(--pr-action);
+  color: rgb(var(--color-button));
 }
 
 /* Uploaded icon: sits on the title's first line (title becomes a flex row) */
@@ -194,12 +206,12 @@ tdm-spotlight-media {
 
 .tdm-spotlight__panel {
   display: grid;
-  gap: var(--pr-space-8);
+  gap: var(--tdm-space-8);
   margin: 0;
-  padding: var(--pr-space-8) var(--pr-space-6);
+  padding: var(--tdm-space-8) var(--tdm-space-6);
   list-style: none;
   border-radius: var(--sp-radius, 16px);
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
 }
 
 .tdm-spotlight__panel .tdm-spotlight__point-text {
@@ -213,22 +225,30 @@ tdm-spotlight-media {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(var(--sp-rows-narrow, 2), auto);
     grid-auto-flow: column;
-    gap: var(--pr-space-8) var(--pr-space-12);
-    padding: var(--pr-space-12);
+    gap: var(--tdm-space-8) var(--tdm-space-12);
+    padding: var(--tdm-space-12);
   }
 }
 
 @media screen and (min-width: 990px) {
   .tdm-spotlight--stacked .tdm-spotlight__media {
     aspect-ratio: var(--sp-ratio, 2 / 1);
-    margin-bottom: var(--pr-space-6);
+    margin-bottom: var(--tdm-space-6);
+  }
+
+  .tdm-spotlight--stacked .tdm-spotlight__header {
+    max-width: none;
+  }
+
+  .tdm-spotlight--stacked .tdm-spotlight__text p {
+    margin: var(--tdm-space-1) 0 0;
   }
 
   .tdm-spotlight__panel {
     grid-template-columns: repeat(var(--sp-cols, 2), minmax(0, 1fr));
     grid-template-rows: repeat(var(--sp-rows, 2), auto);
-    padding: var(--pr-space-6) var(--pr-space-12);
-    gap: var(--pr-space-8) var(--pr-space-12);
+    padding: var(--tdm-space-6) var(--tdm-space-12);
+    gap: var(--tdm-space-8) var(--tdm-space-12);
   }
 }
 
@@ -242,7 +262,7 @@ tdm-spotlight-media {
 
 @media screen and (max-width: 749px) {
   .tdm-spotlight--stacked .tdm-spotlight__media {
-    margin-bottom: var(--pr-space-4);
+    margin-bottom: var(--tdm-space-4);
   }
 }
 
@@ -250,7 +270,7 @@ tdm-spotlight-media {
    of the image — scheme-tinted, blurred, 1px border — same recipe as the testimonial card */
 @media screen and (min-width: 750px) {
   .tdm-spotlight__stage--overlay {
-    --sp-overlay-inset: var(--pr-space-6);
+    --sp-overlay-inset: var(--tdm-space-6);
     position: relative;
   }
 
@@ -258,46 +278,16 @@ tdm-spotlight-media {
     margin-bottom: 0;
   }
 
-  /* The band holds the eyebrow (white, on an ink scrim) and the panel, as one block over the photo */
-  .tdm-spotlight__stage--overlay .tdm-spotlight__band {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--pr-space-4);
-    padding: var(--pr-space-16) var(--sp-overlay-inset) var(--sp-overlay-inset);
-    border-radius: 0 0 var(--sp-radius, 16px) var(--sp-radius, 16px);
-    background: linear-gradient(to top, var(--pr-scrim-strong), transparent);
-  }
-
-  .tdm-spotlight__band-eyebrow {
-    color: var(--pr-white);
-  }
-
   .tdm-spotlight__stage--overlay .tdm-spotlight__panel {
-    gap: var(--pr-space-6);
-    padding: var(--pr-space-6);
-    border: 1px solid var(--pr-border-strong);
-    background: color-mix(in oklab, var(--pr-surface) 72%, transparent);
-    -webkit-backdrop-filter: blur(var(--pr-blur-sm));
-    backdrop-filter: blur(var(--pr-blur-sm));
+    position: absolute;
+    right: var(--sp-overlay-inset);
+    bottom: var(--sp-overlay-inset);
+    left: var(--sp-overlay-inset);
+    gap: var(--tdm-space-6);
+    padding: var(--tdm-space-6);
+    border: 1px solid color-mix(in srgb, rgb(var(--color-foreground)) 55%, transparent);
+    background: color-mix(in srgb, rgb(var(--color-background)) 72%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
-}
-
-/* Opt-in capitals (setting "Títulos de los puntos en mayúsculas"); .pr-type resets text-transform, so the modifier is restated here */
-.tdm-spotlight__point-title.tdm-upper {
-  text-transform: uppercase;
-}
-
-/* Below tablet the band sits under the photo: the eyebrow keeps the section colours */
-.tdm-spotlight__band {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pr-space-3);
-}
-
-.tdm-spotlight__band-eyebrow.pr-type--eyebrow {
-  font-size: var(--pr-text-body-lg);
 }

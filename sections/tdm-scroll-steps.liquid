@@ -27,29 +27,26 @@
       assign ratio = '16 / 10'
   endcase
   assign step_blocks = section.blocks | where: 'type', 'step'
-  case s.heading_size
-    when 'h2'
-      assign st_title_variant = 'h2'
-    when 'h1'
-      assign st_title_variant = 'h1'
-    else
-      assign st_title_variant = 'display'
-  endcase
-  assign st_step_variant = s.step_title_size | default: 'h3'
-  assign st_num_variant = s.number_variant | default: 'h4'
 -%}
 
 <section
   class="tdm-steps{% if s.show_dividers %} tdm-steps--dividers{% endif %} color-{{ s.color_scheme }} gradient"
-  style="--st-ratio: {{ ratio }}; --st-radius: {{ s.image_radius }}px; "
+  style="--st-ratio: {{ ratio }}; --st-radius: {{ s.image_radius }}px; --st-num: {{ s.number_size }};"
 >
   <div class="page-width section-{{ section.id }}-padding">
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color -%}
+
     <tdm-scroll-steps class="tdm-steps__pin">
      <div class="tdm-steps__frame">
      <div class="tdm-steps__grid">
       <div class="tdm-steps__aside">
         <div class="tdm-steps__sticky">
-          {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: st_title_variant -%}
+          {%- if s.title != blank -%}
+            <h2 class="tdm-steps__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+          {%- endif -%}
+          {%- if s.text != blank -%}
+            <div class="tdm-steps__text rte">{{ s.text }}</div>
+          {%- endif -%}
 
           <div class="tdm-steps__media">
             {%- for block in step_blocks -%}
@@ -102,18 +99,21 @@
             data-step="{{ forloop.index0 }}"
             {{ block.shopify_attributes }}
           >
-            {%- render 'typography', text: num, as: 'span', variant: st_num_variant, font: 'display', color: 'inherit', class: 'tdm-steps__num', attrs: 'aria-hidden="true"' -%}
+            <span class="tdm-steps__num" aria-hidden="true">{{ num }}</span>
             {%- if block.settings.title != blank -%}
-              {%- render 'typography', text: block.settings.title, as: 'h3', variant: st_step_variant, font: 'display', weight: 'medium', class: 'tdm-steps__step-title' -%}
+              <h3 class="tdm-steps__step-title {{ s.step_title_size }}">{{ block.settings.title }}</h3>
             {%- endif -%}
             {%- if block.settings.text != blank -%}
-              {%- render 'typography', text: block.settings.text, as: 'div', variant: 'body-lg', class: 'tdm-steps__step-text rte' -%}
+              <div class="tdm-steps__step-text rte">{{ block.settings.text }}</div>
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
-              {%- assign st_btn_href = block.settings.button_link | default: '#' -%}
-              {%- capture st_btn_attrs -%}{% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if st_btn_href contains '#pedido' %} data-track="quiero-ser-aliado-proceso"{% elsif st_btn_href contains '#registro' %} data-track="registro-proceso"{% endif %}{%- endcapture -%}
-              {%- if block.settings.button_style == 'secondary' -%}{%- assign st_btn_variant = 'outline' -%}{%- else -%}{%- assign st_btn_variant = 'primary' -%}{%- endif -%}
-              {%- render 'button', label: block.settings.button_label, href: st_btn_href, variant: st_btn_variant, size: 'lg', class: 'tdm-steps__btn', attrs: st_btn_attrs -%}
+              <a
+                class="tdm-steps__btn button button--{{ block.settings.button_style | default: 'primary' }}"
+                {% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ block.settings.button_link }}"{% endif %}
+                {% if block.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}
+              >
+                {{- block.settings.button_label | escape -}}
+              </a>
             {%- endif -%}
           </li>
         {%- endfor -%}
@@ -143,7 +143,8 @@
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
     { "type": "header", "content": "Encabezado" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. Sin línea." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Our Process" },
     {
       "type": "select",
@@ -174,17 +175,7 @@
     },
     { "type": "range", "id": "image_radius", "label": "Redondeo de la imagen", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
     { "type": "header", "content": "Pasos" },
-    {
-      "type": "select",
-      "id": "number_variant",
-      "label": "Tamaño del número",
-      "options": [
-        { "value": "h2", "label": "Grande" },
-        { "value": "h3", "label": "Mediano" },
-        { "value": "h4", "label": "Pequeño" }
-      ],
-      "default": "h4"
-    },
+    { "type": "range", "id": "number_size", "label": "Tamaño del número (escritorio)", "min": 48, "max": 160, "step": 4, "unit": "px", "default": 112, "info": "En móvil se reduce proporcionalmente." },
     {
       "type": "select",
       "id": "step_title_size",

@@ -48,7 +48,7 @@
           "type": "social_icons",
           "name": "REDES SOCIALES",
           "settings": {
-            "heading": "REDES SOCIALES"
+            "heading": "<strong>REDES SOCIALES</strong>"
           }
         }
       },
@@ -58,6 +58,9 @@
         "text_VXE7Hp",
         "text_fVakYt",
         "text_9cence"
+      ],
+      "custom_css": [
+        ".newsletter-form__field-wrapper {display: none !important;}"
       ],
       "settings": {
         "color_scheme": "scheme-tdm-aliados-oscuro",
@@ -84,3 +87,4 @@
     "footer"
   ]
 }
+

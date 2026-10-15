@@ -1,0 +1,85 @@
+<div class="solu__panes">
+  {% for block in section.blocks %}
+    {% liquid
+      assign active = forloop.first
+      assign col = block.settings.collection
+    %}
+    <div
+      id="pane-{{ section.id }}-{{ block.id }}"
+      class="solu__pane{% if active %} is-active{% endif %}"
+      role="tabpanel"
+      aria-labelledby="tab-{{ section.id }}-{{ block.id }}"
+      tabindex="0"
+    >
+      {% if col != blank and col.products_count > 0 %}
+        <ul class="grid grid--4-col-desktop grid--2-col-tablet grid--1-col">
+          {% for product in col.products limit: section.settings.products_per_tab %}
+            <li class="grid__item">
+              <div class="solu__card">
+                {%- render 'card-product',
+                  card_product: product,
+                  media_aspect_ratio: 'adapt',
+                  show_secondary_image: false,
+                  show_vendor: false,
+                  show_rating: false,
+                  section_id: section.id
+                -%}
+                <div class="solu__card-copy">
+                  {%- assign excerpt = product.metafields.custom.short_description | default: product.description -%}
+                  {%- assign excerpt = excerpt | strip_html | truncatewords: 30 -%}
+                  {% if excerpt != blank %}
+                    <p class="solu__excerpt">{{ excerpt }}</p>
+                  {% endif %}
+                  <a class="solu__link" href="{{ product.url }}">Ver Producto</a>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="solu__empty">No hay productos en esta colección.</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Soluciones (tabs)",
+  "tag": "section",
+  "class": "section soluciones-tabs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Soluciones para potencializar todo tipo de cultivo"
+    },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "AKI VA UN TESTO" },
+    {
+      "type": "range",
+      "id": "products_per_tab",
+      "label": "Products per tab",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Ver más productos" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL", "default": "/collections/all" }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Collection tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Tab" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "icon_emoji", "label": "Icon (emoji)", "default": "1" },
+        { "type": "textarea", "id": "icon_svg", "label": "Icon (inline SVG)", "default": "1" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Soluciones (tabs)" }]
+}
+{% endschema %}

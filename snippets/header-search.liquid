@@ -11,11 +11,18 @@
 <details-modal class="header__search">
   <details>
     <summary
-      class="pr-icon-btn pr-icon-btn--ghost pr-icon-btn--md modal__toggle"
+      class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"
       aria-haspopup="dialog"
       aria-label="{{ 'general.search.search' | t }}"
     >
-      {%- render 'icon', name: 'search', size: 'md' -%}
+      <span>
+        <span class="svg-wrapper">
+          {{- 'icon-search.svg' | inline_asset_content -}}
+        </span>
+        <span class="svg-wrapper header__icon-close">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </span>
     </summary>
     <div
       class="search-modal modal__content gradient"
@@ -86,8 +93,15 @@
         {%- else -%}
           </search-form>
         {%- endif -%}
-        {%- assign close_label = 'accessibility.close' | t -%}
-        {%- render 'icon-button', icon: 'close', label: close_label, class: 'search-modal__close-button modal__close-button' -%}
+        <button
+          type="button"
+          class="search-modal__close-button modal__close-button link link--text focus-inset"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </span>
+        </button>
       </div>
     </div>
   </details>

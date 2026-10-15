@@ -64,16 +64,6 @@
       assign ratio_m = 'auto'
   endcase
 
-  case s.heading_size
-    when 'h2'
-      assign sp_title_variant = 'h2'
-    when 'h1'
-      assign sp_title_variant = 'h1'
-    else
-      assign sp_title_variant = 'display'
-  endcase
-  assign sp_point_variant = s.point_title_size | default: 'h4'
-
   # Puntos: "Automático" reparte la primera mitad a la izquierda y el resto a la derecha
   assign point_blocks = section.blocks | where: 'type', 'point'
   assign half = point_blocks.size | plus: 1 | divided_by: 2
@@ -129,7 +119,7 @@
         <span class="tdm-spotlight__accent" aria-hidden="true"></span>
       {%- endif -%}
       {%- if block.settings.title != blank -%}
-        {%- capture sp_point_title -%}
+        <h3 class="tdm-spotlight__point-title {{ s.point_title_size }}{% if s.point_title_upper %} tdm-upper{% endif %}">
           {%- if block.settings.icon_image != blank -%}
             {{
               block.settings.icon_image
@@ -140,12 +130,10 @@
             <span class="tdm-spotlight__point-icon" aria-hidden="true">{{ block.settings.icon | escape }}</span>
           {%- endif -%}
           {{ block.settings.title }}
-        {%- endcapture -%}
-        {%- capture sp_point_class -%}tdm-spotlight__point-title{% if s.point_title_upper %} tdm-upper{% endif %}{%- endcapture -%}
-        {%- render 'typography', text: sp_point_title, as: 'h3', variant: sp_point_variant, font: 'display', weight: 'medium', class: sp_point_class -%}
+        </h3>
       {%- endif -%}
       {%- if block.settings.text != blank -%}
-        {%- render 'typography', text: block.settings.text, as: 'div', variant: 'body', class: 'tdm-spotlight__point-text rte' -%}
+        <div class="tdm-spotlight__point-text rte">{{ block.settings.text }}</div>
       {%- endif -%}
     </li>
   {%- endcapture -%}
@@ -218,9 +206,16 @@
   style="--sp-ratio: {{ ratio }}; --sp-ratio-m: {{ ratio_m }};{% if s.image_height > 0 %} --sp-height: {{ s.image_height }}px;{% endif %} --sp-radius: {{ s.image_radius }}px; --sp-media-w: {{ s.image_width }}%; --sp-fit: {{ s.image_fit | default: 'cover' }}; --sp-contain-bg: {{ s.contain_bg }}; --sp-icon: {{ s.icon_size | default: 24 }}px;"
 >
   <div class="page-width section-{{ section.id }}-padding">
-    {%- if s.eyebrow != blank or s.title != blank or s.text != blank -%}
-      <div class="tdm-spotlight__header">
-        {%- render 'section-header', eyebrow: s.eyebrow, title: s.title, intro: s.text, size: sp_title_variant, align: 'center' -%}
+    {%- render 'tdm-section-eyebrow', text: s.eyebrow, rule_color: s.rule_color, align: 'center' -%}
+
+    {%- if s.title != blank or s.text != blank -%}
+      <div class="tdm-spotlight__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- if s.title != blank -%}
+          <h2 class="tdm-spotlight__title inline-richtext {{ s.heading_size }}">{{ s.title }}</h2>
+        {%- endif -%}
+        {%- if s.text != blank -%}
+          <div class="tdm-spotlight__text rte">{{ s.text }}</div>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -228,14 +223,9 @@
       <div class="tdm-spotlight__stage{% if s.points_overlay %} tdm-spotlight__stage--overlay{% endif %}">
         {{- media -}}
         {%- if points_all != blank -%}
-          <div class="tdm-spotlight__band">
-          {%- if s.band_eyebrow != blank -%}
-            {%- render 'typography', text: s.band_eyebrow, variant: 'eyebrow', color: 'inherit', class: 'tdm-spotlight__band-eyebrow' -%}
-          {%- endif -%}
           <ul class="tdm-spotlight__panel color-{{ s.points_color_scheme }}" role="list" style="--sp-rows: {{ panel_rows }}; --sp-rows-narrow: {{ half }}; --sp-cols: {{ panel_cols }};">
             {{- points_all -}}
           </ul>
-          </div>
         {%- endif -%}
       </div>
     {%- else -%}
@@ -284,6 +274,7 @@
     },
     { "type": "header", "content": "Encabezado" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Texto pequeño arriba del título. La línea aparece solo si hay texto." },
+    { "type": "color", "id": "rule_color", "label": "Color de la línea del eyebrow" },
     { "type": "inline_richtext", "id": "title", "label": "Título", "default": "Every Detail, Considered" },
     {
       "type": "select",
@@ -297,7 +288,6 @@
       "default": "h1"
     },
     { "type": "richtext", "id": "text", "label": "Párrafo", "info": "Opcional. Va debajo del título." },
-    { "type": "text", "id": "band_eyebrow", "label": "Eyebrow sobre los puntos", "info": "Diseño apilado: línea pequeña dentro de la banda, justo arriba de los puntos (blanca sobre la foto en tablet y escritorio)." },
     { "type": "header", "content": "Imagen" },
     { "type": "image_picker", "id": "image", "label": "Imagen principal", "info": "Agrega bloques \"Imagen\" para que roten automáticamente con esta." },
     {

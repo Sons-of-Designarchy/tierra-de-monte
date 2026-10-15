@@ -17,10 +17,6 @@
         assign favicon = settings.aliados_favicon
       endif
       assign heading_font = settings.type_header_font
-      assign display_font = settings.aliados_heading_font
-      if display_font == blank
-        assign display_font = settings.type_header_font
-      endif
       if is_aliados and settings.aliados_heading_font != blank
         assign heading_font = settings.aliados_heading_font
       endif
@@ -58,7 +54,6 @@
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'pr-tabs.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
@@ -69,8 +64,6 @@
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
-      assign body_font_light = settings.type_body_font | font_modify: 'weight', '300'
-      assign body_font_medium = settings.type_body_font | font_modify: 'weight', '500'
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
       assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
 
@@ -215,17 +208,10 @@
 
       /* Shopify font faces */
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
-      {{ body_font_light | font_face: font_display: 'swap' }}
-      {{ body_font_medium | font_face: font_display: 'swap' }}
       {{ body_font_bold | font_face: font_display: 'swap' }}
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ heading_font | font_face: font_display: 'swap' }}
-      {%- if display_font.family != heading_font.family or display_font.weight != heading_font.weight -%}
-        {{ display_font | font_face: font_display: 'swap' }}
-        {%- assign display_font_regular = display_font | font_modify: 'weight', '400' -%}
-        {%- if display_font_regular -%}{{ display_font_regular | font_face: font_display: 'swap' }}{%- endif -%}
-      {%- endif -%}
 
       {%- if settings.font_mono -%}
         {{ settings.font_mono | font_face: font_display: 'swap' }}
@@ -272,25 +258,6 @@
         --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
         --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
       }
-      {%- comment -%} PerfectlyRad tone roles: the dark tint of status colours on light backgrounds, the pale tint on dark ones. {%- endcomment -%}
-      {% if forloop.index == 1 -%}
-        :root,
-      {%- endif %}
-      .color-{{ scheme.id }} {
-        {%- if background_color_brightness <= 65 %}
-        --pr-scheme-brand: var(--pr-brand-secondary);
-        --pr-scheme-success: var(--pr-success-100);
-        --pr-scheme-warning: var(--pr-warning-100);
-        --pr-scheme-error: var(--pr-error-100);
-        --pr-scheme-info: var(--pr-info-100);
-        {%- else %}
-        --pr-scheme-brand: var(--pr-brand-primary);
-        --pr-scheme-success: var(--pr-success-700);
-        --pr-scheme-warning: var(--pr-warning-700);
-        --pr-scheme-error: var(--pr-error-700);
-        --pr-scheme-info: var(--pr-info-700);
-        {%- endif %}
-      }
       {% endfor %}
 
       {{ scheme_classes | prepend: 'body' }} {
@@ -319,10 +286,6 @@
         --font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
         --font-heading-style: {{ heading_font.style }};
         --font-heading-weight: {{ heading_font.weight }};
-
-        --font-display-family: {{ display_font.family }}, {{ display_font.fallback_families }};
-        --font-display-style: {{ display_font.style }};
-        --font-display-weight: {{ display_font.weight }};
 
         --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
@@ -466,12 +429,15 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'tdm-foundations.css' | asset_url | stylesheet_tag }}
-    {{ 'pr-typography.css' | asset_url | stylesheet_tag }}
-    {{ 'pr-atoms.css' | asset_url | stylesheet_tag }}
-    {{ 'pr-atoms-extra.css' | asset_url | stylesheet_tag }}
-    {{ 'pr-icon-list.css' | asset_url | stylesheet_tag }}
-    {{ 'pr-dawn-bridge.css' | asset_url | stylesheet_tag }}
-    {{ 'pr-commerce.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+      {{ 'component-price.css' | asset_url | stylesheet_tag }}
+      {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
 
     {%- unless settings.type_body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
@@ -504,23 +470,102 @@
       >
     {%- endif -%}
 
-    <script src="{{ 'tdm-design-mode.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'tdm-posthog.js' | asset_url }}" defer="defer"></script>
-    {% render 'tdm-analytics' %}
+    <script>
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
   </head>
+
+  <!-- (left as-is) -->
+  <script>
+    !(function (t, e) {
+      var o, n, p, r;
+      e.__SV ||
+        (window.posthog && window.posthog.__loaded) ||
+        ((window.posthog = e),
+        (e._i = []),
+        (e.init = function (i, s, a) {
+          function g(t, e) {
+            var o = e.split('.');
+            2 == o.length && ((t = t[o[0]]), (e = o[1])),
+              (t[e] = function () {
+                t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+              });
+          }
+          ((p = t.createElement('script')).type = 'text/javascript'),
+            (p.crossOrigin = 'anonymous'),
+            (p.async = !0),
+            (p.src = s.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js'),
+            (r = t.getElementsByTagName('script')[0]).parentNode.insertBefore(p, r);
+          var u = e;
+          for (
+            void 0 !== a ? (u = e[a] = []) : (a = 'posthog'),
+              u.people = u.people || [],
+              u.toString = function (t) {
+                var e = 'posthog';
+                return 'posthog' !== a && (e += '.' + a), t || (e += ' (stub)'), e;
+              },
+              u.people.toString = function () {
+                return u.toString(1) + '.people (stub)';
+              },
+              o =
+                'init Xr es pi Zr rs Kr Qr capture Ni calculateEventProperties os register register_once register_for_session unregister unregister_for_session ds getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty us ns createPersonProfile hs Vr vs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing ss debug O ls getPageViewId captureTraceFeedback captureTraceMetric qr'.split(
+                  ' '
+                ),
+              n = 0;
+            n < o.length;
+            n++
+          )
+            g(u, o[n]);
+          e._i.push([i, s, a]);
+        }),
+        (e.__SV = 1));
+    })(document, window.posthog || []);
+    posthog.init('phc_FREHyt91IjGsHEtdPkOTIwFOKsyeAA76kIki2lXM5Hz', {
+      api_host: 'https://us.i.posthog.com',
+      defaults: '2025-11-30',
+      person_profiles: 'identified_only',
+    });
+  </script>
+
+  <script>
+    (function () {
+      function paintMobileBorders() {
+        var isMobile = window.matchMedia('(max-width: 749.98px)').matches;
+        var items = document.querySelectorAll(
+          '.multicolumn .mc-feature__cols ul.multicolumn-list > li.multicolumn-list__item,' +
+            '.multicolumn slider-component ul.multicolumn-list > li.multicolumn-list__item'
+        );
+
+        items.forEach(function (li) {
+          if (isMobile) {
+            li.style.setProperty('border-left', '1px solid rgb(var(--color-foreground))', 'important');
+            li.style.setProperty('padding-left', '8px', 'important');
+          } else {
+            li.style.removeProperty('border-left');
+            li.style.removeProperty('padding-left');
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', paintMobileBorders);
+      document.addEventListener('shopify:section:load', paintMobileBorders);
+      window.addEventListener('resize', paintMobileBorders);
+    })();
+  </script>
 
   <body class="gradient{% if is_aliados and settings.aliados_color_scheme != blank %} color-{{ settings.aliados_color_scheme }}{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- if is_aliados or settings.show_commerce -%}
-      {%- unless template.name == 'cart' -%}
-        {%- render 'cart-drawer' -%}
-      {%- endunless -%}
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
     {%- endif -%}
 
     {%- if is_aliados -%}
+      {{ 'section-tdm-header-aliados.css' | asset_url | stylesheet_tag }}
       {%- if settings.aliados_uppercase_headings -%}
         {{ 'tdm-aliados-caps.css' | asset_url | stylesheet_tag }}
       {%- endif -%}
@@ -554,6 +599,30 @@
         predictive_search_url: '{{ routes.predictive_search_url }}',
       };
 
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+      };
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      };
+
+      window.quickOrderListStrings = {
+        itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+        itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+        itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+        itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+        viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+        each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+        min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
+        max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
+        step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
+      };
+
       window.accessibilityStrings = {
         imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
         shareSuccess: `{{ 'general.share.success_message' | t }}`,
@@ -569,16 +638,42 @@
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    <script src="{{ 'pr-cart.js' | asset_url }}" defer="defer"></script>
+    {%- if settings.cart_type == 'drawer' -%}
+      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
 
     <a
       href="https://wa.me/4423741871"
       target="_blank"
       rel="noopener"
       aria-label="Chat on WhatsApp"
-      class="tdm-whatsapp"
+      style="
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgb(37, 211, 102);
+        border: none;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 9999;
+        text-decoration: none;
+        overflow: hidden;
+      "
     >
-      <svg class="tdm-whatsapp__icon" width="30" height="30" viewBox="0 0 16 16" fill="currentColor" aria-label="WhatsApp">
+      <svg
+        width="30"
+        height="30"
+        viewBox="0 0 16 16"
+        fill="rgb(255, 255, 255)"
+        aria-label="WhatsApp"
+        style="display:block"
+      >
         <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"></path>
       </svg>
     </a>

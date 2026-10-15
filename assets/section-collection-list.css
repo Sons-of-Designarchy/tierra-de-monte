@@ -4,11 +4,7 @@
 }
 
 .collection-list-title {
-  margin: 0 0 var(--pr-space-6);
-}
-
-.collection-list .collection-card {
-  height: 100%;
+  margin: 0;
 }
 
 @media screen and (max-width: 749px) {

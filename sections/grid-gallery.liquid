@@ -3,19 +3,18 @@
 
 <section class="tdm-grid-gallery page-width section-{{ section.id }}-padding">
   {% if section.settings.kicker != blank %}
-    {% render 'typography', text: section.settings.kicker, as: 'p', variant: 'body-sm', color: 'secondary', align: 'center', class: 'grid-gallery__kicker' %}
+    <p class="caption-with-letter-spacing grid-gallery__kicker">{{ section.settings.kicker }}</p>
   {% endif %}
 
   {% if section.settings.heading != blank %}
-    {% render 'typography', text: section.settings.heading, as: 'h1', font: 'display', weight: 'medium', variant: 'h1', align: 'center', class: 'grid-gallery__heading' %}
+    <h1 class="h1 grid-gallery__heading">{{ section.settings.heading }}</h1>
   {% endif %}
 
   {% if section.settings.subheading != blank %}
-    {% render 'typography', text: section.settings.subheading, as: 'p', variant: 'body-lg', color: 'secondary', align: 'center', class: 'grid-gallery__subheading' %}
+    <p class="subtitle grid-gallery__subheading">{{ section.settings.subheading }}</p>
   {% endif %}
 
   {% if section.blocks.size > 0 %}
-    {%- assign gg_product_label = section.settings.product_label | default: 'Producto recomendado' -%}
     <div class="grid-gallery__grid" role="list">
       {% for block in section.blocks %}
         {% liquid
@@ -26,29 +25,49 @@
           assign note = block.settings.note
         %}
 
-        {%- capture gg_content -%}
-          {%- if sci != blank -%}
-            {%- capture gg_sci -%}<em>{{ sci }}</em>{%- endcapture -%}
-            {% render 'typography', text: gg_sci, variant: 'body-sm', color: 'secondary', class: 'grid-gallery__sci' %}
-          {%- endif -%}
-          {%- if note != blank -%}
-            {% render 'typography', text: note, variant: 'body-sm', color: 'secondary', class: 'grid-gallery__note' %}
-          {%- endif -%}
-          {%- if product != blank -%}
-            <div class="grid-gallery__product">
-              {% render 'typography', text: gg_product_label, as: 'span', variant: 'xs', color: 'secondary' %}
-              {% render 'product-card', product: product, layout: 'horizontal', tag: 'div', class: 'grid-gallery__product-card' %}
-            </div>
-          {%- endif -%}
-        {%- endcapture -%}
+        <article class="grid-gallery__card" role="listitem" {{ block.shopify_attributes }}>
+          <div
+            class="grid-gallery__media"
+            {% if img %}
+              style="background-image:url('{{ img | image_url: width: 1000 }}');"
+            {% endif %}
+          >
+            {% if img == blank %}
+              <div class="grid-gallery__placeholder"></div>
+            {% endif %}
+          </div>
 
-        <div class="grid-gallery__item" role="listitem" {{ block.shopify_attributes }}>
-          {% render 'card', tag: 'article', title: name, title_as: 'h3', image: img, image_alt: img.alt, image_ratio: '1/1', content: gg_content, class: 'grid-gallery__card' %}
-        </div>
+          <div class="grid-gallery__body">
+            {% if name != blank %}
+              <h3 class="grid-gallery__name">{{ name }}</h3>
+            {% endif %}
+
+            {% if sci != blank %}
+              <p class="grid-gallery__sci">
+                <em>{{ sci }}</em>
+              </p>
+            {% endif %}
+
+            {% if note != blank %}
+              <p class="grid-gallery__note">{{ note }}</p>
+            {% endif %}
+
+            {% if product != blank %}
+              <div class="grid-gallery__product">
+                <span class="grid-gallery__product-label">
+                  {{- section.settings.product_label | default: 'Producto recomendado' -}}
+                </span>
+                <a class="grid-gallery__product-link" href="{{ product.url }}">
+                  {{ product.title }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </article>
       {% endfor %}
     </div>
   {% else %}
-    {% render 'typography', text: 'Add items using “Add block”.', variant: 'body', color: 'secondary', class: 'tdm-grid-gallery__empty' %}
+    <p class="tdm-grid-gallery__empty">Add items using “Add block”.</p>
   {% endif %}
 </section>
 

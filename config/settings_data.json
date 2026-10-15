@@ -125,6 +125,11 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
+    "cart_type": "notification",
+    "show_vendor": false,
+    "show_cart_note": false,
+    "cart_drawer_collection": "",
+    "cart_color_scheme": "scheme-1",
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
@@ -161,7 +166,7 @@
       },
       "scheme-2": {
         "settings": {
-          "background": "#f5f8d6",
+          "background": "#d8e35b",
           "background_gradient": "",
           "text": "#1a4330",
           "button": "#d8e35b",
@@ -359,7 +364,7 @@
       },
       "scheme-tdm-aliados-verde": {
         "settings": {
-          "background": "#E0E8C5",
+          "background": "#C3D890",
           "background_gradient": "",
           "text": "#164120",
           "button": "#3E8335",
@@ -372,7 +377,7 @@
     "aliados_color_scheme": "scheme-tdm-aliados-base",
     "aliados_favicon": "shopify://shop_images/logo-stacked-white.png",
     "aliados_full_opacity_text": true,
-    "aliados_uppercase_headings": false
+    "aliados_uppercase_headings": true
   },
   "presets": {
     "Dawn": {
@@ -545,6 +550,11 @@
       "predictive_search_show_vendor": false,
       "predictive_search_show_price": false,
       "currency_code_enabled": true,
+      "cart_type": "notification",
+      "show_vendor": false,
+      "show_cart_note": false,
+      "cart_drawer_collection": "",
+      "cart_color_scheme": "scheme-1",
       "sections": {
         "main-password-header": {
           "type": "main-password-header",

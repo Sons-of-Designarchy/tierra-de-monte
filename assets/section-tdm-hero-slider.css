@@ -2,31 +2,32 @@
    Hero slider (sections/hero-slider.liquid)
    Layers per slide, back to front: image -> overlay -> content -> controls.
    Per-instance values arrive as custom properties on .tdm-hero-slider:
-     --pr-hero-min-h --hs-h-m
+     --hs-h --hs-h-m --hs-hsize
    Colours come from Dawn colour schemes: the section scheme sits on
    .tdm-hero-slider (controls), each .hs__slide carries its own (or the
-   section's) scheme class. foreground = text, button = accent. Text goes through the typography snippet and buttons through the button
-   atom, both read the slide's scheme roles.
+   section's) scheme class. foreground = text, button = accent. Buttons use the
+   theme's .button classes with the slide's scheme.
    Per-slide overlay colour arrives as --hs-overlay on .hs__overlay.
    ========================================================================== */
 
 .tdm-hero-slider {
   /* Slide gutters shared by the content column and the credit corner */
-  --hs-pad-x: var(--pr-space-12);
-  --hs-pad-top: var(--pr-space-12);
-  --hs-credit-bottom: var(--pr-space-8);
+  --hs-pad-x: 48px;
+  --hs-pad-top: 48px;
+  --hs-credit-bottom: 36px;
   display: block;
   position: relative;
   /* Keep the layer z-indexes (up to 4) local so they never paint over the sticky header */
   isolation: isolate;
-  /* Frame (pr-hero.css): square and edge to edge; with page width it keeps the editor's radius */
+  /* Boxed inside .page-width like the home hero, with rounded frame */
   border-radius: var(--hs-frame-radius, 0);
+  overflow: hidden;
 }
 
 .hs__track {
   display: flex;
   position: relative;
-  height: var(--pr-hero-min-h);
+  height: var(--hs-h);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -53,35 +54,34 @@
   z-index: 3;
   display: flex;
   width: 100%;
-  padding: var(--pr-space-12) var(--pr-space-12) var(--pr-space-24);
+  padding: 48px 48px 96px;
   box-sizing: border-box;
 }
 
-/* Full width: edge-to-edge frame, text column aligned to .page-width. First on the page the content clears the floating navbar */
+/* Full width: edge-to-edge frame, text column aligned to .page-width */
 .tdm-hero-slider.tdm-hero-slider--full {
   border-radius: 0;
-  --hs-pad-x: var(--pr-space-12);
 }
 
 .tdm-hero-slider.tdm-hero-slider--full .hs__container {
   max-width: var(--page-width);
   margin: 0 auto;
-  padding-left: var(--pr-space-12);
-  padding-right: var(--pr-space-12);
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
-#MainContent > .shopify-section:first-child .tdm-hero-slider--full .hs__container {
-  padding-top: var(--pr-nav-clear);
+.tdm-hero-slider.tdm-hero-slider--full {
+  --hs-pad-x: 5rem;
 }
 
 @media (max-width: 749px) {
   .tdm-hero-slider.tdm-hero-slider--full .hs__container {
-    padding-left: var(--pr-space-6);
-    padding-right: var(--pr-space-6);
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .tdm-hero-slider.tdm-hero-slider--full {
-    --hs-pad-x: var(--pr-space-6);
+    --hs-pad-x: 1.5rem;
   }
 }
 
@@ -108,12 +108,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: var(--pr-hero-focal, 50% 0%);
   display: block;
 }
 
 .tdm-hero-slider .hs__media svg {
-  background: var(--pr-surface-elevated);
+  background: rgb(var(--tdm-sand));
 }
 
 .tdm-hero-slider .hs__overlay {
@@ -123,10 +122,6 @@
   display: block;
   background-color: var(--hs-overlay);
   pointer-events: none;
-}
-
-.tdm-hero-slider .pr-hero-scrim {
-  z-index: 2;
 }
 
 .hs__content,
@@ -165,8 +160,8 @@
 }
 
 .hs__content {
-  max-width: calc(47.5 * var(--pr-rem));
-  color: var(--pr-text-primary);
+  max-width: 760px;
+  color: rgb(var(--color-foreground));
 }
 
 .hs__h-center .hs__content {
@@ -179,23 +174,33 @@
 
 /* ---- Text ------------------------------------------------------------------- */
 .hs__sub {
-  margin: 0 0 var(--pr-space-3);
-  color: var(--pr-action);
+  margin: 0 0 14px;
+  font-size: var(--tdm-eyebrow-size, 1.3rem);
+  letter-spacing: 0.16em;
+  color: rgb(var(--color-button));
+  font-weight: 500;
 }
 
 .hs__title {
-  margin: 0 0 var(--pr-space-6);
+  margin: 0 0 20px;
+  font-size: var(--hs-hsize);
+  line-height: 1.08;
+  color: inherit;
+  font-family: var(--font-heading-family, inherit);
+  letter-spacing: -0.01em;
 }
 
 .hs__title em,
 .hs__title i,
 .hs__hl {
-  color: var(--pr-action);
+  color: rgb(var(--color-button));
   font-style: normal;
 }
 
 .hs__text {
-  margin: 0 0 var(--pr-space-8);
+  margin: 0 0 28px;
+  font-size: 1.7rem;
+  line-height: 1.55;
 }
 
 .hs__text p {
@@ -206,7 +211,7 @@
 .hs__btns {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pr-space-3);
+  gap: 12px;
 }
 
 .hs__h-center .hs__btns {
@@ -217,13 +222,33 @@
   justify-content: flex-end;
 }
 
+/* Buttons are the theme's .button (primary / secondary): same size, padding, radius and
+   border as the rest of the site. Only the secondary gets a glass fill over the photo. */
+.hs__btns .button--secondary {
+  --color-button: var(--color-secondary-button-text);
+  --alpha-button-background: 0.08;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
 /* ---- Credit (bottom corner) --------------------------------------------------- */
 .hs__credit {
   position: absolute;
   left: var(--hs-pad-x);
   bottom: var(--hs-credit-bottom);
-  color: var(--pr-text-primary);
+  color: rgb(var(--color-foreground));
+  font-size: 1.5rem;
+  line-height: 1.35;
   margin: 0;
+}
+
+.hs__credit strong {
+  display: block;
+  font-weight: 700;
+}
+
+.hs__credit span {
+  opacity: 0.85;
 }
 
 /* Credit corner (section setting): right side and/or top */
@@ -242,63 +267,57 @@
 .hs__controls {
   position: absolute;
   left: 50%;
-  bottom: var(--pr-space-6);
+  bottom: 28px;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: var(--pr-space-4);
+  gap: 16px;
 }
 
 .hs__arrow {
-  border-color: var(--pr-border-strong);
-  background: color-mix(in oklab, var(--pr-surface) 20%, transparent);
-  color: var(--pr-text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1.5px solid rgba(var(--color-foreground), 0.75);
+  background: rgba(var(--color-background), 0.2);
+  color: rgb(var(--color-foreground));
+  display: grid;
+  place-items: center;
+  transition: background 0.2s;
 }
 
 .hs__arrow:hover {
-  background: color-mix(in oklab, var(--pr-surface) 45%, transparent);
-}
-
-.hs__prev .pr-icon {
-  transform: scaleX(-1);
+  background: rgba(var(--color-background), 0.45);
 }
 
 .hs__dots {
   display: flex;
-  gap: var(--pr-space-2);
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* 44px touch target around an 8px dot */
 .hs__dot {
-  position: relative;
-  width: var(--pr-space-2);
-  height: var(--pr-space-2);
-  border-radius: var(--pr-radius-full);
+  width: 8px;
+  height: 8px;
+  border-radius: var(--tdm-radius-pill);
   border: 0;
   padding: 0;
   cursor: pointer;
-  background: color-mix(in oklab, var(--pr-text-primary) 50%, transparent);
-  transition:
-    width var(--pr-motion-base) var(--pr-motion-ease),
-    background var(--pr-motion-base) var(--pr-motion-ease);
-}
-
-.hs__dot::after {
-  content: '';
-  position: absolute;
-  inset: calc(-1 * var(--pr-space-3)) calc(-0.5 * var(--pr-space-1));
+  background: rgba(var(--color-foreground), 0.5);
+  transition: width 0.3s, background 0.3s;
 }
 
 .hs__dot[aria-current='true'] {
-  width: var(--pr-space-6);
-  background: var(--pr-text-primary);
+  width: 24px;
+  background: rgb(var(--color-foreground));
 }
 
+.hs__arrow:focus-visible,
 .hs__dot:focus-visible {
-  outline: 2px solid var(--pr-border-focus);
+  outline: 2px solid rgb(var(--color-foreground));
   outline-offset: 3px;
 }
 
@@ -308,23 +327,36 @@
   }
 
   .tdm-hero-slider .hs__container {
-    padding: var(--pr-space-8) var(--pr-space-6) calc(var(--pr-space-24) + var(--pr-space-6));
+    padding: 32px 20px 120px;
+  }
+
+  .hs__title {
+    font-size: calc(var(--hs-hsize) * 0.58);
   }
 
   .hs__text {
-    margin-bottom: var(--pr-space-6);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
 
   .tdm-hero-slider {
-    --hs-pad-x: var(--pr-space-6);
-    --hs-pad-top: var(--pr-space-8);
-    --hs-credit-bottom: calc(var(--pr-space-16) + var(--pr-space-4)); /* clears the arrows/dots */
+    --hs-pad-x: 20px;
+    --hs-pad-top: 32px;
+    --hs-credit-bottom: 80px; /* clears the arrows/dots */
+  }
+
+  .hs__credit {
+    font-size: 1.4rem;
   }
 
   .hs__controls {
-    bottom: var(--pr-space-6);
+    bottom: 20px;
   }
 
+  .hs__arrow {
+    width: 38px;
+    height: 38px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -334,5 +366,21 @@
 
   .hs__dot {
     transition: none;
+  }
+}
+
+/* Reading text floor (tokens in tdm-foundations.css) */
+.tdm-hero-slider .hs__credit,
+.tdm-hero-slider .hs__credit span {
+  font-size: var(--tdm-text-body);
+  line-height: var(--tdm-text-body-leading);
+  color: rgb(var(--color-foreground));
+  opacity: 1;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-hero-slider .hs__credit,
+  .tdm-hero-slider .hs__credit span {
+    font-size: var(--tdm-text-body-desktop);
   }
 }

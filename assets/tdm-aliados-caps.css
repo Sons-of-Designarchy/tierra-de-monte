@@ -13,13 +13,6 @@ body .h1,
 body .h2,
 body .h3,
 body .h4,
-body .h5,
-body .pr-type--display,
-body .pr-type--h1,
-body .pr-type--h2,
-body .pr-type--h3,
-body .pr-type--h4,
-body .pr-type--h5,
-body .pr-type--h6 {
+body .h5 {
   text-transform: uppercase;
 }

@@ -1,9 +1,10 @@
 /* =============================================================================
    Ticker section (sections/ticker.liquid)
    Infinite marquee of a repeated line of text, optional background image and
-   icon. Text is rendered by the typography snippet; this file only lays it out.
-   Per-instance values arrive as custom properties on .tdm-ticker:
-     --ticker-speed --ticker-h --ticker-icon-h --ticker-ink --ticker-bg --ticker-tracking
+   icon. Per-instance values arrive as custom properties on .tdm-ticker:
+     --ticker-speed --ticker-h --ticker-fs --ticker-icon-h --ticker-ink --ticker-bg
+   Text transform, borders and the mono swap are modifier classes; see
+   tdm-foundations.css for the shared .tdm-mono utility.
    ========================================================================== */
 
 .tdm-ticker {
@@ -12,7 +13,14 @@
   overflow: hidden;
   isolation: isolate;
   background: var(--ticker-bg, transparent);
-  color: var(--ticker-ink, var(--pr-brand-tertiary));
+}
+
+.tdm-ticker--border-top {
+  border-top: 1px solid var(--ticker-ink, rgb(var(--tdm-cream)));
+}
+
+.tdm-ticker--border-bottom {
+  border-bottom: 1px solid var(--ticker-ink, rgb(var(--tdm-cream)));
 }
 
 .tdm-ticker__img {
@@ -32,58 +40,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
   z-index: 2;
 }
 
-.tdm-ticker .tdm-ticker__text {
+.tdm-ticker .typo-primary,
+.tdm-ticker .typo-secondary,
+.tdm-ticker .tdm-mono {
+  line-height: 1.25; /* room for descenders (g, p, y) inside the clipped marquee */
   white-space: nowrap;
-  text-transform: uppercase; /* the one allowed mono-uppercase style: every ticker reads the same */
+  color: var(--ticker-ink, rgb(var(--tdm-cream)));
+  font-size: var(--ticker-fs, 22px);
+  text-transform: uppercase;
 }
 
-/* Icon between phrases on the photo ticker: white, same opacity as the dot separator, which it replaces */
-.tdm-ticker--has-icon .tdm-ticker__item::after {
-  content: none;
-}
-
-.tdm-ticker--has-icon .tdm-ticker__icon {
-  filter: brightness(0) invert(1);
-  opacity: 0.6;
-}
-
-/* Secondary style: large light text on a light band, 1px lines above and below, the logo is the separator.
-   Ink and band colour come from the section's own colour settings. */
-.tdm-ticker--light {
-  border-block: 1px solid var(--ticker-ink, var(--pr-border-strong));
-}
-
-.tdm-ticker--light .tdm-ticker__text {
-  text-transform: none;
-  line-height: var(--pr-display-leading, 1.1);
-  padding-block: var(--pr-space-2);
-}
-
-
-.tdm-ticker--light .tdm-ticker__item::after {
-  content: none;
-}
-
-.tdm-ticker--light .tdm-ticker__icon {
-  filter: none;
-  opacity: 1;
-}
-
-.tdm-ticker--light .tdm-ticker__item {
-  gap: var(--pr-space-8);
-  padding-inline-end: var(--pr-space-8);
-}
-
-/* Editor settings that the type scale does not cover */
-.tdm-ticker.tdm-ticker--transform-title .tdm-ticker__text {
+.tdm-ticker--transform-title .typo-primary,
+.tdm-ticker--transform-title .typo-secondary,
+.tdm-ticker--transform-title .tdm-mono {
   text-transform: capitalize;
 }
 
-.tdm-ticker.tdm-ticker--tracked .tdm-ticker__text {
-  letter-spacing: var(--ticker-tracking);
+.tdm-ticker--transform-none .typo-primary,
+.tdm-ticker--transform-none .typo-secondary,
+.tdm-ticker--transform-none .tdm-mono {
+  text-transform: none;
+}
+
+.tdm-ticker .typo-primary {
+  font-family: var(--font-heading-family);
+  font-weight: lighter;
+  letter-spacing: var(--ticker-tracking, -0.5rem); /* default tighter for heading style */
+}
+
+.tdm-ticker .typo-secondary {
+  font-family: var(--font-body-family);
+  font-weight: 400;
+  letter-spacing: var(--ticker-tracking, 0.08em);
+}
+
+.tdm-ticker .tdm-mono {
+  font-size: calc(var(--ticker-fs, 22px) * var(--font-mono-scale, 1));
+  letter-spacing: var(--ticker-tracking, 0.06em);
 }
 
 .tdm-ticker__marquee {
@@ -94,6 +93,7 @@
 .tdm-ticker__track {
   display: inline-flex;
   align-items: center;
+  gap: 2.2rem;
   will-change: transform;
   animation: tdm-ticker var(--ticker-speed, 36s) linear infinite;
 }
@@ -101,19 +101,13 @@
 .tdm-ticker__chunk {
   display: inline-flex;
   align-items: center;
+  gap: 2.2rem;
 }
 
 .tdm-ticker__item {
   display: inline-flex;
   align-items: center;
-  gap: var(--pr-space-4);
-}
-
-/* Separator between repetitions: a dot, same ink at reduced opacity, equal space on both sides */
-.tdm-ticker__item::after {
-  content: '\2022';
-  margin-inline: var(--pr-space-8);
-  opacity: 0.6;
+  gap: 2rem;
 }
 
 .tdm-ticker__icon {
@@ -122,12 +116,6 @@
   max-height: 55px;
   object-fit: contain;
   flex: 0 0 auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tdm-ticker__track {
-    animation-play-state: paused;
-  }
 }
 
 @keyframes tdm-ticker {

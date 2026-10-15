@@ -1,89 +1,61 @@
 {% comment %}
-  Hero Overlay Card
-  Image as the frame background, card pinned to a corner. Text through typography, CTA through button.
-  Layout values arrive as custom properties on .tdm-hero__frame; CSS in assets/section-tdm-hero.css.
+  Hero Overlay Card — Container-locked (Dawn 15.4.0)
+  - Image is applied as background on the frame to prevent full-bleed
+  - Class-only CSS (no IDs) so it’s safe inside the section file
 {% endcomment %}
 
-{{ 'pr-hero.css' | asset_url | stylesheet_tag }}
 {{ 'section-tdm-hero.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
+{% liquid
   assign sec = section.settings
   assign img = sec.image
   assign card_pos = sec.card_position | default: 'bottom-left'
-  assign card_scheme = 'dark'
-  if sec.text_on_dark
-    assign card_scheme = ''
-  endif
-  assign head_variant = 'display'
-  if sec.heading_size == 'lg'
-    assign head_variant = 'h1'
-  endif
-  assign btn_class = 'tdm-hero__btn'
-  if sec.button_pill
-    assign btn_class = 'tdm-hero__btn tdm-hero__btn--pill'
-  endif
-  assign opacity = sec.card_bg_opacity | default: 85
-  assign card_style = sec.card_style | default: 'solid'
-  assign width_mode = sec.width | default: 'full'
-  assign scrim_parts = card_pos | split: '-'
-  assign scrim_y = scrim_parts[0]
-  if scrim_y == 'center'
-    assign scrim_y = 'middle'
-  endif
-  assign scrim_x = scrim_parts[1]
-  assign hero_focal = ''
-  if img != blank
-    assign hero_focal = img.presentation.focal_point
-    if hero_focal == '50.0% 50.0%'
-      assign hero_focal = ''
-    endif
-  endif
--%}
+%}
 
-<section class="tdm-hero tdm-hero--{{ width_mode }}">
-  <div class="{% if width_mode == 'page' %}page-width{% else %}tdm-hero__wrap{% endif %}">
+<section class="tdm-hero">
+  <div class="page-width">
     <div
-      class="tdm-hero__frame pr-hero-frame"
+      class="tdm-hero__frame"
       style="
-        --pr-hero-min-h: {{ sec.min_height_desktop | default: 75 }}svh;
-        --hero-card-max: {{ sec.card_max_width | default: 560 }}px;
-        --hero-card-pad: {{ sec.card_padding | default: 24 }}px;
-        --hero-card-opacity: {{ opacity }}%;
-        --hero-radius: {{ sec.corner_radius | default: 8 }}px;
-        --hero-min-h-mobile: {{ sec.min_height_mobile | default: 70 }}svh;
-        {% if hero_focal != blank %}--pr-hero-focal: {{ hero_focal }};{% endif %}
+        --tdm-radius: {{ sec.corner_radius | default: 8 }}px;
+        --tdm-card-max: {{ sec.card_max_width | default: 560 }}px;
+        --tdm-card-pad: {{ sec.card_padding | default: 24 }}px;
+        --tdm-card-opacity: {{ sec.card_bg_opacity | divided_by: 100.0 }};
+        --tdm-min-h-desktop: {{ sec.min_height_desktop | default: 100 }}vh;
+        --tdm-min-h-mobile-n: {{ sec.min_height_mobile | default: 55 }};
         {% if img != blank %}background-image:url({{ img | image_url: width: 2880 }});{% endif %}
       "
     >
-      {% if sec.scrim and img != blank %}<div class="pr-hero-scrim pr-hero-scrim--{{ scrim_y }} pr-hero-scrim--{{ scrim_x }}" aria-hidden="true"></div>{% endif %}
       {% if img == blank %}
         <div class="tdm-hero__placeholder">
           {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
         </div>
       {% endif %}
 
-      <div class="tdm-hero__card tdm-hero__card--{{ card_pos }} tdm-hero__card--{{ card_style }}{% if sec.card_shadow and card_style != 'none' %} tdm-hero__card--shadow{% endif %}">
-        <div
-          class="tdm-hero__card-inner{% if sec.card_glass %} tdm-hero__card-inner--glass{% endif %}"
-          {% if card_scheme != blank %}data-scheme="{{ card_scheme }}"{% endif %}
-        >
-          {%- if sec.subtitle != blank -%}
-            {% render 'typography', text: sec.subtitle, variant: 'eyebrow', color: 'secondary', class: 'tdm-hero__eyebrow' %}
-          {%- endif -%}
+      <div class="tdm-hero__card tdm-hero__card--{{ card_pos }}{% if sec.card_shadow %} tdm-hero__card--shadow{% endif %}">
+        <div class="tdm-hero__card-inner{% if sec.card_glass %} tdm-hero__card-inner--glass{% endif %}{% if sec.text_on_dark %} tdm-hero__card-inner--invert{% endif %}">
+          {% if sec.subtitle != blank %}
+            <p class="tdm-hero__eyebrow">{{ sec.subtitle }}</p>
+          {% endif %}
 
-          {%- if sec.heading != blank -%}
-            {% assign head_text = sec.heading | escape %}
-            {% render 'typography', text: head_text, variant: head_variant, as: 'h2', font: 'display', weight: 'medium', class: 'tdm-hero__heading' %}
-          {%- endif -%}
+          {% if sec.heading != blank %}
+            <h2 class="tdm-hero__heading tdm-hero__heading--{{ sec.heading_size | default: 'xl' }}">
+              {{ sec.heading | escape }}
+            </h2>
+          {% endif %}
 
-          {%- if sec.body != blank -%}
-            {% render 'typography', text: sec.body, variant: 'body-lg', as: 'div', class: 'tdm-hero__body rte' %}
-          {%- endif -%}
+          {% if sec.body != blank %}
+            <div class="tdm-hero__body rte">{{ sec.body }}</div>
+          {% endif %}
 
-          {%- if sec.button_label != blank and sec.button_link != blank -%}
-            {% render 'button', label: sec.button_label, href: sec.button_link, variant: 'primary', size: 'lg', class: btn_class %}
-          {%- endif -%}
+          {% if sec.button_label != blank and sec.button_link != blank %}
+            <a
+              href="{{ sec.button_link }}"
+              class="button button--primary tdm-hero__btn{% if sec.button_pill %} tdm-hero__btn--pill{% endif %}"
+            >
+              {{ sec.button_label | escape }}
+            </a>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -95,17 +67,6 @@
   "name": "Hero overlay card",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Background image" },
-    {
-      "type": "select",
-      "id": "width",
-      "label": "Width",
-      "default": "full",
-      "options": [
-        { "value": "full", "label": "Full width (edge to edge, no radius)" },
-        { "value": "page", "label": "Page width" }
-      ]
-    },
-    { "type": "checkbox", "id": "scrim", "label": "Darken the image behind the text", "default": true },
     { "type": "text", "id": "image_alt", "label": "Image alt text" },
 
     {
@@ -113,27 +74,26 @@
       "id": "min_height_desktop",
       "label": "Minimum height (desktop, vh)",
       "min": 40,
-      "max": 100,
+      "max": 90,
       "step": 1,
       "unit": "vh",
-      "default": 75
+      "default": 70
     },
     {
       "type": "range",
       "id": "min_height_mobile",
       "label": "Minimum height (mobile, vh)",
       "min": 40,
-      "max": 100,
+      "max": 90,
       "step": 1,
       "unit": "vh",
-      "default": 70
+      "default": 55
     },
 
     {
       "type": "range",
       "id": "corner_radius",
       "label": "Frame corner radius (px)",
-      "info": "Only with page width. Full width is always square.",
       "min": 0,
       "max": 24,
       "step": 1,
@@ -141,16 +101,6 @@
     },
 
     { "type": "header", "content": "Card" },
-    {
-      "type": "select",
-      "id": "card_style",
-      "label": "Card style",
-      "default": "solid",
-      "options": [
-        { "value": "solid", "label": "Solid card" },
-        { "value": "none", "label": "No card (text on the image)" }
-      ]
-    },
     {
       "type": "select",
       "id": "card_position",
