@@ -3,6 +3,9 @@
 {{ 'pr-component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'pr-component-slideshow.css' | asset_url | stylesheet_tag }}
 {{ 'pr-section-tdm-slide-gallery.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.layout == 'split' -%}
+  <script src="{{ 'tdm-gallery-thumbs.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {% render 'section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
 {%- liquid
@@ -22,20 +25,32 @@
       assign mobile_ratio = '3 / 2'
   endcase
 
+  assign is_split = false
+  if section.settings.layout == 'split'
+    assign is_split = true
+  endif
+
+  assign card_scheme_class = ''
+  if is_split and section.settings.card_color_scheme != blank
+    assign card_scheme_class = 'color-' | append: section.settings.card_color_scheme | append: ' gradient'
+  endif
+
   assign adapt_image = false
-  if section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank
+  if is_split == false and section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank
     assign adapt_image = true
     assign adapt_ratio = section.blocks.first.settings.image.width | append: ' / ' | append: section.blocks.first.settings.image.height
   endif
   # Fixed desktop proportions: same mechanism as "adapt", image centred (cover)
-  case section.settings.slide_height
-    when 'ratio_16_9'
-      assign adapt_image = true
-      assign adapt_ratio = '16 / 9'
-    when 'ratio_2_1'
-      assign adapt_image = true
-      assign adapt_ratio = '2 / 1'
-  endcase
+  if is_split == false
+    case section.settings.slide_height
+      when 'ratio_16_9'
+        assign adapt_image = true
+        assign adapt_ratio = '16 / 9'
+      when 'ratio_2_1'
+        assign adapt_image = true
+        assign adapt_ratio = '2 / 1'
+    endcase
+  endif
 
   assign has_cta = false
   if section.settings.button_label != blank
@@ -93,7 +108,7 @@
 {%- capture slider_controls_inner -%}
   {%- render 'icon-button', icon: 'chevron-right', label: sg_prev_label, variant: 'outline', size: 'md', class: 'slider-button slider-button--prev', attrs: sg_prev_attrs -%}
   <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}">
-    {%- if section.settings.slider_visual == 'counter' -%}
+    {%- if section.settings.slider_visual == 'counter' or is_split -%}
       {%- capture sg_counter -%}
         <span class="slider-counter--current">1</span>
         <span aria-hidden="true"> / </span>
@@ -101,7 +116,8 @@
         <span class="slider-counter--total">{{ section.blocks.size }}</span>
       {%- endcapture -%}
       {%- render 'typography', text: sg_counter, as: 'div', variant: 'xs', color: 'inherit' -%}
-    {%- else -%}
+    {%- endif -%}
+    {%- if section.settings.slider_visual != 'counter' -%}
       <div class="slideshow__control-wrapper">
         {%- for block in section.blocks -%}
           <button
@@ -128,14 +144,14 @@
   {% if adapt_image %}
     data-adapt-image
   {% endif %}
-  style="--sg-mobile-ratio: {{ mobile_ratio }}; --sg-radius: {{ section.settings.corner_radius }}px; --sg-pad-x-mobile: {{ section.settings.padding_x_mobile }}px; --sg-pad-x-desktop: {{ section.settings.padding_x_desktop }}px;{% if adapt_image %} --sg-adapt-ratio: {{ adapt_ratio }};{% endif %}"
+  style="--sg-mobile-ratio: {{ mobile_ratio }};{% if is_split %} --sg-split-photo: {{ section.settings.photo_width }}%; --sg-split-ratio: {{ section.settings.split_photo_ratio | replace: '_', ' / ' }};{% endif %} --sg-radius: {{ section.settings.corner_radius }}px; --sg-pad-x-mobile: {{ section.settings.padding_x_mobile }}px; --sg-pad-x-desktop: {{ section.settings.padding_x_desktop }}px;{% if adapt_image %} --sg-adapt-ratio: {{ adapt_ratio }};{% endif %}"
 >
 {%- if section.settings.intro_position == 'top' -%}
   {{ intro }}
 {%- endif -%}
 
 <slideshow-component
-  class="tdm-slide-gallery__slider slider-mobile-gutter section-{{ section.id }}-padding{% if section.settings.layout == 'grid' %} page-width{% endif %}"
+  class="tdm-slide-gallery__slider slider-mobile-gutter section-{{ section.id }}-padding{% if section.settings.layout != 'full_bleed' %} page-width{% endif %}"
   role="region"
   aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
   aria-label="{{ section.settings.accessibility_info | escape }}"
@@ -159,7 +175,7 @@
   {%- endif -%}
 
   <div
-    class="slideshow banner banner--{{ section.settings.slide_height }} grid grid--1-col slider slider--everywhere{% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+    class="slideshow banner banner--{{ section.settings.slide_height }} {{ card_scheme_class }} grid grid--1-col slider slider--everywhere{% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
     id="Slider-{{ section.id }}"
     aria-live="polite"
     aria-atomic="true"
@@ -178,7 +194,10 @@
         aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
         tabindex="-1"
       >
-        <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
+        <div
+          class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}"
+          {% if is_split and block.settings.image.presentation.focal_point %}style="--sg-focal: {{ block.settings.image.presentation.focal_point }};"{% endif %}
+        >
           {%- if block.settings.image -%}
             {%- liquid
               assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
@@ -266,7 +285,11 @@
                     {%- assign sg_stat_value = bs[stat_value_key] | escape -%}
                     {%- assign sg_stat_label = bs[stat_label_key] | escape -%}
                     <li class="tdm-slide-gallery__stat">
-                      {%- render 'typography', text: sg_stat_value, as: 'span', variant: 'h3', font: 'display', color: 'inherit', class: 'tdm-slide-gallery__stat-value' -%}
+                      {%- if is_split -%}
+                        {%- render 'typography', text: sg_stat_value, as: 'span', variant: 'h2', font: 'display', weight: 'bold', color: 'inherit', class: 'tdm-slide-gallery__stat-value' -%}
+                      {%- else -%}
+                        {%- render 'typography', text: sg_stat_value, as: 'span', variant: 'h3', font: 'display', color: 'inherit', class: 'tdm-slide-gallery__stat-value' -%}
+                      {%- endif -%}
                       {%- if sg_stat_label != blank -%}{%- render 'typography', text: sg_stat_label, as: 'span', variant: 'body-sm', color: 'inherit', class: 'tdm-slide-gallery__stat-label' -%}{%- endif -%}
                     </li>
                   {%- endif -%}
@@ -297,7 +320,32 @@
       {{ slider_controls_inner }}
     </div>
   {%- endif -%}
+
 </slideshow-component>
+
+{%- if is_split and section.settings.show_thumbnails and section.blocks.size > 1 -%}
+  <tdm-gallery-thumbs class="tdm-slide-gallery__thumbs page-width">
+    {%- for block in section.blocks -%}
+      {%- assign sg_thumb_text = block.settings.thumb_text | default: block.settings.quote | strip_html | truncate: 90 -%}
+      <button
+        type="button"
+        class="tdm-slide-gallery__thumb {{ card_scheme_class }}"
+        aria-controls="Slide-{{ section.id }}-{{ forloop.index }}"
+        aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+        {% if forloop.first %}aria-current="true"{% endif %}
+      >
+        {%- if block.settings.image -%}
+          <span class="tdm-slide-gallery__thumb-media">
+            {{- block.settings.image | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240, 360, 480', sizes: '(min-width: 1200px) 12vw, 120px', alt: '' -}}
+          </span>
+        {%- endif -%}
+        <span class="tdm-slide-gallery__thumb-body">
+          {%- render 'typography', text: sg_thumb_text, as: 'span', variant: 'body-sm', color: 'inherit', class: 'tdm-slide-gallery__thumb-text' -%}
+        </span>
+      </button>
+    {%- endfor -%}
+  </tdm-gallery-thumbs>
+{%- endif -%}
 
 {%- if cta_below -%}
   <div class="slide-gallery-cta section-{{ section.id }}-cta-padding page-width slide-gallery-intro--{{ section.settings.intro_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -452,14 +500,51 @@
       "id": "layout",
       "options": [
         { "value": "full_bleed", "label": "Ancho completo" },
-        { "value": "grid", "label": "Con padding" }
+        { "value": "grid", "label": "Con padding" },
+        { "value": "split", "label": "Tarjeta: foto + cita, con miniaturas" }
       ],
       "default": "grid",
       "label": "Diseño"
     },
     {
+      "type": "color_scheme",
+      "id": "card_color_scheme",
+      "label": "Colores de la tarjeta",
+      "info": "Solo en el diseño Tarjeta: fondo y texto del panel y de las miniaturas.",
+      "default": "scheme-tdm-crema"
+    },
+    {
+      "type": "range",
+      "id": "photo_width",
+      "label": "Ancho de la foto (Tarjeta)",
+      "info": "Solo en escritorio (1200px o más). El resto es el panel de texto.",
+      "min": 40,
+      "max": 65,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "select",
+      "id": "split_photo_ratio",
+      "label": "Proporción de la foto (Tarjeta)",
+      "info": "Solo en escritorio. Define la altura de la tarjeta.",
+      "options": [
+        { "value": "4_3", "label": "4:3 (más alta)" },
+        { "value": "3_2", "label": "3:2" },
+        { "value": "16_9", "label": "16:9 (más baja)" }
+      ],
+      "default": "3_2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Mostrar miniaturas (Tarjeta)",
+      "default": true
+    },
+    {
       "type": "paragraph",
-      "content": "El radio y los paddings solo aplican con el diseño \"Con padding\"."
+      "content": "El radio y los paddings aplican con los diseños \"Con padding\" y \"Tarjeta\". En \"Tarjeta\" las flechas van fuera de la tarjeta en escritorio: usa un padding lateral de 56px o más para que quepan, y deja el padding inferior en 0 (las miniaturas ya traen su espacio)."
     },
     {
       "type": "range",
@@ -595,13 +680,13 @@
           "type": "image_picker",
           "id": "image",
           "label": "Imagen",
-          "info": "Solo foto, sin texto. Recomendado: 2400 × 1200 px, con la persona en el 60% izquierdo y el lado del texto despejado."
+          "info": "Solo foto, sin texto. Recomendado: 2400 × 1200 px, con la persona en el 60% izquierdo y el lado del texto despejado. En el diseño Tarjeta usa el punto focal para encuadrar la cara."
         },
         {
           "type": "color",
           "id": "overlay_color",
           "label": "Color del overlay",
-          "info": "Tinte parejo sobre toda la foto, además del degradado de tinta desde el lado del texto. Solo en escritorio (1200px o más).",
+          "info": "Tinte parejo sobre toda la foto, además del degradado de tinta desde el lado del texto. Solo en escritorio (1200px o más). No aplica en el diseño Tarjeta.",
           "default": "#000000"
         },
         {
@@ -732,7 +817,7 @@
           "type": "select",
           "id": "caption_position",
           "label": "Posición en escritorio",
-          "info": "Desde la esquina o lado elegido sale el degradado oscuro. En móvil y tablet el texto va debajo de la foto, sin caja.",
+          "info": "Desde la esquina o lado elegido sale el degradado oscuro. En móvil y tablet el texto va debajo de la foto, sin caja. No aplica en el diseño Tarjeta.",
           "options": [
             { "value": "left", "label": "Izquierda al centro" },
             { "value": "right", "label": "Derecha al centro" },
@@ -746,16 +831,22 @@
           "default": "right"
         },
         {
+          "type": "text",
+          "id": "thumb_text",
+          "label": "Texto de la miniatura",
+          "info": "Solo en el diseño Tarjeta. Vacío = primeras palabras de la cita."
+        },
+        {
           "type": "color",
           "id": "quote_color",
           "label": "Color de la cita sobre la foto",
-          "info": "Solo en escritorio (1200px o más), donde el texto va sobre la foto. Vacío = blanco."
+          "info": "Solo en escritorio (1200px o más), donde el texto va sobre la foto. Vacío = blanco. No aplica en el diseño Tarjeta (usa los colores de la tarjeta)."
         },
         {
           "type": "color",
           "id": "stats_color",
           "label": "Color de los datos sobre la foto",
-          "info": "Solo en escritorio. Vacío = blanco."
+          "info": "Solo en escritorio. Vacío = blanco. No aplica en el diseño Tarjeta."
         }
       ]
     }

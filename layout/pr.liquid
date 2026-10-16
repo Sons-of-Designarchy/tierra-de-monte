@@ -221,6 +221,8 @@
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ heading_font | font_face: font_display: 'swap' }}
+      {%- assign display_font_bold = display_font | font_modify: 'weight', '700' -%}
+      {%- if display_font_bold -%}{{ display_font_bold | font_face: font_display: 'swap' }}{%- endif -%}
       {%- if display_font.family != heading_font.family or display_font.weight != heading_font.weight -%}
         {{ display_font | font_face: font_display: 'swap' }}
         {%- assign display_font_regular = display_font | font_modify: 'weight', '400' -%}
@@ -323,6 +325,7 @@
         --font-display-family: {{ display_font.family }}, {{ display_font.fallback_families }};
         --font-display-style: {{ display_font.style }};
         --font-display-weight: {{ display_font.weight }};
+        --pr-display-weight-bold: {{ display_font_bold.weight | default: display_font.weight }};
 
         --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};

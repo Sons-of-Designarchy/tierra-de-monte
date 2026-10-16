@@ -59,8 +59,9 @@
    Without this Dawn's `p, li { font-family: body }` wins and a display paragraph renders in the body face. */
 .pr-type :where(p, li, h1, h2, h3, h4, h5, h6):not(.pr-type) { font-family: inherit; }
 
-/* Display face carries one weight everywhere: no faux bold */
+/* Display face carries one weight everywhere, except `bold`, which uses the real bold face when the layout loads one (no faux bold) */
 .pr-type.pr-font--display[class*="pr-weight--"] { font-weight: var(--pr-display-weight, var(--pr-weight-regular)); }
+.pr-type.pr-font--display.pr-weight--bold { font-weight: var(--pr-display-weight-bold, var(--pr-display-weight, var(--pr-weight-regular))); }
 
 /* ---------- colour ---------- */
 .pr-color--primary { color: var(--pr-text-primary); }

@@ -388,3 +388,262 @@
     max-height: 80svh;
   }
 }
+
+/* =============================================================================
+   Layout "Tarjeta" (data-layout='split'): each slide is one card — photo on the left, a
+   panel on the right with the quote, author and figures. Arrows sit outside the card on
+   desktop; the counter + dots sit in the panel's bottom corner. A thumbnail strip
+   (<tdm-gallery-thumbs>, assets/tdm-gallery-thumbs.js) sits under the card.
+   Below 1200px the card stacks (photo, then panel) and the controls go below it.
+   ========================================================================== */
+.tdm-slide-gallery[data-layout='split'] {
+  --sg-split-photo: 55%;
+  --sg-arrow-gap: var(--pr-space-2);
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__slider,
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__thumbs {
+  padding-left: var(--sg-pad-x-mobile);
+  padding-right: var(--sg-pad-x-mobile);
+  scroll-padding-inline: var(--sg-pad-x-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__slider,
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__thumbs {
+    padding-left: var(--sg-pad-x-desktop);
+    padding-right: var(--sg-pad-x-desktop);
+    scroll-padding-inline: var(--sg-pad-x-desktop);
+  }
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__slider .slideshow {
+  border: 1px solid var(--pr-border);
+  border-radius: var(--sg-radius);
+  isolation: isolate;
+}
+
+/* No scrim and no text on the photo: the caption is a panel here */
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__slider .slideshow__media::after {
+  content: none;
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__caption {
+  position: static;
+  width: auto;
+  max-height: none;
+  transform: none;
+  padding: var(--pr-space-6);
+  justify-content: center;
+  color: var(--pr-text-primary);
+  --sg-mark-color: var(--pr-text-brand);
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__quote-text,
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stat-label,
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__note {
+  color: var(--pr-text-primary);
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stat-value {
+  color: var(--pr-text-brand);
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__crops .pr-chip {
+  border-color: var(--pr-border);
+  background: transparent;
+  color: var(--pr-text-primary);
+}
+
+/* Figures: at most three per row (two on mobile), so four or more wrap to a second row.
+   A 1px rule above, and 1px dividers between figures on the same row. */
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pr-space-6) 0;
+  padding-top: var(--pr-space-6);
+  border-top: 1px solid var(--pr-border-strong);
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stat {
+  padding: 0 var(--pr-space-4);
+  border-left: 1px solid var(--pr-border-strong);
+}
+
+.tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stat:nth-child(2n + 1) {
+  padding-left: 0;
+  border-left: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stat:nth-child(2n + 1) {
+    padding-left: var(--pr-space-4);
+    border-left: 1px solid var(--pr-border-strong);
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__stat:nth-child(3n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+.tdm-slide-gallery[data-layout='split'] .slideshow__media > img {
+  object-position: var(--sg-focal, center);
+}
+
+/* Arrows are round here */
+.tdm-slide-gallery[data-layout='split'] .slider-button {
+  border-radius: var(--pr-radius-full);
+}
+
+/* Controls: arrows overlay the card's sides, counter + dots sit in the panel corner.
+   Mobile keeps Dawn's row under the card. */
+.tdm-slide-gallery[data-layout='split'] .slider-counter {
+  align-items: center;
+  gap: var(--pr-space-4);
+}
+
+@media screen and (min-width: 1200px) {
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__slider .slideshow__slide {
+    flex-direction: row;
+    height: auto;
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__slider .slideshow__media {
+    position: relative;
+    flex: 0 0 var(--sg-split-photo);
+    width: var(--sg-split-photo);
+    max-height: none;
+    aspect-ratio: var(--sg-split-ratio, 3 / 2);
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__caption {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: var(--pr-space-12) var(--pr-space-12) var(--pr-space-16);
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .slideshow__controls {
+    position: absolute;
+    inset: 0 var(--sg-pad-x-desktop);
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .slideshow__controls > * {
+    pointer-events: auto;
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--pr-surface);
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .slider-button--prev {
+    left: calc(-1 * (var(--pr-control-md) + var(--sg-arrow-gap)));
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .slider-button--next {
+    right: calc(-1 * (var(--pr-control-md) + var(--sg-arrow-gap)));
+  }
+
+  .tdm-slide-gallery[data-layout='split'] .slider-counter {
+    position: absolute;
+    left: var(--sg-split-photo);
+    right: 0;
+    bottom: var(--pr-space-6);
+    justify-content: center;
+    margin: 0;
+  }
+}
+
+/* Thumbnails: three across on desktop, a swipeable row on mobile */
+.tdm-slide-gallery__thumbs {
+  display: flex;
+  gap: var(--pr-space-3);
+  margin-top: var(--pr-space-4);
+  padding-bottom: var(--pr-space-12);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.tdm-slide-gallery__thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.tdm-slide-gallery__thumb {
+  display: flex;
+  flex: 0 0 min(78%, 28rem);
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--pr-border);
+  border-radius: var(--pr-radius-surface);
+  color: var(--pr-text-primary);
+  text-align: left;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: border-color var(--pr-motion-base) var(--pr-motion-ease);
+}
+
+.tdm-slide-gallery__thumb:hover {
+  border-color: var(--pr-border-strong);
+}
+
+.tdm-slide-gallery__thumb[aria-current='true'] {
+  border-color: var(--pr-brand-primary);
+}
+
+.tdm-slide-gallery__thumb:focus-visible {
+  outline: 2px solid var(--pr-border-focus);
+  outline-offset: 2px;
+}
+
+.tdm-slide-gallery__thumb-media {
+  flex: 0 0 38%;
+  display: block;
+}
+
+.tdm-slide-gallery__thumb-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tdm-slide-gallery__thumb-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--pr-space-3);
+  justify-content: center;
+  padding: var(--pr-space-3) var(--pr-space-4);
+}
+
+.tdm-slide-gallery__thumb-body::after {
+  content: '';
+  width: var(--pr-space-6);
+  height: var(--pr-space-1);
+  border-radius: var(--pr-radius-full);
+  background: var(--pr-brand-secondary);
+}
+
+@media screen and (min-width: 1200px) {
+  .tdm-slide-gallery__thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .tdm-slide-gallery__thumb {
+    flex: none;
+  }
+}
