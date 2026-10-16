@@ -2,7 +2,7 @@
   Pedido de Aliado — step 1 of the purchase-first flow: pick products and quantities, watch the subtotal climb toward the entry minimum
   (Bronce, $5,000 MXN) and pay once it is reached. Step 2 is the registration form on the same page.
   Every card is the product-card atom (white), quantities are the quantity-stepper, the progress is the minimum-progress look,
-  the buttons are the button atom. Behaviour: <pr-order> in assets/pr-order.js. The order replaces whatever was in the cart, then goes to checkout.
+  the buttons are the button atom. Behaviour: <pr-order> in assets/pr-order.js. The cards and the cart stay in sync (the cart is the order); paying goes to checkout.
   Which products: the collection picked in the settings; blank = every product. Each available variant is its own card.
 {%- endcomment -%}
 <script src="{{ 'pr-order.js' | asset_url }}" defer="defer"></script>
@@ -28,8 +28,6 @@
       class="pr-order"
       data-minimum="{{ po_minimum }}"
       data-goal="{{ po_goal | escape }}"
-      data-clear-url="{{ routes.cart_clear_url }}.js"
-      data-add-url="{{ routes.cart_add_url }}.js"
       data-checkout-url="{{ routes.cart_url | replace: '/cart', '/checkout' }}"
     >
       <ul class="pr-order__grid" role="list">

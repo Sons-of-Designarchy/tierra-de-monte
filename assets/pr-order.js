@@ -1,8 +1,8 @@
 /* =============================================================================
    PerfectlyRad commerce — <pr-order> (sections/aliados-pedido.liquid).
-   Step 1 of the Aliados purchase-first flow (also listens for [data-order-add] buttons: addVariant): quantities live on the page, the subtotal and the progress toward the
-   minimum update on every change, the pay button wakes up at the minimum. Paying replaces the cart with the order
-   (/cart/clear.js, /cart/add.js) and goes to checkout.
+   Step 1 of the Aliados purchase-first flow (also listens for [data-order-add] buttons: addVariant): quantities mirror the cart, the subtotal and the progress toward the
+   minimum update on every change, the pay button wakes up at the minimum. The cart is the order (see pull / sync):
+   paying goes to checkout, or opens the registration step of the drawer first when the shopper is not registered yet.
    ========================================================================== */
 
 (() => {
@@ -15,16 +15,7 @@
     }).format(cents / 100);
 
   const FLOAT_OFFSET = 96;
-
-  const json = (url, body) =>
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(body),
-    }).then((response) => {
-      if (!response.ok) throw new Error('order');
-      return response.json();
-    });
+  const SYNC_DELAY_MS = 400;
 
   class PrOrder extends HTMLElement {
     connectedCallback() {
@@ -34,12 +25,73 @@
         .map((el) => ({ name: el.dataset.name, threshold: Number(el.dataset.threshold) }))
         .sort((a, b) => a.threshold - b.threshold);
       this.button = this.querySelector('[data-checkout]');
+      this.synced = new Map();
       this.addEventListener('change', (e) => {
-        if (e.target.closest('.pr-qty__input')) this.render();
+        if (!e.target.closest('.pr-qty__input')) return;
+        this.render();
+        if (!this.applying) this.queueSync();
       });
       this.button.addEventListener('click', () => this.checkout());
+      document.addEventListener('cart:updated', () => {
+        if (!this.syncing && !this.timer) this.pull();
+      });
       this.render();
       this.watchFloating();
+      this.pull();
+    }
+
+    // The cart is the order: the cards show what the cart holds, and every change here is sent to the cart a moment later,
+    // so the drawer and the header bubble never disagree with the cards (and changes made in the drawer come back here).
+    get steppers() {
+      return [...this.querySelectorAll('.pr-qty__input[data-variant]')];
+    }
+
+    async pull() {
+      if (!window.PrCart) return;
+      try {
+        const cart = await (await fetch(`${window.routes.cart_url}.js`, { headers: { Accept: 'application/json' } })).json();
+        const quantities = new Map(cart.items.map((item) => [String(item.variant_id), item.quantity]));
+        this.synced = quantities;
+        this.applying = true;
+        this.steppers.forEach((input) => input.closest('pr-quantity').set(quantities.get(input.dataset.variant) || 0));
+      } catch {
+        return;
+      } finally {
+        this.applying = false;
+      }
+      this.render();
+    }
+
+    queueSync() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => this.sync(), SYNC_DELAY_MS);
+    }
+
+    async sync() {
+      clearTimeout(this.timer);
+      this.timer = null;
+      if (this.syncing) {
+        this.pending = true;
+        return this.syncing;
+      }
+      const updates = {};
+      this.steppers.forEach((input) => {
+        if (Number(input.value) !== (this.synced.get(input.dataset.variant) || 0)) updates[input.dataset.variant] = Number(input.value);
+      });
+      if (!Object.keys(updates).length) return;
+      this.syncing = window.PrCart.post(`${window.routes.cart_update_url}.js`, { updates })
+        .then((data) => {
+          Object.entries(updates).forEach(([variant, quantity]) => this.synced.set(variant, quantity));
+          window.PrCart.render(data.sections);
+        })
+        .finally(() => {
+          this.syncing = null;
+        });
+      await this.syncing;
+      if (this.pending) {
+        this.pending = false;
+        await this.sync();
+      }
     }
 
     // Desktop only: the summary starts in its slot beside the heading; once that slot scrolls under the navbar it floats as a compact bar, until the product grid ends.
@@ -122,10 +174,8 @@
       this.button.classList.add('is-loading');
       this.button.setAttribute('aria-busy', 'true');
       try {
-        const items = this.lines.map(({ id, quantity }) => ({ id, quantity }));
-        await json(this.dataset.clearUrl, {});
-        if (window.PrCart && window.PrCartRegister?.needed()) {
-          await window.PrCart.add(items);
+        await this.sync();
+        if (window.PrCartRegister?.needed()) {
           window.PrCart.open();
           window.PrCartRegister.show();
           this.button.classList.remove('is-loading');
@@ -133,7 +183,6 @@
           this.render();
           return;
         }
-        await json(this.dataset.addUrl, { items });
         window.location.href = this.dataset.checkoutUrl;
       } catch {
         error.hidden = false;
