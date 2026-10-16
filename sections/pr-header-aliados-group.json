@@ -84,10 +84,10 @@
       },
       "block_order": [
         "anchor_beneficios",
-        "anchor_productos",
-        "anchor_niveles",
         "anchor_resultados",
         "anchor_proceso",
+        "anchor_niveles",
+        "anchor_productos",
         "anchor_preguntas"
       ],
       "settings": {
