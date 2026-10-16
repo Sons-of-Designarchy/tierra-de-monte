@@ -129,13 +129,14 @@
   align-items: center;
   gap: 14px;
   padding: 14px var(--tdm-space-4);
-  color: rgb(var(--color-foreground));
+  /* The row sits on a light sand card in every scheme, so its text is brand green, not the section's foreground (white on dark schemes) */
+  color: rgb(var(--tdm-green));
   text-decoration: none;
   transition: background-color var(--tdm-duration) var(--tdm-ease);
 }
 
 .tdm-feature__row-link:hover {
-  background: var(--tdm-hover);
+  background: rgba(var(--tdm-green), 0.05);
 }
 
 .tdm-feature__row-link .tdm-feature__icon {
@@ -160,7 +161,7 @@
 
 .tdm-feature__row-desc {
   margin: 0;
-  color: var(--tdm-ink-soft);
+  color: rgba(var(--tdm-green), 0.85);
 }
 
 .tdm-feature__row-arrow {
