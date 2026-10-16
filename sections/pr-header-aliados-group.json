@@ -50,7 +50,7 @@
           "type": "anchor",
           "settings": {
             "label": "Productos",
-            "anchor": "productos"
+            "anchor": "pedido"
           }
         },
         "anchor_niveles": {
