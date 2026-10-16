@@ -75,7 +75,9 @@
             class="pr-drawer__form"
             data-register-frame
             data-src="https://api.leadconnectorhq.com/widget/form/{{ settings.cart_registration_form_id | escape }}"
-            id="inline-{{ settings.cart_registration_form_id | escape }}"
+            id="inline-cart-{{ settings.cart_registration_form_id | escape }}"
+            data-layout-iframe-id="inline-cart-{{ settings.cart_registration_form_id | escape }}"
+            data-form-id="{{ settings.cart_registration_form_id | escape }}"
             title="Registro de Aliado"
             loading="lazy"
           ></iframe>
