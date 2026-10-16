@@ -1534,6 +1534,23 @@
         "id": "cart_minimum_hold",
         "label": "Detener el pago por debajo del mínimo",
         "default": true
+      },
+      {
+        "type": "header",
+        "content": "Registro antes de pagar"
+      },
+      {
+        "type": "text",
+        "id": "cart_registration_form_id",
+        "label": "ID del formulario de registro (GoHighLevel)",
+        "info": "El carrito pide este registro antes de pasar al pago. Es el ID al final de la URL del formulario: api.leadconnectorhq.com/widget/form/ID. Vacío apaga el registro en el carrito.",
+        "default": "PokFnUnhtj45vXhbVBBj"
+      },
+      {
+        "type": "text",
+        "id": "cart_registration_intro",
+        "label": "Texto sobre el formulario",
+        "default": "Antes de pagar, regístrate. Solo se pide una vez."
       }
     ]
   }

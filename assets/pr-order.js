@@ -122,8 +122,18 @@
       this.button.classList.add('is-loading');
       this.button.setAttribute('aria-busy', 'true');
       try {
+        const items = this.lines.map(({ id, quantity }) => ({ id, quantity }));
         await json(this.dataset.clearUrl, {});
-        await json(this.dataset.addUrl, { items: this.lines.map(({ id, quantity }) => ({ id, quantity })) });
+        if (window.PrCart && window.PrCartRegister?.needed()) {
+          await window.PrCart.add(items);
+          window.PrCart.open();
+          window.PrCartRegister.show();
+          this.button.classList.remove('is-loading');
+          this.button.removeAttribute('aria-busy');
+          this.render();
+          return;
+        }
+        await json(this.dataset.addUrl, { items });
         window.location.href = this.dataset.checkoutUrl;
       } catch {
         error.hidden = false;
