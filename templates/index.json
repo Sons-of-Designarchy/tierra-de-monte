@@ -158,7 +158,7 @@
         "padding_top": 80,
         "padding_bottom": 80,
         "show_dividers": true,
-        "divider_color": "#d8e35b",
+        "divider_color": "",
         "column_min_height": 60
       }
     },

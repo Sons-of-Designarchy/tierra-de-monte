@@ -13,7 +13,7 @@
   assign cols_tablet = cols_desktop | at_most: 3
   assign cols_mobile = section.settings.columns_mobile | default: '1'
   assign rule_color = section.settings.rule_color | default: 'currentColor'
-  assign divider_color = section.settings.divider_color | default: rule_color
+  assign divider_color = section.settings.divider_color | default: 'rgb(var(--color-foreground))'
 -%}
 
 <div
@@ -234,7 +234,7 @@
       "label": "Columns on mobile"
     },
     { "type": "checkbox", "id": "show_dividers", "label": "Vertical dividers (stats)", "default": true },
-    { "type": "color", "id": "divider_color", "label": "Divider color" },
+    { "type": "color", "id": "divider_color", "label": "Divider color", "info": "Empty: same color as the section text." },
     {
       "type": "range",
       "id": "column_min_height",
