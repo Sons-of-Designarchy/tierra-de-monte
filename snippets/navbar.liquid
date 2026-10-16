@@ -1,0 +1,132 @@
+{%- comment -%}
+  Navbar — the site header. Ports PerfectlyRad Navbar (components/sections/Navbar.tsx + navbarVariants.ts) to Shopify.
+  Logo inside a white bar on the left, links in the middle, icons and CTA on the right. Below 990px the links move into a panel under the bar.
+
+  {% render 'navbar', nav_style: 'floating', menu: linklists['main-menu'], menu_type: 'mega', logo: settings.logo, logo_url: routes.root_url, logo_width: settings.logo_width, show_search: true, show_account: true, show_cart: false, cta_last: false, sticky: true, country: false, language: false, color_scheme: 'scheme-tdm-blanco', app_blocks: '', uid: section.id %}
+
+  Params
+  - nav_style     floating | full   (default: floating). floating is a bar inset from the edges with a gap from the top; full spans the viewport
+  - menu          linklist. The last top-level link can become the CTA button (cta_last)
+  - menu_type     dropdown | mega   (default: dropdown) for links with children
+  - logo          image (theme logo or a per-section override); blank shows the shop name
+  - logo_url, logo_width (px)
+  - show_search, show_account, cta_last, sticky
+  - show_cart     true on the Aliados landing, the only place that sells. Elsewhere the bag only shows with the theme setting "Mostrar compra en el sitio"
+  - cta_url       overrides the URL of the button made from the last link (the label still comes from the menu)
+  - country, language   show the Shopify pickers when the store has more than one
+  - color_scheme  scheme id for the bar surface (default: scheme-tdm-blanco → white)
+  - anchor_blocks the header section's blocks; `anchor` blocks (label + section id) become in-page links in the bar and the mobile panel
+  - app_blocks    html of app blocks, rendered next to the icons
+  - uid           unique id per Navbar on the page (section.id)
+  - demo          true on the catalog: no cart id, unique search id, no h1
+
+  States: hover, current page (aria-current), open disclosure, scrolled (shadow grows), mobile panel open.
+{%- endcomment -%}
+{%- liquid
+  assign nav_style = nav_style | default: 'floating'
+  assign nav_scheme = color_scheme | default: 'scheme-tdm-blanco'
+  assign nav_uid = uid | default: section.id
+  assign nav_logo_w = logo_width | default: 160
+  assign link_count = menu.links.size
+  assign nav_cta = null
+  assign skip_last = false
+  if cta_last and link_count > 0
+    assign nav_cta = menu.links.last
+    assign skip_last = true
+    assign link_count = link_count | minus: 1
+  endif
+  assign has_links = false
+  if link_count > 0
+    assign has_links = true
+  endif
+  for block in anchor_blocks
+    if block.type == 'anchor'
+      assign has_links = true
+    endif
+  endfor
+  assign nav_loc = false
+  if country and localization.available_countries.size > 1
+    assign nav_loc = true
+  endif
+  if language and localization.available_languages.size > 1
+    assign nav_loc = true
+  endif
+  assign cart_label = 'templates.cart.cart' | t
+  assign menu_open_label = 'sections.header.menu' | t
+  assign menu_close_label = 'accessibility.close' | t
+  assign account_label = 'customer.log_in' | t
+  assign account_url = routes.account_login_url
+  if customer
+    assign account_label = 'customer.account_fallback' | t
+    assign account_url = routes.account_url
+  endif
+  assign cart_badge = ''
+  if cart.item_count > 0
+    assign cart_badge = cart.item_count
+    if cart.item_count > 99
+      assign cart_badge = '99+'
+    endif
+  endif
+  assign cart_id = 'cart-icon-bubble'
+  assign search_id = 'Search-In-Modal'
+  if demo
+    assign cart_id = ''
+    assign search_id = 'Search-In-Modal-' | append: nav_uid
+  endif
+-%}
+<tdm-navbar class="tdm-nav tdm-nav--{{ nav_style }}{% if sticky %} tdm-nav--sticky{% endif %}{% unless has_links %} tdm-nav--solo{% endunless %}" data-panel="NavbarPanel-{{ nav_uid }}">
+  <header class="tdm-nav__bar color-{{ nav_scheme }}">
+    <nav class="tdm-nav__inner" aria-label="{{ 'sections.header.menu' | t }}">
+      {%- if request.page_type == 'index' and demo != true -%}<h1 class="tdm-nav__logo-heading">{%- else -%}<div class="tdm-nav__logo-heading">{%- endif -%}
+        <a href="{{ logo_url | default: routes.root_url }}" class="tdm-nav__logo">
+          {%- if logo != blank -%}
+            {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+            {%- assign logo_h = nav_logo_w | divided_by: logo.aspect_ratio -%}
+            {%- capture logo_sizes -%}(max-width: {{ nav_logo_w | times: 2 }}px) 50vw, {{ nav_logo_w }}px{%- endcapture -%}
+            {%- capture logo_widths -%}{{ nav_logo_w }}, {{ nav_logo_w | times: 1.5 | round }}, {{ nav_logo_w | times: 2 }}{%- endcapture -%}
+            {{ logo | image_url: width: 600 | image_tag: class: 'tdm-nav__logo-img', widths: logo_widths, height: logo_h, width: nav_logo_w, alt: logo_alt, sizes: logo_sizes, preload: true }}
+          {%- else -%}
+            {%- render 'typography', text: shop.name, variant: 'h5', as: 'span', weight: 'semibold' -%}
+          {%- endif -%}
+        </a>
+      {%- if request.page_type == 'index' and demo != true -%}</h1>{%- else -%}</div>{%- endif -%}
+
+      {%- if has_links -%}
+        {%- render 'navbar-links', menu: menu, menu_type: menu_type, skip_last: skip_last, anchor_blocks: anchor_blocks, uid: nav_uid -%}
+      {%- endif -%}
+
+      <div class="tdm-nav__actions">
+        {%- if nav_loc -%}
+          <div class="tdm-nav__loc header-localization">
+            {%- render 'header-localization', country: country, language: language, suffix: '', uid: nav_uid -%}
+          </div>
+        {%- endif -%}
+        {%- if show_search -%}
+          {%- render 'pr-header-search', input_id: search_id -%}
+        {%- endif -%}
+        {%- if shop.customer_accounts_enabled and show_account -%}
+          {%- render 'icon-button', icon: 'user', label: account_label, href: account_url, attrs: 'rel="nofollow"' -%}
+        {%- endif -%}
+        {{ app_blocks }}
+        {%- if nav_cta != blank -%}
+          {%- assign nav_cta_attrs = '' -%}
+          {%- assign nav_cta_url = cta_url | default: nav_cta.url -%}
+          {%- if nav_cta_url contains '#pedido' %}{% assign nav_cta_attrs = 'data-track="quiero-ser-aliado-navbar"' %}{% endif -%}
+          {%- render 'button', label: nav_cta.title, href: nav_cta_url, size: 'sm', class: 'tdm-nav__cta', attrs: nav_cta_attrs -%}
+        {%- endif -%}
+        {%- if show_cart or settings.show_commerce -%}
+          {%- render 'icon-button', icon: 'bag', label: cart_label, href: routes.cart_url, id: cart_id, badge: cart_badge -%}
+        {%- endif -%}
+        {%- if has_links -%}
+          {%- render 'icon-button', icon: 'menu', label: menu_open_label, class: 'tdm-nav__toggle tdm-nav__toggle--open', attrs: 'data-nav-toggle aria-expanded="false"' -%}
+          {%- render 'icon-button', icon: 'close', label: menu_close_label, class: 'tdm-nav__toggle tdm-nav__toggle--close', attrs: 'data-nav-toggle aria-expanded="true" hidden' -%}
+        {%- endif -%}
+      </div>
+    </nav>
+    {%- if has_links -%}
+      <div class="tdm-nav__mobile" id="NavbarPanel-{{ nav_uid }}" hidden>
+        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, cta_url: cta_url, skip_last: skip_last, anchor_blocks: anchor_blocks, country: country, language: language, uid: nav_uid -%}
+      </div>
+    {%- endif -%}
+  </header>
+</tdm-navbar>

@@ -1,0 +1,52 @@
+{%- comment -%}
+  MinimumProgress — a bar toward a minimum purchase, with what is still missing in words. The one progress bar: the cart (drawer and page)
+  and a selectable pricing section both use it. Ports PerfectlyRad MinimumProgress.
+
+  {% render 'minimum-progress', total: cart.total_price, minimum: 500000, goal_label: 'el mínimo de Bronce' %}
+
+  Params
+  - total          what the cart adds up to, in cents (`cart.total_price`)
+  - minimum        the goal, in cents (required; 0 or blank renders nothing)
+  - goal_label     what the goal is called (default: el mínimo)
+  - reached_label  said once the goal is reached (default: Llegaste a {goal})
+  - class
+
+  The bar is a role="progressbar"; the width travels in the --progress custom property. The live region re-announces after every cart change.
+  States: below the goal, reached.
+{%- endcomment -%}
+{%- liquid
+  assign mp_total = total | default: 0
+  assign mp_goal = goal_label | default: 'el mínimo'
+  assign mp_pct = 100
+  if minimum > 0
+    assign mp_pct = mp_total | times: 100.0 | divided_by: minimum | floor
+    if mp_pct > 100
+      assign mp_pct = 100
+    endif
+  endif
+  assign mp_done = false
+  if mp_total >= minimum
+    assign mp_done = true
+  endif
+  assign mp_missing = minimum | minus: mp_total
+-%}
+{%- if minimum > 0 -%}
+  <div class="pr-progress{% if mp_done %} is-done{% endif %}{% if class != blank %} {{ class }}{% endif %}">
+    {%- if mp_done -%}
+      {%- if reached_label != blank -%}
+        {%- assign mp_said = reached_label -%}
+      {%- else -%}
+        {%- capture mp_said %}Llegaste a {{ mp_goal }}{% endcapture -%}
+      {%- endif -%}
+      {%- render 'typography', text: mp_said, variant: 'body-sm', weight: 'medium', color: 'success', attrs: 'aria-live="polite"' -%}
+    {%- else -%}
+      {%- capture mp_said %}Te faltan {{ mp_missing | money_without_trailing_zeros }} para alcanzar {{ mp_goal }}{% endcapture -%}
+      {%- render 'typography', text: mp_said, variant: 'body-sm', weight: 'medium', attrs: 'aria-live="polite"' -%}
+    {%- endif -%}
+    <div class="pr-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ mp_pct }}" aria-label="Avance hacia {{ mp_goal | escape }}" style="--progress: {{ mp_pct }}%">
+      <div class="pr-progress__bar"></div>
+    </div>
+    {%- capture mp_of %}{{ mp_total | money_without_trailing_zeros }} de {{ minimum | money_without_trailing_zeros }}{% endcapture -%}
+    {%- render 'typography', text: mp_of, variant: 'xs', color: 'secondary' -%}
+  </div>
+{%- endif -%}

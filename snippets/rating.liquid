@@ -1,0 +1,37 @@
+{%- comment -%}
+  Rating — star count for reviews and testimonials. Filled stars in gold (warning) by default; empty ones a border tone. Ports PerfectlyRad Rating.
+
+  {% render 'rating', value: 4.8, max: 5, size: 'sm', color: 'warning', show_value: false, class: '' %}
+
+  Params
+  - value       0 to max. Halves round to the nearest whole star
+  - max         default 5
+  - size        sm | md   (default: sm)
+  - color       warning | primary | brand | success | inherit   (default: warning)
+  - show_value  true → the number after the stars, e.g. 4.8
+  - class
+{%- endcomment -%}
+{%- liquid
+  assign r_max = max | default: 5
+  assign r_size = size | default: 'sm'
+  assign r_color = color | default: 'warning'
+  assign r_val = value | plus: 0.0
+  assign r_filled = r_val | round
+  if r_filled > r_max
+    assign r_filled = r_max
+  endif
+  assign r_type = 'body-sm'
+  if r_size == 'md'
+    assign r_type = 'body'
+  endif
+-%}
+<span class="pr-rating pr-rating--{{ r_color }}{% if class != blank %} {{ class }}{% endif %}" role="img" aria-label="{{ r_val }} / {{ r_max }}">
+  {%- for i in (1..r_max) -%}
+    {%- if i <= r_filled -%}
+      {%- render 'icon', name: 'star', size: r_size, fill: true, class: 'pr-rating__star is-filled' -%}
+    {%- else -%}
+      {%- render 'icon', name: 'star', size: r_size, class: 'pr-rating__star' -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if show_value -%}{%- render 'typography', text: r_val, as: 'span', variant: r_type, weight: 'medium', class: 'pr-rating__value' -%}{%- endif -%}
+</span>

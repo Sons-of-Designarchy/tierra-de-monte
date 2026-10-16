@@ -1,0 +1,30 @@
+/* ---------- icon-list: icon + text rows with a hairline between them ---------- */
+.pr-icon-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pr-icon-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pr-space-3);
+  padding: var(--pr-space-3) 0;
+  border-top: 1px solid var(--pr-border);
+}
+
+.pr-icon-list__item:last-child {
+  border-bottom: 1px solid var(--pr-border);
+}
+
+.pr-icon-list__icon {
+  flex-shrink: 0;
+  width: var(--pr-space-6);
+  height: var(--pr-space-6);
+}
+
+.pr-icon-list__text {
+  min-width: 0;
+}

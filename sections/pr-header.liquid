@@ -1,0 +1,239 @@
+<link rel="stylesheet" href="{{ 'pr-component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'pr-component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{%- if settings.predictive_search_enabled -%}
+  <link rel="stylesheet" href="{{ 'pr-component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+{{ 'section-tdm-header.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'tdm-navbar.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Optional per-header logo (e.g. the aliados header); falls back to the theme logo
+  assign header_logo = settings.logo
+  if section.settings.logo_override != blank
+    assign header_logo = section.settings.logo_override
+  endif
+  # Optional logo link (e.g. aliados header goes back to /pages/aliados)
+  assign header_logo_url = routes.root_url
+  if section.settings.logo_link != blank
+    assign header_logo_url = section.settings.logo_link
+  endif
+-%}
+
+{%- capture app_blocks -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == '@app' -%}
+      {% render block %}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- render 'navbar',
+  nav_style: section.settings.nav_style,
+  menu: section.settings.menu,
+  menu_type: section.settings.menu_type_desktop,
+  logo: header_logo,
+  logo_url: header_logo_url,
+  logo_width: settings.logo_width,
+  show_search: section.settings.show_search,
+  show_account: section.settings.show_account,
+  show_cart: section.settings.show_cart,
+  cta_last: section.settings.cta_last_link,
+  cta_url: section.settings.cta_url,
+  sticky: section.settings.sticky,
+  country: section.settings.enable_country_selector,
+  language: section.settings.enable_language_selector,
+  color_scheme: section.settings.color_scheme,
+  anchor_blocks: section.blocks,
+  app_blocks: app_blocks,
+  uid: section.id
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tiktok_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = request.origin | append: routes.search_url | append: "?q={search_term_string}" %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "class": "section-header",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "nav_style",
+      "label": "Estilo de la barra",
+      "info": "floating: barra blanca separada de los bordes. full: barra de borde a borde.",
+      "options": [
+        { "value": "floating", "label": "Flotante" },
+        { "value": "full", "label": "Ancho completo" }
+      ],
+      "default": "floating"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "default": true,
+      "label": "Fija arriba al hacer scroll"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "default": false,
+      "label": "Mostrar el carrito",
+      "info": "Solo la landing de Aliados vende. En el resto del sitio el carrito aparece únicamente con el ajuste del tema «Mostrar compra en el sitio»."
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_override",
+      "label": "Logo de esta sección",
+      "info": "Opcional. Reemplaza el logo del tema solo en este header (p. ej. el header de aliados)."
+    },
+    {
+      "type": "url",
+      "id": "logo_link",
+      "label": "Enlace del logo",
+      "info": "Opcional. Si está vacío, el logo lleva a la página de inicio."
+    },
+    {
+      "type": "header",
+      "content": "Menú"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "select",
+      "id": "menu_type_desktop",
+      "options": [
+        {
+          "value": "dropdown",
+          "label": "t:sections.header.settings.menu_type_desktop.options__1.label"
+        },
+        {
+          "value": "mega",
+          "label": "t:sections.header.settings.menu_type_desktop.options__2.label"
+        }
+      ],
+      "default": "mega",
+      "label": "t:sections.header.settings.menu_type_desktop.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_last_link",
+      "default": false,
+      "label": "Último enlace como botón",
+      "info": "El último enlace del menú se muestra como botón a la derecha (en móvil va dentro del menú)."
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Destino del botón",
+      "info": "Opcional. Reemplaza el enlace del menú en ese botón (el texto sigue siendo el del menú). En Aliados: #pedido."
+    },
+    {
+      "type": "header",
+      "content": "Iconos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "default": true,
+      "label": "Mostrar buscador"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "default": true,
+      "label": "Mostrar icono de cuenta"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de la barra",
+      "info": "Blanco por defecto.",
+      "default": "scheme-tdm-blanco"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header__utilities.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": true,
+      "label": "t:sections.header.settings.enable_country_selector.label",
+      "info":"t:sections.header.settings.enable_country_selector.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": true,
+      "label": "t:sections.header.settings.enable_language_selector.label",
+      "info":"t:sections.header.settings.enable_language_selector.info"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "anchor",
+      "name": "Enlace a una sección",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Texto", "default": "Sección" },
+        { "type": "text", "id": "anchor", "label": "ID de la sección", "info": "El mismo ID que tiene la sección en la página (ajuste «ID de ancla»), sin #. Aparece en el centro de la barra y en el menú móvil; se resalta mientras su sección está en pantalla." }
+      ]
+    }
+  ]
+}
+{% endschema %}

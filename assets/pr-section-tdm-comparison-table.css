@@ -1,0 +1,392 @@
+/* =============================================================================
+   Comparison table (sections/comparison-table.liquid)
+   Per-instance values arrive as custom properties on the root .tdm-comparison-table
+   element (which is also .ct-section):
+     --ct-align --ct-radius --ct-hl-radius --ct-pad --ct-pad-mobile
+     --ct-border-opacity --ct-min-w --ct-image-size --ct-image-size-mobile
+     --ct-cell-align --ct-mobile-feat-w --ct-mobile-col-w --ct-mobile-hl-w
+     --ct-mobile-table-w --ct-cta-align
+   Each <col> in the colgroup carries its own --ct-col-w.
+   Colours: the table wrapper, each highlighted column and each button carry a
+   Dawn scheme class (color-scheme-*), which re-points the --pr-* roles on that
+   element. Nothing here reads a raw colour.
+   Text: every string is rendered with the typography snippet; this file only
+   places it (no font-size, weight, family, line-height or text colour).
+   Boolean settings are root modifier classes: ct-vborders, ct-feature-tint,
+   ct-striped, ct-sticky-feature, ct-full-btns, ct-check-accent.
+   ========================================================================== */
+
+.tdm-comparison-table .ct-intro {
+  margin-bottom: var(--pr-space-8);
+}
+
+/* ---- Table container (table colour scheme) --------------------------------- */
+.tdm-comparison-table .ct-wrapper {
+  border-radius: var(--ct-radius);
+  padding: 0 var(--ct-pad);
+  position: relative; /* contains the screen-reader text and stops the page scrolling horizontally */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  --ct-border: color-mix(in oklab, var(--pr-text-primary) var(--ct-border-opacity), transparent);
+  --ct-soft: color-mix(in oklab, var(--pr-text-primary) 5%, transparent);
+}
+
+.tdm-comparison-table .ct-block,
+.tdm-comparison-table .ct-block * {
+  box-sizing: border-box;
+}
+
+.tdm-comparison-table .ct-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: var(--ct-min-w);
+  color: inherit;
+  table-layout: fixed;
+  margin: 0;
+  border: 0;
+}
+
+.tdm-comparison-table .ct-table col {
+  width: var(--ct-col-w);
+}
+
+.tdm-comparison-table .ct-table th,
+.tdm-comparison-table .ct-table td {
+  padding: var(--pr-space-4) var(--pr-space-3);
+  border: 0;
+  border-bottom: 1px solid var(--ct-border);
+  vertical-align: middle;
+}
+
+.tdm-comparison-table .ct-table tr.ct-last > * {
+  border-bottom: 0;
+}
+
+.tdm-comparison-table.ct-vborders .ct-table th + th,
+.tdm-comparison-table.ct-vborders .ct-table td + td,
+.tdm-comparison-table.ct-vborders .ct-table th + td {
+  border-left: 1px solid var(--ct-border);
+}
+
+/* ---- Column headers ---------------------------------------------------------- */
+.tdm-comparison-table .ct-table th.ct-header {
+  text-align: center;
+  vertical-align: top;
+  padding-top: var(--pr-space-6);
+  padding-bottom: var(--pr-space-4);
+}
+
+.tdm-comparison-table .ct-header__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pr-space-2);
+}
+
+.tdm-comparison-table .ct-header__title {
+  text-decoration: none;
+}
+
+.tdm-comparison-table .ct-header__image {
+  width: 100%;
+  max-width: var(--ct-image-size);
+  height: auto;
+  object-fit: contain;
+}
+
+.tdm-comparison-table .ct-header__note {
+  display: block;
+  margin-top: var(--pr-space-1);
+}
+
+.tdm-comparison-table .ct-icon {
+  width: var(--pr-icon-xl);
+  height: var(--pr-icon-xl);
+}
+
+.tdm-comparison-table .ct-badge {
+  padding: var(--pr-space-1) var(--pr-space-2);
+  border-radius: var(--pr-radius-full);
+  border: 1px solid currentcolor;
+}
+
+/* ---- Feature column ---------------------------------------------------------- */
+.tdm-comparison-table .ct-feature {
+  text-align: left;
+}
+
+.tdm-comparison-table.ct-feature-tint .ct-feature {
+  background-color: var(--ct-soft);
+}
+
+.tdm-comparison-table .ct-feature p {
+  margin: 0;
+}
+
+.tdm-comparison-table .ct-feature > * + * {
+  margin-top: var(--pr-space-1);
+}
+
+.tdm-comparison-table .ct-feature__note {
+  display: block;
+}
+
+/* ---- Cells -------------------------------------------------------------------- */
+.tdm-comparison-table .ct-cell {
+  text-align: var(--ct-cell-align);
+}
+
+.tdm-comparison-table .ct-cell p {
+  margin: 0;
+}
+
+.tdm-comparison-table .ct-cell > * + * {
+  margin-top: var(--pr-space-1);
+}
+
+.tdm-comparison-table .ct-check {
+  width: var(--pr-icon-lg);
+  height: var(--pr-icon-lg);
+  display: inline-block;
+  vertical-align: middle;
+  color: currentcolor;
+}
+
+.tdm-comparison-table.ct-check-accent .ct-check {
+  color: var(--pr-action);
+}
+
+.tdm-comparison-table .ct-dash {
+  display: inline-block;
+  width: var(--pr-icon-md);
+  height: 1px;
+  vertical-align: middle;
+  background-color: currentcolor;
+  opacity: 0.35;
+}
+
+.tdm-comparison-table.ct-striped .ct-table tbody tr:nth-child(even) > *:not(.ct-hl) {
+  background-color: var(--ct-soft);
+}
+
+/* ---- Highlighted column --------------------------------------------------------
+   Each cell of the column carries its own scheme class, so the background, text and
+   accent follow that scheme's roles. Only the corners and the edge bleed are extra. */
+.tdm-comparison-table .ct-hl {
+  --ct-border: color-mix(in oklab, var(--pr-text-primary) var(--ct-border-opacity), transparent);
+}
+
+.tdm-comparison-table thead .ct-hl {
+  border-top-left-radius: var(--ct-hl-radius);
+  border-top-right-radius: var(--ct-hl-radius);
+}
+
+.tdm-comparison-table tr.ct-last .ct-hl {
+  border-bottom-left-radius: var(--ct-hl-radius);
+  border-bottom-right-radius: var(--ct-hl-radius);
+}
+
+/* The highlighted column at either edge bleeds into the table's side padding,
+   so its colour reaches the edge (with or without buttons, rows or images) */
+.tdm-comparison-table .ct-table tr > .ct-hl:last-child {
+  box-shadow: var(--ct-pad) 0 0 0 var(--pr-surface);
+}
+
+/* If the highlighted column is last, its right corners follow the table radius */
+.tdm-comparison-table thead tr > .ct-hl:last-child {
+  border-top-right-radius: 0;
+}
+
+.tdm-comparison-table tr.ct-last > .ct-hl:last-child {
+  border-bottom-right-radius: 0;
+}
+
+/* ---- Scroll affordance (all screens, only when the table doesn't fit) -------- */
+.tdm-comparison-table .ct-scroll {
+  position: relative;
+}
+
+.tdm-comparison-table .ct-scroll::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--pr-space-8);
+  pointer-events: none;
+  border-radius: 0 var(--ct-radius) var(--ct-radius) 0;
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--pr-text-primary) 18%, transparent));
+  opacity: 0;
+  transition: opacity var(--pr-motion-base) var(--pr-motion-ease);
+}
+
+.tdm-comparison-table .ct-scroll.is-scrollable:not(.is-end)::after {
+  opacity: 1;
+}
+
+.tdm-comparison-table .ct-scroll-hint {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pr-space-2);
+  margin: 0 0 var(--pr-space-3);
+}
+
+.tdm-comparison-table .ct-scroll-hint svg {
+  width: var(--pr-icon-sm);
+  height: var(--pr-icon-sm);
+}
+
+.tdm-comparison-table .ct-block.is-scrollable .ct-scroll-hint {
+  display: flex;
+}
+
+/* ---- Mobile -------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .tdm-comparison-table .ct-wrapper {
+    --ct-pad: var(--ct-pad-mobile);
+  }
+
+  /* Legible fixed widths: feature column + plans */
+  .tdm-comparison-table .ct-table {
+    width: max(100%, var(--ct-mobile-table-w));
+    min-width: 0;
+  }
+
+  .tdm-comparison-table .ct-table col.ct-col-feature {
+    width: var(--ct-mobile-feat-w);
+  }
+
+  .tdm-comparison-table .ct-table col.ct-col-plan {
+    width: var(--ct-mobile-col-w);
+  }
+
+  .tdm-comparison-table .ct-table col.ct-col-plan.ct-col-hl {
+    width: var(--ct-mobile-hl-w);
+  }
+
+  .tdm-comparison-table .ct-table th,
+  .tdm-comparison-table .ct-table td {
+    padding: var(--pr-space-3) var(--pr-space-2);
+  }
+
+  .tdm-comparison-table .ct-table th.ct-feature {
+    padding-left: var(--pr-space-1);
+    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
+    hyphens: manual;
+  }
+
+  .tdm-comparison-table .ct-cell {
+    overflow-wrap: break-word; /* wrap between words; split a word only if it alone overflows */
+  }
+
+  .tdm-comparison-table .ct-table th.ct-header {
+    padding-top: var(--pr-space-4);
+    padding-bottom: var(--pr-space-3);
+  }
+
+  .tdm-comparison-table .ct-header__inner {
+    gap: var(--pr-space-2);
+  }
+
+  .tdm-comparison-table .ct-header__image {
+    max-width: var(--ct-image-size-mobile);
+  }
+
+  .tdm-comparison-table .ct-header__title {
+    overflow-wrap: break-word;
+  }
+
+  .tdm-comparison-table .ct-icon {
+    width: var(--pr-icon-lg);
+    height: var(--pr-icon-lg);
+  }
+
+  .tdm-comparison-table .ct-badge {
+    white-space: nowrap;
+  }
+
+  .tdm-comparison-table .ct-check {
+    width: var(--pr-icon-md);
+    height: var(--pr-icon-md);
+  }
+
+  /* Column buttons: only allowed to wrap inside narrow columns */
+  .tdm-comparison-table .ct-table .ct-btn {
+    min-width: 0;
+    padding-left: var(--pr-space-3);
+    padding-right: var(--pr-space-3);
+    white-space: normal;
+    height: auto;
+    min-height: var(--pr-control-md);
+  }
+
+  .tdm-comparison-table .ct-foot td,
+  .tdm-comparison-table .ct-foot th {
+    padding-top: var(--pr-space-4);
+    padding-bottom: var(--pr-space-4);
+  }
+
+  .tdm-comparison-table .ct-cta {
+    margin-top: var(--pr-space-6);
+  }
+
+  /* Sticky feature column with a shadow to signal the rest scrolls */
+  .tdm-comparison-table.ct-sticky-feature .ct-table .ct-feature {
+    position: sticky;
+    left: calc(-1 * var(--ct-pad));
+    z-index: 2;
+    background-color: var(--pr-surface);
+    transition: box-shadow var(--pr-motion-base) var(--pr-motion-ease);
+  }
+
+  .tdm-comparison-table.ct-sticky-feature.ct-feature-tint .ct-table .ct-feature {
+    background-image: linear-gradient(var(--ct-soft), var(--ct-soft));
+  }
+
+  .tdm-comparison-table.ct-sticky-feature .ct-scroll.is-scrolled .ct-table .ct-feature {
+    box-shadow: var(--pr-elevation-sm);
+  }
+}
+
+/* ---- Buttons (column and section) --------------------------------------------- */
+.tdm-comparison-table .ct-table .ct-btn {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.tdm-comparison-table .ct-btn[aria-disabled='true'] {
+  pointer-events: none;
+}
+
+.tdm-comparison-table.ct-full-btns .ct-header .ct-btn,
+.tdm-comparison-table.ct-full-btns .ct-foot .ct-btn {
+  width: 100%;
+}
+
+.tdm-comparison-table .ct-foot td,
+.tdm-comparison-table .ct-foot th {
+  text-align: center;
+  vertical-align: top;
+  padding-top: var(--pr-space-6);
+  padding-bottom: var(--pr-space-6);
+}
+
+.tdm-comparison-table .ct-footnote {
+  margin-top: var(--pr-space-4);
+  text-align: var(--ct-align);
+}
+
+.tdm-comparison-table .ct-footnote p {
+  margin: 0 0 var(--pr-space-1);
+}
+
+/* ---- General button (own scheme) ----------------------------------------------- */
+.tdm-comparison-table .ct-cta {
+  display: flex;
+  justify-content: var(--ct-cta-align);
+  margin-top: var(--pr-space-8);
+}

@@ -1,0 +1,91 @@
+{%- comment -%}
+  CartDrawer — the cart as a side panel: lines, progress toward a minimum, summary and checkout. Empty state included.
+  The one drawer of the theme (it replaces Dawn's cart-drawer and cart-notification). Ports PerfectlyRad CartDrawer.
+  It is rendered once in layout/theme.liquid and again, by section id, whenever the cart changes (sections/cart-drawer.liquid).
+
+  {% render 'pr-cart-drawer' %}
+
+  Minimum purchase: theme settings → Carrito (cart_minimum in MXN, cart_minimum_label, cart_minimum_hold). Off by default.
+  Behaviour: <pr-cart-drawer> and <pr-cart-lines> in assets/pr-cart.js (open on the header cart button, /cart/change.js, section rendering).
+  States: empty, with lines, line updating, below the minimum, minimum reached.
+{%- endcomment -%}
+{%- liquid
+  assign cd_minimum = settings.cart_minimum | times: 100
+  assign cd_label = settings.cart_minimum_label | default: 'el mínimo de compra'
+  assign cd_hold = settings.cart_minimum_hold
+-%}
+<pr-cart-drawer class="pr-drawer-host">
+  <dialog class="pr-drawer" data-scheme="light" aria-labelledby="CartDrawer-Title">
+    <div class="pr-drawer__content" data-cart-content>
+      <div class="pr-drawer__header">
+        <div class="pr-drawer__title">
+          {%- render 'typography', text: 'Tu carrito', as: 'h2', variant: 'h5', font: 'display', id: 'CartDrawer-Title' -%}
+          {%- if cart.item_count > 0 -%}
+            {%- capture cd_count %}{{ cart.item_count }} {% if cart.item_count == 1 %}producto{% else %}productos{% endif %}{% endcapture -%}
+            {%- render 'typography', text: cd_count, variant: 'body-sm', color: 'secondary' -%}
+          {%- endif -%}
+        </div>
+        {%- render 'icon-button', icon: 'close', label: 'Cerrar carrito', variant: 'ghost', attrs: 'data-drawer-close' -%}
+      </div>
+      <div class="pr-drawer__body">
+        {%- if cart.item_count == 0 -%}
+          <div class="pr-drawer__empty">
+            {%- render 'icon', name: 'bag', size: 'xl' -%}
+            {%- render 'typography', text: 'Tu carrito está vacío', as: 'h3', variant: 'h5', font: 'display' -%}
+            {%- render 'typography', text: 'Agrega productos para ver aquí tu pedido.', color: 'secondary' -%}
+            {%- render 'button', label: 'Ver productos', href: routes.all_products_collection_url -%}
+          </div>
+        {%- else -%}
+          {%- if cd_minimum > 0 -%}
+            {%- render 'minimum-progress', total: cart.total_price, minimum: cd_minimum, goal_label: cd_label -%}
+          {%- endif -%}
+          <pr-cart-lines>
+            <ul class="pr-cart-lines" role="list">
+              {%- for item in cart.items -%}
+                {%- render 'cart-line-item', item: item, line: forloop.index -%}
+              {%- endfor -%}
+            </ul>
+          </pr-cart-lines>
+        {%- endif -%}
+      </div>
+      {%- if cart.item_count > 0 -%}
+        <div class="pr-drawer__footer">
+          {%- if cd_hold -%}
+            {%- render 'cart-summary', cart: cart, minimum: cd_minimum, minimum_label: cd_label -%}
+          {%- else -%}
+            {%- render 'cart-summary', cart: cart -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if settings.cart_registration_form_id != blank -%}
+      <pr-cart-register class="pr-drawer__content pr-drawer__register" data-form-id="{{ settings.cart_registration_form_id | escape }}" hidden>
+        <div class="pr-drawer__header">
+          <div class="pr-drawer__title">
+            {%- render 'typography', text: 'Registro', as: 'h2', variant: 'h5', font: 'display' -%}
+            {%- render 'typography', text: 'Último paso antes de pagar', variant: 'body-sm', color: 'secondary' -%}
+          </div>
+          {%- render 'icon-button', icon: 'close', label: 'Cerrar carrito', variant: 'ghost', attrs: 'data-drawer-close' -%}
+        </div>
+        <div class="pr-drawer__body">
+          {%- if settings.cart_registration_intro != blank -%}
+            {%- render 'typography', text: settings.cart_registration_intro, variant: 'body', color: 'secondary' -%}
+          {%- endif -%}
+          <iframe
+            class="pr-drawer__form"
+            data-register-frame
+            data-src="https://api.leadconnectorhq.com/widget/form/{{ settings.cart_registration_form_id | escape }}"
+            id="inline-{{ settings.cart_registration_form_id | escape }}"
+            title="Registro de Aliado"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="pr-drawer__footer pr-drawer__register-footer">
+          {%- render 'typography', text: 'Gracias, ya estás registrado.', variant: 'body-sm', color: 'success', attrs: 'role="status" hidden data-register-done' -%}
+          {%- render 'button', label: 'Continuar al pago', size: 'lg', disabled: true, attrs: 'data-register-continue', class: 'pr-drawer__register-action' -%}
+          {%- render 'button', label: 'Volver al carrito', variant: 'ghost', attrs: 'data-register-back', class: 'pr-drawer__register-action' -%}
+        </div>
+      </pr-cart-register>
+    {%- endif -%}
+  </dialog>
+</pr-cart-drawer>

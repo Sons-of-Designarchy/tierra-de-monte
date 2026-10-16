@@ -1,0 +1,79 @@
+{%- comment -%}
+  Navbar links — the desktop menu of the Navbar organism. Top-level links plus a disclosure panel for links with children.
+  Ports PerfectlyRad Navbar link row; the panel is the Shopify addition (PerfectlyRad has a flat menu).
+
+  {% render 'navbar-links', menu: linklists['main-menu'], menu_type: 'mega', skip_last: false, uid: section.id %}
+
+  Params
+  - menu       linklist (required)
+  - menu_type  dropdown | mega   (default: dropdown). mega spans the bar; dropdown hangs under its link
+  - skip_last  true → the last link is the bar CTA and is not listed here
+  - anchor_blocks  the header's blocks: each `anchor` block (label + section id) is an in-page link listed after the menu links, highlighted while its section is on screen
+  - uid        id prefix, unique per Navbar on the page
+{%- endcomment -%}
+{%- liquid
+  assign nl_type = menu_type | default: 'dropdown'
+  assign nl_count = menu.links.size
+  if skip_last
+    assign nl_count = nl_count | minus: 1
+  endif
+-%}
+<ul class="tdm-nav__links" role="list">
+  {%- for link in menu.links limit: nl_count -%}
+    {%- assign item_title = link.title | escape -%}
+    <li class="tdm-nav__item">
+      {%- if link.links != blank -%}
+        <header-menu>
+          <details id="Details-HeaderMenu-{{ uid }}-{{ forloop.index }}" class="tdm-nav__disclosure tdm-nav__disclosure--{{ nl_type }}">
+            <summary id="HeaderMenu-{{ uid }}-{{ link.handle }}" class="tdm-nav__link"{% if link.child_active %} data-active="true"{% endif %}>
+              {%- render 'typography', text: item_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+              {%- render 'icon', name: 'chevron-down', size: 'sm', class: 'tdm-nav__caret' -%}
+            </summary>
+            <div class="tdm-nav__panel" id="MegaMenu-Content-{{ uid }}-{{ forloop.index }}">
+              <ul class="tdm-nav__panel-list" role="list">
+                {%- for childlink in link.links -%}
+                  {%- assign child_title = childlink.title | escape -%}
+                  <li class="tdm-nav__group">
+                    <a id="HeaderMenu-{{ uid }}-{{ link.handle }}-{{ childlink.handle }}" href="{{ childlink.url }}" class="tdm-nav__sublink{% if childlink.links != blank %} tdm-nav__sublink--title{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
+                      {%- if childlink.links != blank -%}
+                        {%- render 'typography', text: child_title, variant: 'body', weight: 'semibold', color: 'inherit', as: 'span' -%}
+                      {%- else -%}
+                        {%- render 'typography', text: child_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+                      {%- endif -%}
+                    </a>
+                    {%- if childlink.links != blank -%}
+                      <ul class="tdm-nav__group-list" role="list">
+                        {%- for grandchildlink in childlink.links -%}
+                          {%- assign grand_title = grandchildlink.title | escape -%}
+                          <li>
+                            <a id="HeaderMenu-{{ uid }}-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}" href="{{ grandchildlink.url }}" class="tdm-nav__sublink"{% if grandchildlink.current %} aria-current="page"{% endif %}>
+                              {%- render 'typography', text: grand_title, variant: 'body-sm', color: 'secondary', as: 'span' -%}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </details>
+        </header-menu>
+      {%- else -%}
+        <a id="HeaderMenu-{{ uid }}-{{ link.handle }}" href="{{ link.url }}" class="tdm-nav__link"{% if link.current %} aria-current="page"{% endif %}>
+          {%- render 'typography', text: item_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+        </a>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+  {%- for block in anchor_blocks -%}
+    {%- if block.type == 'anchor' and block.settings.label != blank -%}
+      {%- assign anchor_title = block.settings.label | escape -%}
+      <li class="tdm-nav__item" {{ block.shopify_attributes }}>
+        <a href="#{{ block.settings.anchor | handleize }}" class="tdm-nav__link" data-nav-anchor>
+          {%- render 'typography', text: anchor_title, variant: 'body', weight: 'medium', color: 'inherit', as: 'span' -%}
+        </a>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

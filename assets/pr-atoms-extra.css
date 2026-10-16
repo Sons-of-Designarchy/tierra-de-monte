@@ -1,0 +1,171 @@
+/* =============================================================================
+   PerfectlyRad atoms — theme extensions (loaded after pr-atoms.css).
+   Everything here is a documented param of an atom snippet, never a one-off:
+     card:           icon_image, bg_image (photo card), text + list_icon, ratio, on_color
+     section-header: the heading block every section opens with
+   Roles and scales only (--pr-*), no hex, no px type sizes.
+   ========================================================================== */
+
+/* ---------- section-header (PerfectlyRad Section: heading block) ---------- */
+.pr-section-header {
+  max-width: var(--pr-width-xl);
+}
+
+.pr-section-header--center {
+  margin-inline: auto;
+}
+
+.pr-section-header .pr-heading {
+  gap: var(--pr-space-4);
+}
+
+/* Eyebrow → title: one --pr-space-4 step (Dan, 12 oct; replaces the old tight rule) for every section header */
+.pr-section-header .pr-heading__eyebrow {
+  margin-bottom: 0;
+}
+
+.pr-section-header__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-3);
+  max-width: var(--pr-measure);
+}
+
+.pr-section-header--center .pr-section-header__intro {
+  margin-inline: auto;
+}
+
+.pr-section-header__intro > * {
+  margin: 0;
+}
+
+/* ---------- card: white on colour, never green on green ---------- */
+.pr-card[data-scheme="light"] {
+  box-shadow: var(--pr-elevation-sm);
+}
+
+/* ---------- card: shape ---------- */
+.pr-card--r-1-1 { aspect-ratio: 1 / 1; }
+.pr-card--r-4-3 { aspect-ratio: 4 / 3; }
+.pr-card--r-4-5 { aspect-ratio: 4 / 5; }
+.pr-card--r-3-4 { aspect-ratio: 3 / 4; }
+
+/* ---------- card: icon image above the body ---------- */
+.pr-card--icon {
+  gap: var(--pr-space-4);
+}
+
+.pr-card__icon {
+  align-self: flex-start;
+  background: transparent;
+  width: calc(var(--pr-space-16) * 2);
+}
+
+/* ---------- card: text with an icon list ---------- */
+.pr-card__text {
+  color: var(--pr-text-primary);
+}
+
+.pr-card__text > * {
+  margin: 0;
+}
+
+.pr-card__text ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pr-space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.pr-card__text li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pr-space-2);
+}
+
+.pr-card__li-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--pr-action);
+}
+
+.pr-card__text li > span:last-child {
+  min-width: 0;
+}
+
+/* ---------- card: photo card (bg_image) ---------- */
+.pr-card--photo {
+  position: relative;
+  isolation: isolate;
+  justify-content: flex-end;
+  min-height: calc(var(--pr-space-24) * 3);
+  padding: var(--pr-space-4);
+  background: var(--pr-surface-inverse);
+}
+
+.pr-card--photo.pr-card--r-1-1,
+.pr-card--photo.pr-card--r-4-3,
+.pr-card--photo.pr-card--r-4-5,
+.pr-card--photo.pr-card--r-3-4 {
+  min-height: 0;
+}
+
+.pr-card__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.pr-card__bg .pr-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pr-card__bg .pr-image__img {
+  position: absolute;
+  height: 100%;
+}
+
+.pr-card__panel {
+  flex: 0 0 auto;
+  padding: var(--pr-space-6);
+  border-radius: var(--pr-radius-surface);
+  background: var(--pr-white-10);
+  color: var(--pr-text-primary); /* white: the panel carries data-scheme="dark" */
+  -webkit-backdrop-filter: blur(var(--pr-blur-xl));
+  backdrop-filter: blur(var(--pr-blur-xl));
+}
+
+/* Ink scrim on the photo so the white text passes contrast under a 10% panel */
+.pr-card__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--pr-scrim-strong), transparent 80%);
+}
+
+/* The panel sits 16px from the card edge at every size (wide panel); roomier inside from tablet up */
+.pr-card.pr-card--photo {
+  padding: var(--pr-space-4);
+}
+
+@media (max-width: 749px) {
+  .pr-card__panel {
+    padding: var(--pr-space-4);
+  }
+}
+
+/* A contained (inset, rounded) last section never touches the footer: air on the page background */
+.content-for-layout > .shopify-section:last-child .tdm-feature--rows,
+.content-for-layout > .shopify-section:last-child .image-with-text {
+  margin-bottom: var(--pr-space-12);
+}
+
+@media (min-width: 750px) {
+  .content-for-layout > .shopify-section:last-child .tdm-feature--rows,
+  .content-for-layout > .shopify-section:last-child .image-with-text {
+    margin-bottom: var(--pr-space-16);
+  }
+}
