@@ -128,7 +128,7 @@
         "show_rule": true,
         "rule_color": "#294e3f",
         "title": "Indicadores de impacto",
-        "heading_size": "h1",
+        "heading_size": "h0",
         "description": "",
         "button_label": "",
         "button_link": "",
