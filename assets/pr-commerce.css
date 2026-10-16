@@ -1032,17 +1032,46 @@ html.pr-scroll-lock {
   }
 }
 
+/* Desktop: the heading and the summary share the first band (so the first product row reads complete under it), the products
+   run four across, and once the summary scrolls out of its slot it floats as the same compact bar mobile uses. */
+.pr-order__slot {
+  display: contents;
+}
+
 @media (min-width: 990px) {
-  .pr-order {
+  .pr-order-section {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--pr-width-sm);
     align-items: start;
     gap: var(--pr-space-8);
   }
 
+  .pr-order {
+    display: contents;
+  }
+
+  .pr-order-section > .pr-section-header {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .pr-order__slot {
+    display: block;
+    grid-column: 2;
+    grid-row: 1;
+    min-height: var(--po-slot-h, 0);
+  }
+
+  .pr-order__grid {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--pr-grid-gap);
+  }
+
   .pr-order__summary {
-    top: var(--pr-space-24);
-    bottom: auto;
+    position: static;
     max-width: none;
   }
 
@@ -1052,6 +1081,54 @@ html.pr-scroll-lock {
 
   .pr-order__extra {
     display: block;
+  }
+
+  .pr-order.is-floating .pr-order__summary {
+    position: fixed;
+    bottom: var(--pr-space-6);
+    left: 50%;
+    z-index: 2;
+    width: min(calc(var(--pr-width-md) * 1.5), calc(100% - 2 * var(--pr-space-6)));
+    padding: var(--pr-space-4) var(--pr-space-6);
+    transform: translateX(-50%);
+  }
+
+  /* Floating bar: progress and notes on the left; on the right the subtotal sits above the pay button */
+  .pr-order.is-floating .pr-order__summary-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) calc(16 * var(--pr-rem));
+    column-gap: var(--pr-space-8);
+    row-gap: var(--pr-space-2);
+    align-items: center;
+  }
+
+  .pr-order.is-floating .pr-progress {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .pr-order.is-floating .pr-order__total {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .pr-order.is-floating .pr-order__action {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .pr-order.is-floating .pr-order__ethics {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .pr-order.is-floating [data-order-error],
+  .pr-order.is-floating [data-level-text] {
+    grid-column: 1 / -1;
+  }
+
+  .pr-order.is-floating .pr-order__extra {
+    display: none;
   }
 }
 

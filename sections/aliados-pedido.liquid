@@ -126,7 +126,9 @@
           {%- endif -%}
         </div>
       {%- endcapture -%}
-      {%- render 'card', tag: 'div', padding: 'lg', content: po_summary, class: 'pr-order__summary' -%}
+      <div class="pr-order__slot">
+        {%- render 'card', tag: 'div', padding: 'lg', content: po_summary, class: 'pr-order__summary' -%}
+      </div>
     </pr-order>
   </div>
 </div>

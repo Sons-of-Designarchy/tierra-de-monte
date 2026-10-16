@@ -14,6 +14,8 @@
       minimumFractionDigits: Number.isInteger(cents / 100) ? 0 : 2,
     }).format(cents / 100);
 
+  const FLOAT_OFFSET = 96;
+
   const json = (url, body) =>
     fetch(url, {
       method: 'POST',
@@ -37,6 +39,33 @@
       });
       this.button.addEventListener('click', () => this.checkout());
       this.render();
+      this.watchFloating();
+    }
+
+    // Desktop only: the summary starts in its slot beside the heading; once that slot scrolls under the navbar it floats as a compact bar, until the product grid ends.
+    watchFloating() {
+      const slot = this.querySelector('.pr-order__slot');
+      const grid = this.querySelector('.pr-order__grid');
+      const desktop = window.matchMedia('(min-width: 990px)');
+      let frame;
+
+      const measure = () => {
+        if (!this.classList.contains('is-floating')) slot.style.setProperty('--po-slot-h', `${slot.firstElementChild.offsetHeight}px`);
+      };
+      const update = () => {
+        frame = null;
+        measure();
+        const slotBottom = slot.getBoundingClientRect().bottom;
+        const gridBottom = grid.getBoundingClientRect().bottom;
+        this.classList.toggle('is-floating', desktop.matches && slotBottom < FLOAT_OFFSET && gridBottom > window.innerHeight / 2);
+      };
+      const queue = () => {
+        if (!frame) frame = requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', queue, { passive: true });
+      window.addEventListener('resize', queue);
+      update();
     }
 
     get lines() {
