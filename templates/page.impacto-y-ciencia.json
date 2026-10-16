@@ -73,14 +73,14 @@
         "column_ykPz9y": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
             "image": "shopify://shop_images/icon-magni_ceb12c9e-d1e3-4a7e-af31-737149781397.svg",
             "icon_size": 40,
             "title": "Hectáreas regeneradas",
-            "stat_font": "heading",
+            "stat_font": "body",
             "stat_size_mobile": 24,
             "stat_size_desktop": 24,
             "text": "<p>Suelos vivos y productivos</p>",
+            "desc_font": "mono",
             "link_label": "",
             "link": ""
           }
@@ -88,7 +88,6 @@
         "column_q4U9m4": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
             "image": "shopify://shop_images/icon-create.svg",
             "icon_size": 40,
             "title": "Personas",
@@ -96,6 +95,7 @@
             "stat_size_mobile": 24,
             "stat_size_desktop": 24,
             "text": "<p>Trabajadores de campo que pueden volver a casa sin riesgos de intoxicación.</p>",
+            "desc_font": "mono",
             "link_label": "",
             "link": ""
           }
@@ -103,7 +103,6 @@
         "column_biVHUd": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
             "image": "shopify://shop_images/icon-dise.svg",
             "icon_size": 40,
             "title": "Vida que regresa",
@@ -111,6 +110,7 @@
             "stat_size_mobile": 24,
             "stat_size_desktop": 24,
             "text": "<p>Fauna benéfica que puede volver a los campos.</p>",
+            "desc_font": "mono",
             "link_label": "",
             "link": ""
           }
@@ -125,19 +125,24 @@
       "settings": {
         "layout": "cards",
         "pretitle": "SOLUCIONES ESTRATÉGICAS, RESULTADOS EXCEPCIONALES",
-        "rule_color": "#294e3f",
         "show_rule": true,
+        "rule_color": "#294e3f",
         "title": "Indicadores de impacto",
+        "heading_size": "h1",
         "description": "",
         "button_label": "",
         "button_link": "",
-        "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
+        "show_dividers": false,
+        "divider_color": "",
+        "column_min_height": 60,
+        "row_title_size": 20,
         "color_scheme": "",
+        "bg_overlay": 40,
+        "bg_position": "center",
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_dividers": false
+        "padding_bottom": 36
       }
     },
     "multicolumn_7dgeDY": {
@@ -222,6 +227,7 @@
       "type": "ticker",
       "name": "Infinite Ticker",
       "settings": {
+        "anchor_id": "",
         "text": "ODS no son casillas por marcar, sino raíces que guían nuestra práctica diaria.",
         "icon_height": 32,
         "bg_image": "shopify://shop_images/ticker-1.jpg",
@@ -229,12 +235,15 @@
         "text_color": "#f3efcf",
         "font_size": 22,
         "text_transform": "uppercase",
+        "letter_spacing": 0,
         "typography_variant": "secondary",
         "font_variant": "mono",
         "speed": 80,
         "show_top_border": true,
         "show_bottom_border": true,
-        "height": 100
+        "height": 100,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "image_with_text_itxT9k": {
@@ -344,13 +353,14 @@
         "column_YgPceV": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
             "image": "shopify://shop_images/sandia.jpg",
+            "icon_size": 40,
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 45,
             "text": "<p>Protocolos rigurosos que dialogan con saberes ancestrales</p>",
+            "desc_font": "mono",
             "link_label": "",
             "link": ""
           }
@@ -358,13 +368,14 @@
         "column_fUK44H": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
             "image": "shopify://shop_images/chiles.jpg",
+            "icon_size": 40,
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 72,
             "text": "<p>Hacemos ciencia para dialogar, no para excluir</p>",
+            "desc_font": "mono",
             "link_label": "",
             "link": ""
           }
@@ -372,13 +383,14 @@
         "column_gwBiHk": {
           "type": "column",
           "settings": {
-            "desc_font": "mono",
             "image": "shopify://shop_images/tdm-ciencia-03.jpg",
+            "icon_size": 40,
             "title": "",
             "stat_font": "heading",
             "stat_size_mobile": 48,
             "stat_size_desktop": 72,
             "text": "<p>Datos que cuentan nuestra historia de campos regenerados, cosechas abundantes, y productores y productoras exitosos</p>",
+            "desc_font": "mono",
             "link_label": "",
             "link": ""
           }
@@ -393,21 +405,24 @@
       "settings": {
         "layout": "stats",
         "pretitle": "Metodología",
-        "rule_color": "#294e3f",
         "show_rule": true,
+        "rule_color": "#294e3f",
         "title": "Ciencia que toca la tierra",
+        "heading_size": "h1",
         "description": "<p>Nuestra investigación no se encierra en laboratorios: camina los surcos, toca la tierra, escucha a los productores.</p>",
         "button_label": "",
         "button_link": "",
-        "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36,
         "show_dividers": true,
         "divider_color": "#294e3f",
-        "column_min_height": 60
+        "column_min_height": 60,
+        "row_title_size": 20,
+        "color_scheme": "",
+        "bg_overlay": 40,
+        "bg_position": "center",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "rich_text_with_logo_MbzGeT": {
