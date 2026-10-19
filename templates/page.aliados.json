@@ -47,7 +47,7 @@
             "use_custom_scheme": false,
             "color_scheme": "",
             "subheading": "Programa de Aliados · Tierra de Monte",
-            "heading": "<p>UN NEGOCIO QUE CRECE NECESITA U BUEN ALIADO.<br/></p>",
+            "heading": "<p>UN NEGOCIO QUE CRECE NECESITA UN BUEN ALIADO.<br/></p>",
             "highlight": "",
             "text": "<p>Forma parte de una red que pone a tu alcance productos, beneficios y herramientas para impulsar tu negocio.</p>",
             "button_label": "¿Cómo funciona?",
@@ -396,6 +396,7 @@
             "crops": "Naranja · Papaya · Nogal · Limón",
             "note": "Manejo biológico integral con microorganismos e insectos.",
             "caption_position": "right",
+            "thumb_text": "",
             "quote_color": "",
             "stats_color": ""
           }
@@ -424,6 +425,7 @@
             "crops": "",
             "note": "",
             "caption_position": "right",
+            "thumb_text": "",
             "quote_color": "",
             "stats_color": ""
           }
@@ -452,6 +454,7 @@
             "crops": "",
             "note": "",
             "caption_position": "bottom_right",
+            "thumb_text": "",
             "quote_color": "",
             "stats_color": ""
           }
@@ -480,6 +483,9 @@
         "intro_padding_bottom": 32,
         "layout": "split",
         "card_color_scheme": "scheme-tdm-crema",
+        "photo_width": 55,
+        "split_photo_ratio": "3_2",
+        "show_thumbnails": true,
         "corner_radius": 16,
         "padding_x_desktop": 64,
         "padding_x_mobile": 15,
@@ -967,7 +973,7 @@
         "goal_label": "el nivel Bronce",
         "button_label": "Pagar mi pedido",
         "note": "Pagas en el checkout seguro de Shopify. Después completas tu registro en el paso 2.",
-        "ethics_note": "<p>Al pagar confirmas que revisaste el <a href=\"https://cdn.shopify.com/s/files/1/0951/7111/7358/files/CODIGO_DE_ETICA_ALIADOS.pdf?v=1790697045\" target=\"_blank\" title=\"Código de ética Aliados\">Código de ética de Aliados</a>.</p>",
+        "ethics_note": "",
         "color_scheme": "",
         "padding_top": 48,
         "padding_bottom": 48
