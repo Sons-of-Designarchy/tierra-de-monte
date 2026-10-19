@@ -261,7 +261,11 @@
                 {%- capture sg_mark -%}<svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>{%- endcapture -%}
                 {%- capture sg_quote_html -%}{{ bs.quote | escape | newline_to_br }}{{ sg_mark }}{%- endcapture -%}
                 <svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>
-                {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h5', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- if is_split -%}
+                  {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h4', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- else -%}
+                  {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h5', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- endif -%}
                 {%- if bs.quote_author != blank or bs.quote_role != blank -%}
                   <figcaption class="tdm-slide-gallery__quote-author">
                     {%- if bs.quote_author != blank -%}

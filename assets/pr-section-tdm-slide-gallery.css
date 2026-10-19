@@ -449,6 +449,13 @@
   color: var(--pr-text-brand);
 }
 
+/* Quote is h4 next to the h2 figures; phones keep it at h5 so it doesn't run six lines */
+@media screen and (max-width: 749px) {
+  .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__quote-text {
+    font-size: var(--pr-text-h5);
+  }
+}
+
 .tdm-slide-gallery[data-layout='split'] .tdm-slide-gallery__crops .pr-chip {
   border-color: var(--pr-border);
   background: transparent;
