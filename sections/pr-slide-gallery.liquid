@@ -238,7 +238,7 @@
         {%- liquid
           assign bs = block.settings
           assign has_stats = false
-          for key in (1..7)
+          for key in (1..9)
             assign stat_value_key = 'stat_' | append: key | append: '_value'
             if bs[stat_value_key] != blank
               assign has_stats = true
@@ -282,7 +282,7 @@
             {%- endif -%}
             {%- if has_stats -%}
               <ul class="tdm-slide-gallery__stats" role="list">
-                {%- for key in (1..7) -%}
+                {%- for key in (1..9) -%}
                   {%- assign stat_value_key = 'stat_' | append: key | append: '_value' -%}
                   {%- assign stat_label_key = 'stat_' | append: key | append: '_label' -%}
                   {%- if bs[stat_value_key] != blank -%}
@@ -810,6 +810,30 @@
           "type": "text",
           "id": "stat_7_label",
           "label": "Etiqueta de la cifra 7",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_8_value",
+          "label": "Cifra 8",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_8_label",
+          "label": "Etiqueta de la cifra 8",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_9_value",
+          "label": "Cifra 9",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_9_label",
+          "label": "Etiqueta de la cifra 9",
           "info": "Opcional."
         },
         {
