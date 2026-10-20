@@ -37,7 +37,7 @@
       });
       this.render();
       this.watchFloating();
-      this.pull();
+      customElements.whenDefined('pr-quantity').then(() => this.pull());
     }
 
     // The cart is the order: the cards show what the cart holds, and every change here is sent to the cart a moment later,
@@ -46,8 +46,8 @@
       return [...this.querySelectorAll('.pr-qty__input[data-variant]')];
     }
 
+    // pr-order.js loads before pr-cart.js (which defines <pr-quantity> and PrCart), so the first pull waits for it.
     async pull() {
-      if (!window.PrCart) return;
       try {
         const cart = await (await fetch(`${window.routes.cart_url}.js`, { headers: { Accept: 'application/json' } })).json();
         const quantities = new Map(cart.items.map((item) => [String(item.variant_id), item.quantity]));
