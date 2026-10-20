@@ -990,7 +990,7 @@
         "minimum": 5000,
         "goal_label": "el nivel Bronce",
         "button_label": "Pagar mi pedido",
-        "note": "Pagas en el checkout seguro de Shopify. Después completas tu registro en el paso 2.",
+        "note": "Paga en el checkout seguro de Shopify.",
         "ethics_note": "",
         "color_scheme": "",
         "padding_top": 48,
