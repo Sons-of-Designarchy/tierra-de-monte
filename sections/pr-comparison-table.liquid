@@ -373,7 +373,7 @@
 
     {%- if section.settings.button_label != blank -%}
       {%- assign ct_btn_href = section.settings.button_link | default: '#' -%}
-      {%- capture ct_btn_attrs -%}{% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if section.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if ct_btn_href contains '#pedido' %} data-track="quiero-ser-aliado"{% endif %}{%- endcapture -%}
+      {%- capture ct_btn_attrs -%}{% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% endif %} {% if section.settings.button_new_tab %}target="_blank" rel="noopener"{% endif %}{% if ct_btn_href contains '#pedido' %} data-track="quiero-ser-aliado-tabla"{% endif %}{%- endcapture -%}
       {%- capture ct_btn_class -%}ct-btn color-{{ btn_scheme_id }}{%- endcapture -%}
       {%- assign ct_btn_variant = 'primary' -%}
       {%- if section.settings.button_style == 'outline' -%}{%- assign ct_btn_variant = 'outline' -%}{%- endif -%}
