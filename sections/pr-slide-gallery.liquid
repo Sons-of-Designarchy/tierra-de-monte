@@ -238,7 +238,7 @@
         {%- liquid
           assign bs = block.settings
           assign has_stats = false
-          for key in (1..6)
+          for key in (1..9)
             assign stat_value_key = 'stat_' | append: key | append: '_value'
             if bs[stat_value_key] != blank
               assign has_stats = true
@@ -261,7 +261,11 @@
                 {%- capture sg_mark -%}<svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>{%- endcapture -%}
                 {%- capture sg_quote_html -%}{{ bs.quote | escape | newline_to_br }}{{ sg_mark }}{%- endcapture -%}
                 <svg class="tdm-slide-gallery__mark tdm-slide-gallery__mark--open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H3V3Zm11 0h7v8c0 4-2.5 7-6.5 8l-.9-2c2-.8 3-2.2 3.2-4H14V3Z"/></svg>
-                {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h5', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- if is_split -%}
+                  {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h4', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- else -%}
+                  {%- render 'typography', text: sg_quote_html, as: 'blockquote', variant: 'h5', color: 'inherit', class: 'tdm-slide-gallery__quote-text' -%}
+                {%- endif -%}
                 {%- if bs.quote_author != blank or bs.quote_role != blank -%}
                   <figcaption class="tdm-slide-gallery__quote-author">
                     {%- if bs.quote_author != blank -%}
@@ -278,7 +282,7 @@
             {%- endif -%}
             {%- if has_stats -%}
               <ul class="tdm-slide-gallery__stats" role="list">
-                {%- for key in (1..6) -%}
+                {%- for key in (1..9) -%}
                   {%- assign stat_value_key = 'stat_' | append: key | append: '_value' -%}
                   {%- assign stat_label_key = 'stat_' | append: key | append: '_label' -%}
                   {%- if bs[stat_value_key] != blank -%}
@@ -794,6 +798,42 @@
           "type": "text",
           "id": "stat_6_label",
           "label": "Etiqueta de la cifra 6",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_7_value",
+          "label": "Cifra 7",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_7_label",
+          "label": "Etiqueta de la cifra 7",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_8_value",
+          "label": "Cifra 8",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_8_label",
+          "label": "Etiqueta de la cifra 8",
+          "info": "Opcional."
+        },
+        {
+          "type": "text",
+          "id": "stat_9_value",
+          "label": "Cifra 9",
+          "info": "Opcional. Va grande, en tipografía display."
+        },
+        {
+          "type": "text",
+          "id": "stat_9_label",
+          "label": "Etiqueta de la cifra 9",
           "info": "Opcional."
         },
         {
