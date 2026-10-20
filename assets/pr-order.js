@@ -29,11 +29,11 @@
       this.addEventListener('change', (e) => {
         if (!e.target.closest('.pr-qty__input')) return;
         this.render();
-        if (!this.applying) this.queueSync();
+        if (!this.applying && this.loaded) this.queueSync();
       });
       this.button.addEventListener('click', () => this.checkout());
       document.addEventListener('cart:updated', () => {
-        if (!this.syncing && !this.timer) this.pull();
+        if (this.loaded && !this.syncing && !this.timer) this.pull();
       });
       this.render();
       this.watchFloating();
@@ -47,19 +47,29 @@
     }
 
     // pr-order.js loads before pr-cart.js (which defines <pr-quantity> and PrCart), so the first pull waits for it.
+    // Nothing is sent to the cart before that first pull; taps made meanwhile are added on top of what the cart holds.
     async pull() {
+      let early = false;
       try {
         const cart = await (await fetch(`${window.routes.cart_url}.js`, { headers: { Accept: 'application/json' } })).json();
+        const first = !this.loaded;
+        if (!first && (this.syncing || this.timer)) return;
         const quantities = new Map(cart.items.map((item) => [String(item.variant_id), item.quantity]));
         this.synced = quantities;
         this.applying = true;
-        this.steppers.forEach((input) => input.closest('pr-quantity').set(quantities.get(input.dataset.variant) || 0));
+        this.steppers.forEach((input) => {
+          const tapped = first ? Number(input.value) : 0;
+          if (tapped) early = true;
+          input.closest('pr-quantity').set((quantities.get(input.dataset.variant) || 0) + tapped);
+        });
       } catch {
         return;
       } finally {
         this.applying = false;
+        this.loaded = true;
       }
       this.render();
+      if (early) this.queueSync();
     }
 
     queueSync() {
