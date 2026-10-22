@@ -107,7 +107,12 @@
         "columns_desktop": 3,
         "columns_mobile": "1",
         "show_dividers": false,
+        "divider_color": "",
+        "column_min_height": 60,
+        "row_title_size": 20,
         "color_scheme": "",
+        "bg_overlay": 40,
+        "bg_position": "center",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -307,9 +312,15 @@
         "description": "<p>En Tierra de Monte buscamos gente comprometida con regenerar los suelos y las sociedades, impulsar la vida y mejorar la agricultura desde la ciencia.</p>",
         "button_label": "",
         "button_link": "",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
         "show_dividers": false,
+        "divider_color": "",
+        "column_min_height": 60,
         "row_title_size": 24,
         "color_scheme": "scheme-b913c864-af06-4bc2-8673-62bc86337db3",
+        "bg_overlay": 40,
+        "bg_position": "center",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -338,7 +349,8 @@
                 "image": "shopify://shop_images/Adriana_Luna_Diaz_-_CEO_y_Co-Fundadora.jpg",
                 "name": "Adriana Luna Díaz",
                 "role": "CEO y Co-Fundadora"
-              }
+              },
+              "blocks": {}
             },
             "team_member_02": {
               "type": "team-member",
@@ -346,7 +358,8 @@
                 "image": "shopify://shop_images/Antonio_Quinones_-_Tecnico_de_Campo.jpg",
                 "name": "Antonio Quiñones",
                 "role": "Técnico de Campo"
-              }
+              },
+              "blocks": {}
             },
             "team_member_03": {
               "type": "team-member",
@@ -354,7 +367,8 @@
                 "image": "shopify://shop_images/Axel_Garcia_-_Compras_y_Logistica.jpg",
                 "name": "Axel García",
                 "role": "Compras y Logística"
-              }
+              },
+              "blocks": {}
             },
             "team_member_04": {
               "type": "team-member",
@@ -362,7 +376,8 @@
                 "image": "shopify://shop_images/Beatriz_Santiago_-_Auxiliar_Administrativo.jpg",
                 "name": "Beatriz Santiago",
                 "role": "Auxiliar Administrativo"
-              }
+              },
+              "blocks": {}
             },
             "team_member_05": {
               "type": "team-member",
@@ -370,7 +385,8 @@
                 "image": "shopify://shop_images/Carlos_Montelongo_-_Tecnico_de_Campo.jpg",
                 "name": "Carlos Montelongo",
                 "role": "Técnico de Campo"
-              }
+              },
+              "blocks": {}
             },
             "team_member_06": {
               "type": "team-member",
@@ -378,7 +394,8 @@
                 "image": "shopify://shop_images/Christian_Martinez_Rodriguez_es_Auxiliar_de_Produccion.jpg",
                 "name": "Christian Martínez Rodríguez",
                 "role": "Auxiliar de Producción"
-              }
+              },
+              "blocks": {}
             },
             "team_member_07": {
               "type": "team-member",
@@ -386,7 +403,8 @@
                 "image": "shopify://shop_images/Diana_Farias_-_Asistente_de_Direccion.jpg",
                 "name": "Diana Farías",
                 "role": "Asistente de Dirección"
-              }
+              },
+              "blocks": {}
             },
             "team_member_08": {
               "type": "team-member",
@@ -394,15 +412,8 @@
                 "image": "shopify://shop_images/Etienne_Rajchenberg_-_CTO_y_Co-Fundador.jpg",
                 "name": "Etienne Rajchenberg",
                 "role": "CTO y Co-Fundador"
-              }
-            },
-            "team_member_09": {
-              "type": "team-member",
-              "settings": {
-                "image": "shopify://shop_images/Karime.png",
-                "name": "Karime Jiménez",
-                "role": "Staff Manager"
-              }
+              },
+              "blocks": {}
             },
             "team_member_10": {
               "type": "team-member",
@@ -410,7 +421,8 @@
                 "image": "shopify://shop_images/Ingrid_Ortiz_-_Coordinadora_de_Comunicacion.jpg",
                 "name": "Ingrid Ortiz",
                 "role": "Coordinadora de Comunicación"
-              }
+              },
+              "blocks": {}
             },
             "team_member_11": {
               "type": "team-member",
@@ -418,7 +430,8 @@
                 "image": "shopify://shop_images/Maria_Sarabia_-_Especialista_de_Impacto_Jr..jpg",
                 "name": "María Sarabia",
                 "role": "Especialista de Impacto Jr."
-              }
+              },
+              "blocks": {}
             },
             "team_member_12": {
               "type": "team-member",
@@ -426,7 +439,8 @@
                 "image": "shopify://shop_images/Miguel_Ramirez_-_Coordinador_de_Laboratorio.jpg",
                 "name": "Miguel Ramírez",
                 "role": "Coordinador de Laboratorio"
-              }
+              },
+              "blocks": {}
             },
             "team_member_13": {
               "type": "team-member",
@@ -434,7 +448,8 @@
                 "image": "shopify://shop_images/Julia-Garcia---Coordinadora-Administrativa.png",
                 "name": "Julia García",
                 "role": "Coordinadora Administrativa"
-              }
+              },
+              "blocks": {}
             },
             "team_member_14": {
               "type": "team-member",
@@ -442,7 +457,8 @@
                 "image": "shopify://shop_images/Sofia_Vazquez_Hernandez.jpg",
                 "name": "Sofia Vazquez Hernandez",
                 "role": "Auxiliar contable"
-              }
+              },
+              "blocks": {}
             },
             "team_member_15": {
               "type": "team-member",
@@ -450,7 +466,8 @@
                 "image": "shopify://shop_images/Maria_Guadalupe_Gonzalez_Garcia.jpg",
                 "name": "María Guadalupe Gonzalez García",
                 "role": "Auxiliar de limpieza"
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -462,7 +479,6 @@
             "team_member_06",
             "team_member_07",
             "team_member_08",
-            "team_member_09",
             "team_member_10",
             "team_member_11",
             "team_member_12",
