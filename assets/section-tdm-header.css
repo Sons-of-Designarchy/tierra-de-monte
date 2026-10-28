@@ -292,7 +292,8 @@ summary.tdm-nav__mlink::-webkit-details-marker {
   gap: var(--pr-space-2);
 }
 
-.tdm-nav .tdm-nav__cta {
+.tdm-nav .tdm-nav__cta,
+.tdm-nav .tdm-nav__back {
   display: none;
 }
 
@@ -305,7 +306,8 @@ summary.tdm-nav__mlink::-webkit-details-marker {
     display: flex;
   }
 
-  .tdm-nav .tdm-nav__cta {
+  .tdm-nav .tdm-nav__cta,
+  .tdm-nav .tdm-nav__back {
     display: inline-flex;
   }
 

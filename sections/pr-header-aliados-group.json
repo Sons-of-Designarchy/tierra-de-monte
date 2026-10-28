@@ -99,6 +99,8 @@
         "menu_type_desktop": "mega",
         "cta_last_link": true,
         "cta_url": "#pedido",
+        "back_url": "/",
+        "back_label": "Ir al inicio",
         "show_search": false,
         "show_account": false,
         "show_cart": true,
