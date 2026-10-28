@@ -1539,8 +1539,15 @@
         "type": "number",
         "id": "cart_maximum",
         "label": "Compra máxima (MXN)",
-        "info": "0 la apaga. Arriba de este subtotal el carrito detiene el pago y pide quitar productos.",
+        "info": "0 la apaga. Arriba de este subtotal no se paga en línea: el botón de pago cambia a «Hablar con un asesor» y abre WhatsApp con el pedido escrito.",
         "default": 20000
+      },
+      {
+        "type": "text",
+        "id": "cart_advisor_whatsapp",
+        "label": "WhatsApp del asesor",
+        "info": "Con lada de país, solo números (p. ej. 524423741871). Recibe los pedidos que pasan la compra máxima. Vacío: el pago solo se detiene.",
+        "default": "524423741871"
       },
       {
         "type": "header",

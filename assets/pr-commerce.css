@@ -1158,6 +1158,7 @@ html.pr-scroll-lock {
   }
 }
 
-.pr-order__extra[hidden] {
+.pr-order__extra[hidden],
+.pr-order__action[hidden] {
   display: none;
 }

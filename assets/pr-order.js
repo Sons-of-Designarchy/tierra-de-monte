@@ -1,7 +1,7 @@
 /* =============================================================================
    PerfectlyRad commerce — <pr-order> (sections/aliados-pedido.liquid).
    Step 1 of the Aliados purchase-first flow (also listens for [data-order-add] buttons: addVariant): quantities mirror the cart, the subtotal and the progress toward the
-   minimum update on every change, the pay button wakes up at the minimum and goes back to sleep above the maximum. The cart is the order (see pull / sync):
+   minimum update on every change, the pay button wakes up at the minimum; above the maximum it becomes a WhatsApp link to an advisor with the order written out. The cart is the order (see pull / sync):
    paying goes to checkout, or opens the registration step of the drawer first when the shopper is not registered yet.
    ========================================================================== */
 
@@ -21,6 +21,7 @@
     connectedCallback() {
       this.minimum = Number(this.dataset.minimum) || 0;
       this.maximum = Number(this.dataset.maximum) || 0;
+      this.advisor = this.dataset.advisor;
       this.goal = this.dataset.goal;
       this.levels = [...this.querySelectorAll('[data-level]')]
         .map((el) => ({ name: el.dataset.name, threshold: Number(el.dataset.threshold) }))
@@ -157,15 +158,33 @@
       this.querySelector('.pr-progress').classList.toggle('is-done', reached);
       const over = this.maximum > 0 && total > this.maximum;
       const notice = this.querySelector('[data-over-maximum]');
+      const advisor = this.querySelector('[data-advisor-link]');
+      const toAdvisor = over && Boolean(this.advisor);
       notice.hidden = !over;
-      if (over) notice.textContent = `El pedido máximo es de ${money(this.maximum)}. Quita ${money(total - this.maximum)} para poder pagar.`;
+      if (over) {
+        notice.textContent = toAdvisor
+          ? `Los pedidos mayores a ${money(this.maximum)} los atiende un asesor. Mándanos tu pedido por WhatsApp y te contactamos.`
+          : `El pedido máximo es de ${money(this.maximum)}. Quita ${money(total - this.maximum)} para poder pagar.`;
+      }
+      advisor.hidden = !toAdvisor;
+      this.button.hidden = toAdvisor;
+      if (toAdvisor) advisor.href = this.advisorUrl(total);
       const ready = reached && !over;
       this.button.disabled = !ready;
       this.button.setAttribute('aria-disabled', !ready);
       this.renderLevel(total);
     }
 
-    renderLevel(total) {
+    // wa.me link with the order written out: one line per product, then the subtotal.
+    advisorUrl(total) {
+      const items = [...this.querySelectorAll('.pr-qty__input[data-variant]')]
+        .filter((input) => Number(input.value) > 0)
+        .map((input) => `• ${input.value} × ${input.dataset.name}`);
+      const text = ['Hola, quiero hacer un pedido de Aliado mayor a ' + money(this.maximum) + ':', ...items, `Subtotal: ${money(total)}`].join('\n');
+      return `https://wa.me/${this.advisor}?text=${encodeURIComponent(text)}`;
+    }
+
+        renderLevel(total) {
       const label = this.querySelector('[data-level-text]');
       if (!label) return;
       const level = this.levels.filter((item) => total >= item.threshold).pop();
