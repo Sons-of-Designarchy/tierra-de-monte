@@ -1,6 +1,6 @@
 {%- comment -%}
   Pedido de Aliado — step 1 of the purchase-first flow: pick products and quantities, watch the subtotal climb toward the entry minimum
-  (Bronce, $5,000 MXN) and pay once it is reached, as long as it stays under the maximum ($70,000 MXN). Step 2 is the registration form on the same page.
+  (Bronce, $5,000 MXN) and pay once it is reached, as long as it stays under the maximum ($20,000 MXN). Step 2 is the registration form on the same page.
   Every card is the product-card atom (white), quantities are the quantity-stepper, the progress is the minimum-progress look,
   the buttons are the button atom. Behaviour: <pr-order> in assets/pr-order.js. The cards and the cart stay in sync (the cart is the order); paying goes to checkout.
   Which products: the collection picked in the settings; blank = every product. Each available variant is its own card.
@@ -191,7 +191,7 @@
     { "type": "number", "id": "test_price", "label": "Precio de prueba base (MXN)", "info": "Cada producto usa un múltiplo distinto (850 a 1,890 con 1,250); las presentaciones de 500 son ~45%.", "default": 1250 },
     { "type": "header", "content": "Compra mínima y pago" },
     { "type": "number", "id": "minimum", "label": "Compra mínima (MXN)", "info": "El botón de pago se activa al llegar a este subtotal.", "default": 5000 },
-    { "type": "number", "id": "maximum", "label": "Compra máxima (MXN)", "info": "Arriba de este subtotal el botón de pago se apaga y se pide quitar productos. 0 o vacío: sin máximo.", "default": 70000 },
+    { "type": "number", "id": "maximum", "label": "Compra máxima (MXN)", "info": "Arriba de este subtotal el botón de pago se apaga y se pide quitar productos. 0 o vacío: sin máximo.", "default": 20000 },
     { "type": "text", "id": "goal_label", "label": "Nombre de la meta", "default": "el nivel Bronce" },
     { "type": "text", "id": "button_label", "label": "Texto del botón de pago", "default": "Pagar mi pedido" },
     { "type": "text", "id": "note", "label": "Nota al pie", "default": "Pagas en el checkout seguro de Shopify. Después completas tu registro en el paso 2." },
