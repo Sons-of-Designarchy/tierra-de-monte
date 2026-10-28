@@ -12,6 +12,7 @@
   - minimum         minimum purchase in cents. Below it the button is held and says why
   - minimum_label   what the minimum is called (default: el mínimo)
   - maximum         maximum purchase in cents. Above it the button is held and says how much to remove
+  - advisor         WhatsApp number (digits). With a maximum, above it the checkout button becomes «Hablar con un asesor» with the order written out
   - id              prefix for ids when the block appears twice on a page
   - class
 
@@ -66,16 +67,31 @@
     </div>
   </dl>
   {%- if show_checkout != false -%}
-    {%- if cs_over > 0 -%}
+    {%- if cs_over > 0 and advisor != blank -%}
+      {%- capture cs_reason %}Los pedidos mayores a {{ cs_max | money_without_trailing_zeros }} los atiende un asesor. Mándanos tu pedido por WhatsApp y te contactamos.{% endcapture -%}
+      {%- render 'typography', text: cs_reason, variant: 'body-sm', color: 'secondary', attrs: 'role="status"' -%}
+    {%- elsif cs_over > 0 -%}
       {%- capture cs_reason %}El pedido máximo es de {{ cs_max | money_without_trailing_zeros }}. Quita {{ cs_over | money_without_trailing_zeros }} para finalizar tu compra.{% endcapture -%}
       {%- render 'typography', text: cs_reason, variant: 'body-sm', color: 'danger', attrs: 'role="status"' -%}
     {%- elsif cs_blocked -%}
       {%- capture cs_reason %}Agrega {{ cs_missing | money_without_trailing_zeros }} más para alcanzar {{ cs_goal }} y finalizar tu compra.{% endcapture -%}
       {%- render 'typography', text: cs_reason, variant: 'body-sm', color: 'secondary', attrs: 'role="status"' -%}
     {%- endif -%}
-    <form action="{{ routes.cart_url }}" method="post" class="pr-cart-summary__form">
-      {%- render 'button', label: cs_label, type: 'submit', name: 'checkout', size: 'lg', disabled: cs_off, class: 'pr-cart-summary__checkout' -%}
-    </form>
+    {%- if cs_over > 0 and advisor != blank -%}
+      {%- capture cs_text -%}
+        Hola, quiero hacer un pedido de Aliado mayor a {{ cs_max | money_without_trailing_zeros }}:
+        {%- for item in cart.items %}
+• {{ item.quantity }} × {{ item.product.title }}{% unless item.variant.title == 'Default Title' %} · {{ item.variant.title }}{% endunless %}
+        {%- endfor %}
+Subtotal: {{ cart.total_price | money_without_trailing_zeros }}
+      {%- endcapture -%}
+      {%- capture cs_advisor_url %}https://wa.me/{{ advisor }}?text={{ cs_text | url_encode }}{% endcapture -%}
+      {%- render 'button', label: 'Hablar con un asesor', href: cs_advisor_url, size: 'lg', class: 'pr-cart-summary__checkout', attrs: 'target="_blank" rel="noopener" data-track="pedido-asesor-whatsapp"' -%}
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" class="pr-cart-summary__form">
+        {%- render 'button', label: cs_label, type: 'submit', name: 'checkout', size: 'lg', disabled: cs_off, class: 'pr-cart-summary__checkout' -%}
+      </form>
+    {%- endif -%}
     {%- render 'typography', text: cs_note, variant: 'xs', color: 'secondary' -%}
   {%- endif -%}
 </div>
