@@ -1,7 +1,7 @@
 /* =============================================================================
    PerfectlyRad commerce — <pr-order> (sections/aliados-pedido.liquid).
    Step 1 of the Aliados purchase-first flow (also listens for [data-order-add] buttons: addVariant): quantities mirror the cart, the subtotal and the progress toward the
-   minimum update on every change, the pay button wakes up at the minimum. The cart is the order (see pull / sync):
+   minimum update on every change, the pay button wakes up at the minimum and goes back to sleep above the maximum. The cart is the order (see pull / sync):
    paying goes to checkout, or opens the registration step of the drawer first when the shopper is not registered yet.
    ========================================================================== */
 
@@ -20,6 +20,7 @@
   class PrOrder extends HTMLElement {
     connectedCallback() {
       this.minimum = Number(this.dataset.minimum) || 0;
+      this.maximum = Number(this.dataset.maximum) || 0;
       this.goal = this.dataset.goal;
       this.levels = [...this.querySelectorAll('[data-level]')]
         .map((el) => ({ name: el.dataset.name, threshold: Number(el.dataset.threshold) }))
@@ -154,8 +155,13 @@
       bar.style.setProperty('--progress', `${pct}%`);
       bar.setAttribute('aria-valuenow', pct);
       this.querySelector('.pr-progress').classList.toggle('is-done', reached);
-      this.button.disabled = !reached;
-      this.button.setAttribute('aria-disabled', !reached);
+      const over = this.maximum > 0 && total > this.maximum;
+      const notice = this.querySelector('[data-over-maximum]');
+      notice.hidden = !over;
+      if (over) notice.textContent = `El pedido máximo es de ${money(this.maximum)}. Quita ${money(total - this.maximum)} para poder pagar.`;
+      const ready = reached && !over;
+      this.button.disabled = !ready;
+      this.button.setAttribute('aria-disabled', !ready);
       this.renderLevel(total);
     }
 

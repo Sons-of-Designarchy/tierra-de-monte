@@ -1,6 +1,6 @@
 {%- comment -%}
   Pedido de Aliado — step 1 of the purchase-first flow: pick products and quantities, watch the subtotal climb toward the entry minimum
-  (Bronce, $5,000 MXN) and pay once it is reached. Step 2 is the registration form on the same page.
+  (Bronce, $5,000 MXN) and pay once it is reached, as long as it stays under the maximum ($70,000 MXN). Step 2 is the registration form on the same page.
   Every card is the product-card atom (white), quantities are the quantity-stepper, the progress is the minimum-progress look,
   the buttons are the button atom. Behaviour: <pr-order> in assets/pr-order.js. The cards and the cart stay in sync (the cart is the order); paying goes to checkout.
   Which products: the collection picked in the settings; blank = every product. Each available variant is its own card.
@@ -15,6 +15,7 @@
     assign po_collection = collections.all
   endif
   assign po_minimum = section.settings.minimum | default: 5000 | times: 100
+  assign po_maximum = section.settings.maximum | default: 0 | times: 100
   assign po_goal = section.settings.goal_label | default: 'el nivel Bronce'
   assign po_limit = section.settings.max_products | default: 12
   assign po_zero = 0 | money_without_trailing_zeros
@@ -27,6 +28,7 @@
     <pr-order
       class="pr-order"
       data-minimum="{{ po_minimum }}"
+      data-maximum="{{ po_maximum }}"
       data-goal="{{ po_goal | escape }}"
       data-checkout-url="{{ routes.cart_url | replace: '/cart', '/checkout' }}"
     >
@@ -114,6 +116,7 @@
           {%- if section.blocks.size > 0 -%}
             {%- render 'typography', text: '', variant: 'body-sm', color: 'secondary', attrs: 'data-level-text hidden', class: 'pr-order__extra' -%}
           {%- endif -%}
+          {%- render 'typography', text: '', variant: 'body-sm', weight: 'medium', color: 'danger', attrs: 'role="status" hidden data-over-maximum' -%}
           {%- render 'button', label: section.settings.button_label, variant: 'primary', size: 'lg', disabled: true, attrs: 'data-checkout', class: 'pr-order__action' -%}
           {%- render 'typography', text: 'No se pudo preparar tu pedido. Intenta de nuevo.', variant: 'label', color: 'danger', attrs: 'role="alert" hidden data-order-error' -%}
           {%- if section.settings.ethics_note != blank -%}
@@ -188,6 +191,7 @@
     { "type": "number", "id": "test_price", "label": "Precio de prueba base (MXN)", "info": "Cada producto usa un múltiplo distinto (850 a 1,890 con 1,250); las presentaciones de 500 son ~45%.", "default": 1250 },
     { "type": "header", "content": "Compra mínima y pago" },
     { "type": "number", "id": "minimum", "label": "Compra mínima (MXN)", "info": "El botón de pago se activa al llegar a este subtotal.", "default": 5000 },
+    { "type": "number", "id": "maximum", "label": "Compra máxima (MXN)", "info": "Arriba de este subtotal el botón de pago se apaga y se pide quitar productos. 0 o vacío: sin máximo.", "default": 70000 },
     { "type": "text", "id": "goal_label", "label": "Nombre de la meta", "default": "el nivel Bronce" },
     { "type": "text", "id": "button_label", "label": "Texto del botón de pago", "default": "Pagar mi pedido" },
     { "type": "text", "id": "note", "label": "Nota al pie", "default": "Pagas en el checkout seguro de Shopify. Después completas tu registro en el paso 2." },

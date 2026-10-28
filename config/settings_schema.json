@@ -1536,6 +1536,13 @@
         "default": true
       },
       {
+        "type": "number",
+        "id": "cart_maximum",
+        "label": "Compra máxima (MXN)",
+        "info": "0 la apaga. Arriba de este subtotal el carrito detiene el pago y pide quitar productos.",
+        "default": 70000
+      },
+      {
         "type": "header",
         "content": "Registro antes de pagar"
       },

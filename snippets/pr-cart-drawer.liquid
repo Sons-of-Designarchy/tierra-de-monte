@@ -5,7 +5,7 @@
 
   {% render 'pr-cart-drawer' %}
 
-  Minimum purchase: theme settings → Carrito (cart_minimum in MXN, cart_minimum_label, cart_minimum_hold). Off by default.
+  Minimum purchase: theme settings → Carrito (cart_minimum in MXN, cart_minimum_label, cart_minimum_hold) and maximum (cart_maximum). Off by default.
   Behaviour: <pr-cart-drawer> and <pr-cart-lines> in assets/pr-cart.js (open on the header cart button, /cart/change.js, section rendering).
   States: empty, with lines, line updating, below the minimum, minimum reached.
 {%- endcomment -%}
@@ -13,6 +13,7 @@
   assign cd_minimum = settings.cart_minimum | times: 100
   assign cd_label = settings.cart_minimum_label | default: 'el mínimo de compra'
   assign cd_hold = settings.cart_minimum_hold
+  assign cd_maximum = settings.cart_maximum | default: 0 | times: 100
 -%}
 <pr-cart-drawer class="pr-drawer-host">
   <dialog class="pr-drawer" data-scheme="light" aria-labelledby="CartDrawer-Title">
@@ -51,9 +52,9 @@
       {%- if cart.item_count > 0 -%}
         <div class="pr-drawer__footer">
           {%- if cd_hold -%}
-            {%- render 'cart-summary', cart: cart, minimum: cd_minimum, minimum_label: cd_label -%}
+            {%- render 'cart-summary', cart: cart, minimum: cd_minimum, minimum_label: cd_label, maximum: cd_maximum -%}
           {%- else -%}
-            {%- render 'cart-summary', cart: cart -%}
+            {%- render 'cart-summary', cart: cart, maximum: cd_maximum -%}
           {%- endif -%}
         </div>
       {%- endif -%}
