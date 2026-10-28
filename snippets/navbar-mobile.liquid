@@ -4,7 +4,7 @@
 
   {% render 'navbar-mobile', menu: linklists['main-menu'], cta: link, skip_last: true, country: true, language: true, uid: section.id %}
 
-  Params: menu (required), cta (a link object or blank), cta_url, back_url + back_label (secondary button above the CTA), skip_last, anchor_blocks (the header's `anchor` blocks), country, language, uid
+  Params: menu (required), cta (a link object or blank), cta_url, skip_last, anchor_blocks (the header's `anchor` blocks), country, language, uid
 {%- endcomment -%}
 {%- liquid
   assign nm_count = menu.links.size
@@ -63,11 +63,6 @@
     {%- endif -%}
   {%- endfor -%}
 </ul>
-{%- if back_url != blank and back_label != blank -%}
-  <div class="tdm-nav__mcta">
-    {%- render 'button', label: back_label, href: back_url, variant: 'outline', icon: 'arrow-left', class: 'tdm-nav__mcta-btn' -%}
-  </div>
-{%- endif -%}
 {%- if cta != blank -%}
   {%- assign cta_attrs = '' -%}
   {%- assign cta_href = cta_url | default: cta.url -%}

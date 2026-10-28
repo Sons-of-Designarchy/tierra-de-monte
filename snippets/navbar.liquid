@@ -12,7 +12,7 @@
   - logo_url, logo_width (px)
   - show_search, show_account, cta_last, sticky
   - show_cart     true on the Aliados landing, the only place that sells. Elsewhere the bag only shows with the theme setting "Mostrar compra en el sitio"
-  - back_url, back_label   optional secondary button with an arrow, before the CTA (e.g. the Aliados header goes back to the homepage). In the mobile panel on small screens
+  - back_url, back_label   optional secondary button with an arrow, before the logo (e.g. the Aliados header goes back to the main site). Arrow only below 1200px
   - cta_url       overrides the URL of the button made from the last link (the label still comes from the menu)
   - country, language   show the Shopify pickers when the store has more than one
   - color_scheme  scheme id for the bar surface (default: scheme-tdm-blanco → white)
@@ -78,6 +78,10 @@
 <tdm-navbar class="tdm-nav tdm-nav--{{ nav_style }}{% if sticky %} tdm-nav--sticky{% endif %}{% unless has_links %} tdm-nav--solo{% endunless %}" data-panel="NavbarPanel-{{ nav_uid }}">
   <header class="tdm-nav__bar color-{{ nav_scheme }}">
     <nav class="tdm-nav__inner" aria-label="{{ 'sections.header.menu' | t }}">
+      {%- if back_url != blank and back_label != blank -%}
+        {%- render 'button', label: back_label, href: back_url, variant: 'outline', size: 'sm', icon: 'arrow-left', class: 'tdm-nav__back' -%}
+        {%- render 'icon-button', icon: 'arrow-left', label: back_label, href: back_url, variant: 'outline', size: 'sm', class: 'tdm-nav__back-icon' -%}
+      {%- endif -%}
       {%- if request.page_type == 'index' and demo != true -%}<h1 class="tdm-nav__logo-heading">{%- else -%}<div class="tdm-nav__logo-heading">{%- endif -%}
         <a href="{{ logo_url | default: routes.root_url }}" class="tdm-nav__logo">
           {%- if logo != blank -%}
@@ -109,9 +113,6 @@
           {%- render 'icon-button', icon: 'user', label: account_label, href: account_url, attrs: 'rel="nofollow"' -%}
         {%- endif -%}
         {{ app_blocks }}
-        {%- if back_url != blank and back_label != blank -%}
-          {%- render 'button', label: back_label, href: back_url, variant: 'outline', size: 'sm', icon: 'arrow-left', class: 'tdm-nav__back' -%}
-        {%- endif -%}
         {%- if nav_cta != blank -%}
           {%- assign nav_cta_attrs = '' -%}
           {%- assign nav_cta_url = cta_url | default: nav_cta.url -%}
@@ -129,7 +130,7 @@
     </nav>
     {%- if has_links -%}
       <div class="tdm-nav__mobile" id="NavbarPanel-{{ nav_uid }}" hidden>
-        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, cta_url: cta_url, back_url: back_url, back_label: back_label, skip_last: skip_last, anchor_blocks: anchor_blocks, country: country, language: language, uid: nav_uid -%}
+        {%- render 'navbar-mobile', menu: menu, cta: nav_cta, cta_url: cta_url, skip_last: skip_last, anchor_blocks: anchor_blocks, country: country, language: language, uid: nav_uid -%}
       </div>
     {%- endif -%}
   </header>

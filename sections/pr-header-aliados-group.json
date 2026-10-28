@@ -100,7 +100,7 @@
         "cta_last_link": true,
         "cta_url": "#pedido",
         "back_url": "/",
-        "back_label": "Ir al inicio",
+        "back_label": "Volver al sitio",
         "show_search": false,
         "show_account": false,
         "show_cart": true,

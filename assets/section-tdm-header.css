@@ -297,6 +297,10 @@ summary.tdm-nav__mlink::-webkit-details-marker {
   display: none;
 }
 
+.tdm-nav .tdm-nav__back-icon {
+  flex: none;
+}
+
 .tdm-nav--solo .tdm-nav__cta {
   display: inline-flex;
 }
@@ -309,6 +313,10 @@ summary.tdm-nav__mlink::-webkit-details-marker {
   .tdm-nav .tdm-nav__cta,
   .tdm-nav .tdm-nav__back {
     display: inline-flex;
+  }
+
+  .tdm-nav .tdm-nav__back-icon {
+    display: none;
   }
 
   .tdm-nav .tdm-nav__toggle {
