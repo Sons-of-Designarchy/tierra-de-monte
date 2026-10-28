@@ -20,6 +20,8 @@
   if section.settings.logo_link != blank
     assign header_logo_url = section.settings.logo_link
   endif
+  # Optional "back to the site" button before the logo (aliados header); goes to the homepage unless a link is set
+  assign header_back_url = section.settings.back_url | default: routes.root_url
 -%}
 
 {%- capture app_blocks -%}
@@ -42,7 +44,7 @@
   show_cart: section.settings.show_cart,
   cta_last: section.settings.cta_last_link,
   cta_url: section.settings.cta_url,
-  back_url: section.settings.back_url,
+  back_url: header_back_url,
   back_label: section.settings.back_label,
   sticky: section.settings.sticky,
   country: section.settings.enable_country_selector,
@@ -181,14 +183,14 @@
     {
       "type": "url",
       "id": "back_url",
-      "label": "Botón de regreso",
-      "info": "Opcional. Un botón secundario con flecha, antes del logo (en móvil solo la flecha). En Aliados lleva al sitio principal."
+      "label": "Enlace del botón de regreso",
+      "info": "Opcional. Si está vacío, lleva a la página de inicio."
     },
     {
       "type": "text",
       "id": "back_label",
       "label": "Texto del botón de regreso",
-      "default": "Volver al sitio"
+      "info": "Un botón con flecha antes del logo (en móvil solo la flecha). Vacío: sin botón."
     },
     {
       "type": "header",
