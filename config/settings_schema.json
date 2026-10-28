@@ -1521,19 +1521,26 @@
         "id": "cart_minimum",
         "label": "Compra mínima (MXN)",
         "info": "0 la apaga. Con un monto, el carrito muestra una barra de avance y, si está activado abajo, detiene el pago hasta llegar.",
-        "default": 0
+        "default": 5000
       },
       {
         "type": "text",
         "id": "cart_minimum_label",
         "label": "Nombre de la meta",
-        "default": "el mínimo de compra"
+        "default": "el nivel Bronce"
       },
       {
         "type": "checkbox",
         "id": "cart_minimum_hold",
         "label": "Detener el pago por debajo del mínimo",
         "default": true
+      },
+      {
+        "type": "number",
+        "id": "cart_maximum",
+        "label": "Compra máxima (MXN)",
+        "info": "0 la apaga. Arriba de este subtotal el carrito detiene el pago y pide quitar productos.",
+        "default": 20000
       },
       {
         "type": "header",

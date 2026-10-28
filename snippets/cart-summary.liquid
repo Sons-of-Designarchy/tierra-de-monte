@@ -11,17 +11,26 @@
   - note            small print under the button (default: Envío e impuestos se calculan al pagar.)
   - minimum         minimum purchase in cents. Below it the button is held and says why
   - minimum_label   what the minimum is called (default: el mínimo)
+  - maximum         maximum purchase in cents. Above it the button is held and says how much to remove
   - id              prefix for ids when the block appears twice on a page
   - class
 
   Checkout goes through the cart form (`name="checkout"`) so Shopify keeps the note and attributes.
-  States: empty (button off), below the minimum (button off + reason), discounts, ready.
+  States: empty (button off), below the minimum or above the maximum (button off + reason), discounts, ready.
 {%- endcomment -%}
 {%- liquid
   assign cs_min = minimum | default: 0
   assign cs_missing = cs_min | minus: cart.total_price
   assign cs_blocked = false
   if cart.item_count > 0 and cs_missing > 0
+    assign cs_blocked = true
+  endif
+  assign cs_max = maximum | default: 0
+  assign cs_over = 0
+  if cs_max > 0
+    assign cs_over = cart.total_price | minus: cs_max
+  endif
+  if cart.item_count > 0 and cs_over > 0
     assign cs_blocked = true
   endif
   assign cs_off = false
@@ -57,7 +66,10 @@
     </div>
   </dl>
   {%- if show_checkout != false -%}
-    {%- if cs_blocked -%}
+    {%- if cs_over > 0 -%}
+      {%- capture cs_reason %}El pedido máximo es de {{ cs_max | money_without_trailing_zeros }}. Quita {{ cs_over | money_without_trailing_zeros }} para finalizar tu compra.{% endcapture -%}
+      {%- render 'typography', text: cs_reason, variant: 'body-sm', color: 'danger', attrs: 'role="status"' -%}
+    {%- elsif cs_blocked -%}
       {%- capture cs_reason %}Agrega {{ cs_missing | money_without_trailing_zeros }} más para alcanzar {{ cs_goal }} y finalizar tu compra.{% endcapture -%}
       {%- render 'typography', text: cs_reason, variant: 'body-sm', color: 'secondary', attrs: 'role="status"' -%}
     {%- endif -%}

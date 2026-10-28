@@ -4,7 +4,7 @@
 
   {% render 'navbar-mobile', menu: linklists['main-menu'], cta: link, skip_last: true, country: true, language: true, uid: section.id %}
 
-  Params: menu (required), cta (a link object or blank), skip_last, anchor_blocks (the header's `anchor` blocks), country, language, uid
+  Params: menu (required), cta (a link object or blank), cta_url, skip_last, anchor_blocks (the header's `anchor` blocks), country, language, uid
 {%- endcomment -%}
 {%- liquid
   assign nm_count = menu.links.size

@@ -42,6 +42,8 @@
   show_cart: section.settings.show_cart,
   cta_last: section.settings.cta_last_link,
   cta_url: section.settings.cta_url,
+  back_url: section.settings.back_url,
+  back_label: section.settings.back_label,
   sticky: section.settings.sticky,
   country: section.settings.enable_country_selector,
   language: section.settings.enable_language_selector,
@@ -175,6 +177,18 @@
       "id": "cta_url",
       "label": "Destino del botón",
       "info": "Opcional. Reemplaza el enlace del menú en ese botón (el texto sigue siendo el del menú). En Aliados: #pedido."
+    },
+    {
+      "type": "url",
+      "id": "back_url",
+      "label": "Botón de regreso",
+      "info": "Opcional. Un botón secundario con flecha, antes del logo (en móvil solo la flecha). En Aliados lleva al sitio principal."
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Texto del botón de regreso",
+      "default": "Volver al sitio"
     },
     {
       "type": "header",
