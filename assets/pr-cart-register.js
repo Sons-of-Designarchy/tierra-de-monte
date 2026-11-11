@@ -57,6 +57,22 @@
   const money = (cents) =>
     new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(cents / 100);
 
+  // Labels for the email. Custom fields arrive by their GoHighLevel id (form PokFnUnhtj45vXhbVBBj); an unknown key prints as is.
+  const LABELS = {
+    full_name: 'Nombre',
+    first_name: 'Nombre',
+    last_name: 'Apellido',
+    email: 'Correo',
+    phone: 'Teléfono',
+    FEz7El43qkK2Pz3Q9yeB: 'Cómo se enteró',
+    '9GxMOSo8SeEPyqRoMSax': 'Estado',
+    state: 'Estado',
+    city: 'Ciudad',
+    company_name: 'Negocio',
+    full_address: 'Dirección',
+  };
+  const SKIP = new Set(['traceId', 'id', 'customer_id', 'location_id', 'name']);
+
   const pick = (contact, ...keys) => keys.map((k) => contact[k]).find((v) => typeof v === 'string' && v.trim()) || '';
 
   class PrCartRegister extends HTMLElement {
@@ -125,9 +141,12 @@
       if (!this.dataset.notify || this.sending) return;
       this.sending = (async () => {
         const cart = await (await fetch(`${window.routes.cart_url}.js`, { headers: { Accept: 'application/json' } })).json();
+        const order = Object.keys(LABELS);
+        const rank = (key) => (order.includes(key) ? order.indexOf(key) : order.length);
         const fields = Object.entries(contact)
-          .filter(([key, value]) => key !== 'traceId' && value !== '' && value != null)
-          .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`);
+          .filter(([key, value]) => !SKIP.has(key) && value !== '' && value != null && String(value).trim() !== '')
+          .sort(([a], [b]) => rank(a) - rank(b))
+          .map(([key, value]) => `${LABELS[key] || key}: ${Array.isArray(value) ? value.join(', ') : value}`);
         const lines = cart.items.map((item) => `${item.quantity} × ${item.product_title}${item.variant_title ? ` (${item.variant_title})` : ''}: ${money(item.final_line_price)}`);
         const body = [
           'Nuevo registro de Aliado antes de pagar. Si no aparece un pedido con este correo, no pagó.',
