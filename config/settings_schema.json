@@ -1565,6 +1565,13 @@
         "id": "cart_registration_intro",
         "label": "Texto sobre el formulario",
         "default": "Antes de pagar, regístrate. Solo se pide una vez."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_registration_notify",
+        "label": "Avisar por correo cada registro",
+        "info": "Cuando alguien envía el registro, la tienda recibe un correo (el del formulario de contacto de Shopify) con sus datos y su pedido, pague o no.",
+        "default": true
       }
     ]
   }
